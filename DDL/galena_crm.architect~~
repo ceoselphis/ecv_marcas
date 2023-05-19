@@ -1825,7 +1825,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="1.0" viewportX="0" viewportY="2606" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="1.0" viewportX="0" viewportY="1620" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="2482" y="2933" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB11" x="159" y="2837" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB16" x="786" y="2586" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
@@ -1882,7 +1882,7 @@
   <table-pane table-ref="TAB397" x="143" y="2127" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB410" x="700" y="2291" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB416" x="27" y="2423" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB422" x="382" y="2618" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB422" x="434" y="2373" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-link relationship-ref="REL430" pkConnection="0.6650485436893204" fkConnection="0.2760416666666667" rLineColor="0x000000" pkLabelText="clase_niza_id" fkLabelText="clase_niza" orientation="72"/>
   <table-link relationship-ref="REL432" pkConnection="0.3932038834951456" fkConnection="0.6354166666666666" rLineColor="0x000000" pkLabelText="clase_niza_id" fkLabelText="clase_niza" orientation="132"/>
   <table-link relationship-ref="REL428" pkConnection="0.4678111587982833" fkConnection="0.5098039215686274" rLineColor="0x000000" pkLabelText="busq_id" fkLabelText="busq_tipo_id" orientation="132"/>

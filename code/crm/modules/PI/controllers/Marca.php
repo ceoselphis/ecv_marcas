@@ -16,14 +16,21 @@ class Marca extends AdminController
      * 
      */
 
+     public function __construct()
+     {
+      parent::__construct();
+      $this->load->model('init_model');
+
+     }
+
+
      /**
-      * Method to shows a view in the admin panel
+      * Method to show a view in the admin panel
       */
      public function index()
      {
         $CI = &get_instance();
-        $model = $CI->load->model('Marcas_model');
-        
+        $this->init_model->drop();
         return $CI->load->view('marca/index.php');
      }
 

@@ -11,11 +11,36 @@
                 </div>-->
 
                 <div class="card panel_s">
-                    <div class="card-header">
-                        <h5>Card Header</h5>
-                    </div>
                     <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, alias nostrum, quae quas provident consequatur earum officiis error vitae deserunt dolores. Nostrum quisquam sequi temporibus, minus natus aliquid provident expedita!</p>
+                    <table class="table dataTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
                     </div>
                 </div>
             </div>

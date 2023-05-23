@@ -30,7 +30,6 @@ class Marca extends AdminController
      public function index()
      {
         $CI = &get_instance();
-        $this->init_model->drop();
         return $CI->load->view('marca/index.php');
      }
 

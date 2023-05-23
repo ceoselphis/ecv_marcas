@@ -22,7 +22,7 @@ function pi_menu_item_collapsible()
         'name'     => 'Propiedad Intelectual', // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 11, // The menu position
-        'icon'     => 'fa-solid fa-briefcase', // Font awesome icon
+        'icon'     => 'fa-solid fa-feather', // Font awesome icon
     ]);
 
     // The first paremeter is the parent menu ID/Slug
@@ -53,13 +53,3 @@ function pi_menu_item_collapsible()
 }
 
 
-hooks()->add_action('clients_init', "pi_clients_area_menu_items");
-
-function pi_clients_area_menu_items()
-{
-    add_theme_menu_item('56', [
-        'Name' => 'Propiedad Intelectual',
-        'href' => site_url('pi'),
-        'position' => 11
-    ]);
-}

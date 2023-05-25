@@ -1,7 +1,7 @@
 
 CREATE TABLE registros_grupos (
                 grupo_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (grupo_id)
 );
 
@@ -76,7 +76,7 @@ ALTER TABLE estados MODIFY COLUMN created_by INTEGER COMMENT 'FK to staff_id';
 
 CREATE TABLE tipos_patentes (
                 tip_pat_id INT AUTO_INCREMENT NOT NULL,
-                nombre_tipo VARCHAR(40) NOT NULL,
+                nombre_tipo VARCHAR(60) NOT NULL,
                 PRIMARY KEY (tip_pat_id)
 );
 
@@ -103,7 +103,7 @@ ALTER TABLE documentos MODIFY COLUMN created_by INTEGER COMMENT 'FK with Staff m
 
 CREATE TABLE tipo_anexo (
                 tip_ax_id INT AUTO_INCREMENT NOT NULL,
-                nombre_anexo VARCHAR(40) NOT NULL,
+                nombre_anexo VARCHAR(60) NOT NULL,
                 PRIMARY KEY (tip_ax_id)
 );
 
@@ -112,7 +112,7 @@ ALTER TABLE tipo_anexo COMMENT 'Tabla con los tipos de anexos';
 
 CREATE TABLE part_id (
                 tipo_part_id INT AUTO_INCREMENT NOT NULL,
-                nombre_tipo VARCHAR(40) NOT NULL,
+                nombre_tipo VARCHAR(60) NOT NULL,
                 tip_ax_id INT NOT NULL,
                 PRIMARY KEY (tipo_part_id)
 );
@@ -175,7 +175,7 @@ ALTER TABLE oficinas_contactos COMMENT 'Tabla de almacenamiento de contactos de 
 CREATE TABLE estados_solicitudes (
                 cod_estado_id INT AUTO_INCREMENT NOT NULL,
                 descripcion VARCHAR(255),
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (cod_estado_id)
 );
 
@@ -198,7 +198,7 @@ ALTER TABLE anexos COMMENT 'Tabla de almacenamiento de los anexos de las solicit
 CREATE TABLE anexo_participante (
                 ax_part_id INT AUTO_INCREMENT NOT NULL,
                 anexo_id INT NOT NULL,
-                nombre_participante VARCHAR(40) NOT NULL,
+                nombre_participante VARCHAR(60) NOT NULL,
                 tipo_part_id INT NOT NULL,
                 PRIMARY KEY (ax_part_id)
 );
@@ -208,7 +208,7 @@ ALTER TABLE anexo_participante COMMENT 'Tabla de participantes en los anexos';
 
 CREATE TABLE tipo_evento (
                 tipo_eve_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 materia_id INT NOT NULL,
                 created_at DATE NOT NULL,
                 modified_at DATE NOT NULL,
@@ -236,7 +236,7 @@ ALTER TABLE eventos MODIFY COLUMN staff_id INTEGER COMMENT 'FK with Staff_id';
 
 CREATE TABLE tipo_publicacion (
                 tipo_pub_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (tipo_pub_id)
 );
 
@@ -245,7 +245,7 @@ ALTER TABLE tipo_publicacion COMMENT 'Tabla maestra de tipo de publicacion';
 
 CREATE TABLE tipo_solicitud (
                 tipo_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (tipo_id)
 );
 
@@ -254,7 +254,7 @@ ALTER TABLE tipo_solicitud COMMENT 'Tabla Maestra de tipo de solicitudes';
 
 CREATE TABLE solicitantes (
                 solicit_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (solicit_id)
 );
 
@@ -263,7 +263,7 @@ ALTER TABLE solicitantes COMMENT 'Tabla de almacenamiento de los solicitantes';
 
 CREATE TABLE tipos_signos (
                 tipos_signo_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (tipos_signo_id)
 );
 
@@ -355,7 +355,7 @@ ALTER TABLE signos_solicitud COMMENT 'Tabla de almacenamiento de signos';
 
 CREATE TABLE paises (
                 pais_id INT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (pais_id)
 );
 
@@ -377,8 +377,8 @@ ALTER TABLE registros_sanitarios COMMENT 'Tabla de almacenaje de los registros s
 CREATE TABLE patentes_inventores (
                 inventor_id INT AUTO_INCREMENT NOT NULL,
                 pais_id INT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
-                apellid VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
+                apellid VARCHAR(60) NOT NULL,
                 direccion VARCHAR(255) NOT NULL,
                 PRIMARY KEY (inventor_id)
 );
@@ -480,7 +480,7 @@ ALTER TABLE paises_designados COMMENT 'tabla de paises designados';
 CREATE TABLE boletines (
                 boletin_id INT AUTO_INCREMENT NOT NULL,
                 fecha_publicacion DATE NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 pais_id INT NOT NULL,
                 PRIMARY KEY (boletin_id)
 );
@@ -528,7 +528,7 @@ ALTER TABLE marcas_prioridad COMMENT 'tabla de prioridad de la solicitud de marc
 
 CREATE TABLE tipo_busqueda (
                 tipo_busq_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (tipo_busq_id)
 );
 
@@ -537,7 +537,7 @@ ALTER TABLE tipo_busqueda COMMENT 'Tabla maestra de los tipo de busqueda';
 
 CREATE TABLE clasNiza (
                 niza_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 PRIMARY KEY (niza_id)
 );
 
@@ -556,7 +556,7 @@ ALTER TABLE solicitudes_clases COMMENT 'Tabla de almacenamiento de las clases de
 
 CREATE TABLE niza_productos (
                 prod_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 clase_niza_id INT NOT NULL,
                 PRIMARY KEY (prod_id)
 );
@@ -566,7 +566,7 @@ ALTER TABLE niza_productos COMMENT 'Tabla de productos permitidos por la clase n
 
 CREATE TABLE marcas (
                 marca_id INT AUTO_INCREMENT NOT NULL,
-                nombre VARCHAR(40) NOT NULL,
+                nombre VARCHAR(60) NOT NULL,
                 clase_niza_id INT NOT NULL,
                 PRIMARY KEY (marca_id)
 );
@@ -580,8 +580,8 @@ CREATE TABLE registros_solicitantes (
                 pais_id INT NOT NULL,
                 marca_id INT NOT NULL,
                 client_id INT NOT NULL,
-                fabricante_nombre VARCHAR(40) NOT NULL,
-                fabricante_ciudad VARCHAR(40) NOT NULL,
+                fabricante_nombre VARCHAR(60) NOT NULL,
+                fabricante_ciudad VARCHAR(60) NOT NULL,
                 fecha_orden_muestra DATE NOT NULL,
                 fecha_presentacion_muestra DATE NOT NULL,
                 comentarios VARCHAR(4000) NOT NULL,

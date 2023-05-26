@@ -155,11 +155,13 @@ CREATE TABLE contacto_registro (
                 con_reg_id INT AUTO_INCREMENT NOT NULL,
                 num_reg_id INT NOT NULL,
                 client_id INT NOT NULL,
-                contact_id VARCHAR NOT NULL,
+                contact_id INT NOT NULL,
                 PRIMARY KEY (con_reg_id)
 );
 
 ALTER TABLE contacto_registro COMMENT 'Tabla de almacenaje de los contactos de los clientes en los registros';
+
+ALTER TABLE contacto_registro MODIFY COLUMN contact_id INTEGER COMMENT 'FK to contacts module';
 
 
 CREATE TABLE oficinas_contactos (

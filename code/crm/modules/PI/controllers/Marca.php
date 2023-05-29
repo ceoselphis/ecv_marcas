@@ -29,7 +29,19 @@ class Marca extends AdminController
       */
      public function index()
      {
+         $CI = &get_instance();
+        $model = $CI->load->model('Marcas_model');
+        $query = $model->findAll();
+        if(isset($query))
+        {
+         return $this->load->view('marca/index.php', $query->result_array());
+        }
+        else
+        {
+
+        }
         $CI = &get_instance();
+
         return $CI->load->view('marca/index.php');
      }
 

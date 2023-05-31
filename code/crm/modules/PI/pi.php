@@ -73,6 +73,14 @@ function pi_menu_item_collapsible()
             'position' => 13, // The menu position
             'icon'     => 'fa-sharp fa-solid fa-copyright', // Font awesome icon
         ]);
+
+        $CI->app_menu->add_sidebar_children_item('56', [
+            'slug'     => 'config', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Configuracion', // The name if the item
+            'href'     => site_url('pi/configuration'), // URL of the item
+            'position' => 13, // The menu position
+            'icon'     => 'fa-sharp fa-solid fa-gear', // Font awesome icon
+        ]);
     }
 
 }

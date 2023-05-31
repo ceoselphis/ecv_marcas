@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Marcas_model extends App_Model
 {
     protected $primaryKey = 'marca_id';
-    protected $tableName = 'marcas';
+    protected $tableName = 'tbl_marcas';
     protected $DBgroup = 'default';
 
     public function __construct()

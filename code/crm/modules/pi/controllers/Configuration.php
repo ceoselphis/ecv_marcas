@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Marca extends AdminController
+class Configuration extends AdminController
 {
     /**
-     * Module Marca
+     * Module Configuration
      * 
      * This module has the objetive to administrate all to concern 
-     * about the brand managment using this CRM.
+     * about the configuration managment using this CRM.
      * 
      * 
      * Date: 05-2023.

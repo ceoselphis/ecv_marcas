@@ -1,152 +1,140 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
 <?php
-$tags = get_styling_areas('tags');
+$isGridView = 0;
+if ($this->session->has_userdata('mindmap_grid_view') && $this->session->userdata('mindmap_grid_view') == 'true') {
+    $isGridView = 1;
+}
 ?>
+<?php init_head(); ?>
 <div id="wrapper">
-  <div class="content">
-    <div class="row">
-      <div class="col-md-2 picker">
-        <!-- Status Cases -->
-        <ul class="nav navbar-pills navbar-pills-flat nav-tabs nav-stacked" id="theme_styling_areas">
-          <li role="presentation" class="active">
-            <a href="" aria-controls="tab_admin_styling" role="tab">
-              Status 1
-            </a>
-          </li>
-          <li role="presentation">
-            <a href="#tab_customers_styling" aria-controls="tab_customers_styling" role="tab" data-toggle="tab">
-              <?php echo _l('theme_style_customers'); ?>
-            </a>
-          </li>
-          <li role="presentation">
-            <a href="#tab_buttons_styling" aria-controls="tab_buttons_styling" role="tab" data-toggle="tab">
-              <?php echo _l('theme_style_buttons'); ?>
-            </a>
-          </li>
-          <li role="presentation">
-            <a href="#tab_tabs_styling" aria-controls="tab_tabs_styling" role="tab" data-toggle="tab">
-              <?php echo _l('theme_style_tabs'); ?>
-            </a>
-          </li>
-          <li role="presentation">
-            <a href="#tab_modals_styling" aria-controls="tab_modals_styling" role="tab" data-toggle="tab">
-              <?php echo _l('theme_style_modals'); ?>
-            </a>
-          </li>
-          <li role="presentation">
-            <a href="#tab_general_styling" aria-controls="tab_general_styling" role="tab" data-toggle="tab">
-              <?php echo _l('theme_style_general'); ?>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-10">
-        <div class="panel_s">
-          <div class="panel-body pickers">
-            <div class="tab-content">
-            <table class="table">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="_filters _hidden_inputs hidden">
+                        <?php echo render_select('states', ["Todos", "Estado 1"], ["form-control"]);?>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="_buttons">
+                            <?php if(has_permission('mindmap','','create')){ ?>
+                                <a href="<?php echo admin_url('marca/create'); ?>" class="btn btn-info pull-left display-block mright5">Nuevo registro de marca</a>
+                            <?php } ?>
+                            <div class="visible-xs">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr class="hr-panel-heading" />
+                        <div class="clearfix mtop20"></div>
+                        <div class="row" id="mindmap-table">
+                            <?php if($isGridView ==0){ ?>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="bold"><?php echo _l('Filtrar por'); ?></p>
+                                    </div>
+                                    <?php if(has_permission('mindmap','','view')){ ?>
+                                        <div class="col-md-3 mindmap-filter-column">
+                                            <?php echo render_select('view_assigned',[],array('staffid',array('firstname','lastname')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('mindmap_staff')),array(),'no-mbot'); ?>
+                                        </div>
+                                    <?php } ?>
+                                    <div class="col-md-3 mindmap-filter-column">
+                                        <?php echo render_select('view_group',[],array('id',array('name')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('mindmap_group')),array(),'no-mbot'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr class="hr-panel-heading" />
+                            <?php } ?>
+                            <div class="col-md-12">
+                            <?php render_datatable(array(
+                                _l('mindmap_title'),
+                                _l('mindmap_desc'),
+                                _l('mindmap_staff'),
+                                _l('mindmap_group'),
+                                _l('mindmap_created_at')
+                            ),'mindmap', array('customizable-table'),
+                              array(
+                                  'id'=>'table-mindmap',
+                                  'data-last-order-identifier'=>'mindmap',
+                                  'data-default-order'=>get_table_last_order('mindmap'),
+                              )); ?>
+                        </div>
+                        </div>
+
+                        </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </div>
+</div>
+<!-- Mindmap Modal-->
+<div class="modal fade mindmap-modal" id="mindmap-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content data">
+
+        </div>
     </div>
 </div>
 <?php init_tail(); ?>
+<script src="<?php echo base_url();?>modules/mindmap/assets/js/mind-elexir.js"></script>
 <script>
-var pickers = $('.colorpicker-component');
-$(function() {
-    $.each(pickers, function() {
+    var _lnth = 12;
+$(function(){
+    var TblServerParams = {
+        "assigned": "[name='view_assigned']",
+        "group": "[name='view_group']",
+    };
 
-        $(this).colorpicker({
-            format: "hex"
+    if(<?php echo $isGridView ?> == 0) {
+        var tAPI = initDataTable('.table-mindmap', admin_url+'mindmap/table', [2, 3], [2, 3], TblServerParams);
+
+        $.each(TblServerParams, function(i, obj) {
+            $('select' + obj).on('change', function() {
+                $('table.table-mindmap').DataTable().ajax.reload()
+                    .columns.adjust()
+                    .responsive.recalc();
+            });
         });
 
-        $(this).colorpicker().on('changeColor', function(e) {
-            var color = e.color.toHex();
-            var _class = 'custom_style_' + $(this).find('input').data('id');
-            var val = $(this).find('input').val();
-            if (val == '') {
-                $('.' + _class).remove();
-                return false;
+    }else{
+        loadGridView();
+
+        $(document).off().on('click','a.paginate',function(e){
+            e.preventDefault();
+            console.log("$(this)", $(this).data('ci-pagination-page'))
+            var pageno = $(this).data('ci-pagination-page');
+            var formData = {
+                search: $("input#search").val(),
+                start: (pageno-1),
+                length: _lnth,
+                draw: 1
             }
-            var append_data = '';
-            var additional = $(this).data('additional');
-            additional = additional.split('+');
-            if (additional.length > 0 && additional[0] != '') {
-                $.each(additional, function(i, add) {
-                    add = add.split('|');
-                    append_data += add[0] + '{' + add[1] + ':' + color + ';}';
-                });
-            }
-            append_data += $(this).data('target') + '{' + $(this).data('css') + ':' + color +
-                ';}';
-            if ($('head').find('.' + _class).length > 0) {
-                $('head').find('.' + _class).html(append_data);
-            } else {
-                $("<style />", {
-                    class: _class,
-                    type: 'text/css',
-                    html: append_data
-                }).appendTo("head");
-            }
+            gridViewDataCall(formData, function (resposne) {
+                $('div#grid-tab').html(resposne)
+            })
         });
-    });
+    }
+
+     // initDataTable('.table-mindmap', admin_url + 'mindmap/table', [2, 3], [2, 3]);
+     //    $('.table-goals').DataTable().on('draw', function () {
+     //        var rows = $('.table-goals').find('tr');
+     //        $.each(rows, function () {
+     //            var td = $(this).find('td').eq(6);
+     //            var percent = $(td).find('input[name="percent"]').val();
+     //            $(td).find('.goal-progress').circleProgress({
+     //                value: percent,
+     //                size: 45,
+     //                animation: false,
+     //                fill: {
+     //                    gradient: ["#28b8da", "#059DC1"]
+     //                }
+     //            })
+     //        })
+     //    });
+
 });
-
-function save_theme_style() {
-    var data = [];
-
-    $.each(pickers, function() {
-        var color = $(this).find('input').val();
-        if (color != '') {
-            var _data = {};
-            _data.id = $(this).find('input').data('id');
-            _data.color = color;
-            data.push(_data);
-        }
-    });
-
-    $.post(admin_url + 'theme_style/save', {
-        data: JSON.stringify(data),
-        admin_area: $('#theme_style_custom_admin_area').val(),
-        clients_area: $('#theme_style_custom_clients_area').val(),
-        clients_and_admin: $('#theme_style_custom_clients_and_admin_area').val(),
-    }).done(function() {
-        var tab = $('#theme_styling_areas').find('li.active > a:eq(0)').attr('href');
-        tab = tab.substring(1, tab.length)
-        window.location = admin_url + 'theme_style?tab=' + tab;
-    });
-}
 </script>
 </body>
-
 </html>

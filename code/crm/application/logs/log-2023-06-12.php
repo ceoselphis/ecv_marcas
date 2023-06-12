@@ -135,3 +135,4 @@ ERROR - 2023-06-12 16:57:40 --> Severity: Notice --> Undefined index: name C:\wa
 ERROR - 2023-06-12 16:57:40 --> Severity: Notice --> Undefined index: name C:\wamp64\www\ecv_marcas\code\crm\application\helpers\datatables_helper.php 344
 ERROR - 2023-06-12 16:57:41 --> Severity: Notice --> Undefined offset: 4 C:\wamp64\www\ecv_marcas\code\crm\application\helpers\datatables_helper.php 180
 ERROR - 2023-06-12 16:58:15 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'field.id, field.name FROM tbl_materias' at line 1 - Invalid query: SHOW field.id, field.name FROM tbl_materias
+ERROR - 2023-06-12 16:59:48 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'field.id, field.name FROM tbl_materias' at line 1 - Invalid query: SHOW field.id, field.name FROM tbl_materias

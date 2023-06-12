@@ -19,7 +19,7 @@ class Configuration extends AdminController
      public function __construct()
      {
       parent::__construct();
-      $this->load->model('Marcas_model');
+      $this->load->model('Materias_model');
 
      }
      /**
@@ -27,9 +27,11 @@ class Configuration extends AdminController
       */
      public function index()
      {
-        $query = $this->Marcas_model->findAll();
         $CI = &get_instance();
-        return $CI->load->view('marca/index.php', $query->result_array());
+        $table_titles = $CI->Materias_model->getAllMeta();
+        $materias = $CI->Materias_model->findAll();
+        $tplData = array('headings' => $table_titles, 'data' => $materias);
+        return $CI->load->view('config/index', $tplData);
      }
 
      /**

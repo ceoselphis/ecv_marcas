@@ -48,13 +48,7 @@ if ($this->session->has_userdata('mindmap_grid_view') && $this->session->userdat
                             <hr class="hr-panel-heading" />
                             <?php } ?>
                             <div class="col-md-12">
-                            <?php render_datatable(array(
-                                _l('mindmap_title'),
-                                _l('mindmap_desc'),
-                                _l('mindmap_staff'),
-                                _l('mindmap_group'),
-                                _l('mindmap_created_at')
-                            ),'mindmap', array('customizable-table'),
+                            <?php render_datatable($headings,'mindmap', $data,
                               array(
                                   'id'=>'table-mindmap',
                                   'data-last-order-identifier'=>'mindmap',

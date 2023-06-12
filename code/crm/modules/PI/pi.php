@@ -67,14 +67,6 @@ function pi_menu_item_collapsible()
         ]);
 
         $CI->app_menu->add_sidebar_children_item('56', [
-            'slug'     => 'dnda', // Required ID/slug UNIQUE for the child menu
-            'name'     => 'Derecho de Autor', // The name if the item
-            'href'     => site_url('pi/dnda'), // URL of the item
-            'position' => 13, // The menu position
-            'icon'     => 'fa-sharp fa-solid fa-copyright', // Font awesome icon
-        ]);
-
-        $CI->app_menu->add_sidebar_children_item('56', [
             'slug'     => 'registro-sanitario', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Registros Sanitarios', // The name if the item
             'href'     => site_url('pi/sanitarios'), // URL of the item

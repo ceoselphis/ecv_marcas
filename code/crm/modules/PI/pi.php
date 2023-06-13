@@ -29,7 +29,7 @@ function pi_menu_item_collapsible()
      */
 
 
-    $CI->app_menu->add_sidebar_menu_item('56', [
+    $CI->app_menu->add_sidebar_menu_item('51', [
         'name'     => 'Propiedad Intelectual', // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 11, // The menu position
@@ -38,7 +38,7 @@ function pi_menu_item_collapsible()
 
     if(!$CI->db->table_exists("{$dbPrefix}_paises"))
     {
-        $CI->app_menu->add_sidebar_children_item('56', [
+        $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'pi_setup', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Instalacion', // The name if the item
             'href'     => site_url('pi/install'), // URL of the item
@@ -50,7 +50,7 @@ function pi_menu_item_collapsible()
     {
 
         // The first paremeter is the parent menu ID/Slug
-        $CI->app_menu->add_sidebar_children_item('56', [
+        $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'marcas', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Marcas', // The name if the item
             'href'     => site_url('pi/marca'), // URL of the item
@@ -58,7 +58,7 @@ function pi_menu_item_collapsible()
             'icon'     => 'fa fa-passport', // Font awesome icon
         ]);
 
-        $CI->app_menu->add_sidebar_children_item('56', [
+        $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'patentes', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Patentes', // The name if the item
             'href'     => site_url('pi/patente'), // URL of the item
@@ -66,7 +66,7 @@ function pi_menu_item_collapsible()
             'icon'     => 'fa-solid fa-microscope', // Font awesome icon
         ]);
 
-        $CI->app_menu->add_sidebar_children_item('56', [
+        $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'registro-sanitario', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Registros Sanitarios', // The name if the item
             'href'     => site_url('pi/sanitarios'), // URL of the item
@@ -74,7 +74,7 @@ function pi_menu_item_collapsible()
             'icon'     => 'fa-sharp fa-solid fa-passport', // Font awesome icon
         ]);
 
-        $CI->app_menu->add_sidebar_children_item('56', [
+        $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'config', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Configuracion', // The name if the item
             'href'     => site_url('pi/configuration'), // URL of the item

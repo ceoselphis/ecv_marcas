@@ -28,7 +28,7 @@ class Configuration extends AdminController
      public function index()
      {
         $CI = &get_instance();
-        $table_titles = $CI->Materias_model->getAllMeta();
+        $table_titles = ['Nº', "Nombre Materia"];
         $materias = $CI->Materias_model->findAll();
         $tplData = array('headings' => $table_titles, 'data' => $materias);
         return $CI->load->view('config/index', $tplData);

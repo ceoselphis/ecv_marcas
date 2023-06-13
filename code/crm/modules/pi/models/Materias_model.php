@@ -11,16 +11,24 @@ class Materias_model extends App_Model
     protected $tableName = 'materias';
     protected $DBgroup = '';
 
-    public function getAllMeta()
-    {
-        $CI = &get_instance();
-        $result = $CI->db->query("SHOW field.id, field.name FROM tbl_materias");
-        return $result->result_array();
-    }
-
     public function findAll(){
         $CI = &get_instance();
         $result = $CI->db->get(db_prefix()."_materias");
         return $result->result_array();
+    }
+
+
+    public function find($id = null)
+    {
+        $CI = &get_instance();
+        $result = $CI->db->where('materia_id', $id);
+        return $result->result_array();
+    }
+
+    public function insert(Array $params)
+    {
+        $CI = &get_instance();
+        $result = $CI->db->insert($params);
+        return $result;
     }
 }

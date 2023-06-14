@@ -11,15 +11,12 @@
 
                     <div class="panel-body">
                         <div class="_buttons">
-                            <button type="button" class="btn btn-primary" data-dropdown-toggle="dropdown" id="dropdwnMenu"><i class="fas fa-plus"></i> Agregar</button>
-                                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                                <ul aria-labelledby="dropdwnMenu" class="">
-                                    <li>
-                                        <a href="#">Materia</a>
-                                        <a href="#">Clase Niza</a>
-                                        <a href="#">Estatus</a>
-                                    </li>
-                                </ul>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/materias/create');?>"><i class="fas fa-plus"></i> Nueva Materia</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/clase_niza/create');?>"><i class="fas fa-plus"></i> Nueva Clase Niza</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/pais/create');?>"><i class="fas fa-plus"></i> Nuevo Pais</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/anexos/create');?>"><i class="fas fa-plus"></i> Nuevo Tipo de Anexo</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/tipo_solicitud/create');?>"><i class="fas fa-plus"></i> Nuevo Tipo de Solicitud</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/tipo_solicitud/create');?>"><i class="fas fa-plus"></i> Nuevo Tipo de Busqueda</a>
                             </div>
                         </div>
                         <div class="row">

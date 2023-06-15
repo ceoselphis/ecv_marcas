@@ -50,13 +50,14 @@ if(!$CI->db->table_exists("{$dbPrefix}_clase_niza"))
 {
     $CI->db->query(
       "CREATE TABLE IF NOT EXISTS `{$dbPrefix}_clase_niza` (
-      `niza_id` INT NOT NULL AUTO_INCREMENT,
-      `nombre` VARCHAR(60) NOT NULL,
-      PRIMARY KEY (`niza_id`))
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci
-    COMMENT = 'Tabla de almacenamiento de las clases de niza';
+        `niza_id` INT NOT NULL AUTO_INCREMENT,
+        `nombre` VARCHAR(60) NOT NULL,
+        `descripcion` LONGTEXT NULL,
+        PRIMARY KEY (`niza_id`))
+      ENGINE = InnoDB
+      DEFAULT CHARACTER SET = utf8mb4
+      COLLATE = utf8mb4_0900_ai_ci
+      COMMENT = 'Tabla de almacenamiento de las clases de niza;
     ");
 }
 

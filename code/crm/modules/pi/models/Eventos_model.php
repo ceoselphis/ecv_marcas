@@ -3,10 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require __DIR__ . '/BaseModel.php';
 
-class Materias_model extends BaseModel
+class Eventos_model extends BaseModel
 {
-    protected $primaryKey = 'materia_id';
-    protected $tableName =  'tbl_materias';
+    protected $primaryKey = 'eve_id';
+    protected $tableName =  'tbl_eventos';
     protected $DBgroup = 'default';
     
     public function __construct()

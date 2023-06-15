@@ -1,15 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AnexosController extends AdminController
+class ClasesController extends AdminController
 {
-    protected $models = ['Anexos_model'];
+    protected $models = ['Clases_model'];
       
     public function index()
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
-        return $CI->load->view('anexos/index', ["anexos" => $CI->Anexos_model->findAll()]);
+        $CI->load->model("Clases_model");
+        return $CI->load->view('clases/index', ["clases" => $CI->Clases_model->findAll()]);
     }
 
     /**
@@ -19,8 +19,8 @@ class AnexosController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
-        $fields = $CI->Anexos_model->getFillableFields();
+        $CI->load->model("Clases_model");
+        $fields = $CI->Clases_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -43,8 +43,8 @@ class AnexosController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Nombre del anexo'];
-        return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
+        $labels = ['Id', 'Nombre de clase','Productos'];
+        return $CI->load->view('clases/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
     /**
@@ -54,29 +54,47 @@ class AnexosController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
+        $CI->load->model("Clases_model");
         $CI->load->helper('url');
-        // WE prepare the data
+        // get the data
         $data = $CI->input->post();
-        $fill = array();
-
         //we validate the data
-
+        //TODO
         //we sent the data to the model
-        $query = $CI->Anexos_model->insert($data);
+        $query = $CI->Clases_model->insert($data);
         if(isset($query))
         {
-            return redirect(admin_url('pi/anexoscontroller/'));
+            return redirect(admin_url('pi/clasescontroller/'));
         }
     }
 
     /**
-     * Find a single item to show
+     * Find a single item to show, in this case, can show the products of the niza class
      */
 
     public function show(string $id = null)
     {
-
+        $CI = &get_instance();
+        $CI->load->model("Clases_model");
+        $query = $CI->Clases_model->find($id);
+        if(isset($query))
+        {
+            $table = '<table class="table"><thead><tr>';
+            foreach(['Nombre', 'Productos'] as $item)
+            {
+                $table .= '<th>'.$item.'</th>';
+            }
+            $table .= '</thead><tbody><tr>';
+            foreach($query as $row)
+            {
+                $table .= "
+                            <td>{$row['nombre']}</td>
+                            <td>{$row['descripcion']}</td>
+                        ";
+            }
+            $table .= '</tr></tbody></table>';
+            echo $table;
+        }
     }
 
     /**
@@ -86,16 +104,16 @@ class AnexosController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
+        $CI->load->model("Clases_model");
         $CI->load->helper('url');
-        $query = $CI->Anexos_model->find($id);
+        $query = $CI->Clases_model->find($id);
         if(isset($query))
         {
-            $labels = array('Id', 'Nombre del anexo');
-            return $CI->load->view('anexos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
+            $labels = array('Id', 'Nombre de la clase','Productos');
+            return $CI->load->view('clases/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{
-            return redirect('pi/anexoscontroller/');
+            return redirect('pi/clasescontroller/');
         }
     }
 
@@ -107,16 +125,16 @@ class AnexosController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
+        $CI->load->model("Clases_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
         //TODO
         //We prepare the data 
-        $query = $CI->Anexos_model->update($id, $data);
+        $query = $CI->Clases_model->update($id, $data);
         if (isset($query))
         {
-            return redirect('pi/anexoscontroller/');
+            return redirect('pi/clasescontroller/');
         }
     }
 
@@ -127,10 +145,10 @@ class AnexosController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
+        $CI->load->model("Clases_model");
         $CI->load->helper('url');
-        $query = $CI->Anexos_model->delete($id);
-        return redirect('pi/anexoscontroller/');
+        $query = $CI->Clases_model->delete($id);
+        return redirect('pi/clasescontroller/');
         
         
     }

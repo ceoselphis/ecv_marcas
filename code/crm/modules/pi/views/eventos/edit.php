@@ -6,29 +6,26 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                        <?php $CI = &get_instance();?>
                         <?php echo validation_errors(); ?>
                         <?php echo form_open(admin_url('pi/eventoscontroller/update/'.$id), 'form'); ?>
                         <div class="col-md-4">
-                            <?php foreach($values as $key => $value){?>
-                                <?php echo form_label('Nombre del Anexo');?>
-                                <br />
-                                <?php echo form_input(
-                                    array(
-                                        'name' => 'descripcion',
-                                        'id'   => 'descripcion',
-                                        'type' => 'text',
-                                        'class' => 'form-control',
-                                        'value' => $value['descripcion'])
-                                );?>
-                            <?php } ?>
+                            <?php echo form_label($labels[1]);?>
+                            <br />
+                            <?php echo form_dropdown('tipo_eve_id', $tipoEvento, $values[0]['tipo_eve_id'], ['class' => 'form-control'] );?>
                         </div>
                         <div class="col-md-3">
                             <br />
+                            <?php echo form_hidden('created_at',date('Y-m-d h:i:s'), false);?>
+                            <?php echo form_hidden('staff_id',$_SESSION['staff_user_id'],false);?>
                             <button class="btn btn-primary" type="submit" >Guardar</button>
-                            <button class="btn btn-gray" type="reset" >Limpiar</button>
                             <a href="javascript: history.go(-1)" class="btn btn-success">Volver atras</a>
                         </div>
-                        
+                        <div class="col-md-3">
+                            <pre>
+                                <?php var_dump($values);?>
+                            </pre>
+                        </div>
                     </div>
                 </div>
             </div>

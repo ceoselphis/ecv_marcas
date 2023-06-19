@@ -15,8 +15,10 @@
                                 <table class="table" id="tableResult">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Nombre</th>
+                                            <th>Nº Evento</th>
+                                            <th>Tipo de Evento</th>
+                                            <th>Fecha de creacion</th>
+                                            <th>Creado por </th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -25,10 +27,12 @@
                                             <?php foreach ($eventos as $row) {?>
                                                 <tr>
                                                     <td><?php echo $row['eve_id'];?></td>
-                                                    <td><?php echo $row['nombre_anexo'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/eventoscontroller/destroy/{$row['tip_ax_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <td><?php echo $row['tipo_eve_id'];?></td>
+                                                    <td><?php echo $row['created_at'];?></td>
+                                                    <td><?php echo $row['staff_id'];?></td>
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/eventoscontroller/destroy/{$row['eve_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/eventoscontroller/edit/{$row['tip_ax_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/eventoscontroller/edit/{$row['eve_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 
@@ -37,7 +41,7 @@
                                         <?php }
                                         else {
                                         ?>
-                                        <tr colspan="3">
+                                        <tr colspan="5" class="text-center">
                                             <td>Sin Registros</td>
                                         </tr>
                                         <?php } ?>
@@ -54,11 +58,3 @@
 
 <?php init_tail();?>
 
-<script>
-    $("#tableResult").DataTable(
-        {
-            paging: true,
-            select : true,
-        }
-    );
-</script>

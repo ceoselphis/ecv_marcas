@@ -6,20 +6,26 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                        <?php $CI = &get_instance();?>
                         <?php echo validation_errors(); ?>
                         <?php echo form_open(admin_url('pi/eventoscontroller/store'), 'form'); ?>
                         <div class="col-md-4">
                             <?php echo form_label($labels[1]);?>
                             <br />
-                            <?php echo form_input($fields[1]);?>
+                            <?php echo form_dropdown($fields[1], $select, [0], ['class' => 'form-control'] );?>
                         </div>
                         <div class="col-md-3">
                             <br />
+                            <?php echo form_hidden('created_at',date('Y-m-d h:i:s'), false);?>
+                            <?php echo form_hidden('staff_id',$_SESSION['staff_user_id'],false);?>
                             <button class="btn btn-primary" type="submit" >Guardar</button>
-                            <button class="btn btn-gray" type="reset" >Limpiar</button>
                             <a href="javascript: history.go(-1)" class="btn btn-success">Volver atras</a>
                         </div>
-                        
+                        <div class="col-md-3">
+                            <pre>
+                                <?php var_dump($_SESSION);?>
+                            </pre>
+                        </div>
                     </div>
                 </div>
             </div>

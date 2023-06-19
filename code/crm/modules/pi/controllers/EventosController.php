@@ -9,7 +9,17 @@ class EventosController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Eventos_model");
-        return $CI->load->view('eventos/index', ["eventos" => $CI->Eventos_model->findAll()]);
+        $data = array();
+        foreach($CI->Eventos_model->findAll() as $row)
+        {
+            $data[] = [
+                'eve_id' => $row['eve_id'],
+                'tipo_eve_id' => $CI->Eventos_model->findTipoEvento($row['tipo_eve_id'])[0]['nombre'],
+                'created_at' => $row['created_at'],
+                'staff_id' => $CI->Eventos_model->getStaff($row['staff_id'])[0]['firstname'].' '.$CI->Eventos_model->getStaff($row['staff_id'])[0]['lastname']
+            ];
+        }
+        return $CI->load->view('eventos/index', ["eventos" => $data]);
     }
 
     /**
@@ -21,7 +31,7 @@ class EventosController extends AdminController
         $CI = &get_instance();
         $CI->load->model("Eventos_model");
         $fields = $CI->Eventos_model->getFillableFields();
-        $inputs = array();
+        $select = $CI->Eventos_model->getAllTipoEvento();
         $labels = array();
         foreach($fields as $field)
         {
@@ -43,8 +53,8 @@ class EventosController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Nombre de evento'];
-        return $CI->load->view('eventos/create', ['fields' => $inputs, 'labels' => $labels]);
+        $labels = ['Id', 'Tipo de evento'];
+        return $CI->load->view('eventos/create', ['fields' => $fields, 'labels' => $labels, 'select' => $select]);
     }
 
     /**
@@ -107,10 +117,12 @@ class EventosController extends AdminController
         $CI->load->model("Eventos_model");
         $CI->load->helper('url');
         $query = $CI->Eventos_model->find($id);
+        $select = $CI->Eventos_model->getAllTipoEvento();
         if(isset($query))
         {
-            $labels = array('Id', 'Nombre de la clase','Productos');
-            return $CI->load->view('eventos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
+            $labels = array('Id', 'Tipo de Evento');
+            
+            return $CI->load->view('eventos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'tipoEvento' => $select]);
         }
         else{
             return redirect('pi/eventoscontroller/');
@@ -149,7 +161,5 @@ class EventosController extends AdminController
         $CI->load->helper('url');
         $query = $CI->Eventos_model->delete($id);
         return redirect('pi/eventoscontroller/');
-        
-        
     }
 }

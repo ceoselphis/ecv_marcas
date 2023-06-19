@@ -17,11 +17,7 @@
                         <div class="col-md-4">
                             <?php echo form_label($labels[2]);?>
                             <br />
-                            <select name="materia_id" id="materia_id" class="form-control"><?php echo $labels[2];?>
-                                <?php foreach($materias as $row){?>
-                                    <option value="<?php echo $row['materia_id'];?>"><?php echo $row['descripcion'];?></option>
-                                <?php } ?>
-                            </select>
+                            <?php echo form_dropdown('materia_id', $materias, [0], ['class' => 'form-control']);?>
                             <?php echo form_hidden("created_at", date('Y-m-d h:i:s'),false);?>
                             <?php echo form_hidden("modified_at", date('Y-m-d h:i:s'),false);?>
                             <?php echo form_hidden('created_by', $_SESSION['staff_user_id'], FALSE)?>

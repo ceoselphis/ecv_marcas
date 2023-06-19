@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require "../models/Materias_model.php";
-
 class TiposEventosController extends AdminController
 {
     protected $models = ['TiposEventos_model'];
@@ -11,7 +9,19 @@ class TiposEventosController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("TiposEventos_model");
-        return $CI->load->view('TiposEventos/index', ["TiposEventos" => $CI->TiposEventos_model->findAll()]);
+        $data = array();
+        foreach($CI->TiposEventos_model->findAll() as $row)
+        {
+            $data[] = [
+                'tipo_eve_id' => $row['tipo_eve_id'],
+                'nombre' => $row['nombre'],
+                'materia_id' => $CI->TiposEventos_model->getMateria($row['materia_id'])[0]['descripcion'],
+                'created_at' => $row['created_at'],
+                'modified_at' => $row['modified_at'],
+                'created_by'  => $CI->TiposEventos_model->getStaff($row['created_by'])[0]['firstname'].' '.$CI->TiposEventos_model->getStaff($row['created_by'])[0]['lastname'],
+            ];
+        }
+        return $CI->load->view('TiposEventos/index', ["TiposEventos" => $data]);
     }
 
     /**
@@ -23,11 +33,9 @@ class TiposEventosController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TiposEventos_model");
         $fields = $CI->TiposEventos_model->getFillableFields();
-        $materiaModel = new Materias_model();
-        var_dump($materiaModel);
-        die();
         $inputs = array();
         $labels = array();
+        $materias = $CI->TiposEventos_model->getAllMaterias();
         foreach($fields as $field)
         {
             if($field['type'] == 'INT')
@@ -48,7 +56,7 @@ class TiposEventosController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Nombre de evento', "Materia"];
+        $labels = ['Id', 'Nombre de evento', "Materia", "Fecha de Creacion"];
         return $CI->load->view('TiposEventos/create', ['fields' => $inputs, 'labels' => $labels, "materias" => $materias]);
     }
 
@@ -114,7 +122,7 @@ class TiposEventosController extends AdminController
         $query = $CI->TiposEventos_model->find($id);
         if(isset($query))
         {
-            $labels = array('Id', 'Nombre de la clase','Productos');
+            $labels = $labels = ['Id', 'Nombre de evento', "Materia", "Fecha de Creacion"];
             return $CI->load->view('TiposEventos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{

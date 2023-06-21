@@ -7,7 +7,7 @@
                     <div class="panel-body">
                         <div class="_buttons">
                             <a class="btn btn-primary" href="<?php echo admin_url('pi/tiposeventoscontroller/create');?>"><i class="fas fa-plus"></i> Nuevo Tipo de Evento</a>
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/eventoscontroller/create');?>"><i class="fas fa-plus"></i> Nuevo Evento</a>    
+                            <!--<a class="btn btn-primary" href="<?php echo admin_url('pi/eventoscontroller/create');?>"><i class="fas fa-plus"></i> Nuevo Evento</a>    -->
                         </div>
                         </div>
                         <div class="row">

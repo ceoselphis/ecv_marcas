@@ -112,9 +112,9 @@ function pi_menu_item_collapsible()
         ]);
         //Eventos
         $CI->app_menu->add_sidebar_children_item('52', [
-            'slug'     => 'eventos', // Required ID/slug UNIQUE for the child menu
-            'name'     => 'Administrador de Eventos', // The name if the item
-            'href'     => site_url('pi/eventoscontroller'), // URL of the item
+            'slug'     => 'tipos-eventos', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Administrador de Tipos de Eventos', // The name if the item
+            'href'     => site_url('pi/tiposeventoscontroller'), // URL of the item
             'position' => 11, // The menu position
             //'icon'     => 'fa fa-plus', // Font awesome icon
         ]);
@@ -167,9 +167,16 @@ function pi_menu_item_collapsible()
             //'icon'     => 'fa fa-plus', // Font awesome icon
         ]);
         $CI->app_menu->add_sidebar_children_item('52', [
-            'slug'     => 'Estados', // Required ID/slug UNIQUE for the child menu
+            'slug'     => 'estados', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Administrador de Estados', // The name if the item
             'href'     => site_url('pi/estadoscontroller'), // URL of the item
+            'position' => 11, // The menu position
+            //'icon'     => 'fa fa-plus', // Font awesome icon
+        ]);
+        $CI->app_menu->add_sidebar_children_item('52', [
+            'slug'     => 'boletines', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Administrador de Boletines', // The name if the item
+            'href'     => site_url('pi/Boletinescontroller'), // URL of the item
             'position' => 11, // The menu position
             //'icon'     => 'fa fa-plus', // Font awesome icon
         ]);

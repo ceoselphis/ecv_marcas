@@ -8,18 +8,17 @@
                     <div class="panel-body">
                         <?php echo validation_errors(); ?>
                         <?php echo form_open(admin_url('pi/anexoscontroller/store'), 'form'); ?>
-                        <div class="col-md-4">
+                        <div class="col-4">
                             <?php echo form_label($labels[1]);?>
                             <br />
                             <?php echo form_input($fields[1]);?>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
                             <a href="javascript: history.go(-1)" class="btn btn-success">Volver atras</a>
                         </div>
-                        
                     </div>
                 </div>
             </div>

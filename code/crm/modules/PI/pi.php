@@ -160,9 +160,16 @@ function pi_menu_item_collapsible()
         ]);
         //materias
         $CI->app_menu->add_sidebar_children_item('52', [
-            'slug'     => 'solicitantes', // Required ID/slug UNIQUE for the child menu
+            'slug'     => 'materias', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Administrador de materias', // The name if the item
             'href'     => site_url('pi/materiascontroller'), // URL of the item
+            'position' => 11, // The menu position
+            //'icon'     => 'fa fa-plus', // Font awesome icon
+        ]);
+        $CI->app_menu->add_sidebar_children_item('52', [
+            'slug'     => 'Estados', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Administrador de Estados', // The name if the item
+            'href'     => site_url('pi/estadoscontroller'), // URL of the item
             'position' => 11, // The menu position
             //'icon'     => 'fa fa-plus', // Font awesome icon
         ]);

@@ -8,7 +8,7 @@
                     <div class="panel-body">
                         <?php echo validation_errors(); ?>
                         <?php echo form_open(admin_url('pi/anexoscontroller/update/'.$id), 'form'); ?>
-                        <div class="col-md-4">
+                        <div class="col-4">
                             <?php foreach($values as $key => $value){?>
                                 <?php echo form_label('Nombre del Anexo');?>
                                 <br />
@@ -22,7 +22,7 @@
                                 );?>
                             <?php } ?>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>

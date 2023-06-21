@@ -859,6 +859,7 @@ if(!$CI->db->table_exists("{$dbPrefix}_acciones_marcas_terceros"))
       "CREATE TABLE IF NOT EXISTS `{$dbPrefix}_estados` (
         `estado_id` INT NOT NULL AUTO_INCREMENT,
         `materia_id` INT NOT NULL,
+        `codigo` INT NOT NULL DEFAULT 0,
         `descripcion` VARCHAR(255) NOT NULL,
         `created_at` DATE NOT NULL,
         `last_modified` DATE NOT NULL,

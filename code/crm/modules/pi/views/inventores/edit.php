@@ -6,7 +6,6 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo validation_errors(); ?>
                         <?php echo form_open(admin_url('pi/inventorescontroller/update/'.$id), 'form'); ?>
                         <div class="col-md-6">
                             <?php echo form_label($labels[1]);?>
@@ -28,6 +27,16 @@
                             <?php echo form_label($labels[4])?>
                             <br />
                             <?php echo form_textarea('direccion', $values[0]['direccion'], ['class' => 'form-control']);?>
+                        </div>
+                        <div class="col-md-12">
+                            <?php echo form_label($labels[4])?>
+                            <br />
+                            <?php echo form_textarea('domicilio', $values[0]['domicilio'], ['class' => 'form-control']);?>
+                        </div>
+                        <div class="col-md-3">
+                            <?php echo form_label($labels[3]);?>
+                            <br />
+                            <?php echo form_input('nacionalidad',$values[0]['nacionalidad'],['class' => 'form-control']);?>
                         </div>
                         <div class="col-md-12">
                             <br />

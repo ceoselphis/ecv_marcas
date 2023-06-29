@@ -55,7 +55,7 @@ class InventoresController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Pais', 'Nombre', 'Apellido', "Direccion"];
+        $labels = ['Id', 'Pais', 'Nombre', 'Apellido', "Direccion", "Domicilio", "Nacionalidad"];
         return $CI->load->view('inventores/create', ['fields' => $inputs, 'labels' => $labels, 'pais' => $CI->Inventores_model->findAllPais()]);
     }
 
@@ -67,19 +67,103 @@ class InventoresController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Inventores_model");
-        $CI->load->helper('url');
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         // WE prepare the data
         $data = $CI->input->post();
-        $fill = array();
-
         //we validate the data
-
-        //we sent the data to the model
-        $query = $CI->Inventores_model->insert($data);
-        if(isset($query))
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'nombre',
+                'label' => 'Nombre',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un nombre',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'apellid',
+                'label' => 'Apellido',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un apellido',
+                    'min_length' => 'Apellido demasiado corto',
+                    'max_lenght' => 'Apellido demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'direccion',
+                'label' => 'Direccion',
+                'rules' => 'trim|required|min_length[5]|max_length[255]',
+                'errors' => [
+                    'required' => 'Debe indicar una direccion',
+                    'min_length' => 'Direccion demasiado corta',
+                    'max_lenght' => 'Direccion demasiado larga'
+                ]
+            ],
+            [
+                'field' => 'domicilio',
+                'label' => 'Domicilio',
+                'rules' => 'trim|required|min_length[5]|max_length[255]',
+                'errors' => [
+                    'required' => 'Debe indicar un domicilio',
+                    'min_length' => 'Domicilio demasiado corto',
+                    'max_lenght' => 'Domicilio demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'nacionalidad',
+                'label' => 'Nacionalidad',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una nacionalidad',
+                    'min_length' => 'Nacionalidad demasiado corta',
+                    'max_lenght' => 'Nacionalidad demasiado larga'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect(admin_url('pi/inventorescontroller/'));
+            $fields = $CI->Inventores_model->getFillableFields();
+            $inputs = array();
+            $labels = array();
+            foreach($fields as $field)
+            {
+                if($field['type'] == 'INT')
+                {
+                    $inputs[] = array(
+                        'name' => $field['name'],
+                        'id'   => $field['name'],
+                        'type' => 'range',
+                        'class' => 'form-control'
+                    );
+                }
+                else{
+                    $inputs[] = array(
+                        'name' => $field['name'],
+                        'id'   => $field['name'],
+                        'type' => 'text',
+                        'class' => 'form-control'
+                    );
+                }
+            }
+            $labels = ['Id', 'Pais', 'Nombre', 'Apellido', "Direccion", "Domicilio", "Nacionalidad"];
+            return $CI->load->view('inventores/create', ['fields' => $inputs, 'labels' => $labels, 'pais' => $CI->Inventores_model->findAllPais()]);
         }
+        else
+        {
+            //we sent the data to the model
+            $query = $CI->Inventores_model->insert($data);
+            if(isset($query))
+            {
+                return redirect(admin_url('pi/inventorescontroller/'));
+            }
+        }
+        
     }
 
     /**

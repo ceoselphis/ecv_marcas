@@ -31,8 +31,8 @@
                                                     <td><?php echo $row['tipo_eve_id'];?></td>
                                                     <td><?php echo $row['materia_id'];?></td>
                                                     <td><?php echo $row['nombre'];?></td>
-                                                    <td><?php echo $row['created_at'];?></td>
-                                                    <td><?php echo $row['modified_at'];?></td>
+                                                    <td><?php echo date('d/m/Y', strtotime($row['created_at']));?></td>
+                                                    <td><?php echo date('d/m/Y', strtotime($row['modified_at']));?></td>
                                                     <td><?php echo $row['created_by'];?></td>
                                                     <form method="DELETE" action="<?php echo admin_url("pi/tiposeventoscontroller/destroy/{$row['tipo_eve_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>

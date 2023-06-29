@@ -48,10 +48,6 @@ function pi_menu_item_collapsible()
     }
     else
     {
-        
-
-
-
         // The first paremeter is the parent menu ID/Slug
         $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'marcas', // Required ID/slug UNIQUE for the child menu
@@ -62,13 +58,13 @@ function pi_menu_item_collapsible()
         ]);
 
         // The first paremeter is the parent menu ID/Slug
-        $CI->app_menu->add_sidebar_children_item('51', [
+        /*$CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'marcas', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Marcas', // The name if the item
             'href'     => site_url('pi/marca'), // URL of the item
             'position' => 11, // The menu position
             'icon'     => 'fa fa-passport', // Font awesome icon
-        ]);
+        ]);*/
 
         $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'patentes', // Required ID/slug UNIQUE for the child menu
@@ -76,6 +72,14 @@ function pi_menu_item_collapsible()
             'href'     => site_url('pi/patente'), // URL of the item
             'position' => 12, // The menu position
             'icon'     => 'fa-solid fa-microscope', // Font awesome icon
+        ]);
+
+        $CI->app_menu->add_sidebar_children_item('51', [
+            'slug'     => 'copyright', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Derecho de Autor', // The name if the item
+            'href'     => site_url('pi/copyright'), // URL of the item
+            'position' => 12, // The menu position
+            'icon'     => 'fa-solid fa-copyright', // Font awesome icon
         ]);
 
         /*$CI->app_menu->add_sidebar_children_item('51', [
@@ -97,7 +101,7 @@ function pi_menu_item_collapsible()
         //Anexos
         $CI->app_menu->add_sidebar_children_item('52', [
             'slug'     => 'anexos', // Required ID/slug UNIQUE for the child menu
-            'name'     => 'Administrador de Anexos', // The name if the item
+            'name'     => 'Cambios Anteriores al registro', // The name if the item
             'href'     => site_url('pi/anexoscontroller'), // URL of the item
             'position' => 11, // The menu position
             //'icon'     => 'fa fa-plus', // Font awesome icon

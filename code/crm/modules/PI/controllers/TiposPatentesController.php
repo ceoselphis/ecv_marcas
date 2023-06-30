@@ -1,27 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TiposEventosController extends AdminController
+class TiposPatentesController extends AdminController
 {
-    protected $models = ['TiposEventos_model'];
+    protected $models = ['TipoPatentes_model'];
       
     public function index()
     {
         $CI = &get_instance();
-        $CI->load->model("TiposEventos_model");
+        $CI->load->model("TipoPatentes_model");
         $data = array();
-        foreach($CI->TiposEventos_model->findAll() as $row)
+        foreach($CI->TipoPatentes_model->findAll() as $row)
         {
             $data[] = [
-                'tipo_eve_id' => $row['tipo_eve_id'],
-                'nombre' => $row['nombre'],
-                'materia_id' => $CI->TiposEventos_model->getMateria($row['materia_id'])[0]['descripcion'],
-                'created_at' => $row['created_at'],
-                'modified_at' => $row['modified_at'],
-                'created_by'  => $CI->TiposEventos_model->getStaff($row['created_by'])[0]['firstname'].' '.$CI->TiposEventos_model->getStaff($row['created_by'])[0]['lastname'],
+                'tip_pat_id' => $row['tip_pat_id'],
+                'nombre_tipo' => $row['nombre_tipo'],
             ];
         }
-        return $CI->load->view('TiposEventos/index', ["TiposEventos" => $data]);
+        return $CI->load->view('TiposPatentes/index', ["TiposPatentes" => $data]);
     }
 
     /**
@@ -31,11 +27,10 @@ class TiposEventosController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("TiposEventos_model");
-        $fields = $CI->TiposEventos_model->getFillableFields();
+        $CI->load->model("TipoPatentes_model");
+        $fields = $CI->TipoPatentes_model->getFillableFields();
         $inputs = array();
         $labels = array();
-        $materias = $CI->TiposEventos_model->getAllMaterias();
         foreach($fields as $field)
         {
             if($field['type'] == 'INT')
@@ -56,8 +51,8 @@ class TiposEventosController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Nombre de evento', "Materia", "Fecha de Creacion"];
-        return $CI->load->view('TiposEventos/create', ['fields' => $inputs, 'labels' => $labels, "materias" => $materias]);
+        $labels = ['Id', 'Nombre',];
+        return $CI->load->view('TiposPatentes/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
     /**
@@ -67,7 +62,7 @@ class TiposEventosController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("TiposEventos_model");
+        $CI->load->model("TipoPatentes_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // get the data
@@ -76,11 +71,11 @@ class TiposEventosController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre',
-                'label' => 'Nombre del tipo de evento',
+                'field' => 'nombre_tipo',
+                'label' => 'Nombre',
                 'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
-                    'required' => 'Debe indicar un nombre para el evento',
+                    'required' => 'Debe indicar un nombre',
                     'min_length' => 'Nombre demasiado corto',
                     'max_lenght' => 'Nombre demasiado largo'
                 ]
@@ -89,10 +84,9 @@ class TiposEventosController extends AdminController
         $CI->form_validation->set_rules($config);
         if($CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->TiposEventos_model->getFillableFields();
+            $fields = $CI->TipoPatentes_model->getFillableFields();
             $inputs = array();
             $labels = array();
-            $materias = $CI->TiposEventos_model->getAllMaterias();
             foreach($fields as $field)
             {
                 if($field['type'] == 'INT')
@@ -113,16 +107,16 @@ class TiposEventosController extends AdminController
                     );
                 }
             }
-            $labels = ['Id', 'Nombre de evento', "Materia", "Fecha de Creacion"];
-            return $CI->load->view('TiposEventos/create', ['fields' => $inputs, 'labels' => $labels, "materias" => $materias]);
+            $labels = ['Id', 'Nombre'];
+            return $CI->load->view('TiposPatentes/create', ['fields' => $inputs, 'labels' => $labels]);
         }
         else
         {
             //we sent the data to the model
-            $query = $CI->TiposEventos_model->insert($data);
+            $query = $CI->TipoPatentes_model->insert($data);
             if(isset($query))
             {
-                return redirect(admin_url('pi/TiposEventoscontroller/'));
+                return redirect(admin_url('pi/tipospatentescontroller/'));
             }
         }
     }
@@ -134,8 +128,8 @@ class TiposEventosController extends AdminController
     public function show(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TiposEventos_model");
-        $query = $CI->TiposEventos_model->find($id);
+        $CI->load->model("TipoPatentes_model");
+        $query = $CI->TipoPatentes_model->find($id);
         if(isset($query))
         {
             $table = '<table class="table"><thead><tr>';
@@ -163,16 +157,16 @@ class TiposEventosController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TiposEventos_model");
+        $CI->load->model("TipoPatentes_model");
         $CI->load->helper('url');
-        $query = $CI->TiposEventos_model->find($id);
+        $query = $CI->TipoPatentes_model->find($id);
         if(isset($query))
         {
-            $labels = $labels = ['Id', 'Nombre de evento', "Materia", "Fecha de Creacion"];
-            return $CI->load->view('TiposEventos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
+            $labels = $labels = ['Id', 'Nombre de evento'];
+            return $CI->load->view('TiposPatentes/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{
-            return redirect('pi/TiposEventoscontroller/');
+            return redirect('pi/tipospatentescontroller/');
         }
     }
 
@@ -184,16 +178,16 @@ class TiposEventosController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TiposEventos_model");
+        $CI->load->model("TipoPatentes_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
         //TODO
         //We prepare the data 
-        $query = $CI->TiposEventos_model->update($id, $data);
+        $query = $CI->TipoPatentes_model->update($id, $data);
         if (isset($query))
         {
-            return redirect('pi/TiposEventoscontroller/');
+            return redirect('pi/tipospatentescontroller/');
         }
     }
 
@@ -204,10 +198,10 @@ class TiposEventosController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("TiposEventos_model");
+        $CI->load->model("TipoPatentes_model");
         $CI->load->helper('url');
-        $query = $CI->TiposEventos_model->delete($id);
-        return redirect('pi/TiposEventoscontroller/');
+        $query = $CI->TipoPatentes_model->delete($id);
+        return redirect('pi/tipospatentescontroller/');
         
         
     }

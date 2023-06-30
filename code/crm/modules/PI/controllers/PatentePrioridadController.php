@@ -14,14 +14,13 @@ class PatentePrioridadController extends AdminController
         foreach($query as $row)
         {
             $data[] = [
-                'inventor_id' => $row['inventor_id'],
-                'pais_id'     => $CI->Inventores_model->findPais($row['pais_id'])[0]['nombre'],
-                'nombre'      => $row['nombre'],
-                'apellid'    => $row['apellid'],
-                'direccion'   => $row['direccion']
+                'pri_pat_id' => $row['pri_pat_id'],
+                'sol_pat_id' => $CI->PatentesPrioridad_model->findPatentes($row['sol_pat_id'])[0]['titulo'],
+                'fecha'      => date('d/m/Y', strtotime($row['fecha'])),
+                'pais_id'    => $CI->PatentesPrioridad_model->findPais($row['pais_id'])[0]['nombre'],
             ];
         }
-        return $CI->load->view('inventores/index', ["inventores" => $data]);
+        return $CI->load->view('patente/prioridad/index', ["prioridades" => $data]);
     }
 
     /**
@@ -31,8 +30,8 @@ class PatentePrioridadController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("Inventores_model");
-        $fields = $CI->Inventores_model->getFillableFields();
+        $CI->load->model("PatentesPrioridad_model");
+        $fields = $CI->PatentesPrioridad_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -55,8 +54,8 @@ class PatentePrioridadController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Pais', 'Nombre', 'Apellido', "Direccion", "Domicilio", "Nacionalidad"];
-        return $CI->load->view('inventores/create', ['fields' => $inputs, 'labels' => $labels, 'pais' => $CI->Inventores_model->findAllPais()]);
+        $labels = ['Id', 'Solicitud', 'Fecha', 'Pais'];
+        return $CI->load->view('patente/prioridad/create', ['fields' => $inputs, 'labels' => $labels, 'pais' => $CI->PatentesPrioridad_model->findAllPais(), "solicitud" => $CI->PatentesPrioridad_model->findAllPatentes()]);
     }
 
     /**
@@ -66,7 +65,7 @@ class PatentePrioridadController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("Inventores_model");
+        $CI->load->model("PatentesPrioridad_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
@@ -75,60 +74,35 @@ class PatentePrioridadController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre',
-                'label' => 'Nombre',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'field' => 'sol_pat_id',
+                'label' => 'Nº de Solicitud',
+                'rules' => 'trim|required',
                 'errors' => [
-                    'required' => 'Debe indicar un nombre',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
+                    'required' => 'Debe seleccionar una solicitud de patente',
                 ]
             ],
             [
-                'field' => 'apellid',
-                'label' => 'Apellido',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'field' => 'fecha',
+                'label' => 'Fecha',
+                'rules' => 'trim|required|max_length[10]',
                 'errors' => [
-                    'required' => 'Debe indicar un apellido',
-                    'min_length' => 'Apellido demasiado corto',
-                    'max_lenght' => 'Apellido demasiado largo'
+                    'required' => 'Debe indicar una fecha',
+                    'max_lenght' => 'Fecha demasiado larga'
                 ]
             ],
             [
-                'field' => 'direccion',
-                'label' => 'Direccion',
-                'rules' => 'trim|required|min_length[5]|max_length[255]',
+                'field' => 'pais_id',
+                'label' => 'Pais de procedencia',
+                'rules' => 'trim|required',
                 'errors' => [
-                    'required' => 'Debe indicar una direccion',
-                    'min_length' => 'Direccion demasiado corta',
-                    'max_lenght' => 'Direccion demasiado larga'
-                ]
-            ],
-            [
-                'field' => 'domicilio',
-                'label' => 'Domicilio',
-                'rules' => 'trim|required|min_length[5]|max_length[255]',
-                'errors' => [
-                    'required' => 'Debe indicar un domicilio',
-                    'min_length' => 'Domicilio demasiado corto',
-                    'max_lenght' => 'Domicilio demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'nacionalidad',
-                'label' => 'Nacionalidad',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar una nacionalidad',
-                    'min_length' => 'Nacionalidad demasiado corta',
-                    'max_lenght' => 'Nacionalidad demasiado larga'
+                    'required' => 'Debe indicar un pais de procedencia',
                 ]
             ],
         );
         $CI->form_validation->set_rules($config);
         if($CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->Inventores_model->getFillableFields();
+            $fields = $CI->PatentesPrioridad_model->getFillableFields();
             $inputs = array();
             $labels = array();
             foreach($fields as $field)
@@ -152,7 +126,8 @@ class PatentePrioridadController extends AdminController
                 }
             }
             $labels = ['Id', 'Pais', 'Nombre', 'Apellido', "Direccion", "Domicilio", "Nacionalidad"];
-            return $CI->load->view('inventores/create', ['fields' => $inputs, 'labels' => $labels, 'pais' => $CI->Inventores_model->findAllPais()]);
+            $labels = ['Id', 'Solicitud', 'Fecha', 'Pais'];
+        return $CI->load->view('patente/prioridad/create', ['fields' => $inputs, 'labels' => $labels, 'pais' => $CI->PatentesPrioridad_model->findAllPais(), "solicitud" => $CI->PatentesPrioridad_model->findAllPatentes()]);
         }
         else
         {

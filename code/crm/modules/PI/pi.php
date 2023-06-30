@@ -34,7 +34,7 @@ function pi_menu_item_collapsible()
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 11, // The menu position
         'icon'     => 'fa-solid fa-feather', // Font awesome icon
-    ]);
+    ]);  
 
     if(!$CI->db->table_exists("{$dbPrefix}_paises"))
     {
@@ -48,6 +48,13 @@ function pi_menu_item_collapsible()
     }
     else
     {
+        $CI->app_menu->add_sidebar_menu_item('52', [
+            'name'     => 'Marcas', // The name if the item
+            'collapse' => true, // Indicates that this item will have submitems
+            'position' => 11, // The menu position
+            'icon'     => 'fa-solid fa-feather', // Font awesome icon
+        ]); 
+
         // The first paremeter is the parent menu ID/Slug
         $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'marcas', // Required ID/slug UNIQUE for the child menu
@@ -104,7 +111,7 @@ function pi_menu_item_collapsible()
             'name'     => 'Cambios Anteriores al registro', // The name if the item
             'href'     => site_url('pi/anexoscontroller'), // URL of the item
             'position' => 11, // The menu position
-            //'icon'     => 'fa fa-plus', // Font awesome icon
+            'icon'     => 'fa fa-plus', // Font awesome icon
         ]);
         //Clases
         $CI->app_menu->add_sidebar_children_item('52', [
@@ -132,9 +139,9 @@ function pi_menu_item_collapsible()
         ]);
         //Prioridades
         $CI->app_menu->add_sidebar_children_item('52', [
-            'slug'     => 'prioridades', // Required ID/slug UNIQUE for the child menu
-            'name'     => 'Administrador de Prioridades', // The name if the item
-            'href'     => site_url('pi/prioridadescontroller'), // URL of the item
+            'slug'     => 'patentes-prioridad', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Administrador de Prioridades de patentes', // The name if the item
+            'href'     => site_url('pi/patenteprioridadcontroller'), // URL of the item
             'position' => 11, // The menu position
             //'icon'     => 'fa fa-plus', // Font awesome icon
         ]);
@@ -181,6 +188,13 @@ function pi_menu_item_collapsible()
             'slug'     => 'boletines', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Administrador de Boletines', // The name if the item
             'href'     => site_url('pi/Boletinescontroller'), // URL of the item
+            'position' => 11, // The menu position
+            //'icon'     => 'fa fa-plus', // Font awesome icon
+        ]);
+        $CI->app_menu->add_sidebar_children_item('52', [
+            'slug'     => 'tipos-patentes', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Administrador de Tipos de Patentes', // The name if the item
+            'href'     => site_url('pi/tipospatentescontroller'), // URL of the item
             'position' => 11, // The menu position
             //'icon'     => 'fa fa-plus', // Font awesome icon
         ]);

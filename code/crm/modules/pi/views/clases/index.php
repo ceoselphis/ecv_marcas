@@ -11,11 +11,13 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table table-responsive" id="tableResult">
+                            <table class="table table-responsive" id="tableResult">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Nombre</th>
+                                            <th>Version</th>
+                                            <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -25,8 +27,12 @@
                                                 <tr>
                                                     <td><?php echo $row['niza_id'];?></td>
                                                     <td><?php echo $row['nombre'];?></td>
-                                                    <td></td>
-                                                    
+                                                    <td><?php echo $row['version'];?></td>
+                                                <?php if($row['is_activate'] == '1'){ ?>
+                                                    <td>Activo</td>
+                                                <?php } else { ?>
+                                                    <td>Desactivado</td>
+                                                    <?php } ?>
                                                     <form method="DELETE" action="<?php echo admin_url("pi/clasescontroller/destroy/{$row['niza_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
                                                             <a class="btn btn-link detail" href="<?php echo admin_url("pi/clasescontroller/show/{$row['niza_id']}");?>"><i class="fas fa-details"></i>Detalles</a>
@@ -83,6 +89,7 @@
 
 <?php init_tail();?>
 
+<script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
 
 <script>
     $(".detail").on('click', function(e){
@@ -91,12 +98,14 @@
             url: $(".detail").prop('href'),
             method: "GET",
             success: function(response){
-                console.log(response);
                 $(".detailTable").html(response)
             }
         });
         $("#modalDetail").modal('show');
     });
+
+    
+
 </script>
 
 

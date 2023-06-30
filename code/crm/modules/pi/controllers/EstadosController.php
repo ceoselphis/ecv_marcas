@@ -69,18 +69,62 @@ class EstadosController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Estados_model");
-        $CI->load->helper('url');
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         // WE prepare the data
         $data = $CI->input->post();
-        $fill = array();
-
         //we validate the data
-
-        //we sent the data to the model
-        $query = $CI->Estados_model->insert($data);
-        if(isset($query))
+        //we set the rules
+        $config = array(
+            [
+                'codigo' => 'codigo',
+                'label' => 'Código',
+                'rules' => 'trim|required|min_length[1]|max_length[3]',
+                'errors' => [
+                    'required' => 'Debe indicar un código ',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect(admin_url('pi/Estadoscontroller/'));
+            $fields = $CI->Estados_model->getFillableFields();
+            $inputs = array();
+            $labels = array();
+            $select = $CI->Estados_model->getAllMaterias();
+            foreach($fields as $field)
+            {
+                if($field['type'] == 'INT')
+                {
+                    $inputs[] = array(
+                        'name' => $field['name'],
+                        'id'   => $field['name'],
+                        'type' => 'range',
+                        'class' => 'form-control'
+                    );
+                }
+                else{
+                    $inputs[] = array(
+                        'name' => $field['name'],
+                        'id'   => $field['name'],
+                        'type' => 'text',
+                        'class' => 'form-control'
+                    );
+                }
+            }
+            $labels = ['Id', 'Materia', 'Descripcion', 'Código'];
+            return $CI->load->view('estados/create', ['fields' => $inputs, 'labels' => $labels, 'materias' => $select]);
+        }
+        else 
+        {
+            //we sent the data to the model
+            $query = $CI->Estados_model->insert($data);
+            if(isset($query))
+            {
+                return redirect(admin_url('pi/Estadoscontroller/'));
+            }
         }
     }
 

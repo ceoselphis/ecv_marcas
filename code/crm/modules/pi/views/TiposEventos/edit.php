@@ -6,7 +6,6 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                    <?php echo validation_errors(); ?>
                     <?php $CI = &get_instance();?>
                         <?php echo form_open(admin_url('pi/TiposEventoscontroller/update/'.$id), 'form'); ?>
                         <div class="col-md-3">
@@ -21,7 +20,7 @@
                         </div>
                         <div class="col-md-3">
                             <?php echo form_label('Fecha de Creacion', 'created_at', ['form-label']);?>
-                            <?php echo form_input('created_at', $values[0]['created_at'], ['class' => 'form-control']);?>
+                            <?php echo form_input('created_at', date('d/m/Y',strtotime($values[0]['created_at'])), ['class' => 'form-control']);?>
                         </div>
                         <div class="col-md-3">
                             <br />
@@ -41,3 +40,43 @@
 
 
 <?php init_tail();?>
+<script>
+function fecha(){
+    var hoy = new Date();
+    var dd = hoy.getDate();
+    var mm = hoy.getMonth()+1;
+    var yy = hoy.getFullYear();
+    var fecha = '';
+    if(dd<10){
+        dd = '0'+dd;
+    }
+    else if(mm<10){
+        mm = '0'+mm;
+    }
+    fecha = dd+"/"+mm+"/"+yy;
+    return fecha;
+}
+
+$.datepicker.regional['es'] = {
+      closeText: 'Cerrar',
+      prevText: '<Ant',
+      nextText: 'Sig>',
+      currentText: 'Hoy',
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+      monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+      dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+      dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+      dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+      weekHeader: 'Sm',
+      dateFormat: 'dd/mm/yy',
+      firstDay: 1,
+      isRTL: false,
+      showMonthAfterYear: false,
+      yearSuffix: ''};
+   $.datepicker.setDefaults($.datepicker.regional['es']);
+
+
+  $( function() {
+    $("input[name=created_at]").datepicker();
+  });
+  </script>

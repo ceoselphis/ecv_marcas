@@ -95,6 +95,9 @@ class ClasesController extends AdminController
             $table .= '</tr></tbody></table>';
             echo $table;
         }
+        else{
+            $table = '<table class="table"><thead><tr>Nombre</tr><tr>Descripcion</tr></thead><tbody><tr><td colspan="2">Sin Registros</td></tr></tbody></table>';
+        }
     }
 
     /**

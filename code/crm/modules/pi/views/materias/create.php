@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo validation_errors(); ?>
+                        
                         <?php echo form_open(admin_url('pi/materiascontroller/store'), 'form'); ?>
                         <div class="col-md-6">
                             <?php echo form_label($labels[1]);?>

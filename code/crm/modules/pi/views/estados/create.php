@@ -6,22 +6,24 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo validation_errors(); ?>
                         <?php echo form_open(admin_url('pi/estadoscontroller/store'), 'form'); ?>
                         <div class="col-3">
                             <?php echo form_label($labels[3]);?>
                             <br />
-                            <?php echo form_input($fields[6]);?>
+                            <?php echo form_input($fields[6],set_value($fields[6]['name']),['form-input']);?>
+                            <?php echo form_error($fields[6]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-3">
                             <?php echo form_label($labels[1]);?>
                             <br />
-                            <?php echo form_dropdown($fields[1], $materias, [0], ['class' => 'form-control']);?>
+                            <?php echo form_dropdown($fields[1], $materias, set_value($fields[1]['name']), ['class' => 'form-control']);?>
+                            <?php echo form_error($fields[1]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-4">
                             <?php echo form_label($labels[2]);?>
                             <br />
-                            <?php echo form_input($fields[2]);?>
+                            <?php echo form_input($fields[2], set_value($fields[2]['name']), ['class' => 'form-control']);?>
+                            <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <?php echo form_hidden('created_at',date('Y-m-d'),FALSE);?>
                         <?php echo form_hidden('last_modified',date('Y-m-d'),FALSE);?>

@@ -85,11 +85,11 @@ class BoletinesController extends AdminController
             [
                 'field' => 'nombre',
                 'label' => 'Nombre',
-                'rules' => 'trim|required|min_length[3]|max_length[5]',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
                     'required' => 'Debe Indicar un nombre',
-                    'min_length' => 'El nombre debe ser mayor de tres caracteres',
-                    'max_lenght' => 'El nombre debe ser menor a cinco caracteres'
+                    'min_length' => 'El nombre debe ser mayor de 3 caracteres',
+                    'max_lenght' => 'El nombre debe ser menor a 60 caracteres'
                 ]
             ],
             [

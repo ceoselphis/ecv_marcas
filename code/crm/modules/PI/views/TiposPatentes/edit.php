@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <?php echo form_open(admin_url('pi/tipospatentescontroller/update/'.$id), 'form'); ?>
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <?php echo form_label($labels[1],$labels[1]);?>
                             <br />
                             <?php echo form_input('nombre_tipo',$values[0]['nombre_tipo'], ['class' => 'form-control']);?>

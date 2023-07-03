@@ -22,7 +22,7 @@
                             <?php echo form_hidden("modified_at", date('Y-m-d h:i:s'),false);?>
                             <?php echo form_hidden('created_by', $_SESSION['staff_user_id'], FALSE)?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-2">
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <a href="<?php echo admin_url('pi/tiposeventoscontroller/');?>" class="btn btn-success">Volver atras</a>

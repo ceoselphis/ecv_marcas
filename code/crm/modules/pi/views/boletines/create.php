@@ -8,30 +8,30 @@
                     <div class="panel-body">
                         <?php echo form_open(admin_url('pi/boletinescontroller/store'), 'form'); ?>
 
-                        <div class="col-3">
+                        <div class="col-md-2">
                             
                             <?php echo form_label($labels[0], $labels[0]);?>
                             <br />
                             <?php echo form_input($fields[0], set_value($fields[0]['name']));?>
                             <?php echo form_error($fields[0]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-2">
                             <?php echo form_label($labels[1]);?>
                             <br />
                             <?php echo form_dropdown($fields[3], $paises, [0], ['class' => 'form-control']);?>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-2">
                             
                             <?php echo form_label($labels[2], $labels[2]);?>
                             <br />
                             <?php echo form_input($fields[2], set_value($fields[2]['name']));?>
                             <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-2">
                             
                             <?php echo form_label($labels[3], $labels[3]);?>
                             <br />
-                            <?php echo form_input($fields[1], set_value($fields[1]['name']));?>
+                            <?php echo form_input($fields[1], set_value($fields[1]['name']), ['datepicker','form-control']);?>
                             <?php echo form_error($fields[1]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-3">
@@ -86,6 +86,9 @@ $.datepicker.regional['es'] = {
 
 
   $( function() {
-    $("#fecha_publicacion"  ).datepicker();
+    $("#fecha_publicacion"  ).datepicker({
+        maxDate: fecha(),
+        
+    });
   });
   </script>

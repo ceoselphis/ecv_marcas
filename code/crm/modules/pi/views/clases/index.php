@@ -11,7 +11,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                            <table class="table table-responsive" id="tableResult">
+                            <table class="table"  id="tableResult">
                                     <thead>
                                         <tr>
                                             <th>ID</th>

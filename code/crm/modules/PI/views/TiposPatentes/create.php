@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <?php echo form_open(admin_url('pi/tipospatentescontroller/store'), 'form'); ?>
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <?php echo form_label($labels[1],$labels[1]);?>
                             <br />
                             <?php echo form_input($fields[1],set_value($fields[1]['name']));?>

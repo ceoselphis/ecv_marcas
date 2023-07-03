@@ -179,16 +179,38 @@ class TiposPatentesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("TipoPatentes_model");
-        $CI->load->helper('url');
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         $data = $CI->input->post();
         //We validate the data
-        //TODO
-        //We prepare the data 
-        $query = $CI->TipoPatentes_model->update($id, $data);
-        if (isset($query))
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'nombre_tipo',
+                'label' => 'Nombre',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un nombre',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect('pi/tipospatentescontroller/');
+            $this->edit($id);
         }
+        else
+        {
+            //We prepare the data 
+            $query = $CI->TipoPatentes_model->update($id, $data);
+            if (isset($query))
+            {
+                return redirect('pi/tipospatentescontroller/');
+            }
+        }
+        
     }
 
     /**

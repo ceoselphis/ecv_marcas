@@ -43,7 +43,7 @@ class ClasesController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Nombre de clase','Productos'];
+        $labels = ['Id', 'Nombre de clase','Descripcion', 'Version', 'Activo'];
         return $CI->load->view('clases/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
@@ -55,17 +55,83 @@ class ClasesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Clases_model");
-        $CI->load->helper('url');
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         // get the data
         $data = $CI->input->post();
         //we validate the data
-        //TODO
-        //we sent the data to the model
-        $query = $CI->Clases_model->insert($data);
-        if(isset($query))
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'nombre',
+                'label' => 'Nombre de la clase',
+                'rules' => 'trim|required|min_length[3]|max_length[60]|',
+                'errors' => [
+                    'required' => 'Debe Indicar un nombre de clase',
+                    'min_length' => 'El número debe ser mayor de tres digitos',
+                    'max_lenght' => 'El número debe ser menor a sesenta digitos',
+                ]
+            ],
+            [
+                'field' => 'descripcion',
+                'label' => 'Descripcion',
+                'rules' => 'trim|required|min_length[10]',
+                'errors' => [
+                    'required' => 'Debe indicar los productos de la clase',
+                    'min_length' => 'El texto debe ser mayor de 10 caracteres',
+                    'max_lenght' => 'El texto debe ser menor a 250 caracteres'
+                ]
+            ],
+            [
+                'field' => 'version',
+                'label' => 'Version',
+                'rules' => 'trim|required|max_length[2]|regex_match[/[0-9][0-9]/]',
+                'errors' => [
+                    'required' => 'Debe indicar la version de la clase',
+                    'max_lenght' => 'El texto debe ser menor a 2 caracteres',
+                    'regex_match' => 'El número de versión debe ser númerico'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect(admin_url('pi/clasescontroller/'));
+            $fields = $CI->Clases_model->getFillableFields();
+            $inputs = array();
+            $labels = array();
+            foreach($fields as $field)
+            {
+                if($field['type'] == 'INT')
+                {
+                    $inputs[] = array(
+                        'name' => $field['name'],
+                        'id'   => $field['name'],
+                        'type' => 'range',
+                        'class' => 'form-control'
+                    );
+                }
+                else{
+                    $inputs[] = array(
+                        'name' => $field['name'],
+                        'id'   => $field['name'],
+                        'type' => 'text',
+                        'class' => 'form-control'
+                    );
+                }
+            }
+            $labels = ['Id', 'Nombre de clase','Descripcion', 'Version', 'Activo'];
+            return $CI->load->view('clases/create', ['fields' => $inputs, 'labels' => $labels]);
         }
+        else
+        {
+            //we sent the data to the model
+            $query = $CI->Clases_model->insert($data);
+            if(isset($query))
+            {
+                return redirect(admin_url('pi/clasescontroller/'));
+            }
+        }
+        
     }
 
     /**
@@ -112,8 +178,10 @@ class ClasesController extends AdminController
         $query = $CI->Clases_model->find($id);
         if(isset($query))
         {
-            $labels = array('Id', 'Nombre de la clase','Productos');
-            return $CI->load->view('clases/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
+            $fields = array_keys($query[0]);
+            $values = array_values($query[0]);
+            $labels = ['Id', 'Nombre de clase','Descripcion', 'Version', 'Activo'];
+            return $CI->load->view('clases/edit', ['labels' => $labels, 'values' => $values, 'id' => $id, 'fields' => $fields]);
         }
         else{
             return redirect('pi/clasescontroller/');
@@ -129,16 +197,58 @@ class ClasesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Clases_model");
-        $CI->load->helper('url');
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         $data = $CI->input->post();
         //We validate the data
-        //TODO
-        //We prepare the data 
-        $query = $CI->Clases_model->update($id, $data);
-        if (isset($query))
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'descripcion',
+                'label' => 'Descripcion',
+                'rules' => 'trim|required|min_length[10]',
+                'errors' => [
+                    'required' => 'Debe indicar los productos de la clase',
+                    'min_length' => 'El texto debe ser mayor de 10 caracteres',
+                    'max_lenght' => 'El texto debe ser menor a 250 caracteres'
+                ]
+            ],
+            [
+                'field' => 'version',
+                'label' => 'Version',
+                'rules' => 'trim|required|max_length[2]|regex_match[/[0-9][0-9]/]',
+                'errors' => [
+                    'required' => 'Debe indicar la version de la clase',
+                    'max_lenght' => 'El texto debe ser menor a 2 caracteres',
+                    'regex_match' => 'El número de versión debe ser númerico'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect('pi/clasescontroller/');
+            $query = $CI->Clases_model->find($id);
+            $fields = array_keys($query[0]);
+            $values = array_values($query[0]);
+            if(isset($query))
+            {
+                $labels = ['Id', 'Nombre de clase','Descripcion', 'Version', 'Activo'];
+                return $CI->load->view('clases/edit', ['labels' => $labels, 'values' => $values, 'id' => $id, 'fields' => $fields]);
+            }
+            else{
+                return redirect('pi/clasescontroller/');
+            }
         }
+        else
+        {
+            //We prepare the data 
+            $query = $CI->Clases_model->update($id, $data);
+            if (isset($query))
+            {
+                return redirect('pi/clasescontroller/');
+            }
+        }
+        
     }
 
     /**

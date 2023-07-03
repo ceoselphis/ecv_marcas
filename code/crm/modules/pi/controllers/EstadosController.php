@@ -77,7 +77,7 @@ class EstadosController extends AdminController
         //we set the rules
         $config = array(
             [
-                'codigo' => 'codigo',
+                'field' => 'codigo',
                 'label' => 'Código',
                 'rules' => 'trim|required|min_length[1]|max_length[3]',
                 'errors' => [
@@ -86,6 +86,16 @@ class EstadosController extends AdminController
                     'max_lenght' => 'Nombre demasiado largo'
                 ]
             ],
+            [
+                'field' => 'descripcion',
+                'label' => 'Descripcion',
+                'rules' => 'trim|required|min_length[5]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una descripcion',
+                    'min_length' => 'Descripción demasiado corta',
+                    'max_lenght' => 'Descripción demasiado larga'
+                ]
+            ],            
         );
         $CI->form_validation->set_rules($config);
         if($CI->form_validation->run() == FALSE)
@@ -167,16 +177,48 @@ class EstadosController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Estados_model");
-        $CI->load->helper('url');
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         $data = $CI->input->post();
         //We validate the data
-        //TODO
-        //We prepare the data 
-        $query = $CI->Estados_model->update($id, $data);
-        if (isset($query))
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'codigo',
+                'label' => 'Código',
+                'rules' => 'trim|required|min_length[1]|max_length[3]',
+                'errors' => [
+                    'required' => 'Debe indicar un código ',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'descripcion',
+                'label' => 'Descripcion',
+                'rules' => 'trim|required|min_length[5]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una descripcion',
+                    'min_length' => 'Descripción demasiado corta',
+                    'max_lenght' => 'Descripción demasiado larga'
+                ]
+            ],            
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect('pi/Estadoscontroller/');
+            $this->edit($id);
         }
+        else
+        {
+            //We prepare the data 
+            $query = $CI->Estados_model->update($id, $data);
+            if (isset($query))
+            {
+                return redirect('pi/Estadoscontroller/');
+            }
+        }
+        
     }
 
     /**

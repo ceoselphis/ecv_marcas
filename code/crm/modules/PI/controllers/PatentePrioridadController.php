@@ -183,13 +183,54 @@ class PatentePrioridadController extends AdminController
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
-        //TODO
-        //We prepare the data 
-        $query = $CI->Inventores_model->update($id, $data);
-        if (isset($query))
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        //we validate the data
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'sol_pat_id',
+                'label' => 'Nº de Solicitud',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe seleccionar una solicitud de patente',
+                ]
+            ],
+            [
+                'field' => 'fecha',
+                'label' => 'Fecha',
+                'rules' => 'trim|required|max_length[10]',
+                'errors' => [
+                    'required' => 'Debe indicar una fecha',
+                    'max_lenght' => 'Fecha demasiado larga'
+                ]
+            ],
+            [
+                'field' => 'pais_id',
+                'label' => 'Pais de procedencia',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar un pais de procedencia',
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect('pi/inventorescontroller/');
+            $this->edit($id);
         }
+        else
+        {
+            //We prepare the data 
+
+            $query = $CI->Inventores_model->update($id, $data);
+            if (isset($query))
+            {
+                return redirect('pi/inventorescontroller/');
+            }
+        }
+        
+        
     }
 
     /**

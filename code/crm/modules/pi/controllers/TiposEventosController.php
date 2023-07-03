@@ -56,7 +56,7 @@ class TiposEventosController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Nombre de evento', "Materia", "Fecha de Creacion"];
+        $labels = ['Id', 'Nombre de tipo de evento', "Materia", "Fecha de Creacion"];
         return $CI->load->view('TiposEventos/create', ['fields' => $inputs, 'labels' => $labels, "materias" => $materias]);
     }
 
@@ -113,7 +113,7 @@ class TiposEventosController extends AdminController
                     );
                 }
             }
-            $labels = ['Id', 'Nombre de evento', "Materia", "Fecha de Creacion"];
+            $labels = ['Id', 'Nombre de tipo de evento', "Materia", "Fecha de Creacion"];
             return $CI->load->view('TiposEventos/create', ['fields' => $inputs, 'labels' => $labels, "materias" => $materias]);
         }
         else
@@ -168,7 +168,7 @@ class TiposEventosController extends AdminController
         $query = $CI->TiposEventos_model->find($id);
         if(isset($query))
         {
-            $labels = $labels = ['Id', 'Nombre de evento', "Materia", "Fecha de Creacion"];
+            $labels = $labels = ['Id', 'Nombre de tipo de evento', "Materia", "Fecha de Creacion"];
             return $CI->load->view('TiposEventos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{
@@ -185,16 +185,38 @@ class TiposEventosController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("TiposEventos_model");
-        $CI->load->helper('url');
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         $data = $CI->input->post();
         //We validate the data
-        //TODO
-        //We prepare the data 
-        $query = $CI->TiposEventos_model->update($id, $data);
-        if (isset($query))
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'nombre',
+                'label' => 'Nombre del tipo de evento',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un nombre para el evento',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect('pi/TiposEventoscontroller/');
+            $this->edit($id);
         }
+        else
+        {
+            //We prepare the data 
+            $query = $CI->TiposEventos_model->update($id, $data);
+            if (isset($query))
+            {
+                return redirect('pi/TiposEventoscontroller/');
+            }
+        }
+        
     }
 
     /**

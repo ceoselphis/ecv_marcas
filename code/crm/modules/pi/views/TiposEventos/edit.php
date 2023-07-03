@@ -22,7 +22,7 @@
                             <?php echo form_label('Fecha de Creacion', 'created_at', ['form-label']);?>
                             <?php echo form_input('created_at', date('d/m/Y',strtotime($values[0]['created_at'])), ['class' => 'form-control']);?>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <br />
                             <?php echo form_hidden('tipo_eve_id', $values[0]['tipo_eve_id'], false);?>
                             <?php echo form_hidden('created_by', $values[0]['created_by'], false);?>

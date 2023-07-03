@@ -85,6 +85,9 @@ $.datepicker.regional['es'] = {
 
 
   $( function() {
-    $("#fecha_publicacion"  ).datepicker();
+    $("#fecha_publicacion"  ).datepicker({
+        maxDate: fecha(),
+        
+    });
   });
   </script>

@@ -75,11 +75,12 @@ class BoletinesController extends AdminController
             [
                 'field' => 'boletin_id',
                 'label' => 'Nº de Boletin',
-                'rules' => 'trim|required|min_length[3]|max_length[5]',
+                'rules' => 'trim|required|min_length[3]|max_length[5]|regex_match[/[0-9][0-9][0-9]/]',
                 'errors' => [
                     'required' => 'Debe Indicar un numero de boletin',
-                    'min_length' => 'El numero debe ser mayor de tres digitos',
-                    'max_lenght' => 'El numero debe ser menor a cinco digitos'
+                    'min_length' => 'El número debe ser mayor de tres digitos',
+                    'max_lenght' => 'El número debe ser menor a cinco digitos',
+                    'regex_match' => "El número de boletin debe ser númerico"
                 ]
             ],
             [
@@ -134,6 +135,9 @@ class BoletinesController extends AdminController
         else
         {
             //we sent the data to the model
+            $unwantDate = explode('/',$data['fecha_publicacion']);
+            $data['fecha_publicacion'] = date('Y-m-d h:i:s', strtotime($unwantDate[2].'-'.$unwantDate[1].'-'.$unwantDate[0]));
+            print_r($data['fecha_publicacion']);
             $query = $CI->Boletines_model->insert($data);
             if(isset($query))
             {

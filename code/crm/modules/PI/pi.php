@@ -65,6 +65,15 @@ function pi_menu_item_collapsible()
         ]);
 
         // The first paremeter is the parent menu ID/Slug
+        $CI->app_menu->add_sidebar_children_item('51', [
+            'slug'     => 'publicaciones-marcas', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Publicaciones de Marcas', // The name if the item
+            'href'     => site_url('pi/publicacionesmarcascontroller'), // URL of the item
+            'position' => 11, // The menu position
+            //'icon'     => 'fa fa-passport', // Font awesome icon
+        ]);
+
+        // The first paremeter is the parent menu ID/Slug
         /*$CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'marcas', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Marcas', // The name if the item
@@ -195,6 +204,13 @@ function pi_menu_item_collapsible()
             'slug'     => 'tipos-patentes', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Administrador de Tipos de Patentes', // The name if the item
             'href'     => site_url('pi/tipospatentescontroller'), // URL of the item
+            'position' => 11, // The menu position
+            //'icon'     => 'fa fa-plus', // Font awesome icon
+        ]);
+        $CI->app_menu->add_sidebar_children_item('52', [
+            'slug'     => 'tipos-publicaciones', // Required ID/slug UNIQUE for the child menu
+            'name'     => 'Administrador de Tipos de Publicaciones', // The name if the item
+            'href'     => site_url('pi/tipopublicacionescontroller'), // URL of the item
             'position' => 11, // The menu position
             //'icon'     => 'fa fa-plus', // Font awesome icon
         ]);

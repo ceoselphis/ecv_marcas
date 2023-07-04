@@ -53,8 +53,6 @@
     </div>
 </div>
 
-<?php init_tail();?>
-
 <script>
     $(function(){
         $('#tableResult').DataTable({
@@ -63,3 +61,14 @@
     });
     
 </script>
+
+<style>
+    th, td {
+        text-align: center;
+    }
+    
+</style>
+
+<?php init_tail();?>
+</body>
+</html>

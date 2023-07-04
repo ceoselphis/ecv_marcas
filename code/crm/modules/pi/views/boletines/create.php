@@ -86,9 +86,10 @@ $.datepicker.regional['es'] = {
 
 
   $( function() {
+    $("#fecha_publicacion").attr('readonly','true');
     $("#fecha_publicacion"  ).datepicker({
         maxDate: fecha(),
-        
+        readOnly:true
     });
   });
   </script>

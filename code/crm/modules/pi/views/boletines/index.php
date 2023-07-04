@@ -10,9 +10,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12"> 
-                                <table class="table table-responsive" id="tableResult">
-                                    <thead>
+                            <div class="col-md-12" style="text-align: center;"> 
+                                <table class="table table-responsive" id="tableResult" >
+                                    <thead style="padding-left: 10%;">
                                         <tr>
                                             <th>Nº Boletin</th>
                                             <th>Fecha de Publicacion</th>
@@ -54,5 +54,12 @@
         </div>
     </div>
 </div>
+<style>
+    th {
+        text-align: center;
+    }
+</style>
 
 <?php init_tail();?>
+</body>
+</html>

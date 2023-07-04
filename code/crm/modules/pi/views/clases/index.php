@@ -104,9 +104,16 @@
         $("#modalDetail").modal('show');
     });
 
-    
+
 
 </script>
-
+<style>
+    th, td {
+        text-align: center;
+    }
+    
+</style>
+</body>
+</html>
 
 

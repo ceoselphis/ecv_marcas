@@ -76,13 +76,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-<?php init_tail();?>
-
-
 <script>
     $(".detail").on('click', function(e){
         e.preventDefault();
@@ -97,3 +90,17 @@
         $("#modalDetail").modal('show');
     });
 </script>
+
+
+
+<style>
+    th {
+        text-align: center;
+    }
+</style>
+
+<?php init_tail();?>
+</body>
+</html>
+
+

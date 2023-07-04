@@ -7,34 +7,32 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <?php echo form_open(admin_url('pi/boletinescontroller/update/'.$id), 'form'); ?>
-                        <div class="col-3">
-                            <?php echo form_label($labels[0]);?>
-                            <br />
-                            <?php echo form_input('boletin_id', $value = (set_value('boletin_id') === '') ? $values[0]['boletin_id'] : set_value('boletin_id') , ['class' => 'form-control']);?>
-                            <?php echo form_error('boletin_id', '<div class="text-danger">', '</div>');?>
+                        <div class="col-md-2">
+                            <?php echo form_label($labels[0], $labels[0]);?>
+                            <?php echo form_input($fields[0], set_value($fields[0]['name'],$values[0][$fields[0]['name']]));?>
+                            <?php echo form_error($fields[0]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-2">
                             <?php echo form_label($labels[1]);?>
-                            <br />
-                            <?php echo form_dropdown('pais_id', $paises, $values[0]['pais_id'], ['class' => 'form-control']);?>
+                            <?php echo form_dropdown($fields[3], $paises, set_value($fields[3]['name'],$values[0][$fields[3]['name']]), ['class' => 'form-control']);?>
                         </div>
-                        <div class="col-4">
-                            <?php echo form_label($labels[2]);?>
-                            <br />
-                            <?php echo form_input('nombre', $values[0]['nombre'], ['class' => 'form-control']);?>
-                            <?php echo form_error('nombre', '<div class="text-danger">', '</div>');?>
+                        <div class="col-md-2">
+                            
+                            <?php echo form_label($labels[2], $labels[2]);?>
+                            <?php echo form_input($fields[2], set_value($fields[2]['name'], $values[0][$fields[2]['name']]));?>
+                            <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
-                        <div class="col-4">
-                            <?php echo form_label($labels[3]);?>
-                            <br />
-                            <?php echo form_input('fecha_publicacion', $values[0]['fecha_publicacion'], ['class' => 'form-control']);?>
-                            <?php echo form_error('fecha_publicacion', '<div class="text-danger">', '</div>');?>
+                        <div class="col-md-2">
+                            
+                            <?php echo form_label($labels[3], $labels[3]);?>
+                            <?php echo form_input($fields[1], set_value($fields[1]['name'], (explode('-',$values[0][$fields[1]['name']])[2].'/'.explode('-',$values[0][$fields[1]['name']])[1].'/'.explode('-',$values[0][$fields[1]['name']])[0])), ['datepicker','form-control']);?>
+                            <?php echo form_error($fields[1]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-3">
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="javascript: history.go(-1)" class="btn btn-success">Volver atras</a>
+                            <a href="<?php echo admin_url('pi/boletinescontroller/');?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>
                 </div>
@@ -85,9 +83,10 @@ $.datepicker.regional['es'] = {
 
 
   $( function() {
+    $("#fecha_publicacion").attr('readonly','true');
     $("#fecha_publicacion"  ).datepicker({
         maxDate: fecha(),
-        
+        readOnly:true,
     });
   });
   </script>

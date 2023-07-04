@@ -137,7 +137,6 @@ class BoletinesController extends AdminController
             //we sent the data to the model
             $unwantDate = explode('/',$data['fecha_publicacion']);
             $data['fecha_publicacion'] = date('Y-m-d h:i:s', strtotime($unwantDate[2].'-'.$unwantDate[1].'-'.$unwantDate[0]));
-            print_r($data['fecha_publicacion']);
             $query = $CI->Boletines_model->insert($data);
             if(isset($query))
             {
@@ -167,10 +166,34 @@ class BoletinesController extends AdminController
         $CI->load->helper('url');
         $query = $CI->Boletines_model->find($id);
         $select = $CI->Boletines_model->getAllPaises();
-        if(isset($query))
+        $fields = $CI->Boletines_model->getFillableFields();
+        $inputs = array();
+        $labels = array();
+        $select = $CI->Boletines_model->getAllPaises();
+        foreach($fields as $field)
+        {
+            if($field['type'] == 'INT')
+            {
+                $inputs[] = array(
+                    'name' => $field['name'],
+                    'id'   => $field['name'],
+                    'type' => 'range',
+                    'class' => 'form-control'
+                );
+            }
+            else{
+                $inputs[] = array(
+                    'name' => $field['name'],
+                    'id'   => $field['name'],
+                    'type' => 'text',
+                    'class' => 'form-control'
+                );
+            }
+        }
+        if(!empty($query))
         {
             $labels = array('Nº Boletin', 'Pais', 'Nombre', 'Fecha de Publicacion');
-            return $CI->load->view('boletines/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'paises' => $select]);
+            return $CI->load->view('boletines/edit', ['fields' => $inputs, 'labels' => $labels, 'paises' => $select, 'id' => $id, 'values' => $query]);
         }
         else{
             return redirect('pi/boletinescontroller/');
@@ -210,19 +233,31 @@ class BoletinesController extends AdminController
                     'required' => 'Debe Indicar una fecha',
                 ]
             ],
+            [
+                'field' => 'boletin_id',
+                'label' => 'Nº de Boletin',
+                'rules' => 'trim|required|min_length[3]|max_length[5]',
+                'errors' => [
+                    'required' => 'Debe Indicar un numero de boletin',
+                    'min_length' => 'El nombre debe ser mayor de tres caracteres',
+                    'max_lenght' => 'El nombre debe ser menor a cinco caracteres'
+                ]
+            ],
         );
         $CI->form_validation->set_rules($config);
-        if(!$CI->form_validation->run() == FALSE)
+        if($CI->form_validation->run() == FALSE)
         {
-            //We prepare the data 
+            $this->edit($id);
+        }
+        else {
+            //We prepare the data
+            $unwantDate = explode('/',$data['fecha_publicacion']);
+            $data['fecha_publicacion'] = date('Y-m-d h:i:s', strtotime($unwantDate[2].'-'.$unwantDate[1].'-'.$unwantDate[0]));
             $query = $CI->Boletines_model->update($id, $data);
             if (isset($query))
             {
                 return redirect('pi/boletinescontroller/');
             }
-        }
-        else {
-            return redirect(admin_url('pi/boletinescontroller/edit/'.$id));
         }
     }
 

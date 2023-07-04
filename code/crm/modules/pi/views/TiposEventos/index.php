@@ -60,4 +60,13 @@
     </div>
 </div>
 
+<style>
+    th, td {
+        text-align: center;
+    }
+    
+</style>
+
 <?php init_tail();?>
+</body>
+</html>

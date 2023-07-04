@@ -25,7 +25,6 @@
                                                 <tr>
                                                     <td><?php echo $row['materia_id'];?></td>
                                                     <td><?php echo $row['descripcion'];?></td>
-                                                    <td></td>
                                                     
                                                     <form method="DELETE" action="<?php echo admin_url("pi/materiascontroller/destroy/{$row['materia_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
@@ -91,12 +90,11 @@
     });
 </script>
 
-
-
 <style>
-    th {
+    th, td {
         text-align: center;
     }
+    
 </style>
 
 <?php init_tail();?>

@@ -63,7 +63,7 @@
 </script>
 
 <style>
-    th, td {
+    tbody, thead > * {
         text-align: center;
     }
     

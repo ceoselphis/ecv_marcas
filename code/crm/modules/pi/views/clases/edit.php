@@ -10,13 +10,13 @@
                         <div class="col-md-2">
                             <?php echo form_label($labels[1], $labels[1]);?>
                             <br />
-                            <?php echo form_input($fields[1], empty($values) ? set_value($values[1]) : $values[1] ,['class' => 'form-control']);?>
+                            <?php echo form_input('nombre', set_value($fields[1],$values[1]) ,['class' => 'form-control']);?>
                             <?php echo form_error($fields[1], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-md-2">
                             <?php echo form_label($labels[3], $labels[3]);?>
                             <br />
-                            <?php echo form_input($fields[3], empty($values) ? set_value($values[3]) : $values[3], ['class' => 'form-control']);?>
+                            <?php echo form_input($fields[3], set_value($values[3] , $values[3]), ['class' => 'form-control']);?>
                             <?php echo form_error($fields[3], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-md-2">
@@ -67,4 +67,13 @@
 </div>
 
 
+<style>
+    th, td {
+        text-align: center;
+    }
+    
+</style>
+
 <?php init_tail();?>
+</body>
+</html>

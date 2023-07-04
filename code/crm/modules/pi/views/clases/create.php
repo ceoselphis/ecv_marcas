@@ -10,26 +10,26 @@
                         <div class="col-md-2">
                             <?php echo form_label($labels[1], $labels[1]);?>
                             <br />
-                            <?php echo form_input($fields[1], set_value($fields[1]['name']));?>
+                            <?php echo form_input($fields[1]['name'], set_value($fields[1]['name']), ['class' => 'form-control']);?>
                             <?php echo form_error($fields[1]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-md-2">
                             <?php echo form_label($labels[3], $labels[3]);?>
                             <br />
-                            <?php echo form_input($fields[3], set_value($fields[3]['name']), ['form-control']);?>
+                            <?php echo form_input($fields[3]['name'], set_value($fields[3]['name']), ['class' => 'form-control']);?>
                             <?php echo form_error($fields[3]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-md-2">
                             <?php echo form_label($labels[4], $labels[4]);?>
                             <br />
-                            <?php echo form_checkbox($fields[4]['name'], set_value($fields[4]['name']),TRUE,['form-control']);?>
+                            <?php echo form_checkbox($fields[4]['name'], set_value($fields[4]['name'], '1'),TRUE,['class' => 'form-control']);?>
                             <?php echo form_error($fields[4]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <br />
                         <div class="col-md-12">
                         <?php echo form_label($labels[2], $labels[2]);?>
                             <br />
-                            <?php echo form_textarea($fields[2], set_value($fields[2]['name']), []);?>
+                            <?php echo form_textarea($fields[2]['name'], set_value($fields[2]['name']), ['class' => 'form-control']);?>
                             <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                     </div>
@@ -40,6 +40,11 @@
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
                             <a href="<?php echo admin_url('pi/clasescontroller/');?>" class="btn btn-success">Volver atras</a>
                         </div>
+                    </div>
+                    <div>
+                        <pre>
+                            <?php var_dump($fields);?>
+                        </pre>
                     </div>
                 </div>
             </div>

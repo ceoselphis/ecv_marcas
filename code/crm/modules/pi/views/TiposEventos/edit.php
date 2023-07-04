@@ -10,7 +10,7 @@
                         <?php echo form_open(admin_url('pi/TiposEventoscontroller/update/'.$id), 'form'); ?>
                         <div class="col-md-3">
                             <?php echo form_label('Nombre de evento', 'nombre', ['form-label']);?>
-                            <?php echo form_input('nombre', $values[0]['nombre'], ['class' => 'form-control']);?>
+                            <?php echo form_input('nombre', set_value('nombre',$values[0]['nombre']), ['class' => 'form-control']);?>
                             <br />
                         </div>
                         <div class="col-md-3">
@@ -20,7 +20,9 @@
                         </div>
                         <div class="col-md-3">
                             <?php echo form_label('Fecha de Creacion', 'created_at', ['form-label']);?>
-                            <?php echo form_input('created_at', date('d/m/Y',strtotime($values[0]['created_at'])), ['class' => 'form-control']);?>
+                            <?php 
+                            $date = explode('-', $values[0]['created_at']);
+                            echo form_input('created_at', ($date[2].'/'.$date[1].'/'.$date[0]), ['class' => 'form-control']);?>
                         </div>
                         <div class="col-3">
                             <br />

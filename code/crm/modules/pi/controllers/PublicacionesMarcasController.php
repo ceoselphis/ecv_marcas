@@ -38,10 +38,14 @@ class PublicacionesMarcasController extends AdminController
             $tipoPub[$row['tipo_pub_id']] = $row['nombre'];
         }
         $solicitud = array();
-        foreach($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas() as $row)
+        /*if(!empty($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas()))
         {
-            $solicitud[$row['solicitud_id']] = $row['reg_num_id'];
-        }
+            foreach($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas() as $row)
+            {
+                $solicitud[$row['solicitud_id']] = $row['reg_num_id'];
+            }
+        }*/
+        
         $inputs = array();
         $labels = array();
         foreach($fields as $field)

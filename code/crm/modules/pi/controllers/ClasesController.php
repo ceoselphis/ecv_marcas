@@ -63,16 +63,6 @@ class ClasesController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre',
-                'label' => 'Nombre de la clase',
-                'rules' => 'trim|required|min_length[3]|max_length[60]|',
-                'errors' => [
-                    'required' => 'Debe Indicar un nombre de clase',
-                    'min_length' => 'El número debe ser mayor de tres digitos',
-                    'max_lenght' => 'El número debe ser menor a sesenta digitos',
-                ]
-            ],
-            [
                 'field' => 'descripcion',
                 'label' => 'Descripcion',
                 'rules' => 'trim|required|min_length[10]',

@@ -420,7 +420,7 @@ if(!$CI->db->table_exists("{$dbPrefix}_acciones_marcas_terceros"))
     $CI->db->query(
     "CREATE TABLE IF NOT EXISTS `{$dbPrefix}_tipo_evento` (
       `tipo_eve_id` INT NOT NULL AUTO_INCREMENT,
-      `nombre` VARCHAR(60) NOT NULL,
+      `nombre` VARCHAR(160) NOT NULL,
       `materia_id` INT NOT NULL,
       `created_at` DATE NOT NULL,
       `modified_at` DATE NOT NULL,

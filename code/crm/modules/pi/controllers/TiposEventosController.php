@@ -210,6 +210,8 @@ class TiposEventosController extends AdminController
         else
         {
             //We prepare the data 
+            $unwantDate = explode('/',$data['created_at']);
+            $data['created_at'] = date('Y-m-d h:i:s', strtotime($unwantDate[2].'-'.$unwantDate[1].'-'.$unwantDate[0]));
             $query = $CI->TiposEventos_model->update($id, $data);
             if (isset($query))
             {

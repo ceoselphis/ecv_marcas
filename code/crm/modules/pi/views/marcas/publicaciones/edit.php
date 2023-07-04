@@ -38,11 +38,6 @@
                             <a href="<?php echo admin_url('pi/publicacionesmarcascontroller/');?>" class="btn btn-success">Volver atrás</a>
                         </div>
                     </div>
-                    <div>
-                        <pre>
-                            <?php var_dump($values);?>
-                        </pre>
-                    </div>
                 </div>
             </div>
         </div>

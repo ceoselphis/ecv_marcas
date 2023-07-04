@@ -9,7 +9,7 @@ class PublicacionesMarcasController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("PublicacionesMarcas_model");
-        return $CI->load->view('anexos/index', ["anexos" => $CI->PublicacionesMarcas_model->findAll()]);
+        return $CI->load->view('marcas/publicaciones/index', ["publicaciones" => $CI->PublicacionesMarcas_model->findAll()]);
     }
 
     /**
@@ -21,6 +21,27 @@ class PublicacionesMarcasController extends AdminController
         $CI = &get_instance();
         $CI->load->model("PublicacionesMarcas_model");
         $fields = $CI->PublicacionesMarcas_model->getFillableFields();
+        $boletines = array();
+        foreach($CI->PublicacionesMarcas_model->findAllBoletines() as $row)
+        {
+            $boletines[$row['boletin_id']] = $row['nombre'];
+
+        }
+        $paises = array();
+        foreach($CI->PublicacionesMarcas_model->findAllPaises() as $row)
+        {
+            $paises[$row['pais_id']] = $row['nombre'];
+        }
+        $tipoPub = array();
+        foreach($CI->PublicacionesMarcas_model->findAllTipoPublicaciones() as $row)
+        {
+            $tipoPub[$row['tipo_pub_id']] = $row['nombre'];
+        }
+        $solicitud = array();
+        foreach($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas() as $row)
+        {
+            $solicitud[$row['solicitud_id']] = $row['reg_num_id'];
+        }
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -43,8 +64,8 @@ class PublicacionesMarcasController extends AdminController
                 );
             }
         }
-        $labels = ['Id', 'Nombre del anexo'];
-        return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
+        $labels = ['Id','Solicitud', 'Boletin', 'Tipo de Publicacion', 'Tomo', 'Página'];
+        return $CI->load->view('marcas/publicaciones/create', ['fields' => $inputs, 'labels' => $labels, 'boletines' => $boletines, 'tipoPub' => $tipoPub, 'solicitud' => $solicitud]);
     }
 
     /**
@@ -63,13 +84,48 @@ class PublicacionesMarcasController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre_anexo',
-                'label' => 'Nombre del Anexo',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'field' => 'tipo_pub_id',
+                'label' => 'Tipo Publicacion',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
                 'errors' => [
-                    'required' => 'Debe indicar un nombre para el anexo',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
+                    'required' => 'Debe indicar un tipo de solicitud',
+                    'regex_match' => 'El tipo de solicitud no es valido',
+                ]
+            ],
+            [
+                'field' => 'boletin_id',
+                'label' => 'Boletin',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
+                'errors' => [
+                    'required' => 'Debe indicar un boletin de procedencia',
+                    'regex_match' => 'El número de boletin no es valído',
+                ]
+            ],
+            [
+                'field' => 'solicitud_id',
+                'label' => 'Solcitud',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
+                'errors' => [
+                    'required' => 'Debe indicar la solicitud de marcas',
+                    'regex_match' => 'El número de solictud no es valido',
+                ]
+            ],
+            [
+                'field' => 'tomo',
+                'label' => 'Tomo',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
+                'errors' => [
+                    'required' => 'Debe indicar el numero de tomo',
+                    'regex_match' => 'El número de tomo no es valido',
+                ]
+            ],
+            [
+                'field' => 'pagina',
+                'label' => 'Pagina',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
+                'errors' => [
+                    'required' => 'Debe indicar el numero de Pagina',
+                    'regex_match' => 'El número de Pagina no es valido',
                 ]
             ],
         );
@@ -77,6 +133,23 @@ class PublicacionesMarcasController extends AdminController
         if($CI->form_validation->run() == FALSE)
         {
             $fields = $CI->PublicacionesMarcas_model->getFillableFields();
+            $boletines = array();
+            foreach($CI->PublicacionesMarcas_model->findAllBoletines() as $row)
+            {
+                $boletines[$row['boletin_id']] = $row['nombre'];
+
+            }
+            $paises = array();
+            foreach($CI->PublicacionesMarcas_model->findAllPaises() as $row)
+            {
+                $paises[$row['pais_id']] = $row['nombre'];
+            }
+            $tipoPub = array();
+            foreach($CI->PublicacionesMarcas_model->findAllTipoPublicaciones() as $row)
+            {
+                $tipoPub[$row['tipo_pub_id']] = $row['nombre'];
+            }
+            $solicitud = array(); //TO-DO
             $inputs = array();
             $labels = array();
             foreach($fields as $field)
@@ -99,8 +172,8 @@ class PublicacionesMarcasController extends AdminController
                     );
                 }
             }
-            $labels = ['Id', 'Nombre del anexo'];
-            return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
+            $labels = ['Id','Solicitud', 'Boletin', 'Tipo de Publicacion', 'Tomo', 'Página'];
+            return $CI->load->view('marcas/publicaciones/create', ['fields' => $inputs, 'labels' => $labels, 'boletines' => $boletines, 'tipoPub' => $tipoPub, 'solicitud' => $solicitud]);
         }
         else
         {
@@ -108,7 +181,7 @@ class PublicacionesMarcasController extends AdminController
             $query = $CI->PublicacionesMarcas_model->insert($data);
             if(isset($query))
             {
-                return redirect(admin_url('pi/anexoscontroller/'));
+                return redirect(admin_url('pi/publicacionesmarcascontroller/'));
             }
         }
         
@@ -133,13 +206,57 @@ class PublicacionesMarcasController extends AdminController
         $CI->load->model("PublicacionesMarcas_model");
         $CI->load->helper('url');
         $query = $CI->PublicacionesMarcas_model->find($id);
-        if(isset($query))
+        $fields = $CI->PublicacionesMarcas_model->getFillableFields();
+        $boletines = array();
+        foreach($CI->PublicacionesMarcas_model->findAllBoletines() as $row)
         {
-            $labels = array('Id', 'Nombre del anexo');
-            return $CI->load->view('anexos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
+            $boletines[$row['boletin_id']] = $row['nombre'];
+
+        }
+        $paises = array();
+        foreach($CI->PublicacionesMarcas_model->findAllPaises() as $row)
+        {
+            $paises[$row['pais_id']] = $row['nombre'];
+        }
+        $tipoPub = array();
+        foreach($CI->PublicacionesMarcas_model->findAllTipoPublicaciones() as $row)
+        {
+            $tipoPub[$row['tipo_pub_id']] = $row['nombre'];
+        }
+        $solicitud = array();
+        foreach($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas() as $row)
+        {
+            $solicitud[$row['solicitud_id']] = $row['reg_num_id'];
+        }
+        $inputs = array();
+        $labels = array();
+        foreach($fields as $field)
+        {
+            if($field['type'] == 'INT')
+            {
+                $inputs[] = array(
+                    'name' => $field['name'],
+                    'id'   => $field['name'],
+                    'type' => 'range',
+                    'class' => 'form-control'
+                );
+            }
+            else{
+                $inputs[] = array(
+                    'name' => $field['name'],
+                    'id'   => $field['name'],
+                    'type' => 'text',
+                    'class' => 'form-control'
+                );
+            }
+        }
+        if(!empty($query))
+        {
+            $labels = ['Id','Solicitud', 'Boletin', 'Tipo de Publicacion', 'Tomo', 'Página'];
+            return $CI->load->view('marcas/publicaciones/edit', ['fields' => $inputs, 'labels' => $labels, 'boletines' => $boletines, 'tipoPub' => $tipoPub, 'solicitud' => $solicitud, 'id' => $id, 'values' => $query]);
         }
         else{
-            return redirect('pi/anexoscontroller/');
+            return redirect('pi/publicacionesmarcascontroller/');
         }
     }
 
@@ -161,13 +278,48 @@ class PublicacionesMarcasController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre_anexo',
-                'label' => 'Nombre del Anexo',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'field' => 'tipo_pub_id',
+                'label' => 'Tipo Publicacion',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
                 'errors' => [
-                    'required' => 'Debe indicar un nombre para el anexo',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
+                    'required' => 'Debe indicar un tipo de solicitud',
+                    'regex_match' => 'El tipo de solicitud no es valido',
+                ]
+            ],
+            [
+                'field' => 'boletin_id',
+                'label' => 'Boletin',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
+                'errors' => [
+                    'required' => 'Debe indicar un boletin de procedencia',
+                    'regex_match' => 'El número de boletin no es valído',
+                ]
+            ],
+            [
+                'field' => 'solicitud_id',
+                'label' => 'Solcitud',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
+                'errors' => [
+                    'required' => 'Debe indicar la solicitud de marcas',
+                    'regex_match' => 'El número de solictud no es valido',
+                ]
+            ],
+            [
+                'field' => 'tomo',
+                'label' => 'Tomo',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
+                'errors' => [
+                    'required' => 'Debe indicar el numero de tomo',
+                    'regex_match' => 'El número de tomo no es valido',
+                ]
+            ],
+            [
+                'field' => 'pagina',
+                'label' => 'Pagina',
+                'rules' => 'trim|required|regex_match[/[0-9]*/]',
+                'errors' => [
+                    'required' => 'Debe indicar el numero de Pagina',
+                    'regex_match' => 'El número de Pagina no es valido',
                 ]
             ],
         );
@@ -182,7 +334,7 @@ class PublicacionesMarcasController extends AdminController
             $query = $CI->PublicacionesMarcas_model->update($id, $data);
             if (isset($query))
             {
-                return redirect('pi/anexoscontroller/');
+                return redirect('pi/publicacionesmarcascontroller/');
             }
         }
     }
@@ -197,7 +349,7 @@ class PublicacionesMarcasController extends AdminController
         $CI->load->model("PublicacionesMarcas_model");
         $CI->load->helper('url');
         $query = $CI->PublicacionesMarcas_model->delete($id);
-        return redirect('pi/anexoscontroller/');
+        return redirect('pi/publicacionesmarcascontroller/');
         
         
     }

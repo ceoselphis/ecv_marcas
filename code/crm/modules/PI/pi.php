@@ -68,7 +68,7 @@ function pi_menu_item_collapsible()
         $CI->app_menu->add_sidebar_children_item('51', [
             'slug'     => 'publicaciones-marcas', // Required ID/slug UNIQUE for the child menu
             'name'     => 'Publicaciones de Marcas', // The name if the item
-            'href'     => site_url('pi/publicacionesmarcascontroller'), // URL of the item
+            'href'     => admin_url('pi/publicacionesmarcascontroller'), // URL of the item
             'position' => 11, // The menu position
             //'icon'     => 'fa fa-passport', // Font awesome icon
         ]);

@@ -18,6 +18,7 @@ class PublicacionesMarcas_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_tm_boletines');
+        $this->db->order_by('pais_id');
         $query = $this->db->get();
         $result = $query->result_array();
         return $result;
@@ -69,6 +70,24 @@ class PublicacionesMarcas_model extends BaseModel
         $query = $this->db->get();
         $result = $query->result_array();
         return $result;
+    }
+
+    public function findAllPaises()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function findPaises($id = null)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $this->db->where('pais_id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
 

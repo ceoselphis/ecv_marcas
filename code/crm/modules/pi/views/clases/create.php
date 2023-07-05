@@ -41,11 +41,6 @@
                             <a href="<?php echo admin_url('pi/clasescontroller/');?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>
-                    <div>
-                        <pre>
-                            <?php var_dump($fields);?>
-                        </pre>
-                    </div>
                 </div>
             </div>
         </div>

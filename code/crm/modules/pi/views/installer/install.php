@@ -753,7 +753,6 @@ if(!$CI->db->table_exists("{$dbPrefix}_acciones_marcas_terceros"))
         `reg_num_id` INT NOT NULL,
         `tipo_id` INT NOT NULL,
         `cod_estado_id` INT NOT NULL,
-        `tipo_solicitud_1` INT NOT NULL,
         `primer_uso` DATE NOT NULL,
         `prueba_uso` DATE NOT NULL,
         `carpeta` VARCHAR(40) NOT NULL,

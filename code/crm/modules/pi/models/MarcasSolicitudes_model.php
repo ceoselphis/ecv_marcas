@@ -72,7 +72,7 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllEstadosSolicitudes()
     {
         $this->db->select('*');
-        $this->db->from('tbl_estados_solicitudes');
+        $this->db->from('tbl_estados');
         $query = $this->db->get();
         $keys = array();
         $values = array();
@@ -147,6 +147,37 @@ class MarcasSolicitudes_model extends BaseModel
         {
             array_push($keys, $row['userid']);
             array_push($values, $row['company']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllPaises()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['pais_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findPais($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $this->db->where('pais_id = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['pais_id']);
+            array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
     }

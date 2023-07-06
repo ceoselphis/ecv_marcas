@@ -48,7 +48,7 @@ function pi_menu_item_collapsible()
     ]);
     //Eventos
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'tipos-eventos', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'tiposeventos', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Eventos', // The name if the item
         'href'     => site_url('pi/tiposeventoscontroller'), // URL of the item
         'position' => 11, // The menu position
@@ -85,16 +85,24 @@ function pi_menu_item_collapsible()
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'tipos-patentes', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'tipospatentes', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Patentes', // The name if the item
         'href'     => site_url('pi/tipospatentescontroller'), // URL of the item
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'tipos-publicaciones', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'tipospublicaciones', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Publicaciones', // The name if the item
         'href'     => site_url('pi/tipopublicacionescontroller'), // URL of the item
+        'position' => 11, // The menu position
+        //'icon'     => 'fa fa-plus', // Font awesome icon
+    ]);
+
+    $CI->app_menu->add_sidebar_children_item('52', [
+        'slug'     => 'tipossignos', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Administrador de Tipos de Signos', // The name if the item
+        'href'     => site_url('pi/tipossignoscontroller'), // URL of the item
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);

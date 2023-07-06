@@ -3,7 +3,7 @@
 <div id="wrapper">
     <div class="content">
         <div class="row">
-            <?php echo form_open(admin_url('pi/publicacionesmarcascontroller/store'), 'form'); ?>
+            <?php echo form_open_multipart(admin_url('pi/publicacionesmarcascontroller/store'), 'form'); ?>
             <?php echo form_hidden('staff_id', $_SESSION['staff_user_id'], FALSE)?>
             <div class="col-md-12">
                 <div class="panel_s">

@@ -38,6 +38,38 @@ class MarcasSolicitudes_model extends BaseModel
         return $query->result_array();
     }
 
+    public function findAllTiposRegistros()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_registro');
+        $this->db->where("materia = 'MARCAS'");
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['tipo_registro_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+    public function findTiposRegistros($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_registro');
+        $this->db->where('materia = MARCAS');
+        $this->db->where('tipo_registro_id = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['tipo_registro_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
     public function findAllTipoSolicitud()
     {
         $this->db->select('*');
@@ -78,8 +110,8 @@ class MarcasSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['cod_estado_id']);
-            array_push($values, $row['nombre']);
+            array_push($keys, $row['estado_id']);
+            array_push($values, $row['descripcion']);
         }
         return array_combine($keys, $values);
     }
@@ -178,6 +210,99 @@ class MarcasSolicitudes_model extends BaseModel
         {
             array_push($keys, $row['pais_id']);
             array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllStaff()
+    {
+        $this->db->select('*');
+        $this->db->from('tblstaff');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['staffid']);
+            array_push($values, $row['firstname'].' '.$row['lastname']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findStaff($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tblstaff');
+        $this->db->where('staffid = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['staffid']);
+            array_push($values, $row['firstname'].' '.$row['lastname']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllTipoSigno()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_signos');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['tipos_signo_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findTipoSigno($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_signos');
+        $this->db->where('tipos_signos_id = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['tipos_signo_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllClases()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_clase_niza');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['niza_id']);
+            array_push($values, $row['nombre'].' - '.$row['descripcion']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findClases($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_clase_niza');
+        $this->db->where('niza_id = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['niza_id']);
+            array_push($values, $row['nombre'].' - '.$row['descripcion']);
         }
         return array_combine($keys, $values);
     }

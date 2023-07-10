@@ -28,6 +28,7 @@ class MarcasSolicitudesController extends AdminController
                     'fecha_certificado'  => date('d/m/Y', $row['fecha_certificado']),
                     'num_certificado'  => $row['num_certificado'],
                     'fecha_vencimiento'  => date('d/m/Y', $row['fecha_vencimiento']),
+                    ''
                     );
             }
         }
@@ -96,8 +97,13 @@ class MarcasSolicitudesController extends AdminController
                                     'labels'                => $labels, 
                                     'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
                                     'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
+                                    'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
                                     'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
-                                    'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes()
+                                    'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
+                                    'pais_id'               => $CI->MarcasSolicitudes_model->findAllPaises(),
+                                    'tipos_signo_id'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
+                                    'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
+                                    'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
                                 ]);
     }
 
@@ -111,8 +117,11 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->model("MarcasSolicitudes_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
+        //We get the step of the form
+        $step = $CI->input->get('s');
         // WE prepare the data
         $data = $CI->input->post();
+        
         //we validate the data
         //we set the rules
         $config = array(
@@ -128,7 +137,7 @@ class MarcasSolicitudesController extends AdminController
             ],
         );
         $CI->form_validation->set_rules($config);
-        if($CI->form_validation->run() == FALSE)
+        if(!$CI->form_validation->run() == FALSE)
         {
             $fields = $CI->MarcasSolicitudes_model->getFillableFields();
             $inputs = array();

@@ -264,6 +264,19 @@ if(!$CI->db->table_exists("{$dbPrefix}_paises"))
       insert into `{$dbPrefix}_paises` (`nombre`, `pais_id`) values ('Zimbabue ', 238);");
 }
 
+if(!$CI->db->table_exists("{$dbPrefix}_tipo_registro"))
+{
+  $CI->db->query(
+    "CREATE TABLE IF NOT EXISTS `{$dbPrefix}_tipo_registro` (
+    `tipo_registro_id` INT NOT NULL AUTO_INCREMENT,
+    `nombre` VARCHAR(60) NOT NULL,
+    `materia` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`tipo_registro_id`))
+  ENGINE = InnoDB
+  COMMENT = 'Tabla de tipos de registros'"
+  );
+}
+
 if(!$CI->db->table_exists("{$dbPrefix}_boletines"))
 {
     $CI->db->query(
@@ -653,8 +666,14 @@ if(!$CI->db->table_exists("{$dbPrefix}_acciones_marcas_terceros"))
         `tomo` INT NOT NULL,
         `folio` INT NOT NULL,
         `comentarios` VARCHAR(4000) NOT NULL,
+        `tipo_registro_id` INT NULL,
         PRIMARY KEY (`reg_num_id`),
         INDEX `oficinas_registros_fk` (`oficina_id` ASC) VISIBLE,
+        CONSTRAINT `tipo_registro_fk`
+          FOREIGN KEY (`tipo_registro_id`)
+          REFERENCES `{$dbPrefix}_tipo_registro` (`tipo_registro_id`)
+          ON DELETE CASCADE
+          ON UPDATE CASCADE)
         CONSTRAINT `oficinas_registros_fk`
           FOREIGN KEY (`oficina_id`)
           REFERENCES `{$dbPrefix}_oficinas` (`oficina_id`)

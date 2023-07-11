@@ -117,8 +117,6 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->model("MarcasSolicitudes_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
-        //We get the step of the form
-        $step = $CI->input->get('s');
         // WE prepare the data
         $data = $CI->input->post();
         

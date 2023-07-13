@@ -1,41 +1,40 @@
 <?php 
 $CI = &get_instance();
 init_head();?>
-
 <div id="wrapper">
     <div class="content">
         <div class="row">
                 <div class="col-md-12">
-                <?php echo form_open(admin_url('pi/marcassolicitudescontroller/store'));?>
+                <?php echo form_open(admin_url('pi/marcassolicitudescontroller/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
+                <?php echo form_hidden('solicitud_id', $solicitud_id);?>
                     <div class="panel_s">
                         <div class="panel-body">
                             <div class="wizard">
-                            
                                 <div class="wizard-inner">
                                     <div class="connecting-line"></div>
                                     <ul class="nav nav-tabs" role="tablist" style="display:flex">
                                         <li role="presentation" class="active">
                                             <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registro</i></a>
                                         </li>
-                                        <li role="presentation" class="disabled">
+                                        <li role="presentation" >
                                             <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Solicitud</i></a>
                                         </li>
-                                        <li role="presentation" class="disabled">
+                                        <li role="presentation" >
                                             <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Extra</i></a>
                                         </li>
-                                        <li role="presentation" class="disabled">
+                                        <li role="presentation" >
                                             <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Expediente</i></a>
                                         </li>
-                                        <li role="presentation" class="disabled">
+                                        <li role="presentation" >
                                             <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab">5</span> <i> Eventos</i></a>
                                         </li>
-                                        <li role="presentation" class="disabled">
+                                        <li role="presentation" >
                                             <a href="#step6" data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab">6</span> <i> Tareas</i></a>
                                         </li>
-                                        <li role="presentation" class="disabled">
+                                        <li role="presentation" >
                                             <a href="#step7" data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Anexos</i></a>
                                         </li>
-                                        <li role="presentation" class="disabled">
+                                        <li role="presentation" >
                                             <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">8</span> <i> Documentos</i></a>
                                         </li>
                                     </ul>
@@ -44,11 +43,10 @@ init_head();?>
                             <div class="tab-content" id="main_form">
                                 <!-- Step 1 -->
                                 <div class="tab-pane active" role="tabpanel" id="step1">
-                                    <h4 class="text-center">Registro</h4>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <?php echo form_label('Tipo de solicitud', 'tipo_registro');?>
-                                            <?php echo form_dropdown('tipo_registro', $tipo_registro ,set_value('tipo_registro'), ['class' => 'form-control'])?>
+                                            <?php echo form_label('Tipo de solicitud', 'tipo_registro_id');?>
+                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro ,set_value('tipo_registro_id'), ['class' => 'form-control'])?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Oficina', $fields[16]['name'])?>
@@ -69,8 +67,7 @@ init_head();?>
                                 </div>
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
-                                    <h4 class="text-center">Solicitud</h4>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <?php echo form_label('Paises Designados', 'pais_id');?>
                                         <?php echo form_dropdown([
                                                 'id'       => 'pais_id',
@@ -80,7 +77,8 @@ init_head();?>
                                                 'options' => $pais_id
                                             ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        
                                         <?php echo form_label('Signo', 'descripcion');?>
                                         <?php echo form_input([
                                             'id'    =>   'descripcion-signo',
@@ -88,7 +86,10 @@ init_head();?>
                                             'class' =>   'form-control',
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-1" style="padding-left:1%; padding-top:1.75%">
+                                        <button type="button" class="btn btn-outline" data-toggle="modal" data-target="#signoModal"><i class="fas fa-paperclip"></i> Añadir</button>
+                                    </div>
+                                    <div class="col-md-3">
                                         <?php echo form_label('Tipo Signo', 'tipo_signo_id');?>
                                         <?php echo form_dropdown([
                                             'id'        => 'tipo_signo_id',
@@ -117,6 +118,8 @@ init_head();?>
                                             'options' => $clientes
                                         ]);?>
                                     </div>
+                                    
+                                    
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
@@ -125,15 +128,14 @@ init_head();?>
                                 </div>
                                 <!-- Step 3 --->
                                 <div class="tab-pane" role="tabpanel" id="step3">
-                                    <h4 class="text-center">Extra</h4>
                                     <div class="col-md-6">
-                                        <?php echo form_label('Tipo Solicitud', 'tipo_solicitud');?>
+                                        <?php echo form_label('Tipo Solicitud', 'tipo_id');?>
                                         <?php echo form_dropdown([
-                                            'id'        => 'tipo_solicitud',
-                                            'name'      => 'tipo_solicitud',
+                                            'id'        => 'tipo_id',
+                                            'name'      => 'tipo_id',
                                             'class'     => 'form-control',
                                             'options'   => $tipo_solicitud,
-                                            'selected'  => set_value('tipo_solicitud', '1'),
+                                            'selected'  => set_value('tipo_id', '1'),
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -149,12 +151,12 @@ init_head();?>
                                         <?php echo form_input($fields[18]['name'], set_value($fields[18]['name']), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-6">
-                                        <?php echo form_label('Fecha de Primer Uso', $fields[13]['name']);?>
-                                        <?php echo form_input($fields[13]['name'], set_value($fields[13]['name']), ['class' => 'form-control calendar'])?>
+                                        <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
+                                        <?php echo form_input('primer_uso', set_value('primer_uso', ''), ['class' => 'form-control calendar'])?>
                                     </div>
                                     <div class="col-md-6">
-                                        <?php echo form_label('Prueba Uso', $fields[14]['name']);?>
-                                        <?php echo form_input($fields[14]['name'], set_value($fields[14]['name']), ['class' => 'form-control calendar'])?>
+                                        <?php echo form_label('Prueba Uso', 'prueba_uso');?>
+                                        <?php echo form_input('prueba_uso', set_value('prueba_uso', ''), ['class' => 'form-control calendar'])?>
                                     </div>
                                     <div class="col-md-3">
                                         <?php echo form_label('Carpeta', $fields[19]['name']);?>
@@ -172,31 +174,36 @@ init_head();?>
                                         <?php echo form_label('Folio', $fields[22]['name']);?>
                                         <?php echo form_input($fields[22]['name'], set_value($fields[22]['name']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%">
+                                    <div class="col-md-12" style="padding-top: 1.5%" >
                                         <div class="all-info-container">
                                             <div class="list-content">
                                                 <a href="#prioridad" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Prioridades<i class="fa fa-chevron-down"></i></a>
                                                 <div class="collapse" id="prioridad">
                                                     <div class="list-box">
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
-                                                        <table class="table table-responsive table-dark">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Fecha</th>
-                                                                    <th>Pais</th>
-                                                                    <th>Número</th>
-                                                                    <th>Acciones</th>
-                                                                </tr>
-                                                            </thead>
-                                                        </table> 
+                                                        <div class="col-12" >
+                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
+                                                        </div>
+                                                        <div class="col-12" style="padding: 1% 1% 1% 0%;">    
+                                                            <table class="table table-responsive table-dark">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Fecha</th>
+                                                                        <th>Pais</th>
+                                                                        <th>Número</th>
+                                                                        <th>Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table> 
+                                                        </div>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>    
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <?php echo form_label('Comentarios', 'comentario');?>
-                                        <?php echo form_textarea('comentario', set_value('comentario'), ['class' => 'form-control']);?>
+                                        <?php echo form_label('Comentarios', 'comentarios');?>
+                                        <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control']);?>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
@@ -206,7 +213,6 @@ init_head();?>
                                 </div>
                                 <!-- Step 4 -->
                                 <div class="tab-pane" role="tabpanel" id="step4">
-                                    <h4 class="text-center">Expediente</h4>
                                     <div class="col-md-12">
                                         <?php echo form_label('Estado de Solicitud', $fields[3]['name']);?>
                                         <?php echo form_dropdown($fields[3]['name'], $estados_solicitudes, set_value($fields[3]['name']), ['class' => 'form-control']);?>
@@ -239,6 +245,16 @@ init_head();?>
                                             'class' => 'form-control',
                                             'value' => set_value('num_registro'),
                                             'placeholder' => 'Nº Registro'
+                                        ]);?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php echo form_label("Fecha de registro"); ?>
+                                        <?php echo form_input([
+                                            'id' => 'fecha_registro',
+                                            'name' => 'fecha_registro',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_registro'),
+                                            'placeholder' => 'Fecha de Registro'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -279,7 +295,6 @@ init_head();?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <br />
                                                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
                                                                 <table class="table table-responsive">
                                                                     <thead>
@@ -306,11 +321,10 @@ init_head();?>
                                 </div>
                                 <!-- Step 5 -->
                                 <div class="tab-pane" role="tabpanel" id="step5">
-                                    <h4 class="text-center">Eventos</h4>
-                                    <div class="col-md-12">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#">Añadir Evento</button>
+                                    <div class="col-md-12" >
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
@@ -330,17 +344,17 @@ init_head();?>
                                 </div>
                                 <!-- Step 6 -->
                                 <div class="tab-pane" role="tabpanel" id="step6">
-                                    <h4 class="text-center">Eventos</h4>
                                     <div class="col-md-12">
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#">Añadir Evento</button>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Pais</th>
-                                                    <th>Número</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Comentarios</th>
+                                                    <th>Creado por</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -354,11 +368,10 @@ init_head();?>
                                 </div>
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">
-                                    <h4 class="text-center">Anexos</h4>
                                     <div class="col-md-12">
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#">Añadir Anexo</button>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
@@ -380,19 +393,17 @@ init_head();?>
                                 </div>
                                 <!-- Step 8 -->
                                 <div class="tab-pane" role="tabpanel" id="step8">
-                                    <h4 class="text-center">Anexos</h4>
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#">Añadir Anexo</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docModal">Añadir Documento</button>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
-                                                    <th>Código</th>
-                                                    <th>Tipo</th>
-                                                    <th>Estado</th>
-                                                    <th>Solicitud</th>
-                                                    <th>Creacion</th>
+                                                    <th>Nº</th>
+                                                    <th>Archivo</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Creado Por</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -401,18 +412,18 @@ init_head();?>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
-                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+                <?php echo form_close();?>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<!-- Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open(admin_url("pi/prioridadcontroller/addPrioridad"), ['method' => 'POST', 'id' => 'prioridadFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -447,7 +458,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
+<!-- Publicacion Modal -->
 <div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open(admin_url("pi/publicacioncontroller/addpublicacion"), ['method' => 'POST', 'id' => 'publicacionFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -486,7 +497,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
+<!-- Evento Modal -->
 <div class="modal fade" id="eventoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open(admin_url("pi/eventoscontroller/addevento"), ['method' => 'POST', 'id' => 'eventoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -499,27 +510,133 @@ init_head();?>
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-3">
-                <?php echo form_label('Tipo', 'pais_publicacion');?>
-                <?php echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
+            <div class="col-md-12">
+                <?php echo form_label('Tipo Evento', 'tipo_evento');?>
+                <?php echo form_dropdown('tipo_evento', $tipo_evento, '',['class' => 'form-control']);?>
             </div>
-            <div class="col-md-3">
-                <?php echo form_label('Boletin', 'boletin_publicacion');?>
-                <?php echo form_input('boletin_publicacion', '', ['class' => 'form-control calendar']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Tomo', 'tomo_publicacion');?>
-                <?php echo form_input('tomo_publicacion','',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Página', 'pag_publicacion');?>
-                <?php echo form_input('pag_publicacion','',['class' => 'form-control']);?>
+            <div class="col-md-12">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea('evento_comentario','',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="publicacionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="eventosfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+<!-- Anexo Modal -->
+<div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open(admin_url("pi/anexoscontroller/addanexos"), ['method' => 'POST', 'id' => 'anexoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Anexo</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_label('Tipo Evento', 'tipo_evento');?>
+                <?php echo form_dropdown('tipo_evento', $tipo_evento, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea('evento_comentario','',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="anexofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+<!-- Documento Modal -->
+<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart(admin_url("pi/documentoscontroller/adddoc"), ['method' => 'POST', 'id' => 'documentoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Documento</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_label('Descripcion', 'descripcion_archivo');?>
+                <?php echo form_input('doc_descripcion','', ['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Comentarios', 'comentario_archivo');?>
+                <?php echo form_textarea('comentario_archivo','',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Archivo', 'doc_archivo');?>
+                <?php echo form_input([
+                    'id' => 'doc_archivo',
+                    'name' => 'doc_archivo',
+                    'type' => 'file',
+                    'class' => 'form-control',
+                    'multiple' => 'true'
+                ]);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="documentofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Signo Modal -->
+<div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart(admin_url("pi/signoscontroller/addsigno"), ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Documento</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_label('Archivo', 'doc_archivo');?>
+                <?php echo form_input([
+                    'id' => 'signo_archivo',
+                    'name' => 'signo_archivo',
+                    'type' => 'file',
+                    'class' => 'form-control',
+                ]);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Descripcion', 'descripcion_signo');?>
+                <?php echo form_textarea('doc_descripcion','', ['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Comentarios', 'comentario_signo');?>
+                <?php echo form_input('comentario_signo','',['class' => 'form-control']);?>
+            </div>
+            
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="signofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>
@@ -531,453 +648,473 @@ init_head();?>
 
 <?php init_tail();?>
 
-<script>
-function fecha(){
-    var hoy = new Date();
-    var dd = hoy.getDate();
-    var mm = hoy.getMonth()+1;
-    var yy = hoy.getFullYear();
-    var fecha = '';
-    if(dd<10){
-        dd = '0'+dd;
-    }
-    else if(mm<10){
-        mm = '0'+mm;
-    }
-    fecha = dd+"/"+mm+"/"+yy;
-    return fecha;
-}
-
-$.datepicker.regional['es'] = {
-      closeText: 'Cerrar',
-      prevText: '<Ant',
-      nextText: 'Sig>',
-      currentText: 'Hoy',
-      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-      monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-      dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-      dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-      dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-      weekHeader: 'Sm',
-      dateFormat: 'dd/mm/yy',
-      firstDay: 1,
-      isRTL: false,
-      showMonthAfterYear: false,
-      yearSuffix: ''};
-   $.datepicker.setDefaults($.datepicker.regional['es']);
-
-
-   $(".calendar").on('keyup', function(e){
-    e.preventDefault();
-    $(".calendar").val('');
-   })
-  $( function() {
-    $(".calendar"  ).datepicker();
-  });
-</script>
-
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Roboto');
-
-    body{
-        font-family: 'Roboto', sans-serif;
-    }
-    * {
-        margin: 0;
-        padding: 0;
-    }
-    i {
-        margin-right: 10px;
+    <script>
+    function fecha(){
+        var hoy = new Date();
+        var dd = hoy.getDate();
+        var mm = hoy.getMonth()+1;
+        var yy = hoy.getFullYear();
+        var fecha = '';
+        if(dd<10){
+            dd = '0'+dd;
+        }
+        else if(mm<10){
+            mm = '0'+mm;
+        }
+        fecha = dd+"/"+mm+"/"+yy;
+        return fecha;
     }
 
-    /*------------------------*/
-    input:focus,
-    button:focus,
-    .form-control:focus{
-        outline: none;
-        box-shadow: none;
-    }
-    .form-control:disabled, .form-control[readonly]{
-        background-color: #fff;
-    }
-    /*----------step-wizard------------*/
-    .d-flex{
-        display: flex;
-    }
-    .justify-content-center{
-        justify-content: center;
-    }
-    .align-items-center{
-        align-items: center;
-    }
-
-    /*---------signup-step-------------*/
-    .bg-color{
-        background-color: #333;
-    }
-    .signup-step-container{
-        padding: 150px 0px;
-        padding-bottom: 60px;
-    }
+    $.datepicker.regional['es'] = {
+        closeText: 'Cerrar',
+        prevText: '<Ant',
+        nextText: 'Sig>',
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+        weekHeader: 'Sm',
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: ''};
+    $.datepicker.setDefaults($.datepicker.regional['es']);
 
 
+    $(".calendar").on('keyup', function(e){
+        e.preventDefault();
+        $(".calendar").val('');
+    })
+    $( function() {
+        $(".calendar"  ).datepicker();
+    });
+
+    $("#solicitudfrm").on('submit', function(e)
+    {
+        e.preventDefault();
+        var data = $("#solicitudfrm").serializeArray();
+        console.log(data);
+    });
+    
+    </script>
+    <link ref="stylesheet" href="<?php echo base_url('assets/plugins/bootstrap-duallistbox-4/dist/bootstrap-duallistbox.min.css') ?>">
+    <script src="<?php echo base_url('assets/plugins/bootstrap-duallistbox-4/dist/jquery.bootstrap-duallistbox.js') ?>"></script>
+    <script>
+        $("#pais_id").bootstrapDualListbox({bootstrap2Compatible: true});
+        $("#clase_niza_id").bootstrapDualListbox({bootstrap2Compatible: true});
+    </script>
+
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        new DataTable(".table", {
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            }
+        });
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        body{
+            font-family: 'Roboto', sans-serif;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        i {
+            margin-right: 10px;
+        }
+
+        /*------------------------*/
+        input:focus,
+        button:focus,
+        .form-control:focus{
+            outline: none;
+            box-shadow: none;
+        }
+        .form-control:disabled, .form-control[readonly]{
+            background-color: #fff;
+        }
+        /*----------step-wizard------------*/
+        .d-flex{
+            display: flex;
+        }
+        .justify-content-center{
+            justify-content: center;
+        }
+        .align-items-center{
+            align-items: center;
+        }
+
+        /*---------signup-step-------------*/
+        .bg-color{
+            background-color: #333;
+        }
+        .signup-step-container{
+            padding: 150px 0px;
+            padding-bottom: 60px;
+        }
 
 
-        .wizard .nav-tabs {
-            position: relative;
-            margin-bottom: 0;
+
+
+            .wizard .nav-tabs {
+                position: relative;
+                margin-bottom: 0;
+                border-bottom-color: transparent;
+            }
+
+            .wizard > div.wizard-inner {
+                position: relative;
+            }
+
+        .connecting-line {
+            height: 2px;
+            background: #e0e0e0;
+            position: absolute;
+            width: 90%;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: 50%;
+            z-index: 1;
+        }
+
+        .wizard .nav-tabs > li.active > a, .wizard .nav-tabs > li.active > a:hover, .wizard .nav-tabs > li.active > a:focus {
+            color: #555555;
+            cursor: default;
+            border: 0;
             border-bottom-color: transparent;
         }
 
-        .wizard > div.wizard-inner {
+        span.round-tab {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            display: inline-block;
+            border-radius: 50%;
+            background: #fff;
+            z-index: 2;
+            position: absolute;
+            left: 0;
+            text-align: center;
+            font-size: 16px;
+            color: #0e214b;
+            font-weight: 500;
+            border: 1px solid #ddd;
+        }
+        span.round-tab i{
+            color:#555555;
+        }
+        .wizard li.active span.round-tab {
+                background: rgb(29 78 216);
+            color: #fff;
+            border-color: rgb(29 78 216);
+        }
+        .wizard li.active span.round-tab i{
+            color: #5bc0de;
+        }
+        .wizard .nav-tabs > li.active > a i{
+            color: rgb(29 78 216);
+        }
+
+        .wizard .nav-tabs > li {
+            width: 25%;
+        }
+
+        .wizard li:after {
+            content: " ";
+            position: absolute;
+            left: 46%;
+            opacity: 0;
+            margin: 0 auto;
+            bottom: 0px;
+            border: 5px solid transparent;
+            border-bottom-color: red;
+            transition: 0.1s ease-in-out;
+        }
+
+
+
+        .wizard .nav-tabs > li a {
+            width: 30px;
+            height: 30px;
+            margin: 20px auto;
+            border-radius: 100%;
+            padding: 0;
+            background-color: transparent;
             position: relative;
-        }
-
-    .connecting-line {
-        height: 2px;
-        background: #e0e0e0;
-        position: absolute;
-        width: 90%;
-        margin: 0 auto;
-        left: 0;
-        right: 0;
-        top: 50%;
-        z-index: 1;
-    }
-
-    .wizard .nav-tabs > li.active > a, .wizard .nav-tabs > li.active > a:hover, .wizard .nav-tabs > li.active > a:focus {
-        color: #555555;
-        cursor: default;
-        border: 0;
-        border-bottom-color: transparent;
-    }
-
-    span.round-tab {
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        display: inline-block;
-        border-radius: 50%;
-        background: #fff;
-        z-index: 2;
-        position: absolute;
-        left: 0;
-        text-align: center;
-        font-size: 16px;
-        color: #0e214b;
-        font-weight: 500;
-        border: 1px solid #ddd;
-    }
-    span.round-tab i{
-        color:#555555;
-    }
-    .wizard li.active span.round-tab {
-            background: rgb(29 78 216);
-        color: #fff;
-        border-color: rgb(29 78 216);
-    }
-    .wizard li.active span.round-tab i{
-        color: #5bc0de;
-    }
-    .wizard .nav-tabs > li.active > a i{
-        color: rgb(29 78 216);
-    }
-
-    .wizard .nav-tabs > li {
-        width: 25%;
-    }
-
-    .wizard li:after {
-        content: " ";
-        position: absolute;
-        left: 46%;
-        opacity: 0;
-        margin: 0 auto;
-        bottom: 0px;
-        border: 5px solid transparent;
-        border-bottom-color: red;
-        transition: 0.1s ease-in-out;
-    }
-
-
-
-    .wizard .nav-tabs > li a {
-        width: 30px;
-        height: 30px;
-        margin: 20px auto;
-        border-radius: 100%;
-        padding: 0;
-        background-color: transparent;
-        position: relative;
-        top: 0;
-    }
-    .wizard .nav-tabs > li a i{
-        position: absolute;
-        top: -15px;
-        font-style: normal;
-        font-weight: 400;
-        white-space: nowrap;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 12px;
-        font-weight: 700;
-        color: #000;
-    }
-
-        .wizard .nav-tabs > li a:hover {
-            background: transparent;
-        }
-
-    .wizard .tab-pane {
-        position: relative;
-        padding-top: 20px;
-    }
-
-
-    .wizard h3 {
-        margin-top: 0;
-    }
-    .prev-step,
-    .next-step{
-        font-size: 13px;
-        padding: 8px 24px;
-        border: none;
-        border-radius: 4px;
-        margin-top: 30px;
-    }
-    .next-step{
-        background-color: #0db02b;
-    }
-    .skip-btn{
-        background-color: #cec12d;
-    }
-    .step-head{
-        font-size: 20px;
-        text-align: center;
-        font-weight: 500;
-        margin-bottom: 20px;
-    }
-    .term-check{
-        font-size: 14px;
-        font-weight: 400;
-    }
-    .custom-file {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        height: 40px;
-        margin-bottom: 0;
-    }
-    .custom-file-input {
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        height: 40px;
-        margin: 0;
-        opacity: 0;
-    }
-    .custom-file-label {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 1;
-        height: 40px;
-        padding: .375rem .75rem;
-        font-weight: 400;
-        line-height: 2;
-        color: #495057;
-        background-color: #fff;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
-    }
-    .custom-file-label::after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 3;
-        display: block;
-        height: 38px;
-        padding: .375rem .75rem;
-        line-height: 2;
-        color: #495057;
-        content: "Browse";
-        background-color: #e9ecef;
-        border-left: inherit;
-        border-radius: 0 .25rem .25rem 0;
-    }
-    .footer-link{
-        margin-top: 30px;
-    }
-    .all-info-container{
-
-    }
-    .list-content{
-        margin-bottom: 10px;
-    }
-    .list-content a{
-        padding: 10px 15px;
-        width: 100%;
-        display: inline-block;
-        background-color: #f5f5f5;
-        position: relative;
-        color: #565656;
-        font-weight: 400;
-        border-radius: 4px;
-    }
-    .list-content a[aria-expanded="true"] i{
-        transform: rotate(180deg);
-    }
-    .list-content a i{
-        text-align: right;
-        position: absolute;
-        top: 15px;
-        right: 10px;
-        transition: 0.5s;
-    }
-    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-        background-color: #fdfdfd;
-    }
-    .list-box{
-        padding: 10px;
-    }
-    .signup-logo-header .logo_area{
-        width: 200px;
-    }
-    .signup-logo-header .nav > li{
-        padding: 0;
-    }
-    .signup-logo-header .header-flex{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    /*-----------custom-checkbox-----------*/
-    /*----------Custom-Checkbox---------*/
-    input[type="checkbox"]{
-        position: relative;
-        display: inline-block;
-        margin-right: 5px;
-    }
-    input[type="checkbox"]::before,
-    input[type="checkbox"]::after {
-        position: absolute;
-        content: "";
-        display: inline-block;   
-    }
-    input[type="checkbox"]::before{
-        height: 16px;
-        width: 16px;
-        border: 1px solid #999;
-        left: 0px;
-        top: 0px;
-        background-color: #fff;
-        border-radius: 2px;
-    }
-    input[type="checkbox"]::after{
-        height: 5px;
-        width: 9px;
-        left: 4px;
-        top: 4px;
-    }
-    input[type="checkbox"]:checked::after{
-        content: "";
-        border-left: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-        transform: rotate(-45deg);
-    }
-    input[type="checkbox"]:checked::before{
-        background-color: #18ba60;
-        border-color: #18ba60;
-    }
-
-    .btn-primary {
-        background-color: rgb(29 78 216);
-    }
-
-
-
-
-
-
-    @media (max-width: 767px){
-        .sign-content h3{
-            font-size: 40px;
+            top: 0;
         }
         .wizard .nav-tabs > li a i{
-            display: none;
+            position: absolute;
+            top: -15px;
+            font-style: normal;
+            font-weight: 400;
+            white-space: nowrap;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 700;
+            color: #000;
         }
-        .signup-logo-header .navbar-toggle{
-            margin: 0;
-            margin-top: 8px;
+
+            .wizard .nav-tabs > li a:hover {
+                background: transparent;
+            }
+
+        .wizard .tab-pane {
+            position: relative;
+            padding-top: 20px;
         }
-        .signup-logo-header .logo_area{
+
+
+        .wizard h3 {
             margin-top: 0;
         }
-        .signup-logo-header .header-flex{
+        .prev-step,
+        .next-step{
+            font-size: 13px;
+            padding: 8px 24px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 30px;
+        }
+        .next-step{
+            background-color: #0db02b;
+        }
+        .skip-btn{
+            background-color: #cec12d;
+        }
+        .step-head{
+            font-size: 20px;
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .term-check{
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .custom-file {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: 40px;
+            margin-bottom: 0;
+        }
+        .custom-file-input {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 40px;
+            margin: 0;
+            opacity: 0;
+        }
+        .custom-file-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1;
+            height: 40px;
+            padding: .375rem .75rem;
+            font-weight: 400;
+            line-height: 2;
+            color: #495057;
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+        }
+        .custom-file-label::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 3;
             display: block;
+            height: 38px;
+            padding: .375rem .75rem;
+            line-height: 2;
+            color: #495057;
+            content: "Browse";
+            background-color: #e9ecef;
+            border-left: inherit;
+            border-radius: 0 .25rem .25rem 0;
         }
+        .footer-link{
+            margin-top: 30px;
+        }
+        .all-info-container{
+
+        }
+        .list-content{
+            margin-bottom: 10px;
+        }
+        .list-content a{
+            padding: 10px 15px;
+            width: 100%;
+            display: inline-block;
+            background-color: #f5f5f5;
+            position: relative;
+            color: #565656;
+            font-weight: 400;
+            border-radius: 4px;
+        }
+        .list-content a[aria-expanded="true"] i{
+            transform: rotate(180deg);
+        }
+        .list-content a i{
+            text-align: right;
+            position: absolute;
+            top: 15px;
+            right: 10px;
+            transition: 0.5s;
+        }
+        .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+            background-color: #fdfdfd;
+        }
+        .list-box{
+            padding: 10px;
+        }
+        .signup-logo-header .logo_area{
+            width: 200px;
+        }
+        .signup-logo-header .nav > li{
+            padding: 0;
+        }
+        .signup-logo-header .header-flex{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /*-----------custom-checkbox-----------*/
+        /*----------Custom-Checkbox---------*/
+        input[type="checkbox"]{
+            position: relative;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        input[type="checkbox"]::before,
+        input[type="checkbox"]::after {
+            position: absolute;
+            content: "";
+            display: inline-block;   
+        }
+        input[type="checkbox"]::before{
+            height: 16px;
+            width: 16px;
+            border: 1px solid #999;
+            left: 0px;
+            top: 0px;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+        input[type="checkbox"]::after{
+            height: 5px;
+            width: 9px;
+            left: 4px;
+            top: 4px;
+        }
+        input[type="checkbox"]:checked::after{
+            content: "";
+            border-left: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+            transform: rotate(-45deg);
+        }
+        input[type="checkbox"]:checked::before{
+            background-color: #18ba60;
+            border-color: #18ba60;
+        }
+
+        .btn-primary {
+            background-color: rgb(29 78 216);
+        }
+
+
+
+
+
+
+        @media (max-width: 767px){
+            .sign-content h3{
+                font-size: 40px;
+            }
+            .wizard .nav-tabs > li a i{
+                display: none;
+            }
+            .signup-logo-header .navbar-toggle{
+                margin: 0;
+                margin-top: 8px;
+            }
+            .signup-logo-header .logo_area{
+                margin-top: 0;
+            }
+            .signup-logo-header .header-flex{
+                display: block;
+            }
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+
+        
+    </style>
+    <script>
+        $("")
+
+
+
+
+
+
+
+
+
+        // ------------step-wizard-------------
+    $(document).ready(function () {
+        $('.nav-tabs > li a[title]').tooltip();
+        
+        //Wizard
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+            var $target = $(e.target);
+        
+            if ($target.parent().hasClass('disabled')) {
+                return false;
+            }
+        });
+
+        $(".next-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            $active.next().removeClass('disabled');
+            nextTab($active);
+
+        });
+        $(".prev-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            prevTab($active);
+
+        });
+    });
+
+    function nextTab(elem) {
+        $(elem).next().find('a[data-toggle="tab"]').click();
+    }
+    function prevTab(elem) {
+        $(elem).prev().find('a[data-toggle="tab"]').click();
     }
 
-    th, td {
-        text-align: center;
-    }
-
-
-    
-</style>
-<script>
-    // ------------step-wizard-------------
-$(document).ready(function () {
-    $('.nav-tabs > li a[title]').tooltip();
-    
-    //Wizard
-    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-
-        var $target = $(e.target);
-    
-        if ($target.parent().hasClass('disabled')) {
-            return false;
-        }
-    });
-
-    $(".next-step").click(function (e) {
-
-        var $active = $('.wizard .nav-tabs li.active');
-        $active.next().removeClass('disabled');
-        nextTab($active);
-
-    });
-    $(".prev-step").click(function (e) {
-
-        var $active = $('.wizard .nav-tabs li.active');
-        prevTab($active);
-
-    });
-});
-
-function nextTab(elem) {
-    $(elem).next().find('a[data-toggle="tab"]').click();
-}
-function prevTab(elem) {
-    $(elem).prev().find('a[data-toggle="tab"]').click();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
+    </script>
 </body>
 </html>

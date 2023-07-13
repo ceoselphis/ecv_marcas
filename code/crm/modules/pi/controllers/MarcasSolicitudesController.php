@@ -17,18 +17,17 @@ class MarcasSolicitudesController extends AdminController
                 $data[] = array(
                     'solicitud_id' => $row['solicitud_id'],
                     'reg_num_id'   => $row['reg_num_id'],
-                    'tipo_id'      => $CI->MarcasSolicitudes_model->findTipoSolicitud($row['tipo_id'])[0]['nombre'],
-                    'cod_estado_id'=> $CI->MarcasSolicitudes_model->findEstadosSolicitudes($row['cod_estado_id'])[0]['nombre'],
+                    'tipo_id'      => $CI->MarcasSolicitudes_model->findTipoSolicitud($row['tipo_id']),
+                    'cod_estado_id'=> $CI->MarcasSolicitudes_model->findEstadosSolicitudes($row['cod_estado_id']),
                     'primer_uso'   => date('d/m/Y', strtotime($row['primer_uso'])),
                     'prueba_uso'   => date('d/m/Y', strtotime($row['prueba_uso'])),
                     'carpeta'      => $row['carpeta'],
                     'numero_solicitud' => $row['numero_solicitud'],
-                    'fecha_solicitud'  => date('d/m/Y', $row['fecha_solicitud']),
-                    'fecha_registro'  => date('d/m/Y', $row['fecha_registro']),
-                    'fecha_certificado'  => date('d/m/Y', $row['fecha_certificado']),
+                    'fecha_solicitud'  => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                    'fecha_registro'  => date('d/m/Y', strtotime($row['fecha_registro'])),
+                    'fecha_certificado'  => date('d/m/Y', strtotime($row['fecha_certificado'])),
                     'num_certificado'  => $row['num_certificado'],
-                    'fecha_vencimiento'  => date('d/m/Y', $row['fecha_vencimiento']),
-                    ''
+                    'fecha_vencimiento'  => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
                     );
             }
         }
@@ -43,12 +42,11 @@ class MarcasSolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
+        $count = $CI->MarcasSolicitudes_model->setCountPK();
         //We get the fields of the register table
         $regFields = $CI->MarcasSolicitudes_model->getFieldsRegistros();
         //We get the fields of Request table
         $solFields = $CI->MarcasSolicitudes_model->getFillableFields();
-        //We get all the offices
-        $oficinas = $CI->MarcasSolicitudes_model->findAllOficinas();
         $inputs = array();
         $labels = array();
         foreach($solFields as $field)
@@ -104,6 +102,8 @@ class MarcasSolicitudesController extends AdminController
                                     'tipos_signo_id'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
                                     'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
                                     'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
+                                    'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+                                    'solicitud_id'          => $count
                                 ]);
     }
 
@@ -119,16 +119,126 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         // WE prepare the data
         $data = $CI->input->post();
-        
+        //We fill the first table
+        $registroPrincipal = array(
+            'reg_num_id'        =>  $CI->MarcasSolicitudes_model->getLastIdRegistros(),
+            'staff_id'          => $data['staff_id'],
+            'client_id'         => $data['client_id'],
+            'oficina_id'        => $data['oficina_id'],
+            'ref_interna'       => $data['ref_interna'],
+            'ref_cliente'       => $data['ref_cliente'],
+            'carpeta'           => $data['carpeta'], 
+            'libro'             => $data['libro'],
+            'tomo'              => $data['tomo'],
+            'folio'             => $data['folio'],
+            'comentarios'       => $data['comentarios'],
+            'tipo_registro_id'  => $data['tipo_registro_id']
+        );
+
+        $solicitudMarca = array(
+            'reg_num_id'            => $CI->MarcasSolicitudes_model->getLastIdRegistros(),
+            'tipo_id'               => $data['tipo_id'],
+            'cod_estado_id'         => $data['cod_estado_id'],
+            'primer_uso'            => $data['primer_uso'],                   
+            'prueba_uso'            => $data['prueba_uso'],               
+            'carpeta'               => $data['carpeta'],            
+            'numero_solicitud'      => $data['num_solicitud'],      
+            'fecha_solicitud'       => $data['fecha_solicitud'],    
+            'fecha_registro'        => $data['fecha_registro'],     
+            'fecha_certificado'     => $data['fecha_certificado'],                            
+            'num_certificado'       => $data['num_certificado'],                               
+            'fecha_vencimiento'     => $data['fecha_vencimiento']                                
+        );
+
         //we validate the data
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre_anexo',
-                'label' => 'Nombre del Anexo',
+                'field' => 'staff_id',
+                'label' => 'Responsable',
                 'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
-                    'required' => 'Debe indicar un nombre para el anexo',
+                    'required' => 'Debe indicar un responsable',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'client_id',
+                'label' => 'Cliente',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un cliente',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'oficina_id',
+                'label' => 'Oficina',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una oficina',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'ref_interna',
+                'label' => 'Referencia interna',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una referencia interna',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'ref_cliente',
+                'label' => 'Referencia Cliente',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una referencia del cliente',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'primer_uso',
+                'label' => 'Primer Uso',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una fecha de uso',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'prueba_uso',
+                'label' => 'Prueba Uso',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una fecha de prueba de uso',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'num_registro',
+                'label' => 'Nº de Registro',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un numero de registro',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'fecha_registro',
+                'label' => 'Fecha Registro',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una fecha de registro',
                     'min_length' => 'Nombre demasiado corto',
                     'max_lenght' => 'Nombre demasiado largo'
                 ]
@@ -137,40 +247,23 @@ class MarcasSolicitudesController extends AdminController
         $CI->form_validation->set_rules($config);
         if(!$CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->MarcasSolicitudes_model->getFillableFields();
-            $inputs = array();
-            $labels = array();
-            foreach($fields as $field)
-            {
-                if($field['type'] == 'INT')
-                {
-                    $inputs[] = array(
-                        'name' => $field['name'],
-                        'id'   => $field['name'],
-                        'type' => 'range',
-                        'class' => 'form-control'
-                    );
-                }
-                else{
-                    $inputs[] = array(
-                        'name' => $field['name'],
-                        'id'   => $field['name'],
-                        'type' => 'text',
-                        'class' => 'form-control'
-                    );
-                }
-            }
-            $labels = ['Id', 'Nombre del anexo'];
-            return $CI->load->view('marcas/solicitudes/create', ['fields' => $inputs, 'labels' => $labels]);
+            return $this->create();
         }
         else
         {
-            //we sent the data to the model
-            $query = $CI->MarcasSolicitudes_model->insert($data);
+            //we register in the first table
+            $query = $CI->MarcasSolicitudes_model->insertRegistro($registroPrincipal);
             if(isset($query))
             {
-                return redirect(admin_url('pi/marcassolicitudescontroller/'));
+                unset($query);
+                //we register in the second table
+                $query = $CI->MarcasSolicitudes_model->insert($solicitudMarca);
+                if(isset($query))
+                {
+                    return redirect(admin_url('pi/marcassolicitudescontroller/'));
+                }
             }
+            
         }
         
     }

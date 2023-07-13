@@ -8,10 +8,24 @@ class MarcasSolicitudes_model extends BaseModel
     protected $primaryKey = 'solicitud_id';
     protected $tableName =  'tbl_marcas_solicitudes';
     protected $DBgroup = 'default';
+    protected $countPK  = 0;
     
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getCountPK()
+    {
+        return $this->countPK;
+    }
+
+    public function setCountPK()
+    {
+        $query = $this->db->query("SHOW TABLE STATUS LIKE '{$this->tableName}'");
+        $this->countPK = $query->result_array()[0]['Auto_increment'];
+        return $this->countPK ;
+        
     }
 
     public function getFieldsRegistros()
@@ -20,6 +34,14 @@ class MarcasSolicitudes_model extends BaseModel
         return $query->result_array();
         
     }
+
+    public function getLastIdRegistros()
+    {
+        $query = $this->db->query("SHOW TABLE STATUS LIKE 'tbl_tm_registros_principales'");
+        return (intval($query->result_array()[0]['Auto_increment']) + 1);
+    }
+
+
 
     public function findAllRegistros()
     {
@@ -119,15 +141,15 @@ class MarcasSolicitudes_model extends BaseModel
     public function findEstadosSolicitudes($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_estados_solicitudes');
-        $this->db->where('cod_estado_id = '.$id);
+        $this->db->from('tbl_estados');
+        $this->db->where('estado_id = '.$id);
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['cod_estado_id']);
-            array_push($values, $row['nombre']);
+            array_push($keys, $row['estado_id']);
+            array_push($values, $row['descripcion']);
         }
         return array_combine($keys, $values);
     }
@@ -305,6 +327,47 @@ class MarcasSolicitudes_model extends BaseModel
             array_push($values, $row['nombre'].' - '.$row['descripcion']);
         }
         return array_combine($keys, $values);
+    }
+
+    public function findAllTipoEvento()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_evento');
+        $this->db->join('tbl_materias', 'tbl_materias.materia_id = tbl_tipo_evento.materia_id');
+        $this->db->where('tbl_materias.descripcion = "Marcas"');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['tipo_eve_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findTipoEvento($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_evento');
+        $this->db->join('tbl_materias', 'tbl_materias.materia_id = tbl_tipo_evento.materia_id');
+        $this->db->where('tbl_materias.descripcion = "Marcas"');
+        $this->db->where('tipo_eve_id = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['tipo_eve_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function insertRegistro($params)
+    {
+        $query = $this->db->insert('tbl_tm_registros_principales', $params);
+        return $query;
     }
 
 }

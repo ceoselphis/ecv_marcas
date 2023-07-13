@@ -78,7 +78,7 @@ class TiposEventosController extends AdminController
             [
                 'field' => 'nombre',
                 'label' => 'Nombre del tipo de evento',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'rules' => 'trim|required|min_length[3]|max_length[160]',
                 'errors' => [
                     'required' => 'Debe indicar un nombre para el evento',
                     'min_length' => 'Nombre demasiado corto',

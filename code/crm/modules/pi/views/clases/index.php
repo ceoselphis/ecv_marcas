@@ -89,8 +89,6 @@
 
 <?php init_tail();?>
 
-<script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
-
 <script>
     $(".detail").on('click', function(e){
         e.preventDefault();
@@ -113,6 +111,17 @@
     }
     
 </style>
+
+<script src="<?php echo base_url('assets/plugins/jquery/jquery.js');?>"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    new DataTable(".table", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script>
 </body>
 </html>
 

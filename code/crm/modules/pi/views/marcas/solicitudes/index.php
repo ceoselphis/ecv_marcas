@@ -10,7 +10,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" >
                                 <table class="table" id="tableResult">
                                     <thead style="text-align: justify;">
                                         <tr>
@@ -58,10 +58,6 @@
         </div>
     </div>
 </div>
-
-<pre>
-    <?php var_dump($marcas);?>
-</pre>
 
 <style>
     th {

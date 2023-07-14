@@ -5,7 +5,7 @@ init_head();?>
     <div class="content">
         <div class="row">
                 <div class="col-md-12">
-                <?php echo form_open(admin_url('pi/marcassolicitudescontroller/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
+                <?php echo form_open_multipart(admin_url('pi/marcassoliictudes/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('solicitud_id', $solicitud_id);?>
                     <div class="panel_s">
                         <div class="panel-body">
@@ -67,13 +67,13 @@ init_head();?>
                                 </div>
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <?php echo form_label('Paises Designados', 'pais_id');?>
                                         <?php echo form_dropdown([
                                                 'id'       => 'pais_id',
                                                 'name'     => 'pais_id',
                                                 'class'    => 'form-control',
-                                                'multiple' => 'true',
+                                                'multiple' => 'multiple',
                                                 'options' => $pais_id
                                             ]);?>
                                     </div>
@@ -104,7 +104,7 @@ init_head();?>
                                             'id'       => 'clase_niza_id',
                                             'name'     => 'clase_niza_id',
                                             'class'    => 'form-control',
-                                            'multiple' => 'true',
+                                            'multiple' => 'multiple',
                                             'options' => $clase_niza_id
                                         ]);?>
                                     </div>
@@ -114,7 +114,7 @@ init_head();?>
                                             'id'       => 'solicitantes_id',
                                             'name'     => 'solicitantes_id',
                                             'class'    => 'form-control',
-                                            'multiple' => 'true',
+                                            'multiple' => 'multiple',
                                             'options' => $clientes
                                         ]);?>
                                     </div>
@@ -287,7 +287,7 @@ init_head();?>
                                             'placeholder' => 'Fecha Vencimiento'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%;">
+                                    <div class="col-md-12" style="padding: 1.5% 1.5% 1.5% 1.5%;">
                                         <div class="all-info-container">
                                             <div class="list-content">
                                                 <a href="#publicaciones" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Publicaciones <i class="fa fa-chevron-down"></i></a>
@@ -296,7 +296,7 @@ init_head();?>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
-                                                                <table class="table table-responsive">
+                                                                <table id="prioridadTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Fecha</th>
@@ -425,7 +425,7 @@ init_head();?>
 </div>
 <!-- Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open(admin_url("pi/prioridadcontroller/addPrioridad"), ['method' => 'POST', 'id' => 'prioridadFrm']);?>
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -460,7 +460,7 @@ init_head();?>
 </div>
 <!-- Publicacion Modal -->
 <div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open(admin_url("pi/publicacioncontroller/addpublicacion"), ['method' => 'POST', 'id' => 'publicacionFrm']);?>
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -499,7 +499,7 @@ init_head();?>
 </div>
 <!-- Evento Modal -->
 <div class="modal fade" id="eventoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open(admin_url("pi/eventoscontroller/addevento"), ['method' => 'POST', 'id' => 'eventoFrm']);?>
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -530,7 +530,7 @@ init_head();?>
 </div>
 <!-- Anexo Modal -->
 <div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open(admin_url("pi/anexoscontroller/addanexos"), ['method' => 'POST', 'id' => 'anexoFrm']);?>
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'anexoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -561,7 +561,7 @@ init_head();?>
 </div>
 <!-- Documento Modal -->
 <div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart(admin_url("pi/documentoscontroller/adddoc"), ['method' => 'POST', 'id' => 'documentoFrm']);?>
+    <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -603,7 +603,7 @@ init_head();?>
 
 <!-- Signo Modal -->
 <div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart(admin_url("pi/signoscontroller/addsigno"), ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -636,7 +636,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="signofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="signofrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -692,25 +692,39 @@ init_head();?>
         $(".calendar"  ).datepicker();
     });
 
-    $("#solicitudfrm").on('submit', function(e)
-    {
-        e.preventDefault();
-        var data = $("#solicitudfrm").serializeArray();
-        console.log(data);
-    });
+    
     
     </script>
-    <link ref="stylesheet" href="<?php echo base_url('assets/plugins/bootstrap-duallistbox-4/dist/bootstrap-duallistbox.min.css') ?>">
-    <script src="<?php echo base_url('assets/plugins/bootstrap-duallistbox-4/dist/jquery.bootstrap-duallistbox.js') ?>"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.css">
+        <script src="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.js"></script>
     <script>
-        $("#pais_id").bootstrapDualListbox({bootstrap2Compatible: true});
-        $("#clase_niza_id").bootstrapDualListbox({bootstrap2Compatible: true});
+        $("select[name=pais_id]").multipleSelect({
+            filter: true,
+            inheritClass: false,
+            width: '100%',
+            maxHeight: '100%',
+            filterBehavior: 'both',
+        });
+        $("select[name=clase_niza_id]").multipleSelect({
+            filter: true,
+            inheritClass: false,
+            width: '100%',
+            maxHeight: '100%',
+            filterBehavior: 'both',
+        });
+        $("select[name=solicitantes_id]").multipleSelect({
+            filter: true,
+            inheritClass: false,
+            width: '100%',
+            maxHeight: '100%',
+            filterBehavior: 'both',
+        });
     </script>
 
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+    <script src=""></script>
     <script>
-        new DataTable(".table", {
+        new DataTable(".table-responsive", {
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
             }
@@ -1069,7 +1083,65 @@ init_head();?>
         
     </style>
     <script>
-        $("")
+        function getFormData(){
+            var config = {};
+            $('input').each(function () {
+                config[this.name] = this.value;
+            });
+            $("select").each(function()
+            {
+                config[this.name] = this.value;
+            });
+            return config;
+        }
+        $("#solicitudfrm").on('submit', function(e)
+        {
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+            formData.append('signo_archivo' , document.getElementById('signo_archivo').files[0]);
+            formData.append('doc_descripcion', $("textarea[name=doc_descripcion]").val());
+            formData.append('comentario_signo', $("input[name=comentario_signo").val())
+            formData.append('solicitud', JSON.stringify(data));
+            $.ajax({
+                url:'<?php echo admin_url('pi/marcassolicitudescontroller/store');?>',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+            }).catch(function(response){
+                console.log(response);
+            });
+        });
+
+
+        $("#prioridadfrmsubmit").on('click', function(e){
+            e.preventDefault();
+            data = {
+                'pais_prioridad' : $("select[name=pais_prioridad").val(),
+                'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
+                'nro_prioridad'  : $("input[name=nro_prioridad").val(),
+                'solicitud_id'   : $("input[name=solicitud_id").val(),
+            }
+            $.ajax({
+                url: '<?php echo admin_url("pi/marcasprioridadcontroller/addPrioridad");?>',
+                method: 'POST',
+                data : data
+            }).then(function(response){
+                new DataTable("#prioridadTbl", {
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                    ajax: JSON.parse(response.data),
+                }
+                });
+                $("#prioridadModal").modal('hide');
+            }).catch(function(response){
+                alert("No puede agregar una prioridad sin registro de la solicitud");
+            });
+        });
 
 
 

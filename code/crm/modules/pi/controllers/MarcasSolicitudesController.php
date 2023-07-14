@@ -117,8 +117,23 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->model("MarcasSolicitudes_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
+        $CI->load->library('upload', [
+            'upload_path' => './uploads/',
+            'allowed_types' => 'gif|jpg|png',
+            'max_size'     => 100,
+            'max_width'    => 1024,
+            'max_height'   => 768
+        ]);
         // WE prepare the data
         $data = $CI->input->post();
+        $file = $_FILES;
+        echo "<pre>";
+        var_dump($file);
+        echo "</pre>";
+        echo "<pre>";
+        var_dump($data);
+        echo "</pre>";
+        die();
         //We fill the first table
         $registroPrincipal = array(
             'reg_num_id'        =>  $CI->MarcasSolicitudes_model->getLastIdRegistros(),

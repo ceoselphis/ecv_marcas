@@ -116,17 +116,18 @@ class MarcasSolicitudesController extends AdminController
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
         $CI->load->helper(['url','form']);
-        $CI->load->library('form_validation');
-        $CI->load->library('upload', [
-            'upload_path' => './uploads/',
-            'allowed_types' => 'gif|jpg|png',
-            'max_size'     => 100,
-            'max_width'    => 1024,
-            'max_height'   => 768
-        ]);
         // WE prepare the data
         $data = $CI->input->post();
-        $file = $_FILES;
+        $file = $_FILES['signo_archivo'];
+        //we veryfy the file
+        if($file['type'] === 'image/png' || $file['type'] === 'image/gif' || $file['type'] === 'image/jpg')
+        {
+            move_uploaded_file($file['tmp_name'], FCPATH.'uploads/signos/'.$file['name']);
+        }
+        else
+        {
+            return "el tipo de archivo no es valido";
+        }
         echo "<pre>";
         var_dump($file);
         echo "</pre>";

@@ -1104,6 +1104,11 @@ init_head();?>
             formData.append('doc_descripcion', $("textarea[name=doc_descripcion]").val());
             formData.append('comentario_signo', $("input[name=comentario_signo").val())
             formData.append('solicitud', JSON.stringify(data));
+            formData.append('comentarios', $("textarea[name=comentarios]").val());
+            formData.append('paises_solicitantes', $("#pais_id").val());
+            formData.append('clase_niza_id', $("#clase_niza_id").val());
+            formData.append('solicitantes_id', $("#solicitantes_id").val());
+
             $.ajax({
                 url:'<?php echo admin_url('pi/MarcasSolicitudesController/store');?>',
                 method: 'POST',

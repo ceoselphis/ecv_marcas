@@ -10,7 +10,7 @@ class AnexosController extends AdminController
         parent::__construct();
     }
       
-    public function index()
+    public function index($id = NULL)
     {
         $CI = &get_instance();
         $CI->load->model("Anexos_model");

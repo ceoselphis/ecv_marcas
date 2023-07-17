@@ -9,7 +9,9 @@ class MarcasSolicitudesController extends AdminController
     {
         parent::__construct();
     }
-      
+
+    
+
     public function index()
     {
         $CI = &get_instance();
@@ -121,28 +123,23 @@ class MarcasSolicitudesController extends AdminController
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
         $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         // WE prepare the data
-        $data = $CI->input->post();
-        $file = $_FILES['signo_archivo'];
-        //we veryfy the file
-        if($file['type'] === 'image/png' || $file['type'] === 'image/gif' || $file['type'] === 'image/jpg')
+        $form = $CI->input->post();
+        $data = json_decode($form['solicitud'],TRUE);
+        $file = '';
+        if(!empty($_FILES['signo_archivo']))
         {
-            move_uploaded_file($file['tmp_name'], FCPATH.'uploads/signos/'.$file['name']);
+            $file = $_FILES['signo_archivo'];
         }
-        else
-        {
-            return "el tipo de archivo no es valido";
+        else{
+            $file = NULL;
         }
-        echo "<pre>";
-        var_dump($file);
-        echo "</pre>";
-        echo "<pre>";
-        var_dump($data);
-        echo "</pre>";
-        die();
+        $reg_num_id = $CI->MarcasSolicitudes_model->getLastIdRegistros();
+        $solicitud_id = $CI->MarcasSolicitudes_model->setCountPK();
         //We fill the first table
         $registroPrincipal = array(
-            'reg_num_id'        =>  $CI->MarcasSolicitudes_model->getLastIdRegistros(),
+            'reg_num_id'        => $reg_num_id,
             'staff_id'          => $data['staff_id'],
             'client_id'         => $data['client_id'],
             'oficina_id'        => $data['oficina_id'],
@@ -152,141 +149,80 @@ class MarcasSolicitudesController extends AdminController
             'libro'             => $data['libro'],
             'tomo'              => $data['tomo'],
             'folio'             => $data['folio'],
-            'comentarios'       => $data['comentarios'],
+            'comentarios'       => $form['comentarios'],
             'tipo_registro_id'  => $data['tipo_registro_id']
         );
-
+        //We fill the data of second table
+        
         $solicitudMarca = array(
-            'reg_num_id'            => $CI->MarcasSolicitudes_model->getLastIdRegistros(),
+            'solicitud_id'          => $solicitud_id,
+            'reg_num_id'            => $reg_num_id,
             'tipo_id'               => $data['tipo_id'],
             'cod_estado_id'         => $data['cod_estado_id'],
             'primer_uso'            => $data['primer_uso'],                   
             'prueba_uso'            => $data['prueba_uso'],               
             'carpeta'               => $data['carpeta'],            
             'numero_solicitud'      => $data['num_solicitud'],      
-            'fecha_solicitud'       => $data['fecha_solicitud'],    
-            'fecha_registro'        => $data['fecha_registro'],     
-            'fecha_certificado'     => $data['fecha_certificado'],                            
-            'num_certificado'       => $data['num_certificado'],                               
-            'fecha_vencimiento'     => $data['fecha_vencimiento']                                
+            'fecha_solicitud'       => NULL,    
+            'fecha_registro'        => NULL,
+            'fecha_certificado'     => NULL,                            
+            'num_certificado'       => $data['num_certificado'],            
+            'fecha_vencimiento'     => NULL,
         );
+        if($data['fecha_solicitud'] != '')
+        {
+            $fecha_solicitud = explode('/', $data['fecha_solicitud']);
+            $solicitudMarca['fecha_solicitud'] = "{$fecha_solicitud[2]}-{$fecha_solicitud[1]}-{$fecha_solicitud[0]}";    
+        }
+        if($data["fecha_registro"] != '')
+        {
+            $fecha_registro = explode('/', $data['fecha_registro']);
+            $solicitudMarca['fecha_registro'] = "{$fecha_registro[2]}-{$fecha_registro[1]}-{$fecha_registro[0]}";
+        }
 
-        //we validate the data
-        //we set the rules
-        $config = array(
-            [
-                'field' => 'staff_id',
-                'label' => 'Responsable',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar un responsable',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'client_id',
-                'label' => 'Cliente',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar un cliente',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'oficina_id',
-                'label' => 'Oficina',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar una oficina',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'ref_interna',
-                'label' => 'Referencia interna',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar una referencia interna',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'ref_cliente',
-                'label' => 'Referencia Cliente',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar una referencia del cliente',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'primer_uso',
-                'label' => 'Primer Uso',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar una fecha de uso',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'prueba_uso',
-                'label' => 'Prueba Uso',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar una fecha de prueba de uso',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'num_registro',
-                'label' => 'Nº de Registro',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar un numero de registro',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'fecha_registro',
-                'label' => 'Fecha Registro',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar una fecha de registro',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
+        if($data['fecha_certificado'] != '')
+        {
+            $fecha_certificado = explode('/', $data['fecha_certificado']);
+            $solicitud['fecha_certificado'] = "{$fecha_certificado[2]}-{$fecha_certificado[1]}-{$fecha_certificado[0]}";
+        }
+
+        if($data['fecha_vencimiento'] != '')
+        {
+            $fecha_vencimiento = explode('/',$data['fecha_vencimiento']);
+            $solicitud['fecha_vencimiento'] = "{$fecha_vencimiento[2]}-{$fecha_vencimiento[1]}-{$fecha_vencimiento[0]}";
+        }
+        //We fill the data of the fourth table
+        $clasesMarca = explode(',',$form['clase_niza_id']);
+        $claseMarca = array();
+        foreach($clasesMarca as $row)
+        {
+            $claseMarca[] = array(
+                'solicitud_id' => $solicitud_id,
+                'clase_niza_id' => $row
+            );
+        }
+        //We fill the data of the         
+        $path = FCPATH.'uploads/signos/'.$solicitud_id;
+        //wE FILL THE SIGNOS Table
+        $signosSolicitud = array(
+            'solicitud_id'   => $solicitud_id,
+            'tipo_signo_id'  => $data['tipo_signo_id'],
+            'descripcion'    => $data['descripcion-signo'],
+            'clasificacion'  => $data['comentario_signo'],
+            'path'           => NULL,
         );
-        $CI->form_validation->set_rules($config);
-        if(!$CI->form_validation->run() == FALSE)
+        if($file != NULL)
         {
-            return $this->create();
+            move_uploaded_file($file['tmp_name'], $path);
+            $signosSolicitud['path'] = $path;
         }
-        else
-        {
-            //we register in the first table
-            $query = $CI->MarcasSolicitudes_model->insertRegistro($registroPrincipal);
-            if(isset($query))
-            {
-                unset($query);
-                //we register in the second table
-                $query = $CI->MarcasSolicitudes_model->insert($solicitudMarca);
-                if(isset($query))
-                {
-                    return redirect(admin_url('pi/MarcasSolicitudesController/'));
-                }
-            }
-            
-        }
-        
+        //We insert the data in the first table
+        $CI->MarcasSolicitudes_model->insertRegistro($registroPrincipal);
+        //We insert the data in the second table
+        $CI->MarcasSolicitudes_model->insert($solicitudMarca);
+        //We insert the data in the third table
+        $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseMarca);
+        echo json_encode(['message' => 'success',  'solicitud_id' => $solicitud_id]);
     }
 
     /**

@@ -22,10 +22,17 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function setCountPK()
     {
-        $query = $this->db->query("SHOW TABLE STATUS LIKE '{$this->tableName}'");
-        $this->countPK = $query->result_array()[0]['Auto_increment'];
-        return $this->countPK ;
-        
+        $query = $this->db->query("SELECT solicitud_id FROM {$this->tableName} ORDER by solicitud_id ASC LIMIT 1");
+        if(empty($query->result_array()))
+        {
+            $this->countPK = 1;
+            return $this->countPK;    
+        }
+        else
+        {
+            $this->countPK = intval($query->result_array()[0]['solicitud_id']) + 1;
+            return $this->countPK ;
+        }
     }
 
     public function getFieldsRegistros()
@@ -37,8 +44,15 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function getLastIdRegistros()
     {
-        $query = $this->db->query("SHOW TABLE STATUS LIKE 'tbl_tm_registros_principales'");
-        return (intval($query->result_array()[0]['Auto_increment']) + 1);
+        $query = $this->db->query("SELECT reg_num_id FROM tbl_tm_registros_principales ORDER by reg_num_id ASC LIMIT 1");
+        if(empty($query->result_array()))
+        {
+            return 1;
+        }
+        else{
+            return (intval($query->result_array()[0]['reg_num_id']) + 1);
+        }
+        
     }
 
 
@@ -367,6 +381,24 @@ class MarcasSolicitudes_model extends BaseModel
     public function insertRegistro($params)
     {
         $query = $this->db->insert('tbl_tm_registros_principales', $params);
+        return $query;
+    }
+
+    public function insertPaisesDesignados($params)
+    {
+        $query = $this->db->insert_batch('tbl_tm_paises_designados', $params);
+        return $query;
+    }
+
+    public function insertSolicitudesClases($params)
+    {
+        $query = $this->db->insert_batch('tbl_solicitudes_clases', $params);
+        return $query;
+    }
+
+    public function insertMarcasSolicitantes($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_solicitantes', $params);
         return $query;
     }
 

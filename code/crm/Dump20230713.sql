@@ -42,7 +42,7 @@ CREATE TABLE `tbl_acciones_marcas_terceros` (
   CONSTRAINT `marcas_accion_id_fk1` FOREIGN KEY (`marca_id_opuesta`) REFERENCES `tbl_marcas` (`marca_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `oficinas_accion_id_fk` FOREIGN KEY (`oficina_id`) REFERENCES `tbl_oficinas` (`oficina_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipo_solicitud_accion_id_fk` FOREIGN KEY (`tipo_id`) REFERENCES `tbl_tipo_solicitud` (`tipo_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de acciones a terceros';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de acciones a terceros';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `tbl_acciones_terceros_eventos` (
   KEY `accion_id_acciones_terceros_eventos_fk` (`accion_id`),
   CONSTRAINT `accion_id_acciones_terceros_eventos_fk` FOREIGN KEY (`accion_id`) REFERENCES `tbl_acciones_marcas_terceros` (`accion_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `eventos_acciones_terceros_eventos_fk` FOREIGN KEY (`eve_id`) REFERENCES `tbl_eventos` (`eve_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los eventos de marcas de terceros';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los eventos de marcas de terceros';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ CREATE TABLE `tbl_acciones_terceros_expedientes` (
   PRIMARY KEY (`acc_ter_id`),
   KEY `expediente_acciones_terceros_expedientes_fk` (`exp_id`),
   CONSTRAINT `expediente_acciones_terceros_expedientes_fk` FOREIGN KEY (`exp_id`) REFERENCES `tbl_expedientes` (`exp_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los expedientes de terceros';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los expedientes de terceros';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `tbl_anexo_participante` (
   KEY `anexos_solicitudes_anexo_participante_fk` (`anexo_id`),
   CONSTRAINT `anexos_solicitudes_anexo_participante_fk` FOREIGN KEY (`anexo_id`) REFERENCES `tbl_tm_anexos` (`anexo_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `part_id_anexo_participante_fk` FOREIGN KEY (`tipo_part_id`) REFERENCES `tbl_tipos_participacion` (`tipo_part_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de participantes en los anexos';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de participantes en los anexos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +155,7 @@ CREATE TABLE `tbl_anexos_patentes` (
   KEY `solicitud_patentes_anexos_patentes_fk` (`sol_pat_id`),
   CONSTRAINT `anexos_anexos_patentes_fk` FOREIGN KEY (`num_anexo`) REFERENCES `tbl_tm_anexos` (`anexo_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitud_patentes_anexos_patentes_fk` FOREIGN KEY (`sol_pat_id`) REFERENCES `tbl_tm_solicitud_patentes` (`sol_pat_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de union entre los anexos y las patentes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de union entre los anexos y las patentes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,7 +183,7 @@ CREATE TABLE `tbl_anexos_solicitudes` (
   KEY `marcas_solicitudes_anexos_solicitudes_fk` (`solicitud_id`),
   CONSTRAINT `anexos_anexos_solicitudes_fk` FOREIGN KEY (`anexo_id`) REFERENCES `tbl_tm_anexos` (`anexo_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `marcas_solicitudes_anexos_solicitudes_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de union entre solicitudes y los anexos';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de union entre solicitudes y los anexos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `tbl_busqueda_marcas` (
   PRIMARY KEY (`busq_id`),
   KEY `paises_marbusq_fk` (`pais_id`),
   CONSTRAINT `paises_marbusq_fk` FOREIGN KEY (`pais_id`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de busqueda de marcas';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de busqueda de marcas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ CREATE TABLE `tbl_busqueda_tipo` (
   KEY `marbusq_busqieda_tipo_fk` (`busq_id`),
   CONSTRAINT `marbusq_busqieda_tipo_fk` FOREIGN KEY (`busq_id`) REFERENCES `tbl_busqueda_marcas` (`busq_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipo_busqueda_busqieda_tipo_fk` FOREIGN KEY (`tipo_busq_id`) REFERENCES `tbl_tipo_busqueda` (`tipo_busq_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla que almacena que tipo de busqueda por cada busqueda';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla que almacena que tipo de busqueda por cada busqueda';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +267,7 @@ CREATE TABLE `tbl_clase_niza` (
   `version` varchar(3) NOT NULL DEFAULT '23',
   `is_activate` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`niza_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de las clases de niza';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de las clases de niza';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +295,7 @@ CREATE TABLE `tbl_contacto_registro` (
   PRIMARY KEY (`con_reg_id`),
   KEY `registros_contacto_registro_fk` (`num_reg_id`),
   CONSTRAINT `registros_contacto_registro_fk` FOREIGN KEY (`num_reg_id`) REFERENCES `tbl_tm_registros_principales` (`reg_num_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los contactos de los clientes en los registros';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los contactos de los clientes en los registros';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -323,7 +323,7 @@ CREATE TABLE `tbl_docu_solicitudes_marcas` (
   KEY `solicitudes_doc_solicitud_fk` (`solicitud_id`),
   CONSTRAINT `documentos_doc_solicitud_fk` FOREIGN KEY (`doc_id`) REFERENCES `tbl_tm_documentos` (`doc_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitudes_doc_solicitud_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de documentos de solicitudes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de documentos de solicitudes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -351,7 +351,7 @@ CREATE TABLE `tbl_documentos_accion_terceros` (
   KEY `accion_id_doc_acc_ter_fk` (`accion_id`),
   CONSTRAINT `accion_id_doc_acc_ter_fk` FOREIGN KEY (`accion_id`) REFERENCES `tbl_acciones_marcas_terceros` (`accion_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `documentos_doc_acc_ter_fk` FOREIGN KEY (`doc_id`) REFERENCES `tbl_tm_documentos` (`doc_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de documentos de terceros';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de documentos de terceros';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -379,7 +379,7 @@ CREATE TABLE `tbl_documentos_registros` (
   KEY `registros_solicitantes_documentos_registros_fk` (`reg_sol_id`),
   CONSTRAINT `documentos_documentos_registros_fk` FOREIGN KEY (`doc_id`) REFERENCES `tbl_tm_documentos` (`doc_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `registros_solicitantes_documentos_registros_fk` FOREIGN KEY (`reg_sol_id`) REFERENCES `tbl_tm_registros_solicitantes` (`reg_sol_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de registros de los documentos';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de registros de los documentos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -409,7 +409,7 @@ CREATE TABLE `tbl_estados` (
   PRIMARY KEY (`estado_id`),
   KEY `materias_estados_fk` (`materia_id`),
   CONSTRAINT `materias_estados_fk` FOREIGN KEY (`materia_id`) REFERENCES `tbl_materias` (`materia_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de estados';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de estados';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -434,7 +434,7 @@ CREATE TABLE `tbl_estados_solicitudes` (
   `descripcion` varchar(255) DEFAULT NULL,
   `nombre` varchar(60) NOT NULL,
   PRIMARY KEY (`cod_estado_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de estados de solicitudes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de estados de solicitudes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -461,7 +461,7 @@ CREATE TABLE `tbl_eventos` (
   PRIMARY KEY (`eve_id`),
   KEY `tipo_evento_eventos_fk` (`tipo_eve_id`),
   CONSTRAINT `tipo_evento_eventos_fk` FOREIGN KEY (`tipo_eve_id`) REFERENCES `tbl_tipo_evento` (`tipo_eve_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de eventos';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de eventos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -489,7 +489,7 @@ CREATE TABLE `tbl_eventos_patentes` (
   KEY `solicitud_patentes_patentes_eventos_fk` (`sol_pat_id`),
   CONSTRAINT `eventos_patentes_eventos_fk` FOREIGN KEY (`eve_id`) REFERENCES `tbl_eventos` (`eve_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitud_patentes_patentes_eventos_fk` FOREIGN KEY (`sol_pat_id`) REFERENCES `tbl_tm_solicitud_patentes` (`sol_pat_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los eventos de patentes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los eventos de patentes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -517,7 +517,7 @@ CREATE TABLE `tbl_eventos_registros_sanitarios` (
   KEY `registros_solicitantes_registros_eventos_fk` (`reg_sol_id`),
   CONSTRAINT `eventos_registros_eventos_fk` FOREIGN KEY (`eve_id`) REFERENCES `tbl_eventos` (`eve_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `registros_solicitantes_registros_eventos_fk` FOREIGN KEY (`reg_sol_id`) REFERENCES `tbl_tm_registros_solicitantes` (`reg_sol_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de eventos de los registros sanitarios';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de eventos de los registros sanitarios';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -546,7 +546,7 @@ CREATE TABLE `tbl_expedientes` (
   `fecha_emision_certificado` date NOT NULL,
   `fecha_vencimiento_certificado` date NOT NULL,
   PRIMARY KEY (`exp_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de todos los expedientes\n';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de todos los expedientes\n';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -574,7 +574,7 @@ CREATE TABLE `tbl_expedientes_marcas` (
   KEY `marcas_solicitudes_marcas_expedientes_fk` (`solicitud_id`),
   CONSTRAINT `expediente_marcas_expedientes_fk` FOREIGN KEY (`exp_id`) REFERENCES `tbl_expedientes` (`exp_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `marcas_solicitudes_marcas_expedientes_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de expedientes de marcas';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de expedientes de marcas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -602,7 +602,7 @@ CREATE TABLE `tbl_expedientes_registros` (
   KEY `registros_solicitantes_expedientes_registros_fk` (`reg_sol_id`),
   CONSTRAINT `expediente_expedientes_registros_fk` FOREIGN KEY (`exp_id`) REFERENCES `tbl_expedientes` (`exp_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `registros_solicitantes_expedientes_registros_fk` FOREIGN KEY (`reg_sol_id`) REFERENCES `tbl_tm_registros_solicitantes` (`reg_sol_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los expedientes de los registros';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los expedientes de los registros';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -625,7 +625,7 @@ CREATE TABLE `tbl_grupos_registros_sanitarios` (
   `grupo_id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   PRIMARY KEY (`grupo_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los grupos';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los grupos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -651,7 +651,7 @@ CREATE TABLE `tbl_marcas` (
   PRIMARY KEY (`marca_id`),
   KEY `clasniza_marcas_fk` (`clase_niza_id`),
   CONSTRAINT `clasniza_marcas_fk` FOREIGN KEY (`clase_niza_id`) REFERENCES `tbl_clase_niza` (`niza_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de marcas';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de marcas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -681,7 +681,7 @@ CREATE TABLE `tbl_marcas_prioridad` (
   KEY `paises_prioridad_fk` (`pais_id`),
   CONSTRAINT `paises_prioridad_fk` FOREIGN KEY (`pais_id`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitudes_prioridad_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='tabla de prioridad de la solicitud de marcas';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='tabla de prioridad de la solicitud de marcas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -714,7 +714,7 @@ CREATE TABLE `tbl_marcas_publicaciones` (
   CONSTRAINT `boletines_publicaciones_fk` FOREIGN KEY (`boletin_id`) REFERENCES `tbl_tm_boletines` (`boletin_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `marcas_solicitudes_marcas_publicaciones_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipo_publicacion_publicaciones_fk` FOREIGN KEY (`tipo_pub_id`) REFERENCES `tbl_tipo_publicacion` (`tipo_pub_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de manejo de publicaciones de marcas';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de manejo de publicaciones de marcas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -742,7 +742,7 @@ CREATE TABLE `tbl_marcas_solicitantes` (
   KEY `solicitudes_marcas_solicitantes_fk` (`solicitud_id`),
   CONSTRAINT `solicitantes_marcas_solicitantes_fk` FOREIGN KEY (`solicit_id`) REFERENCES `tbl_solicitantes` (`solicit_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitudes_marcas_solicitantes_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de marcas de solicitantes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de marcas de solicitantes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -782,7 +782,7 @@ CREATE TABLE `tbl_marcas_solicitudes` (
   CONSTRAINT `estados_solicitudes_solicitudes_fk` FOREIGN KEY (`cod_estado_id`) REFERENCES `tbl_estados` (`estado_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `registros_marcas_solicitudes_fk` FOREIGN KEY (`reg_num_id`) REFERENCES `tbl_tm_registros_principales` (`reg_num_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipo_solicitud_solicitudes_fk` FOREIGN KEY (`tipo_id`) REFERENCES `tbl_tipo_solicitud` (`tipo_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de las solicitudes';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de las solicitudes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -806,7 +806,7 @@ CREATE TABLE `tbl_materias` (
   `materia_id` int NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`materia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de las materias';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de las materias';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -833,7 +833,7 @@ CREATE TABLE `tbl_niza_productos` (
   PRIMARY KEY (`prod_id`),
   KEY `clasniza_niza_productos_fk` (`clase_niza_id`),
   CONSTRAINT `clasniza_niza_productos_fk` FOREIGN KEY (`clase_niza_id`) REFERENCES `tbl_clase_niza` (`niza_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de productos permitidos por la clase niza';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de productos permitidos por la clase niza';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -856,7 +856,7 @@ CREATE TABLE `tbl_oficinas` (
   `oficina_id` int NOT NULL,
   `direccion` varchar(512) NOT NULL,
   PRIMARY KEY (`oficina_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de Oficinas';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de Oficinas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -883,7 +883,7 @@ CREATE TABLE `tbl_oficinas_contactos` (
   PRIMARY KEY (`ofi_cont_id`),
   KEY `oficinas_oficinas_contactos_fk` (`oficina_id`),
   CONSTRAINT `oficinas_oficinas_contactos_fk` FOREIGN KEY (`oficina_id`) REFERENCES `tbl_oficinas` (`oficina_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de contactos de oficinas';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de contactos de oficinas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -906,7 +906,7 @@ CREATE TABLE `tbl_paises` (
   `pais_id` int NOT NULL,
   `nombre` varchar(60) NOT NULL,
   PRIMARY KEY (`pais_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de paises';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de paises';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -939,7 +939,7 @@ CREATE TABLE `tbl_patentes_expediente` (
   KEY `solicitud_patentes_patentes_expediente_fk` (`sol_pat_id`),
   CONSTRAINT `expediente_patentes_expediente_fk` FOREIGN KEY (`exp_id`) REFERENCES `tbl_expedientes` (`exp_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitud_patentes_patentes_expediente_fk` FOREIGN KEY (`sol_pat_id`) REFERENCES `tbl_tm_solicitud_patentes` (`sol_pat_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los expedientes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los expedientes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -969,7 +969,7 @@ CREATE TABLE `tbl_patentes_inventores` (
   PRIMARY KEY (`inventor_id`),
   KEY `paises_patentes_inventores_fk` (`pais_id`),
   CONSTRAINT `paises_patentes_inventores_fk` FOREIGN KEY (`pais_id`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de inventores';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de inventores';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -999,7 +999,7 @@ CREATE TABLE `tbl_patentes_prioridad` (
   KEY `solicitud_patentes_patentes_prioridad_fk` (`sol_pat_id`),
   CONSTRAINT `paises_patentes_prioridad_fk` FOREIGN KEY (`pais_id`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitud_patentes_patentes_prioridad_fk` FOREIGN KEY (`sol_pat_id`) REFERENCES `tbl_tm_solicitud_patentes` (`sol_pat_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de las prioridades de patentes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de las prioridades de patentes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1032,7 +1032,7 @@ CREATE TABLE `tbl_patentes_publicaciones` (
   CONSTRAINT `boletines_patentes_publicaciones_fk` FOREIGN KEY (`boletin_id`) REFERENCES `tbl_tm_boletines` (`boletin_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitud_patentes_patentes_publicaciones_fk` FOREIGN KEY (`sol_pat_id`) REFERENCES `tbl_tm_solicitud_patentes` (`sol_pat_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipo_publicacion_patentes_publicaciones_fk` FOREIGN KEY (`tipo_pub_id`) REFERENCES `tbl_tipo_publicacion` (`tipo_pub_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de las publicaciones de patentes.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de las publicaciones de patentes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1060,7 +1060,7 @@ CREATE TABLE `tbl_patentes_solicitantes` (
   KEY `solicitud_patentes_patentes_solicitantes_fk` (`sol_pat_id`),
   CONSTRAINT `solicitantes_patentes_solicitantes_fk` FOREIGN KEY (`pat_sol_id`) REFERENCES `tbl_solicitantes` (`solicit_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitud_patentes_patentes_solicitantes_fk` FOREIGN KEY (`sol_pat_id`) REFERENCES `tbl_tm_solicitud_patentes` (`sol_pat_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de los solicitantes de patentes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de los solicitantes de patentes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1092,7 +1092,7 @@ CREATE TABLE `tbl_registros_sanitarios` (
   CONSTRAINT `paises_registros_sanitarios_fk` FOREIGN KEY (`pais_id`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `registros_grupos_registros_sanitarios_fk` FOREIGN KEY (`grupo_id`) REFERENCES `tbl_grupos_registros_sanitarios` (`grupo_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `registros_registros_sanitarios_fk` FOREIGN KEY (`reg_num_id`) REFERENCES `tbl_tm_registros_principales` (`reg_num_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los registros sanitarios';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los registros sanitarios';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1121,7 +1121,7 @@ CREATE TABLE `tbl_servicios` (
   PRIMARY KEY (`codigo`),
   KEY `materias_servicios_fk` (`materia_id`),
   CONSTRAINT `materias_servicios_fk` FOREIGN KEY (`materia_id`) REFERENCES `tbl_materias` (`materia_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los servicios';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los servicios';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1151,7 +1151,7 @@ CREATE TABLE `tbl_signos_solicitud_marcas` (
   KEY `tipo_solicitud_signos_fk` (`solicitud_id`),
   CONSTRAINT `tipo_solicitud_signos_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipos_signos_signos_solicitud_fk` FOREIGN KEY (`tipo_signo_id`) REFERENCES `tbl_tipos_signos` (`tipos_signo_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de signos';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de signos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1174,7 +1174,7 @@ CREATE TABLE `tbl_solicitantes` (
   `solicit_id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   PRIMARY KEY (`solicit_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de los solicitantes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de los solicitantes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1202,7 +1202,7 @@ CREATE TABLE `tbl_solicitudes_clases` (
   KEY `clasniza_solicitudes_clases_fk` (`clase_niza_id`),
   CONSTRAINT `clasniza_solicitudes_clases_fk` FOREIGN KEY (`clase_niza_id`) REFERENCES `tbl_clase_niza` (`niza_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `solicitudes_solicitudes_clases_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de las clases de niza en las solicitudes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de las clases de niza en las solicitudes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1230,7 +1230,7 @@ CREATE TABLE `tbl_solicitudes_eventos` (
   KEY `marcas_solicitudes_solicitudes_eventos_fk` (`solicitud_id`),
   CONSTRAINT `eventos_solicitudes_eventos_fk` FOREIGN KEY (`eve_id`) REFERENCES `tbl_eventos` (`eve_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `marcas_solicitudes_solicitudes_eventos_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de registro de los eventos en las solicitudes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de registro de los eventos en las solicitudes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1253,7 +1253,7 @@ CREATE TABLE `tbl_tipo_anexo` (
   `tip_ax_id` int NOT NULL AUTO_INCREMENT,
   `nombre_anexo` varchar(60) NOT NULL,
   PRIMARY KEY (`tip_ax_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla con los tipos de anexos';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla con los tipos de anexos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1277,7 +1277,7 @@ CREATE TABLE `tbl_tipo_busqueda` (
   `tipo_busq_id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   PRIMARY KEY (`tipo_busq_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de los tipo de busqueda';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de los tipo de busqueda';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1306,7 +1306,7 @@ CREATE TABLE `tbl_tipo_evento` (
   PRIMARY KEY (`tipo_eve_id`),
   KEY `materias_tipo_evento_fk` (`materia_id`),
   CONSTRAINT `materias_tipo_evento_fk` FOREIGN KEY (`materia_id`) REFERENCES `tbl_materias` (`materia_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra  de eventos';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra  de eventos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1330,7 +1330,7 @@ CREATE TABLE `tbl_tipo_publicacion` (
   `tipo_pub_id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   PRIMARY KEY (`tipo_pub_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de tipo de publicacion';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de tipo de publicacion';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1379,7 +1379,7 @@ CREATE TABLE `tbl_tipo_solicitud` (
   `tipo_id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   PRIMARY KEY (`tipo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla Maestra de tipo de solicitudes';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla Maestra de tipo de solicitudes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1406,7 +1406,7 @@ CREATE TABLE `tbl_tipos_participacion` (
   PRIMARY KEY (`tipo_part_id`),
   KEY `tipo_anexo_part_id_fk` (`tip_ax_id`),
   CONSTRAINT `tipo_anexo_part_id_fk` FOREIGN KEY (`tip_ax_id`) REFERENCES `tbl_tipo_anexo` (`tip_ax_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de los tipos de participacion';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de los tipos de participacion';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1429,7 +1429,7 @@ CREATE TABLE `tbl_tipos_patentes` (
   `tip_pat_id` int NOT NULL AUTO_INCREMENT,
   `nombre_tipo` varchar(60) NOT NULL,
   PRIMARY KEY (`tip_pat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de tipos de patentes';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de tipos de patentes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1453,7 +1453,7 @@ CREATE TABLE `tbl_tipos_signos` (
   `tipos_signo_id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   PRIMARY KEY (`tipos_signo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de los tipos de signos';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla maestra de los tipos de signos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1485,7 +1485,7 @@ CREATE TABLE `tbl_tm_anexos` (
   KEY `estados_solicitudes_anexos_solicitudes_fk` (`cod_estado_id`),
   CONSTRAINT `estados_solicitudes_anexos_solicitudes_fk` FOREIGN KEY (`cod_estado_id`) REFERENCES `tbl_estados_solicitudes` (`cod_estado_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `oficinas_anexos_solicitudes_fk` FOREIGN KEY (`oficina_gestora`) REFERENCES `tbl_oficinas` (`oficina_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de los anexos de las solicitudes y patentes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de los anexos de las solicitudes y patentes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1512,7 +1512,7 @@ CREATE TABLE `tbl_tm_boletines` (
   PRIMARY KEY (`boletin_id`),
   KEY `paises_boletines_fk` (`pais_id`),
   CONSTRAINT `paises_boletines_fk` FOREIGN KEY (`pais_id`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=652 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='tabla de almacenamiento de boletines';
+) ENGINE=InnoDB AUTO_INCREMENT=652 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='tabla de almacenamiento de boletines';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1541,7 +1541,7 @@ CREATE TABLE `tbl_tm_documentos` (
   `created_at` date NOT NULL,
   `created_by` int DEFAULT NULL COMMENT 'FK with Staff member',
   PRIMARY KEY (`doc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de rutas de documentos';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de rutas de documentos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1569,7 +1569,7 @@ CREATE TABLE `tbl_tm_paises_designados` (
   KEY `paises_paises_designados_fk` (`pais_id`),
   CONSTRAINT `paises_paises_designados_fk` FOREIGN KEY (`pais_id`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipo_solicitud_paises_designados_fk` FOREIGN KEY (`solicitud_id`) REFERENCES `tbl_marcas_solicitudes` (`solicitud_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='tabla de paises designados';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='tabla de paises designados';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1606,7 +1606,7 @@ CREATE TABLE `tbl_tm_registros_principales` (
   KEY `tipo_registro_fk_idx` (`tipo_registro_id`),
   CONSTRAINT `oficinas_registros_fk` FOREIGN KEY (`oficina_id`) REFERENCES `tbl_oficinas` (`oficina_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipo_registro_fk` FOREIGN KEY (`tipo_registro_id`) REFERENCES `tbl_tipo_registro` (`tipo_registro_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenaje de los elementos basicos de las solicitudes';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenaje de los elementos basicos de las solicitudes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1644,7 +1644,7 @@ CREATE TABLE `tbl_tm_registros_solicitantes` (
   CONSTRAINT `marcas_registros_solicitantes_fk` FOREIGN KEY (`marca_id`) REFERENCES `tbl_marcas` (`marca_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `paises_registros_solicitantes_fk` FOREIGN KEY (`pais_id`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `registros_sanitarios_registros_solicitantes_fk` FOREIGN KEY (`reg_san_id`) REFERENCES `tbl_registros_sanitarios` (`reg_san_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de almacenamiento de los registros de los solicitantes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de almacenamiento de los registros de los solicitantes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1678,7 +1678,7 @@ CREATE TABLE `tbl_tm_solicitud_patentes` (
   CONSTRAINT `paises_solicitud_patentes_fk` FOREIGN KEY (`pais_pat`) REFERENCES `tbl_paises` (`pais_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `registros_solicitud_patentes_fk` FOREIGN KEY (`reg_num_id`) REFERENCES `tbl_tm_registros_principales` (`reg_num_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tipos_patentes_solicitud_patentes_fk` FOREIGN KEY (`tip_pat_id`) REFERENCES `tbl_tipos_patentes` (`tip_pat_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla de solicitudes de patentes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci COMMENT='Tabla de solicitudes de patentes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

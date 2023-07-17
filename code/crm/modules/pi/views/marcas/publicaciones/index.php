@@ -6,7 +6,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/publicacionesmarcascontroller/create');?>"><i class="fas fa-plus"></i> Nueva Publicacion</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/PublicacionesMarcasController/create');?>"><i class="fas fa-plus"></i> Nueva Publicacion</a>
                             </div>
                         </div>
                         <div class="row">
@@ -33,9 +33,9 @@
                                                     <td><?php echo $row['tomo'];?></td>
                                                     <td><?php echo $row['pagina'];?></td>
                                                     <td><?php echo $row['tipo_pub_id'];?>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/publicacionesmarcascontroller/destroy/{$row['pub_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/PublicacionesMarcasController/destroy/{$row['pub_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/publicacionesmarcascontroller/edit/{$row['pub_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/PublicacionesMarcasController/edit/{$row['pub_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 

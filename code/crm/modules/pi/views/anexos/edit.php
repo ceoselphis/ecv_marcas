@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('pi/anexoscontroller/update/'.$id), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/AnexosController/update/'.$id), 'form'); ?>
                         <div class="col-md-4">
                             <?php foreach($values as $key => $value){?>
                                 <?php echo form_label('Nombre del Anexo');?>

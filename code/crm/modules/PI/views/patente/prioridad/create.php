@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('pi/patenteprioridadcontroller/store'), ['form', 'form-inline']); ?>
+                        <?php echo form_open(admin_url('pi/PatentePrioridadController/store'), ['form', 'form-inline']); ?>
                         <div class="col-md-2">
                             <?php echo form_label($labels[1],$labels[1]);?>
                             <?php echo form_dropdown($fields[1]['name'],$solicitud, set_value($fields[1]['name']), ['class' => 'form-control'])?>
@@ -25,7 +25,7 @@
                         <div class="col-3" style="padding-top: 1.5%;">
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/patenteprioridadcontroller/');?>" class="btn btn-success">Volver atrás</a>
+                            <a href="<?php echo admin_url('pi/PatentePrioridadController/');?>" class="btn btn-success">Volver atrás</a>
                         </div>
                     </div>
                 </div>

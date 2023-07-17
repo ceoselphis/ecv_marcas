@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class MateriasController extends AdminController
 {
     protected $models = ['Materias_model'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
       
     public function index()
     {

@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class PatentePrioridadController extends AdminController
 {
     protected $models = ['PatentesPrioridad_model'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
       
     public function index()
     {

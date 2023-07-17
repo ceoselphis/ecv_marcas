@@ -6,7 +6,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/anexoscontroller/create');?>"><i class="fas fa-plus"></i> Nuevo Anexo</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/AnexosController/create');?>"><i class="fas fa-plus"></i> Nuevo Anexo</a>
                             </div>
                         </div>
                         <div class="row">
@@ -25,9 +25,9 @@
                                                 <tr>
                                                     <td><?php echo $row['tip_ax_id'];?></td>
                                                     <td><?php echo $row['nombre_anexo'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/anexoscontroller/destroy/{$row['tip_ax_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/AnexosController/destroy/{$row['tip_ax_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/anexoscontroller/edit/{$row['tip_ax_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/AnexosController/edit/{$row['tip_ax_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 
@@ -57,7 +57,7 @@
     
 </style>
 
-<script src="<?php echo base_url('assets/plugins/jquery/jquery.js');?>"></script>
+<?php init_tail();?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
@@ -68,6 +68,6 @@
     });
 </script>
 
-<?php init_tail();?>
+
 </body>
 </html>

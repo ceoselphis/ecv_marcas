@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                     <?php $CI = &get_instance();?>
-                        <?php echo form_open(admin_url('pi/TiposEventoscontroller/update/'.$id), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/TiposEventosController/update/'.$id), 'form'); ?>
                         <div class="col-md-3">
                             <?php echo form_label('Nombre de evento', 'nombre', ['form-label']);?>
                             <?php echo form_input('nombre', set_value('nombre',$values[0]['nombre']), ['class' => 'form-control']);?>

@@ -6,7 +6,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/clasescontroller/create');?>"><i class="fas fa-plus"></i> Nueva Clase</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/ClasesController/create');?>"><i class="fas fa-plus"></i> Nueva Clase</a>
                             </div>
                         </div>
                         <div class="row">
@@ -33,10 +33,10 @@
                                                 <?php } else { ?>
                                                     <td>Desactivado</td>
                                                     <?php } ?>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/clasescontroller/destroy/{$row['niza_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/ClasesController/destroy/{$row['niza_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-link detail" href="<?php echo admin_url("pi/clasescontroller/show/{$row['niza_id']}");?>"><i class="fas fa-details"></i>Detalles</a>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/clasescontroller/edit/{$row['niza_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-link detail" href="<?php echo admin_url("pi/ClasesController/show/{$row['niza_id']}");?>"><i class="fas fa-details"></i>Detalles</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/ClasesController/edit/{$row['niza_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 

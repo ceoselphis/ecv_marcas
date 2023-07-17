@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class MarcasSolicitudesController extends AdminController
 {
     protected $models = ['MarcasSolicitudes_model'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
       
     public function index()
     {
@@ -276,7 +281,7 @@ class MarcasSolicitudesController extends AdminController
                 $query = $CI->MarcasSolicitudes_model->insert($solicitudMarca);
                 if(isset($query))
                 {
-                    return redirect(admin_url('pi/marcassolicitudescontroller/'));
+                    return redirect(admin_url('pi/MarcasSolicitudesController/'));
                 }
             }
             
@@ -309,7 +314,7 @@ class MarcasSolicitudesController extends AdminController
             return $CI->load->view('marcas/solicitudes/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{
-            return redirect('pi/marcassolicitudescontroller/');
+            return redirect('pi/MarcasSolicitudesController/');
         }
     }
 
@@ -352,7 +357,7 @@ class MarcasSolicitudesController extends AdminController
             $query = $CI->MarcasSolicitudes_model->update($id, $data);
             if (isset($query))
             {
-                return redirect('pi/marcassolicitudescontroller/');
+                return redirect('pi/MarcasSolicitudesController/');
             }
         }
     }
@@ -367,7 +372,7 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->model("MarcasSolicitudes_model");
         $CI->load->helper('url');
         $query = $CI->MarcasSolicitudes_model->delete($id);
-        return redirect('pi/marcassolicitudescontroller/');
+        return redirect('pi/MarcasSolicitudesController/');
         
         
     }

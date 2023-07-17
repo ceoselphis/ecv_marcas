@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('pi/TiposEventoscontroller/store'), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/TiposEventosController/store'), 'form'); ?>
                         <div class="col-md-4">
                             <?php echo form_label($labels[1]);?>
                             <br />
@@ -25,7 +25,7 @@
                         <div class="col-2">
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
-                            <a href="<?php echo admin_url('pi/tiposeventoscontroller/');?>" class="btn btn-success">Volver atras</a>
+                            <a href="<?php echo admin_url('pi/TiposEventosController/');?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>
                 </div>

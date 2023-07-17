@@ -6,7 +6,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/inventorescontroller/create');?>"><i class="fas fa-plus"></i>Registrar Inventor</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/InventoresController/create');?>"><i class="fas fa-plus"></i>Registrar Inventor</a>
                             </div>
                         </div>
                         <div class="row">
@@ -31,9 +31,9 @@
                                                     <td class="whitespace-nowrap px-6 py-4"><?php echo $row['nombre'];?></td>
                                                     <td class="whitespace-nowrap px-6 py-4"><?php echo $row['apellid'];?></td>
                                                     <td class="whitespace-nowrap px-6 py-4"><?php echo $row['nacionalidad'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/inventorescontroller/destroy/{$row['inventor_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/InventoresController/destroy/{$row['inventor_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td class="whitespace-nowrap px-6 py-4">
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/inventorescontroller/edit/{$row['inventor_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/InventoresController/edit/{$row['inventor_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 

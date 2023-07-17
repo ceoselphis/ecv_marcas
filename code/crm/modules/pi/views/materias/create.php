@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('pi/materiascontroller/store'), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/MateriasController/store'), 'form'); ?>
                         <div class="col-md-6">
                             <?php echo form_label($labels[1]);?>
                             <?php echo form_input($fields[1]['name'],set_value($fields[1]['name']), ['class' => 'form-control']);?>
@@ -16,7 +16,7 @@
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/materiascontroller/');?>" class="btn btn-success">Volver atras</a>
+                            <a href="<?php echo admin_url('pi/MateriasController/');?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>
                 </div>

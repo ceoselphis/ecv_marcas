@@ -16,6 +16,11 @@ class Dnda extends AdminController
      * 
      */
 
+     public function __construct()
+    {
+        parent::__construct();
+    }
+
      /**
       * Method to shows a view in the admin panel
       */

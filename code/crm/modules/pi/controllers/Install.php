@@ -15,6 +15,10 @@ class Install extends AdminController
      * 
      * 
      */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
      /**
       * Method to shows the installer

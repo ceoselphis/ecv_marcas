@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body" style="padding-bottom: 0%;">
-                        <?php echo form_open(admin_url('pi/inventorescontroller/store'), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/InventoresController/store'), 'form'); ?>
                         <div class="col-md-2">
                             <?php echo form_label($labels[1]);?>
                             <br />
@@ -48,7 +48,7 @@
                         <div class="col-3" style="padding-top: 19%;">
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/inventorescontroller');?>" class="btn btn-success">Volver atras</a>
+                            <a href="<?php echo admin_url('pi/InventoresController');?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>
                         

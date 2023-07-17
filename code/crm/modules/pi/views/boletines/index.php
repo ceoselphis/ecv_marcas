@@ -6,7 +6,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/boletinescontroller/create');?>"><i class="fas fa-plus"></i> Nuevo Boletin</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/BoletinesController/create');?>"><i class="fas fa-plus"></i> Nuevo Boletin</a>
                             </div>
                         </div>
                         <div class="row">
@@ -29,9 +29,9 @@
                                                     <td><?php echo date('d/m/Y',strtotime($row['fecha_publicacion']));?></td>
                                                     <td><?php echo $row['pais_id'];?></td>
                                                     <td><?php echo $row['nombre'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/boletinescontroller/destroy/{$row['boletin_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/BoletinesController/destroy/{$row['boletin_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/boletinescontroller/edit/{$row['boletin_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/BoletinesController/edit/{$row['boletin_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 
@@ -59,7 +59,7 @@
         text-align: center;
     }
 </style>
-<script src="<?php echo base_url('assets/plugins/jquery/jquery.js');?>"></script>
+<?php init_tail();?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
@@ -70,6 +70,6 @@
     });
 </script>
 
-<?php init_tail();?>
+
 </body>
 </html>

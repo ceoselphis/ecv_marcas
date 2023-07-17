@@ -8,7 +8,7 @@
                     <div class="panel-body">
                         <?php $CI = &get_instance();?>
                         <?php echo validation_errors(); ?>
-                        <?php echo form_open(admin_url('pi/eventoscontroller/store'), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/EventosController/store'), 'form'); ?>
                         <div class="col-md-4">
                             <?php echo form_label($labels[1]);?>
                             <br />

@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('pi/boletinescontroller/store'), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/BoletinesController/store'), 'form'); ?>
 
                         <div class="col-md-2">
                             
@@ -38,7 +38,7 @@
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/boletinescontroller/');?>" class="btn btn-success">Volver atras</a>
+                            <a href="<?php echo admin_url('pi/BoletinesController/');?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>
                 </div>

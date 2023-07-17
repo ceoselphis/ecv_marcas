@@ -6,7 +6,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/marcassolicitudescontroller/create');?>"><i class="fas fa-plus"></i> Nueva Solicitud de marca</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/MarcasSolicitudesController/create');?>"><i class="fas fa-plus"></i> Nueva Solicitud de marca</a>
                             </div>
                         </div>
                         <div class="row">
@@ -33,9 +33,9 @@
                                                     <td><?php echo $row['cod_estado_id'][1];?></td>
                                                     <td><?php echo $row['fecha_solicitud'];?></td>
                                                     <td><?php echo $row['num_certificado'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/marcassolicitudescontroller/destroy/{$row['solicitud_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesController/destroy/{$row['solicitud_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/marcassolicitudescontroller/edit/{$row['solicitud_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$row['solicitud_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 
@@ -65,7 +65,7 @@
     }
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<?php init_tail();?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
@@ -76,6 +76,6 @@
     });
 </script>
 
-<?php init_tail();?>
+
 </body>
 </html>

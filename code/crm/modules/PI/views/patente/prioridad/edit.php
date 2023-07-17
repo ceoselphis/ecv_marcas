@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('pi/patenteprioridadcontroller/update/'.$id), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/PatentePrioridadController/update/'.$id), 'form'); ?>
                         <div class="col-md-3">
                             <?php echo form_label($labels[1],$labels[1]);?>
                             <br />
@@ -29,7 +29,7 @@
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/patenteprioridadcontroller/');?>" class="btn btn-success">Volver atrás</a>
+                            <a href="<?php echo admin_url('pi/PatentePrioridadController/');?>" class="btn btn-success">Volver atrás</a>
                         </div>
                     </div>
                 </div>

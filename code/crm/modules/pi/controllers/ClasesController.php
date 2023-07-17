@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ClasesController extends AdminController
 {
     protected $models = ['Clases_model'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
       
     public function index()
     {

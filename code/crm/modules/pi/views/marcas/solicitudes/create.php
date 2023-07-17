@@ -5,7 +5,7 @@ init_head();?>
     <div class="content">
         <div class="row">
                 <div class="col-md-12">
-                <?php echo form_open_multipart(admin_url('pi/marcassoliictudes/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
+                <?php echo form_open_multipart(admin_url('pi/MarcasSoliictudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('solicitud_id', $solicitud_id);?>
                     <div class="panel_s">
                         <div class="panel-body">
@@ -1105,7 +1105,7 @@ init_head();?>
             formData.append('comentario_signo', $("input[name=comentario_signo").val())
             formData.append('solicitud', JSON.stringify(data));
             $.ajax({
-                url:'<?php echo admin_url('pi/marcassolicitudescontroller/store');?>',
+                url:'<?php echo admin_url('pi/MarcasSolicitudesController/store');?>',
                 method: 'POST',
                 data: formData,
                 processData: false,
@@ -1127,7 +1127,7 @@ init_head();?>
                 'solicitud_id'   : $("input[name=solicitud_id").val(),
             }
             $.ajax({
-                url: '<?php echo admin_url("pi/marcasprioridadcontroller/addPrioridad");?>',
+                url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>',
                 method: 'POST',
                 data : data
             }).then(function(response){

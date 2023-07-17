@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('pi/materiascontroller/update/'.$id), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/MateriasController/update/'.$id), 'form'); ?>
                         <div class="col-md-6">
                             <?php echo form_label($labels[1]);?>
                             <br />

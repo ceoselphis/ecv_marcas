@@ -6,7 +6,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/materiascontroller/create');?>"><i class="fas fa-plus"></i> Nueva Materia</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/MateriasController/create');?>"><i class="fas fa-plus"></i> Nueva Materia</a>
                             </div>
                         </div>
                         <div class="row">
@@ -26,9 +26,9 @@
                                                     <td><?php echo $row['materia_id'];?></td>
                                                     <td><?php echo $row['descripcion'];?></td>
                                                     
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/materiascontroller/destroy/{$row['materia_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/MateriasController/destroy/{$row['materia_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/materiascontroller/edit/{$row['materia_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/MateriasController/edit/{$row['materia_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 
@@ -75,6 +75,8 @@
     </div>
   </div>
 </div>
+
+<?php init_tail();?>
 <script>
     $(".detail").on('click', function(e){
         e.preventDefault();
@@ -96,8 +98,6 @@
     }
     
 </style>
-
-<?php init_tail();?>
 </body>
 </html>
 

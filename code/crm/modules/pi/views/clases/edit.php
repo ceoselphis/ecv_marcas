@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url("pi/clasescontroller/update/{$id}"), 'form'); ?>
+                        <?php echo form_open(admin_url("pi/ClasesController/update/{$id}"), 'form'); ?>
                         <div class="col-md-2">
                             <?php echo form_label($labels[1], $labels[1]);?>
                             <br />
@@ -57,7 +57,7 @@
                         <div style="padding-top: 1%;">
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/clasescontroller/');?>" class="btn btn-success">Volver atras</a>
+                            <a href="<?php echo admin_url('pi/ClasesController/');?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>
                 </div>

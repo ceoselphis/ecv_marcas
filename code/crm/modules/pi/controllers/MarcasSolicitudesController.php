@@ -136,7 +136,6 @@ class MarcasSolicitudesController extends AdminController
             $file = NULL;
         }
         $reg_num_id = $CI->MarcasSolicitudes_model->getLastIdRegistros();
-        $solicitud_id = $CI->MarcasSolicitudes_model->setCountPK();
         //We fill the first table
         $registroPrincipal = array(
             'reg_num_id'        => $reg_num_id,
@@ -152,7 +151,10 @@ class MarcasSolicitudesController extends AdminController
             'comentarios'       => $form['comentarios'],
             'tipo_registro_id'  => $data['tipo_registro_id']
         );
+        //We insert the data in the first table
+        $CI->MarcasSolicitudes_model->insertRegistro($registroPrincipal);
         //We fill the data of second table
+        $solicitud_id = $CI->MarcasSolicitudes_model->setCountPK();
         
         $solicitudMarca = array(
             'solicitud_id'          => $solicitud_id,
@@ -201,8 +203,7 @@ class MarcasSolicitudesController extends AdminController
                 'clase_niza_id' => $row
             );
         }
-        //We fill the data of the         
-        $path = FCPATH.'uploads/signos/'.$solicitud_id;
+        
         //wE FILL THE SIGNOS Table
         $signosSolicitud = array(
             'solicitud_id'   => $solicitud_id,
@@ -213,15 +214,27 @@ class MarcasSolicitudesController extends AdminController
         );
         if($file != NULL)
         {
+            //We fill the data of the         
+            $path = FCPATH.'uploads/signos/'.$solicitud_id.'-'.$file['tmp_name'];
             move_uploaded_file($file['tmp_name'], $path);
             $signosSolicitud['path'] = $path;
         }
-        //We insert the data in the first table
-        $CI->MarcasSolicitudes_model->insertRegistro($registroPrincipal);
         //We insert the data in the second table
         $CI->MarcasSolicitudes_model->insert($solicitudMarca);
         //We insert the data in the third table
         $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseMarca);
+        //We fill the data of Paises Solicitantes Table
+        $pais = explode(',',$form['paises_solicitantes']);
+        $paisesDesig = array();
+        foreach($pais as $row)
+        {
+            $paisesDesig[] = array(
+                'solicitud_id' => $solicitud_id,
+                'pais_id'      => $row,
+            );
+        }
+        //We insert the data in the fouth table
+        $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisesDesig);
         echo json_encode(['message' => 'success',  'solicitud_id' => $solicitud_id]);
     }
 
@@ -242,16 +255,14 @@ class MarcasSolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
-        $CI->load->helper('url');
-        $query = $CI->MarcasSolicitudes_model->find($id);
-        if(isset($query))
-        {
-            $labels = array('Id', 'Nombre del anexo');
-            return $CI->load->view('marcas/solicitudes/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
-        }
-        else{
-            return redirect('pi/MarcasSolicitudesController/');
-        }
+        $solicitud = $CI->MarcasSolicitudes_model->find($id);
+        $solClases = array();
+        $regSol = array();
+        $paisesDesig = array();
+        $signosTab = array();
+        var_dump($query);
+
+        
     }
 
     /**
@@ -312,4 +323,46 @@ class MarcasSolicitudesController extends AdminController
         
         
     }
+
+    /**
+     * Server side processing
+     */
+
+     public function getTable()
+     {
+        $CI = &get_instance();
+        $data = array(
+            'draw' => 1,
+            'iTotalRecords' => '0',
+            'iTotalDisplayRecords' => "1",
+        );
+        $CI->load->model("MarcasSolicitudes_model");
+        $aaData = array();
+        $query = $CI->MarcasSolicitudes_model->findAll();
+        if(!empty($query))
+        {
+            $data['draw'] = intval(count($query));
+            $data['iTotalRecords'] = intval(count($query));
+            $data['iTotalDisplayRecords'] = intval(count($query));
+            foreach($CI->MarcasSolicitudes_model->findAll() as $row)
+            {
+                array_push($aaData , array(
+                    'solicitud_id' => $row['solicitud_id'],
+                    'reg_num_id'   => $row['reg_num_id'],
+                    'tipo_id'      => $CI->MarcasSolicitudes_model->findTipoSolicitud($row['tipo_id']),
+                    'cod_estado_id'=> $CI->MarcasSolicitudes_model->findEstadosSolicitudes($row['cod_estado_id']),
+                    'fecha_solicitud'  => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                    'num_certificado'  => $row['num_certificado'],
+                    'fecha_vencimiento'  => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
+                    ));
+            }
+        }
+        else{
+            $aaData[] = array(
+                'no data'
+            );
+        }
+        $data['aaData'] = $aaData;
+        echo json_encode($data);
+     }
 }

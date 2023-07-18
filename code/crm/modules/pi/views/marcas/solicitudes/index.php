@@ -29,8 +29,8 @@
                                                 <tr>
                                                     <td><?php echo $row['solicitud_id'];?></td>
                                                     <td><?php echo $row['reg_num_id'];?></td>
-                                                    <td><?php echo $row['tipo_id'][1];?></td>
-                                                    <td><?php echo $row['cod_estado_id'][1];?></td>
+                                                    <td><?php echo $row['tipo_id'];?></td>
+                                                    <td><?php echo $row['cod_estado_id'];?></td>
                                                     <td><?php echo $row['fecha_solicitud'];?></td>
                                                     <td><?php echo $row['num_certificado'];?></td>
                                                     <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesController/destroy/{$row['solicitud_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">

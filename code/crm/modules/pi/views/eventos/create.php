@@ -35,3 +35,18 @@
 
 
 <?php init_tail();?>
+
+
+<script>
+        $("select").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600,
+        })
+        $("select[multiple=multiple]").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600
+        });
+</script>
+
+</body>
+</html>

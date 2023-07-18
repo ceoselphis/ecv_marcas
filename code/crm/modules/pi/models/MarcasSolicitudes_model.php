@@ -22,7 +22,7 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function setCountPK()
     {
-        $query = $this->db->query("SELECT solicitud_id FROM {$this->tableName} ORDER by solicitud_id ASC LIMIT 1");
+        $query = $this->db->query("SELECT solicitud_id FROM {$this->tableName} ORDER by solicitud_id DESC LIMIT 1");
         if(empty($query->result_array()))
         {
             $this->countPK = 1;
@@ -44,7 +44,7 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function getLastIdRegistros()
     {
-        $query = $this->db->query("SELECT reg_num_id FROM tbl_tm_registros_principales ORDER by reg_num_id ASC LIMIT 1");
+        $query = $this->db->query("SELECT reg_num_id FROM tbl_tm_registros_principales ORDER by reg_num_id DESC LIMIT 1");
         if(empty($query->result_array()))
         {
             return 1;
@@ -127,14 +127,12 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->from('tbl_tipo_solicitud');
         $this->db->where('tipo_id = '.$id);
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $tipo_id = '';
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['tipo_id']);
-            array_push($values, $row['nombre']);
+            $tipo_id = $row['nombre'];
         }
-        return array_combine($keys, $values);
+        return $tipo_id;
     }
 
     public function findAllEstadosSolicitudes()
@@ -158,14 +156,13 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->from('tbl_estados');
         $this->db->where('estado_id = '.$id);
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $estado_id  = '';
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['estado_id']);
-            array_push($values, $row['descripcion']);
+           
+            $estado_id = $row['descripcion'];
         }
-        return array_combine($keys, $values);
+        return $estado_id;
     }
 
     public function findAllOficinas()

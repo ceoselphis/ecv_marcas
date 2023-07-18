@@ -74,7 +74,8 @@ init_head();?>
                                                 'name'     => 'pais_id',
                                                 'class'    => 'form-control',
                                                 'multiple' => 'multiple',
-                                                'options' => $pais_id
+                                                'options' => $pais_id,
+                                                'required' => 'required'
                                             ]);?>
                                     </div>
                                     <div class="col-md-2">
@@ -96,26 +97,29 @@ init_head();?>
                                             'name'      => 'tipo_signo_id',
                                             'class'     => 'form-control',
                                             'options'   =>  $tipos_signo_id,
+                                            'required' => 'required'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <?php echo form_label('Clases', 'clase_niza_id');?>
                                         <?php echo form_dropdown([
                                             'id'       => 'clase_niza_id',
                                             'name'     => 'clase_niza_id',
                                             'class'    => 'form-control',
                                             'multiple' => 'multiple',
-                                            'options' => $clase_niza_id
+                                            'options' => $clase_niza_id,
+                                            'required' => 'required'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <?php echo form_label('Solicitantes', 'solicitantes_id');?>
                                         <?php echo form_dropdown([
                                             'id'       => 'solicitantes_id',
                                             'name'     => 'solicitantes_id',
                                             'class'    => 'form-control',
                                             'multiple' => 'multiple',
-                                            'options' => $clientes
+                                            'options' => $clientes,
+                                            'required' => 'required'
                                         ]);?>
                                     </div>
                                     
@@ -587,7 +591,7 @@ init_head();?>
                     'name' => 'doc_archivo',
                     'type' => 'file',
                     'class' => 'form-control',
-                    'multiple' => 'true'
+                    'multiple' => 'multiple',
                 ]);?>
             </div>
         </div>
@@ -665,64 +669,30 @@ init_head();?>
         return fecha;
     }
 
-    $.datepicker.regional['es'] = {
-        closeText: 'Cerrar',
-        prevText: '<Ant',
-        nextText: 'Sig>',
-        currentText: 'Hoy',
-        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-        dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-        weekHeader: 'Sm',
-        dateFormat: 'dd/mm/yy',
-        firstDay: 1,
-        isRTL: false,
-        showMonthAfterYear: false,
-        yearSuffix: ''};
-    $.datepicker.setDefaults($.datepicker.regional['es']);
-
 
     $(".calendar").on('keyup', function(e){
         e.preventDefault();
         $(".calendar").val('');
     })
     $( function() {
-        $(".calendar"  ).datepicker();
+        $(".calendar").datetimepicker({
+            maxDate: fecha(),
+            weeks: true,
+            format: 'd/m/Y',
+            timepicker:false,
+        });
     });
-
-    
-    
     </script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.css">
-        <script src="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.js"></script>
     <script>
-        $("select[name=pais_id]").multipleSelect({
-            filter: true,
-            inheritClass: false,
-            width: '100%',
-            maxHeight: '100%',
-            filterBehavior: 'both',
-        });
-        $("select[name=clase_niza_id]").multipleSelect({
-            filter: true,
-            inheritClass: false,
-            width: '100%',
-            maxHeight: '100%',
-            filterBehavior: 'both',
-        });
-        $("select[name=solicitantes_id]").multipleSelect({
-            filter: true,
-            inheritClass: false,
-            width: '100%',
-            maxHeight: '100%',
-            filterBehavior: 'both',
+        $("select").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600,
+        })
+        $("select[multiple=multiple]").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600
         });
     </script>
-
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src=""></script>
     <script>
         new DataTable(".table-responsive", {
             language: {
@@ -1108,7 +1078,6 @@ init_head();?>
             formData.append('paises_solicitantes', $("#pais_id").val());
             formData.append('clase_niza_id', $("#clase_niza_id").val());
             formData.append('solicitantes_id', $("#solicitantes_id").val());
-
             $.ajax({
                 url:'<?php echo admin_url('pi/MarcasSolicitudesController/store');?>',
                 method: 'POST',
@@ -1116,9 +1085,13 @@ init_head();?>
                 processData: false,
                 contentType: false
             }).then(function(response){
-                console.log(response);
+                location.href = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$solicitud_id}");?>';
             }).catch(function(response){
-                console.log(response);
+                <?php if(ENVIRONMENT != 'production') { ?>
+                 alert(response);
+                <?php } else { ?>
+                    alert('ha ocurrido un error');
+                <?php } ?>
             });
         });
 

@@ -4,9 +4,9 @@ init_head();?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
-                <div class="col-md-12">
-                <?php echo form_open_multipart(admin_url('pi/MarcasSoliictudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
-                <?php echo form_hidden('solicitud_id', $solicitud_id);?>
+                <div class="col-md-12"> 
+                <?php echo form_open_multipart(admin_url('pi/MarcasSolicitudesController/update/'.$solicitud[0]['solicitud_id']),['id' => 'solicitudEditfrm' , 'name' => 'solicitudEditfrm']);?>               
+                <?php echo form_hidden('solicitud_id', $solicitud[0]['solicitud_id']);?>
                     <div class="panel_s">
                         <div class="panel-body">
                             <div class="wizard">
@@ -46,19 +46,19 @@ init_head();?>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <?php echo form_label('Tipo de solicitud', 'tipo_registro_id');?>
-                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro ,set_value('tipo_registro_id'), ['class' => 'form-control'])?>
+                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro ,set_value('tipo_registro_id', $registro[0]['reg_num_id']), ['class' => 'form-control'])?>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php echo form_label('Oficina', $fields[16]['name'])?>
-                                            <?php echo form_dropdown($fields[16]['name'],$oficinas,set_value($fields[16]['name']),['class' => 'form-control']);?>
+                                            <?php echo form_label('Oficina', 'oficina_id')?>
+                                            <?php echo form_dropdown('oficina_id',$oficinas,set_value('oficina_id', $registro[0]['oficina_id']),['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php echo form_label('Cliente',$fields[15]['name']);?>
-                                            <?php echo form_dropdown($fields[15]['name'], $clientes, set_value($fields[15]['name']), ['class' => 'form-control']);?>
+                                            <?php echo form_label('Cliente', 'client_id');?>
+                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $registro[0]['client_id']), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Responsable','staff_id');?>
-                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id'), ['class' => 'form-control']);?>
+                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $registro[0]['staff_id']), ['class' => 'form-control']);?>
                                         </div>                    
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -74,17 +74,20 @@ init_head();?>
                                                 'name'     => 'pais_id',
                                                 'class'    => 'form-control',
                                                 'multiple' => 'multiple',
-                                                'options' => $pais_id,
-                                                'required' => 'required'
+                                                'options' =>   $pais_id,
+                                                'required' => 'required',
+                                                'selected'    => set_value('pais_id', array_keys($paises_designados)),
                                             ]);?>
                                     </div>
                                     <div class="col-md-2">
-                                        
                                         <?php echo form_label('Signo', 'descripcion');?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        $descSigno = empty($signos_solicitud) ? '': $signos_solicitud['descripcion'];
+                                        echo form_input([
                                             'id'    =>   'descripcion-signo',
                                             'name'  =>   'descripcion-signo',
                                             'class' =>   'form-control',
+                                            'value' => set_value('descripcion-signo', $descSigno)
                                         ]);?>
                                     </div>
                                     <div class="col-md-1" style="padding-left:1%; padding-top:1.75%">
@@ -97,7 +100,7 @@ init_head();?>
                                             'name'      => 'tipo_signo_id',
                                             'class'     => 'form-control',
                                             'options'   =>  $tipos_signo_id,
-                                            'required' => 'required'
+                                            'required' => 'required',
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -107,8 +110,9 @@ init_head();?>
                                             'name'     => 'clase_niza_id',
                                             'class'    => 'form-control',
                                             'multiple' => 'multiple',
-                                            'options' => $clase_niza_id,
-                                            'required' => 'required'
+                                            'options' =>  $clase_niza_id,
+                                            'required' => 'required',
+                                            'selected' => array_keys($clases_solicitantes),
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -119,7 +123,8 @@ init_head();?>
                                             'class'    => 'form-control',
                                             'multiple' => 'multiple',
                                             'options' => $clientes,
-                                            'required' => 'required'
+                                            'required' => 'required',
+                                            'selected' => array_keys($solicitantes)
                                         ]);?>
                                     </div>
                                     
@@ -139,44 +144,44 @@ init_head();?>
                                             'name'      => 'tipo_id',
                                             'class'     => 'form-control',
                                             'options'   => $tipo_solicitud,
-                                            'selected'  => set_value('tipo_id', '1'),
+                                            'selected'  => set_value('tipo_id', $solicitud[0]['tipo_id']),
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Clase Nacional', 'clase_nacional');?>
-                                        <?php echo form_input('clase_nacional', set_value('clase_nacional'), ['class' => 'form-control', 'type' => 'range']);?>
+                                        <?php echo form_input('clase_nacional', set_value('clase_nacional', $solicitud[0]['clase_nacional']), ['class' => 'form-control', 'type' => 'range']);?>
                                     </div>
                                     <div class="col-md-6">
-                                        <?php echo form_label('Referencia interna', $fields[17]['name']);?>
-                                        <?php echo form_input($fields[17]['name'], set_value($fields[17]['name']), ['class' => 'form-control'])?>
+                                        <?php echo form_label('Referencia interna', 'ref_interna');?>
+                                        <?php echo form_input('ref_interna', set_value('ref_interna', $registro[0]['ref_interna']), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-6">
-                                        <?php echo form_label('Referencia cliente', $fields[18]['name']);?>
-                                        <?php echo form_input($fields[18]['name'], set_value($fields[18]['name']), ['class' => 'form-control'])?>
+                                        <?php echo form_label('Referencia cliente', 'ref_cliente');?>
+                                        <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
-                                        <?php echo form_input('primer_uso', set_value('primer_uso', ''), ['class' => 'form-control calendar'])?>
+                                        <?php echo form_input('primer_uso', set_value('primer_uso', $solicitud[0]['primer_uso']), ['class' => 'form-control calendar'])?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso');?>
-                                        <?php echo form_input('prueba_uso', set_value('prueba_uso', ''), ['class' => 'form-control calendar'])?>
+                                        <?php echo form_input('prueba_uso', set_value('prueba_uso', $solicitud[0]['prueba_uso']), ['class' => 'form-control calendar'])?>
                                     </div>
                                     <div class="col-md-3">
-                                        <?php echo form_label('Carpeta', $fields[19]['name']);?>
-                                        <?php echo form_input($fields[19]['name'], set_value($fields[19]['name']), ['class' => 'form-control'])?>
+                                        <?php echo form_label('Carpeta', 'carpeta');?>
+                                        <?php echo form_input('carpeta', set_value('carpeta', $registro[0]['carpeta']), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-3">
-                                        <?php echo form_label('Libro', $fields[20]['name']);?>
-                                        <?php echo form_input($fields[20]['name'], set_value($fields[20]['name']), ['class' => 'form-control'])?>
+                                        <?php echo form_label('Libro', 'libro');?>
+                                        <?php echo form_input('libro', set_value('libro', $registro[0]['libro']), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-3">
-                                        <?php echo form_label('Tomo', $fields[21]['name']);?>
-                                        <?php echo form_input($fields[21]['name'], set_value($fields[21]['name']), ['class' => 'form-control'])?>
+                                        <?php echo form_label('Tomo', 'tomo');?>
+                                        <?php echo form_input('tomo', set_value('tomo', $registro[0]['tomo']), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-3">
-                                        <?php echo form_label('Folio', $fields[22]['name']);?>
-                                        <?php echo form_input($fields[22]['name'], set_value($fields[22]['name']), ['class' => 'form-control'])?>
+                                        <?php echo form_label('Folio', 'folio');?>
+                                        <?php echo form_input('folio', set_value('folio', $registro[0]['folio']), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%" >
                                         <div class="all-info-container">
@@ -199,7 +204,6 @@ init_head();?>
                                                                 </thead>
                                                             </table> 
                                                         </div>
-                                                    
                                                     </div>
                                                 </div>
                                             </div>    
@@ -218,8 +222,8 @@ init_head();?>
                                 <!-- Step 4 -->
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="col-md-12">
-                                        <?php echo form_label('Estado de Solicitud', $fields[3]['name']);?>
-                                        <?php echo form_dropdown($fields[3]['name'], $estados_solicitudes, set_value($fields[3]['name']), ['class' => 'form-control']);?>
+                                        <?php echo form_label('Estado de Solicitud', 'cod_estado_id');?>
+                                        <?php echo form_dropdown('estado', $estados_solicitudes, set_value('cod_estado_id', $solicitud[0]['cod_estado_id']), ['class' => 'form-control']);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Nº de Solicitud'); ?>
@@ -227,7 +231,7 @@ init_head();?>
                                             'id' => 'num_solicitud',
                                             'name' => 'num_solicitud',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_solicitud'),
+                                            'value' => set_value('numero_solicitud', $solicitud[0]['numero_solicitud']),
                                             'placeholder' => 'Nº de Solicitud'
                                         ]);?>
                                     </div>
@@ -237,7 +241,7 @@ init_head();?>
                                             'id' => 'fecha_solicitud',
                                             'name' => 'fecha_solicitud',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud'),
+                                            'value' => set_value('fecha_solicitud', $solicitud[0]['fecha_solicitud']),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
                                     </div>
@@ -247,7 +251,7 @@ init_head();?>
                                             'id' => 'num_registro',
                                             'name' => 'num_registro',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_registro'),
+                                            'value' => set_value('num_registro', $solicitud[0]['num_registro']),
                                             'placeholder' => 'Nº Registro'
                                         ]);?>
                                     </div>
@@ -257,7 +261,7 @@ init_head();?>
                                             'id' => 'fecha_registro',
                                             'name' => 'fecha_registro',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_registro'),
+                                            'value' => set_value('fecha_registro', $solicitud[0]['fecha_solicitud']),
                                             'placeholder' => 'Fecha de Registro'
                                         ]);?>
                                     </div>
@@ -267,7 +271,7 @@ init_head();?>
                                             'id' => 'num_certificado',
                                             'name' => 'num_certificado',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_certificado'),
+                                            'value' => set_value('num_certificado', $solicitud[0]['num_certificado']),
                                             'placeholder' => 'Nº de Certificado'
                                         ]);?>
                                     </div>
@@ -277,7 +281,7 @@ init_head();?>
                                             'id' => 'fecha_certificado',
                                             'name' => 'fecha_certificado',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_certificado'),
+                                            'value' => set_value('fecha_certificado', $solicitud[0]['fecha_certificado']),
                                             'placeholder' => 'Fecha de Certificado'
                                         ]);?>
                                     </div>
@@ -287,7 +291,7 @@ init_head();?>
                                             'id' => 'fecha_vencimiento',
                                             'name' => 'fecha_vencimiento',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_vencimiento'),
+                                            'value' => set_value('fecha_vencimiento', $solicitud[0]['fecha_vencimiento']),
                                             'placeholder' => 'Fecha Vencimiento'
                                         ]);?>
                                     </div>
@@ -651,37 +655,42 @@ init_head();?>
 
 
 <?php init_tail();?>
+<link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+
+<?php init_tail();?>
 
     <script>
-        function fecha(){
-            var hoy = new Date();
-            var dd = hoy.getDate();
-            var mm = hoy.getMonth()+1;
-            var yy = hoy.getFullYear();
-            var fecha = '';
-            if(dd<10){
-                dd = '0'+dd;
-            }
-            else if(mm<10){
-                mm = '0'+mm;
-            }
-            fecha = dd+"/"+mm+"/"+yy;
-            return fecha;
+    function fecha(){
+        var hoy = new Date();
+        var dd = hoy.getDate();
+        var mm = hoy.getMonth()+1;
+        var yy = hoy.getFullYear();
+        var fecha = '';
+        if(dd<10){
+            dd = '0'+dd;
         }
+        else if(mm<10){
+            mm = '0'+mm;
+        }
+        fecha = dd+"/"+mm+"/"+yy;
+        return fecha;
+    }
 
 
-        $(".calendar").on('keyup', function(e){
-            e.preventDefault();
-            $(".calendar").val('');
-        })
-        $( function() {
-            $(".calendar").datetimepicker({
-                maxDate: fecha(),
-                weeks: true,
-                format: 'd/m/Y',
-                timepicker:false,
-            });
+    $(".calendar").on('keyup', function(e){
+        e.preventDefault();
+        $(".calendar").val('');
+    })
+    $( function() {
+        $(".calendar").datetimepicker({
+            maxDate: fecha(),
+            weeks: true,
+            format: 'd/m/Y',
+            timepicker:false,
         });
+    });
     </script>
     <script>
         $("select").selectpicker({
@@ -1064,7 +1073,7 @@ init_head();?>
             });
             return config;
         }
-        $("#solicitudfrm").on('submit', function(e)
+        $("#solicitudEditfrm").on('submit', function(e)
         {
             e.preventDefault();
             var formData = new FormData();
@@ -1079,13 +1088,13 @@ init_head();?>
             formData.append('clase_niza_id', $("#clase_niza_id").val());
             formData.append('solicitantes_id', $("#solicitantes_id").val());
             $.ajax({
-                url:'<?php echo admin_url('pi/MarcasSolicitudesController/store');?>',
+                url:'<?php echo admin_url("pi/MarcasSolicitudesController/update/{$solicitud[0]['solicitud_id']}");?>',
                 method: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false
             }).then(function(response){
-                location.href = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$solicitud_id}");?>';
+                location.href = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$solicitud[0]['solicitud_id']}");?>';
             }).catch(function(response){
                 <?php if(ENVIRONMENT != 'production') { ?>
                  alert(response);
@@ -1121,49 +1130,41 @@ init_head();?>
             });
         });
 
-
-
-
-
-
-
-
-
         // ------------step-wizard-------------
-        $(document).ready(function () {
-            $('.nav-tabs > li a[title]').tooltip();
-            
-            //Wizard
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+    $(document).ready(function () {
+        $('.nav-tabs > li a[title]').tooltip();
+        
+        //Wizard
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
 
-                var $target = $(e.target);
-            
-                if ($target.parent().hasClass('disabled')) {
-                    return false;
-                }
-            });
-
-            $(".next-step").click(function (e) {
-
-                var $active = $('.wizard .nav-tabs li.active');
-                $active.next().removeClass('disabled');
-                nextTab($active);
-
-            });
-            $(".prev-step").click(function (e) {
-
-                var $active = $('.wizard .nav-tabs li.active');
-                prevTab($active);
-
-            });
+            var $target = $(e.target);
+        
+            if ($target.parent().hasClass('disabled')) {
+                return false;
+            }
         });
 
-        function nextTab(elem) {
-            $(elem).next().find('a[data-toggle="tab"]').click();
-        }
-        function prevTab(elem) {
-            $(elem).prev().find('a[data-toggle="tab"]').click();
-        }
+        $(".next-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            $active.next().removeClass('disabled');
+            nextTab($active);
+
+        });
+        $(".prev-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            prevTab($active);
+
+        });
+    });
+
+    function nextTab(elem) {
+        $(elem).next().find('a[data-toggle="tab"]').click();
+    }
+    function prevTab(elem) {
+        $(elem).prev().find('a[data-toggle="tab"]').click();
+    }
 
     </script>
 </body>

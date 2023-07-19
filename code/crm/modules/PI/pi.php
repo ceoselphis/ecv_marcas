@@ -48,7 +48,7 @@ function pi_menu_item_collapsible()
     ]);
     //Eventos
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'tiposeventos', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'tipos-eventos', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Eventos', // The name if the item
         'href'     => admin_url('pi/TiposEventosController'), // URL of the item
         'position' => 11, // The menu position
@@ -78,7 +78,7 @@ function pi_menu_item_collapsible()
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'tipospublicaciones', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'tipos-publicaciones', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Publicaciones', // The name if the item
         'href'     => admin_url('pi/TipoPublicacionesController'), // URL of the item
         'position' => 11, // The menu position
@@ -97,7 +97,7 @@ function pi_menu_item_collapsible()
         'icon'     => 'fa-solid fa-passport', // Font awesome icon
     ]);
     $CI->app_menu->add_sidebar_children_item('53', [
-        'slug'     => 'tipossignos', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'tipos-signos', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Signos', // The name if the item
         'href'     => admin_url('pi/TiposSignosController'), // URL of the item
         'position' => 11, // The menu position
@@ -150,7 +150,7 @@ function pi_menu_item_collapsible()
     ]);
     //Prioridades
     $CI->app_menu->add_sidebar_children_item('54', [
-        'slug'     => 'patentes-prioridad', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'patentesprioridad', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Prioridades de patentes', // The name if the item
         'href'     => admin_url('pi/PatentePrioridadController'), // URL of the item
         'position' => 12, // The menu position

@@ -54,9 +54,7 @@ class MarcasSolicitudes_model extends BaseModel
         }
         
     }
-
-
-
+    
     public function findAllRegistros()
     {
         $this->db->select('*');
@@ -381,9 +379,23 @@ class MarcasSolicitudes_model extends BaseModel
         return $query;
     }
 
+    public function updateRegistro($params, $regId)
+    {
+        $this->db->where('reg_num_id = '.$regId);
+        $query = $this->db->update('tbl_tm_registros_principales', $params);
+        return $query;
+    }
+
     public function insertPaisesDesignados($params)
     {
         $query = $this->db->insert_batch('tbl_tm_paises_designados', $params);
+        return $query;
+    }
+
+    public function updatePaisesDesignados($id, $params)
+    {
+        $this->db->where('solicitud_id = '.$id);
+        $query = $this->db->update_batch('tbl_tm_paises_designados', $params);
         return $query;
     }
 
@@ -393,10 +405,100 @@ class MarcasSolicitudes_model extends BaseModel
         return $query;
     }
 
+    public function updateSolicitudesClases($id, $params)
+    {
+        $this->db->where('solicitud_id = '.$id);
+        $query = $this->db->update_batch('tbl_solicitudes_clases', $params);
+        return $query;
+    }
+
     public function insertMarcasSolicitantes($params)
     {
         $query = $this->db->insert_batch('tbl_marcas_solicitantes', $params);
         return $query;
+    }
+
+    public function updateMarcasSolicitantes($id, $params)
+    {
+        $this->db->where('solicitud_id = '.$id);
+        $query = $this->db->update_batch('tbl_marcas_solicitantes', $params);
+        return $query;
+    }
+
+    public function findMarcasSolicitantes($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitantes a');
+        $this->db->join('tbl_solicitantes b', 'a.solicit_id = b.solicit_id');
+        $this->db->where('a.solicitud_id = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['solicitud_id']);
+            array_push($values, $row['client_id']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findPaisesDesignados($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tm_paises_designados a');
+        $this->db->join('tbl_paises b', 'a.pais_id = b.pais_id');
+        $this->db->where('a.solicitud_id = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['pais_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+
+    }
+
+    public function insertMarcasSignos($params)
+    {
+        $query = $this->db->insert('tbl_signos_solicitud_marcas', $params);
+        return $query;
+    }
+    
+    public function updateMarcasSignos($id, $params)
+    {
+        $this->db->where('solicitud_id = '.$id);
+        $query = $this->db->update('tbl_signos_solicitud_marcas', $params);
+        return $query;
+    }
+
+    public function findSignosMarcas($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_signos_solicitud_marcas');
+        $this->db->where('solicitud_id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function findPublicacionesMarcas($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_publicaciones');
+        $this->db->where('solicitud_id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function findClasesSolicitudes($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_solicitudes_clases a');
+        $this->db->join('tbl_clase_niza b', 'a.clase_niza_id = b.niza_id');
+        $this->db->where('a.solicitud_id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
 }

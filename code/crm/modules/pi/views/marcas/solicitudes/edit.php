@@ -95,12 +95,14 @@ init_head();?>
                                     </div>
                                     <div class="col-md-3">
                                         <?php echo form_label('Tipo Signo', 'tipo_signo_id');?>
+                                        <?php $solicitudSigno = empty($signos_solicitud) ? '': $signos_solicitud['tipo_signo_id']; ?>
                                         <?php echo form_dropdown([
                                             'id'        => 'tipo_signo_id',
                                             'name'      => 'tipo_signo_id',
                                             'class'     => 'form-control',
                                             'options'   =>  $tipos_signo_id,
                                             'required' => 'required',
+                                            'selected' => $solicitudSigno,
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -161,11 +163,29 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
-                                        <?php echo form_input('primer_uso', set_value('primer_uso', $solicitud[0]['primer_uso']), ['class' => 'form-control calendar'])?>
+                                        <?php 
+                                        if($solicitud[0]['primer_uso'] != '')
+                                        {
+                                            $primer_uso = explode('-', $solicitud[0]['primer_uso']);
+                                            $wDate = "{$primer_uso[2]}/{$primer_uso[1]}/{$primer_uso[0]}";
+                                        }
+                                        else{
+                                            $wDate = '';
+                                        }
+                                        echo form_input('primer_uso', set_value('primer_uso', $wDate), ['class' => 'form-control calendar', 'required' => 'required'])?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso');?>
-                                        <?php echo form_input('prueba_uso', set_value('prueba_uso', $solicitud[0]['prueba_uso']), ['class' => 'form-control calendar'])?>
+                                        <?php 
+                                        if($solicitud[0]['primer_uso'] != '')
+                                        {
+                                            $primer_uso = explode('-', $solicitud[0]['prueba_uso']);
+                                            $wDate = "{$primer_uso[2]}/{$primer_uso[1]}/{$primer_uso[0]}";
+                                        }
+                                        else{
+                                            $wDate = '';
+                                        }
+                                        echo form_input('prueba_uso', set_value('prueba_uso', $wDate), ['class' => 'form-control calendar'])?>
                                     </div>
                                     <div class="col-md-3">
                                         <?php echo form_label('Carpeta', 'carpeta');?>
@@ -223,7 +243,7 @@ init_head();?>
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="col-md-12">
                                         <?php echo form_label('Estado de Solicitud', 'cod_estado_id');?>
-                                        <?php echo form_dropdown('estado', $estados_solicitudes, set_value('cod_estado_id', $solicitud[0]['cod_estado_id']), ['class' => 'form-control']);?>
+                                        <?php echo form_dropdown('cod_estado_id', $estados_solicitudes, set_value('cod_estado_id', $solicitud[0]['cod_estado_id']), ['class' => 'form-control']);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Nº de Solicitud'); ?>
@@ -237,11 +257,20 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Solicitud'); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        if($solicitud[0]['fecha_solicitud'] != '')
+                                        {
+                                            $fecha_solicitud = explode('-', $solicitud[0]['fecha_solicitud']);
+                                            $wDate = "{$fecha_solicitud[2]}/{$fecha_solicitud[1]}/{$fecha_solicitud[0]}";
+                                        }
+                                        else{
+                                            $wDate = '';
+                                        }
+                                        echo form_input([
                                             'id' => 'fecha_solicitud',
                                             'name' => 'fecha_solicitud',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud', $solicitud[0]['fecha_solicitud']),
+                                            'value' => set_value('fecha_solicitud', $wDate),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
                                     </div>
@@ -257,11 +286,21 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label("Fecha de registro"); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        if($solicitud[0]['fecha_registro'] != '')
+                                        {
+                                            $fecha_registro = explode('-', $solicitud[0]['fecha_registro']);
+                                            $wDate = "{$fecha_registro[0]}/{$fecha_registro[1]}/{$fecha_registro[2]}";
+                                        }
+                                        else
+                                        {
+                                            $wDate = '';
+                                        }
+                                        echo form_input([
                                             'id' => 'fecha_registro',
                                             'name' => 'fecha_registro',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_registro', $solicitud[0]['fecha_solicitud']),
+                                            'value' => set_value('fecha_registro', $wDate),
                                             'placeholder' => 'Fecha de Registro'
                                         ]);?>
                                     </div>
@@ -277,7 +316,18 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label("Fecha de certificado"); ?>
-                                        <?php echo form_input([
+                                        
+                                        <?php 
+                                        if($solicitud[0]['fecha_certificado']  != '')
+                                        {
+                                            $fecha_registro = explode('-', $solicitud[0]['fecha_registro']);
+                                            $wDate = "{$fecha_registro[0]}/{$fecha_registro[1]}/{$fecha_registro[2]}";
+                                        }
+                                        else
+                                        {
+                                            $wDate = '';
+                                        }
+                                        echo form_input([
                                             'id' => 'fecha_certificado',
                                             'name' => 'fecha_certificado',
                                             'class' => 'form-control calendar',
@@ -287,11 +337,21 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Vencimiento'); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        if($solicitud[0]['fecha_vencimiento'] != '')
+                                        {
+                                            $fecha_vencimiento = explode('-', $solicitud[0]['fecha_vencimiento']);
+                                            $wDate = "{$fecha_vencimiento[0]}/{$fecha_vencimiento[1]}/{$fecha_vencimiento[2]}";
+                                        }
+                                        else
+                                        {
+                                            $wDate = '';
+                                        }
+                                        echo form_input([
                                             'id' => 'fecha_vencimiento',
                                             'name' => 'fecha_vencimiento',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_vencimiento', $solicitud[0]['fecha_vencimiento']),
+                                            'value' => set_value('fecha_vencimiento', $wDate),
                                             'placeholder' => 'Fecha Vencimiento'
                                         ]);?>
                                     </div>

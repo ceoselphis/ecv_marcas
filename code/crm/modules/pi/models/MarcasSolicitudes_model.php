@@ -394,7 +394,6 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function updatePaisesDesignados($id, $params)
     {
-        $this->db->where('solicitud_id = '.$id);
         $query = $this->db->update_batch('tbl_tm_paises_designados', $params);
         return $query;
     }
@@ -407,7 +406,6 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function updateSolicitudesClases($id, $params)
     {
-        $this->db->where('solicitud_id = '.$id);
         $query = $this->db->update_batch('tbl_solicitudes_clases', $params);
         return $query;
     }
@@ -420,7 +418,6 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function updateMarcasSolicitantes($id, $params)
     {
-        $this->db->where('solicitud_id = '.$id);
         $query = $this->db->update_batch('tbl_marcas_solicitantes', $params);
         return $query;
     }

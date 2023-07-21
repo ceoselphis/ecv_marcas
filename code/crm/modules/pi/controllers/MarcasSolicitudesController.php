@@ -301,7 +301,6 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         // WE prepare the data
         $form = $CI->input->post();
-        var_dump($form);
         $data = json_decode($form['solicitud'],TRUE);
         $file = '';
         if(!empty($_FILES['signo_archivo']))

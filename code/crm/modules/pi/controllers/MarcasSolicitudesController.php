@@ -16,28 +16,19 @@ class MarcasSolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
-        $data = array();
-        if(!empty($CI->MarcasSolicitudes_model->findAll()))
-        {
-            foreach($CI->MarcasSolicitudes_model->findAll() as $row)
-            {
-                $data[] = array(
-                    'solicitud_id' => $row['solicitud_id'],
-                    'reg_num_id'   => $row['reg_num_id'],
-                    'tipo_id'      => $CI->MarcasSolicitudes_model->findTipoSolicitud($row['tipo_id']),
-                    'cod_estado_id'=> $CI->MarcasSolicitudes_model->findEstadosSolicitudes($row['cod_estado_id']),
-                    'primer_uso'   => date('d/m/Y', strtotime($row['primer_uso'])),
-                    'prueba_uso'   => date('d/m/Y', strtotime($row['prueba_uso'])),
-                    'carpeta'      => $row['carpeta'],
-                    'numero_solicitud' => $row['numero_solicitud'],
-                    'fecha_solicitud'  => date('d/m/Y', strtotime($row['fecha_solicitud'])),
-                    'fecha_registro'  => date('d/m/Y', strtotime($row['fecha_registro'])),
-                    'fecha_certificado'  => date('d/m/Y', strtotime($row['fecha_certificado'])),
-                    'num_certificado'  => $row['num_certificado'],
-                    'fecha_vencimiento'  => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
-                    );
-            }
-        }
+        $data = [
+            'Boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
+            'Oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
+            'Clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
+            'Responsables'           => $CI->MarcasSolicitudes_model->findAllStaff(),
+            'Tipo de Solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
+            'Estado de Solicitud'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
+            'Pais'               => $CI->MarcasSolicitudes_model->findAllPaises(),
+            'Tipos de Signo'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
+            'Clase Niza'         => $CI->MarcasSolicitudes_model->findAllClases(),
+            'Tipo de Registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
+            'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+        ];
         return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
     }
 
@@ -430,45 +421,15 @@ class MarcasSolicitudesController extends AdminController
         
     }
 
-    /**
-     * Server side processing
-     */
-
-     public function getTable()
+     public function search()
      {
         $CI = &get_instance();
-        $data = array(
-            'draw' => 1,
-            'iTotalRecords' => '0',
-            'iTotalDisplayRecords' => "1",
-        );
         $CI->load->model("MarcasSolicitudes_model");
-        $aaData = array();
-        $query = $CI->MarcasSolicitudes_model->findAll();
-        if(!empty($query))
-        {
-            $data['draw'] = intval(count($query));
-            $data['iTotalRecords'] = intval(count($query));
-            $data['iTotalDisplayRecords'] = intval(count($query));
-            foreach($CI->MarcasSolicitudes_model->findAll() as $row)
-            {
-                array_push($aaData , array(
-                    'solicitud_id' => $row['solicitud_id'],
-                    'reg_num_id'   => $row['reg_num_id'],
-                    'tipo_id'      => $CI->MarcasSolicitudes_model->findTipoSolicitud($row['tipo_id']),
-                    'cod_estado_id'=> $CI->MarcasSolicitudes_model->findEstadosSolicitudes($row['cod_estado_id']),
-                    'fecha_solicitud'  => date('d/m/Y', strtotime($row['fecha_solicitud'])),
-                    'num_certificado'  => $row['num_certificado'],
-                    'fecha_vencimiento'  => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
-                    ));
-            }
-        }
-        else{
-            $aaData[] = array(
-                'no data'
-            );
-        }
-        $data['aaData'] = $aaData;
-        echo json_encode($data);
+        $CI->load->helper(['url','form']);
+        $request = $CI->input->post();
+        $data = json_decode($request['data'],TRUE);
+        //We send the data
+        $result = $CI->MarcasSolicitudes_model->search($data);
+        
      }
 }

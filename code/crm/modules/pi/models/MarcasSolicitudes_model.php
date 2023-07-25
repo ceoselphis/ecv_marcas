@@ -498,4 +498,72 @@ class MarcasSolicitudes_model extends BaseModel
         return $query->result_array();
     }
 
+    public function findAllBoletines()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tm_boletines');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['boletin_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function search($params = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes a');
+        $this->db->join('tbl_tm_registros_principales b', 'a.reg_num_id = b.reg_num_id');
+        $this->db->join('tbl_estados g', 'g.estado_id = a.cod_estado_id');
+        $this->db->join('tbl_tipo_solicitud h', 'h.tipo_id = a.tipo_id');
+        if(empty($params)){
+            $query = $this->db->get();
+            return $query;
+        }
+        else{
+            if(!empty($params['oficina_id']))
+            {
+                $where = array();
+                foreach($params['oficina_id'] as $row)
+                {
+                    $where[] = ['a.oficina_id' => $row]; 
+                }
+                $this->db->where($where);
+            }
+
+            if(!empty($params['staff_id']))
+            {
+                $where = array();
+                foreach($params['staff_id'] as $row)
+                {
+                    $where[] = ['a.staff_id' => $row]; 
+                }
+            }
+
+            if(!empty($params['client_id']))
+            {
+                $where = array();
+                foreach($params['client_id'] as $row)
+                {
+                    $where[] = ['a.client_id' => $row];
+                }
+            }
+
+            if(!empty($params['tip_reg_id']))
+            {
+                $where = array();
+                foreach($params['tip_reg_id'] as $row)
+                {
+                    $where[] = ['a.tipo_registro_id' => $row];
+                }
+            }
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+    }
+
 }

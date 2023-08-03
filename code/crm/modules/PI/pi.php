@@ -30,6 +30,23 @@ function pi_menu_item_collapsible()
      * Option only to install
      */
 
+     //Menu de configuracion 2
+    $CI->app_menu->add_sidebar_menu_item('51', [
+        'slug'     => 'config-2', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'SPI Configuracion 2', // The name if the item
+        'position' => 11, // The menu position
+        'icon'     => 'fa-sharp fa-solid fa-gear', // Font awesome icon
+    ]);
+
+    //Propietarios
+    $CI->app_menu->add_sidebar_children_item('51', [
+        'slug'   => 'propietarios-admin',
+        'name'  => 'Administrador de Propietarios',
+        'href'  => admin_url('pi/PropietariosController'),
+        'position' => 11,
+    ]);
+
+
      //Menu de configuracion
     $CI->app_menu->add_sidebar_menu_item('52', [
         'slug'     => 'config', // Required ID/slug UNIQUE for the child menu
@@ -63,6 +80,7 @@ function pi_menu_item_collapsible()
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
+    //Estados
     $CI->app_menu->add_sidebar_children_item('52', [
         'slug'     => 'estados', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Estados', // The name if the item
@@ -70,6 +88,7 @@ function pi_menu_item_collapsible()
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
+    //Boletines
     $CI->app_menu->add_sidebar_children_item('52', [
         'slug'     => 'boletines', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Boletines', // The name if the item
@@ -77,6 +96,7 @@ function pi_menu_item_collapsible()
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
+    //Tipos de publicaciones
     $CI->app_menu->add_sidebar_children_item('52', [
         'slug'     => 'tipos-publicaciones', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Publicaciones', // The name if the item
@@ -84,6 +104,7 @@ function pi_menu_item_collapsible()
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
+    
     
 
 

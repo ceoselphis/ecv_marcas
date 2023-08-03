@@ -129,7 +129,31 @@
             liveSearch:true,
             virtualScroll: 600
         });
-    $("#filterSubmit").on('click', function(e)
+
+    dt = $(".table").DataTable({
+        searchDelay: 500,
+        processing: true,
+        serverSide: true,
+        ajax : {
+            url: "<?php echo admin_url('pi/MarcasSolicitudesController/search');?>",
+        },
+        columns : [
+            { data: 'num_solicitud'  },
+            { data: 'tipo'           }, 
+            { data: 'propietario'    },
+            { data: 'nombre'         },
+            { data: 'clases'         }, //Aqui debe ser un modal mostrando las clases
+            { data: 'estado'         },
+            { data: 'solicitud'      }, //Aqui es el numero de solicitud del expediente en sapi
+            { data: 'fecha_solicitud'},
+            { data: 'registro'       },
+            { data: 'certificado'    },
+            { data: 'vigencia'       },
+            { data: 'paises'         }, //Aqui debe ser un modal indicando los paises
+            { data: 'acciones'       }  //Editar y borrar pero en iconos
+        ]
+    });
+    /*$("#filterSubmit").on('click', function(e)
     {
         e.preventDefault();
         $('.table').remove();
@@ -146,63 +170,7 @@
             'tip_eve_id' : $("select[name=tip_eve_id]").val(),
             'tip_reg_id' : $("select[name=tip_reg_id]").val(),
         }
-
-        $.ajax({
-            url: "<?php echo admin_url('pi/MarcasSolicitudesController/search');?>",
-            method: 'POST',
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                data: JSON.stringify(form)
-            },
-        }).then(function(response)
-        {
-            table = JSON.parse(response);
-            if(!(table.num_rows === null))
-            {
-                new DataTable(".table", {
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                    },
-                    data : table,
-                    columns: [
-                        { data : 'solicitud_id'},
-                        { data : 'reg_num_id'  },
-                        { data : "tipo_id"      },
-                        { data : "cod_estado_id" },
-                        { data : "primer_uso"	   },
-                        { data : "prueba_uso	"},
-                        { data :  "carpeta"	},
-                        { data : "numero_solicitud"	},
-                        { data : "fecha_solicitud"	},
-                        { data : "fecha_registro"	},
-                        { data : "fecha_certificado"	},
-                        { data : "num_certificado"	},
-                        { data : "fecha_vencimiento"	},
-                        { data : "clase_nacional"	},
-                        { data : "num_registro"	},
-                        { data : "staff_id"	},
-                        { data : "client_id"	},
-                        { data : "oficina_id"	},
-                        { data : "ref_interna"	},
-                        { data : "ref_cliente"	},
-                        { data : "libro"	},
-                        { data : "tomo"	},
-                        { data : "folio"	},
-                        { data : "comentarios"	},
-                        { data : "tipo_registro_id"	},
-                        { data : "estado_id"	},
-                        { data : "materia_id"	},
-                        { data : "descripcion"	},
-                        { data : "created_at"	},
-                        { data : "last_modified"	},
-                        { data : "created_by"	},
-                        { data : "codigo"	},
-                        { data : "nombre"	}
-                    ]
-                });
-            }
-        });
-    });
+    });*/
 </script>
 
 

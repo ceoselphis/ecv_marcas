@@ -132,6 +132,13 @@ abstract class BaseModel extends CI_Model
         return $result;
     }
 
+    /**/
+    public function last_insert_id()
+    {
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
 }
 
 ?>

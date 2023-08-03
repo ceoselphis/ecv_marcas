@@ -426,10 +426,10 @@ class MarcasSolicitudesController extends AdminController
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
         $CI->load->helper(['url','form']);
-        $request = $CI->input->post();
-        $data = json_decode($request['data'],TRUE);
+        $CI->load->library('pagination');
         //We send the data
-        $result = $CI->MarcasSolicitudes_model->search($data);
-        
+        $result = $CI->MarcasSolicitudes_model->search();
+        $response = $result->result();
+        var_dump($response);
      }
 }

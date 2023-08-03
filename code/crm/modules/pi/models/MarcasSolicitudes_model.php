@@ -520,7 +520,7 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->join('tbl_tm_registros_principales b', 'a.reg_num_id = b.reg_num_id');
         $this->db->join('tbl_estados g', 'g.estado_id = a.cod_estado_id');
         $this->db->join('tbl_tipo_solicitud h', 'h.tipo_id = a.tipo_id');
-        if(empty($params)){
+        if(empty($params) || is_null($params)){
             $query = $this->db->get();
             return $query;
         }
@@ -562,7 +562,7 @@ class MarcasSolicitudes_model extends BaseModel
                 }
             }
             $query = $this->db->get();
-            return $query->result_array();
+            return $query;
         }
     }
 

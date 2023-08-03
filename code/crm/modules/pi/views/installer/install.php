@@ -1697,6 +1697,76 @@ if(!$CI->db->table_exists("{$dbPrefix}_acciones_marcas_terceros"))
     );
   }
 
+  if(!$CI->db->table_exists("{$dbPrefix}_propietarios"))
+  {
+    "CREATE TABLE `{$dbPrefix}_propietarios` (
+      `id` int NOT NULL AUTO_INCREMENT,
+      `pais_id` int NOT NULL,
+      `codigo` varchar(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `propietario` varchar(60) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `estado_civil` varchar(60) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `representante_legal` varchar(60) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `direccion` longtext COLLATE utf8mb4_0900_ai_ci,
+      `ciudad` varchar(60) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `estado` varchar(60) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `codigo_postal` varchar(60) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `actividad_comercial` varchar(60) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `datos_registro` varchar(60) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+      `notas` longtext COLLATE utf8mb4_0900_ai_ci,
+      `created_at` date NOT NULL,
+      `created_by` int NOT NULL COMMENT 'FK con la tabla staff_id\n',
+      `modified_at` date DEFAULT NULL,
+      `modified_by` int NOT NULL COMMENT 'FK con la tabla staff',
+      `origen` longtext COLLATE utf8mb4_0900_ai_ci,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de propietarios';";
+  }
+
+  if(!$CI->db->table_exists("{$dbPrefix}_propietarios_documentos"))
+  {
+    "CREATE TABLE `{$dbPrefix}_propietarios_documentos` (
+      `id` int NOT NULL AUTO_INCREMENT,
+      `propietario_id` int NOT NULL,
+      `comentarios` longtext COLLATE utf8mb4_0900_ai_ci,
+      `archivo` varchar(255) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+      `descripcion` varchar(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+      PRIMARY KEY (`id`),
+      KEY `propietarios_documentos_fk_idx` (`propietario_id`),
+      CONSTRAINT `propietarios_documentos_fk` FOREIGN KEY (`propietario_id`) REFERENCES `tbl_propietarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de documentos de propietarios';";
+  }
+
+  if(!$CI->db->table_exists("{$dbPrefix}_propietarios_poderes"))
+  {
+    "CREATE TABLE `{$dbPrefix}_propietarios_poderes` (
+      `id` int NOT NULL AUTO_INCREMENT,
+      `poder_num` varchar(10) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+      `fecha` date NOT NULL,
+      `origen` longtext COLLATE utf8mb4_0900_ai_ci NOT NULL,
+      `is_general` tinyint NOT NULL,
+      `propietario_id` int NOT NULL,
+      PRIMARY KEY (`id`),
+      UNIQUE KEY `poder_num_UNIQUE` (`poder_num`),
+      KEY `propietario_poderes_fk_idx` (`propietario_id`),
+      CONSTRAINT `propietario_poderes_fk` FOREIGN KEY (`propietario_id`) REFERENCES `tbl_propietarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de poderes';
+    ";
+  }
+
+  if(!$CI->db->table_exists("{$dbPrefix}_poderes_apoderados"))
+  {
+    "CREATE TABLE `{$dbPrefix}_poderes_apoderados` (
+      `id` int NOT NULL AUTO_INCREMENT,
+      `poder_id` int DEFAULT NULL,
+      `staff_id` int NOT NULL COMMENT 'FK con la tabla staff_id',
+      PRIMARY KEY (`id`),
+      KEY `apoderados_poderes_fk_idx` (`poder_id`),
+      CONSTRAINT `apoderados_poderes_fk` FOREIGN KEY (`poder_id`) REFERENCES `tbl_propietarios_poderes` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Tabla maestra de apoderados';";
+  }
+
+
+
   return redirect(base_url('admin'));
 
 }

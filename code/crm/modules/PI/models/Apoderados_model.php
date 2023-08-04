@@ -3,10 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require __DIR__ . '/BaseModel.php';
 
-class Propietarios_model extends BaseModel
+class Apoderados_model extends BaseModel
 {
     protected $primaryKey = 'id';
-    protected $tableName =  'tbl_propietarios';
+    protected $tableName =  'tbl_poderes_apoderados';
     protected $DBgroup = 'default';
     
     public function __construct()
@@ -86,17 +86,12 @@ class Propietarios_model extends BaseModel
         return $query->result_array();
     }
 
-    public function insertPoder($params = NULL)
+    public function findAllApoderados()
     {
-        $query = $this->db->insert('tbl_propietarios_poderes', $params);
-        return $query;
+        $this->db->select('*');
+        $this->db->from('tbl_poderes_apoderados');
+        $query = $this->db->get();
+        return $query->result_array();
     }
-
-    public function insertDocument($params = NULL)
-    {
-        $query = $this->db->insert('tbl_propietarios_documentos', $params);
-        return $query;
-    }
-
 
 }

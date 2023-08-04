@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class PropietariosController extends AdminController
+class PoderesController extends AdminController
 {
     protected $models = ['Propietarios_model'];
 
@@ -260,7 +260,7 @@ class PropietariosController extends AdminController
             $query = $CI->Propietarios_model->update($id, $propietarios);
             if (isset($query))
             {
-                return redirect('pi/PropietariosController/edit/'.$id);
+                return redirect('pi/Propietarios/');
             }
         }
         
@@ -277,41 +277,42 @@ class PropietariosController extends AdminController
         $CI->load->helper('url');
         $query = $CI->Propietarios_model->delete($id);
         return redirect('pi/PropietariosController/');
-        
-        
     }
 
-    public function storeDocument($id = NULL)
+    public function setApoderados()
     {
         $CI = &get_instance();
-        $CI->load->model("Propietarios_model");
+        $CI->load->model("Apoderados_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
-        $query = [
-            'propietario_id' => $id,
-            'comentarios' => $data['comentarios'],
-            'archivo' => '',
-            'descripcion' => $data['descripcion']
-        ];
-        $file = '';
-        if(!empty($_FILES['archivo']))
+        $query = array();
+        $result = array();
+        if(!empty($data['values']))
         {
-            $file = $_FILES['archivo'];
-        }
-        else{
-            $file = NULL;
-        }
-        if($file != NULL)
-        {
-            //We fill the data of the         
-            $path = FCPATH.'uploads/propietarios/documentos/'.$file['name'];
-            move_uploaded_file($file['tmp_name'], $path);
-            $query['archivo'] = $path;
-            $result = $CI->Propietarios_model->insertDocument($query);
+            foreach($data['values'] as $row){
+                $query[] = [
+                    'poder_id' => $data['poder'],
+                    'staff_id' => $row,
+                ];
+            }
+            $result = $CI->Apoderados_model->insertMultiple($query);
+            unset($query);
             if($result)
             {
-                echo json_encode(['message' => 'success']);
+                $query = $CI->Apoderados_model->findAllApoderados();
+                foreach($query as $row)
+                {
+                    $result[] = [
+                        'id' => $row['id'],
+                        'staff' => $CI->Apoderados_model->findStaff($row['staff_id'])
+                    ];
+                }
+                echo json_encode($query);
             }
+            
+        }
+        else{
+          echo json_encode(['code' => '404']);   
         }
     }
 }

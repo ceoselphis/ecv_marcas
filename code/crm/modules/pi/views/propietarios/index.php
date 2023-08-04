@@ -11,6 +11,7 @@
                             </div>
                         </div>
                         <div class="row">
+                            
                             <div class="col-md-12">
                                 <table class="table" id="tableResult">
                                     <thead>
@@ -31,12 +32,25 @@
                                                 <tr>
                                                     <td><?php echo $row['codigo'];?></td>
                                                     <td><?php echo $row['nombre'];?></td>
-                                                    <td><?php echo $row['pais'];?></td>
-                                                    <td><?php echo $row['poder_num'];?></td>
+                                                    <td><?php echo $row['pais'][0]['nombre'];?></td>
+                                                    <td><?php 
+                                                    $poder = empty($row['poder_num']) ? ('') : ($row['poder_num']);
+                                                    echo $poder;
+                                                    ?></td>
                                                     <td><?php echo $row['fecha_creacion'];?></td>
-                                                    <td><?php echo $row['creado_por'];?></td>
-                                                    <td><?php echo $row['fecha_modificacion'];?></td>
-                                                    <td><?php echo $row['modificado_por'];?></td>
+                                                    <td>
+                                                        <?php 
+                                                            $staff_by = empty($row['creado_por']) ? ('') : ($row['creado_por'][1]) ;
+                                                            echo $staff_by;?>
+                                                    </td>
+                                                    <td>
+                                                        <?php 
+                                                            $fecha_mod = empty($row['fecha_modificacion']) ? ('') : $row['fecha_modificacion'];
+                                                            echo $fecha_mod;
+                                                        ?>
+                                                    </td>
+                                                    <td><?php 
+                                                    $mod_by = empty($row['modificado_por']) ? ('') : $row['modificado_por'][1] ;?></td>
                                                     <form method="DELETE" action="<?php echo admin_url("pi/PropietariosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
                                                             <a class="btn btn-light" href="<?php echo admin_url("pi/PropietariosController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>

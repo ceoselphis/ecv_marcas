@@ -5,9 +5,6 @@ init_head();?>
     <div class="content">
         <div class="row">
             <div class="col-4">
-                <pre>
-                    <?php var_dump($poderes);?>
-                </pre>
             </div>
                 <div class="col-md-12">
                 <?php echo form_open(admin_url('pi/PropietariosController/update/'.$id),['id' => 'propietariosFrm' , 'name' => 'propietariosFrm']);?>
@@ -93,21 +90,23 @@ init_head();?>
                                 </div>
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
-                                    <div class="col-3">
+                                    <div class="col-md-6">
                                         <?php echo form_label('Número','poder_num');?>
-                                        <?php echo form_input('poder_num',  set_value('poder_num'), ['class' => 'form-control']);?>
+                                        <?php echo form_input('poder_num',  set_value('poder_num', $poderes[0]['poder_num']), ['class' => 'form-control']);?>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-md-4">
                                         <?php echo form_label('Fecha','fecha');?>
-                                        <?php echo form_input('fecha',  set_value('fecha'), ['class' => 'form-control calendar']);?>
+                                        <?php 
+                                        $wdate = empty($poderes) ? '' : explode('-', $poderes[0]['fecha']);
+                                        echo form_input('fecha',  set_value('fecha', "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}"), ['class' => 'form-control calendar']);?>
                                     </div>
-                                    <div class="col-2">
-                                        <?php echo form_label('General','is_general');?>
-                                        <?php echo form_checkbox('is_general',  set_value('is_general'), FALSE);?>
+                                    <div class="col-md-2" >
+                                        <?php echo form_label('General','is_general', ['style' => 'style="padding-top: 12%"']);?>
+                                        <?php echo form_checkbox('is_general',  set_value('is_general', $poderes[0]['is_general']), FALSE);?>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-md-12">
                                         <?php echo form_label('Origen','origen');?>
-                                        <?php echo form_textarea('origen',  set_value('origen'), ['class' => 'form-control']);?>
+                                        <?php echo form_textarea('origen',  set_value('origen', $values[0]['origen']), ['class' => 'form-control']);?>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%" >
                                         <div class="all-info-container">
@@ -208,7 +207,7 @@ init_head();?>
   <?php echo form_close();?>
 </div>
 
-<!-- Prioridad Modal -->
+<!-- Documentos Modal -->
 <div class="modal fade" id="documentosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'documentosApoderadosFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -242,7 +241,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="apoderadofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="documentoFrmSubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>
@@ -293,13 +292,14 @@ init_head();?>
             virtualScroll: 600
         });
     </script>
-    <script>
+    <!--<script>
+
         new DataTable(".table-responsive", {
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
             }
         });
-    </script>
+    </script>-->
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto');
@@ -648,39 +648,22 @@ init_head();?>
         
     </style>
     <script>
-        function getFormData(){
-            var config = {};
-            $('input').each(function () {
-                config[this.name] = this.value;
-            });
-            $("select").each(function()
-            {
-                config[this.name] = this.value;
-            });
-            return config;
-        }
-        $("#solicitudfrm").on('submit', function(e)
+        $("#documentoFrmSubmit").on('click', function(e)
         {
             e.preventDefault();
             var formData = new FormData();
-            var data = getFormData(this);
             formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-            formData.append('signo_archivo' , document.getElementById('signo_archivo').files[0]);
-            formData.append('doc_descripcion', $("textarea[name=doc_descripcion]").val());
-            formData.append('comentario_signo', $("input[name=comentario_signo").val())
-            formData.append('solicitud', JSON.stringify(data));
-            formData.append('comentarios', $("textarea[name=comentarios]").val());
-            formData.append('paises_solicitantes', $("#pais_id").val());
-            formData.append('clase_niza_id', $("#clase_niza_id").val());
-            formData.append('solicitantes_id', $("#solicitantes_id").val());
+            formData.append('descripcion', $("input[name=descripcion]").val());
+            formData.append('archivo' , document.getElementById('archivo').files[0]);
+            formData.append('comentarios', $("input[name=comentarios]").val());
             $.ajax({
-                url:'<?php echo admin_url('pi/MarcasSolicitudesController/store');?>',
+                url:'<?php echo admin_url('pi/PropietariosController/storeDocument/'.$id);?>',
                 method: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false
             }).then(function(response){
-                location.href = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$solicitud_id}");?>';
+                $("#documentosModal").modal('hide');
             }).catch(function(response){
                 <?php if(ENVIRONMENT != 'production') { ?>
                  alert(response);
@@ -689,32 +672,10 @@ init_head();?>
                 <?php } ?>
             });
         });
+            
 
 
-        $("#prioridadfrmsubmit").on('click', function(e){
-            e.preventDefault();
-            data = {
-                'pais_prioridad' : $("select[name=pais_prioridad").val(),
-                'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
-                'nro_prioridad'  : $("input[name=nro_prioridad").val(),
-                'solicitud_id'   : $("input[name=solicitud_id").val(),
-            }
-            $.ajax({
-                url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>',
-                method: 'POST',
-                data : data
-            }).then(function(response){
-                new DataTable("#prioridadTbl", {
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                    ajax: JSON.parse(response.data),
-                }
-                });
-                $("#prioridadModal").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar una prioridad sin registro de la solicitud");
-            });
-        });
+        
 
 
         // ------------step-wizard-------------
@@ -753,6 +714,28 @@ init_head();?>
         $(elem).prev().find('a[data-toggle="tab"]').click();
     }
 
+    </script>
+
+    <script>
+        $("#apoderadofrmsubmit").on('click', function(e)
+        {
+            e.preventDefault();
+            $.ajax({
+                url:"<?php echo admin_url('pi/PoderesController/setApoderados');?>",
+                method: 'POST',
+                data: {
+                    'csrf_token_name' : $('input[name=csrf_token_name]').val(),
+                    'values': $("select[name=staff_id]").val(),
+                    'poder': $("input[name=poder_id]").val(),
+                }
+            }).then(function(response){
+                console.log(response);
+                $("#apoderados").modal('hide');
+            }).catch(function(response){
+                $("#apoderados").modal('hide');
+            });
+
+        });
     </script>
 </body>
 </html>

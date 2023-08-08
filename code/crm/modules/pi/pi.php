@@ -118,6 +118,14 @@ function pi_menu_item_collapsible()
         'icon'     => 'fa-solid fa-passport', // Font awesome icon
     ]);
     $CI->app_menu->add_sidebar_children_item('53', [
+        'slug'     => 'marcas-busquedas', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Busquedas', // The name if the item
+        'href'     => admin_url('pi/BusquedasController'), // URL of the item
+        'position' => 11, // The menu position
+        //'icon'     => 'fa fa-plus', // Font awesome icon
+    ]);
+
+    $CI->app_menu->add_sidebar_children_item('53', [
         'slug'     => 'tipos-signos', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Signos', // The name if the item
         'href'     => admin_url('pi/TiposSignosController'), // URL of the item

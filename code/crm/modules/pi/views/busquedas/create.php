@@ -5,9 +5,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
-                    
                     <div class="panel-body">
                         <?php echo form_open(admin_url('pi/BusquedasController/store'), 'form'); ?>
+                        <?php echo form_hidden('id', $id);?>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php echo form_label('Cliente', 'client_id');?>
@@ -70,21 +70,6 @@
                                 <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control']);?>
                             </div>
                         </div>
-                        <div class="row" style="padding: 1%">
-                            <a href="<?php echo admin_url('pi/BusquedasController/createDocument');?>" class="btn btn-success pull-right">Añadir Documento</a>
-                            <div class="col-md-12 table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Fecha</th>
-                                            <th>Descripcion</th>
-                                            <th>Archivo</th>
-                                            <th>Creado Por</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
                         <div class="row pull-right" style="padding: 1%">
                             <div class="col-md-12">
                                 <button class="btn btn-primary" type="submit" >Guardar</button>
@@ -99,15 +84,43 @@
     </div>
 </div>
 
-
 <?php init_tail();?>
+<script>
+    function fecha(){
+        var hoy = new Date();
+        var dd = hoy.getDate();
+        var mm = hoy.getMonth()+1;
+        var yy = hoy.getFullYear();
+        var fecha = '';
+        if(dd<10){
+            dd = '0'+dd;
+        }
+        else if(mm<10){
+            mm = '0'+mm;
+        }
+        fecha = dd+"/"+mm+"/"+yy;
+        return fecha;
+    }
 
+
+    $(".calendar").on('keyup', function(e){
+        e.preventDefault();
+        $(".calendar").val('');
+    })
+    $( function() {
+        $(".calendar").datetimepicker({
+            maxDate: fecha(),
+            weeks: true,
+            format: 'd/m/Y',
+            timepicker:false,
+        });
+    });
+</script>
 <script>
         $("select").selectpicker({
             liveSearch:true,
             virtualScroll: 600,
         });
 </script>
-
 </body>
 </html>

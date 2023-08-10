@@ -70,18 +70,21 @@
                                 <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control']);?>
                             </div>
                         </div>
-                        <div class="row" style="padding: 1%">
+                        <div class="row" style="padding: 2%">
                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#documentoModal"><i class="fas fa-file"></i> Añadir Documento</button>
                             <div class="col-md-12 table-responsive">
                                 <table class="table table-striped" id="documentosTabla">
                                     <thead>
                                         <tr>
-                                            <th>Fecha</th>
                                             <th>Descripcion</th>
+                                            <th>Comentarios</th>
                                             <th>Archivo</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
+                                    <tbody id="tabDocContent">
+
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -144,6 +147,9 @@
 </div>
 
 <?php init_tail();?>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css"/>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
 
 <script>
         $("select").selectpicker({
@@ -164,30 +170,97 @@
         formData.append('comentarios', $("#comentarios").val());
         formData.append('busquedas_id', $("input[name=busquedas_id]").val());
         $.ajax({
-            url: "<?php echo admin_url('pi/BusquedasController/documents')?>",
+            url: "<?php echo admin_url('pi/DocumentosBusquedasController/store')?>",
             method: "POST",
             data: formData,
             processData: false,
             contentType: false,
-        }).then(function(response){
-            if(response.ok){
-                $("#documentosTabla").DataTable({
-                    ajax: {
-                        url: "<?php echo admin_url('pi/BusquedasController/getDocuments/'.$id)?>",
-                        dataSrc: ''
-                    },
-                    columns: [
-                        'fecha',
-                        'descripcion',
-                        'archivo',
-                        'acciones'
-                    ]
+            success: function(response){
+                $.ajax({
+                    url:"<?php echo admin_url('pi/DocumentosBusquedasController/index/'.$id)?>",
+                    method:"POST",
+                    success: function(response){
+                        table = JSON.parse(response);
+                        $("#documentosTabla").DataTable({
+                            language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                            },
+                            destroy: true,
+                            data: table,
+                            columns : [
+                                { data: 'descripcion'},
+                                { data: 'comentarios'},
+                                { data: 'archivo'},
+                                { data: 'acciones'},
+                            ]
+                        });  
+                    }
                 });
                 $("#documentoModal").modal('hide');
             }
-        })
+        });
+    });
 
+   
+    $(document).on('click','.btnsubmit', function(e){
+        e.preventDefault();
+        let docId = $(this).attr('id');
+        $.ajax({
+            url: "<?php echo admin_url('pi/DocumentosBusquedasController/destroy/')?>"+docId,
+            method: "POST",
+            success: function(response)
+            {
+                $.ajax({
+                    url:"<?php echo admin_url('pi/DocumentosBusquedasController/index/'.$id)?>",
+                    method:"POST",
+                    success: function(response){
+                        table = JSON.parse(response);
+                        $("#documentosTabla").DataTable({
+                            destroy: true,
+                            language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                            },
+                            data: table,
+                            dataSrc: '',
+                            columns : [
+                                { data: 'descripcion'},
+                                { data: 'comentarios'},
+                                { data: 'archivo'},
+                                { data: 'acciones'},
+                            ]
+                        });  
+                    }
+                });
+            } 
+        })
     })
+
+
+    $(document).ready(function()
+    {
+        $.ajax({
+            url:"<?php echo admin_url('pi/DocumentosBusquedasController/index/'.$id)?>",
+            method:"POST",
+            success: function(response){
+                table = JSON.parse(response);
+                $("#documentosTabla").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    destroy: true,
+                    data: table,
+                    dataSrc: '',
+                    columns : [
+                        { data: 'descripcion'},
+                        { data: 'comentarios'},
+                        { data: 'archivo'},
+                        { data: 'acciones'},
+                    ]
+                });  
+            }
+        });
+    });
 </script>
 </body>
 </html>
+

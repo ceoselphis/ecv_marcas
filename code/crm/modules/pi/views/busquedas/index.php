@@ -6,13 +6,13 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
+                            
                             <a class="btn btn-primary pull-right" href="<?php echo admin_url('pi/BusquedasController/create');?>"><i class="fas fa-plus"></i> Nueva búsqueda</a>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <table class="table" id="tableResult">
-                                    <thead>
+                            <div class="col-md-12" style="padding: 2%">
+                                <table class="table table-responsive" id="tableResult" >                                    <thead>
                                         <tr>
                                             <th>Código</th>
                                             <th>Marca</th>
@@ -25,26 +25,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if (!empty($anexos)) {?>
-                                            <?php foreach ($anexos as $row) {?>
-                                                <tr>
-                                                    <td><?php echo $row['id'];?></td>
-                                                    <td><?php echo $row['nombre_anexo'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/AnexosController/destroy/{$row['tip_ax_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                        <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/AnexosController/edit/{$row['tip_ax_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
-                                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                        </td>
-                                                    </form> 
-                                                </tr>
-                                            <?php } ?>
-                                        <?php }
-                                        else {
-                                        ?>
-                                        <tr colspan="3">
-                                            <td>Sin Registros</td>
-                                        </tr>
-                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -63,14 +43,40 @@
 </style>
 
 <?php init_tail();?>
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css"/>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
 <script>
-    new DataTable(".table", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
+    $(document).ready(function()
+    {
+        $.ajax({
+            url:"<?php echo admin_url('pi/BusquedasController/getBusquedas/')?>",
+            method:"GET",
+            success: function(response){
+                table = JSON.parse(response);
+                $("#tableResult").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    destroy: true,
+                    data: table,
+                    dataSrc: '',
+                    columns : [
+                        { data: 'id'},
+                        { data: 'marca'},
+                        { data: 'clase'},
+                        { data: 'pais'},
+                        { data: 'responsable'},
+                        { data: 'busqueda_interna'},
+                        { data: 'busqueda_general'},
+                        { data: 'acciones'},
+                    ]
+                });  
+            }
+        });
     });
+    
 </script>
 
 

@@ -10,11 +10,40 @@ class BusquedasController extends AdminController
         parent::__construct();
     }
       
-    public function index($id = NULL)
+    public function index()
     {
         $CI = &get_instance();
         $CI->load->model("Busquedas_model");
         return $CI->load->view('busquedas/index', ["busquedas" => $CI->Busquedas_model->findAll()]);
+    }
+
+    public function getBusquedas()
+    {
+        $CI = &get_instance();
+        $CI->load->model("Busquedas_model");
+        $params = $CI->input->get();
+        $query = $CI->Busquedas_model->findAll();
+        $staff = $CI->Busquedas_model->getAllStaff();
+        $claseNiza = $CI->Busquedas_model->getAllClases();
+        $paises = $CI->Busquedas_model->getAllPaises();
+        $tipoBusqueda = $CI->Busquedas_model->getTipoBusquedas();
+        $response = array();
+        foreach($query as $row)
+        {
+            $busquedaInt = (is_null($row['busqueda_interna_id'])) ? '' : $tipoBusqueda[$row['busqueda_interna_id']]; 
+            $busquedaExt = (is_null($row['busqueda_externa_id'])) ? '' : $tipoBusqueda[$row['busqueda_externa_id']]; 
+            $response[] = array(
+                'id' => $row['id'],
+                'clase' => $claseNiza[$row['clase_niza_id']],
+                'pais' => $paises[$row['pais_id']],
+                'responsable' => $staff[$row['staff_id']],
+                'busqueda_interna' => $busquedaInt,
+                'busqueda_general' => $busquedaExt,
+                'acciones' => "<a href='".admin_url('pi/BusquedasController/edit/'.$row['id'])."'><i class='fa-solid fa-edit'></i> Editar</a>",
+                'marca' => $row['marca']
+            );
+        }
+        echo json_encode($response);
     }
 
     /**
@@ -223,42 +252,6 @@ class BusquedasController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'client_id',
-                'label' => 'Cliente',
-                'rules' => 'trim|required|selectCheck',
-                'errors' => [
-                    'required' => 'Debe seleccionar un cliente',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'oficina_id',
-                'label' => 'Oficina',
-                'rules' => 'trim|required|selectCheck',
-                'errors' => [
-                    'required' => 'Debe seleccionar una oficina',
-                ]
-            ],
-            [
-                'field' => 'oficina_id',
-                'label' => 'Oficina',
-                'rules' => 'trim|required|selectCheck',
-                'errors' => [
-                    'required' => 'Debe seleccionar una oficina',
-                ]
-            ],
-            [
-                'field' => 'staff_id',
-                'label' => 'Responsable',
-                'rules' => 'trim|required|selectCheck',
-                'errors' => [
-                    'required' => 'Debe seleccionar un responsable',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
                 'field' => 'marca',
                 'label' => 'Marca',
                 'rules' => 'trim|required|min_length[3]|max_length[60]',
@@ -276,11 +269,26 @@ class BusquedasController extends AdminController
         }
         else
         {
-            //We prepare the data 
-            $query = $CI->Busquedas_model->update($id, $data);
+            //We prepare the data
+            $busquedaInt = ($data['busqueda_interna_id'] == 'NULL') ? NULL : $data['busqueda_interna_id']; 
+            $busquedaExt = ($data['busqueda_externa_id'] == 'NULL') ? NULL : $data['busqueda_externa_id']; 
+            $qInsert = array(
+                'staff_id' => $data['staff_id'],
+                'marca'    => $data['marca'],
+                'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                'fecha_respuesta' => $this->turn_dates($data['fecha_respuesta']),
+                'ref_cliente'   => $data['ref_cliente'],
+                'comentarios' => $data['comentarios'],
+                'busqueda_interna_id' => $busquedaInt,
+                'busqueda_externa_id' => $busquedaExt,
+                'is_deleted' => 1,
+                'client_id'  => $data['client_id'],
+                'oficina_id' => $data['oficina_id'],
+            );
+            $query = $CI->Busquedas_model->update($id, $qInsert);
             if (isset($query))
             {
-                return redirect('pi/busquedascontroller/');
+                return redirect('pi/BusquedasController/edit/'.$id);
             }
         }
     }
@@ -296,58 +304,6 @@ class BusquedasController extends AdminController
         $CI->load->helper('url');
         $query = $CI->Busquedas_model->delete($id);
         return redirect('pi/busquedascontroller/');
-    }
-
-    public function documents()
-    {
-        $CI = &get_instance();
-        $CI->load->model('Marcas_documentos_model');
-        $data = $CI->input->post();
-        $query = array(
-            'descripcion' => $data['descripcion'],
-            'comentarios' => $data['comentarios'],
-            'archivo'     => '',
-            'busquedas_id' => $data['busquedas_id'],
-        );
-        $file = '';
-        if(!empty($_FILES['archivo']))
-        {
-            $file = $_FILES['archivo'];
-        }
-        else{
-            $file = NULL;
-        }
-        if($file != NULL)
-        {
-            //We fill the data of the         
-            $path = FCPATH.'uploads/busquedas/'.$data['busquedas_id'].'-'.$file['name'];
-            move_uploaded_file($file['tmp_name'], $path);
-            $query['archivo'] = $path;
-        }
-        $insert = $CI->Marcas_documentos_model->insert($query);
-        if($insert)
-        {
-            echo json_encode(['status' => '200', 'message' => 'ok']);
-        }
-        else{
-            echo json_encode(['status' => '500', 'message' => 'error']);
-        }
-    }
-
-    public function getDocuments($id = null)
-    {
-        $CI = &get_instance();
-        $CI->load->model('Marcas_documentos_model');
-        $query = $CI->Marcas_documentos_model->getAllByBusqueda($id);
-        $result = array();
-        foreach($query as $row)
-        {
-            $result[] = array(
-                'descripcion' => $row['descripcion'],
-                'comentarios' => $row[''],
-            )
-        }
-
     }
 
     private function selectCheck($value)

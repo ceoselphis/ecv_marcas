@@ -101,4 +101,48 @@ class CorrespondeciaUsuario_model extends BaseModel
         }
         return $values[0];
     }
+
+    public function findAllPlantilla()
+    {
+        $query = $this->db->get('tbl_correspondencia_plantilla');
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['descripcion']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findPlantilla($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_correspondencia_plantilla');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['descripcion']);
+        }
+        return array_combine($keys, $values);
+    }
+    public function BuscarPlantilla($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_correspondencia_plantilla');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            
+            array_push($values, $row['descripcion']);
+        }
+        return $values[0];
+    }
 }

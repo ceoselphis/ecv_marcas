@@ -23,7 +23,7 @@ class CorrespondeciaUsuarioController extends AdminController
                 'cliente' => $CI->CorrespondeciaUsuario_model->BuscarClients($row['cliente']),
                 'expediente' => $row['expediente'],
                 'staff_id' => $CI->CorrespondeciaUsuario_model->BuscarStaff($row['staff_id']),
-                'plantilla_id' => $row['plantilla_id'],
+                'plantilla_id' => $CI->CorrespondeciaUsuario_model->BuscarPlantilla($row['plantilla_id']),
             );
         }
         
@@ -75,7 +75,8 @@ class CorrespondeciaUsuarioController extends AdminController
         'fields' => $inputs, 
         'labels' => $labels,
         'clientes' => $CI->CorrespondeciaUsuario_model->findAllClients(),
-        'staffid' => $CI->CorrespondeciaUsuario_model->findAllStaff()
+        'staffid' => $CI->CorrespondeciaUsuario_model->findAllStaff(),
+        'plantilla' => $CI->CorrespondeciaUsuario_model->findAllPlantilla()
     ]);
     }
 

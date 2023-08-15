@@ -33,7 +33,7 @@
                         <div class="col-md-4" style="padding-top: 15px;">
                             <?php echo form_label($labels[4],$labels[4]);?>
                             <br/>
-                            <?php echo form_input($fields[6],set_value($fields[6]['name']));?>
+                            <?php echo form_dropdown(['name'=>'plantilla_id','class' => 'form-control', 'id' => 'plantilla_id'], $plantilla  );?>
                             <?php echo form_error($fields[6]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <br><br><br><br><br><br><br>

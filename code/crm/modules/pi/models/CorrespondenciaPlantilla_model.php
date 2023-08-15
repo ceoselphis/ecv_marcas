@@ -109,8 +109,8 @@ class CorrespondenciaPlantilla_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['materia_id']);
-            array_push($values, $row['descripcion']);
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
     }
@@ -118,14 +118,14 @@ class CorrespondenciaPlantilla_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_materias');
-        $this->db->where('materia_id = '.$id);
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['materia_id']);
-            array_push($values, $row['descripcion']);
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
     }
@@ -134,14 +134,14 @@ class CorrespondenciaPlantilla_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_materias');
-        $this->db->where('materia_id = '.$id);
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         
         $values = array();
         foreach($query->result_array() as $row)
         {
             
-            array_push($values, $row['descripcion']);
+            array_push($values, $row['nombre']);
         }
         return $values[0];
     }

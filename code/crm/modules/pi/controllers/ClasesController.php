@@ -78,13 +78,11 @@ class ClasesController extends AdminController
                 ]
             ],
             [
-                'field' => 'version',
+                'field' => 'nombre',
                 'label' => 'Version',
-                'rules' => 'trim|required|max_length[2]|regex_match[/[0-9][0-9]/]',
+                'rules' => 'trim|required',
                 'errors' => [
-                    'required' => 'Debe indicar la version de la clase',
-                    'max_lenght' => 'El texto debe ser menor a 2 caracteres',
-                    'regex_match' => 'El número de versión debe ser númerico'
+                    'required' => 'Debe indicar un nombre',
                 ]
             ],
         );
@@ -209,13 +207,11 @@ class ClasesController extends AdminController
                 ]
             ],
             [
-                'field' => 'version',
+                'field' => 'nombre',
                 'label' => 'Version',
-                'rules' => 'trim|required|max_length[2]|regex_match[/[0-9][0-9]/]',
+                'rules' => 'trim|required',
                 'errors' => [
-                    'required' => 'Debe indicar la version de la clase',
-                    'max_lenght' => 'El texto debe ser menor a 2 caracteres',
-                    'regex_match' => 'El número de versión debe ser númerico'
+                    'required' => 'Debe indicar un nombre',
                 ]
             ],
         );

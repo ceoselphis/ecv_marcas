@@ -5,7 +5,7 @@ require __DIR__ . '/BaseModel.php';
 
 class MarcasSolicitudes_model extends BaseModel
 {
-    protected $primaryKey = 'solicitud_id';
+    protected $primaryKey = 'id';
     protected $tableName =  'tbl_marcas_solicitudes';
     protected $DBgroup = 'default';
     protected $countPK  = 0;

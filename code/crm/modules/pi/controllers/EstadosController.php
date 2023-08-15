@@ -18,13 +18,9 @@ class EstadosController extends AdminController
         foreach($CI->Estados_model->findAll() as $row)
         {
             $data[] = array(
-                'estado_id' => $row['estado_id'],
+                'id' => $row['id'],
                 'codigo'    => $row['codigo'],
-                'materia_id'=> ucfirst($CI->Estados_model->findMaterias($row['materia_id'])[0]['descripcion']),
-                'descripcion' => ucfirst($row['descripcion']),
-                'created_at' => date('d/m/Y', strtotime($row['created_at'])),
-                'last_modified' => date('d/m/Y', strtotime($row['last_modified'])),
-                'created_by' => $CI->Estados_model->getStaff($row['created_by'])[0]['firstname'].' '.$CI->Estados_model->getStaff($row['created_by'])[0]['lastname']
+                'nombre' => ucfirst($row['nombre']),
             );
         }
         return $CI->load->view('estados/index', ["estados" => $data]);
@@ -41,7 +37,6 @@ class EstadosController extends AdminController
         $fields = $CI->Estados_model->getFillableFields();
         $inputs = array();
         $labels = array();
-        $select = $CI->Estados_model->getAllMaterias();
         foreach($fields as $field)
         {
             if($field['type'] == 'INT')
@@ -63,7 +58,7 @@ class EstadosController extends AdminController
             }
         }
         $labels = ['Id', 'Materia', 'Descripcion', 'Código'];
-        return $CI->load->view('estados/create', ['fields' => $inputs, 'labels' => $labels, 'materias' => $select]);
+        return $CI->load->view('estados/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
     /**
@@ -92,7 +87,7 @@ class EstadosController extends AdminController
                 ]
             ],
             [
-                'field' => 'descripcion',
+                'field' => 'nombre',
                 'label' => 'Descripcion',
                 'rules' => 'trim|required|min_length[5]|max_length[60]',
                 'errors' => [
@@ -199,9 +194,9 @@ class EstadosController extends AdminController
                 ]
             ],
             [
-                'field' => 'descripcion',
+                'field' => 'nombre',
                 'label' => 'Descripcion',
-                'rules' => 'trim|required|min_length[5]|max_length[60]',
+                'rules' => 'trim|required|min_length[5]|max_length[120]',
                 'errors' => [
                     'required' => 'Debe indicar una descripcion',
                     'min_length' => 'Descripción demasiado corta',

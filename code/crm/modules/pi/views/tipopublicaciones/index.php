@@ -23,11 +23,11 @@
                                         <?php if (!empty($tipo_publicacion)) {?>
                                             <?php foreach ($tipo_publicacion as $row) {?>
                                                 <tr>
-                                                    <td><?php echo $row['tipo_pub_id'];?></td>
+                                                    <td><?php echo $row['id'];?></td>
                                                     <td><?php echo $row['nombre'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/TipoPublicacionesController/destroy/{$row['tipo_pub_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/TipoPublicacionesController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/TipoPublicacionesController/edit/{$row['tipo_pub_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/TipoPublicacionesController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 

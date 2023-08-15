@@ -18,10 +18,10 @@ class BoletinesController extends AdminController
         foreach($CI->Boletines_model->findAll() as $row)
         {
             $data[] = array(
-                'boletin_id' => $row['boletin_id'],
+                'boletin_id' => $row['id'],
                 'fecha_publicacion'    => $row['fecha_publicacion'],
                 'pais_id'=> ucfirst($CI->Boletines_model->findPaises($row['pais_id'])[0]['nombre']),
-                'nombre' => ucfirst($row['nombre']),
+                'nombre' => ucfirst($row['descripcion']),
             );
         }
         return $CI->load->view('boletines/index', ["boletines" => $data]);
@@ -78,7 +78,7 @@ class BoletinesController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'boletin_id',
+                'field' => 'id',
                 'label' => 'Nº de Boletin',
                 'rules' => 'trim|required|min_length[3]|max_length[5]|regex_match[/[0-9][0-9][0-9]/]',
                 'errors' => [
@@ -89,7 +89,7 @@ class BoletinesController extends AdminController
                 ]
             ],
             [
-                'field' => 'nombre',
+                'field' => 'descripcion',
                 'label' => 'Nombre',
                 'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
@@ -221,13 +221,24 @@ class BoletinesController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre',
+                'field' => 'id',
+                'label' => 'Nº de Boletin',
+                'rules' => 'trim|required|min_length[3]|max_length[5]|regex_match[/[0-9][0-9][0-9]/]',
+                'errors' => [
+                    'required' => 'Debe Indicar un numero de boletin',
+                    'min_length' => 'El número debe ser mayor de tres digitos',
+                    'max_lenght' => 'El número debe ser menor a cinco digitos',
+                    'regex_match' => "El número de boletin debe ser númerico"
+                ]
+            ],
+            [
+                'field' => 'descripcion',
                 'label' => 'Nombre',
-                'rules' => 'trim|required|min_length[3]|max_length[5]',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
                     'required' => 'Debe Indicar un nombre',
-                    'min_length' => 'El nombre debe ser mayor de tres caracteres',
-                    'max_lenght' => 'El nombre debe ser menor a cinco caracteres'
+                    'min_length' => 'El nombre debe ser mayor de 3 caracteres',
+                    'max_lenght' => 'El nombre debe ser menor a 60 caracteres'
                 ]
             ],
             [
@@ -236,16 +247,6 @@ class BoletinesController extends AdminController
                 'rules' => 'trim|required',
                 'errors' => [
                     'required' => 'Debe Indicar una fecha',
-                ]
-            ],
-            [
-                'field' => 'boletin_id',
-                'label' => 'Nº de Boletin',
-                'rules' => 'trim|required|min_length[3]|max_length[5]',
-                'errors' => [
-                    'required' => 'Debe Indicar un numero de boletin',
-                    'min_length' => 'El nombre debe ser mayor de tres caracteres',
-                    'max_lenght' => 'El nombre debe ser menor a cinco caracteres'
                 ]
             ],
         );

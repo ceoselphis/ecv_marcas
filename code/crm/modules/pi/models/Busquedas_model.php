@@ -47,14 +47,14 @@ class Busquedas_model extends BaseModel
 
     public function getAllClases()
     {
-        $this->db->select('id, nombre');
+        $this->db->select('clase_niza_id, nombre');
         $this->db->from('tbl_marcas_clase_niza');
         $query = $this->db->get();
         $keys = array('NULL');
         $values = array('Seleccione');
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['id']);
+            array_push($keys, $row['clase_niza_id']);
             array_push($values, "{$row['nombre']}");
         }
         return array_combine($keys, $values);
@@ -92,7 +92,7 @@ class Busquedas_model extends BaseModel
 
     public function getOficinas()
     {
-        $this->db->select('id, nombre');
+        $this->db->select('oficina_id, nombre');
         $this->db->from('tbl_oficina');
         $query = $this->db->get();
         $keys = array('NULL');

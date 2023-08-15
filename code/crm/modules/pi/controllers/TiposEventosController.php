@@ -18,12 +18,9 @@ class TiposEventosController extends AdminController
         foreach($CI->TiposEventos_model->findAll() as $row)
         {
             $data[] = [
-                'tipo_eve_id' => $row['tipo_eve_id'],
-                'nombre' => $row['nombre'],
-                'materia_id' => $CI->TiposEventos_model->getMateria($row['materia_id'])[0]['descripcion'],
-                'created_at' => $row['created_at'],
-                'modified_at' => $row['modified_at'],
-                'created_by'  => $CI->TiposEventos_model->getStaff($row['created_by'])[0]['firstname'].' '.$CI->TiposEventos_model->getStaff($row['created_by'])[0]['lastname'],
+                'tipo_eve_id' => $row['id'],
+                'descripcion' => $row['descripcion'],
+                'materia_id' => $CI->TiposEventos_model->getMateria($row['materia_id'])[0]['nombre'],
             ];
         }
         return $CI->load->view('TiposEventos/index', ["TiposEventos" => $data]);
@@ -81,7 +78,7 @@ class TiposEventosController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre',
+                'field' => 'descripcion',
                 'label' => 'Nombre del tipo de evento',
                 'rules' => 'trim|required|min_length[3]|max_length[160]',
                 'errors' => [
@@ -197,7 +194,7 @@ class TiposEventosController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre',
+                'field' => 'descripcion',
                 'label' => 'Nombre del tipo de evento',
                 'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
@@ -214,9 +211,6 @@ class TiposEventosController extends AdminController
         }
         else
         {
-            //We prepare the data 
-            $unwantDate = explode('/',$data['created_at']);
-            $data['created_at'] = date('Y-m-d h:i:s', strtotime($unwantDate[2].'-'.$unwantDate[1].'-'.$unwantDate[0]));
             $query = $CI->TiposEventos_model->update($id, $data);
             if (isset($query))
             {

@@ -11,16 +11,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table" id="tableResult">
+                                <table class="table text-center" id="tableResult">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Código</th>
-                                            <th>Materia</th>
                                             <th>Descripcion</th>
-                                            <th>Fecha de Creacion</th>
-                                            <th>Fecha de Modificacion</th>
-                                            <th>Creado por</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -28,16 +24,12 @@
                                         <?php if (!empty($estados)) {?>
                                             <?php foreach ($estados as $row) {?>
                                                 <tr>
-                                                    <td><?php echo $row['estado_id'];?></td>
+                                                    <td><?php echo $row['id'];?></td>
                                                     <td><?php echo $row['codigo'];?></td>
-                                                    <td><?php echo $row['materia_id'];?></td>
-                                                    <td><?php echo $row['descripcion'];?></td>
-                                                    <td><?php echo $row['created_at'];?></td>
-                                                    <td><?php echo $row['last_modified'];?></td>
-                                                    <td><?php echo $row['created_by'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/EstadosController/destroy/{$row['estado_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <td><?php echo $row['nombre'];?></td>
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/EstadosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/EstadosController/edit/{$row['estado_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/EstadosController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 

@@ -29,18 +29,18 @@ class PublicacionesMarcasController extends AdminController
         $boletines = array();
         foreach($CI->PublicacionesMarcas_model->findAllBoletines() as $row)
         {
-            $boletines[$row['boletin_id']] = $row['nombre'];
+            $boletines[$row['id']] = $row['descripcion'];
 
         }
         $paises = array();
         foreach($CI->PublicacionesMarcas_model->findAllPaises() as $row)
         {
-            $paises[$row['pais_id']] = $row['nombre'];
+            $paises[$row['id']] = $row['nombre'];
         }
         $tipoPub = array();
         foreach($CI->PublicacionesMarcas_model->findAllTipoPublicaciones() as $row)
         {
-            $tipoPub[$row['tipo_pub_id']] = $row['nombre'];
+            $tipoPub[$row['id']] = $row['nombre'];
         }
         $solicitud = array();
         /*if(!empty($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas()))

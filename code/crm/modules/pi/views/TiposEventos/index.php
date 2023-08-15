@@ -18,9 +18,6 @@
                                             <th>ID</th>
                                             <th>Materia</th>
                                             <th>Nombre</th>
-                                            <th>Fecha de Creacion</th>
-                                            <th>Fecha de Modificacion</th>
-                                            <th>Creado por </th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -30,10 +27,7 @@
                                                 <tr>
                                                     <td><?php echo $row['tipo_eve_id'];?></td>
                                                     <td><?php echo $row['materia_id'];?></td>
-                                                    <td><?php echo $row['nombre'];?></td>
-                                                    <td><?php echo date('d/m/Y', strtotime($row['created_at']));?></td>
-                                                    <td><?php echo date('d/m/Y', strtotime($row['modified_at']));?></td>
-                                                    <td><?php echo $row['created_by'];?></td>
+                                                    <td><?php echo $row['descripcion'];?></td>
                                                     <form method="DELETE" action="<?php echo admin_url("pi/TiposEventosController/destroy/{$row['tipo_eve_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
                                                             <a class="btn btn-light" href="<?php echo admin_url("pi/TiposEventosController/edit/{$row['tipo_eve_id']}");?>"><i class="fas fa-edit"></i>Editar</a>

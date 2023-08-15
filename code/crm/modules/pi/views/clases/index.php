@@ -16,8 +16,6 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Nombre</th>
-                                            <th>Version</th>
-                                            <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -25,18 +23,12 @@
                                         <?php if (!empty($clases)) {?>
                                             <?php foreach ($clases as $row) {?>
                                                 <tr>
-                                                    <td><?php echo $row['niza_id'];?></td>
+                                                    <td><?php echo $row['clase_niza_id'];?></td>
                                                     <td><?php echo $row['nombre'];?></td>
-                                                    <td><?php echo $row['version'];?></td>
-                                                <?php if($row['is_activate'] == '1'){ ?>
-                                                    <td>Activo</td>
-                                                <?php } else { ?>
-                                                    <td>Desactivado</td>
-                                                    <?php } ?>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/ClasesController/destroy/{$row['niza_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/ClasesController/destroy/{$row['clase_niza_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-link detail" href="<?php echo admin_url("pi/ClasesController/show/{$row['niza_id']}");?>"><i class="fas fa-details"></i>Detalles</a>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/ClasesController/edit/{$row['niza_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-link detail" href="<?php echo admin_url("pi/ClasesController/show/{$row['clase_niza_id']}");?>"><i class="fas fa-details"></i>Detalles</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/ClasesController/edit/{$row['clase_niza_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 

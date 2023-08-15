@@ -14,19 +14,19 @@
                         </div>
                         <div class="col-md-2">
                             <?php echo form_label($labels[1]);?>
-                            <?php echo form_dropdown($fields[3], $paises, set_value($fields[3]['name'],$values[0][$fields[3]['name']]), ['class' => 'form-control']);?>
+                            <?php echo form_dropdown($fields[1], $paises, set_value($fields[1]['name'],$values[0][$fields[1]['name']]), ['class' => 'form-control']);?>
                         </div>
                         <div class="col-md-2">
                             
                             <?php echo form_label($labels[2], $labels[2]);?>
-                            <?php echo form_input($fields[2], set_value($fields[2]['name'], $values[0][$fields[2]['name']]));?>
-                            <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>');?>
+                            <?php echo form_input($fields[3], set_value($fields[3]['name'], $values[0][$fields[3]['name']]));?>
+                            <?php echo form_error($fields[3]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-md-2">
                             
                             <?php echo form_label($labels[3], $labels[3]);?>
-                            <?php echo form_input($fields[1], set_value($fields[1]['name'], (explode('-',$values[0][$fields[1]['name']])[2].'/'.explode('-',$values[0][$fields[1]['name']])[1].'/'.explode('-',$values[0][$fields[1]['name']])[0])), ['datepicker','form-control']);?>
-                            <?php echo form_error($fields[1]['name'], '<div class="text-danger">', '</div>');?>
+                            <?php echo form_input($fields[2], set_value($fields[2]['name'], (explode('-',$values[0][$fields[2]['name']])[2].'/'.explode('-',$values[0][$fields[2]['name']])[1].'/'.explode('-',$values[0][$fields[2]['name']])[0])), ['datepicker','form-control']);?>
+                            <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
                         <div class="col-3">
                             <br />
@@ -60,12 +60,12 @@
         }
 
 
-        $(".calendar").on('keyup', function(e){
+        $("input[name=fecha_publicacion]").on('keyup', function(e){
             e.preventDefault();
-            $(".calendar").val('');
+            $("input[name=fecha_publicacion]").val('');
         })
         $( function() {
-            $(".calendar").datetimepicker({
+            $("input[name=fecha_publicacion]").datetimepicker({
                 maxDate: fecha(),
                 weeks: true,
                 format: 'd/m/Y',
@@ -73,6 +73,17 @@
             });
         });
     </script>
+
+<script>
+        $("select").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600,
+        })
+        $("select[multiple=multiple]").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600
+        });
+</script>
 
     </body>
     </html>

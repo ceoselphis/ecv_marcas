@@ -51,7 +51,7 @@ class BusquedasController extends AdminController
      */
 
     public function create()
-    {
+    { 
         $CI = &get_instance();
         $CI->load->model("Busquedas_model");
         $fields = $CI->Busquedas_model->getFillableFields();

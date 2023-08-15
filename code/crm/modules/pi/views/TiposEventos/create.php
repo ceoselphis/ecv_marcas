@@ -4,23 +4,23 @@
     <div class="content">
         <div class="row">
             <div class="col-md-12">
+                <pre>
+                    <?php var_dump($fields);?>
+                </pre>
                 <div class="panel_s">
                     <div class="panel-body">
                         <?php echo form_open(admin_url('pi/TiposEventosController/store'), 'form'); ?>
                         <div class="col-md-4">
                             <?php echo form_label($labels[1]);?>
                             <br />
-                            <?php echo form_input($fields[1]['name'], set_value($fields[1]['name']), ['class' => "form-control"]);?>
-                            <?php echo form_error($fields[1]['name'], '<div class="text-danger has-error">', '</div>');?>
+                            <?php echo form_input($fields[2]['name'], set_value($fields[2]['name']), ['class' => "form-control"]);?>
+                            <?php echo form_error($fields[2]['name'], '<div class="text-danger has-error">', '</div>');?>
                             <br />
                         </div>
                         <div class="col-md-4">
                             <?php echo form_label($labels[2]);?>
                             <br />
-                            <?php echo form_dropdown('materia_id', $materias, [0], ['class' => 'form-control']);?>
-                            <?php echo form_hidden("created_at", date('Y-m-d h:i:s'),false);?>
-                            <?php echo form_hidden("modified_at", date('Y-m-d h:i:s'),false);?>
-                            <?php echo form_hidden('created_by', $_SESSION['staff_user_id'], FALSE)?>
+                            <?php echo form_dropdown('materia_id', $materias, set_value('materia_id', $fields[1]['name']), ['class' => 'form-control']);?>
                         </div>
                         <div class="col-2">
                             <br />

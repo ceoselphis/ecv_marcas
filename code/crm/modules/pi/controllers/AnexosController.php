@@ -79,6 +79,7 @@ class AnexosController extends AdminController
             ],
         );
         $CI->form_validation->set_rules($config);
+        
         if($CI->form_validation->run() == FALSE)
         {
             $fields = $CI->Anexos_model->getFillableFields();

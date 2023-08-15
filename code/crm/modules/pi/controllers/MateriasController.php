@@ -14,7 +14,9 @@ class MateriasController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Materias_model");
-        return $CI->load->view('materias/index', ["materias" => $CI->Materias_model->findAll()]);
+        $query = $CI->Materias_model->findAll();
+        
+        return $CI->load->view('materias/index', ["materias" => $query]);
     }
 
     /**

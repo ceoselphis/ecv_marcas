@@ -45,6 +45,20 @@ function pi_menu_item_collapsible()
         'href'  => admin_url('pi/PropietariosController'),
         'position' => 11,
     ]);
+    //Correspondecia Usuario
+    $CI->app_menu->add_sidebar_children_item('51', [
+        'slug'   => 'correspondenciausuario-admin',
+        'name'  => 'Correspondencia Usuario',
+        'href'  => admin_url('pi/CorrespondeciaUsuarioController'),
+        'position' => 11,
+    ]);
+    //Correspondecia Plantilla
+    $CI->app_menu->add_sidebar_children_item('51', [
+        'slug'   => 'correspondenciaplantilla-admin',
+        'name'  => 'Correspondencia Plantilla',
+        'href'  => admin_url('pi/CorrespondeciaPlantillaController'),
+        'position' => 11,
+    ]);
 
 
      //Menu de configuracion

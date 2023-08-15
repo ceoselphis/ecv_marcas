@@ -30,6 +30,9 @@
                                                 <td>Acciones</td>
                                             </tr>
                                         </thead>
+                                        <tbody >
+                                      
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -153,6 +156,14 @@
             { data: 'acciones'       }  //Editar y borrar pero en iconos
         ]
     });
+    // // $.ajax({
+    // //     url : '<?php echo admin_url('pi/MarcasSolicitudesController/view');?>',
+    // //     type:'GET',
+    // //     success : function(response){
+    // //         console.log(response);
+    // //     }
+
+    // // })
     /*$("#filterSubmit").on('click', function(e)
     {
         e.preventDefault();

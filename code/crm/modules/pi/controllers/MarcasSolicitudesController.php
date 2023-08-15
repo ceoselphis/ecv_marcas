@@ -30,6 +30,30 @@ class MarcasSolicitudesController extends AdminController
             'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
         ];
         return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
+    //    $json = json_encode($data);
+    //    echo $json;
+    }
+
+    public function view()
+    {
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudes_model");
+        $data = [
+            'Boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
+            'Oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
+            'Clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
+            'Responsables'           => $CI->MarcasSolicitudes_model->findAllStaff(),
+            'Tipo de Solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
+            'Estado de Solicitud'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
+            'Pais'               => $CI->MarcasSolicitudes_model->findAllPaises(),
+            'Tipos de Signo'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
+            'Clase Niza'         => $CI->MarcasSolicitudes_model->findAllClases(),
+            'Tipo de Registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
+            'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+        ];
+       // return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
+       $json = json_encode($data);
+       echo $json;
     }
 
     /**

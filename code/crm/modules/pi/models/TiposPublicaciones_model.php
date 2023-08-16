@@ -5,7 +5,7 @@ require __DIR__ . '/BaseModel.php';
 
 class TiposPublicaciones_model extends BaseModel
 {
-    protected $primaryKey = 'tipo_pub_id';
+    protected $primaryKey = 'id';
     protected $tableName =  'tbl_tipo_publicacion';
     protected $DBgroup = 'default';
     

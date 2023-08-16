@@ -17,7 +17,7 @@ class PublicacionesMarcas_model extends BaseModel
     public function findAllBoletines()
     {
         $this->db->select('*');
-        $this->db->from('tbl_tm_boletines');
+        $this->db->from('tbl_boletines');
         $this->db->order_by('pais_id');
         $query = $this->db->get();
         $result = $query->result_array();
@@ -27,7 +27,7 @@ class PublicacionesMarcas_model extends BaseModel
     public function findBoletin($id = null)
     {
         $this->db->select('*');
-        $this->db->from('tbl_tm_boletines');
+        $this->db->from('tbl_boletines');
         $this->db->where('boletin_id = '.$id);
         $query = $this->db->get();
         $result = $query->result_array();

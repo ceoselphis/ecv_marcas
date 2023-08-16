@@ -8,9 +8,9 @@
                     <div class="panel-body">
                     <?php $CI = &get_instance();?>
                         <?php echo form_open(admin_url('pi/TiposEventosController/update/'.$id), 'form'); ?>
-                        <div class="col-md-3">
-                            <?php echo form_label('Nombre de evento', 'nombre', ['form-label']);?>
-                            <?php echo form_input('nombre', set_value('nombre',$values[0]['nombre']), ['class' => 'form-control']);?>
+                        <div class="col-md-6">
+                            <?php echo form_label('Nombre de evento', 'descripcion', ['form-label']);?>
+                            <?php echo form_input('descripcion', set_value('descripcion',$values[0]['descripcion']), ['class' => 'form-control']);?>
                             <br />
                         </div>
                         <div class="col-md-3">
@@ -18,19 +18,9 @@
                             <?php echo form_dropdown('materia_id', $CI->TiposEventos_model->getAllMaterias() , $CI->TiposEventos_model->getMateria($values[0]['materia_id']), ['class' => 'form-control']);?>
                             <br />
                         </div>
-                        <div class="col-md-3">
-                            <?php echo form_label('Fecha de Creacion', 'created_at', ['form-label']);?>
-                            <?php 
-                            $date = explode('-', $values[0]['created_at']);
-                            echo form_input('created_at', ($date[2].'/'.$date[1].'/'.$date[0]), ['class' => 'form-control calendar']);?>
-                        </div>
-                        <div class="col-3">
-                            <br />
-                            <?php echo form_hidden('tipo_eve_id', $values[0]['tipo_eve_id'], false);?>
-                            <?php echo form_hidden('created_by', $values[0]['created_by'], false);?>
-                            <?php echo form_hidden('modified_at', date('Y-m-d h:i:s'), false);?>
+                        <div class="col-md-3" style="padding-top: 2%;">
                             <button class="btn btn-primary" type="submit" >Guardar</button>
-                            <a href="javascript: history.go(-1)" class="btn btn-success">Volver atras</a>
+                            <a href="javascript: history.go(-1)" class="btn btn-success">Volver atrás</a>
                         </div>
                         
                     </div>

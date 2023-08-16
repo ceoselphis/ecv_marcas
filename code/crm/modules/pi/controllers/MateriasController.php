@@ -70,7 +70,7 @@ class MateriasController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'descripcion',
+                'field' => 'nombre',
                 'label' => 'Descripcion',
                 'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [

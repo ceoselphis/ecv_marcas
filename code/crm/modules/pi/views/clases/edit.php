@@ -13,38 +13,6 @@
                             <?php echo form_input('nombre', set_value($fields[1],$values[1]) ,['class' => 'form-control']);?>
                             <?php echo form_error($fields[1], '<div class="text-danger">', '</div>');?>
                         </div>
-                        <div class="col-md-2">
-                            <?php echo form_label($labels[3], $labels[3]);?>
-                            <br />
-                            <?php echo form_input($fields[3], set_value($values[3] , $values[3]), ['class' => 'form-control']);?>
-                            <?php echo form_error($fields[3], '<div class="text-danger">', '</div>');?>
-                        </div>
-                        <div class="col-md-2">
-                            <?php echo form_label($labels[4], $labels[4]);?>
-                            <br />
-                            <?php 
-                            if(empty(set_value($values[4])))
-                            {
-                                echo form_checkbox([
-                                    'name' => $fields[4],
-                                    'id'   => $fields[4],
-                                    'value'=> $values[4],
-                                    'style'=> 'form-control' 
-                                ]);
-                            }
-                            else
-                            {
-                                echo form_checkbox([
-                                    'name' => $fields[4],
-                                    'id'   => $fields[4],
-                                    'value'=> set_value($values[4]),
-                                    'style'=> 'form-control' 
-                                ]);
-                            }
-                            ?>
-                            <?php echo form_error($fields[4], '<div class="text-danger">', '</div>');?>
-                        </div>
-                        <br />
                         <div class="col-md-12">
                         <?php echo form_label($labels[2], $labels[2]);?>
                             <br />

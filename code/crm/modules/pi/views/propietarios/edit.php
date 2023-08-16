@@ -4,9 +4,7 @@ init_head();?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
-            <div class="col-4">
-            </div>
-                <div class="col-md-12">
+            <div class="col-md-12">
                 <?php echo form_open(admin_url('pi/PropietariosController/update/'.$id),['id' => 'propietariosFrm' , 'name' => 'propietariosFrm']);?>
                     <div class="panel_s">
                         <div class="panel-body">
@@ -49,7 +47,7 @@ init_head();?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Propietario', 'propietario')?>
-                                            <?php echo form_input('propietario', set_value('propietario', $values[0]['propietario']),['class' => 'form-control']);?>
+                                            <?php echo form_input('nombre_propietario', set_value('propietario', $values[0]['nombre_propietario']),['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Estado Civil',);?>
@@ -80,9 +78,9 @@ init_head();?>
                                             <?php echo form_input('actividad_comercial',  set_value('actividad_comercial', $values[0]['actividad_comercial']), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-12">
-                                            <?php echo form_label('Datos Registro','notas');?>
-                                            <?php echo form_textarea('notas',  set_value('notas', $values[0]['notas']), ['class' => 'form-control']);?>
-                                        </div>            
+                                            <?php echo form_label('Datos Registro','actividad_comercial');?>
+                                            <?php echo form_textarea('datos_registro',  set_value('datos_registro'), ['class' => 'form-control']);?>
+                                        </div>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
@@ -92,21 +90,22 @@ init_head();?>
                                 <div class="tab-pane" role="tabpanel" id="step2">
                                     <div class="col-md-6">
                                         <?php echo form_label('Número','poder_num');?>
-                                        <?php echo form_input('poder_num',  set_value('poder_num', $poderes[0]['poder_num']), ['class' => 'form-control']);?>
+                                        <?php 
+                                        $poder_num = empty($poderes) ? '' : $poderes[0]['numero'];
+                                        echo form_input('numero',  set_value('numero', $poder_num), ['class' => 'form-control']);?>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <?php echo form_label('Fecha','fecha');?>
                                         <?php 
                                         $wdate = empty($poderes) ? '' : explode('-', $poderes[0]['fecha']);
-                                        echo form_input('fecha',  set_value('fecha', "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}"), ['class' => 'form-control calendar']);?>
-                                    </div>
-                                    <div class="col-md-2" >
-                                        <?php echo form_label('General','is_general', ['style' => 'style="padding-top: 12%"']);?>
-                                        <?php echo form_checkbox('is_general',  set_value('is_general', $poderes[0]['is_general']), FALSE);?>
+                                        $date = $wdate != '' ? "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}" : '';
+                                        echo form_input('fecha',  set_value('fecha', $date), ['class' => 'form-control calendar']);?>
                                     </div>
                                     <div class="col-md-12">
                                         <?php echo form_label('Origen','origen');?>
-                                        <?php echo form_textarea('origen',  set_value('origen', $values[0]['origen']), ['class' => 'form-control']);?>
+                                        <?php 
+                                        $origen = empty($poderes) ? '' : $poderes[0]['origen'];
+                                        echo form_textarea('origen',  set_value('origen', $origen), ['class' => 'form-control']);?>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%" >
                                         <div class="all-info-container">
@@ -117,9 +116,17 @@ init_head();?>
                                                         <div class="col-12" >
                                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#apoderados">Añadir</button>
                                                         </div>
-                                                        <div class="col-12" style="padding: 1% 1% 1% 0%;">    
-                                                            <table class="table table-responsive table-dark">
-                                                                
+                                                        <div class="col-md-12">    
+                                                            <table class="table table-striped text-justify" id="abogadosTab">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Nº</th>
+                                                                        <th>Abogado</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                </tbody>
                                                             </table> 
                                                         </div>
                                                     
@@ -152,9 +159,14 @@ init_head();?>
                                                         <div class="col-12" >
                                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#documentosModal">Añadir</button>
                                                         </div>
-                                                        <div class="col-12" style="padding: 1% 1% 1% 0%;">    
-                                                            <table class="table table-responsive table-dark">
-                                                                
+                                                        <div class="col-md-12" style="padding: 1% 1% 1% 0%;">    
+                                                            <table class="table table-striped text-justify" id="docTable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ID</th>
+                                                                        <th>Documento</th>
+                                                                    </tr>
+                                                                </thead>
                                                             </table> 
                                                         </div>
                                                     
@@ -250,6 +262,9 @@ init_head();?>
 
 
 <?php init_tail();?>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css"/>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
 
     <script>
     function fecha(){
@@ -672,6 +687,21 @@ init_head();?>
                 <?php } ?>
             });
         });
+
+        /*$("#docTable").DataTable({
+            serverSide: true,
+            ajax: {
+                url: "<?php echo admin_url('pi/PropietariosController/getDocument')?>",
+                type: 'POST',
+                data: {
+                    'csrf_token': $('meta[name=csrf_token]').attr("content")
+                }
+            }
+        });*/
+
+
+
+
             
 
 
@@ -729,7 +759,14 @@ init_head();?>
                     'poder': $("input[name=poder_id]").val(),
                 }
             }).then(function(response){
-                console.log(response);
+                data = response;
+                $("#abogadosTab").DataTable({
+                    destroy:true,
+                    data: data,
+                    columns : [
+                        { data: 'staff'},
+                    ]
+                });
                 $("#apoderados").modal('hide');
             }).catch(function(response){
                 $("#apoderados").modal('hide');
@@ -737,5 +774,36 @@ init_head();?>
 
         });
     </script>
+    <script> 
+    
+    </script>
+
+<script>
+    $(document).ready(function()
+    {
+        $.ajax({
+            url:"<?php echo admin_url('pi/PoderesController/getApoderados')?>",
+            method:"GET",
+            success: function(response){
+                table = JSON.parse(response);
+                $("#abogadosTab").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    "autoWidth": false,
+                    destroy: true,
+                    data: table,
+                    dataSrc: '',
+                    columns : [
+                        { data: 'id'},
+                        { data: 'staff'},
+                    ]
+                });  
+            }
+        });
+    });
+    
+    
+</script>
 </body>
 </html>

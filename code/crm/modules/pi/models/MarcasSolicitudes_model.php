@@ -75,14 +75,13 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllTiposRegistros()
     {
         $this->db->select('*');
-        $this->db->from('tbl_tipo_registro');
-        $this->db->where("materia = 'MARCAS'");
+        $this->db->from('tbl_marcas_tipo_registro');
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['tipo_registro_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -90,15 +89,14 @@ class MarcasSolicitudes_model extends BaseModel
     public function findTiposRegistros($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_tipo_registro');
-        $this->db->where('materia = MARCAS');
-        $this->db->where('tipo_registro_id = '.$id);
+        $this->db->from('tbl_marcas_tipo_registro');
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['tipo_registro_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -136,14 +134,14 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllEstadosSolicitudes()
     {
         $this->db->select('*');
-        $this->db->from('tbl_estados');
+        $this->db->from('tbl_estado_expediente');
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['estado_id']);
-            array_push($values, $row['descripcion']);
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
     }
@@ -165,13 +163,13 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function findAllOficinas()
     {
-        $query = $this->db->get('tbl_oficinas');
+        $query = $this->db->get('tbl_oficina');
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['oficina_id']);
-            array_push($values, $row['direccion']);
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
     }
@@ -223,7 +221,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['pais_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -239,7 +237,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['pais_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -279,13 +277,13 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllTipoSigno()
     {
         $this->db->select('*');
-        $this->db->from('tbl_tipos_signos');
+        $this->db->from('tbl_tipo_signo');
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['tipos_signo_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -294,8 +292,8 @@ class MarcasSolicitudes_model extends BaseModel
     public function findTipoSigno($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_tipos_signos');
-        $this->db->where('tipos_signos_id = '.$id);
+        $this->db->from('tbl_tipo_signo');
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         $keys = array();
         $values = array();
@@ -310,13 +308,13 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllClases()
     {
         $this->db->select('*');
-        $this->db->from('tbl_clase_niza');
+        $this->db->from('tbl_marcas_clase_niza');
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['niza_id']);
+            array_push($keys, $row['clase_niza_id']);
             array_push($values, $row['nombre'].' - '.$row['descripcion']);
         }
         return array_combine($keys, $values);
@@ -325,14 +323,14 @@ class MarcasSolicitudes_model extends BaseModel
     public function findClases($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_clase_niza');
-        $this->db->where('niza_id = '.$id);
+        $this->db->from('tbl_marcas_clase_niza');
+        $this->db->where('clase_niza_id = '.$id);
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['niza_id']);
+            array_push($keys, $row['clase_niza_id']);
             array_push($values, $row['nombre'].' - '.$row['descripcion']);
         }
         return array_combine($keys, $values);
@@ -341,15 +339,15 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllTipoEvento()
     {
         $this->db->select('*');
-        $this->db->from('tbl_tipo_evento');
-        $this->db->join('tbl_materias', 'tbl_materias.materia_id = tbl_tipo_evento.materia_id');
-        $this->db->where('tbl_materias.descripcion = "Marcas"');
+        $this->db->from('tbl_tipos_eventos');
+        $this->db->join('tbl_materias', 'tbl_materias.id = tbl_tipos_eventos.id');
+        $this->db->where('tbl_materias.nombre  LIKE "%Marcas%"');
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['tipo_eve_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -358,8 +356,8 @@ class MarcasSolicitudes_model extends BaseModel
     public function findTipoEvento($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_tipo_evento');
-        $this->db->join('tbl_materias', 'tbl_materias.materia_id = tbl_tipo_evento.materia_id');
+        $this->db->from('tbl_tipos_eventos');
+        $this->db->join('tbl_materias', 'tbl_materias.materia_id = tbl_tipos_eventos.materia_id');
         $this->db->where('tbl_materias.descripcion = "Marcas"');
         $this->db->where('tipo_eve_id = '.$id);
         $query = $this->db->get();
@@ -492,7 +490,7 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_solicitudes_clases a');
-        $this->db->join('tbl_clase_niza b', 'a.clase_niza_id = b.niza_id');
+        $this->db->join('tbl_marcas_clase_niza b', 'a.clase_clase_niza_id = b.clase_niza_id');
         $this->db->where('a.solicitud_id = '.$id);
         $query = $this->db->get();
         return $query->result_array();
@@ -501,14 +499,14 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllBoletines()
     {
         $this->db->select('*');
-        $this->db->from('tbl_tm_boletines');
+        $this->db->from('tbl_boletines');
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['boletin_id']);
-            array_push($values, $row['nombre']);
+            array_push($keys, $row['id']);
+            array_push($values, $row['descripcion']);
         }
         return array_combine($keys, $values);
     }
@@ -517,9 +515,8 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_marcas_solicitudes a');
-        $this->db->join('tbl_tm_registros_principales b', 'a.reg_num_id = b.reg_num_id');
-        $this->db->join('tbl_estados g', 'g.estado_id = a.cod_estado_id');
-        $this->db->join('tbl_tipo_solicitud h', 'h.tipo_id = a.tipo_id');
+        /*$this->db->join('tbl_estado_expediente g', 'g.id = a.cod_estado_id');
+        /*$this->db->join('tbl_tipo_solicitud h', 'h.tipo_id = a.tipo_id');*/
         if(empty($params) || is_null($params)){
             $query = $this->db->get();
             return $query;

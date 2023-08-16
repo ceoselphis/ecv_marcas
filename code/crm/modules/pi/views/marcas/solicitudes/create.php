@@ -5,8 +5,8 @@ init_head();?>
     <div class="content">
         <div class="row">
                 <div class="col-md-12">
-                <?php echo form_open_multipart(admin_url('pi/MarcasSoliictudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
-                <?php echo form_hidden('solicitud_id', $solicitud_id);?>
+                <?php echo form_open_multipart(admin_url('pi/MarcasSolicitudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
+                <?php echo form_hidden('id', $id);?>
                     <div class="panel_s">
                         <div class="panel-body">
                             <div class="wizard">
@@ -326,7 +326,7 @@ init_head();?>
                                 <!-- Step 5 -->
                                 <div class="tab-pane" role="tabpanel" id="step5">
                                     <div class="col-md-12" >
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
+                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
@@ -349,7 +349,7 @@ init_head();?>
                                 <!-- Step 6 -->
                                 <div class="tab-pane" role="tabpanel" id="step6">
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#">Añadir Evento</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
@@ -373,7 +373,12 @@ init_head();?>
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#">Añadir Anexo</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Renovacion</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cesion</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Licencia</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Fusion</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Nombre</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Domicilio</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">

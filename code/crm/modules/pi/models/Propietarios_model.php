@@ -22,7 +22,7 @@ class Propietarios_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['pais_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -32,7 +32,7 @@ class Propietarios_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_paises');
-        $this->db->where("pais_id = ".$id);
+        $this->db->where("id = ".$id);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -70,7 +70,7 @@ class Propietarios_model extends BaseModel
     public function findAllPoderes($propietario_id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_propietarios_poderes');
+        $this->db->from('tbl_poderes');
         $this->db->where("propietario_id = ".$propietario_id);
         $this->db->order_by('id', 'DESC');
         $query = $this->db->get();
@@ -80,7 +80,7 @@ class Propietarios_model extends BaseModel
     public function findApoderados($id = null)
     {
         $this->db->select('*');
-        $this->db->from('tbl_propietarios_poderes');
+        $this->db->from('tbl_poderes');
         $this->db->where("id = ".$id);
         $query = $this->db->get();
         return $query->result_array();
@@ -88,7 +88,7 @@ class Propietarios_model extends BaseModel
 
     public function insertPoder($params = NULL)
     {
-        $query = $this->db->insert('tbl_propietarios_poderes', $params);
+        $query = $this->db->insert('tbl_poderes', $params);
         return $query;
     }
 

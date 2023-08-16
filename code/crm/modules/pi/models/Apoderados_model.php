@@ -6,7 +6,7 @@ require __DIR__ . '/BaseModel.php';
 class Apoderados_model extends BaseModel
 {
     protected $primaryKey = 'id';
-    protected $tableName =  'tbl_poderes_apoderados';
+    protected $tableName =  'tbl_apoderados';
     protected $DBgroup = 'default';
     
     public function __construct()
@@ -22,7 +22,7 @@ class Apoderados_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['pais_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -32,7 +32,7 @@ class Apoderados_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_paises');
-        $this->db->where("pais_id = ".$id);
+        $this->db->where("id = ".$id);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -57,20 +57,13 @@ class Apoderados_model extends BaseModel
         $this->db->from('tblstaff');
         $this->db->where("staffid = ".$id);
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
-        foreach($query->result_array() as $row)
-        {
-            array_push($keys, $row['staffid']);
-            array_push($values, strtoupper("{$row['firstname']} {$row['lastname']}"));
-        }
-        return array_combine($keys, $values);
+        return $query->result_array()[0]['firstname'].' '.$query->result_array()[0]['lastname'];
     }
 
     public function findAllPoderes($propietario_id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_propietarios_poderes');
+        $this->db->from('tbl_poderes');
         $this->db->where("propietario_id = ".$propietario_id);
         $this->db->order_by('id', 'DESC');
         $query = $this->db->get();
@@ -80,7 +73,7 @@ class Apoderados_model extends BaseModel
     public function findApoderados($id = null)
     {
         $this->db->select('*');
-        $this->db->from('tbl_propietarios_poderes');
+        $this->db->from('tbl_poderes');
         $this->db->where("id = ".$id);
         $query = $this->db->get();
         return $query->result_array();
@@ -89,7 +82,7 @@ class Apoderados_model extends BaseModel
     public function findAllApoderados()
     {
         $this->db->select('*');
-        $this->db->from('tbl_poderes_apoderados');
+        $this->db->from('tbl_apoderados');
         $query = $this->db->get();
         return $query->result_array();
     }

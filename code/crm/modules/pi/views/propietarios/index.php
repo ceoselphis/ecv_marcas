@@ -34,7 +34,7 @@
                                                     <td><?php echo $row['nombre'];?></td>
                                                     <td><?php echo $row['pais'][0]['nombre'];?></td>
                                                     <td><?php 
-                                                    $poder = empty($row['poder_num']) ? ('') : ($row['poder_num']);
+                                                    $poder = empty($row['numero']) ? ('') : ($row['numero']);
                                                     echo $poder;
                                                     ?></td>
                                                     <td><?php echo $row['fecha_creacion'];?></td>

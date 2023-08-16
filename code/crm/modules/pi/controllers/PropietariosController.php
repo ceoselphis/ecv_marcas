@@ -21,7 +21,7 @@ class PropietariosController extends AdminController
             $data[] = array(
                 'id' => $row['id'],
                 'codigo' => $row['codigo'],
-                'nombre' => $row['propietario'],
+                'nombre' => $row['nombre_propietario'],
                 'pais'   => $CI->Propietarios_model->findPaises($row['pais_id']),
                 'poder_num' => $CI->Propietarios_model->findAllPoderes($row['id']),
                 'fecha_creacion' => $row['created_at'],
@@ -90,9 +90,9 @@ class PropietariosController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'propietario',
+                'field' => 'nombre_propietario',
                 'label' => 'Propietario',
-                'rules' => 'trim|required|min_length[1]|max_length[60]',
+                'rules' => 'trim|required',
                 'errors' => [
                     'required' => 'Debe indicar un nombre de propietario ',
                     'min_length' => 'Nombre demasiado corto',
@@ -102,7 +102,7 @@ class PropietariosController extends AdminController
             [
                 'field' => 'codigo',
                 'label' => 'Código',
-                'rules' => 'trim|required|min_length[5]|max_length[20]',
+                'rules' => 'trim|required',
                 'errors' => [
                     'required' => 'Debe indicar un código',
                     'min_length' => 'Código demasiado corto',
@@ -204,7 +204,7 @@ class PropietariosController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'propietario',
+                'field' => 'nombre_propietario',
                 'label' => 'Propietario',
                 'rules' => 'trim|required|min_length[1]|max_length[60]',
                 'errors' => [
@@ -233,16 +233,15 @@ class PropietariosController extends AdminController
         {
             //We prepare the data 
             $poder = [
-                'poder_num' => $data['poder_num'],
+                'numero' => $data['numero'],
                 'fecha'     => $data['fecha'],
                 'origen'    => $data['origen'],
-                'is_general'=> false,
                 'propietario_id' => $id,
             ];
             $propietarios = [
                 'pais_id' => $data['pais_id'],
                 'codigo'  => $data['codigo'],
-                'propietario' => $data['propietario'],
+                'nombre_propietario' => $data['nombre_propietario'],
                 'estado_civil' => $data['estado_civil'],
                 'representante_legal' => $data['representante_legal'],
                 'direccion' => $data['direccion'],
@@ -253,7 +252,6 @@ class PropietariosController extends AdminController
                 'notas' => $data['notas'],
                 'modified_at' => date('Y-m-d'),
                 'modified_by' => $_SESSION['staff_user_id'],
-                'origen' => $data['origen']
 
             ];
             $poderResult = $CI->Propietarios_model->insertPoder($poder);
@@ -313,5 +311,12 @@ class PropietariosController extends AdminController
                 echo json_encode(['message' => 'success']);
             }
         }
+    }
+
+    public function getDocument()
+    {
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        var_dump($data);
     }
 }

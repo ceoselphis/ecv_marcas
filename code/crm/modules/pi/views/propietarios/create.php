@@ -42,11 +42,11 @@ init_head();?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Pais', 'pais_id');?>
-                                            <?php echo form_dropdown('pais_id', $paises ,set_value('pais_id'), ['class' => 'form-control'])?>
+                                            <?php echo form_dropdown('pais_id', $paises ,set_value('pais_id', 'pais_id'), ['class' => 'form-control'])?>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php echo form_label('Propietario', 'propietario')?>
-                                            <?php echo form_input('propietario', set_value('propietario'),['class' => 'form-control']);?>
+                                            <?php echo form_label('Propietario', 'nombre_propietario')?>
+                                            <?php echo form_input('nombre_propietario', set_value('nombre_propietario'),['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Estado Civil',);?>
@@ -76,8 +76,12 @@ init_head();?>
                                             <?php echo form_label('Actividad Comercial','actividad_comercial');?>
                                             <?php echo form_input('actividad_comercial',  set_value('actividad_comercial'), ['class' => 'form-control']);?>
                                         </div>
+                                        <div class="col-md-6">
+                                            <?php echo form_label('Datos Registro','actividad_comercial');?>
+                                            <?php echo form_input('datos_registro',  set_value('datos_registro'), ['class' => 'form-control']);?>
+                                        </div>
                                         <div class="col-md-12">
-                                            <?php echo form_label('Datos Registro','notas');?>
+                                            <?php echo form_label('Notas','notas');?>
                                             <?php echo form_textarea('notas',  set_value('notas'), ['class' => 'form-control']);?>
                                         </div>            
                                     </div>

@@ -64,14 +64,10 @@ class MarcasSolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
-        $count = $CI->MarcasSolicitudes_model->setCountPK();
-        //We get the fields of the register table
-        $regFields = $CI->MarcasSolicitudes_model->getFieldsRegistros();
-        //We get the fields of Request table
-        $solFields = $CI->MarcasSolicitudes_model->getFillableFields();
+        $fields = $CI->MarcasSolicitudes_model->getFillableFields();
         $inputs = array();
         $labels = array();
-        foreach($solFields as $field)
+        foreach($fields as $field)
         {
             if($field['type'] == 'INT')
             {
@@ -91,42 +87,23 @@ class MarcasSolicitudesController extends AdminController
                 );
             }
         }
-        foreach($regFields as $regField){
-            if($regField['Type'] == 'int')
-            {
-                $inputs[] = array(
-                    'name' => $regField['Field'],
-                    'id'   => $regField['Field'],
-                    'type' => 'range',
-                    'class' => 'form-control'
-                );
-            }
-            else{
-                $inputs[] = array(
-                    'name' => $regField['Field'],
-                    'id'   => $regField['Field'],
-                    'type' => 'text',
-                    'class' => 'form-control'
-                );
-            }
-        }
         $labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
-        return $CI->load->view('marcas/solicitudes/create', 
-                                [
-                                    'fields'                => $inputs, 
-                                    'labels'                => $labels, 
-                                    'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
-                                    'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
-                                    'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
-                                    'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
-                                    'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
-                                    'pais_id'               => $CI->MarcasSolicitudes_model->findAllPaises(),
-                                    'tipos_signo_id'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
-                                    'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
-                                    'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
-                                    'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
-                                    'solicitud_id'          => $count
-                                ]);
+        return $CI->load->view('marcas/solicitudes/create', [
+            'fields'                => $inputs, 
+            'labels'                => $labels, 
+            'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
+            'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
+            'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
+            'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
+            'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
+            'pais_id'               => $CI->MarcasSolicitudes_model->findAllPaises(),
+            'tipos_signo_id'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
+            'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
+            'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
+            'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+            'id'                    => intval($CI->MarcasSolicitudes_model->last_insert_id()) + 1
+        ]);
+                                
     }
 
     /**

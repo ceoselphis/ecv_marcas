@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PoderesController extends AdminController
 {
-    protected $models = ['Propietarios_model'];
+    protected $models = ['Poderes_model'];
 
     public function __construct()
     {
@@ -13,21 +13,21 @@ class PoderesController extends AdminController
     public function index()
     {
         $CI = &get_instance();
-        $CI->load->model("Propietarios_model");
+        $CI->load->model("Poderes_model");
         $data = array();
         
-        foreach($CI->Propietarios_model->findAll() as $row)
+        foreach($CI->Poderes_model->findAll() as $row)
         {
             $data[] = array(
                 'id' => $row['id'],
                 'codigo' => $row['codigo'],
                 'nombre' => $row['propietario'],
-                'pais'   => $CI->Propietarios_model->findPaises($row['pais_id']),
-                'poder_num' => $CI->Propietarios_model->findAllPoderes($row['id']),
+                'pais'   => $CI->Poderes_model->findPaises($row['pais_id']),
+                'poder_num' => $CI->Poderes_model->findAllPoderes($row['id']),
                 'fecha_creacion' => $row['created_at'],
-                'creado_por' => $CI->Propietarios_model->findStaff($row['created_by']),
+                'creado_por' => $CI->Poderes_model->findStaff($row['created_by']),
                 'fecha_modificacion' => $row['modified_at'],
-                'modificado_por' => $CI->Propietarios_model->findStaff($row['modified_by'])
+                'modificado_por' => $CI->Poderes_model->findStaff($row['modified_by'])
             );
         }
         return $CI->load->view('propietarios/index', ["propietarios" => $data]);
@@ -40,12 +40,12 @@ class PoderesController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("Propietarios_model");
-        $fields = $CI->Propietarios_model->getFillableFields();
+        $CI->load->model("Poderes_model");
+        $fields = $CI->Poderes_model->getFillableFields();
         $inputs = array();
         $labels = array();
-        $paises = $CI->Propietarios_model->getAllPaises();
-        $staff  = $CI->Propietarios_model->findAllStaff();
+        $paises = $CI->Poderes_model->getAllPaises();
+        $staff  = $CI->Poderes_model->findAllStaff();
         foreach($fields as $field)
         {
             if($field['type'] == 'INT')
@@ -77,7 +77,7 @@ class PoderesController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("Propietarios_model");
+        $CI->load->model("Poderes_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
@@ -113,11 +113,11 @@ class PoderesController extends AdminController
         $CI->form_validation->set_rules($config);
         if($CI->form_validation->run() == FALSE)
         {    
-            $fields = $CI->Propietarios_model->getFillableFields();
+            $fields = $CI->Poderes_model->getFillableFields();
             $inputs = array();
             $labels = array();
-            $paises = $CI->Propietarios_model->getAllPaises();
-            $staff  = $CI->Propietarios_model->findStaff();
+            $paises = $CI->Poderes_model->getAllPaises();
+            $staff  = $CI->Poderes_model->findStaff();
             foreach($fields as $field)
             {
                 if($field['type'] == 'INT')
@@ -144,11 +144,11 @@ class PoderesController extends AdminController
         else 
         {
             //we sent the data to the model
-            $query = $CI->Propietarios_model->insert($data);
+            $query = $CI->Poderes_model->insert($data);
             //We get the last inserted id
             if($query)
             {
-                $id = $CI->Propietarios_model->last_insert_id();
+                $id = $CI->Poderes_model->last_insert_id();
                 return redirect(admin_url('pi/PropietariosController/edit/'.$id));
             }
         }
@@ -170,20 +170,10 @@ class PoderesController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Propietarios_model");
+        $CI->load->model("Poderes_model");
         $CI->load->helper('url');
-        $query = $CI->Propietarios_model->find($id);
-        $paises = $CI->Propietarios_model->getAllPaises();
-        $staff  = $CI->Propietarios_model->findAllStaff();
-        $poderes = $CI->Propietarios_model->findAllPoderes($id);
-        if(isset($query))
-        {
-            $labels = ['Id', 'Pais', 'Propietario', 'Estado Civil', 'Representante Legal', 'Direccion', 'Ciudad', 'Estado', 'Código Postal', 'Actividad Comercial', 'Datos de Registro', 'Notas'];
-            return $CI->load->view('propietarios/edit', ['values' => $query, 'labels' => $labels, 'paises' => $paises, 'staff' => $staff, 'id' => $id, 'poderes' => $poderes]);
-        }
-        else{
-            return redirect('pi/PropietariosController/');
-        }
+        $query = $CI->Poderes_model->find($id);
+        var_dump($query);
     }
 
     /**
@@ -194,7 +184,7 @@ class PoderesController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Propietarios_model");
+        $CI->load->model("Poderes_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         $data = $CI->input->post();
@@ -256,8 +246,8 @@ class PoderesController extends AdminController
                 'origen' => $data['origen']
 
             ];
-            $poderResult = $CI->Propietarios_model->insertPoder($poder);
-            $query = $CI->Propietarios_model->update($id, $propietarios);
+            $poderResult = $CI->Poderes_model->insertPoder($poder);
+            $query = $CI->Poderes_model->update($id, $propietarios);
             if (isset($query))
             {
                 return redirect('pi/Propietarios/');
@@ -273,9 +263,9 @@ class PoderesController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("Propietarios_model");
+        $CI->load->model("Poderes_model");
         $CI->load->helper('url');
-        $query = $CI->Propietarios_model->delete($id);
+        $query = $CI->Poderes_model->delete($id);
         return redirect('pi/PropietariosController/');
     }
 
@@ -299,6 +289,7 @@ class PoderesController extends AdminController
             unset($query);
             if($result)
             {
+                unset($result);
                 $query = $CI->Apoderados_model->findAllApoderados();
                 foreach($query as $row)
                 {
@@ -307,12 +298,28 @@ class PoderesController extends AdminController
                         'staff' => $CI->Apoderados_model->findStaff($row['staff_id'])
                     ];
                 }
-                echo json_encode($query);
+                echo json_encode($result);
             }
             
         }
         else{
           echo json_encode(['code' => '404']);   
         }
+    }
+
+    public function getApoderados()
+    {
+        $CI = &get_instance();
+        $CI->load->model("Apoderados_model");
+        $result = array();
+        $query = $CI->Apoderados_model->findAll();
+        foreach($query as $row)
+        {
+            $result[] = [
+                'id' => $row['id'],
+                'staff' => $CI->Apoderados_model->findStaff($row['staff_id']),
+            ];
+        }
+        echo json_encode($result);
     }
 }

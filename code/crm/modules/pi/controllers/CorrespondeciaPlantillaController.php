@@ -1,15 +1,31 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require 'C:\wamp64\www\ecv_marcas\vendor\autoload.php';
+require 'C:\wamp64\www\ecv_marcas\vendor\michelf\php-markdown\Michelf\Markdown.php';
+use League\HTMLToMarkdown\HtmlConverter;
+use Michelf\Markdown;
 class CorrespondeciaPlantillaController extends AdminController
 {
+    
     protected $models = ['CorrespondenciaPlantilla_model'];
 
     public function __construct()
     {
         parent::__construct();
     }
-      
+    
+    public function ResumirContenido($content){
+        $caracter = '=';
+        $pos = strpos($content, $caracter);
+        if ($pos===false){
+            return $content;
+        }else {
+
+            $substring = strstr($content, $caracter, true);
+            return $substring;
+        }
+    }
+
     public function index()
     {   $CI = &get_instance();
         $CI->load->model("CorrespondenciaPlantilla_model");
@@ -20,7 +36,7 @@ class CorrespondeciaPlantillaController extends AdminController
                 'id' => $row['id'],
                 'descripcion' => $row['descripcion'],
                 'staff_id' => $CI->CorrespondenciaPlantilla_model->BuscarStaff($row['staff_id']),
-                'content' => $row['content'],
+                'content' => $this->ResumirContenido($row['content']),
                 'materia' => $CI->CorrespondenciaPlantilla_model->BuscarMaterias($row['materia_id']),
                 'idioma' => $row['idioma']
             );
@@ -93,6 +109,8 @@ class CorrespondeciaPlantillaController extends AdminController
         $CI->load->library('form_validation');
         // WE prepare the data
         $data = $CI->input->post();
+        $converter = new HtmlConverter();
+        $data['content'] = $converter->convert($data['content']);
         $data['idioma'] = $idioma[$data['idioma']];
         $data['createdAt'] = date('Y-m-d h:i:s');
         $data['updatedAt'] = date('Y-m-d h:i:s');
@@ -229,9 +247,10 @@ class CorrespondeciaPlantillaController extends AdminController
         $idioma = array('us','es','it');
         $query = $CI->CorrespondenciaPlantilla_model->find($id);
         $clave = array_search( $query[0]['idioma'],$idioma);
-        
         if(isset($query))
         {
+            $res = new Markdown();
+            $query[0]['content'] = $res->defaultTransform($query[0]['content']);
             $labels = ['id', 'Descripcion','Staff' ,'Contenido','Materia'];
             return $CI->load->view('correspondecia/plantilla/edit', ['labels' => $labels, 'values' => $query, 'id' => $id,
             'materia' => $CI->CorrespondenciaPlantilla_model->findAllMaterias(),
@@ -261,7 +280,8 @@ class CorrespondeciaPlantillaController extends AdminController
         $data = $CI->input->post();
         $data['idioma'] = $idioma[$data['idioma']];
         $data['updatedAt'] = date('Y-m-d h:i:s');
-       
+        $converter = new HtmlConverter();
+        $data['content'] = $converter->convert($data['content']);
             $query = $CI->CorrespondenciaPlantilla_model->update($id, $data);
             if (isset($query))
             {

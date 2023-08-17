@@ -30,30 +30,6 @@ class MarcasSolicitudesController extends AdminController
             'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
         ];
         return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
-    //    $json = json_encode($data);
-    //    echo $json;
-    }
-
-    public function view()
-    {
-        $CI = &get_instance();
-        $CI->load->model("MarcasSolicitudes_model");
-        $data = [
-            'Boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
-            'Oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
-            'Clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
-            'Responsables'           => $CI->MarcasSolicitudes_model->findAllStaff(),
-            'Tipo de Solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
-            'Estado de Solicitud'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
-            'Pais'               => $CI->MarcasSolicitudes_model->findAllPaises(),
-            'Tipos de Signo'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
-            'Clase Niza'         => $CI->MarcasSolicitudes_model->findAllClases(),
-            'Tipo de Registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
-            'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
-        ];
-       // return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
-       $json = json_encode($data);
-       echo $json;
     }
 
     /**
@@ -93,6 +69,7 @@ class MarcasSolicitudesController extends AdminController
             'labels'                => $labels, 
             'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
             'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
+            'solicitantes'          => $CI->MarcasSolicitudes_model->findAllPropietarios(),
             'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
             'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
             'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
@@ -118,118 +95,10 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         // WE prepare the data
         $form = $CI->input->post();
-        $data = json_decode($form['solicitud'],TRUE);
-        $file = '';
-        if(!empty($_FILES['signo_archivo']))
-        {
-            $file = $_FILES['signo_archivo'];
-        }
-        else{
-            $file = NULL;
-        }
-        $reg_num_id = $CI->MarcasSolicitudes_model->getLastIdRegistros();
-        //We fill the first table
-        $registroPrincipal = array(
-            'reg_num_id'        => $reg_num_id,
-            'staff_id'          => $data['staff_id'],
-            'client_id'         => $data['client_id'],
-            'oficina_id'        => $data['oficina_id'],
-            'ref_interna'       => $data['ref_interna'],
-            'ref_cliente'       => $data['ref_cliente'],
-            'carpeta'           => $data['carpeta'], 
-            'libro'             => $data['libro'],
-            'tomo'              => $data['tomo'],
-            'folio'             => $data['folio'],
-            'comentarios'       => $form['comentarios'],
-            'tipo_registro_id'  => $data['tipo_registro_id']
-        );
-        //We insert the data in the first table
-        $CI->MarcasSolicitudes_model->insertRegistro($registroPrincipal);
-        //We fill the data of second table
-        $solicitud_id = $CI->MarcasSolicitudes_model->setCountPK();
+        var_dump($form);
+        die();
         
-        $solicitudMarca = array(
-            'solicitud_id'          => $solicitud_id,
-            'reg_num_id'            => $reg_num_id,
-            'tipo_id'               => $data['tipo_id'],
-            'cod_estado_id'         => $data['cod_estado_id'],
-            'primer_uso'            => $data['primer_uso'],                   
-            'prueba_uso'            => $data['prueba_uso'],               
-            'carpeta'               => $data['carpeta'],            
-            'numero_solicitud'      => $data['num_solicitud'],      
-            'fecha_solicitud'       => NULL,    
-            'fecha_registro'        => NULL,
-            'fecha_certificado'     => NULL,                            
-            'num_certificado'       => $data['num_certificado'],            
-            'fecha_vencimiento'     => NULL,
-        );
-        if($data['fecha_solicitud'] != '')
-        {
-            $fecha_solicitud = explode('/', $data['fecha_solicitud']);
-            $solicitudMarca['fecha_solicitud'] = "{$fecha_solicitud[2]}-{$fecha_solicitud[1]}-{$fecha_solicitud[0]}";    
-        }
-        if($data["fecha_registro"] != '')
-        {
-            $fecha_registro = explode('/', $data['fecha_registro']);
-            $solicitudMarca['fecha_registro'] = "{$fecha_registro[2]}-{$fecha_registro[1]}-{$fecha_registro[0]}";
-        }
-
-        if($data['fecha_certificado'] != '')
-        {
-            $fecha_certificado = explode('/', $data['fecha_certificado']);
-            $solicitud['fecha_certificado'] = "{$fecha_certificado[2]}-{$fecha_certificado[1]}-{$fecha_certificado[0]}";
-        }
-
-        if($data['fecha_vencimiento'] != '')
-        {
-            $fecha_vencimiento = explode('/',$data['fecha_vencimiento']);
-            $solicitud['fecha_vencimiento'] = "{$fecha_vencimiento[2]}-{$fecha_vencimiento[1]}-{$fecha_vencimiento[0]}";
-        }
-        //We fill the data of the fourth table
-        $clasesMarca = explode(',',$form['clase_niza_id']);
-        $claseMarca = array();
-        foreach($clasesMarca as $row)
-        {
-            $claseMarca[] = array(
-                'solicitud_id' => $solicitud_id,
-                'clase_niza_id' => $row
-            );
-        }
         
-        //wE FILL THE SIGNOS Table
-        $signosSolicitud = array(
-            'solicitud_id'   => $solicitud_id,
-            'tipo_signo_id'  => $data['tipo_signo_id'],
-            'descripcion'    => $data['descripcion-signo'],
-            'clasificacion'  => $data['comentario_signo'],
-            'path'           => NULL,
-        );
-        if($file != NULL)
-        {
-            //We fill the data of the         
-            $path = FCPATH.'uploads/signos/'.$solicitud_id.'-'.$file['tmp_name'];
-            move_uploaded_file($file['tmp_name'], $path);
-            $signosSolicitud['path'] = $path;
-        }
-        //We insert the data in the second table
-        $CI->MarcasSolicitudes_model->insert($solicitudMarca);
-        //We insert the data in the third table
-        $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseMarca);
-        //We fill the data of Paises Solicitantes Table
-        $pais = explode(',',$form['paises_solicitantes']);
-        $paisesDesig = array();
-        foreach($pais as $row)
-        {
-            $paisesDesig[] = array(
-                'solicitud_id' => $solicitud_id,
-                'pais_id'      => $row,
-            );
-        }
-        //We insert the data in the fouth table
-        $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisesDesig);
-        //We insert the brand signals
-        $CI->MarcasSolicitudes_model->insertMarcasSignos($signosSolicitud);
-        echo json_encode(['message' => 'success',  'solicitud_id' => $solicitud_id]);
     }
 
     /**

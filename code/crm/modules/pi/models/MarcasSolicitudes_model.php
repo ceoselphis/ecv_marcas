@@ -111,7 +111,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['tipo_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -168,7 +168,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['id']);
+            array_push($keys, $row['oficina_id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -561,6 +561,21 @@ class MarcasSolicitudes_model extends BaseModel
             $query = $this->db->get();
             return $query;
         }
+    }
+
+    public function findAllPropietarios()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_propietarios');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre_propietario']);
+        }
+        return array_combine($keys, $values);      
     }
 
 }

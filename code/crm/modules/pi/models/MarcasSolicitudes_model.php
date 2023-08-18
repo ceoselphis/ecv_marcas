@@ -111,7 +111,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['tipo_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -121,7 +121,7 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_tipo_solicitud');
-        $this->db->where('tipo_id = '.$id);
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         $tipo_id = '';
         foreach($query->result_array() as $row)
@@ -168,7 +168,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['id']);
+            array_push($keys, $row['oficina_id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -561,6 +561,14 @@ class MarcasSolicitudes_model extends BaseModel
             $query = $this->db->get();
             return $query;
         }
+    }
+
+    public function findAllSolicitudesDocumento()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes_documentos');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
 }

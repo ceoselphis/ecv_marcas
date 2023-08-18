@@ -22,7 +22,7 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function setCountPK()
     {
-        $query = $this->db->query("SELECT solicitud_id FROM {$this->tableName} ORDER by solicitud_id DESC LIMIT 1");
+        $query = $this->db->query("SELECT id FROM {$this->tableName} ORDER by id DESC LIMIT 1");
         if(empty($query->result_array()))
         {
             $this->countPK = 1;
@@ -30,7 +30,7 @@ class MarcasSolicitudes_model extends BaseModel
         }
         else
         {
-            $this->countPK = intval($query->result_array()[0]['solicitud_id']) + 1;
+            $this->countPK = intval($query->result_array()[0]['id']) + 1;
             return $this->countPK ;
         }
     }
@@ -231,7 +231,7 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_paises');
-        $this->db->where('pais_id = '.$id);
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         $keys = array();
         $values = array();
@@ -333,7 +333,7 @@ class MarcasSolicitudes_model extends BaseModel
             array_push($keys, $row['clase_niza_id']);
             array_push($values, $row['nombre'].' - '.$row['descripcion']);
         }
-        return array_combine($keys, $values);
+        return $keys;
     }
 
     public function findAllTipoEvento()
@@ -371,40 +371,27 @@ class MarcasSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
-    public function insertRegistro($params)
-    {
-        $query = $this->db->insert('tbl_tm_registros_principales', $params);
-        return $query;
-    }
-
-    public function updateRegistro($params, $regId)
-    {
-        $this->db->where('reg_num_id = '.$regId);
-        $query = $this->db->update('tbl_tm_registros_principales', $params);
-        return $query;
-    }
-
     public function insertPaisesDesignados($params)
     {
-        $query = $this->db->insert_batch('tbl_tm_paises_designados', $params);
+        $query = $this->db->insert_batch('tbl_marcas_solicitudes_paises', $params);
         return $query;
     }
 
     public function updatePaisesDesignados($id, $params)
     {
-        $query = $this->db->update_batch('tbl_tm_paises_designados', $params);
+        $query = $this->db->update_batch('tbl_marcas_solicitudes_paises', $params);
         return $query;
     }
 
     public function insertSolicitudesClases($params)
     {
-        $query = $this->db->insert_batch('tbl_solicitudes_clases', $params);
+        $query = $this->db->insert_batch('tbl_marcas_clases', $params);
         return $query;
     }
 
     public function updateSolicitudesClases($id, $params)
     {
-        $query = $this->db->update_batch('tbl_solicitudes_clases', $params);
+        $query = $this->db->update_batch('tbl_marcas_clases', $params);
         return $query;
     }
 
@@ -424,15 +411,15 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_marcas_solicitantes a');
-        $this->db->join('tbl_solicitantes b', 'a.solicit_id = b.solicit_id');
-        $this->db->where('a.solicitud_id = '.$id);
+        $this->db->join('tbl_propietarios b', 'a.propietario_id = b.id');
+        $this->db->where('a.marcas_id = '.$id);
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['solicitud_id']);
-            array_push($values, $row['client_id']);
+            array_push($keys, $row['marcas_id']);
+            array_push($values, $row['propietario_id']);
         }
         return array_combine($keys, $values);
     }
@@ -440,19 +427,18 @@ class MarcasSolicitudes_model extends BaseModel
     public function findPaisesDesignados($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_tm_paises_designados a');
-        $this->db->join('tbl_paises b', 'a.pais_id = b.pais_id');
-        $this->db->where('a.solicitud_id = '.$id);
+        $this->db->from('tbl_marcas_solicitudes_paises a');
+        $this->db->join('tbl_paises b', 'a.id = b.id');
+        $this->db->where('a.marcas_id = '.$id);
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['pais_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
-        return array_combine($keys, $values);
-
+        return $keys;
     }
 
     public function insertMarcasSignos($params)
@@ -463,7 +449,7 @@ class MarcasSolicitudes_model extends BaseModel
     
     public function updateMarcasSignos($id, $params)
     {
-        $this->db->where('solicitud_id = '.$id);
+        $this->db->where('marcas_id = '.$id);
         $query = $this->db->update('tbl_signos_solicitud_marcas', $params);
         return $query;
     }
@@ -472,7 +458,7 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_signos_solicitud_marcas');
-        $this->db->where('solicitud_id = '.$id);
+        $this->db->where('marcas_id = '.$id);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -481,7 +467,7 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_marcas_publicaciones');
-        $this->db->where('solicitud_id = '.$id);
+        $this->db->where('marcas_id = '.$id);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -489,11 +475,18 @@ class MarcasSolicitudes_model extends BaseModel
     public function findClasesSolicitudes($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_solicitudes_clases a');
-        $this->db->join('tbl_marcas_clase_niza b', 'a.clase_clase_niza_id = b.clase_niza_id');
-        $this->db->where('a.solicitud_id = '.$id);
+        $this->db->from('tbl_marcas_clases a');
+        $this->db->join('tbl_marcas_clase_niza b', 'a.clase_id = b.clase_niza_id');
+        $this->db->where('a.marcas_id = '.$id);
         $query = $this->db->get();
-        return $query->result_array();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['clase_id']);
+            array_push($values, $row['descripcion']);
+        }
+        return $keys;
     }
 
     public function findAllBoletines()

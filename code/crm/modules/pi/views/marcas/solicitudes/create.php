@@ -75,7 +75,6 @@ init_head();?>
                                                 'class'    => 'form-control',
                                                 'multiple' => 'multiple',
                                                 'options' => $pais_id,
-                                                'required' => 'required'
                                         ]);?>
                                     </div>
                                     <div class="col-md-2">  
@@ -96,7 +95,6 @@ init_head();?>
                                             'name'      => 'tipo_signo_id',
                                             'class'     => 'form-control',
                                             'options'   =>  $tipos_signo_id,
-                                            'required' => 'required'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -107,7 +105,6 @@ init_head();?>
                                             'class'    => 'form-control',
                                             'multiple' => 'multiple',
                                             'options' => $clase_niza_id,
-                                            'required' => 'required'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -118,7 +115,6 @@ init_head();?>
                                             'class'    => 'form-control',
                                             'multiple' => 'multiple',
                                             'options' => $solicitantes,
-                                            'required' => 'required'
                                         ]);?>
                                     </div>
                                     
@@ -131,45 +127,45 @@ init_head();?>
                                 </div>
                                 <!-- Step 3 --->
                                 <div class="tab-pane" role="tabpanel" id="step3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Tipo Solicitud', 'tipo_solicitud_id');?>
                                         <?php echo form_dropdown([
-                                            'id'        => 'tipo_id',
-                                            'name'      => 'tipo_id',
+                                            'id'        => 'tipo_solicitud_id',
+                                            'name'      => 'tipo_solicitud_id',
                                             'class'     => 'form-control',
                                             'options'   => $tipo_solicitud,
-                                            'selected'  => set_value('tipo_id', '1'),
+                                            'selected'  => set_value('tipo_solicitud_id', '1'),
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Referencia interna', 'ref_interna');?>
                                         <?php echo form_input('ref_interna', set_value('ref_interna'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Referencia cliente', 'ref_cliente');?>
                                         <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
                                         <?php echo form_input('primer_uso', set_value('primer_uso'), ['class' => 'form-control calendar'])?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso');?>
                                         <?php echo form_input('prueba_uso', set_value('prueba_uso'), ['class' => 'form-control calendar'])?>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Carpeta', 'carpeta');?>
                                         <?php echo form_input('carpeta', set_value('carpeta'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Libro', 'libro');?>
                                         <?php echo form_input('libro', set_value('libro'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Tomo', 'tomo');?>
                                         <?php echo form_input('tomo', set_value('tomo'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Folio', 'folio');?>
                                         <?php echo form_input('folio', set_value('folio'), ['class' => 'form-control'])?>
                                     </div>
@@ -214,7 +210,7 @@ init_head();?>
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="col-md-12">
                                         <?php echo form_label('Estado de Solicitud', 'estado_id');?>
-                                        <?php echo form_dropdown($fields[3]['name'], $estados_solicitudes, set_value($fields[3]['name']), ['class' => 'form-control']);?>
+                                        <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value($fields[3]['name']), ['class' => 'form-control']);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Nº de Solicitud'); ?>
@@ -1053,19 +1049,20 @@ init_head();?>
             e.preventDefault();
             formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
             formData.append('id' , $("input[name=id]").val());
-            formData.append('tipo_registro_id', $("input[tipo_registro_id]").val());
-            formData.append('client_id', $("input[name=client_id]").val());
-            formData.append('oficina_id', $("input[name=oficina_id]").val());
-            formData.append('staff_id', $("input[name=staff_id]").val());
+            formData.append('tipo_registro_id', $("select[name=tipo_registro_id]").val());
+            formData.append('client_id', $("select[name=client_id]").val());
+            formData.append('oficina_id', $("select[name=oficina_id]").val());
+            formData.append('staff_id', $("select[name=staff_id]").val());
             //Pais_id fill
-            pais_id = JSON.stringify($("input[name=pais_id]").val());
+            pais_id = JSON.stringify($("select[name=pais_id]").val());
             formData.append('pais_id', pais_id);
             //Clase_niza_id fill
-            clase_niza = JSON.stringify($("input[name=clase_niza_id]").val());
+            clase_niza = JSON.stringify($("select[name=clase_niza_id]").val());
             formData.append('clase_niza', clase_niza);
             //solicitantes fill
-            solicitantes = JSON.stringify($("input[name=solicitantes_id]").val());
-            formData.append('tipo_solicitud_id', $("input[name=tipo_solicitud_id]").val());
+            solicitantes = JSON.stringify($("select[name=solicitantes_id]").val());
+            formData.append('solicitantes_id', solicitantes);
+            formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
             formData.append('ref_interna', $("input[name=ref_interna]").val());
             formData.append('ref_cliente', $('input[name=ref_cliente]').val());
             formData.append('primer_uso', $('input[name=primer_uso').val());
@@ -1074,18 +1071,20 @@ init_head();?>
             formData.append('libro', $("input[name=libro]").val());
             formData.append('tomo', $("input[name=tomo]").val());
             formData.append('folio', $("input[name=folio]").val());
-            formData.append('comentarios', $("input[name=comentarios]").val());
-            formData.append('estado_id', $("input[name=estado_id]").val());
-            formData.append('num_solicitud', $("input[name=num_solicitud]").val());
+            formData.append('comentarios', $("textarea[name=comentarios]").val());
+            formData.append('estado_id', $("select[name=estado_id]").val());
+            formData.append('solicitud', $("input[name=num_solicitud]").val());
             formData.append('fecha_solicitud', $("input[name=fecha_solicitud]").val());
-            formData.append('num_registro', $("input[name=num_registro]").val());
+            formData.append('registro', $("input[name=num_registro]").val());
             formData.append('fecha_registro', $("input[name=fecha_registro]").val());
-            formData.append('num_certificado', $("input[name=num_certificado]").val());
+            formData.append('certificado', $("input[name=num_certificado]").val());
             formData.append('fecha_certificado', $("input[name=fecha_certificado]").val());
             formData.append('fecha_vencimiento', $("input[name=fecha_vencimiento]").val());
-            formData.append('signo_archivo', $("input[name=signo_archivo]").prop('files'));
-            formData.append('descripcion_signo', $("input[name=descripcion_signo]").val());
+            formData.append('signo_archivo', $('input[name=signo_archivo]')[0].files[0]);
+            formData.append('signonom', $("input[name=signonom]").val());
+            formData.append('descripcion_signo', $("textarea[name=descripcion_signo]").val());
             formData.append('comentario_signo', $("input[name=comentario_signo]").val());
+            formData.append('tipo_signo_id', $('select[name=tipo_signo_id]').val());
             $.ajax({
                 url:'<?php echo admin_url('pi/MarcasSolicitudesController/store');?>',
                 method: 'POST',
@@ -1103,12 +1102,13 @@ init_head();?>
                 fail: function(request)
                 {
                         <?php if(ENVIRONMENT != 'production') { ?>
-                    alert(response);
-                    <?php } else { ?>
-                        alert('ha ocurrido un error');
-                    <?php } ?>
+                            alert(response);
+                            <?php } else { ?>
+                                alert('ha ocurrido un error');
+                        <?php } ?>
                 }
         });
+    });
 
 
         $("#prioridadfrmsubmit").on('click', function(e){

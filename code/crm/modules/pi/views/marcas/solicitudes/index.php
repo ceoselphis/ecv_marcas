@@ -132,56 +132,20 @@
             liveSearch:true,
             virtualScroll: 600
         });
-
-    dt = $(".table").DataTable({
-        searchDelay: 500,
-        processing: true,
-        serverSide: true,
-        ajax : {
-            url: "<?php echo admin_url('pi/MarcasSolicitudesController/search');?>",
-        },
-        columns : [
-            { data: 'num_solicitud'  },
-            { data: 'tipo'           }, 
-            { data: 'propietario'    },
-            { data: 'nombre'         },
-            { data: 'clases'         }, //Aqui debe ser un modal mostrando las clases
-            { data: 'estado'         },
-            { data: 'solicitud'      }, //Aqui es el numero de solicitud del expediente en sapi
-            { data: 'fecha_solicitud'},
-            { data: 'registro'       },
-            { data: 'certificado'    },
-            { data: 'vigencia'       },
-            { data: 'paises'         }, //Aqui debe ser un modal indicando los paises
-            { data: 'acciones'       }  //Editar y borrar pero en iconos
-        ]
-    });
-    // // $.ajax({
-    // //     url : '<?php echo admin_url('pi/MarcasSolicitudesController/view');?>',
-    // //     type:'GET',
-    // //     success : function(response){
-    // //         console.log(response);
-    // //     }
-
-    // // })
-    /*$("#filterSubmit").on('click', function(e)
+    $("#filterSubmit").on('click', function(event)
     {
-        e.preventDefault();
-        $('.table').remove();
-        var form = {
-            'boletin_id' : $("select[name=boletin_id]").val(),
-            'client_id'  : $("select[name=client_id]").val(),
-            'oficina_id' : $("select[name=oficina_id]").val(),
-            'staff_id'   : $("select[name=staff_id]").val(),
-            'tip_sol_id' : $("select[name=tip_sol_id]").val(),
-            'est_sol_id' : $("select[name=est_sol_id]").val(),
-            'pais_id'    : $("select[name=pais_id]").val(),
-            'tip_signo_id': $("select[name=tip_signo_id]").val(),
-            'clase_niza_id': $("select[name=clase_niza_id]").val(),
-            'tip_eve_id' : $("select[name=tip_eve_id]").val(),
-            'tip_reg_id' : $("select[name=tip_reg_id]").val(),
-        }
-    });*/
+        event.preventDefault();
+        $.ajax({
+            url: "<?php echo admin_url('pi/MarcasSolicitudesController/search')?>",
+            method: "POST",
+            data: $("#filter").serializeArray(),
+            success: function(response)
+            {
+                console.log(response);
+            } 
+        })
+    })
+    
 </script>
 
 

@@ -110,9 +110,9 @@ class MarcasSolicitudesController extends AdminController
         $solicitud['tipo_signo_id'] = $form['tipo_signo_id'];
         $solicitud['tipo_solicitud_id'] = $form['tipo_solicitud_id'];
         $solicitud['ref_interna'] = $form['ref_interna'];
-        $solicitud['primer_uso'] = $this->turn_dates($form['primer_uso']);
+        $solicitud['primer_uso'] =$this->turn_dates($form['primer_uso']);
         $solicitud['ref_cliente'] = $form['ref_cliente'];
-        $solicitud['prueba_uso'] = $this->turn_dates($form['prueba_uso']);
+        $solicitud['prueba_uso'] =$this->turn_dates($form['prueba_uso']);
         $solicitud['carpeta'] = $form['carpeta'];
         $solicitud['libro'] = $form['libro'];
         $solicitud['folio'] = $form['folio'];
@@ -139,7 +139,7 @@ class MarcasSolicitudesController extends AdminController
         if($file != NULL)
         {
             //We fill the data of the         
-            $fpath = FCPATH.'uploads/marcas/'.$form['id'].'-'.$file['name'];
+            $fpath = FCPATH.'uploads/marcas/signos/'.$form['id'].'-'.$file['name'];
             $path = site_url('uploads/marcas/signos/'.$form['id'].'-'.$file['name']);
             move_uploaded_file($file['tmp_name'], $fpath);
             $solicitud['signo_archivo'] = $path;
@@ -246,14 +246,13 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         // Preparamos la data
         $form = $CI->input->post();
-        var_dump($id);
-        var_dump($form);
-        die();
         /*Inicializamos los arreglos*/
         $solicitud = array();
         $paisSol = array();
         $claseNiza = array();
         $solicitantes = array();
+       /* var_dump($form);
+        die();*/
         
         /*Seteamos el arreglo para la solicitud */
         
@@ -278,19 +277,16 @@ class MarcasSolicitudesController extends AdminController
         $solicitud['solicitud'] = $form['solicitud'];
         $solicitud['fecha_solicitud'] = $this->turn_dates($form['fecha_solicitud']);
         $solicitud['registro'] = $form['registro'];
-        $solicitud['fecha_registro'] = $form['fecha_registro'];
+        $solicitud['fecha_registro'] = $this->turn_dates($form['fecha_registro']);
         $solicitud['certificado'] 	= $form['certificado'];
         $solicitud['fecha_certificado'] = $this->turn_dates($form['fecha_certificado']);
         $solicitud['fecha_vencimiento']	= $this->turn_dates($form['fecha_vencimiento']);
-
+        
         /*Seteamos el valor del signo*/
         $file = '';
-        if(!empty($_FILES['signo_archivo']))
+        if(!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined')
         {
             $file = $_FILES['signo_archivo'];
-        }
-        else{
-            $file = NULL;
         }
         if($file != NULL)
         {
@@ -299,38 +295,52 @@ class MarcasSolicitudesController extends AdminController
             $path = site_url('uploads/marcas/signos/'.$form['id'].'-'.$file['name']);
             move_uploaded_file($file['tmp_name'], $fpath);
             $solicitud['signo_archivo'] = $path;
-        }        
-        /*Seteamos el arreglo para los paises designados*/
-        foreach(json_decode($form['pais_id'],TRUE) as $row)
-        {
-            $paisSol[] = [
-                'marcas_id' => $solicitud['id'],
-                'pais_id'   => $row
-            ];
         }
-        /*Seteamos el arreglo para la clase niza*/
-        foreach(json_decode($form['clase_niza'], TRUE) as  $row)
+        $isset = $CI->MarcasSolicitudes_model->deletePaisesDesignadosBySolicitud($id);
+        if($isset)
         {
-            $claseNiza[] = array(
-                'marcas_id' => $solicitud['id'],
-                'clase_id' => $row
-            );
+            /*Seteamos el arreglo para los paises designados*/
+            foreach(json_decode($form['pais_id'],TRUE) as $row)
+            {
+                $paisSol[] = [
+                    'marcas_id' => $id,
+                    'pais_id'   => $row 
+                ];
+            }
         }
-        /*Seteamos el arreglo para los solicitantes */
-        foreach(json_decode($form['solicitantes_id'], TRUE) as $row)
+        unset($isset);
+        $isset = $CI->MarcasSolicitudes_model->deleteClasesNizaBySolicitud($id);
+        if($isset)
         {
-            $solicitantes[] = [
-                'marcas_id' => $solicitud['id'],
-                'propietario_id' => $row
-            ];
+            /*Seteamos el arreglo para la clase niza*/
+            foreach(json_decode($form['clase_niza'], TRUE) as  $row)
+            {
+                $claseNiza[] = array(
+                    'marcas_id' => $id,
+                    'clase_id' => $row
+                );
+            }
         }
-        //TODO: Recoger la solicitud de los anexos, tareas, y demas desde aca
+        
+        unset($isset);
+        $isset = $CI->MarcasSolicitudes_model->deleteMarcasSolicitantesBySolicitud($id);
+        if($isset)
+        {
+            /*Seteamos el arreglo para los solicitantes */
+            foreach(json_decode($form['solicitantes_id'], TRUE) as $row)
+            {
+                $solicitantes[] = [
+                    'marcas_id' => $id,
+                    'propietario_id' => $row
+                ];
+            }
+        }
         try {
-            $CI->MarcasSolicitudes_model->update($solicitud);
-            $CI->MarcasSolicitudes_model->updatePaisesDesignados($paisSol);
-            $CI->MarcasSolicitudes_model->updateSolicitudesClases($claseNiza);
-            $CI->MarcasSolicitudes_model->updateMarcasSolicitantes($solicitantes);
-            return redirect(admin_url('pi/MarcasSolicitudesController/'));
+            $CI->MarcasSolicitudes_model->update($id, $solicitud);
+            $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
+            $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
+            $CI->MarcasSolicitudes_model->insertMarcasSolicitantes($solicitantes);
+            echo  json_encode(['code' => 200, 'message' => 'Cambios realizados exitosamente']);
         } catch (\Throwable $th) {
             //Activate SYSLOG in the app
             echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
@@ -359,34 +369,56 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->helper(['url','form']);
         $CI->load->library('pagination');
         //We send the data
-        $result = $CI->MarcasSolicitudes_model->search();
-        $response = $result->result();
-        var_dump($response);
+        $params = $CI->input->post();
+        var_dump($params);
      }
 
     private function flip_dates($date)
     {
-        try{
-            $wdate = explode('-',$date);
-            $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
-            return $cdate;
-        }
-        catch (Exception $e)
+        if($date != '')
         {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            try{
+                $wdate = explode('-',$date);
+                $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+                return $cdate;
+            }
+            catch (Exception $e)
+            {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        }
+        elseif ($date == '0000-00-00') {
+            try{
+                $wdate = explode('-',$date);
+                $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+                return $cdate;
+            }
+            catch (Exception $e)
+            {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        }
+        else{
+            return '';
         }
     }
 
     private function turn_dates($date)
     {
-        try{
-            $wdate = explode('/',$date);
-            $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-            return $cdate;
+        if($date != ''){
+            try{
+                $wdate = explode('/',$date);
+                $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                return $cdate;
+            }
+            catch (Exception $e)
+            {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
         }
-        catch (Exception $e)
-        {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        else{
+            return NULL;
         }
+        
     }
 }

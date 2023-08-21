@@ -182,8 +182,8 @@ init_head();?>
                                                         <div class="col-12" >
                                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
                                                         </div>
-                                                        <div class="col-12" style="padding: 1% 1% 1% 0%;">    
-                                                            <table class="table table-responsive table-dark">
+                                                        <div class="col-md-12">    
+                                                            <table class="table table-responsive" id="prioridadTbl">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Fecha</th>
@@ -231,7 +231,8 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Solicitud'); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        echo form_input([
                                             'id' => 'fecha_solicitud',
                                             'name' => 'fecha_solicitud',
                                             'class' => 'form-control calendar',
@@ -241,7 +242,8 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Nº de Registro'); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        echo form_input([
                                             'id' => 'num_registro',
                                             'name' => 'num_registro',
                                             'class' => 'form-control',
@@ -251,7 +253,8 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label("Fecha de registro"); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        echo form_input([
                                             'id' => 'fecha_registro',
                                             'name' => 'fecha_registro',
                                             'class' => 'form-control calendar',
@@ -271,7 +274,8 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label("Fecha de certificado"); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        echo form_input([
                                             'id' => 'fecha_certificado',
                                             'name' => 'fecha_certificado',
                                             'class' => 'form-control calendar',
@@ -281,7 +285,8 @@ init_head();?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Vencimiento'); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        echo form_input([
                                             'id' => 'fecha_vencimiento',
                                             'name' => 'fecha_vencimiento',
                                             'class' => 'form-control calendar',
@@ -638,7 +643,13 @@ init_head();?>
                 <?php echo form_label('Comentarios', 'comentario_signo');?>
                 <?php echo form_input('comentario_signo','',['class' => 'form-control']);?>
             </div>
-            
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+            <?php if(isset($values['signo_archivo'])) { ?>
+                <img class="img-responsive" src="<?php echo $values['signo_archivo'];?>" alt="<?php echo $values['signonom'];?>">
+            <?php } ?>
+            </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -654,6 +665,8 @@ init_head();?>
 
 
 <?php init_tail();?>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 
     <script>
         var formData = new FormData();
@@ -1100,10 +1113,11 @@ init_head();?>
                 contentType: false,
                 success:function(response)
                 {
+                    data = JSON.parse(response);
                     <?php if(ENVIRONMENT == 'production') { ?>
-                        location.href = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}");?>';
+                        location.reload();
                     <?php } else { ?>
-                        console.log(response);
+                        alert_float('success', data.message);
                     <?php } ?>
                 },
                 fail: function(request)
@@ -1114,8 +1128,8 @@ init_head();?>
                                 alert('ha ocurrido un error');
                         <?php } ?>
                 }
+            });
         });
-    });
 
 
         $("#prioridadfrmsubmit").on('click', function(e){
@@ -1124,25 +1138,104 @@ init_head();?>
                 'pais_prioridad' : $("select[name=pais_prioridad").val(),
                 'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
                 'nro_prioridad'  : $("input[name=nro_prioridad").val(),
-                'solicitud_id'   : $("input[name=solicitud_id").val(),
+                'solicitud_id'   : $("input[name=id").val(),
             }
             $.ajax({
                 url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>',
                 method: 'POST',
-                data : data
+                data : data,
             }).then(function(response){
-                new DataTable("#prioridadTbl", {
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                    ajax: JSON.parse(response.data),
-                }
+                $.ajax({
+                    url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                    method: "GET",
+                    success: function(response)
+                    {
+                        table = JSON.parse(response);
+                        $("#prioridadTbl").DataTable({
+                            language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                            },
+                            data: table,
+                            destroy: true,
+                            dataSrc: '',
+                            columns : [
+                                { data: 'fecha_prioridad'},
+                                { data: 'nombre'},
+                                { data: 'numero'},
+                                { data: 'acciones'},
+                            ],
+                            width: "100%"
+                        });
+                    }
                 });
+                $("#prioridadfrmsubmit")[0].reset();
                 $("#prioridadModal").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar una prioridad sin registro de la solicitud");
             });
         });
 
+        $(".deletePrioridad").on('click', function(e){
+            e.preventDefault();
+            id = $(this).attr('id');
+            $.ajax(
+            {
+                url: "<?php echo admin_url("pi/MarcasPrioridadController/destroy/{$id}");?>",
+                method: 'POST',
+                success: function(response)
+                {
+                    $.ajax({
+                        url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                        method: "GET",
+                        success: function(response)
+                        {
+                            table = JSON.parse(response);
+                            $("#prioridadTbl").DataTable({
+                                language: {
+                                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                                },
+                                data: table,
+                                destroy: true,
+                                dataSrc: '',
+                                columns : [
+                                    { data: 'fecha_prioridad'},
+                                    { data: 'nombre'},
+                                    { data: 'numero'},
+                                    { data: 'acciones'},
+                                ],
+                                width: "100%"
+                            });
+                        }
+                    })        
+                }
+            })
+        })
+
+        $(document).ready(function(){
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                method: "GET",
+                success: function(response)
+                {
+                    table = JSON.parse(response);
+                    $("#prioridadTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: table,
+                        destroy: true,
+                        dataSrc: '',
+                        columns : [
+                            { data: 'fecha_prioridad'},
+                            { data: 'nombre'},
+                            { data: 'numero'},
+                            { data: 'acciones'},
+                        ],
+                        width: "100%"
+                    });
+                }
+            })
+        });
+
+        
 
 
 

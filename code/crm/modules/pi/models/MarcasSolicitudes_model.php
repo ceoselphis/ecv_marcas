@@ -435,7 +435,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['id']);
+            array_push($keys, $row['pais_id']);
             array_push($values, $row['nombre']);
         }
         return $keys;
@@ -570,5 +570,24 @@ class MarcasSolicitudes_model extends BaseModel
         }
         return array_combine($keys, $values);      
     }
+
+    public function deletePaisesDesignadosBySolicitud($id = null)
+    {
+        $this->db->delete('tbl_marcas_solicitudes_paises', ['marcas_id' => $id]);
+        return true;
+    }
+
+    public function deleteClasesNizaBySolicitud($id = NULL)
+    {
+        $this->db->delete('tbl_marcas_clases', ['marcas_id' => $id]);
+        return true;
+    }
+
+    public function deleteMarcasSolicitantesBySolicitud($id = NULL)
+    {
+        $this->db->delete('tbl_marcas_solicitantes', ['marcas_id' => $id]);
+        return true;
+    }
+    
 
 }

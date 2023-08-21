@@ -5,8 +5,8 @@ require __DIR__ . '/BaseModel.php';
 
 class Eventos_model extends BaseModel
 {
-    protected $primaryKey = 'eve_id';
-    protected $tableName =  'tbl_eventos';
+    protected $primaryKey = 'id';
+    protected $tableName =  'tbl_marcas_eventos';
     protected $DBgroup = 'default';
     
     public function __construct()
@@ -48,14 +48,14 @@ class Eventos_model extends BaseModel
 
     public function getAllTipoEvento()
     {
-        $query = $this->db->get('tbl_tipo_evento');
+        $query = $this->db->get('tbl_tipos_eventos');
         $result = array();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['tipo_eve_id']);
-            array_push($values, $row['nombre']);
+            array_push($keys, $row['id']);
+            array_push($values, $row['descripcion']);
         }
         return array_combine($keys, $values);
     }
@@ -63,8 +63,8 @@ class Eventos_model extends BaseModel
     public function findTipoEvento(string $id)
     {
         $this->db->select('*');
-        $this->db->from("tbl_tipo_evento");
-        $this->db->where("tipo_eve_id = ".$id);
+        $this->db->from("tbl_tipos_eventos");
+        $this->db->where("id = ".$id);
         $query = $this->db->get();
         return $query->result_array();
     }

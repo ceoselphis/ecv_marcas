@@ -332,12 +332,38 @@ init_head();?>
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
+                                                    <th>Nº</th>
+                                                    <th>Tipo Evento</th>
+                                                    <th>Comentario</th>
                                                     <th>Fecha</th>
-                                                    <th>Pais</th>
-                                                    <th>Número</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                            <?php if (!empty($eventos)) {?>
+                                                <?php foreach ($eventos as $row) {?>
+                                                    <tr>
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['tipo_evento'];?></td>
+                                                        <td><?php echo $row['comentarios'];?></td>
+                                                        <td><?php echo $row['fecha'];?></td>
+                                                       
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/EventosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a class="btn btn-light"  href="<?php echo admin_url("pi/EventosController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -355,13 +381,16 @@ init_head();?>
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
-                                                    <th>Fecha</th>
+                                                    <th>Nro</th>
+                                                    <th>Tipo de Tarea</th>
                                                     <th>Descripcion</th>
-                                                    <th>Comentarios</th>
-                                                    <th>Creado por</th>
+                                                    <th>Fecha</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody id="listatareas">
+                                           
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -493,6 +522,70 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
+
+<!-- Tareas Modal -->
+<div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Tareas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
+                <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top: 15px;">
+                <?php echo form_label('Descripcion', 'descripcion');?>
+                <?php echo form_textarea(['name'=>'descripcion','id'=>'descripcion'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="tareasfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Tareas Modal Edit -->
+<div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Tareas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
+                <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top: 15px;">
+                <?php echo form_label('Descripcion', 'descripcion');?>
+                <?php echo form_textarea(['name'=>'descripcion','id'=>'descripcion'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="tareasfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
 <!-- Publicacion Modal -->
 <div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
@@ -547,11 +640,11 @@ init_head();?>
         <div class="row">
             <div class="col-md-12">
                 <?php echo form_label('Tipo Evento', 'tipo_evento');?>
-                <?php echo form_dropdown('tipo_evento', $tipo_evento, '',['class' => 'form-control']);?>
+                <?php echo form_dropdown(['name'=>'tipo_evento','id'=>'tipo_evento'], $tipo_evento, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentario', 'evento_comentario');?>
-                <?php echo form_textarea('evento_comentario','',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'evento_comentario','id'=>'evento_comentario'],'',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
@@ -726,6 +819,40 @@ init_head();?>
 <?php init_tail();?>
 
     <script>
+        mostrarTareas();
+        function mostrarTareas(){
+            $.ajax({
+                url:'<?php echo admin_url("pi/TareasController/showTareas");?>',
+                type:'GET',
+                success: function(response){
+                const listatareas = JSON.parse(response);
+                console.log(listatareas);
+                let template = '';
+                listatareas.forEach((item) =>{
+                    
+                    template += 
+                        `<tr taskId = "${item.id}"> 
+                            <td class="text-center">${item.id}</td>
+                            <td class="text-center">${item.tipo_tareas_id}</td>
+                            <td class="text-center">${item.descripcion}</td>
+                            <td class="text-center">${item.fecha}</td>
+                            <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/");?>${item.id}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                 <td>
+                                     <a id="${item.id}" class="edit btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                 </td>
+                                </form> 
+                        </tr>
+                        `
+                    
+                });
+                $('#listatareas').html(template);
+            }
+            })
+        }
+
+
+
         function getFormData(){
             var config = {};
             $('input').each(function () {
@@ -737,6 +864,8 @@ init_head();?>
             });
             return config;
         }
+
+        //Añadir Documento
         $(document).on('click','#documentofrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
@@ -763,61 +892,80 @@ init_head();?>
                 processData: false,
                 contentType: false
             }).then(function(response){
-                console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                //console.log(response);
                 $("#docModal").modal('hide');
             }).catch(function(response){
-                alert("No puede agregar una prioridad sin registro de la solicitud");
+                alert("No puede agregar un Documento sin registro de la solicitud");
             });
-            // $.ajax({
-            //     url,
-            //     method: 'POST',
-            //     data : data,
-            //     processData: false,
-            //     contentType: false
-            // }).then(function(response) {
-            //     console.log(response);
-            // }).catch(function(response) {   
-            //     alert("No se puede agregar el documento ");
-            // })
-            // $.post(url, data, function(response){
-            //     console.log(response.data);
-            // });   
+        });
 
-            // $.ajax({
-            //     url: '<?php //echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>',
-            //     method: 'POST',
-            //     data : data
-            // }).then(function(response){
-            //     console.log(JSON.parse(response.data));
-            //     // new DataTable("#soldocTbl", {
-            //     // language: {
-            //     //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-            //     //     ajax: JSON.parse(response.data),
-            //     // }
-            //     // });
-            //     // $("#docModal").modal('hide');
-            // }).catch(function(response){
-            //     alert("No puede agregar una prioridad sin registro de la solicitud");
-            // });
-            // $.ajax({
-            //     url: '',
-            //     method: 'POST',
-            //     data: formData,
-            //     processData: false,
-            //     contentType: false
-            // }).then(function(response){
-            //     new DataTable("#soldocTbl", {
-            //     language: {
-            //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-            //         ajax: JSON.parse(response.data),
-            //     }
-            //     });
-            //     $("#docModal").modal('hide');
-            // }).catch(function(response){
-            //     alert("No puede agregar una prioridad sin registro de la solicitud");
-            // });
+        //Añadir Evento
+        $(document).on('click','#eventosfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var tipo_evento =  $('#tipo_evento').val();
+            var evento_comentario = $('#evento_comentario').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('tipo_evento' , tipo_evento);
+            formData.append('evento_comentario', evento_comentario);
+            console.log("tipo_evento ",tipo_evento);
+            console.log("evento_comentario",evento_comentario);
+            console.log("csrf_token_name", csrf_token_name);
+            console.log("Form Data ", formData);
+            let url = '<?php echo admin_url("pi/EventosController/addEvento");?>'
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                console.log(response);
+                $("#eventoModal").modal('hide');
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+
+        //Añadir Tareas
+        $(document).on('click','#tareasfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var tipo_tarea =  $('#tipo_tarea').val();
+            var descripcion = $('#descripcion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('tipo_tarea' , tipo_tarea);
+            formData.append('descripcion', descripcion);
+            console.log("tipo_tarea",tipo_tarea);
+            console.log("descripcion",descripcion);
+            console.log("csrf_token_name", csrf_token_name);
+            console.log("Form Data ", formData);
+            let url = '<?php echo admin_url("pi/TareasController/addTareas");?>'
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                console.log(response);
+                $("#addTask").modal('hide');
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
         });
         
+        
+
     function fecha(){
         var hoy = new Date();
         var dd = hoy.getDate();

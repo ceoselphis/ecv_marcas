@@ -31,6 +31,35 @@ class EventosController extends AdminController
      * Shows the form to create a new item
      */
 
+     public function addEvento(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $insert = array(
+                            'tipo_evento_id' => $data['tipo_evento'],
+                            'marcas_id' => 1,
+                            'comentarios' => $data['evento_comentario'],
+                            'fecha' => date('Y-m-d'),
+                    );
+
+            $CI->load->model("Eventos_model");
+                try{
+                    $query = $CI->Eventos_model->insert($insert);
+                        if (isset($query)){
+                            echo "Insertado Correctamente";
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+        }
+        else {
+            echo "No tiene Data";
+        }
+     }
+
     public function create()
     {
         $CI = &get_instance();
@@ -125,9 +154,9 @@ class EventosController extends AdminController
         $select = $CI->Eventos_model->getAllTipoEvento();
         if(isset($query))
         {
-            $labels = array('Id', 'Tipo de Evento');
+            $labels = array('Id', 'Tipo de Evento', 'Comentario');
             
-            return $CI->load->view('eventos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'tipoEvento' => $select]);
+            return $CI->load->view('eventos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'tipo_evento' => $select]);
         }
         else{
             return redirect('pi/eventoscontroller/');
@@ -145,13 +174,14 @@ class EventosController extends AdminController
         $CI->load->model("Eventos_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
+        $data['fecha'] = date('Y-m-d');
         //We validate the data
         //TODO
         //We prepare the data 
         $query = $CI->Eventos_model->update($id, $data);
         if (isset($query))
         {
-            return redirect('pi/eventoscontroller/');
+            return redirect('pi/MarcasSolicitudesController/create');
         }
     }
 
@@ -165,6 +195,6 @@ class EventosController extends AdminController
         $CI->load->model("Eventos_model");
         $CI->load->helper('url');
         $query = $CI->Eventos_model->delete($id);
-        return redirect('pi/eventoscontroller/');
+        return redirect('pi/MarcasSolicitudesController/create');
     }
 }

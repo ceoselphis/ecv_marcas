@@ -92,6 +92,48 @@ class TareasController extends AdminController
         $query =$CI->Tareas_Model->findAll();
         echo json_encode($query);
      }
+
+    public function unaTareas(){
+
+    }
+     public function EditTareas(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Tareas_Model");
+        $query =$CI->Tareas_Model->find($id);
+        echo json_encode($query);   
+     }
+
+     public function BuscarTipoTareas(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Tareas_Model");
+        $query =$CI->Tareas_Model->findTipoTareas($id);
+        echo json_encode($query);
+
+     }
+
+     public function UpdateTareas(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Tareas_Model");
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $insert = array(
+                            'tipo_tareas_id' => $data['tipo_tarea'],
+                            'marcas_id' => 1,
+                            'descripcion' => $data['descripcion'],
+                            'fecha' => date('Y-m-d'),
+                    );
+                    $query = $CI->Tareas_Model->update($id, $insert);
+                    if (isset($query))
+                    {
+                        echo "Insertado Correctamente";
+                    }
+        }            
+        
+       
+        //We validate the data
+        //TODO
+        //We prepare the data 
+     }
     public function store()
     {
         $CI = &get_instance();
@@ -239,7 +281,7 @@ class TareasController extends AdminController
         $CI->load->model("Tareas_Model");
         $CI->load->helper('url');
         $query = $CI->Tareas_Model->delete($id);
-        return redirect('pi/anexoscontroller/');
+        return redirect('pi/MarcasSolicitudesController/create');
         
         
     }

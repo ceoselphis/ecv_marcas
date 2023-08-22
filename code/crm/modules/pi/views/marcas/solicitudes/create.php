@@ -388,8 +388,29 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="listatareas">
-                                           
+                                            <tbody>
+                                            <?php if (!empty($tareas)) {?>
+                                                <?php foreach ($tareas as $row) {?>
+                                                    <tr taskId = "<?php echo $row['id'];?>">
+                                                        <td id = 'tareasid' ><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['tipo_tarea'];?></td>
+                                                        <td><?php echo $row['descripcion'];?></td>
+                                                        <td><?php echo $row['fecha'];?></td>
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a id="<?php echo $row['id'];?>" class="edit btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -568,19 +589,20 @@ init_head();?>
       </div>
       <div class="modal-body">
         <div class="row">
+            <input type="hidden" id="Tareaid">
             <div class="col-md-12">
                 <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
-                <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
+                <?php echo form_dropdown(['name'=>'edittipo_tarea','id'=>'edittipo_tarea','class' => 'form-control'], $tipo_tareas  );?>
             </div>
             <div class="col-md-12" style="margin-top: 15px;">
                 <?php echo form_label('Descripcion', 'descripcion');?>
-                <?php echo form_textarea(['name'=>'descripcion','id'=>'descripcion'],'',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'editdescripcion','id'=>'editdescripcion'],'',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="tareasfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="tareaseditfrmsubmit" type="button" class="btn btn-primary">Actualizar</button>
       </div>
     </div>
   </div>
@@ -819,38 +841,23 @@ init_head();?>
 <?php init_tail();?>
 
     <script>
-        mostrarTareas();
-        function mostrarTareas(){
-            $.ajax({
-                url:'<?php echo admin_url("pi/TareasController/showTareas");?>',
-                type:'GET',
-                success: function(response){
-                const listatareas = JSON.parse(response);
-                console.log(listatareas);
-                let template = '';
-                listatareas.forEach((item) =>{
-                    
-                    template += 
-                        `<tr taskId = "${item.id}"> 
-                            <td class="text-center">${item.id}</td>
-                            <td class="text-center">${item.tipo_tareas_id}</td>
-                            <td class="text-center">${item.descripcion}</td>
-                            <td class="text-center">${item.fecha}</td>
-                            <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/");?>${item.id}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                 <td>
-                                     <a id="${item.id}" class="edit btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
-                                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                 </td>
-                                </form> 
-                        </tr>
-                        `
-                    
-                });
-                $('#listatareas').html(template);
-            }
-            })
-        }
+        
 
+        $(document).on('click','.edit',function(){
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('taskId');
+        let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
+        url = url + id;
+       $.post(url,{id},function(response){
+            // console.log(response);
+            let tareas =JSON.parse(response);
+            console.log(tareas[0]['tipo_tareas_id']);
+            $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
+            $('#editdescripcion').val(tareas[0]['descripcion']);
+            $('#Tareaid').val(tareas[0]['id']);
+            
+        })
+        })
 
 
         function getFormData(){
@@ -957,8 +964,44 @@ init_head();?>
                 contentType: false
             }).then(function(response){
                 alert_float('success', "Insertado Correctamente");
-                console.log(response);
                 $("#addTask").modal('hide');
+                location.reload();
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+
+        //Editar Tareas
+        $(document).on('click','#tareaseditfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#Tareaid').val();
+            var tipo_tarea =  $('#edittipo_tarea').val();
+            var descripcion = $('#editdescripcion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('tipo_tarea' , tipo_tarea);
+            formData.append('descripcion', descripcion);
+            console.log('id',id);
+            console.log("tipo_tarea",tipo_tarea);
+            console.log("descripcion",descripcion);
+            console.log("csrf_token_name", csrf_token_name);
+            console.log("Form Data ", formData);
+            let url = '<?php echo admin_url("pi/TareasController/UpdateTareas/");?>'
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+               alert_float('success', "Actualizado Correctamente");
+                $("#EditTask").modal('hide');
+                location.reload();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });

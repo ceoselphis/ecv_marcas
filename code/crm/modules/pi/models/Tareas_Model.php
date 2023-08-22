@@ -35,13 +35,14 @@ class Tareas_Model extends BaseModel
         $this->db->from('tbl_tipos_tareas');
         $this->db->where('id = '.$id);
         $query = $this->db->get();
-        $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['id']);
-            array_push($values, $row['nombre']);
+            $values[] = array(
+                'nombre' => $row['nombre'],
+            );
+            
         }
-        return array_combine($keys, $values);
+        return $values;
     }
 }

@@ -30,7 +30,7 @@
     </div>
 </div>
 
-
+let tipotareas = '<?php echo admin_url("pi/TareasController/BuscarTipoTareas/");?>'
 <?php init_tail();?>
 
 

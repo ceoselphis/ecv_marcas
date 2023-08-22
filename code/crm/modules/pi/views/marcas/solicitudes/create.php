@@ -46,7 +46,7 @@ init_head();?>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <?php echo form_label('Tipo de solicitud', 'tipo_registro_id');?>
-                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro ,set_value('tipo_registro_id'), ['class' => 'form-control'])?>
+                                            <?php echo form_dropdown(['name'=>'tipo_registro_id','id'=>'tipo_registro_id'], $tipo_registro ,set_value('tipo_registro_id'), ['class' => 'form-control'])?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Cliente','client_id');?>
@@ -397,16 +397,42 @@ init_head();?>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docModal">Añadir Documento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
+                                        <table id = "soldocTbl" class="table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
-                                                    <th>Archivo</th>
-                                                    <th>Descripcion</th>
                                                     <th>Creado Por</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Archivo</th>
+                                                    <th>Comentarios</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody >
+                                            <?php if (!empty($SolDoc)) {?>
+                                                <?php foreach ($SolDoc as $row) {?>
+                                                    <tr>
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['marcas_id'];?></td>
+                                                        <td><?php echo $row['descripcion'];?></td>
+                                                        <td><?php echo $row['path'];?></td>
+                                                        <td><?php echo $row['comentario'];?></td>
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a class="btn btn-light"  href="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -559,7 +585,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Documento Modal -->
+<!-- Documento Modal Create -->
 <div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -574,11 +600,53 @@ init_head();?>
         <div class="row">
             <div class="col-md-12">
                 <?php echo form_label('Descripcion', 'descripcion_archivo');?>
-                <?php echo form_input('doc_descripcion','', ['class' => 'form-control']);?>
+                <?php echo form_input(['name'=>'doc_descripcion','id'=>'doc_descripcion'],'', ['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentarios', 'comentario_archivo');?>
-                <?php echo form_textarea('comentario_archivo','',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'comentario_archivo', 'id'=>'comentario_archivo'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Archivo', 'doc_archivo');?>
+                <?php echo form_input([
+                    'id' => 'doc_archivo',
+                    'name' => 'doc_archivo',
+                    'type' => 'file',
+                    'class' => 'form-control',
+                    'multiple' => 'multiple',
+                ]);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="documentofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Documento Modal Edit -->
+<div class="modal fade" id="docModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrmedit']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Documento</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_label('Descripcion', 'descripcion_archivo');?>
+                <?php echo form_input(['name'=>'doc_descripcion','id'=>'doc_descripcion'],'', ['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Comentarios', 'comentario_archivo');?>
+                <?php echo form_textarea(['name'=>'comentario_archivo', 'id'=>'comentario_archivo'],'',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Archivo', 'doc_archivo');?>
@@ -649,6 +717,106 @@ init_head();?>
 <?php init_tail();?>
 
     <script>
+        function getFormData(){
+            var config = {};
+            $('input').each(function () {
+                config[this.name] = this.value;
+            });
+            $("select").each(function()
+            {
+                config[this.name] = this.value;
+            });
+            return config;
+        }
+        $(document).on('click','#documentofrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var description =  $('#doc_descripcion').val();
+            var comentario_archivo = $('#comentario_archivo').val();
+            var doc_archivo = $('#doc_archivo')[0].files[0];
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('doc_descripcion' , description);
+            formData.append('comentario_archivo', comentario_archivo);
+            formData.append('doc_archivo', doc_archivo)
+            console.log("descripcion ",description);
+            console.log("Comentario archivo ",comentario_archivo);
+            console.log("Documento Archivo ",doc_archivo );
+            console.log("csrf_token_name", csrf_token_name);
+            console.log(doc_archivo);
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>'
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                $("#docModal").modal('hide');
+            }).catch(function(response){
+                alert("No puede agregar una prioridad sin registro de la solicitud");
+            });
+            // $.ajax({
+            //     url,
+            //     method: 'POST',
+            //     data : data,
+            //     processData: false,
+            //     contentType: false
+            // }).then(function(response) {
+            //     console.log(response);
+            // }).catch(function(response) {   
+            //     alert("No se puede agregar el documento ");
+            // })
+            // $.post(url, data, function(response){
+            //     console.log(response.data);
+            // });   
+
+            // $.ajax({
+            //     url: '<?php //echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>',
+            //     method: 'POST',
+            //     data : data
+            // }).then(function(response){
+            //     console.log(JSON.parse(response.data));
+            //     // new DataTable("#soldocTbl", {
+            //     // language: {
+            //     //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+            //     //     ajax: JSON.parse(response.data),
+            //     // }
+            //     // });
+            //     // $("#docModal").modal('hide');
+            // }).catch(function(response){
+            //     alert("No puede agregar una prioridad sin registro de la solicitud");
+            // });
+            // $.ajax({
+            //     url: '',
+            //     method: 'POST',
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false
+            // }).then(function(response){
+            //     new DataTable("#soldocTbl", {
+            //     language: {
+            //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+            //         ajax: JSON.parse(response.data),
+            //     }
+            //     });
+            //     $("#docModal").modal('hide');
+            // }).catch(function(response){
+            //     alert("No puede agregar una prioridad sin registro de la solicitud");
+            // });
+        });
+        
+    function fecha(){
+        var hoy = new Date();
+        var dd = hoy.getDate();
+        var mm = hoy.getMonth()+1;
+        var yy = hoy.getFullYear();
+        var fecha = '';
+        if(dd<10){
+            dd = '0'+dd;
         var formData = new FormData();
         function fecha(){
             var hoy = new Date();
@@ -1044,6 +1212,21 @@ init_head();?>
         
     </style>
     <script>
+<<<<<<< HEAD
+
+        function getFormData(){
+            var config = {};
+            $('input').each(function () {
+                config[this.name] = this.value;
+            });
+            $("select").each(function()
+            {
+                config[this.name] = this.value;
+            });
+            return config;
+        }
+=======
+>>>>>>> 8106b180fe59b703a6cd0ad82039df68ca485b2d
         $("#solicitudfrm").on('submit', function(e)
         {
             e.preventDefault();
@@ -1136,8 +1319,10 @@ init_head();?>
             });
         });
 
+        
 
 
+        
 
 
 
@@ -1173,12 +1358,37 @@ init_head();?>
             });
         });
 
+<<<<<<< HEAD
+        $(".next-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            $active.next().removeClass('disabled');
+            nextTab($active);
+
+        });
+        $(".prev-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            prevTab($active);
+
+        });
+    });
+
+    function nextTab(elem) {
+        $(elem).next().find('a[data-toggle="tab"]').click();
+    }
+    function prevTab(elem) {
+        $(elem).prev().find('a[data-toggle="tab"]').click();
+    }
+    //---------------------
+=======
         function nextTab(elem) {
             $(elem).next().find('a[data-toggle="tab"]').click();
         }
         function prevTab(elem) {
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
+>>>>>>> 8106b180fe59b703a6cd0ad82039df68ca485b2d
 
     </script>
 </body>

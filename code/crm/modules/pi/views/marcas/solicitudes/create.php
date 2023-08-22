@@ -333,7 +333,7 @@ init_head();?>
                                             <tbody>
                                             <?php if (!empty($eventos)) {?>
                                                 <?php foreach ($eventos as $row) {?>
-                                                    <tr>
+                                                    <tr eventosid = "<?php echo $row['id'];?>">>
                                                         <td><?php echo $row['id'];?></td>
                                                         <td><?php echo $row['tipo_evento'];?></td>
                                                         <td><?php echo $row['comentarios'];?></td>
@@ -341,7 +341,7 @@ init_head();?>
                                                        
                                                         <form method="DELETE" action="<?php echo admin_url("pi/EventosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                             <td>
-                                                                <a class="btn btn-light"  href="<?php echo admin_url("pi/EventosController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                                <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
                                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                             </td>
                                                         </form> 
@@ -669,6 +669,37 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
+<!-- Evento Modal Edit -->
+<div class="modal fade" id="eventoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Evento</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_label('Tipo Evento', 'tipo_evento');?>
+                <?php echo form_dropdown(['name'=>'edittipo_evento','id'=>'edittipo_evento'], $tipo_evento, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'editevento_comentario','id'=>'editevento_comentario'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="editeventosfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
 <!-- Anexo Modal -->
 <div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'anexoFrm']);?>
@@ -839,17 +870,32 @@ init_head();?>
         let id = $(element).attr('taskId');
         let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
         url = url + id;
-       $.post(url,{id},function(response){
+        $.post(url,{id},function(response){
             // console.log(response);
             let tareas =JSON.parse(response);
             console.log(tareas[0]['tipo_tareas_id']);
             $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
             $('#editdescripcion').val(tareas[0]['descripcion']);
             $('#Tareaid').val(tareas[0]['id']);
-            
-        })
+            })
         })
 
+        $(document).on('click','.editeventos',function(){
+        let element = $(this)[0].parentElement.parentElement;
+        console.log(element);
+        let id = $(element).attr('eventosid');
+        console.log(id);
+        // let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
+        // url = url + id;
+        // $.post(url,{id},function(response){
+        //     // console.log(response);
+        //     let tareas =JSON.parse(response);
+        //     console.log(tareas[0]['tipo_tareas_id']);
+        //     $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
+        //     $('#editdescripcion').val(tareas[0]['descripcion']);
+        //     $('#Tareaid').val(tareas[0]['id']);
+        //     })
+        })
 
         function getFormData(){
             var config = {};
@@ -1024,7 +1070,8 @@ init_head();?>
             fecha = dd+"/"+mm+"/"+yy;
             return fecha;
         }
-
+    }
+}
 
         $(".calendar").on('keyup', function(e){
             e.preventDefault();
@@ -1403,7 +1450,6 @@ init_head();?>
         
     </style>
     <script>
-<<<<<<< HEAD
 
         function getFormData(){
             var config = {};
@@ -1416,8 +1462,6 @@ init_head();?>
             });
             return config;
         }
-=======
->>>>>>> 8106b180fe59b703a6cd0ad82039df68ca485b2d
         $("#solicitudfrm").on('submit', function(e)
         {
             e.preventDefault();
@@ -1549,7 +1593,6 @@ init_head();?>
             });
         });
 
-<<<<<<< HEAD
         $(".next-step").click(function (e) {
 
             var $active = $('.wizard .nav-tabs li.active');
@@ -1563,7 +1606,7 @@ init_head();?>
             prevTab($active);
 
         });
-    });
+    
 
     function nextTab(elem) {
         $(elem).next().find('a[data-toggle="tab"]').click();
@@ -1572,14 +1615,12 @@ init_head();?>
         $(elem).prev().find('a[data-toggle="tab"]').click();
     }
     //---------------------
-=======
         function nextTab(elem) {
             $(elem).next().find('a[data-toggle="tab"]').click();
         }
         function prevTab(elem) {
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
->>>>>>> 8106b180fe59b703a6cd0ad82039df68ca485b2d
 
     </script>
 </body>

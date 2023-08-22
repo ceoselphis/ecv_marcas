@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class EventosController extends AdminController
 {
     protected $models = ['Eventos_model'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
       
     public function index()
     {

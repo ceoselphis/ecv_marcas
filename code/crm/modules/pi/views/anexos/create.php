@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('pi/anexoscontroller/store'), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/AnexosController/store'), 'form'); ?>
                         <div class="col-4">
                             <?php echo form_label($labels[1],$labels[1]);?>
                             <br />
@@ -17,7 +17,7 @@
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/anexoscontroller/');?>" class="btn btn-success">Volver atrás</a>
+                            <a href="<?php echo admin_url('pi/AnexosController/');?>" class="btn btn-success">Volver atrás</a>
                         </div>
                     </div>
                 </div>
@@ -28,3 +28,6 @@
 
 
 <?php init_tail();?>
+
+</body>
+</html>

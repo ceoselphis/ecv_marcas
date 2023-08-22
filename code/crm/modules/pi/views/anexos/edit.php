@@ -6,9 +6,8 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo validation_errors(); ?>
-                        <?php echo form_open(admin_url('pi/anexoscontroller/update/'.$id), 'form'); ?>
-                        <div class="col-4">
+                        <?php echo form_open(admin_url('pi/AnexosController/update/'.$id), 'form'); ?>
+                        <div class="col-md-4">
                             <?php foreach($values as $key => $value){?>
                                 <?php echo form_label('Nombre del Anexo');?>
                                 <br />
@@ -20,6 +19,7 @@
                                         'class' => 'form-control',
                                         'value' => $value['nombre_anexo'])
                                 );?>
+                                <?php echo form_error('nombre_anexo', '<div class="text-danger">', '</div>');?>
                             <?php } ?>
                         </div>
                         <div class="col-3">

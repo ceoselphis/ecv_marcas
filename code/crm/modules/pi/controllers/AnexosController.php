@@ -4,8 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class AnexosController extends AdminController
 {
     protected $models = ['Anexos_model'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
       
-    public function index()
+    public function index($id = NULL)
     {
         $CI = &get_instance();
         $CI->load->model("Anexos_model");
@@ -74,6 +79,7 @@ class AnexosController extends AdminController
             ],
         );
         $CI->form_validation->set_rules($config);
+        
         if($CI->form_validation->run() == FALSE)
         {
             $fields = $CI->Anexos_model->getFillableFields();
@@ -155,12 +161,35 @@ class AnexosController extends AdminController
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
-        //TODO
-        //We prepare the data 
-        $query = $CI->Anexos_model->update($id, $data);
-        if (isset($query))
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        //we validate the data
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'nombre_anexo',
+                'label' => 'Nombre del Anexo',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un nombre para el anexo',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect('pi/anexoscontroller/');
+            $this->edit($id);
+        }
+        else
+        {
+            //We prepare the data 
+            $query = $CI->Anexos_model->update($id, $data);
+            if (isset($query))
+            {
+                return redirect('pi/anexoscontroller/');
+            }
         }
     }
 

@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class InventoresController extends AdminController
 {
     protected $models = ['Inventores_model'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
       
     public function index()
     {
@@ -18,7 +23,8 @@ class InventoresController extends AdminController
                 'pais_id'     => $CI->Inventores_model->findPais($row['pais_id'])[0]['nombre'],
                 'nombre'      => $row['nombre'],
                 'apellid'    => $row['apellid'],
-                'direccion'   => $row['direccion']
+                'direccion'   => $row['direccion'],
+                'nacionalidad'=> $row['nacionalidad']
             ];
         }
         return $CI->load->view('inventores/index', ["inventores" => $data]);
@@ -97,21 +103,19 @@ class InventoresController extends AdminController
             [
                 'field' => 'direccion',
                 'label' => 'Direccion',
-                'rules' => 'trim|required|min_length[5]|max_length[255]',
+                'rules' => 'trim|required|min_length[5]',
                 'errors' => [
                     'required' => 'Debe indicar una direccion',
                     'min_length' => 'Direccion demasiado corta',
-                    'max_lenght' => 'Direccion demasiado larga'
                 ]
             ],
             [
                 'field' => 'domicilio',
                 'label' => 'Domicilio',
-                'rules' => 'trim|required|min_length[5]|max_length[255]',
+                'rules' => 'trim|required|min_length[5]',
                 'errors' => [
                     'required' => 'Debe indicar un domicilio',
                     'min_length' => 'Domicilio demasiado corto',
-                    'max_lenght' => 'Domicilio demasiado largo'
                 ]
             ],
             [
@@ -208,13 +212,75 @@ class InventoresController extends AdminController
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
-        //TODO
-        //We prepare the data 
-        $query = $CI->Inventores_model->update($id, $data);
-        if (isset($query))
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        //we validate the data
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'nombre',
+                'label' => 'Nombre',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un nombre',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'apellid',
+                'label' => 'Apellido',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar un apellido',
+                    'min_length' => 'Apellido demasiado corto',
+                    'max_lenght' => 'Apellido demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'direccion',
+                'label' => 'Direccion',
+                'rules' => 'trim|required|min_length[5]',
+                'errors' => [
+                    'required' => 'Debe indicar una direccion',
+                    'min_length' => 'Direccion demasiado corta',
+                ]
+            ],
+            [
+                'field' => 'domicilio',
+                'label' => 'Domicilio',
+                'rules' => 'trim|required|min_length[5]',
+                'errors' => [
+                    'required' => 'Debe indicar un domicilio',
+                    'min_length' => 'Domicilio demasiado corto',
+                ]
+            ],
+            [
+                'field' => 'nacionalidad',
+                'label' => 'Nacionalidad',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe indicar una nacionalidad',
+                    'min_length' => 'Nacionalidad demasiado corta',
+                    'max_lenght' => 'Nacionalidad demasiado larga'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
         {
-            return redirect('pi/inventorescontroller/');
+            $this->edit($id);
         }
+        else
+        {
+            //We prepare the data 
+            $query = $CI->Inventores_model->update($id, $data);
+            if (isset($query))
+            {
+                return redirect('pi/inventorescontroller/');
+            }
+        }
+        
     }
 
     /**

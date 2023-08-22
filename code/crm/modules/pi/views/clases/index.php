@@ -6,12 +6,12 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/clasescontroller/create');?>"><i class="fas fa-plus"></i> Nueva Clase</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/ClasesController/create');?>"><i class="fas fa-plus"></i> Nueva Clase</a>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table table-responsive" id="tableResult">
+                            <table class="table"  id="tableResult">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -23,14 +23,12 @@
                                         <?php if (!empty($clases)) {?>
                                             <?php foreach ($clases as $row) {?>
                                                 <tr>
-                                                    <td><?php echo $row['niza_id'];?></td>
+                                                    <td><?php echo $row['clase_niza_id'];?></td>
                                                     <td><?php echo $row['nombre'];?></td>
-                                                    <td></td>
-                                                    
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/clasescontroller/destroy/{$row['niza_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/ClasesController/destroy/{$row['clase_niza_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
-                                                            <a class="btn btn-link detail" href="<?php echo admin_url("pi/clasescontroller/show/{$row['niza_id']}");?>"><i class="fas fa-details"></i>Detalles</a>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/clasescontroller/edit/{$row['niza_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                            <a class="btn btn-link detail" href="<?php echo admin_url("pi/ClasesController/show/{$row['clase_niza_id']}");?>"><i class="fas fa-details"></i>Detalles</a>
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/ClasesController/edit/{$row['clase_niza_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 
@@ -83,7 +81,6 @@
 
 <?php init_tail();?>
 
-
 <script>
     $(".detail").on('click', function(e){
         e.preventDefault();
@@ -91,13 +88,33 @@
             url: $(".detail").prop('href'),
             method: "GET",
             success: function(response){
-                console.log(response);
                 $(".detailTable").html(response)
             }
         });
         $("#modalDetail").modal('show');
     });
-</script>
 
+
+
+</script>
+<style>
+    th, td {
+        text-align: center;
+    }
+    
+</style>
+
+<script src="<?php echo base_url('assets/plugins/jquery/jquery.js');?>"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    new DataTable(".table", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script>
+</body>
+</html>
 
 

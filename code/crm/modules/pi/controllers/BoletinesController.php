@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class BoletinesController extends AdminController
 {
     protected $models = ['Boletines_model'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
       
     public function index()
     {
@@ -13,10 +18,10 @@ class BoletinesController extends AdminController
         foreach($CI->Boletines_model->findAll() as $row)
         {
             $data[] = array(
-                'boletin_id' => $row['boletin_id'],
+                'boletin_id' => $row['id'],
                 'fecha_publicacion'    => $row['fecha_publicacion'],
                 'pais_id'=> ucfirst($CI->Boletines_model->findPaises($row['pais_id'])[0]['nombre']),
-                'nombre' => ucfirst($row['nombre']),
+                'nombre' => ucfirst($row['descripcion']),
             );
         }
         return $CI->load->view('boletines/index', ["boletines" => $data]);
@@ -73,23 +78,24 @@ class BoletinesController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'boletin_id',
+                'field' => 'id',
                 'label' => 'Nº de Boletin',
-                'rules' => 'trim|required|min_length[3]|max_length[5]',
+                'rules' => 'trim|required|min_length[3]|max_length[5]|regex_match[/[0-9][0-9][0-9]/]',
                 'errors' => [
                     'required' => 'Debe Indicar un numero de boletin',
-                    'min_length' => 'El numero debe ser mayor de tres digitos',
-                    'max_lenght' => 'El numero debe ser menor a cinco digitos'
+                    'min_length' => 'El número debe ser mayor de tres digitos',
+                    'max_lenght' => 'El número debe ser menor a cinco digitos',
+                    'regex_match' => "El número de boletin debe ser númerico"
                 ]
             ],
             [
-                'field' => 'nombre',
+                'field' => 'descripcion',
                 'label' => 'Nombre',
-                'rules' => 'trim|required|min_length[3]|max_length[5]',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
                     'required' => 'Debe Indicar un nombre',
-                    'min_length' => 'El nombre debe ser mayor de tres caracteres',
-                    'max_lenght' => 'El nombre debe ser menor a cinco caracteres'
+                    'min_length' => 'El nombre debe ser mayor de 3 caracteres',
+                    'max_lenght' => 'El nombre debe ser menor a 60 caracteres'
                 ]
             ],
             [
@@ -134,6 +140,8 @@ class BoletinesController extends AdminController
         else
         {
             //we sent the data to the model
+            $unwantDate = explode('/',$data['fecha_publicacion']);
+            $data['fecha_publicacion'] = date('Y-m-d h:i:s', strtotime($unwantDate[2].'-'.$unwantDate[1].'-'.$unwantDate[0]));
             $query = $CI->Boletines_model->insert($data);
             if(isset($query))
             {
@@ -163,10 +171,34 @@ class BoletinesController extends AdminController
         $CI->load->helper('url');
         $query = $CI->Boletines_model->find($id);
         $select = $CI->Boletines_model->getAllPaises();
-        if(isset($query))
+        $fields = $CI->Boletines_model->getFillableFields();
+        $inputs = array();
+        $labels = array();
+        $select = $CI->Boletines_model->getAllPaises();
+        foreach($fields as $field)
+        {
+            if($field['type'] == 'INT')
+            {
+                $inputs[] = array(
+                    'name' => $field['name'],
+                    'id'   => $field['name'],
+                    'type' => 'range',
+                    'class' => 'form-control'
+                );
+            }
+            else{
+                $inputs[] = array(
+                    'name' => $field['name'],
+                    'id'   => $field['name'],
+                    'type' => 'text',
+                    'class' => 'form-control'
+                );
+            }
+        }
+        if(!empty($query))
         {
             $labels = array('Nº Boletin', 'Pais', 'Nombre', 'Fecha de Publicacion');
-            return $CI->load->view('boletines/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'paises' => $select]);
+            return $CI->load->view('boletines/edit', ['fields' => $inputs, 'labels' => $labels, 'paises' => $select, 'id' => $id, 'values' => $query]);
         }
         else{
             return redirect('pi/boletinescontroller/');
@@ -189,13 +221,24 @@ class BoletinesController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre',
+                'field' => 'id',
+                'label' => 'Nº de Boletin',
+                'rules' => 'trim|required|min_length[3]|max_length[5]|regex_match[/[0-9][0-9][0-9]/]',
+                'errors' => [
+                    'required' => 'Debe Indicar un numero de boletin',
+                    'min_length' => 'El número debe ser mayor de tres digitos',
+                    'max_lenght' => 'El número debe ser menor a cinco digitos',
+                    'regex_match' => "El número de boletin debe ser númerico"
+                ]
+            ],
+            [
+                'field' => 'descripcion',
                 'label' => 'Nombre',
-                'rules' => 'trim|required|min_length[3]|max_length[5]',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
                     'required' => 'Debe Indicar un nombre',
-                    'min_length' => 'El nombre debe ser mayor de tres caracteres',
-                    'max_lenght' => 'El nombre debe ser menor a cinco caracteres'
+                    'min_length' => 'El nombre debe ser mayor de 3 caracteres',
+                    'max_lenght' => 'El nombre debe ser menor a 60 caracteres'
                 ]
             ],
             [
@@ -208,17 +251,19 @@ class BoletinesController extends AdminController
             ],
         );
         $CI->form_validation->set_rules($config);
-        if(!$CI->form_validation->run() == FALSE)
+        if($CI->form_validation->run() == FALSE)
         {
-            //We prepare the data 
+            $this->edit($id);
+        }
+        else {
+            //We prepare the data
+            $unwantDate = explode('/',$data['fecha_publicacion']);
+            $data['fecha_publicacion'] = date('Y-m-d h:i:s', strtotime($unwantDate[2].'-'.$unwantDate[1].'-'.$unwantDate[0]));
             $query = $CI->Boletines_model->update($id, $data);
             if (isset($query))
             {
                 return redirect('pi/boletinescontroller/');
             }
-        }
-        else {
-            return redirect(admin_url('pi/boletinescontroller/edit/'.$id));
         }
     }
 

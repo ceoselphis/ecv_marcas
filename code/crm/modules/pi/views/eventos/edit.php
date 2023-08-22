@@ -8,7 +8,7 @@
                     <div class="panel-body">
                         <?php $CI = &get_instance();?>
                         <?php echo validation_errors(); ?>
-                        <?php echo form_open(admin_url('pi/eventoscontroller/update/'.$id), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/EventosController/update/'.$id), 'form'); ?>
                         <div class="col-md-4">
                             <?php echo form_label($labels[1]);?>
                             <br />
@@ -35,3 +35,18 @@
 
 
 <?php init_tail();?>
+
+
+<script>
+        $("select").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600,
+        })
+        $("select[multiple=multiple]").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600
+        });
+</script>
+
+</body>
+</html>

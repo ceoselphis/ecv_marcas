@@ -5,5 +5,9 @@
     "dictionaries": [],
     "words": [],
     "ignoreWords": [],
-    "import": []
+    "import": [],
+    "enableFiletypes": [
+        "!php"
+    ],
+    "language": "es-ES,es"
 }

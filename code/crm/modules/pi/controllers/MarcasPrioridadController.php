@@ -202,9 +202,7 @@ class MarcasPrioridadController extends AdminController
         $CI->load->model("MarcasPrioridad_model");
         $CI->load->helper('url');
         $query = $CI->MarcasPrioridad_model->delete($id);
-        return redirect('pi/anexoscontroller/');
-        
-        
+        echo json_encode(['code' => 200, 'success' => 'Eliminado exitosamente']);
     }
 
     /**
@@ -219,33 +217,68 @@ class MarcasPrioridadController extends AdminController
         $wDate = explode('/', $data['fecha_prioridad']);
         $insert = array(
             'pais_id' => $data['pais_prioridad'],
-            'num_prioridad' => $data['nro_prioridad'],
+            'numero_prioridad' => $data['nro_prioridad'],
             'fecha_prioridad' => "{$wDate[2]}-{$wDate[1]}-{$wDate[0]}",
-            'solicitud_id'    => $data['solicitud_id']
+            'marcas_id'    => $data['solicitud_id']
         );
         try
         {
             $CI->MarcasPrioridad_model->insert($insert);
-            $query = $CI->MarcasPrioridad_model->findAll();
-            $data = array();
-            foreach($query as $row)
-            {
-                $data[] = array(
-                    'fecha_prioridad' => $row['fecha_prioridad'], 
-                    'pais_id' => $row['pais_id'],
-                    'num_prioridad' => $row['num_prioridad'],
-                    'acciones' => '<form method="DELETE" action='.admin_url("pi/marcasprioridadcontroller/destroy/{$row["prioridad_id"]}").' onsubmit="borrarPrioridad();">
-                    <td>
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                    </td>
-                    </form> ',
-                );
-            }
-
-            $json = json_encode($data);
-            echo $json;
+            echo json_encode(['code' => 200, 'message' => 'Guardado Exitosamente']);
         } catch (Exception $e){
             return $e;
         }
     }
+    
+    public function getAllPrioridades($marcas_id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model("MarcasPrioridad_model");
+        $data = $CI->MarcasPrioridad_model->findAllPrioridadByMarcas($marcas_id);
+        $response = array();
+        foreach($data as $row)
+        {
+            $response[] = [
+                'id' => $row['id'],
+                'fecha_prioridad' => $this->flip_dates($row['fecha_prioridad']),
+                'nombre' => $row['nombre'],
+                'numero' => $row['numero_prioridad'],
+                'acciones' => '<form method="DELETE" action="'.admin_url('pi/MarcasPrioridadController/destroy/'.$row['id']).'" onsubmit="confirm("¿Esta seguro de eliminar este registro?")">
+                                    <button type="submit" class="btn btn-danger deletePrioridad"><i class="fas fa-trash"></i>Borrar</button>
+                               </form>',
+            ];
+        }
+        echo json_encode($response);
+    }
+
+    private function flip_dates($date)
+    {
+        if($date != '')
+        {
+            try{
+                $wdate = explode('-',$date);
+                $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+                return $cdate;
+            }
+            catch (Exception $e)
+            {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        }
+        elseif ($date == '0000-00-00') {
+            try{
+                $wdate = explode('-',$date);
+                $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+                return $cdate;
+            }
+            catch (Exception $e)
+            {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        }
+        else{
+            return '';
+        }
+    }
+
 }

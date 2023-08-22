@@ -4,9 +4,9 @@ init_head();?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
-                <div class="col-md-12"> 
-                <?php echo form_open_multipart(admin_url('pi/MarcasSolicitudesController/update/'.$solicitud[0]['solicitud_id']),['id' => 'solicitudEditfrm' , 'name' => 'solicitudEditfrm']);?>               
-                <?php echo form_hidden('solicitud_id', $solicitud[0]['solicitud_id']);?>
+            <div class="col-md-12">
+                <?php echo form_open_multipart('',['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
+                <?php echo form_hidden('id', $id);?>
                     <div class="panel_s">
                         <div class="panel-body">
                             <div class="wizard">
@@ -46,19 +46,19 @@ init_head();?>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <?php echo form_label('Tipo de solicitud', 'tipo_registro_id');?>
-                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro ,set_value('tipo_registro_id', $registro[0]['reg_num_id']), ['class' => 'form-control'])?>
+                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro ,set_value('tipo_registro_id', $values['tipo_registro_id']), ['class' => 'form-control'])?>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo form_label('Cliente','client_id');?>
+                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $values['client_id']), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Oficina', 'oficina_id')?>
-                                            <?php echo form_dropdown('oficina_id',$oficinas,set_value('oficina_id', $registro[0]['oficina_id']),['class' => 'form-control']);?>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <?php echo form_label('Cliente', 'client_id');?>
-                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $registro[0]['client_id']), ['class' => 'form-control']);?>
+                                            <?php echo form_dropdown('oficina_id',$oficinas,set_value('oficina_id', $values['oficina_id']),['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Responsable','staff_id');?>
-                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $registro[0]['staff_id']), ['class' => 'form-control']);?>
+                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control']);?>
                                         </div>                    
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -74,20 +74,17 @@ init_head();?>
                                                 'name'     => 'pais_id',
                                                 'class'    => 'form-control',
                                                 'multiple' => 'multiple',
-                                                'options' =>   $pais_id,
-                                                'required' => 'required',
-                                                'selected'    => set_value('pais_id', array_keys($paises_designados)),
-                                            ]);?>
+                                                'options' => $pais_id,
+                                                'selected' => set_value('pais_id', $values['pais_id'])
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-2">
-                                        <?php echo form_label('Signo', 'descripcion');?>
-                                        <?php 
-                                        $descSigno = empty($signos_solicitud) ? '': $signos_solicitud['descripcion'];
-                                        echo form_input([
-                                            'id'    =>   'descripcion-signo',
-                                            'name'  =>   'descripcion-signo',
+                                    <div class="col-md-2">  
+                                        <?php echo form_label('Signo', 'signonom');?>
+                                        <?php echo form_input([
+                                            'id'    =>   'signonom',
+                                            'name'  =>   'signonom',
                                             'class' =>   'form-control',
-                                            'value' => set_value('descripcion-signo', $descSigno)
+                                            'value' =>  set_value('signonom', $values['signonom'])
                                         ]);?>
                                     </div>
                                     <div class="col-md-1" style="padding-left:1%; padding-top:1.75%">
@@ -95,14 +92,11 @@ init_head();?>
                                     </div>
                                     <div class="col-md-3">
                                         <?php echo form_label('Tipo Signo', 'tipo_signo_id');?>
-                                        <?php $solicitudSigno = empty($signos_solicitud) ? '': $signos_solicitud['tipo_signo_id']; ?>
                                         <?php echo form_dropdown([
                                             'id'        => 'tipo_signo_id',
                                             'name'      => 'tipo_signo_id',
                                             'class'     => 'form-control',
                                             'options'   =>  $tipos_signo_id,
-                                            'required' => 'required',
-                                            'selected' => $solicitudSigno,
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -112,9 +106,8 @@ init_head();?>
                                             'name'     => 'clase_niza_id',
                                             'class'    => 'form-control',
                                             'multiple' => 'multiple',
-                                            'options' =>  $clase_niza_id,
-                                            'required' => 'required',
-                                            'selected' => array_keys($clases_solicitantes),
+                                            'options' => $clase_niza_id,
+                                            'selected' => set_value('clase_niza_id', $values['clase_niza_id'])
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
@@ -124,9 +117,8 @@ init_head();?>
                                             'name'     => 'solicitantes_id',
                                             'class'    => 'form-control',
                                             'multiple' => 'multiple',
-                                            'options' => $clientes,
-                                            'required' => 'required',
-                                            'selected' => array_keys($solicitantes)
+                                            'options' => $solicitantes,
+                                            'selected' => set_value('solicitantes_id', $values['solicitantes_id'])
                                         ]);?>
                                     </div>
                                     
@@ -139,69 +131,47 @@ init_head();?>
                                 </div>
                                 <!-- Step 3 --->
                                 <div class="tab-pane" role="tabpanel" id="step3">
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Tipo Solicitud', 'tipo_id');?>
+                                    <div class="col-md-2">
+                                        <?php echo form_label('Tipo Solicitud', 'tipo_solicitud_id');?>
                                         <?php echo form_dropdown([
-                                            'id'        => 'tipo_id',
-                                            'name'      => 'tipo_id',
+                                            'id'        => 'tipo_solicitud_id',
+                                            'name'      => 'tipo_solicitud_id',
                                             'class'     => 'form-control',
                                             'options'   => $tipo_solicitud,
-                                            'selected'  => set_value('tipo_id', $solicitud[0]['tipo_id']),
+                                            'selected'  => set_value('tipo_solicitud_id', $values['tipo_solicitud_id']),
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Clase Nacional', 'clase_nacional');?>
-                                        <?php echo form_input('clase_nacional', set_value('clase_nacional', $solicitud[0]['clase_nacional']), ['class' => 'form-control', 'type' => 'range']);?>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Referencia interna', 'ref_interna');?>
-                                        <?php echo form_input('ref_interna', set_value('ref_interna', $registro[0]['ref_interna']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('ref_interna', set_value('ref_interna', $values['ref_interna']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Referencia cliente', 'ref_cliente');?>
-                                        <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control'])?>
+                                        <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
-                                        <?php 
-                                        if($solicitud[0]['primer_uso'] != '')
-                                        {
-                                            $primer_uso = explode('-', $solicitud[0]['primer_uso']);
-                                            $wDate = "{$primer_uso[2]}/{$primer_uso[1]}/{$primer_uso[0]}";
-                                        }
-                                        else{
-                                            $wDate = '';
-                                        }
-                                        echo form_input('primer_uso', set_value('primer_uso', $wDate), ['class' => 'form-control calendar', 'required' => 'required'])?>
+                                        <?php echo form_input('primer_uso', set_value('primer_uso', $values['primer_uso']), ['class' => 'form-control calendar'])?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso');?>
-                                        <?php 
-                                        if($solicitud[0]['primer_uso'] != '')
-                                        {
-                                            $primer_uso = explode('-', $solicitud[0]['prueba_uso']);
-                                            $wDate = "{$primer_uso[2]}/{$primer_uso[1]}/{$primer_uso[0]}";
-                                        }
-                                        else{
-                                            $wDate = '';
-                                        }
-                                        echo form_input('prueba_uso', set_value('prueba_uso', $wDate), ['class' => 'form-control calendar'])?>
+                                        <?php echo form_input('prueba_uso', set_value('prueba_uso', $values['prueba_uso']), ['class' => 'form-control calendar'])?>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Carpeta', 'carpeta');?>
-                                        <?php echo form_input('carpeta', set_value('carpeta', $registro[0]['carpeta']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Libro', 'libro');?>
-                                        <?php echo form_input('libro', set_value('libro', $registro[0]['libro']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Tomo', 'tomo');?>
-                                        <?php echo form_input('tomo', set_value('tomo', $registro[0]['tomo']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Folio', 'folio');?>
-                                        <?php echo form_input('folio', set_value('folio', $registro[0]['folio']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%" >
                                         <div class="all-info-container">
@@ -210,10 +180,10 @@ init_head();?>
                                                 <div class="collapse" id="prioridad">
                                                     <div class="list-box">
                                                         <div class="col-12" >
-                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
+                                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
                                                         </div>
-                                                        <div class="col-12" style="padding: 1% 1% 1% 0%;">    
-                                                            <table class="table table-responsive table-dark">
+                                                        <div class="col-md-12">    
+                                                            <table class="table table-responsive" id="prioridadTbl">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Fecha</th>
@@ -222,8 +192,12 @@ init_head();?>
                                                                         <th>Acciones</th>
                                                                     </tr>
                                                                 </thead>
+                                                                <tbody>
+
+                                                                </tbody>
                                                             </table> 
                                                         </div>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>    
@@ -231,7 +205,7 @@ init_head();?>
                                     </div>
                                     <div class="col-md-12">
                                         <?php echo form_label('Comentarios', 'comentarios');?>
-                                        <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control']);?>
+                                        <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control']);?>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
@@ -242,8 +216,8 @@ init_head();?>
                                 <!-- Step 4 -->
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="col-md-12">
-                                        <?php echo form_label('Estado de Solicitud', 'cod_estado_id');?>
-                                        <?php echo form_dropdown('cod_estado_id', $estados_solicitudes, set_value('cod_estado_id', $solicitud[0]['cod_estado_id']), ['class' => 'form-control']);?>
+                                        <?php echo form_label('Estado de Solicitud', 'estado_id');?>
+                                        <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control']);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Nº de Solicitud'); ?>
@@ -251,56 +225,40 @@ init_head();?>
                                             'id' => 'num_solicitud',
                                             'name' => 'num_solicitud',
                                             'class' => 'form-control',
-                                            'value' => set_value('numero_solicitud', $solicitud[0]['numero_solicitud']),
+                                            'value' => set_value('num_solicitud', $values['solicitud']),
                                             'placeholder' => 'Nº de Solicitud'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Solicitud'); ?>
                                         <?php 
-                                        if($solicitud[0]['fecha_solicitud'] != '')
-                                        {
-                                            $fecha_solicitud = explode('-', $solicitud[0]['fecha_solicitud']);
-                                            $wDate = "{$fecha_solicitud[2]}/{$fecha_solicitud[1]}/{$fecha_solicitud[0]}";
-                                        }
-                                        else{
-                                            $wDate = '';
-                                        }
                                         echo form_input([
                                             'id' => 'fecha_solicitud',
                                             'name' => 'fecha_solicitud',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud', $wDate),
+                                            'value' => set_value('fecha_solicitud', $values['fecha_solicitud']),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Nº de Registro'); ?>
-                                        <?php echo form_input([
+                                        <?php 
+                                        echo form_input([
                                             'id' => 'num_registro',
                                             'name' => 'num_registro',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_registro', $solicitud[0]['num_registro']),
+                                            'value' => set_value('num_registro', $values['registro']),
                                             'placeholder' => 'Nº Registro'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label("Fecha de registro"); ?>
                                         <?php 
-                                        if($solicitud[0]['fecha_registro'] != '')
-                                        {
-                                            $fecha_registro = explode('-', $solicitud[0]['fecha_registro']);
-                                            $wDate = "{$fecha_registro[0]}/{$fecha_registro[1]}/{$fecha_registro[2]}";
-                                        }
-                                        else
-                                        {
-                                            $wDate = '';
-                                        }
                                         echo form_input([
                                             'id' => 'fecha_registro',
                                             'name' => 'fecha_registro',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_registro', $wDate),
+                                            'value' => set_value('fecha_registro', $values['fecha_registro']),
                                             'placeholder' => 'Fecha de Registro'
                                         ]);?>
                                     </div>
@@ -310,48 +268,29 @@ init_head();?>
                                             'id' => 'num_certificado',
                                             'name' => 'num_certificado',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_certificado', $solicitud[0]['num_certificado']),
+                                            'value' => set_value('num_certificado', $values['certificado']),
                                             'placeholder' => 'Nº de Certificado'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label("Fecha de certificado"); ?>
-                                        
                                         <?php 
-                                        if($solicitud[0]['fecha_certificado']  != '')
-                                        {
-                                            $fecha_registro = explode('-', $solicitud[0]['fecha_registro']);
-                                            $wDate = "{$fecha_registro[0]}/{$fecha_registro[1]}/{$fecha_registro[2]}";
-                                        }
-                                        else
-                                        {
-                                            $wDate = '';
-                                        }
                                         echo form_input([
                                             'id' => 'fecha_certificado',
                                             'name' => 'fecha_certificado',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_certificado', $solicitud[0]['fecha_certificado']),
+                                            'value' => set_value('fecha_certificado', $values['fecha_certificado']),
                                             'placeholder' => 'Fecha de Certificado'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Vencimiento'); ?>
                                         <?php 
-                                        if($solicitud[0]['fecha_vencimiento'] != '')
-                                        {
-                                            $fecha_vencimiento = explode('-', $solicitud[0]['fecha_vencimiento']);
-                                            $wDate = "{$fecha_vencimiento[0]}/{$fecha_vencimiento[1]}/{$fecha_vencimiento[2]}";
-                                        }
-                                        else
-                                        {
-                                            $wDate = '';
-                                        }
                                         echo form_input([
                                             'id' => 'fecha_vencimiento',
                                             'name' => 'fecha_vencimiento',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_vencimiento', $wDate),
+                                            'value' => set_value('fecha_vencimiento', $values['fecha_vencimiento']),
                                             'placeholder' => 'Fecha Vencimiento'
                                         ]);?>
                                     </div>
@@ -390,7 +329,7 @@ init_head();?>
                                 <!-- Step 5 -->
                                 <div class="tab-pane" role="tabpanel" id="step5">
                                     <div class="col-md-12" >
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
+                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
@@ -413,7 +352,7 @@ init_head();?>
                                 <!-- Step 6 -->
                                 <div class="tab-pane" role="tabpanel" id="step6">
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#">Añadir Evento</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
@@ -437,7 +376,12 @@ init_head();?>
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#">Añadir Anexo</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Renovacion</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cesion</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Licencia</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Fusion</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Nombre</button>
+                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Domicilio</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
@@ -683,7 +627,7 @@ init_head();?>
       <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-                <?php echo form_label('Archivo', 'doc_archivo');?>
+                <?php echo form_label('Archivo', 'signo_archivo');?>
                 <?php echo form_input([
                     'id' => 'signo_archivo',
                     'name' => 'signo_archivo',
@@ -693,13 +637,19 @@ init_head();?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Descripcion', 'descripcion_signo');?>
-                <?php echo form_textarea('doc_descripcion','', ['class' => 'form-control']);?>
+                <?php echo form_textarea('descripcion_signo', '' , ['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentarios', 'comentario_signo');?>
                 <?php echo form_input('comentario_signo','',['class' => 'form-control']);?>
             </div>
-            
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+            <?php if(isset($values['signo_archivo'])) { ?>
+                <img class="img-responsive" src="<?php echo $values['signo_archivo'];?>" alt="<?php echo $values['signonom'];?>">
+            <?php } ?>
+            </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -715,42 +665,40 @@ init_head();?>
 
 
 <?php init_tail();?>
-<link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 
-<?php init_tail();?>
-
     <script>
-    function fecha(){
-        var hoy = new Date();
-        var dd = hoy.getDate();
-        var mm = hoy.getMonth()+1;
-        var yy = hoy.getFullYear();
-        var fecha = '';
-        if(dd<10){
-            dd = '0'+dd;
+        var formData = new FormData();
+        function fecha(){
+            var hoy = new Date();
+            var dd = hoy.getDate();
+            var mm = hoy.getMonth()+1;
+            var yy = hoy.getFullYear();
+            var fecha = '';
+            if(dd<10){
+                dd = '0'+dd;
+            }
+            else if(mm<10){
+                mm = '0'+mm;
+            }
+            fecha = dd+"/"+mm+"/"+yy;
+            return fecha;
         }
-        else if(mm<10){
-            mm = '0'+mm;
-        }
-        fecha = dd+"/"+mm+"/"+yy;
-        return fecha;
-    }
 
 
-    $(".calendar").on('keyup', function(e){
-        e.preventDefault();
-        $(".calendar").val('');
-    })
-    $( function() {
-        $(".calendar").datetimepicker({
-            maxDate: fecha(),
-            weeks: true,
-            format: 'd/m/Y',
-            timepicker:false,
+        $(".calendar").on('keyup', function(e){
+            e.preventDefault();
+            $(".calendar").val('');
+        })
+        $( function() {
+            $(".calendar").datetimepicker({
+                maxDate: fecha(),
+                weeks: true,
+                format: 'd/m/Y',
+                timepicker:false,
+            });
         });
-    });
     </script>
     <script>
         $("select").selectpicker({
@@ -762,13 +710,7 @@ init_head();?>
             virtualScroll: 600
         });
     </script>
-    <script>
-        new DataTable(".table-responsive", {
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-            }
-        });
-    </script>
+    
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto');
@@ -1122,45 +1064,70 @@ init_head();?>
         
     </style>
     <script>
-        function getFormData(){
-            var config = {};
-            $('input').each(function () {
-                config[this.name] = this.value;
-            });
-            $("select").each(function()
-            {
-                config[this.name] = this.value;
-            });
-            return config;
-        }
-        $("#solicitudEditfrm").on('submit', function(e)
+        $("#solicitudfrm").on('submit', function(e)
         {
             e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
             formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-            formData.append('signo_archivo' , document.getElementById('signo_archivo').files[0]);
-            formData.append('doc_descripcion', $("textarea[name=doc_descripcion]").val());
-            formData.append('comentario_signo', $("input[name=comentario_signo").val())
-            formData.append('solicitud', JSON.stringify(data));
+            formData.append('id' , $("input[name=id]").val());
+            formData.append('tipo_registro_id', $("select[name=tipo_registro_id]").val());
+            formData.append('client_id', $("select[name=client_id]").val());
+            formData.append('oficina_id', $("select[name=oficina_id]").val());
+            formData.append('staff_id', $("select[name=staff_id]").val());
+            //Pais_id fill
+            pais_id = JSON.stringify($("select[name=pais_id]").val());
+            formData.append('pais_id', pais_id);
+            //Clase_niza_id fill
+            clase_niza = JSON.stringify($("select[name=clase_niza_id]").val());
+            formData.append('clase_niza', clase_niza);
+            //solicitantes fill
+            solicitantes = JSON.stringify($("select[name=solicitantes_id]").val());
+            formData.append('solicitantes_id', solicitantes);
+            formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
+            formData.append('ref_interna', $("input[name=ref_interna]").val());
+            formData.append('ref_cliente', $('input[name=ref_cliente]').val());
+            formData.append('primer_uso', $('input[name=primer_uso').val());
+            formData.append('prueba_uso', $('input[name=prueba_uso]').val());
+            formData.append('carpeta', $("input[name=carpeta]").val());
+            formData.append('libro', $("input[name=libro]").val());
+            formData.append('tomo', $("input[name=tomo]").val());
+            formData.append('folio', $("input[name=folio]").val());
             formData.append('comentarios', $("textarea[name=comentarios]").val());
-            formData.append('paises_solicitantes', $("#pais_id").val());
-            formData.append('clase_niza_id', $("#clase_niza_id").val());
-            formData.append('solicitantes_id', $("#solicitantes_id").val());
+            formData.append('estado_id', $("select[name=estado_id]").val());
+            formData.append('solicitud', $("input[name=num_solicitud]").val());
+            formData.append('fecha_solicitud', $("input[name=fecha_solicitud]").val());
+            formData.append('registro', $("input[name=num_registro]").val());
+            formData.append('fecha_registro', $("input[name=fecha_registro]").val());
+            formData.append('certificado', $("input[name=num_certificado]").val());
+            formData.append('fecha_certificado', $("input[name=fecha_certificado]").val());
+            formData.append('fecha_vencimiento', $("input[name=fecha_vencimiento]").val());
+            formData.append('signo_archivo', $('input[name=signo_archivo]')[0].files[0]);
+            formData.append('signonom', $("input[name=signonom]").val());
+            formData.append('descripcion_signo', $("textarea[name=descripcion_signo]").val());
+            formData.append('comentario_signo', $("input[name=comentario_signo]").val());
+            formData.append('tipo_signo_id', $('select[name=tipo_signo_id]').val());
             $.ajax({
-                url:'<?php echo admin_url("pi/MarcasSolicitudesController/update/{$solicitud[0]['solicitud_id']}");?>',
+                url:'<?php echo admin_url("pi/MarcasSolicitudesController/update/{$id}");?>',
                 method: 'POST',
                 data: formData,
                 processData: false,
-                contentType: false
-            }).then(function(response){
-                location.href = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$solicitud[0]['solicitud_id']}");?>';
-            }).catch(function(response){
-                <?php if(ENVIRONMENT != 'production') { ?>
-                 alert(response);
-                <?php } else { ?>
-                    alert('ha ocurrido un error');
-                <?php } ?>
+                contentType: false,
+                success:function(response)
+                {
+                    data = JSON.parse(response);
+                    <?php if(ENVIRONMENT == 'production') { ?>
+                        location.reload();
+                    <?php } else { ?>
+                        alert_float('success', data.message);
+                    <?php } ?>
+                },
+                fail: function(request)
+                {
+                        <?php if(ENVIRONMENT != 'production') { ?>
+                            alert(response);
+                            <?php } else { ?>
+                                alert('ha ocurrido un error');
+                        <?php } ?>
+                }
             });
         });
 
@@ -1171,60 +1138,147 @@ init_head();?>
                 'pais_prioridad' : $("select[name=pais_prioridad").val(),
                 'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
                 'nro_prioridad'  : $("input[name=nro_prioridad").val(),
-                'solicitud_id'   : $("input[name=solicitud_id").val(),
+                'solicitud_id'   : $("input[name=id").val(),
             }
             $.ajax({
                 url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>',
                 method: 'POST',
-                data : data
+                data : data,
             }).then(function(response){
-                new DataTable("#prioridadTbl", {
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                    ajax: JSON.parse(response.data),
-                }
+                $.ajax({
+                    url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                    method: "GET",
+                    success: function(response)
+                    {
+                        table = JSON.parse(response);
+                        $("#prioridadTbl").DataTable({
+                            language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                            },
+                            data: table,
+                            destroy: true,
+                            dataSrc: '',
+                            columns : [
+                                { data: 'fecha_prioridad'},
+                                { data: 'nombre'},
+                                { data: 'numero'},
+                                { data: 'acciones'},
+                            ],
+                            width: "100%"
+                        });
+                    }
                 });
+                $("#prioridadfrmsubmit")[0].reset();
                 $("#prioridadModal").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar una prioridad sin registro de la solicitud");
             });
         });
 
+        $(".deletePrioridad").on('click', function(e){
+            e.preventDefault();
+            id = $(this).attr('id');
+            $.ajax(
+            {
+                url: "<?php echo admin_url("pi/MarcasPrioridadController/destroy/{$id}");?>",
+                method: 'POST',
+                success: function(response)
+                {
+                    $.ajax({
+                        url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                        method: "GET",
+                        success: function(response)
+                        {
+                            table = JSON.parse(response);
+                            $("#prioridadTbl").DataTable({
+                                language: {
+                                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                                },
+                                data: table,
+                                destroy: true,
+                                dataSrc: '',
+                                columns : [
+                                    { data: 'fecha_prioridad'},
+                                    { data: 'nombre'},
+                                    { data: 'numero'},
+                                    { data: 'acciones'},
+                                ],
+                                width: "100%"
+                            });
+                        }
+                    })        
+                }
+            })
+        })
+
+        $(document).ready(function(){
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                method: "GET",
+                success: function(response)
+                {
+                    table = JSON.parse(response);
+                    $("#prioridadTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: table,
+                        destroy: true,
+                        dataSrc: '',
+                        columns : [
+                            { data: 'fecha_prioridad'},
+                            { data: 'nombre'},
+                            { data: 'numero'},
+                            { data: 'acciones'},
+                        ],
+                        width: "100%"
+                    });
+                }
+            })
+        });
+
+        
+
+
+
+
+
+
+
+
         // ------------step-wizard-------------
-    $(document).ready(function () {
-        $('.nav-tabs > li a[title]').tooltip();
-        
-        //Wizard
-        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        $(document).ready(function () {
+            $('.nav-tabs > li a[title]').tooltip();
+            
+            //Wizard
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
 
-            var $target = $(e.target);
-        
-            if ($target.parent().hasClass('disabled')) {
-                return false;
-            }
+                var $target = $(e.target);
+            
+                if ($target.parent().hasClass('disabled')) {
+                    return false;
+                }
+            });
+
+            $(".next-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                $active.next().removeClass('disabled');
+                nextTab($active);
+
+            });
+            $(".prev-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                prevTab($active);
+
+            });
         });
 
-        $(".next-step").click(function (e) {
-
-            var $active = $('.wizard .nav-tabs li.active');
-            $active.next().removeClass('disabled');
-            nextTab($active);
-
-        });
-        $(".prev-step").click(function (e) {
-
-            var $active = $('.wizard .nav-tabs li.active');
-            prevTab($active);
-
-        });
-    });
-
-    function nextTab(elem) {
-        $(elem).next().find('a[data-toggle="tab"]').click();
-    }
-    function prevTab(elem) {
-        $(elem).prev().find('a[data-toggle="tab"]').click();
-    }
+        function nextTab(elem) {
+            $(elem).next().find('a[data-toggle="tab"]').click();
+        }
+        function prevTab(elem) {
+            $(elem).prev().find('a[data-toggle="tab"]').click();
+        }
 
     </script>
 </body>

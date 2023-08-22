@@ -4,9 +4,6 @@
     <div class="content">
         <div class="row">
             <div class="col-md-12">
-                <pre>
-                    <?php var_dump($fields);?>
-                </pre>
                 <div class="panel_s">
                     <div class="panel-body">
                         <?php echo form_open(admin_url('pi/TiposEventosController/store'), 'form'); ?>

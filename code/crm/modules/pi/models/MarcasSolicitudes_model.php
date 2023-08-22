@@ -340,15 +340,14 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_tipos_eventos');
-        $this->db->join('tbl_materias', 'tbl_materias.id = tbl_tipos_eventos.id');
-        $this->db->where('tbl_materias.nombre  LIKE "%Marcas%"');
+        $this->db->where('materia_id  = 2');
         $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
-            array_push($values, $row['nombre']);
+            array_push($values, $row['descripcion']);
         }
         return array_combine($keys, $values);
     }

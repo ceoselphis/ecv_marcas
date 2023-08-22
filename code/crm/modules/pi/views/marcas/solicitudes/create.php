@@ -477,7 +477,7 @@ init_head();?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Boletin', 'boletin_publicacion');?>
-                <?php echo form_input('boletin_publicacion', '', ['class' => 'form-control calendar']);?>
+                <?php echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion') , ['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Tomo', 'tomo_publicacion');?>
@@ -1107,8 +1107,8 @@ init_head();?>
                                 alert('ha ocurrido un error');
                         <?php } ?>
                 }
+            });
         });
-    });
 
 
         $("#prioridadfrmsubmit").on('click', function(e){

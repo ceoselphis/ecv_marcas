@@ -76,6 +76,7 @@ class MarcasSolicitudesController extends AdminController
             'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+            'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
             'id'                    => intval($CI->MarcasSolicitudes_model->setCountPK())
         ]);
                                 
@@ -226,6 +227,7 @@ class MarcasSolicitudesController extends AdminController
             'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+            'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
             'id'                    => $id
         ]);
         

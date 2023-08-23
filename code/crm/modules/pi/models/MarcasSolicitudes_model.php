@@ -637,4 +637,13 @@ class MarcasSolicitudes_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function findAllMarcasDomicilio()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_cambio_domicilio');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
 }

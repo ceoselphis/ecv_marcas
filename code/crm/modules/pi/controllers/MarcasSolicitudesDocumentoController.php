@@ -159,8 +159,6 @@ class MarcasSolicitudesDocumentoController extends AdminController
                             'comentario' => $data['comentario_archivo'],
                             'path' => $doc_arch,
                     );
-            $json = json_encode($insert);
-            echo $json;
             $CI->load->model("MarcasSolicitudesDocumento_model");
                 try{
                     $query = $CI->MarcasSolicitudesDocumento_model->insert($insert);
@@ -173,56 +171,43 @@ class MarcasSolicitudesDocumentoController extends AdminController
                 }catch (Exception $e){
                     return $e;
                 }
-        //     //$wDate = explode('/', $data['fecha_prioridad']);
-        //     $doc_num=$data['path'];
-        //     var_dump("doc_num ",$doc_num);
-
-            
-        //     $insert = array(
-        //             'id' => $data['id'],
-        //             'marcas_id' => $data['marcas_id'],
-        //             'descripcion' => $data['descripcion'],
-        //             'path' => $doc_num,
-        //     );
-        //     $json = json_encode($insert);
-            
-        //     try
-        //     {
-        //         $query = $CI->MarcasSolicitudesDocumento_model->insert($insert);
-        //         if (isset($query)){
-        //             echo "Insertado Correctamente";
-
-        //         }else {
-        //             echo "No hemos podido Insertar";
-        //         }
-        //        $query = $CI->MarcasSolicitudesDocumento_model->findAll();
-        //         $data = array();
-        //         foreach($query as $row)
-        //         {
-        //             $data[] = array(
-        //                 'id ' => $row['id'],
-        //                 'marcas_id' => $row['marcas_id'],
-        //                 'descripcion' => $row['descripcion'],
-        //                 'path' => $row['path'],
-        //                 'acciones' => '<form method="DELETE" action='.admin_url("pi/marcasprioridadcontroller/destroy/{$row["prioridad_id"]}").' onsubmit="borrarPrioridad();">
-        //                 <td>
-        //                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-        //                 </td>
-        //                 </form> ',
-        //             );
-        //         }
-    
-        //        $json = json_encode($data);
-        //         echo $json;
-        //     } catch (Exception $e){
-        //         return $e;
-        //     }
         }
         else {
             echo "No tiene Data";
         }
         
     }
+    public function EditDoc(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudesDocumento_model");
+        $query =$CI->MarcasSolicitudesDocumento_model->find($id);
+        echo json_encode($query);   
+     }
+
+     public function UpdateDocumento(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudesDocumento_model");
+        $data = $CI->input->post();
+        $file = $_FILES;
+        $doc_arch =$file['doc_archivo']['name'];
+        //echo json_encode($doc_arch);
+  
+        if (!empty($data)){
+            $insert = array(
+                            'marcas_id' => 1,
+                            'descripcion' => $data['doc_descripcion'],
+                            'comentario' => $data['comentario_archivo'],
+                            'path' => $doc_arch,
+                    );
+                    $query = $CI->MarcasSolicitudesDocumento_model->update($id, $insert);
+                    if (isset($query))
+                    {
+                        echo "Actualizado Correctamente";
+                    }else {
+                        echo "no hemos podido Actualizar";
+                    }
+        }            
+     }
     /**
      * Shows a form to edit the data
      */

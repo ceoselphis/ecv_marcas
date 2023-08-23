@@ -93,9 +93,7 @@ class TareasController extends AdminController
         echo json_encode($query);
      }
 
-    public function unaTareas(){
-
-    }
+    
      public function EditTareas(string $id = null){
         $CI = &get_instance();
         $CI->load->model("Tareas_Model");
@@ -128,11 +126,6 @@ class TareasController extends AdminController
                         echo "Insertado Correctamente";
                     }
         }            
-        
-       
-        //We validate the data
-        //TODO
-        //We prepare the data 
      }
     public function store()
     {

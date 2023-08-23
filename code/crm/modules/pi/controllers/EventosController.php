@@ -60,6 +60,34 @@ class EventosController extends AdminController
         }
      }
 
+     public function EditEventos(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Eventos_model");
+        $query =$CI->Eventos_model->find($id);
+        echo json_encode($query);   
+     }
+
+     public function UpdateEventos(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Eventos_model");
+        $data = $CI->input->post();
+        
+        if (!empty($data)){
+            $insert = array(
+                            'tipo_evento_id' => $data['tipo_evento'],
+                            'marcas_id' => 1,
+                            'comentarios' => $data['comentarios'],
+                            'fecha' => date('Y-m-d'),
+                    );
+                   
+
+                    $query = $CI->Eventos_model->update($id, $insert);
+                    if (isset($query))
+                    {
+                        echo "Actualizado Correctamente";
+                    }
+        }  
+    }
     public function create()
     {
         $CI = &get_instance();

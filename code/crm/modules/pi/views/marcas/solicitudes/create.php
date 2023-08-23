@@ -461,7 +461,7 @@ init_head();?>
                                             <tbody >
                                             <?php if (!empty($SolDoc)) {?>
                                                 <?php foreach ($SolDoc as $row) {?>
-                                                    <tr>
+                                                    <tr docid = "<?php echo $row['id'];?>">
                                                         <td><?php echo $row['id'];?></td>
                                                         <td><?php echo $row['marcas_id'];?></td>
                                                         <td><?php echo $row['descripcion'];?></td>
@@ -469,7 +469,7 @@ init_head();?>
                                                         <td><?php echo $row['comentario'];?></td>
                                                         <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                             <td>
-                                                                <a class="btn btn-light"  href="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                                <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
                                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                             </td>
                                                         </form> 
@@ -599,6 +599,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
+
 <!-- Publicacion Modal -->
 <div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
@@ -682,6 +683,7 @@ init_head();?>
       </div>
       <div class="modal-body">
         <div class="row">
+        <input type="hidden" id="Eventoid">
             <div class="col-md-12">
                 <?php echo form_label('Tipo Evento', 'tipo_evento');?>
                 <?php echo form_dropdown(['name'=>'edittipo_evento','id'=>'edittipo_evento'], $tipo_evento, '',['class' => 'form-control']);?>
@@ -786,19 +788,20 @@ init_head();?>
       </div>
       <div class="modal-body">
         <div class="row">
+            <input type="hidden" id="Documento_id">
             <div class="col-md-12">
                 <?php echo form_label('Descripcion', 'descripcion_archivo');?>
-                <?php echo form_input(['name'=>'doc_descripcion','id'=>'doc_descripcion'],'', ['class' => 'form-control']);?>
+                <?php echo form_input(['name'=>'editdoc_descripcion','id'=>'editdoc_descripcion'],'', ['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentarios', 'comentario_archivo');?>
-                <?php echo form_textarea(['name'=>'comentario_archivo', 'id'=>'comentario_archivo'],'',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'editcomentario_archivo', 'id'=>'editcomentario_archivo'],'',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Archivo', 'doc_archivo');?>
                 <?php echo form_input([
-                    'id' => 'doc_archivo',
-                    'name' => 'doc_archivo',
+                    'id' => 'editdoc_archivo',
+                    'name' => 'editdoc_archivo',
                     'type' => 'file',
                     'class' => 'form-control',
                     'multiple' => 'multiple',
@@ -808,7 +811,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="documentofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="documentoeditfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>
@@ -863,14 +866,32 @@ init_head();?>
 <?php init_tail();?>
 
     <script>
-        
-
+         //Modal Edit Documento
+         $(document).on('click','.editdoc',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            console.log(element);
+            let id = $(element).attr('docid');
+            console.log(id);
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/EditDoc/");?>';
+            url = url + id;
+            console.log(url);
+            $.post(url,{id},function(response){
+            //console.log(response);
+            let doc =JSON.parse(response);
+            console.log("id ",doc[0]['id']);
+            $('#Documento_id').val(doc[0]['id']);
+            $('#editdoc_descripcion').val(doc[0]['descripcion']);
+            $('#editcomentario_archivo').val(doc[0]['comentario']);
+            $('#editdoc_archivo').val(doc[0]['path']);
+            })
+        })
+        //Modal Edit Tareas 
         $(document).on('click','.edit',function(){
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('taskId');
-        let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
-        url = url + id;
-        $.post(url,{id},function(response){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('taskId');
+            let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
             // console.log(response);
             let tareas =JSON.parse(response);
             console.log(tareas[0]['tipo_tareas_id']);
@@ -880,21 +901,22 @@ init_head();?>
             })
         })
 
+        //Modal Edit Eventos
         $(document).on('click','.editeventos',function(){
-        let element = $(this)[0].parentElement.parentElement;
-        console.log(element);
-        let id = $(element).attr('eventosid');
-        console.log(id);
-        // let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
-        // url = url + id;
-        // $.post(url,{id},function(response){
-        //     // console.log(response);
-        //     let tareas =JSON.parse(response);
-        //     console.log(tareas[0]['tipo_tareas_id']);
-        //     $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
-        //     $('#editdescripcion').val(tareas[0]['descripcion']);
-        //     $('#Tareaid').val(tareas[0]['id']);
-        //     })
+            let element = $(this)[0].parentElement.parentElement;
+            console.log(element);
+            let id = $(element).attr('eventosid');
+            console.log(id);
+            let url = '<?php echo admin_url("pi/EventosController/EditEventos/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
+            console.log(response);
+            let eventos =JSON.parse(response);
+            console.log("Tipo Evento ",eventos[0]['tipo_evento_id']);
+            $('#edittipo_evento').val(eventos[0]['tipo_evento_id']);
+            $('#editevento_comentario').val(eventos[0]['comentarios']);
+            $('#Eventoid').val(eventos[0]['id']);
+            })
         })
 
         function getFormData(){
@@ -908,8 +930,9 @@ init_head();?>
             });
             return config;
         }
+        //----------------------------------- Modad Para Añadir y Editar -----------------------------------------------
 
-        //Añadir Documento
+        //Añadir Documento ---------------------------------------------------------------------------
         $(document).on('click','#documentofrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
@@ -944,7 +967,45 @@ init_head();?>
             });
         });
 
-        //Añadir Evento
+        //Editar Documento ---------------------------------------------------------------------------
+        $(document).on('click','#documentoeditfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#Documento_id').val();
+            var description =  $('#editdoc_descripcion').val();
+            var comentario_archivo = $('#editcomentario_archivo').val();
+            var doc_archivo = $('#editdoc_archivo')[0].files[0];
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('doc_descripcion' , description);
+            formData.append('comentario_archivo', comentario_archivo);
+            formData.append('doc_archivo', doc_archivo);
+            formData.append('csrf_token_name', csrf_token_name);
+            console.log("id ",id);
+            console.log("descripcion ",description);
+            console.log("Comentario archivo ",comentario_archivo);
+            console.log("Documento Archivo ",doc_archivo );
+            console.log("csrf_token_name", csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/UpdateDocumento/");?>'
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+               // console.log(response);
+                alert_float('success', "Actualizado Correctamente");
+                $("#docModalEdit").modal('hide');
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+
+        //Añadir Evento ---------------------------------------------------------------------------
         $(document).on('click','#eventosfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
@@ -976,7 +1037,43 @@ init_head();?>
             });
         });
 
-        //Añadir Tareas
+        //Editar Evento ---------------------------------------------------------------------------
+        $(document).on('click','#editeventosfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#Eventoid').val();
+            var tipo_evento =  $('#edittipo_evento').val();
+            var comentarios = $('#editevento_comentario').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('tipo_evento' , tipo_evento);
+            formData.append('comentarios', comentarios);
+            formData.append('id', id);
+            console.log('id ',id); 
+            console.log("tipo_evento ",tipo_evento);
+            console.log("comentarios",comentarios);
+            console.log("csrf_token_name", csrf_token_name);
+            console.log("Form Data ", formData);
+            let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/");?>'
+            console.log(url);
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                console.log(response);
+                $("#eventoModalEdit").modal('hide');
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+
+        //Añadir Tareas ---------------------------------------------------------------------------
         $(document).on('click','#tareasfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
@@ -1008,7 +1105,7 @@ init_head();?>
             });
         });
 
-        //Editar Tareas
+        //Editar Tareas ---------------------------------------------------------------------------
         $(document).on('click','#tareaseditfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
@@ -1038,7 +1135,7 @@ init_head();?>
             }).then(function(response){
                alert_float('success', "Actualizado Correctamente");
                 $("#EditTask").modal('hide');
-                location.reload();
+               // location.reload();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });

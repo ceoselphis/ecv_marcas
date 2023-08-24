@@ -1,4 +1,5 @@
 <?php init_head();?>
+<?php $CI = &get_instance();?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -31,9 +32,40 @@
                                             </tr>
                                         </thead>
                                         <tbody >
-                                            <tr>
-                                                <td colspan="13" class="text-center">Seleccione un tópico para filtrar</td>
-                                            </tr>
+                                            <?php foreach($marcas['query'] as $row){ ?>
+                                                <tr>
+                                                    <td><?php echo $row['id'] ?></td>
+                                                    <td><?php echo $row['tipo_registro'] ?></td>
+                                                    <td><?php echo $row['nombre_propietario'] ?></td>
+                                                    <td><?php echo $row['signonom'] ?></td>
+                                                    <td><?php echo $row['clase_niza'] ?></td>
+                                                    <td><?php echo $row['estado_expediente'] ?></td>
+                                                    <td><?php echo $row['solicitud'] ?></td>
+                                                    <td>
+                                                        <?php 
+                                                        if($row['fecha_solicitud'] == '' || is_null($row['fecha_solicitud']))
+                                                        {
+                                                            echo $row['fecha_solicitud'];
+                                                        }
+                                                        else{
+                                                            echo date('d/m/Y', strtotime($row['fecha_solicitud']));
+                                                        }?>
+                                                        </td>
+                                                    <td><?php echo $row['registro'] ?></td>
+                                                    <td><?php echo $row['certificado'] ?></td>
+                                                    <td>
+                                                        <?php 
+                                                        if($row['fecha_vencimiento'] == '' || is_null($row['fecha_vencimiento'])){
+                                                            echo $row['fecha_vencimiento'];
+                                                        }
+                                                        else{
+                                                            echo date('d/m/Y', strtotime($row['fecha_vencimiento']));
+                                                        }?>
+                                                    </td>
+                                                    <td><?php echo $row['pais_nom'] ?></td>
+                                                    <td><a href="<?php echo admin_url('pi/MarcasSolicitudesController/edit'.$row['id']) ?>"><i class="fas fa-edit"></i> Editar</a>
+                                                </tr>
+                                            <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -129,6 +161,14 @@
 
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    $("#tableResult").DataTable({
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        },
+        destroy:true,
+    });
+</script>
 <script>
     $("select[multiple=multiple]").selectpicker({
             liveSearch:true,

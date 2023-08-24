@@ -1880,6 +1880,7 @@ init_head();?>
         }
         $("#solicitudfrm").on('submit', function(e)
         {
+            var formData = new FormData();
             e.preventDefault();
             formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
             formData.append('id' , $("input[name=id]").val());
@@ -1927,11 +1928,7 @@ init_head();?>
                 contentType: false,
                 success:function(response)
                 {
-                    <?php if(ENVIRONMENT != 'production') { ?>
-                        location.href = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}");?>';
-                    <?php } else { ?>
-                        console.log(response);
-                    <?php } ?>
+                    location.replace('<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}");?>');   
                 },
                 fail: function(request)
                 {

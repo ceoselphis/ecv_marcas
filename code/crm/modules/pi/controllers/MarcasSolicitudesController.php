@@ -14,6 +14,8 @@ class MarcasSolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
+        $CI->load->library('pagination');
+        $query = $CI->MarcasSolicitudes_model->findAll();
         $data = [
             'Boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
             'Oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
@@ -26,6 +28,7 @@ class MarcasSolicitudesController extends AdminController
             'Clase Niza'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'Tipo de Registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+            'query'                 => $query
         ];
         return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
     }
@@ -96,7 +99,7 @@ class MarcasSolicitudesController extends AdminController
             'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
-            'id'                    => intval($CI->MarcasSolicitudes_model->last_insert_id()) + 1,
+            'id'                    => intval($CI->MarcasSolicitudes_model->setCountPK()),
             'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
             'eventos'               => $datos,
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
@@ -517,7 +520,7 @@ class MarcasSolicitudesController extends AdminController
         }*/
      }
 
-    private function flip_dates($date)
+    public function flip_dates($date)
     {
         if($date != '')
         {
@@ -547,7 +550,7 @@ class MarcasSolicitudesController extends AdminController
         }
     }
 
-    private function turn_dates($date)
+    public function turn_dates($date)
     {
         if($date != ''){
             try{

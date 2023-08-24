@@ -63,7 +63,7 @@
                                                         }?>
                                                     </td>
                                                     <td><?php echo $row['pais_nom'] ?></td>
-                                                    <td><a href="<?php echo admin_url('pi/MarcasSolicitudesController/edit'.$row['id']) ?>"><i class="fas fa-edit"></i> Editar</a>
+                                                    <td><a href="<?php echo admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']) ?>"><i class="fas fa-edit"></i> Editar</a>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>

@@ -10,12 +10,13 @@
                         <?php echo form_open(admin_url('pi/TiposEventosController/update/'.$id), 'form'); ?>
                         <div class="col-md-6">
                             <?php echo form_label('Nombre de evento', 'descripcion', ['form-label']);?>
-                            <?php echo form_input('descripcion', set_value('descripcion',$values[0]['descripcion']), ['class' => 'form-control']);?>
+                            <?php echo form_input('descripcion', set_value('descripcion', $values[0]['descripcion']), ['class' => 'form-control']);?>
+                            <?php echo form_error('descripcion', '<div class="text-danger">', '</div>');?>
                             <br />
                         </div>
                         <div class="col-md-3">
                             <?php echo form_label('Materia', 'materia_id', ['form-label']);?>
-                            <?php echo form_dropdown('materia_id', $CI->TiposEventos_model->getAllMaterias() , $CI->TiposEventos_model->getMateria($values[0]['materia_id']), ['class' => 'form-control']);?>
+                            <?php echo form_dropdown('materia_id', $CI->TiposEventos_model->getAllMaterias() , set_value('materia_id', $values[0]['materia_id']), ['class' => 'form-control']);?>
                             <br />
                         </div>
                         <div class="col-md-3" style="padding-top: 2%;">

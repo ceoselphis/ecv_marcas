@@ -80,7 +80,7 @@ class TiposEventosController extends AdminController
             [
                 'field' => 'descripcion',
                 'label' => 'Nombre del tipo de evento',
-                'rules' => 'trim|required|min_length[3]|max_length[160]',
+                'rules' => 'trim|required|min_length[3]|max_length[120]',
                 'errors' => [
                     'required' => 'Debe indicar un nombre para el evento',
                     'min_length' => 'Nombre demasiado corto',
@@ -196,7 +196,7 @@ class TiposEventosController extends AdminController
             [
                 'field' => 'descripcion',
                 'label' => 'Nombre del tipo de evento',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'rules' => 'trim|required|min_length[3]|max_length[120]',
                 'errors' => [
                     'required' => 'Debe indicar un nombre para el evento',
                     'min_length' => 'Nombre demasiado corto',
@@ -231,7 +231,5 @@ class TiposEventosController extends AdminController
         $CI->load->helper('url');
         $query = $CI->TiposEventos_model->delete($id);
         return redirect('pi/TiposEventoscontroller/');
-        
-        
     }
 }

@@ -433,6 +433,7 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <h3 id="anexotitulo"></h3>
                                             <tbody id="anexobody">
 
                                             </tbody>
@@ -872,7 +873,8 @@ init_head();?>
         // ---------------------------------- Mostrar Anexo -----------------------------------------------
         // Cambio Domicilio------------------------------------------------------
         $('#cambio_domicilio').on('click',function(){
-            console.log('cambio_domicilio');
+            let title = `Cambio de Domicilio`;
+            $('#anexotitulo').html(title);
             let template = `
                 <tr >
                     <th>Nº</th>
@@ -921,7 +923,8 @@ init_head();?>
         })
         // Cambio de Nombre
         $('#cambio_nombre').on('click',function(){
-            console.log('cambio_nombre');
+            let title = `Cambio de Nombre`;
+            $('#anexotitulo').html(title);
             let template = `
                 <tr >
                     <th>Nº</th>
@@ -968,7 +971,8 @@ init_head();?>
         })
         // Fusion
         $('#fusion').on('click',function(){
-            console.log('fusion');
+            let title = `Fusion`;
+            $('#anexotitulo').html(title);
             let template = `
                 <tr >
                     <th>Nº</th>
@@ -994,6 +998,114 @@ init_head();?>
                         let body = `<tr Domicilioid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
+                                    <td class="text-center">${item.estado}</td>
+                                    <td class="text-center">${item.num_solicitud}</td>
+                                    <td class="text-center">${item.fecha_solicitud}</td>
+                                    <td class="text-center">${item.num_resolucion}</td>
+                                    <td class="text-center">${item.fecha_solicitud}</td>
+                                    <td class="text-center">${item.referencia_cliente}</td>
+                                    <td class="text-center">${item.comentarios}</td>
+                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                        <td class="text-center">
+                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                        </td>
+                                    </form> 
+                                </tr>
+                            `
+                        $('#anexobody').html(body);     
+                    });
+                })
+        })
+
+        // Licencia
+        $('#licencia').on('click',function(){
+            let title = `Licencia`;
+            $('#anexotitulo').html(title);
+            let template = `
+                <tr >
+                    <th>Nº</th>
+                    <th>Cliente</th>
+                    <th>Oficina</th>
+                    <th>Staff</th>
+                    <th>Estado</th>
+                    <th>Nº de Solicitud</th>
+                    <th>Fecha de Solicitud</th>
+                    <th>Nº de Resolucion</th>
+                    <th>Fecha de Resolucion</th>
+                    <th>Referencia Cliente</th>
+                    <th>Comentarios</th>
+                    <th>Acciones</th>
+                </tr>
+            `;
+            $('#anexohead').html(template);
+            $('#anexobody').html(``);
+            let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/");?>';
+            let eliminar = '<?php echo admin_url("pi/LicenciaController/destroy/");?>';
+                $.get(url, function(response){
+                    console.log(response);
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                        eliminar = eliminar+item.id;
+                        let body = `<tr Licenciaid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cliente}</td>
+                                    <td class="text-center">${item.oficina}</td>
+                                    <td class="text-center">${item.staff}</td>
+                                    <td class="text-center">${item.estado}</td>
+                                    <td class="text-center">${item.num_solicitud}</td>
+                                    <td class="text-center">${item.fecha_solicitud}</td>
+                                    <td class="text-center">${item.num_resolucion}</td>
+                                    <td class="text-center">${item.fecha_solicitud}</td>
+                                    <td class="text-center">${item.referencia_cliente}</td>
+                                    <td class="text-center">${item.comentarios}</td>
+                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                        <td class="text-center">
+                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                        </td>
+                                    </form> 
+                                </tr>
+                            `
+                        $('#anexobody').html(body);     
+                    });
+                })
+        })
+
+        // Cesion
+        $('#cesion').on('click',function(){
+            let title = `Cesion`;
+            $('#anexotitulo').html(title);
+            let template = `
+                <tr >
+                    <th>Nº</th>
+                    <th>Cliente</th>
+                    <th>Oficina</th>
+                    <th>Staff</th>
+                    <th>Estado</th>
+                    <th>Nº de Solicitud</th>
+                    <th>Fecha de Solicitud</th>
+                    <th>Nº de Resolucion</th>
+                    <th>Fecha de Resolucion</th>
+                    <th>Referencia Cliente</th>
+                    <th>Comentarios</th>
+                    <th>Acciones</th>
+                </tr>
+            `;
+            $('#anexohead').html(template);
+            $('#anexobody').html(``);
+            let url = '<?php echo admin_url("pi/CesionController/showCesion/");?>';
+            let eliminar = '<?php echo admin_url("pi/CesionController/destroy/");?>';
+                $.get(url, function(response){
+                    console.log(response);
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                        eliminar = eliminar+item.id;
+                        let body = `<tr Licenciaid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cliente}</td>
+                                    <td class="text-center">${item.oficina}</td>
+                                    <td class="text-center">${item.staff}</td>
                                     <td class="text-center">${item.estado}</td>
                                     <td class="text-center">${item.num_solicitud}</td>
                                     <td class="text-center">${item.fecha_solicitud}</td>

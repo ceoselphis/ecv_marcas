@@ -371,10 +371,96 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->helper(['url','form']);
         $CI->load->library('pagination');
         //We send the data
-        $params = $CI->input->post();
-        $boletin_id = json_decode($params['boletin_id'], TRUE);
+        $params = $CI->input->post('data');
+        $query = json_decode($params);
+        $q = array();
+        $result = array();
+        foreach($query as $row)
+        {
+            if($row != '[]')
+            {
+                switch($row)
+                {
+                    case 'pais_id':
+                        foreach(json_decode($row['pais_id']) as $i)
+                        {
+                            $q[] = [
+                                'h.pais_id' => $i
+                            ];
+                        }
+                        $result[] = $CI->MarcasSolicitudes_model->searchWhere($q, 2);
+                        break;
+                    case 'boletin_id':
+                        foreach($row['boletin_id'] as $i)
+                        {
+                            $q[] = [
+                                'b.boletin_id' => $i
+                            ];
+                        }
+                        $result[] = $CI->MarcasSolicitudes_model->searchWhere($q, 1);
+                        break;
+                    case 'client_id':
+                        foreach($row['client_id'] as $i)
+                        {
+                            $q[] = [
+                                'a.client_id' => $i
+                            ];
+                        }
+                        $result[] = $CI->MarcasSolicitudes_model->searchWhere($q, 4);
+                        break;
+                    case 'oficina_id':
+                        foreach($row['oficina_id'] as $i)
+                        {
+                            $q[] = [
+                                'a.oficina_id' => $i
+                            ];
+                        }
+                        $result[] = $CI->MarcasSolicitudes_model->searchWhere($q, 8);
+                        break;
+                    case 'staff_id':
+                        foreach($row['staff_id'] as $i)
+                        {
+                            $q[] = [
+                                'a.staff_id' => $i
+                            ];
+                        }
+                        $result[] = $CI->MarcasSolicitudes_model->searchWhere($q, 2);
+                        break;
+                    case 'tip_sol_id':
+                        foreach($row['tip_sol_id'] as $i)
+                        {
+                            $q[] = [
+                                'a.tipo_solicitud_id' => $i
+                            ];
+                        }
+                        $result[] = $CI->MarcasSolicitudes_model->searchWhere($q, );
+                        break;
+                    case 'est_sol_id':
+                        foreach($row['a.estado_id'] as $i)
+                        {
+                            $q[] = [
+                                'a.estado_id' => $i
+                            ];
+                        }
+
+                        $result[] = $CI->MarcasSolicitudes_model->searchWhere($q, 9);
+                        break;
+                    case 'tip_signo_id':
+                        foreach($row['tip_signo_id'] as $i)
+                        {
+                            $q[] = [
+                                'a.tipo_signo_id' => $i
+                            ];
+                        }
+                        $result[] = $CI->MarcasSolicitudes_model->searchWhere($q, 6);
+                        break;
+                }
+            }
+        }
+
+        
+        /*$boletin_id = json_decode($params['boletin_id'], TRUE);
         $pais_id = json_decode($params['pais_id'], TRUE);
-        $boletin_id = json_decode($params['boletin_id'], TRUE);
         $client_id = json_decode($params['client_id'],TRUE);
         $oficina_id = json_decode($params['oficina_id'], TRUE);
         $staff_id = json_decode($params['staff_id'], TRUE);
@@ -382,37 +468,9 @@ class MarcasSolicitudesController extends AdminController
         $est_sol_id = json_decode($params['est_sol_id'], TRUE);
         $tip_signo_id = json_decode($params['tip_signo_id'], TRUE);
         $clase_niza_id = json_decode($params['clase_niza_id'], TRUE);
-        $tip_reg_id = json_decode($params['tip_reg_id'], TRUE);
-        $tip_eve_id = json_decode($params['tip_eve_id'], TRUE);
-        
-        if(!empty($boletin_id))
-        {
-            $query = array();
-            foreach($boletin_id as $row)
-            {
-                $query[] = [
-                    'b.boletin_id' => $row
-                ];
-            }
-            $boletin_id = $CI->MarcasSolicitudes_model->searchWhere($query, 1); 
-        }
-        elseif(!empty($pais_id))
-        {
-            $query = array();
-            foreach($boletin_id as $row)
-            {
-                $query[] = [
-                    'b.boletin_id' => $row
-                ];
-            }
-            $boletin_id = $CI->MarcasSolicitudes_model->searchWhere($query, 1);
-        }
-        
-
-
-
-
-
+        $tip_eve_id = json_decode($params['tip_eve_id'], TRUE);    
+        */
+        var_dump($result);
         /*if($query)
         {
             foreach($query as $row)

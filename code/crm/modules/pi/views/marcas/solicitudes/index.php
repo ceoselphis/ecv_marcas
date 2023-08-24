@@ -31,7 +31,9 @@
                                             </tr>
                                         </thead>
                                         <tbody >
-                                      
+                                            <tr>
+                                                <td colspan="13" class="text-center">Seleccione un tópico para filtrar</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -46,7 +48,7 @@
 </div>
 
 
-<!-- Signo Modal -->
+<!-- FilterModal -->
 <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open(admin_url('pi/MarcasSolicitudesController/search'), ['method' => 'POST', 'name' => 'filter', 'id' => 'filter']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -135,8 +137,7 @@
     $("#filterSubmit").on('click', function(event)
     {
         event.preventDefault();
-        var data = {
-            "csrf_token_name" : $("input[name=csrf_token_name]").val(),
+        var params = {
             'pais_id'         : JSON.stringify($("select[name=pais_id]").val()),
             'boletin_id'      : JSON.stringify($("select[name=boletin_id]").val()),
             'client_id'       : JSON.stringify($("select[name=client_id]").val()),
@@ -149,11 +150,14 @@
             'tip_reg_id'      : JSON.stringify($("select[name=tip_reg_id]").val()),
             'tip_eve_id'      : JSON.stringify($("select[name=tip_eve_id]").val())
         };
-        console.log(data);
+        console.log(params);
         $.ajax({
             url: "<?php echo admin_url('pi/MarcasSolicitudesController/search')?>",
             method: "POST",
-            data: data,
+            data: {
+                "csrf_token_name" : $("input[name=csrf_token_name]").val(),
+                data: JSON.stringify(params),
+            },
             success: function(response)
             {
                 console.log(response);

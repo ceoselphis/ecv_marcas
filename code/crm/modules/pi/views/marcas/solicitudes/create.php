@@ -319,7 +319,7 @@ init_head();?>
                                     <div class="col-md-12" >
                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                     </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%;">
+                                    <div class="col-md-12" style="padding-top: 20px;">
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
@@ -333,7 +333,7 @@ init_head();?>
                                             <tbody>
                                             <?php if (!empty($eventos)) {?>
                                                 <?php foreach ($eventos as $row) {?>
-                                                    <tr eventosid = "<?php echo $row['id'];?>">>
+                                                    <tr eventosid = "<?php echo $row['id'];?>">
                                                         <td><?php echo $row['id'];?></td>
                                                         <td><?php echo $row['tipo_evento'];?></td>
                                                         <td><?php echo $row['comentarios'];?></td>
@@ -872,6 +872,7 @@ init_head();?>
     <script>
         // ---------------------------------- Mostrar Anexo -----------------------------------------------
         // Cambio Domicilio------------------------------------------------------
+        
         CambioDomicilio();
         function CambioDomicilio(){
             let title = `Cambio de Domicilio`;

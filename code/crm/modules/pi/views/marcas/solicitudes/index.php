@@ -135,10 +135,25 @@
     $("#filterSubmit").on('click', function(event)
     {
         event.preventDefault();
+        var data = {
+            "csrf_token_name" : $("input[name=csrf_token_name]").val(),
+            'pais_id'         : JSON.stringify($("select[name=pais_id]").val()),
+            'boletin_id'      : JSON.stringify($("select[name=boletin_id]").val()),
+            'client_id'       : JSON.stringify($("select[name=client_id]").val()),
+            'oficina_id'      : JSON.stringify($("select[name=oficina_id]").val()),
+            'staff_id'        : JSON.stringify($("select[name=staff_id]").val()),
+            'tip_sol_id'      : JSON.stringify($("select[name=tip_sol_id]").val()),
+            'est_sol_id'      : JSON.stringify($("select[name=est_sol_id]").val()),
+            'tip_signo_id'    : JSON.stringify($("select[name=tip_signo_id]").val()),
+            'clase_niza_id'   : JSON.stringify($("select[name=clase_niza_id]").val()),
+            'tip_reg_id'      : JSON.stringify($("select[name=tip_reg_id]").val()),
+            'tip_eve_id'      : JSON.stringify($("select[name=tip_eve_id]").val())
+        };
+        console.log(data);
         $.ajax({
             url: "<?php echo admin_url('pi/MarcasSolicitudesController/search')?>",
             method: "POST",
-            data: $("#filter").serializeArray(),
+            data: data,
             success: function(response)
             {
                 console.log(response);

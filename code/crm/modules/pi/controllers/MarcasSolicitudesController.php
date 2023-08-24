@@ -372,7 +372,67 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('pagination');
         //We send the data
         $params = $CI->input->post();
-        var_dump($params);
+        $boletin_id = json_decode($params['boletin_id'], TRUE);
+        $pais_id = json_decode($params['pais_id'], TRUE);
+        $boletin_id = json_decode($params['boletin_id'], TRUE);
+        $client_id = json_decode($params['client_id'],TRUE);
+        $oficina_id = json_decode($params['oficina_id'], TRUE);
+        $staff_id = json_decode($params['staff_id'], TRUE);
+        $tip_sol_id = json_decode($params['tip_sol_id'], TRUE);
+        $est_sol_id = json_decode($params['est_sol_id'], TRUE);
+        $tip_signo_id = json_decode($params['tip_signo_id'], TRUE);
+        $clase_niza_id = json_decode($params['clase_niza_id'], TRUE);
+        $tip_reg_id = json_decode($params['tip_reg_id'], TRUE);
+        $tip_eve_id = json_decode($params['tip_eve_id'], TRUE);
+        
+        if(!empty($boletin_id))
+        {
+            $query = array();
+            foreach($boletin_id as $row)
+            {
+                $query[] = [
+                    'b.boletin_id' => $row
+                ];
+            }
+            $boletin_id = $CI->MarcasSolicitudes_model->searchWhere($query, 1); 
+        }
+        elseif(!empty($pais_id))
+        {
+            $query = array();
+            foreach($boletin_id as $row)
+            {
+                $query[] = [
+                    'b.boletin_id' => $row
+                ];
+            }
+            $boletin_id = $CI->MarcasSolicitudes_model->searchWhere($query, 1);
+        }
+        
+
+
+
+
+
+        /*if($query)
+        {
+            foreach($query as $row)
+            {
+                $table[] = [
+                    'id' => $row['id'],
+                    'tipo' => $row['tipo_nom'],
+                    'propietario' => $row['nombre_propietario'],
+                    'nombre' => $row['signo'],
+                    'clases' => $row['clase_niza'],
+                    'estado' => $row['estado_nom'],
+                    'solicitud' => $row['solicitud'],
+                    'fecha_solicitud' => $row['fecha_solicitud'],
+                    'registro' => $row['registro'],
+                    'certificado' => $row['certificado'],
+                    'vigencia' => $row['fecha_vencimiento'],
+                    'paises' => $row['pais_nom'],
+                ];
+            }     
+        }*/
      }
 
     private function flip_dates($date)

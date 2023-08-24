@@ -9,23 +9,20 @@
                         <?php $CI = &get_instance();?>
                         <?php echo validation_errors(); ?>
                         <?php echo form_open(admin_url('pi/EventosController/update/'.$id), 'form'); ?>
-                        <div class="col-md-4">
-                            <?php echo form_label($labels[1]);?>
-                            <br />
-                            <?php echo form_dropdown('tipo_eve_id', $tipoEvento, $values[0]['tipo_eve_id'], ['class' => 'form-control'] );?>
+                        <div class="col-md-12">
+                            <?php echo form_label('Tipo Evento', 'tipo_evento');?>
+                            <?php echo form_dropdown(['name'=>'tipo_evento_id','id'=>'tipo_evento_id', 'class' => 'form-control'], $tipo_evento,$values[0]['tipo_evento_id'] );?>
+                        </div>
+                        <div class="col-md-12" style="margin-top : 15px">
+                            <?php echo form_label('Comentario', 'evento_comentario');?>
+                            <?php echo form_textarea(['name'=>'comentarios','id'=>'comentarios' , 'value' => $values[0]['comentarios']],'',['class' => 'form-control']);?>
                         </div>
                         <div class="col-md-3">
                             <br />
-                            <?php echo form_hidden('created_at',date('Y-m-d h:i:s'), false);?>
-                            <?php echo form_hidden('staff_id',$_SESSION['staff_user_id'],false);?>
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <a href="javascript: history.go(-1)" class="btn btn-success">Volver atras</a>
                         </div>
-                        <div class="col-md-3">
-                            <pre>
-                                <?php var_dump($values);?>
-                            </pre>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -33,7 +30,7 @@
     </div>
 </div>
 
-
+let tipotareas = '<?php echo admin_url("pi/TareasController/BuscarTipoTareas/");?>'
 <?php init_tail();?>
 
 

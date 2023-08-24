@@ -587,6 +587,55 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->delete('tbl_marcas_solicitantes', ['marcas_id' => $id]);
         return true;
     }
+    public function findAllTareas(){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_tareas');
+        $query = $this->db->get();   
+        return $query->result_array();
+    }
+    public function findAllTipoTareas(){
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_tareas');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values); 
+    }
+    public function BuscarTipoTareas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_tareas');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['nombre']; 
+    }
+    public function BuscarTipoEventos($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_eventos');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['descripcion']; 
+    }
+    public function findAllSolicitudesDocumento()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes_documentos');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function findAllEventos()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_eventos');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     
     public function searchWhere($params, $where)
     {
@@ -761,4 +810,12 @@ class MarcasSolicitudes_model extends BaseModel
         }
     }
 
+    public function findAllMarcasDomicilio()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_cambio_domicilio');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
 }

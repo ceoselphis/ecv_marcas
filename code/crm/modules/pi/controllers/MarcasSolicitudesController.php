@@ -61,6 +61,26 @@ class MarcasSolicitudesController extends AdminController
                 );
             }
         }
+        $data = array();
+        $tarea = $CI->MarcasSolicitudes_model->findAllTareas();
+        foreach ($tarea as $row){
+            $data[] = array(
+                'id' => $row['id'],
+                'tipo_tarea' => $CI->MarcasSolicitudes_model->BuscarTipoTareas($row['tipo_tareas_id']),
+                'descripcion' => $row['descripcion'],
+                'fecha' => $row['fecha'],
+            );
+        }
+        $eventos = $CI->MarcasSolicitudes_model->findAllEventos();
+        $datos = array();
+        foreach ($eventos as $row){
+            $datos[] = array(
+                'id' => $row['id'],
+                'tipo_evento' => $CI->MarcasSolicitudes_model->BuscarTipoEventos($row['tipo_evento_id']),
+                'comentarios' => $row['comentarios'],
+                'fecha' => $row['fecha'],
+            );
+        }
         $labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
         return $CI->load->view('marcas/solicitudes/create', [
             'fields'                => $inputs, 
@@ -77,7 +97,11 @@ class MarcasSolicitudesController extends AdminController
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
             'id'                    => intval($CI->MarcasSolicitudes_model->last_insert_id()) + 1,
-            'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento()
+            'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
+            'eventos'               => $datos,
+            'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
+            'tareas'                => $data,
+            
         ]);
                                 
     }

@@ -60,8 +60,6 @@ class CorrespondeciaPlantillaController extends AdminController
         $labels = array();
         $data = array();
         $idioma = array('us','es','it');
-        // var_dump($fields);
-        // die();
         foreach($fields as $field)
         {
             if($field['type'] == 'INT')

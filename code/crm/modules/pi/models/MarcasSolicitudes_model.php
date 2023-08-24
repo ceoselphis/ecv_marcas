@@ -817,5 +817,27 @@ class MarcasSolicitudes_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function findAll()
+    {
+        $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, a.signonom, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
+        $this->db->from('tbl_marcas_solicitudes a');
+        $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
+        $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
+        $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
+        $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
+        $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
+        $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
+        $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
+        $this->db->join('tbl_paises i', 'h.pais_id = i.id');
+        $this->db->join('tbl_marcas_clases j', 'a.id = j.marcas_id');
+        $this->db->join('tbl_marcas_clase_niza k', 'k.clase_niza_id = j.clase_id');
+        $this->db->limit(150);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+    }
     
 }

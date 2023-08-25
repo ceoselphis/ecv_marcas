@@ -179,25 +179,20 @@ init_head();?>
                                                 <a href="#prioridad" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Prioridades<i class="fa fa-chevron-down"></i></a>
                                                 <div class="collapse" id="prioridad">
                                                     <div class="list-box">
-                                                        <div class="col-12" >
-                                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
-                                                        </div>
-                                                        <div class="col-md-12">    
-                                                            <table class="table table-responsive" id="prioridadTbl">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Fecha</th>
-                                                                        <th>Pais</th>
-                                                                        <th>Número</th>
-                                                                        <th>Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
+                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
+                                                        <table class="table table-responsive" id="prioridadTbl">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Fecha</th>
+                                                                    <th>Pais</th>
+                                                                    <th>Número</th>
+                                                                    <th>Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
-                                                                </tbody>
-                                                            </table> 
-                                                        </div>
-                                                    
+                                                            </tbody>
+                                                        </table> 
                                                     </div>
                                                 </div>
                                             </div>    
@@ -335,12 +330,28 @@ init_head();?>
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
+                                                    <th>Nº</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Comentarios</th>
                                                     <th>Fecha</th>
-                                                    <th>Pais</th>
-                                                    <th>Número</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                                <?php if(!empty($eventos)){?>
+                                                <?php foreach($eventos as $row) {?> 
+                                                    <tr>
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['descripcion'];?></td>
+                                                        <td><?php echo $row['comentarios'];?></td>
+                                                        <td><?php echo date('d/m/Y', strtotime($row['fecha']));?></td>
+                                                        <td>
+                                                            <a id="<?php echo $row['id'];?>" class="btn btn-light" href="#"><i class="fas fa-edit"></i>Editar</a>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
+                                                <?php } ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -358,13 +369,26 @@ init_head();?>
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
-                                                    <th>Fecha</th>
+                                                    <th>Id</th>
                                                     <th>Descripcion</th>
-                                                    <th>Comentarios</th>
-                                                    <th>Creado por</th>
+                                                    <th>Fecha</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                                <?php if(!empty($tareas)){ ?>
+                                                <?php foreach($tareas as $row) {?>
+                                                    <tr>
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['nombre'];?></td>
+                                                        <td><?php echo $row['fecha'];?></td>
+                                                        <td>
+                                                            <a id="<?php echo $row['id'];?>"><i class="fas fa-edit"></i> Editar</a>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
+                                                <?php } ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -395,6 +419,9 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -847,8 +874,22 @@ init_head();?>
 
 
 <?php init_tail();?>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    function getFormData(){
+            var config = {};
+            $('input').each(function () {
+                config[this.name] = this.value;
+            });
+            $("select").each(function()
+            {
+                config[this.name] = this.value;
+            });
+            return config;
+        }
+</script>
 
     <script>
         var formData = new FormData();

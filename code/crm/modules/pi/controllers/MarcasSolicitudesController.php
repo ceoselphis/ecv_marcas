@@ -255,11 +255,11 @@ class MarcasSolicitudesController extends AdminController
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
             'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
+            'publicaciones'         => $CI->MarcasSolicitudes_model->findPublicacionesByMarca($id),
+            'eventos'               => $CI->MarcasSolicitudes_model->findEventosByMarca($id),
+            'tareas'                => $CI->MarcasSolicitudes_model->findTareasByMarca($id),
             'id'                    => $id
         ]);
-        
-
-        
     }
 
     /**

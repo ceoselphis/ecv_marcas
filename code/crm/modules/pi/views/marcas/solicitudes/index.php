@@ -32,6 +32,7 @@
                                             </tr>
                                         </thead>
                                         <tbody >
+                                        <?php if (!empty($marcas['query'])) {?>
                                             <?php foreach($marcas['query'] as $row){ ?>
                                                 <tr>
                                                     <td><?php echo $row['id'] ?></td>
@@ -50,7 +51,7 @@
                                                         else{
                                                             echo date('d/m/Y', strtotime($row['fecha_solicitud']));
                                                         }?>
-                                                        </td>
+                                                    </td>
                                                     <td><?php echo $row['registro'] ?></td>
                                                     <td><?php echo $row['certificado'] ?></td>
                                                     <td>
@@ -63,8 +64,15 @@
                                                         }?>
                                                     </td>
                                                     <td><?php echo $row['pais_nom'] ?></td>
-                                                    <td><a href="<?php echo admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']) ?>"><i class="fas fa-edit"></i> Editar</a>
+                                                    <td><a href="<?php echo admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']) ?>"><i class="fas fa-edit"></i> Editar</a></td>
                                                 </tr>
+                                            <?php } ?>
+                                        <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
                                             <?php } ?>
                                         </tbody>
                                     </table>

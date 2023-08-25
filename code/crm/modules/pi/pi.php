@@ -60,12 +60,12 @@ function pi_menu_item_collapsible()
         'position' => 11,
     ]);
     //Prueba
-    $CI->app_menu->add_sidebar_children_item('51', [
-        'slug'   => 'prueba-admin',
-        'name'  => 'Prueba',
-        'href'  => admin_url('pi/MarcasSolicitudesDocumentoController'),
-        'position' => 11,
-    ]);
+    // $CI->app_menu->add_sidebar_children_item('51', [
+    //     'slug'   => 'prueba-admin',
+    //     'name'  => 'Prueba',
+    //     'href'  => admin_url('pi/MarcasSolicitudesDocumentoController'),
+    //     'position' => 11,
+    // ]);
 
 
      //Menu de configuracion

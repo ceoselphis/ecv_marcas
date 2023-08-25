@@ -99,7 +99,7 @@ class Busquedas_model extends BaseModel
         $values = array('Seleccione');
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['id']);
+            array_push($keys, $row['oficina_id']);
             array_push($values, "{$row['nombre']}");
         }
         return array_combine($keys, $values);

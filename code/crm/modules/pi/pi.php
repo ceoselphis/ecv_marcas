@@ -59,13 +59,13 @@ function pi_menu_item_collapsible()
         'href'  => admin_url('pi/CorrespondeciaPlantillaController'),
         'position' => 11,
     ]);
-    //Prueba
-    // $CI->app_menu->add_sidebar_children_item('51', [
-    //     'slug'   => 'prueba-admin',
-    //     'name'  => 'Prueba',
-    //     'href'  => admin_url('pi/MarcasSolicitudesDocumentoController'),
-    //     'position' => 11,
-    // ]);
+    //Administrador de Tareas
+    $CI->app_menu->add_sidebar_children_item('51',[
+        'slug'   => 'tareas-admin',
+        'name'  => 'Administrador de Tareas',
+        'href'  => admin_url('pi/TareasAdminController'),
+        'position' => 11,
+    ]);
 
 
      //Menu de configuracion
@@ -125,6 +125,7 @@ function pi_menu_item_collapsible()
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
+
     
     
 

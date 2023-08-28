@@ -179,25 +179,20 @@ init_head();?>
                                                 <a href="#prioridad" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Prioridades<i class="fa fa-chevron-down"></i></a>
                                                 <div class="collapse" id="prioridad">
                                                     <div class="list-box">
-                                                        <div class="col-12" >
-                                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
-                                                        </div>
-                                                        <div class="col-md-12">    
-                                                            <table class="table table-responsive" id="prioridadTbl">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Fecha</th>
-                                                                        <th>Pais</th>
-                                                                        <th>Número</th>
-                                                                        <th>Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
+                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
+                                                        <table class="table table-responsive" id="prioridadTbl">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Fecha</th>
+                                                                    <th>Pais</th>
+                                                                    <th>Número</th>
+                                                                    <th>Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
-                                                                </tbody>
-                                                            </table> 
-                                                        </div>
-                                                    
+                                                            </tbody>
+                                                        </table> 
                                                     </div>
                                                 </div>
                                             </div>    
@@ -302,16 +297,21 @@ init_head();?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
-                                                                <table id="prioridadTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
+                                                                <table id="publicacionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Fecha</th>
-                                                                            <th>Pais</th>
-                                                                            <th>Número</th>
+                                                                            <th>Tipo de Publicacion</th>
+                                                                            <th>Boletin</th>
+                                                                            <th>Tomo</th>
+                                                                            <th>Pagina</th>
                                                                             <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>
+                                                                    <tbody>
+
+                                                                    </tbody>
                                                                 </table>
                                                             </div>
                                                         </div>
@@ -335,9 +335,10 @@ init_head();?>
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
+                                                    <th>Nº</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Comentarios</th>
                                                     <th>Fecha</th>
-                                                    <th>Pais</th>
-                                                    <th>Número</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -383,14 +384,14 @@ init_head();?>
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
-                                                    <th>Fecha</th>
+                                                    <th>Id</th>
                                                     <th>Descripcion</th>
-                                                    <th>Comentarios</th>
-                                                    <th>Creado por</th>
+                                                    <th>Fecha</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+
                                             <?php if (!empty($tareas)) {?>
                                                 <?php foreach ($tareas as $row) {?>
                                                     <tr taskId = "<?php echo $row['id'];?>">
@@ -444,9 +445,9 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+
                                             <h3 id="anexotitulo"></h3>
                                             <tbody id="anexobody">
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -616,6 +617,7 @@ init_head();?>
 <!-- Publicacion Modal -->
 <div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
+    <?php echo form_hidden('pub_id', set_value('pub_id'));?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -627,8 +629,8 @@ init_head();?>
       <div class="modal-body">
         <div class="row">
             <div class="col-md-3">
-                <?php echo form_label('Tipo', 'pais_publicacion');?>
-                <?php echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
+                <?php echo form_label('Tipo', 'tipo_publicacion');?>
+                <?php echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'),['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Boletin', 'boletin_publicacion');?>
@@ -636,17 +638,57 @@ init_head();?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Tomo', 'tomo_publicacion');?>
-                <?php echo form_input('tomo_publicacion','',['class' => 'form-control']);?>
+                <?php echo form_input('tomo_publicacion',set_value('tomo_publicacion'),['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Página', 'pag_publicacion');?>
-                <?php echo form_input('pag_publicacion','',['class' => 'form-control']);?>
+                <?php echo form_input('pag_publicacion',set_value('pag_publicacion'),['class' => 'form-control']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="publicacionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
+    <?php echo form_hidden('pub_id_edit', set_value('pub_id_edit'));?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Publicacion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-3">
+                <?php echo form_label('Tipo', 'tipo_publicacion_edit');?>
+                <?php echo form_dropdown('tipo_publicacion_edit', $tipo_publicacion, set_value('tipo_publicacion_edit'),['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Boletin', 'boletin_publicacion_edit');?>
+                <?php echo form_dropdown('boletin_publicacion_edit', $boletines, set_value('boletin_publicacion_edit') , ['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Tomo', 'tomo_publicacion_edit');?>
+                <?php echo form_input('tomo_publicacion_edit',set_value('tomo_publicacion_edit'),['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Página', 'pag_publicacion_edit');?>
+                <?php echo form_input('pag_publicacion_edit',set_value('pag_publicacion_edit'),['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="publicacionfrmsubmitEdit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -925,8 +967,22 @@ init_head();?>
 
 
 <?php init_tail();?>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    function getFormData(){
+            var config = {};
+            $('input').each(function () {
+                config[this.name] = this.value;
+            });
+            $("select").each(function()
+            {
+                config[this.name] = this.value;
+            });
+            return config;
+        }
+</script>
 
     <script>
          // ---------------------------------- Mostrar Anexo -----------------------------------------------
@@ -2084,6 +2140,7 @@ init_head();?>
 
         // ------------step-wizard-------------
         $(document).ready(function () {
+            getAllPublicaciones();
             $('.nav-tabs > li a[title]').tooltip();
             
             //Wizard
@@ -2640,6 +2697,124 @@ init_head();?>
                 })
         })
 
+    </script>
+
+    <script>
+        $(document).on('click',"#publicacionfrmsubmit" , function(e)
+        {
+            e.preventDefault();
+            var data = {
+                'csrf_token_name'    : $("input[name=csrf_token_name]").val(),
+                'tipo_publicacion'   : $("select[name=tipo_publicacion]").val(),
+                'boletin_publicacion': $("select[name=boletin_publicacion]").val(),
+                'tomo_publicacion'   : $("input[name=tomo_publicacion]").val(),
+                'pag_publicacion'    : $("input[name=pag_publicacion]").val(),
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/'.$id);?>",
+                method: 'POST',
+                data: data,
+                success: function(response)
+                {
+                    alert_float('success', 'Publicacion cargada exitosamente');
+                    getAllPublicaciones();
+                    $("#publicacionModal").modal('hide');
+                }
+            });
+        });
+
+        function getAllPublicaciones()
+        {
+            $.ajax({
+                url:"<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
+                method: "POST",
+                success: function(response)
+                {
+                    table = JSON.parse(response);
+                    console.log(table.data);
+                    $("#publicacionTbl").DataTable({
+                        language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                            },
+                            destroy: true,
+                            data: table.data,
+                            columns : [
+                                { data: 'fecha'},
+                                { data: 'nombre'},
+                                { data: 'boletin_id'},
+                                { data: 'tomo'},
+                                { data: 'pagina'},
+                                { data: 'acciones'}
+                            ]
+                    });
+                }
+            });
+        }
+    </script>
+    
+
+    <script>
+        $(document).on('click', '.editPublicacion', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/show/');?>"+id,
+                method: "POST",
+                success:function(response)
+                {
+                    data = JSON.parse(response);
+                    $("input[name=pub_id_edit]").val(data.id);
+                    $("select[name=tipo_publicacion_edit]").val(data.tipo_pub_id);
+                    $("select[name=boletin_publicacion_edit]").val(data.boletin_id);
+                    $("input[name=tomo_publicacion_edit]").val(data.tomo);
+                    $("input[name=pag_publicacion_edit]").val(data.pagina);
+                }
+            });
+            $("#publicacionEditModal").modal('show');
+        });
+
+        $(document).on('click', '#publicacionfrmsubmitEdit', function(e)
+        {
+            e.preventDefault();
+            var data = {
+                'csrf_token_name'   : $("input[name=csrf_token_name]").val(),
+                'tipo_pub_id'       : $("select[name=tipo_publicacion_edit]").val(),
+                'boletin_id'        : $("select[name=boletin_publicacion_edit]").val(),
+                'tomo'              : $("input[name=tomo_publicacion_edit]").val(),
+                'pagina'            : $("input[name=pag_publicacion_edit]").val(),
+                'marcas_id'         : $("input[name=id]").val(),
+                'id'                : $("input[name=pub_id_edit]").val()
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/updatePublicacionByMarca/');?>",
+                method: 'POST',
+                data: data,
+                success: function(response)
+                {
+                    alert_float('success', 'Publicacion editada exitosamente');
+                    getAllPublicaciones();
+                    $("#publicacionEditModal").modal('hide');
+                }
+            });
+        });
+
+        $(document).on('click', '.deletePublicacion', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            if(confirm("¿Esta seguro de eliminar este registro?"))
+            {
+                $.ajax({
+                    url: "<?php echo admin_url('pi/PublicacionesMarcasController/deletePublicacionByMarca/');?>"+id,
+                    method: "POST",
+                    success: function(response)
+                    {
+                        getAllPublicaciones();
+                    }
+                });
+            }            
+        });
     </script>
 </body>
 </html>

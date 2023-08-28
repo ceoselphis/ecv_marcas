@@ -280,10 +280,14 @@ class MarcasSolicitudesController extends AdminController
             'eventos'               => $datos,
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
             'tareas'                => $data,
-        ]);
-        
 
-        
+/*            'publicaciones'         => $CI->MarcasSolicitudes_model->findPublicacionesByMarca($id),
+            'eventos'               => $CI->MarcasSolicitudes_model->findEventosByMarca($id),
+            'tareas'                => $CI->MarcasSolicitudes_model->findTareasByMarca($id),
+            'id'                    => $id,
+            'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
+*/
+        ]);
     }
 
     /**
@@ -304,9 +308,6 @@ class MarcasSolicitudesController extends AdminController
         $paisSol = array();
         $claseNiza = array();
         $solicitantes = array();
-       /* var_dump($form);
-        die();*/
-        
         /*Seteamos el arreglo para la solicitud */
         
         $solicitud['id'] = $form['id'];

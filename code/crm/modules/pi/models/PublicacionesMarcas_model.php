@@ -5,7 +5,7 @@ require __DIR__ . '/BaseModel.php';
 
 class PublicacionesMarcas_model extends BaseModel
 {
-    protected $primaryKey = 'pub_id';
+    protected $primaryKey = 'id';
     protected $tableName =  'tbl_marcas_publicaciones';
     protected $DBgroup = 'default';
     
@@ -90,5 +90,14 @@ class PublicacionesMarcas_model extends BaseModel
         return $query->result_array();
     }
 
+    public function findAllByMarcas($id = NULL)
+    {
+        $this->db->select('a.id, a.fecha, b.nombre, a.boletin_id, a.tomo, a.pagina');
+        $this->db->from('tbl_marcas_publicaciones a');
+        $this->db->join('tbl_tipo_publicacion b', 'a.tipo_pub_id = b.id');
+        $this->db->where('a.marcas_id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 
 }

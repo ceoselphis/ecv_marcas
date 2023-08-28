@@ -341,6 +341,31 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                            <?php if (!empty($eventos)) {?>
+                                                <?php foreach ($eventos as $row) {?>
+                                                    <tr eventosid = "<?php echo $row['id'];?>">
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['tipo_evento'];?></td>
+                                                        <td><?php echo $row['comentarios'];?></td>
+                                                        <td><?php echo $row['fecha'];?></td>
+                                                       
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/EventosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -365,6 +390,30 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                            <?php if (!empty($tareas)) {?>
+                                                <?php foreach ($tareas as $row) {?>
+                                                    <tr taskId = "<?php echo $row['id'];?>">
+                                                        <td id = 'tareasid' ><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['tipo_tarea'];?></td>
+                                                        <td><?php echo $row['descripcion'];?></td>
+                                                        <td><?php echo $row['fecha'];?></td>
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a id="<?php echo $row['id'];?>" class="edit btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -376,12 +425,12 @@ init_head();?>
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Renovacion</button>
-                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cesion</button>
-                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Licencia</button>
-                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Fusion</button>
-                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Nombre</button>
-                                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Domicilio</button>
+                                        <button id="renovacion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Renovacion</button>
+                                        <button id = "cesion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cesion</button>
+                                        <button id = "licencia" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Licencia</button>
+                                        <button id = "fusion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Fusion</button>
+                                        <button id = "cambio_nombre" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Nombre</button>
+                                        <button id = "cambio_domicilio" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Domicilio</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table class="table table-responsive">
@@ -395,6 +444,10 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <h3 id="anexotitulo"></h3>
+                                            <tbody id="anexobody">
+
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -419,6 +472,31 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
+                                            <tbody >
+                                            <?php if (!empty($SolDoc)) {?>
+                                                <?php foreach ($SolDoc as $row) {?>
+                                                    <tr docid = "<?php echo $row['id'];?>">
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['marcas_id'];?></td>
+                                                        <td><?php echo $row['descripcion'];?></td>
+                                                        <td><?php echo $row['path'];?></td>
+                                                        <td><?php echo $row['comentario'];?></td>
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">

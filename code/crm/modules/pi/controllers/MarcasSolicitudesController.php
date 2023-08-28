@@ -232,6 +232,26 @@ class MarcasSolicitudesController extends AdminController
         $pais_id = $CI->MarcasSolicitudes_model->findPaisesDesignados($id);
         $clase_id = $CI->MarcasSolicitudes_model->findClasesSolicitudes($id);
         $solicitantes = $CI->MarcasSolicitudes_model->findMarcasSolicitantes($id);
+        $data = array();
+        $tarea = $CI->MarcasSolicitudes_model->findAllTareas();
+        foreach ($tarea as $row){
+            $data[] = array(
+                'id' => $row['id'],
+                'tipo_tarea' => $CI->MarcasSolicitudes_model->BuscarTipoTareas($row['tipo_tareas_id']),
+                'descripcion' => $row['descripcion'],
+                'fecha' => $row['fecha'],
+            );
+        }
+        $eventos = $CI->MarcasSolicitudes_model->findAllEventos();
+        $datos = array();
+        foreach ($eventos as $row){
+            $datos[] = array(
+                'id' => $row['id'],
+                'tipo_evento' => $CI->MarcasSolicitudes_model->BuscarTipoEventos($row['tipo_evento_id']),
+                'comentarios' => $row['comentarios'],
+                'fecha' => $row['fecha'],
+            );
+        }
         $values['pais_id'] = $pais_id;
         $values['clase_niza_id'] = $clase_id;
         $values['solicitantes_id'] = $solicitantes;
@@ -255,7 +275,11 @@ class MarcasSolicitudesController extends AdminController
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
             'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
-            'id'                    => $id
+            'id'                    => $id,
+            'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
+            'eventos'               => $datos,
+            'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
+            'tareas'                => $data,
         ]);
         
 

@@ -889,5 +889,20 @@ class MarcasSolicitudes_model extends BaseModel
             }
         }
     }
+
+    public function findAllTipoPublicacion()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_publicacion');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values); 
+    }
     
 }

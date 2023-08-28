@@ -32,7 +32,10 @@
                                             </tr>
                                         </thead>
                                         <tbody >
-                                            <?php foreach($marcas['query'] as $row){ ?>
+                                            <?php 
+                                            if(!empty($marcas['query']))
+                                            {
+                                                foreach($marcas['query'] as $row){ ?>
                                                 <tr>
                                                     <td><?php echo $row['id'] ?></td>
                                                     <td><?php echo $row['tipo_registro'] ?></td>
@@ -65,7 +68,8 @@
                                                     <td><?php echo $row['pais_nom'] ?></td>
                                                     <td><a href="<?php echo admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']) ?>"><i class="fas fa-edit"></i> Editar</a>
                                                 </tr>
-                                            <?php } ?>
+                                            <?php }
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>

@@ -255,11 +255,12 @@ class MarcasSolicitudesController extends AdminController
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
             'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
-            'id'                    => $id
+            'publicaciones'         => $CI->MarcasSolicitudes_model->findPublicacionesByMarca($id),
+            'eventos'               => $CI->MarcasSolicitudes_model->findEventosByMarca($id),
+            'tareas'                => $CI->MarcasSolicitudes_model->findTareasByMarca($id),
+            'id'                    => $id,
+            'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
         ]);
-        
-
-        
     }
 
     /**
@@ -280,9 +281,6 @@ class MarcasSolicitudesController extends AdminController
         $paisSol = array();
         $claseNiza = array();
         $solicitantes = array();
-       /* var_dump($form);
-        die();*/
-        
         /*Seteamos el arreglo para la solicitud */
         
         $solicitud['id'] = $form['id'];

@@ -202,7 +202,16 @@ class PublicacionesMarcasController extends AdminController
 
     public function show(string $id = null)
     {
-
+        $CI = &get_instance();
+        $CI->load->model("PublicacionesMarcas_model");
+        $query = $CI->PublicacionesMarcas_model->find($id);
+        if(!empty($query))
+        {
+           echo json_encode($query[0]);
+        }
+        else{
+            echo json_encode(['code' => '404', 'message' => 'not found']);
+        }
     }
 
     /**
@@ -305,15 +314,6 @@ class PublicacionesMarcasController extends AdminController
                 ]
             ],
             [
-                'field' => 'solicitud_id',
-                'label' => 'Solcitud',
-                'rules' => 'trim|required|regex_match[/[0-9]*/]',
-                'errors' => [
-                    'required' => 'Debe indicar la solicitud de marcas',
-                    'regex_match' => 'El número de solictud no es valido',
-                ]
-            ],
-            [
                 'field' => 'tomo',
                 'label' => 'Tomo',
                 'rules' => 'trim|required|regex_match[/[0-9]*/]',
@@ -361,5 +361,78 @@ class PublicacionesMarcasController extends AdminController
         return redirect('pi/publicacionesmarcascontroller/');
         
         
+    }
+
+    public function addPublicacionMarcas($id = null)
+    {
+        $CI = &get_instance();
+        $CI->load->model('PublicacionesMarcas_model');
+        $form = $CI->input->post();
+        $query = $CI->PublicacionesMarcas_model->insert([
+            'tipo_pub_id' => $form['tipo_publicacion'],
+            'boletin_id'  => $form['boletin_publicacion'],
+            'marcas_id'   => $id,
+            'tomo'        => $form['tomo_publicacion'],
+            'pagina'      => $form['pag_publicacion'],
+            'fecha'       => date('Y-m-d'),
+        ]);
+        if($query)
+        {
+            echo json_encode(['code' => 200, 'message' => 'Publicacion cargada exitosamente']);
+        }
+    }
+
+    public function getAllPublicacionesByMarca($id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model('PublicacionesMarcas_model');
+        $query = $CI->PublicacionesMarcas_model->findAllByMarcas($id);
+        $result = array();
+        if(!empty($query))
+        {
+            foreach($query as $row)
+            {
+                $result[] = [
+                    'fecha'         => date('d/m/Y', strtotime($row['fecha'])),
+                    'boletin_id'    => $row['boletin_id'],
+                    'tomo'          => $row['tomo'],
+                    'pagina'        => $row['pagina'],
+                    'nombre'        => $row['nombre'],
+                    'acciones'      => '<button class="btn btn-light editPublicacion" id='.$row['id'].'><i class="fas fa-edit"></i>Editar</button>
+                                        <button type="button" class="btn btn-danger deletePublicacion" id='.$row['id'].'><i class="fas fa-trash"></i>Borrar</button>'
+                ];
+            }
+            echo json_encode(['code' => 200, 'message' => 'Consulta realizada exitosamente', 'data' => $result]);
+        }
+    }
+
+    public function updatePublicacionByMarca($id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model('PublicacionesMarcas_model');
+        $form = $CI->input->post();
+        $data = array(
+            'tipo_pub_id' => $form['tipo_pub_id'],
+            'boletin_id'  => $form['boletin_id'],
+            'tomo'        => $form['tomo'],
+            'pagina'      => $form['pagina'],
+            'marcas_id'   => $form['marcas_id'],
+        );
+        $query = $CI->PublicacionesMarcas_model->update($form['id'], $data);
+        if($query)
+        {
+            echo json_encode(['code' => 200, 'message' => 'editado exitosamente']);
+        }
+    }
+
+    public function deletePublicacionByMarca($id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model('PublicacionesMarcas_model');
+        $query = $CI->PublicacionesMarcas_model->delete($id);
+        if($query)
+        {
+            echo json_encode(['code' => 200, 'message' => 'borrado exitosamente']);
+        }
     }
 }

@@ -839,5 +839,70 @@ class MarcasSolicitudes_model extends BaseModel
             return $query->result_array();
         }
     }
+
+    public function findPublicacionesByMarca($id = NULL)
+    {
+        if(!is_null($id))
+        {
+            $this->db->select('a.id, b.descripcion, a.tomo, a.pagina');
+            $this->db->from('tbl_marcas_publicaciones a');
+            $this->db->join('tbl_boletines b', 'a.boletin_id = b.id');
+            $this->db->join('tbl_paises c', 'b.pais_id = c.id');
+            $this->db->where('a.marcas_id', $id);
+            $query = $this->db->get();
+            if($query->num_rows() > 0)
+            {
+                return $query->result_array();
+            }
+        }
+    }
+
+    public function findEventosByMarca($id = NULL)
+    {
+        if(!is_null($id))
+        {
+            $this->db->select('a.id, b.descripcion, a.comentarios, a.fecha');
+            $this->db->from('tbl_marcas_eventos a');
+            $this->db->join('tbl_tipos_eventos b', 'a.tipo_evento_id = b.id');
+            $this->db->where('a.marcas_id', $id);
+            $query = $this->db->get();
+            if($query->num_rows() > 0)
+            {
+                return $query->result_array();
+            }
+        }
+        
+    }
+
+    public function findTareasByMarca($id = NULL)
+    {
+        if(!is_null($id))
+        {
+            $this->db->select('a.id, b.nombre, a.fecha');
+            $this->db->from('tbl_marcas_tareas a');
+            $this->db->join('tbl_tipos_tareas b', 'a.tipo_tareas_id = b.id');
+            $this->db->where('a.marcas_id', $id);
+            $query = $this->db->get();
+            if($query->num_rows() > 0)
+            {
+                return $query->result_array();
+            }
+        }
+    }
+
+    public function findAllTipoPublicacion()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_publicacion');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values); 
+    }
     
 }

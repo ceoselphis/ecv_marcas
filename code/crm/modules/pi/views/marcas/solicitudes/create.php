@@ -413,31 +413,160 @@ init_head();?>
                                 </div>
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">
-                                    <div class="col-md-12">
-                                        <button id="renovacion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Renovacion</button>
-                                        <button id = "cesion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cesion</button>
-                                        <button id = "licencia" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Licencia</button>
-                                        <button id = "fusion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Fusion</button>
-                                        <button id = "cambio_nombre" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Nombre</button>
-                                        <button id = "cambio_domicilio" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Domicilio</button>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#cesion" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="cesion">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir Cesion</button>
+                                                                <table id="cesionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Código</th>
+                                                                            <th>Tipo</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Solicitud</th>
+                                                                            <th>Creacion</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
-                                            <thead id="anexohead">
-                                                <tr>
-                                                    <th>Código</th>
-                                                    <th>Tipo</th>
-                                                    <th>Estado</th>
-                                                    <th>Solicitud</th>
-                                                    <th>Creacion</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <h3 id="anexotitulo"></h3>
-                                            <tbody id="anexobody">
-
-                                            </tbody>
-                                        </table>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#licencia" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="licencia">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir licencia</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Código</th>
+                                                                            <th>Tipo</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Solicitud</th>
+                                                                            <th>Creacion</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#fusion" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="fusion">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir Fusion</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Código</th>
+                                                                            <th>Tipo</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Solicitud</th>
+                                                                            <th>Creacion</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#cambio_nombre" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio de Nombre<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="cambio_nombre">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir Cambio de nombre</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Código</th>
+                                                                            <th>Tipo</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Solicitud</th>
+                                                                            <th>Creacion</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#cambio_domicilio" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio de Domicilio<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="cambio_domicilio">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir cambio de domicilio</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Código</th>
+                                                                            <th>Tipo</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Solicitud</th>
+                                                                            <th>Creacion</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
@@ -701,37 +830,6 @@ init_head();?>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="editeventosfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
-      </div>
-    </div>
-  </div>
-  <?php echo form_close();?>
-</div>
-<!-- Anexo Modal -->
-<div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open("", ['method' => 'POST', 'id' => 'anexoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Anexo</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Tipo Evento', 'tipo_evento');?>
-                <?php echo form_dropdown('tipo_evento', $tipo_evento, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-12">
-                <?php echo form_label('Comentario', 'evento_comentario');?>
-                <?php echo form_textarea('evento_comentario','',['class' => 'form-control']);?>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="anexofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>

@@ -422,7 +422,7 @@ init_head();?>
                                         <button id = "cambio_domicilio" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Domicilio</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
+                                        <table class="table table-responsive " id="tableResult">
                                             <thead id="anexohead">
                                                 <tr>
                                                     <th>Código</th>
@@ -869,6 +869,7 @@ init_head();?>
 
 <?php init_tail();?>
 
+</script>
     <script>
         // ---------------------------------- Mostrar Anexo -----------------------------------------------
         // Cambio Domicilio------------------------------------------------------

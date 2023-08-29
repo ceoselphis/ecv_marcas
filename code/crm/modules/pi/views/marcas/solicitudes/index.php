@@ -99,48 +99,119 @@
         <div class="row">
             <div class="col-md-4">
                 <?php echo form_label('Boletines','boletin_id' );?>
-                <?php echo form_dropdown('boletin_id', $marcas['Boletines'] , ['class' => 'form-control', 'id' => 'boletin_id']);?>
+                <?php echo form_dropdown([
+                    'name' => 'boletin_id',
+                    'id' => 'boletin_id',
+                    'options' => $marcas['Boletines'],
+                    'class' => 'form-control'
+                ]);?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Clientes','client_id' );?>
-                <?php echo form_dropdown('client_id', $marcas['Clientes'] , ['class' => 'form-control', 'id' => 'client_id']);?>
+                <?php echo form_dropdown([
+                    'id' => 'client_id',
+                    'name' => 'client_id',
+                    'options' => $marcas['Clientes'],
+                    'class' => 'form-control'
+                ]);?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Oficinas','oficina_id' );?>
-                <?php echo form_dropdown('oficina_id', $marcas['Oficinas'] , ['class' => 'form-control', 'id' => 'oficina_id']);?>
+                <?php echo form_dropdown([
+                    'id' => 'oficina_id',
+                    'name' => 'oficina_id',
+                    'options' => $marcas['Oficinas'],
+                    'class' => 'form-control'
+                ]);
+                ?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Responsables','staff_id' );?>
-                <?php echo form_dropdown('staff_id', $marcas['Responsables'] , ['class' => 'form-control', 'id' => 'staff_id']);?>
+                <?php echo form_dropdown(
+                    [
+                        'id'     => 'staff_id',
+                        'name'   => 'staff_id',
+                        'class'  => 'form-control',
+                        'options'=> $marcas['Responsables']
+                    ]
+                );?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipo de Solicitud','tip_sol_id' );?>
-                <?php echo form_dropdown('tip_sol_id', $marcas['Tipo de Solicitud'] , ['class' => 'form-control', 'id' => 'tip_sol_id']);?>
+                <?php
+                echo form_dropdown([
+                    'id' => 'tip_sol_id',
+                    'name' => 'tip_sol_id',
+                    'class' => 'form-control',
+                    'options' => $marcas['Tipo de Solicitud']
+                ]);
+                ?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Estado de Solicitud','est_sol_id' );?>
-                <?php echo form_dropdown('est_sol_id', $marcas['Estado de Solicitud'] , ['class' => 'form-control', 'id' => 'est_sol_id']);?>
+                <?php 
+                echo form_dropdown([
+                    'id' => 'est_sol_id',
+                    'name' => 'est_sol_id',
+                    'options' => $marcas['Estado de Solicitud'],
+                    'class' => 'form-control'
+                ]);
+                ?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Pais','pais_id' );?>
-                <br />
-                <?php echo form_dropdown('pais_id', $marcas['Pais'] , ['class' => 'form-control', 'id' => 'pais_id']);?>
+                <?php
+                echo form_dropdown([
+                    'id' => 'pais_id',
+                    'name' => 'pais_id',
+                    'options' => $marcas['Pais'],
+                    'class' => 'form-control'
+                ]);
+                ?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipos de Signo','tip_signo_id' );?>
-                <?php echo form_dropdown('tip_signo_id', $marcas['Tipos de Signo'] , ['class' => 'form-control', 'id' => 'tip_signo_id']);?>
+                <?php
+                echo form_dropdown([
+                    'id' => 'tip_signo_id',
+                    'name' => 'tip_signo_id',
+                    'class' => 'form-control',
+                    'options' => $marcas['Tipos de Signo']
+                ]);
+                ?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Clase Niza','clase_niza_id' );?>
-                <?php echo form_dropdown('clase_niza_id', $marcas['Clase Niza'] , ['class' => 'form-control', 'id' => 'clase_niza_id']);?>
+                <?php 
+                echo form_dropdown([
+                    'id' => 'clase_niza_id',
+                    'name' => 'clase_niza_id',
+                    'options' => $marcas['Clase Niza'],
+                    'class' => 'form-control'
+                ]);
+                ?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipo de Registro','tip_reg_id' );?>
-                <?php echo form_dropdown('tip_reg_id', $marcas['Tipo de Registro'] , ['class' => 'form-control', 'id' => 'tip_reg_id']);?>
+                <?php 
+                echo form_dropdown([
+                    'id'        => 'tip_reg_id',
+                    'name'      => 'tip_reg_id',
+                    'options'   => $marcas['Tipo de Registro'],
+                    'class'     => 'form-control'
+                ]);
+                ?>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipo de Evento','tip_eve_id' );?>
-                <?php echo form_dropdown('tip_eve_id', $marcas['Tipo de Evento'] , ['class' => 'form-control', 'id' => 'tip_eve_id']);?>
+                <?php
+                echo form_dropdown([
+                    'id'        => 'tip_eve_id',
+                    'name'      => 'tip_eve_id',
+                    'class'     => 'form-control',
+                    'options'   =>  $marcas['Tipo de Evento']
+                ]);
+                ?>
             </div>
         </div>
       </div>
@@ -174,29 +245,32 @@
     });
 </script>
 <script>
+    $("select").selectpicker({
+            liveSearch:true,
+            virtualScroll: 600
+    });
     $("select[multiple=multiple]").selectpicker({
             liveSearch:true,
             virtualScroll: 600
-        });
+    });
     $("#filterSubmit").on('click', function(event)
     {
         event.preventDefault();
         var params = {
-            'pais_id'         : JSON.stringify($("select[name=pais_id]").val()),
-            'boletin_id'      : JSON.stringify($("select[name=boletin_id]").val()),
-            'client_id'       : JSON.stringify($("select[name=client_id]").val()),
-            'oficina_id'      : JSON.stringify($("select[name=oficina_id]").val()),
-            'staff_id'        : JSON.stringify($("select[name=staff_id]").val()),
-            'tip_sol_id'      : JSON.stringify($("select[name=tip_sol_id]").val()),
-            'est_sol_id'      : JSON.stringify($("select[name=est_sol_id]").val()),
-            'tip_signo_id'    : JSON.stringify($("select[name=tip_signo_id]").val()),
-            'clase_niza_id'   : JSON.stringify($("select[name=clase_niza_id]").val()),
-            'tip_reg_id'      : JSON.stringify($("select[name=tip_reg_id]").val()),
-            'tip_eve_id'      : JSON.stringify($("select[name=tip_eve_id]").val())
+            'pais_id'         : $("select[name=pais_id]").val(),
+            'boletin_id'      : $("select[name=boletin_id]").val(),
+            'client_id'       : $("select[name=client_id]").val(),
+            'oficina_id'      : $("select[name=oficina_id]").val(),
+            'staff_id'        : $("select[name=staff_id]").val(),
+            'tip_sol_id'      : $("select[name=tip_sol_id]").val(),
+            'est_sol_id'      : $("select[name=est_sol_id]").val(),
+            'tip_signo_id'    : $("select[name=tip_signo_id]").val(),
+            'clase_niza_id'   : $("select[name=clase_niza_id]").val(),
+            'tip_reg_id'      : $("select[name=tip_reg_id]").val(),
+            'tip_eve_id'      : $("select[name=tip_eve_id]").val()
         };
-        console.log(params);
         $.ajax({
-            url: "<?php echo admin_url('pi/MarcasSolicitudesController/search')?>",
+            url: "<?php echo admin_url('pi/MarcasSolicitudesController/filterSearch')?>",
             method: "POST",
             data: {
                 "csrf_token_name" : $("input[name=csrf_token_name]").val(),

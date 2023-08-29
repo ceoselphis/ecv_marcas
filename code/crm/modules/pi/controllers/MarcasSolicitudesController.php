@@ -593,4 +593,22 @@ class MarcasSolicitudesController extends AdminController
         }
         
     }
+
+    public function filterSearch()
+    {
+        $CI = &get_instance();
+        $CI->load->model('MarcasSolicitudes_model');
+        $form = json_decode($CI->input->post('data'), TRUE);
+        $search = array();
+        foreach($form as $key => $value)
+        {
+            if($value != '')
+            {
+                $search[$key] = $value;
+            }
+        }
+        $result = array();
+        
+    }
+
 }

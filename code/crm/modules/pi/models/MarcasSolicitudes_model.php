@@ -77,8 +77,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_marcas_tipo_registro');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -107,8 +107,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_tipo_solicitud');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -136,8 +136,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_estado_expediente');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -164,8 +164,8 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllOficinas()
     {
         $query = $this->db->get('tbl_oficina');
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['oficina_id']);
@@ -186,8 +186,8 @@ class MarcasSolicitudes_model extends BaseModel
     public function findAllClients()
     {
         $query = $this->db->get('tblclients');
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['userid']);
@@ -217,8 +217,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_paises');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -248,8 +248,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tblstaff');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['staffid']);
@@ -279,8 +279,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_tipo_signo');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -310,8 +310,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_marcas_clase_niza');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['clase_niza_id']);
@@ -326,8 +326,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->from('tbl_marcas_clase_niza');
         $this->db->where('clase_niza_id = '.$id);
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['clase_niza_id']);
@@ -342,8 +342,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->from('tbl_tipos_eventos');
         $this->db->where('materia_id  = 2');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -360,8 +360,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->where('tbl_materias.descripcion = "Marcas"');
         $this->db->where('tipo_eve_id = '.$id);
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['tipo_eve_id']);
@@ -413,8 +413,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->join('tbl_propietarios b', 'a.propietario_id = b.id');
         $this->db->where('a.marcas_id = '.$id);
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['marcas_id']);
@@ -430,8 +430,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->join('tbl_paises b', 'a.id = b.id');
         $this->db->where('a.marcas_id = '.$id);
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['pais_id']);
@@ -478,8 +478,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->join('tbl_marcas_clase_niza b', 'a.clase_id = b.clase_niza_id');
         $this->db->where('a.marcas_id = '.$id);
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['clase_id']);
@@ -493,8 +493,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_boletines');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -560,8 +560,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_propietarios');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -597,8 +597,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_tipos_tareas');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -895,8 +895,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_tipo_publicacion');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);

@@ -4,6 +4,9 @@ init_head();?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
+            <pre>
+                <?php echo var_dump($values);?>
+            </pre>
             <div class="col-md-12">
                 <?php echo form_open_multipart('',['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('id', $id);?>

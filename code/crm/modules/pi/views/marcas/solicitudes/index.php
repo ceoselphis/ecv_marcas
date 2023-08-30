@@ -40,7 +40,7 @@
                                                     <td><?php echo $row['id'] ?></td>
                                                     <td><?php echo $row['tipo_registro'] ?></td>
                                                     <td><?php echo $row['nombre_propietario'] ?></td>
-                                                    <td><?php echo $row['signonom'] ?></td>
+                                                    <td><?php echo $row['marca'] ?></td>
                                                     <td><?php echo $row['clase_niza'] ?></td>
                                                     <td><?php echo $row['estado_expediente'] ?></td>
                                                     <td><?php echo $row['solicitud'] ?></td>
@@ -213,10 +213,14 @@
                 ]);
                 ?>
             </div>
+            <div class="col-md-4">
+
+            </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="reset" class="btn btn-gray">Limpiar</button>
         <button id="filterSubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Buscar</button>
       </div>
     </div>
@@ -257,17 +261,17 @@
     {
         event.preventDefault();
         var params = {
-            'pais_id'         : $("select[name=pais_id]").val(),
-            'boletin_id'      : $("select[name=boletin_id]").val(),
-            'client_id'       : $("select[name=client_id]").val(),
-            'oficina_id'      : $("select[name=oficina_id]").val(),
-            'staff_id'        : $("select[name=staff_id]").val(),
-            'tip_sol_id'      : $("select[name=tip_sol_id]").val(),
-            'est_sol_id'      : $("select[name=est_sol_id]").val(),
-            'tip_signo_id'    : $("select[name=tip_signo_id]").val(),
-            'clase_niza_id'   : $("select[name=clase_niza_id]").val(),
-            'tip_reg_id'      : $("select[name=tip_reg_id]").val(),
-            'tip_eve_id'      : $("select[name=tip_eve_id]").val()
+            'i.id'                  : $("select[name=pais_id]").val(),
+            's.boletin_id'          : $("select[name=boletin_id]").val(),
+            'a.client_id'           : $("select[name=client_id]").val(),
+            'a.oficina_id'          : $("select[name=oficina_id]").val(),
+            'a.staff_id'            : $("select[name=staff_id]").val(),
+            'a.tipo_solicitud_id'   : $("select[name=tip_sol_id]").val(),
+            'a.estado_id'           : $("select[name=est_sol_id]").val(),
+            'a.tipo_signo_id'       : $("select[name=tip_signo_id]").val(),
+            'f.clase_niza_id'       : $("select[name=clase_niza_id]").val(),
+            'a.tipo_registro_id'    : $("select[name=tip_reg_id]").val(),
+            'm.tipo_evento_id'      : $("select[name=tip_eve_id]").val()
         };
         $.ajax({
             url: "<?php echo admin_url('pi/MarcasSolicitudesController/filterSearch')?>",
@@ -278,7 +282,29 @@
             },
             success: function(response)
             {
-                console.log(response);
+                table = JSON.parse(response);
+                $("#tableResult").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    destroy: true,
+                    data: table.data,
+                    columns : [
+                        { data: 'id'},
+                        { data: 'tipo'},
+                        { data: 'propietario'},
+                        { data: 'nombre'},
+                        { data: 'clase'},
+                        { data: 'estado'},
+                        { data: 'solicitud'},
+                        { data: 'fecha_solicitud'},
+                        { data: 'registro'},
+                        { data: 'certificado'},
+                        { data: 'vigencia'},
+                        { data: 'pais'},
+                        { data: 'acciones'},
+                    ]
+                });
             } 
         })
     })

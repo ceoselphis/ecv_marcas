@@ -52,10 +52,75 @@ class MarcasDomicilioController extends AdminController
         return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
+    public function EditCambioDomicilio(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("MarcasDomicilio_model");
+        $query =$CI->MarcasDomicilio_model->find($id);
+        echo json_encode($query);   
+     }
     /**
      * Recive the data for create a new item
      */
+    private function flip_dates($date)
+    {
+        try{
+            $wdate = explode('-',$date);
+            $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+            return $cdate;
+        }
+        catch (Exception $e)
+        {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
 
+    private function turn_dates($date)
+    {
+        try{
+            $wdate = explode('/',$date);
+            $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+            return $cdate;
+        }
+        catch (Exception $e)
+        {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+   public function addCambioDomicilio(){
+       $CI = &get_instance();
+       $data = $CI->input->post();
+       if (!empty($data)){
+           /*`tbl_marcas_cambio_domicilio`(`id`, `marcas_id`, `oficina_id`, `staff_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+           $insert = array(
+                           'oficina_id' => $data['oficina'],
+                           'marcas_id' => 1,
+                           'estado_id' => $data['estado'],
+                           'staff_id' => $data['staff'],
+                           'num_solicitud' => $data['nro_solicitud'],
+                           'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                           'num_resolucion' => $data['nro_resolucion'],
+                           'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
+                           'referencia_cliente' => $data['referenciacliente'],
+                           'comentarios' => $data['comentario'],
+                   );
+           
+           $CI->load->model("MarcasDomicilio_model");
+               try{
+                   $query = $CI->MarcasDomicilio_model->insert($insert);
+                       if (isset($query)){
+                           echo "Insertado Correctamente";
+
+                       }else {
+                           echo "No hemos podido Insertar";
+                       }
+               }catch (Exception $e){
+                   return $e->getMessage();
+               }
+       }
+       else {
+           echo "No tiene Data";
+       }
+    }
      public function showCambioDomicilio(){
         $CI = &get_instance();
         $CI->load->model("MarcasDomicilio_model");

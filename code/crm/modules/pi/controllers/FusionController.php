@@ -21,6 +21,73 @@ class FusionController extends AdminController
      * Shows the form to create a new item
      */
 
+     public function EditFusion(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Fusion_model");
+        $query =$CI->Fusion_model->find($id);
+        echo json_encode($query);   
+     }
+
+     private function flip_dates($date)
+     {
+         try{
+             $wdate = explode('-',$date);
+             $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+             return $cdate;
+         }
+         catch (Exception $e)
+         {
+             echo 'Caught exception: ',  $e->getMessage(), "\n";
+         }
+     }
+ 
+     private function turn_dates($date)
+     {
+         try{
+             $wdate = explode('/',$date);
+             $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+             return $cdate;
+         }
+         catch (Exception $e)
+         {
+             echo 'Caught exception: ',  $e->getMessage(), "\n";
+         }
+     }
+    public function addFusion(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        //echo json_encode($data);
+        if (!empty($data)){
+            /*`tbl_marcas_fusion`(`id`, `marcas_id`, `oficina_id`, `num_solicitud`, `fecha_solicitud`, `estado_id`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+            $insert = array(
+                            'oficina_id' => $data['oficina'],
+                            'marcas_id' => 1,
+                            'estado_id' => $data['estado'],
+                            'num_solicitud' => $data['nro_solicitud'],
+                            'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                            'num_resolucion' => $data['nro_resolucion'],
+                            'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
+                            'referencia_cliente' => $data['referenciacliente'],
+                            'comentarios' => $data['comentario'],
+                    );
+            echo "Fusion ",json_encode($insert);
+            $CI->load->model("Fusion_model");
+                try{
+                    $query = $CI->Fusion_model->insert($insert);
+                        if (isset($query)){
+                            echo "Insertado Correctamente";
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+        }
+        else {
+            echo "No tiene Data";
+        }
+     }
     public function create()
     {
         $CI = &get_instance();

@@ -40,10 +40,77 @@ class LicenciaController extends AdminController
         echo json_encode($data);
 
      }
+     public function EditLicencia(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Licencia_model");
+        $query =$CI->Licencia_model->find($id);
+        echo json_encode($query);   
+     }
     /**
      * Shows the form to create a new item
      */
+    private function flip_dates($date)
+    {
+        try{
+            $wdate = explode('-',$date);
+            $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+            return $cdate;
+        }
+        catch (Exception $e)
+        {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
 
+    private function turn_dates($date)
+    {
+        try{
+            $wdate = explode('/',$date);
+            $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+            return $cdate;
+        }
+        catch (Exception $e)
+        {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+     public function addLicencia(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        
+        if (!empty($data)){
+            /*`tbl_marcas_licencia`(`id`, `marcas_id`, `client_id`, `oficina_id`, `staff_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+            $insert = array(
+                            'client_id' => $data['cliente'],
+                            'oficina_id' => $data['oficina'],
+                            'staff_id' => $data['staff'],
+                            'marcas_id' => 1,
+                            'estado_id' => $data['estado'],
+                            'num_solicitud' => $data['nro_solicitud'],
+                            'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                            'num_resolucion' => $data['nro_resolucion'],
+                            'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
+                            'referencia_cliente' => $data['referenciacliente'],
+                            'comentarios' => $data['comentario'],
+                    );
+            
+            $CI->load->model("Licencia_model");
+                try{
+                    $query = $CI->Licencia_model->insert($insert);
+                        if (isset($query)){
+                            echo "Insertado Correctamente";
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+        }
+        else {
+            echo "No tiene Data";
+        }
+     }
     public function create()
     {
         $CI = &get_instance();

@@ -55,8 +55,75 @@ class CesionController extends AdminController
     /**
      * Recive the data for create a new item
      */
+    private function flip_dates($date)
+    {
+        try{
+            $wdate = explode('-',$date);
+            $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+            return $cdate;
+        }
+        catch (Exception $e)
+        {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
 
+    private function turn_dates($date)
+    {
+        try{
+            $wdate = explode('/',$date);
+            $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+            return $cdate;
+        }
+        catch (Exception $e)
+        {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+     public function addCesion(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        //echo json_encode($data);
+        if (!empty($data)){
+            /*`tbl_marcas_cesiones`(`id`, `client_id`, `oficina_id`, `marcas_id`, `staff_id`, `estado_id`, `solicitud_num`, `fecha_solicitud`, `resolucion_num`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+            $insert = array(
+                            'client_id' => $data['cliente'],
+                            'oficina_id' => $data['oficina'],
+                            'staff_id' => $data['staff'],
+                            'marcas_id' => 1,
+                            'estado_id' => $data['estado'],
+                            'solicitud_num' => $data['nro_solicitud'],
+                            'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                            'resolucion_num' => $data['nro_resolucion'],
+                            'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
+                            'referencia_cliente' => $data['referenciacliente'],
+                            'comentarios' => $data['comentario'],
+                    );
 
+            $CI->load->model("Cesion_model");
+                try{
+                    $query = $CI->Cesion_model->insert($insert);
+                        if (isset($query)){
+                            echo "Insertado Correctamente";
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+        }
+        else {
+            echo "No tiene Data";
+        }
+     }
+
+     public function EditCesion(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Cesion_model");
+        $query =$CI->Cesion_model->find($id);
+        echo json_encode($query);   
+     }
      public function showCesion(){
         $CI = &get_instance();
         $CI->load->model("Cesion_model");

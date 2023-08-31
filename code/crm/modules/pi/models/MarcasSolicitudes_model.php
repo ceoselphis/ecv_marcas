@@ -560,8 +560,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_propietarios');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
@@ -637,175 +637,43 @@ class MarcasSolicitudes_model extends BaseModel
         return $query->result_array();
     }
     
-    public function searchWhere($params, $where)
+    public function searchWhere($params): array
     {
-        switch($where){
-            case 1:
-                foreach($params as $row)
-                {
-                    $this->db->or_where('b.boletin_id', $row['b.boletin_id']);
-                }     
-                break;
-            case 2:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                foreach($params as $row)
-                {                
-                    $this->db->or_where('a.staff_id', $row['a.staff_id']);
-                }
-                break;
-            case 3:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                foreach($params as $row)
-                {
-                    $this->db->or_where('h.pais_id', $row['h.pais_id']);
-                }
-                break;
-            case 4:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f','e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g','a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                $this->db->join('tblclients j', 'a.client_id = j.userid');
-                foreach($params as $row)
-                {
-                    $this->db->or_where('a.client_id', $row['a.client_id']);
-                }
-                break;
-            case 5:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                $this->db->join('tbl_tipo_solicitud j', 'j.id = a.tipo_solicitud_id');
-                foreach($params as $row)
-                {
-                    $this->db->or_where('a.tipo_solicitud_id', $row['a.tipo_solicitud_id']);
-                }
-                break;
-            case 6:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                $this->db->join('tbl_tipo_signo j',' a.tipo_signo_id = j.id');
-                foreach($params as $row)
-                {
-                    $this->db->or_where('a.tipo_signo_id', $row['a.tipo_signo_id']);
-                }
-                break;
-            case 7:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                $this->db->join('tbl_marcas_eventos j', 'a.id = j.marcas_id');
-                $this->db->join('tbl_tipos_eventos k', 'j.tipo_evento_id = k.id');
-                foreach($params as $row)
-                {
-                    $this->db->or_where('k.id', $row['k.id']);
-                }
-                break;
-            case 8:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                $this->db->join('tbl_oficina j', 'a.oficina_id = j.oficina_id');
-                foreach($params as $row)
-                {
-                    $this->db->or_where('a.oficina_id', $row['a.oficina_id']);
-                }
-                break;
-            case 9:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                $this->db->join('tbl_estado_expediente j', 'a.estado_id = j.id');
-                foreach($params as $row)
-                {
-                    $this->db->or_where('a.estado_id', $row['a.estado_id']);
-                }
-                break;
-            case 10:
-                $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
-                $this->db->from('tbl_marcas_solicitudes a');
-                $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-                $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-                $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-                $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-                $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-                $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-                $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-                $this->db->join('tbl_marcas_clases j', 'a.id = j.marcas_id');
-                $this->db->join('tbl_marcas_clase_niza k', 'k.clase_niza_id = j.clase_id');
-                foreach($params as $row)
-                {
-                    $this->db->or_where('j.clase_id', $row['j.clase_id']);
-                }
-                break;
-        }
-        $query = $this->db->get();
-        if($query->num_rows() > 0)
+        $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, a.signonom as marca ,f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
+        $this->db->distinct();
+        $this->db->from('tbl_marcas_solicitudes a');
+        $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id', 'left outer');
+        $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id', 'left outer');
+        $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id', 'left outer');
+        $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id', 'left outer');
+        $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id', 'left outer');
+        $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id', 'left outer');
+        $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id', 'left outer');
+        $this->db->join('tbl_paises i', 'h.pais_id = i.id', 'left outer');
+        $this->db->join('tblclients j','a.client_id = j.userid ', 'left outer');
+        $this->db->join('tbl_tipo_solicitud k', 'k.id = a.tipo_solicitud_id', 'left outer');
+        $this->db->join('tbl_tipo_signo l', 'a.tipo_signo_id = l.id', 'left outer');
+        $this->db->join('tbl_marcas_eventos m', 'a.id = m.marcas_id', 'left outer');
+        $this->db->join('tbl_tipos_eventos n', 'm.tipo_evento_id = n.id', 'left outer');
+        $this->db->join('tbl_oficina o', 'a.oficina_id = o.oficina_id', 'left outer');
+        $this->db->join('tbl_estado_expediente p', 'a.estado_id = p.id', 'left outer');
+        $this->db->join('tbl_marcas_clases q', 'a.id = q.marcas_id', 'left outer');
+        $this->db->join('tbl_marcas_clase_niza r', 'r.clase_niza_id = q.clase_id', 'left outer');
+        $this->db->join('tbl_marcas_publicaciones s', 's.marcas_id = a.id', 'left outer');
+        $this->db->join('tbl_boletines t', 't.id = s.boletin_id', 'left outer');
+        $this->db->join('tblstaff u', 'a.staff_id = u.staffid', 'left outer');
+        foreach($params as $key => $value)
         {
-            return $query->result_array();
+            $this->db->where($key, $value);
         }
-        else{
+        $this->db->order_by("a.id", 'ASC');
+        $result = $this->db->get();
+        if($result->num_rows() > 0)
+        {
+            return $result->result_array();
+        }
+        else
+        {
             return [];
         }
     }
@@ -820,18 +688,29 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function findAll()
     {
-        $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, a.signonom, f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
+        $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, a.signonom as marca ,f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
+        $this->db->distinct();
         $this->db->from('tbl_marcas_solicitudes a');
-        $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id');
-        $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id');
-        $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id');
-        $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id');
-        $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id');
-        $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id');
-        $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id');
-        $this->db->join('tbl_paises i', 'h.pais_id = i.id');
-        $this->db->join('tbl_marcas_clases j', 'a.id = j.marcas_id');
-        $this->db->join('tbl_marcas_clase_niza k', 'k.clase_niza_id = j.clase_id');
+        $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id', 'left outer');
+        $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id', 'left outer');
+        $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id', 'left outer');
+        $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id', 'left outer');
+        $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id', 'left outer');
+        $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id', 'left outer');
+        $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id', 'left outer');
+        $this->db->join('tbl_paises i', 'h.pais_id = i.id', 'left outer');
+        $this->db->join('tblclients j','a.client_id = j.userid ', 'left outer');
+        $this->db->join('tbl_tipo_solicitud k', 'k.id = a.tipo_solicitud_id', 'left outer');
+        $this->db->join('tbl_tipo_signo l', 'a.tipo_signo_id = l.id', 'left outer');
+        $this->db->join('tbl_marcas_eventos m', 'a.id = m.marcas_id', 'left outer');
+        $this->db->join('tbl_tipos_eventos n', 'm.tipo_evento_id = n.id', 'left outer');
+        $this->db->join('tbl_oficina o', 'a.oficina_id = o.oficina_id', 'left outer');
+        $this->db->join('tbl_estado_expediente p', 'a.estado_id = p.id', 'left outer');
+        $this->db->join('tbl_marcas_clases q', 'a.id = q.marcas_id', 'left outer');
+        $this->db->join('tbl_marcas_clase_niza r', 'r.clase_niza_id = q.clase_id', 'left outer');
+        $this->db->join('tbl_marcas_publicaciones s', 's.marcas_id = a.id', 'left outer');
+        $this->db->join('tbl_boletines t', 't.id = s.boletin_id', 'left outer');
+        $this->db->join('tblstaff u', 'a.staff_id = u.staffid', 'left outer');
         $this->db->limit(150);
         $query = $this->db->get();
         if($query->num_rows() > 0)
@@ -895,8 +774,8 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_tipo_publicacion');
         $query = $this->db->get();
-        $keys = array();
-        $values = array();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);

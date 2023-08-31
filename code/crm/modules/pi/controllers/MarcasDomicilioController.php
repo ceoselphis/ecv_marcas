@@ -58,6 +58,37 @@ class MarcasDomicilioController extends AdminController
         $query =$CI->MarcasDomicilio_model->find($id);
         echo json_encode($query);   
      }
+
+     public function UpdateCambioDomicilio(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("MarcasDomicilio_model");
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $insert = array(
+                        'oficina_id' => $data['oficina'],
+                        'marcas_id' => 1,
+                        'estado_id' => $data['estado'],
+                        'staff_id' => $data['staff'],
+                        'num_solicitud' => $data['nro_solicitud'],
+                        'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                        'num_resolucion' => $data['nro_resolucion'],
+                        'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
+                        'referencia_cliente' => $data['referenciacliente'],
+                        'comentarios' => $data['comentario'],
+                    );
+                   
+                    echo json_encode($insert);
+                    $query = $CI->MarcasDomicilio_model->update($id, $insert);
+                    if (isset($query))
+                    {
+                        echo "Actualizado Correctamente";
+                    }else {
+                        echo "No hemos podido Actualizar";
+                    }
+        }  else {
+            echo "No tiene Data";
+        }
+    }
     /**
      * Recive the data for create a new item
      */

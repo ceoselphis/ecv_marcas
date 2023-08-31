@@ -124,6 +124,33 @@ class CesionController extends AdminController
         $query =$CI->Cesion_model->find($id);
         echo json_encode($query);   
      }
+     public function UpdateCesion(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Cesion_model");
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $insert = array(
+                        'client_id' => $data['cliente'],
+                        'oficina_id' => $data['oficina'],
+                        'staff_id' => $data['staff'],
+                        'marcas_id' => 1,
+                        'estado_id' => $data['estado'],
+                        'solicitud_num' => $data['nro_solicitud'],
+                        'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                        'resolucion_num' => $data['nro_resolucion'],
+                        'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
+                        'referencia_cliente' => $data['referenciacliente'],
+                        'comentarios' => $data['comentario'],
+                    );
+                   
+
+                    $query = $CI->Cesion_model->update($id, $insert);
+                    if (isset($query))
+                    {
+                        echo "Actualizado Correctamente";
+                    }
+        }  
+    }
      public function showCesion(){
         $CI = &get_instance();
         $CI->load->model("Cesion_model");

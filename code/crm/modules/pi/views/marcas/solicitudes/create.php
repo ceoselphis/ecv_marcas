@@ -854,7 +854,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="editeventosfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="editeventosfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -1012,7 +1012,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="editlicenciafrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="editlicenciafrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -1170,7 +1170,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditCesionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="EditCesionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -1369,7 +1369,6 @@ init_head();?>
             <div class="col-md-3" style="margin-top:10px">
                 <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
                 <?php echo form_input(['name'=>'nro_resolucion','id'=>'nro_resolucionFusion','class' => 'form-control'])?>
-                <?php //echo form_dropdown(['name'=>'nro_solicitud','id'=>'nro_solicitud'], $tipo_evento, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-3" style="margin-top:10px">
             <?php echo form_label('Fecha de Resolucion', 'fecha_solicitud');?>
@@ -1465,7 +1464,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="editfusionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="editfusionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -1694,7 +1693,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="documentoeditfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="documentoeditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -1779,7 +1778,7 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="editCamDom btn btn-light"  data-toggle="modal" data-target="#EditCambioDomicilio"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="editCamDom btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditCambioDomicilio"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
@@ -1810,7 +1809,7 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="editCamNom btn btn-light"  data-toggle="modal" data-target="#EditCambioNombre"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="editCamNom btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCambioNombre"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
@@ -1842,7 +1841,7 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="editFusion btn btn-light"  data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="editFusion btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
@@ -1877,7 +1876,7 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="EditLicencia btn btn-light"  data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="EditLicencia btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
@@ -1910,7 +1909,7 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="EditCesion btn btn-light"  data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="EditCesion btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
@@ -1965,7 +1964,7 @@ init_head();?>
             //                         <td class="text-center">${item.comentarios}</td>
             //                         <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
             //                             <td class="text-center">
-            //                                 <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+            //                                 <a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
             //                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
             //                             </td>
             //                         </form> 

@@ -952,12 +952,12 @@ init_head();?>
                 <?php echo form_input(['name'=>'nro_solicitudlicencia','id'=>'nro_solicitudlicencia','class' => 'form-control'])?>
             </div>
             <div class="col-md-3" style="margin-top:10px">
-            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitud');?>
+            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitudlicencia');?>
             <?php echo form_input([
                                             'id' => 'fecha_solicitudlicencia',
                                             'name' => 'fecha_solicitudlicencia',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud'),
+                                            'value' => set_value('fecha_solicitudlicencia'),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
             </div>   
@@ -967,13 +967,13 @@ init_head();?>
                
             </div>
             <div class="col-md-3" style="margin-top:10px">
-            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucion');?>
+            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionlicencia');?>
             <?php echo form_input([
                                             'id' => 'fecha_resolucionlicencia',
                                             'name' => 'fecha_resolucionlicencia',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud'),
-                                            'placeholder' => 'Fecha Solicitud'
+                                            'value' => set_value('fecha_resolucionlicencia'),
+                                            'placeholder' => 'Fecha Resolucion'
                                         ]);?>
             </div> 
             <div class="col-md-12" style="margin-top:10px">
@@ -2520,6 +2520,8 @@ init_head();?>
                 timepicker:false,
             });
         });
+
+        
     </script>
     <script>
         $("select").selectpicker({

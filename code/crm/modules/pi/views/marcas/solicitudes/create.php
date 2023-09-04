@@ -436,7 +436,7 @@ init_head();?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
+                                                                          
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="body_cesion">
@@ -473,7 +473,7 @@ init_head();?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
+                                                                            
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="body_licencia">
@@ -508,7 +508,7 @@ init_head();?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
+                                                                            
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="body_fusion">
@@ -543,7 +543,7 @@ init_head();?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
+                                                                            
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="body_cambio_nombre">
@@ -579,7 +579,6 @@ init_head();?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id = "body_cambio_domicilio">
@@ -1776,12 +1775,7 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="editCamDom btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditCambioDomicilio"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
+                                   
                                 </tr>
                             `
                         });
@@ -1807,12 +1801,7 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="editCamNom btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCambioNombre"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
+                                    
                                 </tr>
                             `
                         });
@@ -1839,12 +1828,7 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="editFusion btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
+                                   
                                 </tr>
                             `
                          
@@ -1874,12 +1858,7 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="EditLicencia btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
+                                    
                                 </tr>
                             `
                         });
@@ -1907,12 +1886,7 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="EditCesion btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
+                                    
                                 </tr>
                             `
                            

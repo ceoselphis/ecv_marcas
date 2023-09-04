@@ -52,6 +52,99 @@ class CambioNombreController extends AdminController
         return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
+    public function UpdateCambioNombre(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("CambioNombre_model");
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $insert = array(
+                        'oficina_id' => $data['oficina'],
+                        'marcas_id' => 1,
+                        'estado_id' => $data['estado'],
+                        'num_solicitud' => $data['nro_solicitud'],
+                        'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                        'num_resolucion' => $data['nro_resolucion'],
+                        'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
+                        'referencia_cliente' => $data['referenciacliente'],
+                        'comentarios' => $data['comentario'],
+                    );
+                   
+                    echo json_encode($insert);
+                    $query = $CI->CambioNombre_model->update($id, $insert);
+                    if (isset($query))
+                    {
+                        echo "Actualizado Correctamente";
+                    }
+        }  else {
+            echo "No tiene Data";
+        }
+    }
+    public function EditCambioNombre(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("CambioNombre_model");
+        $query =$CI->CambioNombre_model->find($id);
+        echo json_encode($query);   
+     }
+    private function flip_dates($date)
+     {
+         try{
+             $wdate = explode('-',$date);
+             $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+             return $cdate;
+         }
+         catch (Exception $e)
+         {
+             echo 'Caught exception: ',  $e->getMessage(), "\n";
+         }
+     }
+ 
+     private function turn_dates($date)
+     {
+         try{
+             $wdate = explode('/',$date);
+             $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+             return $cdate;
+         }
+         catch (Exception $e)
+         {
+             echo 'Caught exception: ',  $e->getMessage(), "\n";
+         }
+     }
+    public function addCambioNombre(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        if (!empty($data)){
+            /*`tbl_marcas_cambio_nombre`(`id`, `marcas_id`, `oficina_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+            $insert = array(
+                            'oficina_id' => $data['oficina'],
+                            'marcas_id' => 1,
+                            'estado_id' => $data['estado'],
+                            'num_solicitud' => $data['nro_solicitud'],
+                            'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+                            'num_resolucion' => $data['nro_resolucion'],
+                            'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
+                            'referencia_cliente' => $data['referenciacliente'],
+                            'comentarios' => $data['comentario'],
+                    );
+            
+            $CI->load->model("CambioNombre_model");
+                try{
+                    $query = $CI->CambioNombre_model->insert($insert);
+                        if (isset($query)){
+                            echo "Insertado Correctamente";
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+        }
+        else {
+            echo "No tiene Data";
+        }
+     }
+
     public function showCambioNombre(){
         $CI = &get_instance();
         $CI->load->model("CambioNombre_model");

@@ -4,6 +4,9 @@ init_head();?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
+            <pre>
+                <?php echo var_dump($values);?>
+            </pre>
             <div class="col-md-12">
                 <?php echo form_open_multipart('',['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('id', $id);?>
@@ -425,31 +428,186 @@ init_head();?>
                                 </div>
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">
-                                    <div class="col-md-12">
-                                        <button id="renovacion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Renovacion</button>
-                                        <button id = "cesion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cesion</button>
-                                        <button id = "licencia" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Licencia</button>
-                                        <button id = "fusion" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Fusion</button>
-                                        <button id = "cambio_nombre" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Nombre</button>
-                                        <button id = "cambio_domicilio" class="btn btn-primary pull-right" data-toggle="modal" data-target="#">Cambio de Domicilio</button>
-                                    </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
-                                            <thead>
-                                                <tr>
-                                                    <th>Código</th>
-                                                    <th>Tipo</th>
-                                                    <th>Estado</th>
-                                                    <th>Solicitud</th>
-                                                    <th>Creacion</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#cesion" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="cesion">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCesion">Añadir Cesion</button>
+                                                                <table id="cesionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Nº</th>
+                                                                            <th>Cliente</th>
+                                                                            <th>Oficina</th>
+                                                                            <th>Staff</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Nº de Solicitud</th>
+                                                                            <th>Fecha de Solicitud</th>
+                                                                            <th>Nº de Resolucion</th>
+                                                                            <th>Fecha de Resolucion</th>
+                                                                            <th>Referencia Cliente</th>
+                                                                            <th>Comentarios</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="body_cesion">
 
-                                            <h3 id="anexotitulo"></h3>
-                                            <tbody id="anexobody">
-                                            </tbody>
-                                        </table>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#licencia" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="licencia">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddLicencia">Añadir licencia</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Nº</th>
+                                                                            <th>Cliente</th>
+                                                                            <th>Oficina</th>
+                                                                            <th>Staff</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Nº de Solicitud</th>
+                                                                            <th>Fecha de Solicitud</th>
+                                                                            <th>Nº de Resolucion</th>
+                                                                            <th>Fecha de Resolucion</th>
+                                                                            <th>Referencia Cliente</th>
+                                                                            <th>Comentarios</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="body_licencia">
+                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#fusion" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="fusion">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddFusion">Añadir Fusion</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <thead>
+                                                                        <tr>
+                                                                            <th>Nº</th>
+                                                                            <th>Oficina</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Nº de Solicitud</th>
+                                                                            <th>Fecha de Solicitud</th>
+                                                                            <th>Nº de Resolucion</th>
+                                                                            <th>Fecha de Resolucion</th>
+                                                                            <th>Referencia Cliente</th>
+                                                                            <th>Comentarios</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="body_fusion">
+                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#cambio_nombre" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio de Nombre<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="cambio_nombre">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de nombre</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <thead>
+                                                                        <tr>
+                                                                            <th>Nº</th>
+                                                                            <th>Oficina</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Nº de Solicitud</th>
+                                                                            <th>Fecha de Solicitud</th>
+                                                                            <th>Nº de Resolucion</th>
+                                                                            <th>Fecha de Resolucion</th>
+                                                                            <th>Referencia Cliente</th>
+                                                                            <th>Comentarios</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="body_cambio_nombre">
+                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#cambio_domicilio" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio de Domicilio<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="cambio_domicilio">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioDomicilio">Añadir cambio de domicilio</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <thead>
+                                                                        <tr>
+                                                                            <th>Nº</th>
+                                                                            <th>Oficina</th>
+                                                                            <th>Staff</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Nº de Solicitud</th>
+                                                                            <th>Fecha de Solicitud</th>
+                                                                            <th>Nº de Resolucion</th>
+                                                                            <th>Fecha de Resolucion</th>
+                                                                            <th>Referencia Cliente</th>
+                                                                            <th>Comentarios</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                </thead>
+                                                                    <tbody id = "body_cambio_domicilio">
+
+                                                                    </tbody>
+                                                              
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
@@ -514,6 +672,9 @@ init_head();?>
         </div>
     </div>
 </div>
+
+
+
 <!-- Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
@@ -580,7 +741,6 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
 <!-- Tareas Modal Edit -->
 <div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
@@ -613,7 +773,6 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
 <!-- Publicacion Modal -->
 <div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
@@ -654,7 +813,6 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
 <div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
     <?php echo form_hidden('pub_id_edit', set_value('pub_id_edit'));?>
@@ -757,6 +915,758 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
+
+<!-- Añadir Licencia -->
+<div class="modal fade" id="AddLicencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Licencia</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="licenciaid">
+        <div class="col-md-3">
+                <?php echo form_label('Cliente', 'cliente');?>
+                <?php echo form_dropdown(['name'=>'clientelicencia','id'=>'clientelicencia'], $clientes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'oficinalicencia','id'=>'oficinalicencia'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Staff', 'staff');?>  
+                <?php echo form_dropdown(['name'=>'stafflicencia','id'=>'stafflicencia'], $responsable, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'estadolicencia','id'=>'estadolicencia'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'nro_solicitudlicencia','id'=>'nro_solicitudlicencia','class' => 'form-control'])?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_solicitudlicencia',
+                                            'name' => 'fecha_solicitudlicencia',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'nro_resolucionlicencia','id'=>'nro_resolucionlicencia','class' => 'form-control'])?>
+               
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucion');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_resolucionlicencia',
+                                            'name' => 'fecha_resolucionlicencia',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'referenciaclientelicencia','id'=>'referenciaclientelicencia'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'comentario');?>
+                <?php echo form_textarea(['name'=>'comentariolicencia','id'=>'comentariolicencia'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="addlicenciafrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Licencia -->
+<div class="modal fade" id="EditLicencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Licencia</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="licenciaid">
+        <div class="col-md-3">
+                <?php echo form_label('Cliente', 'cliente');?>
+                <?php echo form_dropdown(['name'=>'editclientelicencia','id'=>'editclientelicencia'], $clientes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'editoficinalicencia','id'=>'editoficinalicencia'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Staff', 'staff');?>  
+                <?php echo form_dropdown(['name'=>'editstafflicencia','id'=>'editstafflicencia'], $responsable, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'editestadolicencia','id'=>'editestadolicencia'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'editnro_solicitudlicencia','id'=>'editnro_solicitudlicencia','class' => 'form-control'])?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_solicitudlicencia',
+                                            'name' => 'editfecha_solicitudlicencia',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'editnro_resolucionlicencia','id'=>'editnro_resolucionlicencia','class' => 'form-control'])?>
+               
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucion');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_resolucionlicencia',
+                                            'name' => 'editfecha_resolucionlicencia',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'editreferenciaclientelicencia','id'=>'editreferenciaclientelicencia'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'comentario');?>
+                <?php echo form_textarea(['name'=>'editcomentariolicencia','id'=>'editcomentariolicencia'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="editlicenciafrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Añadir Cesion -->
+<div class="modal fade" id="AddCesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Cesion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="cesionid">
+        <div class="col-md-3">
+                <?php echo form_label('Cliente', 'cliente');?>
+                <?php echo form_dropdown(['name'=>'clienteCesion','id'=>'clienteCesion'], $clientes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'oficinaCesion','id'=>'oficinaCesion'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Staff', 'staff');?>  
+                <?php echo form_dropdown(['name'=>'staffCesion','id'=>'staffCesion'], $responsable, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'estadoCesion','id'=>'estadoCesion'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:15px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'nro_solicitudCesion','id'=>'nro_solicitudCesion','class' => 'form-control'])?>
+            </div>
+            <div class="col-md-3" style="margin-top:15px">
+            <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_solicitudCesion',
+                                            'name' => 'fecha_solicitudCesion',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitudCesion'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:15px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'nro_resolucionCesion','id'=>'nro_resolucionCesion','class' => 'form-control'])?>
+               
+            </div>
+            <div class="col-md-3" style="margin-top:15px">
+            <?php echo form_label('Fecha de Resolucion', 'fecharesolucion');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_resolucionCesion',
+                                            'name' => 'fecha_resolucionCesion',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_resolucionCesion'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'referenciaclienteCesion','id'=>'referenciaclienteCesion'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'comentarioCesion','id'=>'comentarioCesion'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="AddCesionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Cesion -->
+<div class="modal fade" id="EditCesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Cesion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="cesionid">
+        <div class="col-md-3">
+                <?php echo form_label('Cliente', 'cliente');?>
+                <?php echo form_dropdown(['name'=>'editclienteCesion','id'=>'editclienteCesion'], $clientes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'editoficinaCesion','id'=>'editoficinaCesion'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Staff', 'staff');?>  
+                <?php echo form_dropdown(['name'=>'editstaffCesion','id'=>'editstaffCesion'], $responsable, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'editestadoCesion','id'=>'editestadoCesion'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:15px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'editnro_solicitudCesion','id'=>'editnro_solicitudCesion','class' => 'form-control'])?>
+            </div>
+            <div class="col-md-3" style="margin-top:15px">
+            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_solicitudCesion',
+                                            'name' => 'editfecha_solicitudCesion',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:15px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'editnro_resolucionCesion','id'=>'editnro_resolucionCesion','class' => 'form-control'])?>
+               
+            </div>
+            <div class="col-md-3" style="margin-top:15px">
+            <?php echo form_label('Fecha de Resolucion', 'fecharesolucion');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_resolucionCesion',
+                                            'name' => 'editfecha_resolucionCesion',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'editreferenciaclienteCesion','id'=>'editreferenciaclienteCesion'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'editcomentarioCesion','id'=>'editcomentarioCesion'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="EditCesionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+<!-- Añadir Cambio de Domicilio -->
+<div class="modal fade" id="AddCambioDomicilio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Cambio de Domicilio</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="camdomid">
+        <div class="col-md-4">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'oficinaCamDom','id'=>'oficinaCamDom'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_label('Staff', 'staff');?>  
+                <?php echo form_dropdown(['name'=>'staffCamDom','id'=>'staffCamDom'], $responsable, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'estadoCamDom','id'=>'estadoCamDom'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'nro_solicitudCamDom','id'=>'nro_solicitudCamDom','class' => 'form-control'])?>
+              
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_solicitudCamDom',
+                                            'name' => 'fecha_solicitudCamDom',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'nro_resolucionCamDom','id'=>'nro_resolucionCamDom','class' => 'form-control'])?>
+                <?php //echo form_dropdown(['name'=>'nro_solicitud','id'=>'nro_solicitud'], $tipo_evento, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Resolucion', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_resolucionCamDom',
+                                            'name' => 'fecha_resolucionCamDom',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'referenciaclienteCamDom','id'=>'referenciaclienteCamDom'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'comentarioCamDom','id'=>'comentarioCamDom'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="AddCambioDomiciliofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Cambio de Domicilio -->
+<div class="modal fade" id="EditCambioDomicilio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Cambio de Domicilio</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="camdomid">
+        <div class="col-md-4">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'editoficinaCamDom','id'=>'editoficinaCamDom'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_label('Staff', 'staff');?>  
+                <?php echo form_dropdown(['name'=>'editstaffCamDom','id'=>'editstaffCamDom'], $responsable, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'editestadoCamDom','id'=>'editestadoCamDom'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'editnro_solicitudCamDom','id'=>'editnro_solicitudCamDom','class' => 'form-control'])?>
+              
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_solicitudCamDom',
+                                            'name' => 'editfecha_solicitudCamDom',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'editnro_resolucionCamDom','id'=>'editnro_resolucionCamDom','class' => 'form-control'])?>
+                <?php //echo form_dropdown(['name'=>'nro_solicitud','id'=>'nro_solicitud'], $tipo_evento, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Resolucion', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_resolucionCamDom',
+                                            'name' => 'editfecha_resolucionCamDom',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'editreferenciaclienteCamDom','id'=>'editreferenciaclienteCamDom'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'editcomentarioCamDom','id'=>'editcomentarioCamDom'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="EditCambioDomiciliofrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+<!-- Añadir Fusion -->
+<div class="modal fade" id="AddFusion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Fusion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="fusionid">
+        <div class="col-md-6">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'oficinaFusion','id'=>'oficinaFusion'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'estadoFusion','id'=>'estadoFusion'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'nro_solicitudFusion','id'=>'nro_solicitudFusion','class' => 'form-control'])?>
+              
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_solicitudFusion',
+                                            'name' => 'fecha_solicitudFusion',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'nro_resolucion','id'=>'nro_resolucionFusion','class' => 'form-control'])?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Resolucion', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_resolucionFusion',
+                                            'name' => 'fecha_resolucionFusion',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'referenciaclienteFusion','id'=>'referenciaclienteFusion'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'comentarioFusion','id'=>'comentarioFusion'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="addfusionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Fusion -->
+<div class="modal fade" id="EditFusion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Fusion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="fusionid">
+        <div class="col-md-6">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'editoficinaFusion','id'=>'editoficinaFusion'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'editestadoFusion','id'=>'editestadoFusion'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'editnro_solicitudFusion','id'=>'editnro_solicitudFusion','class' => 'form-control'])?>
+              
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_solicitudFusion',
+                                            'name' => 'editfecha_solicitudFusion',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'editnro_resolucion','id'=>'editnro_resolucionFusion','class' => 'form-control'])?>
+                <?php //echo form_dropdown(['name'=>'nro_solicitud','id'=>'nro_solicitud'], $tipo_evento, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Resolucion', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_resolucionFusion',
+                                            'name' => 'editfecha_resolucionFusion',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'editreferenciaclienteFusion','id'=>'editreferenciaclienteFusion'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'editcomentarioFusion','id'=>'editcomentarioFusion'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="editfusionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+<!-- Añadir Cambio de Nombre -->
+<div class="modal fade" id="AddCambioNombre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Cambio de Nombre</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="camnomid">
+        <div class="col-md-6">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'oficinaCamNom','id'=>'oficinaCamNom'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'estadoCamNom','id'=>'estadoCamNom'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'nro_solicitudCamNom','id'=>'nro_solicitudCamNom','class' => 'form-control'])?>
+              
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_solicitudCamNom',
+                                            'name' => 'fecha_solicitudCamNom',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'nro_resolucionCamNom','id'=>'nro_resolucionCamNom','class' => 'form-control'])?>
+                <?php //echo form_dropdown(['name'=>'nro_solicitud','id'=>'nro_solicitud'], $tipo_evento, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Resolucion', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'fecha_resolucionCamNom',
+                                            'name' => 'fecha_resolucionCamNom',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'referenciaclienteCamNom','id'=>'referenciaclienteCamNom'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'comentarioCamNom','id'=>'comentarioCamNom'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="AddCambioNombrefrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Cambio de Nombre -->
+<div class="modal fade" id="EditCambioNombre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Cambio de Nombre</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" id="camnomid">
+        <div class="col-md-6">
+                <?php echo form_label('Oficina', 'oficina');?>
+             
+                <?php echo form_dropdown(['name'=>'editoficinaCamNom','id'=>'editoficinaCamNom'], $oficinas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Estado', 'estado');?>
+                <?php echo form_dropdown(['name'=>'editestadoCamNom','id'=>'editestadoCamNom'], $estados_solicitudes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                <?php echo form_input(['name'=>'editnro_solicitudCamNom','id'=>'editnro_solicitudCamNom','class' => 'form-control'])?>
+              
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_solicitudCamNom',
+                                            'name' => 'editfecha_solicitudCamNom',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div>   
+            <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                <?php echo form_input(['name'=>'editnro_resolucionCamNom','id'=>'editnro_resolucionCamNom','class' => 'form-control'])?>
+                <?php //echo form_dropdown(['name'=>'nro_solicitud','id'=>'nro_solicitud'], $tipo_evento, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+            <?php echo form_label('Fecha de Resolucion', 'fecha_solicitud');?>
+            <?php echo form_input([
+                                            'id' => 'editfecha_resolucionCamNom',
+                                            'name' => 'editfecha_resolucionCamNom',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+            </div> 
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                <?php echo form_input(['name'=>'editreferenciaclienteCamNom','id'=>'editreferenciaclienteCamNom'],'',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'evento_comentario');?>
+                <?php echo form_textarea(['name'=>'editcomentarioCamNom','id'=>'editcomentarioCamNom'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="EditCambioNombrefrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
 <!-- Anexo Modal -->
 <div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'anexoFrm']);?>
@@ -829,7 +1739,6 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
 <!-- Documento Modal Edit -->
 <div class="modal fade" id="docModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrmedit']);?>
@@ -872,7 +1781,6 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
 <!-- Signo Modal -->
 <div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
@@ -914,7 +1822,6 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
 <!-- Signo Modal -->
 <div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
@@ -988,34 +1895,20 @@ init_head();?>
          // ---------------------------------- Mostrar Anexo -----------------------------------------------
         // Cambio Domicilio------------------------------------------------------
         
+        Cesion()
         CambioDomicilio();
+        CambioNombre();
+        Fusion();
+        Licencia();
         function CambioDomicilio(){
-            let title = `Cambio de Domicilio`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Oficina</th>
-                    <th>Staff</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/");?>';
             let eliminar = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
-            
+            let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
                         eliminar = eliminar+item.id;
-                        let body = `<tr Domicilioid = "${item.id}"> 
+                         body += `<tr CamDomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
                                     <td class="text-center">${item.staff}</td>
@@ -1028,46 +1921,27 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="editCamDom btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditCambioDomicilio"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
                                 </tr>
                             `
-                        $('#anexobody').html(body);     
-                    });
+                        });
+                        $('#body_cambio_domicilio').html(body);     
                 })
         }
-        $('#cambio_domicilio').on('click',function(){
-            CambioDomicilio();
-        })
+      
         // Cambio de Nombre
-        $('#cambio_nombre').on('click',function(){
-            let title = `Cambio de Nombre`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Oficina</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            $('#anexobody').html(``);
+        function CambioNombre(){
             let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/");?>';
             let eliminar = '<?php echo admin_url("pi/CambioNombreController/destroy/");?>';
+            let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
                         eliminar = eliminar+item.id;
-                        let body = `<tr Domicilioid = "${item.id}"> 
+                         body += `<tr CamNomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
                                     <td class="text-center">${item.estado}</td>
@@ -1079,43 +1953,27 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="editCamNom btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCambioNombre"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
                                 </tr>
                             `
-                        $('#anexobody').html(body);     
-                    });
+                        });
+                        $('#body_cambio_nombre').html(body);     
                 })
-        })
-        // Fusion
-        $('#fusion').on('click',function(){
-            let title = `Fusion`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Oficina</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            $('#anexobody').html(``);
+        }
+        
+       // Fusion
+        function Fusion(){
             let url = '<?php echo admin_url("pi/FusionController/showFusion/");?>';
             let eliminar = '<?php echo admin_url("pi/FusionController/destroy/");?>';
+            let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
                         eliminar = eliminar+item.id;
-                        let body = `<tr Domicilioid = "${item.id}"> 
+                         body += `<tr Fusionid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
                                     <td class="text-center">${item.estado}</td>
@@ -1127,47 +1985,28 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="editFusion btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
                                 </tr>
                             `
-                        $('#anexobody').html(body);     
+                         
                     });
+                    $('#body_fusion').html(body);   
                 })
-        })
-
-        // Licencia
-        $('#licencia').on('click',function(){
-            let title = `Licencia`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Cliente</th>
-                    <th>Oficina</th>
-                    <th>Staff</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            $('#anexobody').html(``);
+        }
+        
+         // Licencia
+        function Licencia(){
             let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/");?>';
             let eliminar = '<?php echo admin_url("pi/LicenciaController/destroy/");?>';
+            let body= ``;
                 $.get(url, function(response){
-                    console.log(response);
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
                         eliminar = eliminar+item.id;
-                        let body = `<tr Licenciaid = "${item.id}"> 
+                         body += `<tr Licenciaid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -1181,47 +2020,26 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="EditLicencia btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
                                 </tr>
                             `
-                        $('#anexobody').html(body);     
-                    });
-                })
-        })
-
+                        });
+                        $('#body_licencia').html(body);     
+                    })
+        }
         // Cesion
-        $('#cesion').on('click',function(){
-            let title = `Cesion`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Cliente</th>
-                    <th>Oficina</th>
-                    <th>Staff</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            $('#anexobody').html(``);
+        function Cesion(){
             let url = '<?php echo admin_url("pi/CesionController/showCesion/");?>';
             let eliminar = '<?php echo admin_url("pi/CesionController/destroy/");?>';
+            let body= ``;
                 $.get(url, function(response){
-                    console.log(response);
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
                         eliminar = eliminar+item.id;
-                        let body = `<tr Licenciaid = "${item.id}"> 
+                         body += `<tr Cesionid = "${item.id}" > 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -1235,16 +2053,18 @@ init_head();?>
                                     <td class="text-center">${item.comentarios}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <a class="EditCesion btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit"></i>Editar</a>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                         </td>
                                     </form> 
                                 </tr>
                             `
-                        $('#anexobody').html(body);     
+                           
+                       
                     });
+                       $('#body_cesion').html(body);   
                 })
-        })
+        }
 
         // Renovacion
         $('#renovacion').on('click',function(){
@@ -1301,6 +2121,113 @@ init_head();?>
         })
 
          //----------------------------------- Funciones de la Informacion que Trae desde la Base de Datos -----------------------------------------------
+         //Modal Edit Cesion
+        $(document).on('click','.EditCesion',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('cesionid');
+            console.log(id);
+            let url = '<?php echo admin_url("pi/CesionController/EditCesion/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
+            let cesion =JSON.parse(response);
+            $('#cesionid').val(cesion[0]['id']);
+            $('#editclienteCesion').val(cesion[0]['client_id']);
+            $('#editoficinaCesion').val(cesion[0]['oficina_id']);
+            $('#editstaffCesion').val(cesion[0]['staff_id']);
+            $('#editnro_solicitudCesion').val(cesion[0]['solicitud_num']);
+            $('#editfecha_solicitudCesion').val(cesion[0]['fecha_solicitud']);
+            $('#editnro_resolucionCesion').val(cesion[0]['resolucion_num']);
+            $('#editfecha_resolucionCesion').val(cesion[0]['fecha_resolucion']);
+            $('#editreferenciaclienteCesion').val(cesion[0]['referencia_cliente']);
+            $('#editcomentarioCesion').val(cesion[0]['comentarios']);
+            
+            })
+        })
+
+            //Modal Edit Licencia
+            $(document).on('click','.EditLicencia',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('licenciaid');
+            let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
+            let licencia =JSON.parse(response);
+            $('#licenciaid').val(licencia[0]['id']);
+            $('#editclientelicencia').val(licencia[0]['client_id']);
+            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
+            $('#editstafflicencia').val(licencia[0]['staff_id']);
+            $('#editestadolicencia').val(licencia[0]['estado_id']);
+            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
+            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
+            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
+            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
+            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
+            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
+            
+            })
+        })
+
+            //Modal Edit Fusion
+            $(document).on('click','.editFusion',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('fusionid');
+            let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
+            let fusion =JSON.parse(response);
+            $('#fusionid').val(fusion[0]['id']); 
+            $('#editoficinaFusion').val(fusion[0]['oficina_id']);
+            $('#editestadoFusion').val(fusion[0]['estado_id']);
+            $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
+            $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
+            $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
+            $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
+            $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
+            $('#editcomentarioFusion').val(fusion[0]['comentarios']);
+            
+            })
+        })
+
+          //Modal Edit Cambio Nombre
+          $(document).on('click','.editCamNom',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('CamNomid');
+            let url = '<?php  echo admin_url("pi/CambioNombreController/EditCambioNombre/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
+            let fusion =JSON.parse(response);
+            $('#camnomid').val(fusion[0]['id']); 
+            $('#editoficinaCamNom').val(fusion[0]['oficina_id']);
+            $('#editestadoCamNom').val(fusion[0]['estado_id']);
+            $('#editnro_solicitudCamNom').val(fusion[0]['num_solicitud']);
+            $('#editfecha_solicitudCamNom').val(fusion[0]['fecha_solicitud']);
+            $('#editnro_resolucionCamNom').val(fusion[0]['num_resolucion']);
+            $('#editfecha_resolucionCamNom').val(fusion[0]['fecha_resolucion']);
+            $('#editreferenciaclienteCamNom').val(fusion[0]['referencia_cliente']);
+            $('#editcomentarioCamNom').val(fusion[0]['comentarios']);
+            
+           })
+        })
+            //Modal Edit Cambio de Domicilio
+            $(document).on('click','.editCamDom',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('CamDomid');
+            let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
+            let fusion =JSON.parse(response);
+            $('#camdomid').val(fusion[0]['id']); 
+            $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
+            $('#editestadoCamDom').val(fusion[0]['estado_id']);
+            $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
+            $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
+            $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
+            $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
+            $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
+            $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
+            
+           })
+        })
          //Modal Edit Documento
          $(document).on('click','.editdoc',function(){
             let element = $(this)[0].parentElement.parentElement;
@@ -2816,5 +3743,7 @@ init_head();?>
             }            
         });
     </script>
+
+    
 </body>
 </html>

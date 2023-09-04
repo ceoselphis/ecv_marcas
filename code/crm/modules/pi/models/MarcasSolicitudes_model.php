@@ -784,4 +784,6 @@ class MarcasSolicitudes_model extends BaseModel
         return array_combine($keys, $values); 
     }
     
+    
+
 }

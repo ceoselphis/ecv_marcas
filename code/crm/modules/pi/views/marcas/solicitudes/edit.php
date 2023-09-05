@@ -4,9 +4,6 @@ init_head();?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
-            <pre>
-                <?php echo var_dump($values);?>
-            </pre>
             <div class="col-md-12">
                 <?php echo form_open_multipart('',['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('id', $id);?>
@@ -354,7 +351,7 @@ init_head();?>
                                                         <td><?php echo $row['comentarios'];?></td>
                                                         <td><?php echo $row['fecha'];?></td>
                                                        
-                                                        <form method="DELETE" action="<?php echo admin_url("pi/EventosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/EventosController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                             <td>
                                                                 <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
                                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
@@ -389,6 +386,7 @@ init_head();?>
                                                 <tr>
                                                     <th>Id</th>
                                                     <th>Descripcion</th>
+                                                    <th>Comentarios</th>
                                                     <th>Fecha</th>
                                                     <th>Acciones</th>
                                                 </tr>
@@ -402,7 +400,7 @@ init_head();?>
                                                         <td><?php echo $row['tipo_tarea'];?></td>
                                                         <td><?php echo $row['descripcion'];?></td>
                                                         <td><?php echo $row['fecha'];?></td>
-                                                        <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                             <td>
                                                                 <a id="<?php echo $row['id'];?>" class="edit btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
                                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
@@ -640,7 +638,7 @@ init_head();?>
                                                         <td><?php echo $row['descripcion'];?></td>
                                                         <td><?php echo $row['path'];?></td>
                                                         <td><?php echo $row['comentario'];?></td>
-                                                        <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                             <td>
                                                                 <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
                                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
@@ -952,12 +950,12 @@ init_head();?>
                 <?php echo form_input(['name'=>'nro_solicitudlicencia','id'=>'nro_solicitudlicencia','class' => 'form-control'])?>
             </div>
             <div class="col-md-3" style="margin-top:10px">
-            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitud');?>
+            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitudlicencia');?>
             <?php echo form_input([
                                             'id' => 'fecha_solicitudlicencia',
                                             'name' => 'fecha_solicitudlicencia',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud'),
+                                            'value' => set_value('fecha_solicitudlicencia'),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
             </div>   
@@ -967,13 +965,13 @@ init_head();?>
                
             </div>
             <div class="col-md-3" style="margin-top:10px">
-            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucion');?>
+            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionlicencia');?>
             <?php echo form_input([
                                             'id' => 'fecha_resolucionlicencia',
                                             'name' => 'fecha_resolucionlicencia',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud'),
-                                            'placeholder' => 'Fecha Solicitud'
+                                            'value' => set_value('fecha_resolucionlicencia'),
+                                            'placeholder' => 'Fecha Resolucion'
                                         ]);?>
             </div> 
             <div class="col-md-12" style="margin-top:10px">
@@ -2032,7 +2030,7 @@ init_head();?>
         }
         // Cesion
         function Cesion(){
-            let url = '<?php echo admin_url("pi/CesionController/showCesion/");?>';
+            let url = '<?php echo admin_url("pi/CesionController/showCesion/$id");?>';
             let eliminar = '<?php echo admin_url("pi/CesionController/destroy/");?>';
             let body= ``;
                 $.get(url, function(response){
@@ -2299,7 +2297,431 @@ init_head();?>
         }
 
         //----------------------------------- Modad Para Añadir y Editar -----------------------------------------------
+            //Añadir Cesion ---------------------------------------------------------------------------
+            $(document).on('click','#AddCesionfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_maracas = '<?php echo $id?>';
+            var cliente =  $('#clienteCesion').val();
+            var oficina = $('#oficinaCesion').val();
+            var staff =  $('#staffCesion').val();
+            var estado =  $('#estadoCesion').val();
+            var nro_solicitud =  $('#nro_solicitudCesion').val();
+            var fecha_solicitud = $('#fecha_solicitudCesion').val();
+            var nro_resolucion =  $('#nro_resolucionCesion').val();
+            var fecha_resolucion = $('#fecha_resolucionCesion').val();
+            var referenciacliente =  $('#referenciaclienteCesion').val();
+            var comentario =  $('#comentarioCesion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_maracas',id_maracas);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/CesionController/addCesion");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddCesion").modal('hide');
+                Cesion()
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
 
+        //Editar Cesion ---------------------------------------------------------------------------
+        $(document).on('click','#EditCesionfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#cesionid').val();
+            var cliente =  $('#editclienteCesion').val();
+            var oficina = $('#editoficinaCesion').val();
+            var staff =  $('#editstaffCesion').val();
+            var estado =  $('#editestadoCesion').val();
+            var nro_solicitud =  $('#editnro_solicitudCesion').val();
+            var fecha_solicitud = $('#editfecha_solicitudCesion').val();
+            var nro_resolucion =  $('#editnro_resolucionCesion').val();
+            var fecha_resolucion = $('#editfecha_resolucionCesion').val();
+            var referenciacliente =  $('#editreferenciaclienteCesion').val();
+            var comentario =  $('#editcomentarioCesion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/CesionController/UpdateCesion/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditCesion").modal('hide');
+                Cesion()
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+         //Añadir Licencia ---------------------------------------------------------------------------
+         $(document).on('click','#addlicenciafrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var cliente =  $('#clientelicencia').val();
+            var oficina = $('#oficinalicencia').val();
+            var staff =  $('#stafflicencia').val();
+            var estado =  $('#estadolicencia').val();
+            var nro_solicitud =  $('#nro_solicitudlicencia').val();
+            var fecha_solicitud = $('#fecha_solicitudlicencia').val();
+            var nro_resolucion =  $('#nro_resolucionlicencia').val();
+            var fecha_resolucion = $('#fecha_resolucionlicencia').val();
+            var referenciacliente =  $('#referenciaclientelicencia').val();
+            var comentario =  $('#comentariolicencia').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/LicenciaController/addLicencia");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddLicencia").modal('hide');
+                Licencia()
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+
+        //Editar Licencia ---------------------------------------------------------------------------
+         $(document).on('click','#editlicenciafrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#licenciaid').val();
+            var cliente =  $('#editclientelicencia').val();
+            var oficina = $('#editoficinalicencia').val();
+            var staff =  $('#editstafflicencia').val();
+            var estado =  $('#editestadolicencia').val();
+            var nro_solicitud =  $('#editnro_solicitudlicencia').val();
+            var fecha_solicitud = $('#editfecha_solicitudlicencia').val();
+            var nro_resolucion =  $('#editnro_resolucionlicencia').val();
+            var fecha_resolucion = $('#editfecha_resolucionlicencia').val();
+            var referenciacliente =  $('#editreferenciaclientelicencia').val();
+            var comentario =  $('#editcomentariolicencia').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/LicenciaController/UpdateLicencia/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditLicencia").modal('hide');
+                Licencia()
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+
+        
+
+        //Añadir Fusion ---------------------------------------------------------------------------
+        $(document).on('click','#addfusionfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var oficina = $('#oficinaFusion').val();
+            var estado =  $('#estadoFusion').val();
+            var nro_solicitud =  $('#nro_solicitudFusion').val();
+            var fecha_solicitud = $('#fecha_solicitudFusion').val();
+            var nro_resolucion =  $('#nro_resolucionFusion').val();
+            var fecha_resolucion = $('#fecha_resolucionFusion').val();
+            var referenciacliente =  $('#referenciaclienteFusion').val();
+            var comentario =  $('#comentarioFusion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('oficina',oficina);
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/FusionController/addFusion");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddFusion").modal('hide');
+                Fusion()
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+
+        //Editar Fusion ---------------------------------------------------------------------------
+        $(document).on('click','#editfusionfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#fusionid').val();
+            var oficina = $('#editoficinaFusion').val();
+            var estado =  $('#editestadoFusion').val();
+            var nro_solicitud =  $('#editnro_solicitudFusion').val();
+            var fecha_solicitud = $('#editfecha_solicitudFusion').val();
+            var nro_resolucion =  $('#editnro_resolucionFusion').val();
+            var fecha_resolucion = $('#editfecha_resolucionFusion').val();
+            var referenciacliente =  $('#editreferenciaclienteFusion').val();
+            var comentario =  $('#editcomentarioFusion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('oficina',oficina);
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/FusionController/UpdateFusion/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditFusion").modal('hide');
+                Fusion();
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+         //Añadir Cambio de Nombre -----------------------------------------------------------------
+         $(document).on('click','#AddCambioNombrefrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var oficina = $('#oficinaCamNom').val();
+            var estado =  $('#estadoCamNom').val();
+            var nro_solicitud =  $('#nro_solicitudCamNom').val();
+            var fecha_solicitud = $('#fecha_solicitudCamNom').val();
+            var nro_resolucion =  $('#nro_resolucionCamNom').val();
+            var fecha_resolucion = $('#fecha_resolucionCamNom').val();
+            var referenciacliente =  $('#referenciaclienteCamNom').val();
+            var comentario =  $('#comentarioCamNom').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('oficina',oficina);
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/CambioNombreController/addCambioNombre");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddCambioNombre").modal('hide');
+                CambioNombre();
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        }); 
+
+         //Editar Cambio de Nombre -----------------------------------------------------------------
+         $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#camnomid').val();
+            var oficina = $('#editoficinaCamNom').val();
+            var estado =  $('#editestadoCamNom').val();
+            var nro_solicitud =  $('#editnro_solicitudCamNom').val();
+            var fecha_solicitud = $('#editfecha_solicitudCamNom').val();
+            var nro_resolucion =  $('#editnro_resolucionCamNom').val();
+            var fecha_resolucion = $('#editfecha_resolucionCamNom').val();
+            var referenciacliente =  $('#editreferenciaclienteCamNom').val();
+            var comentario =  $('#editcomentarioCamNom').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('oficina',oficina);
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/CambioNombreController/UpdateCambioNombre/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditCambioNombre").modal('hide');
+                CambioNombre();
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        }); 
+
+         //Añadir Cambio Domicilio ----------------------------------------------------------------------
+         $(document).on('click','#AddCambioDomiciliofrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var oficina = $('#oficinaCamDom').val();
+            var staff =  $('#staffCamDom').val();
+            var estado =  $('#estadoCamDom').val();
+            var nro_solicitud =  $('#nro_solicitudCamDom').val();
+            var fecha_solicitud = $('#fecha_solicitudCamDom').val();
+            var nro_resolucion =  $('#nro_resolucionCamDom').val();
+            var fecha_resolucion = $('#fecha_resolucionCamDom').val();
+            var referenciacliente =  $('#referenciaclienteCamDom').val();
+            var comentario =  $('#comentarioCamDom').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilio");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddCambioDomicilio").modal('hide');
+                CambioDomicilio();
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+
+        //Editar Cambio Domicilio ----------------------------------------------------------------------
+        $(document).on('click','#EditCambioDomiciliofrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#camdomid').val();
+            var oficina = $('#editoficinaCamDom').val();
+            var staff =  $('#editstaffCamDom').val();
+            var estado =  $('#editestadoCamDom').val();
+            var nro_solicitud =  $('#editnro_solicitudCamDom').val();
+            var fecha_solicitud = $('#editfecha_solicitudCamDom').val();
+            var nro_resolucion =  $('#editnro_resolucionCamDom').val();
+            var fecha_resolucion = $('#editfecha_resolucionCamDom').val();
+            var referenciacliente =  $('#editreferenciaclienteCamDom').val();
+            var comentario =  $('#editcomentarioCamDom').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditCambioDomicilio").modal('hide');
+                CambioDomicilio();
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
         //Añadir Documento ---------------------------------------------------------------------------
         $(document).on('click','#documentofrmsubmit',function(e){
             e.preventDefault();
@@ -2520,6 +2942,8 @@ init_head();?>
                 timepicker:false,
             });
         });
+
+        
     </script>
     <script>
         $("select").selectpicker({

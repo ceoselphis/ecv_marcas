@@ -90,7 +90,7 @@ class CesionController extends AdminController
                             'client_id' => $data['cliente'],
                             'oficina_id' => $data['oficina'],
                             'staff_id' => $data['staff'],
-                            'marcas_id' => 1,
+                            'marcas_id' => $data['id_maracas'],
                             'estado_id' => $data['estado'],
                             'solicitud_num' => $data['nro_solicitud'],
                             'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -151,10 +151,10 @@ class CesionController extends AdminController
                     }
         }  
     }
-     public function showCesion(){
+     public function showCesion(string $id = null){
         $CI = &get_instance();
         $CI->load->model("Cesion_model");
-        $marcas = $CI->Cesion_model->findAll();
+        $marcas = $CI->Cesion_model->findAllCesionMarcas($id);
         $data = array();
         foreach ($marcas as $row){
             $data[] = array(

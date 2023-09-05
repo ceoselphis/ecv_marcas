@@ -217,12 +217,12 @@ class EventosController extends AdminController
      * Deletes the item
      */
 
-    public function destroy(string $id)
+    public function destroy(string $id ,string $identificacion )
     {
         $CI = &get_instance();
         $CI->load->model("Eventos_model");
         $CI->load->helper('url');
-        $query = $CI->Eventos_model->delete($id);
-        return redirect('pi/MarcasSolicitudesController/create');
+        $query = $CI->Eventos_model->delete($identificacion);
+        return redirect('pi/MarcasSolicitudesController/edit/'.$id);
     }
 }

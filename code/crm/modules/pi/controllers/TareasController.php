@@ -268,13 +268,13 @@ class TareasController extends AdminController
      * Deletes the item
      */
 
-    public function destroy(string $id)
+    public function destroy(string $id,string $identificacion)
     {
         $CI = &get_instance();
         $CI->load->model("Tareas_Model");
         $CI->load->helper('url');
-        $query = $CI->Tareas_Model->delete($id);
-        return redirect('pi/MarcasSolicitudesController/create');
+        $query = $CI->Tareas_Model->delete($identificacion);
+        return redirect('pi/MarcasSolicitudesController/edit/'.$id);
         
         
     }

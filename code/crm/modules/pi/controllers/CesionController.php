@@ -90,7 +90,7 @@ class CesionController extends AdminController
                             'client_id' => $data['cliente'],
                             'oficina_id' => $data['oficina'],
                             'staff_id' => $data['staff'],
-                            'marcas_id' => $data['id_maracas'],
+                            'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
                             'solicitud_num' => $data['nro_solicitud'],
                             'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -133,7 +133,6 @@ class CesionController extends AdminController
                         'client_id' => $data['cliente'],
                         'oficina_id' => $data['oficina'],
                         'staff_id' => $data['staff'],
-                        'marcas_id' => 1,
                         'estado_id' => $data['estado'],
                         'solicitud_num' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -321,7 +320,11 @@ class CesionController extends AdminController
         $CI->load->model("Cesion_model");
         $CI->load->helper('url');
         $query = $CI->Cesion_model->delete($id);
-        return redirect('pi/CesionController/');
+        if (isset($query)){
+            echo "Eliminado Correctamente";
+        }else {
+            echo "No se ha podido Eliminar";
+        }
         
         
     }

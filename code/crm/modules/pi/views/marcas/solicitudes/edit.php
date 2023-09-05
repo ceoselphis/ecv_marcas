@@ -35,7 +35,7 @@ init_head();?>
                                             <a href="#step7" data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Anexos</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">8</span> <i> Documentos</i></a>
+                                            <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab" style="background-color:#4BB543; color: white; border-color: white">8</span> <i style="color:#4BB543"> Documentos</i></a>
                                         </li>
                                     </ul>
                             </div>
@@ -402,7 +402,7 @@ init_head();?>
                                                         <td><?php echo $row['fecha'];?></td>
                                                         <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                             <td>
-                                                                <a id="<?php echo $row['id'];?>" class="edit btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                                                <a id="<?php echo $row['id'];?>" class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
                                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                             </td>
                                                         </form> 
@@ -1899,13 +1899,11 @@ init_head();?>
         Fusion();
         Licencia();
         function CambioDomicilio(){
-            let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/");?>';
-            let eliminar = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
+            let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
                          body += `<tr CamDomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -1917,12 +1915,12 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
                                             <a class="editCamDom btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditCambioDomicilio"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                            <button class="Cambio-Domicilio-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
                                         </td>
-                                    </form> 
                                 </tr>
                             `
                         });
@@ -1932,13 +1930,11 @@ init_head();?>
       
         // Cambio de Nombre
         function CambioNombre(){
-            let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/");?>';
-            let eliminar = '<?php echo admin_url("pi/CambioNombreController/destroy/");?>';
+            let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/$id");?>';
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
                          body += `<tr CamNomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -1949,12 +1945,12 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
                                             <a class="editCamNom btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCambioNombre"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                            <button class="Cambio-Nombre-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
                                         </td>
-                                    </form> 
                                 </tr>
                             `
                         });
@@ -1964,13 +1960,11 @@ init_head();?>
         
        // Fusion
         function Fusion(){
-            let url = '<?php echo admin_url("pi/FusionController/showFusion/");?>';
-            let eliminar = '<?php echo admin_url("pi/FusionController/destroy/");?>';
+            let url = '<?php echo admin_url("pi/FusionController/showFusion/$id");?>';
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
                          body += `<tr Fusionid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -1981,12 +1975,13 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
                                             <a class="editFusion btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                            <button class="fusion-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
                                         </td>
-                                    </form> 
+                                  
                                 </tr>
                             `
                          
@@ -1997,13 +1992,11 @@ init_head();?>
         
          // Licencia
         function Licencia(){
-            let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/");?>';
-            let eliminar = '<?php echo admin_url("pi/LicenciaController/destroy/");?>';
+            let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/$id");?>';
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
                          body += `<tr Licenciaid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
@@ -2016,12 +2009,13 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
                                             <a class="EditLicencia btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                            <button class="licencia-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
                                         </td>
-                                    </form> 
+                                    
                                 </tr>
                             `
                         });
@@ -2031,12 +2025,10 @@ init_head();?>
         // Cesion
         function Cesion(){
             let url = '<?php echo admin_url("pi/CesionController/showCesion/$id");?>';
-            let eliminar = '<?php echo admin_url("pi/CesionController/destroy/");?>';
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
                          body += `<tr Cesionid = "${item.id}" > 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
@@ -2049,12 +2041,13 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                         <td class="text-center">
                                             <a class="EditCesion btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                            <button class="cesion-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
                                         </td>
-                                    </form> 
+                                   
                                 </tr>
                             `
                            
@@ -2246,15 +2239,13 @@ init_head();?>
             })
         })
         //Modal Edit Tareas 
-        $(document).on('click','.edit',function(){
+        $(document).on('click','.editTareas',function(){
             let element = $(this)[0].parentElement.parentElement;
             let id = $(element).attr('taskId');
             let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
             url = url + id;
             $.post(url,{id},function(response){
-            // console.log(response);
             let tareas =JSON.parse(response);
-            console.log(tareas[0]['tipo_tareas_id']);
             $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
             $('#editdescripcion').val(tareas[0]['descripcion']);
             $('#Tareaid').val(tareas[0]['id']);
@@ -2296,13 +2287,13 @@ init_head();?>
             return fecha;
         }
 
-        //----------------------------------- Modad Para Añadir y Editar -----------------------------------------------
+        //----------------------------------- Modad Para Añadir, Editar y Eliminar -----------------------------------------------
             //Añadir Cesion ---------------------------------------------------------------------------
             $(document).on('click','#AddCesionfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            const id_maracas = '<?php echo $id?>';
+            const id_marcas = '<?php echo $id?>';
             var cliente =  $('#clienteCesion').val();
             var oficina = $('#oficinaCesion').val();
             var staff =  $('#staffCesion').val();
@@ -2314,7 +2305,7 @@ init_head();?>
             var referenciacliente =  $('#referenciaclienteCesion').val();
             var comentario =  $('#comentarioCesion').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_maracas',id_maracas);
+            formData.append('id_marcas',id_marcas);
             formData.append('cliente',cliente);
             formData.append('oficina',oficina);
             formData.append('staff',staff );
@@ -2391,6 +2382,7 @@ init_head();?>
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
             var cliente =  $('#clientelicencia').val();
             var oficina = $('#oficinalicencia').val();
             var staff =  $('#stafflicencia').val();
@@ -2402,6 +2394,7 @@ init_head();?>
             var referenciacliente =  $('#referenciaclientelicencia').val();
             var comentario =  $('#comentariolicencia').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
             formData.append('cliente',cliente);
             formData.append('oficina',oficina);
             formData.append('staff',staff );
@@ -2482,6 +2475,7 @@ init_head();?>
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
             var oficina = $('#oficinaFusion').val();
             var estado =  $('#estadoFusion').val();
             var nro_solicitud =  $('#nro_solicitudFusion').val();
@@ -2491,6 +2485,7 @@ init_head();?>
             var referenciacliente =  $('#referenciaclienteFusion').val();
             var comentario =  $('#comentarioFusion').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
             formData.append('oficina',oficina);
             formData.append('estado',estado );
             formData.append('nro_solicitud',nro_solicitud );
@@ -2562,6 +2557,7 @@ init_head();?>
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
             var oficina = $('#oficinaCamNom').val();
             var estado =  $('#estadoCamNom').val();
             var nro_solicitud =  $('#nro_solicitudCamNom').val();
@@ -2571,6 +2567,7 @@ init_head();?>
             var referenciacliente =  $('#referenciaclienteCamNom').val();
             var comentario =  $('#comentarioCamNom').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
             formData.append('oficina',oficina);
             formData.append('estado',estado );
             formData.append('nro_solicitud',nro_solicitud );
@@ -2643,6 +2640,7 @@ init_head();?>
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
             var oficina = $('#oficinaCamDom').val();
             var staff =  $('#staffCamDom').val();
             var estado =  $('#estadoCamDom').val();
@@ -2653,6 +2651,7 @@ init_head();?>
             var referenciacliente =  $('#referenciaclienteCamDom').val();
             var comentario =  $('#comentarioCamDom').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
             formData.append('oficina',oficina);
             formData.append('staff',staff );
             formData.append('estado',estado );
@@ -2806,12 +2805,7 @@ init_head();?>
             formData.append('csrf_token_name', csrf_token_name);
             formData.append('tipo_evento' , tipo_evento);
             formData.append('evento_comentario', evento_comentario);
-            console.log("tipo_evento ",tipo_evento);
-            console.log("evento_comentario",evento_comentario);
-            console.log("csrf_token_name", csrf_token_name);
-            console.log("Form Data ", formData);
-            let url = '<?php echo admin_url("pi/EventosController/addEvento");?>'
-            console.log(url);
+            let url = '<?php echo admin_url("pi/EventosController/addEvento");?>';
             $.ajax({
                 url,
                 method: 'POST',
@@ -2820,7 +2814,7 @@ init_head();?>
                 contentType: false
             }).then(function(response){
                 alert_float('success', "Insertado Correctamente");
-                console.log(response);
+                
                 $("#eventoModal").modal('hide');
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
@@ -2840,13 +2834,7 @@ init_head();?>
             formData.append('tipo_evento' , tipo_evento);
             formData.append('comentarios', comentarios);
             formData.append('id', id);
-            console.log('id ',id); 
-            console.log("tipo_evento ",tipo_evento);
-            console.log("comentarios",comentarios);
-            console.log("csrf_token_name", csrf_token_name);
-            console.log("Form Data ", formData);
-            let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/");?>'
-            console.log(url);
+            let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/");?>';
             url = url+id;
             $.ajax({
                 url,
@@ -2856,7 +2844,6 @@ init_head();?>
                 contentType: false
             }).then(function(response){
                 alert_float('success', "Actualizado Correctamente");
-                console.log(response);
                 $("#eventoModalEdit").modal('hide');
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
@@ -2874,12 +2861,7 @@ init_head();?>
             formData.append('csrf_token_name', csrf_token_name);
             formData.append('tipo_tarea' , tipo_tarea);
             formData.append('descripcion', descripcion);
-            console.log("tipo_tarea",tipo_tarea);
-            console.log("descripcion",descripcion);
-            console.log("csrf_token_name", csrf_token_name);
-            console.log("Form Data ", formData);
-            let url = '<?php echo admin_url("pi/TareasController/addTareas");?>'
-            console.log(url);
+            let url = '<?php echo admin_url("pi/TareasController/addTareas");?>';
             $.ajax({
                 url,
                 method: 'POST',
@@ -2907,14 +2889,8 @@ init_head();?>
             formData.append('csrf_token_name', csrf_token_name);
             formData.append('tipo_tarea' , tipo_tarea);
             formData.append('descripcion', descripcion);
-            console.log('id',id);
-            console.log("tipo_tarea",tipo_tarea);
-            console.log("descripcion",descripcion);
-            console.log("csrf_token_name", csrf_token_name);
-            console.log("Form Data ", formData);
             let url = '<?php echo admin_url("pi/TareasController/UpdateTareas/");?>'
             url = url+id;
-            console.log(url);
             $.ajax({
                 url,
                 method: 'POST',
@@ -2924,12 +2900,128 @@ init_head();?>
             }).then(function(response){
                alert_float('success', "Actualizado Correctamente");
                 $("#EditTask").modal('hide');
-               // location.reload();
+               
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
         });
-
+        //Eliminar Cesion
+        $(document).on('click','.cesion-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('Cesionid');
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/CesionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                Cesion();
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+           }
+        });
+         //Eliminar Licencia
+         $(document).on('click','.licencia-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('Licenciaid');
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/LicenciaController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                Licencia();
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+           }
+        });
+         //Eliminar Fusion
+         $(document).on('click','.fusion-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('Fusionid');
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/FusionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                Fusion();
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+           }
+        });
+        //Eliminar Cambio Nombre
+        $(document).on('click','.Cambio-Nombre-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CamNomid');
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/CambioNombreController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                CambioNombre();
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+           }
+        });
+          //Eliminar Cambio Domicilio
+          $(document).on('click','.Cambio-Domicilio-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CamDomid');
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    console.log(response);
+                    alert_float('success', "Eliminado Correctamente");
+                    CambioDomicilio();
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+           }
+        });
+        //-----------------------------------------------
         $(".calendar").on('keyup', function(e){
             e.preventDefault();
             $(".calendar").val('');
@@ -3526,527 +3618,11 @@ init_head();?>
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
 
-        //Añadir Documento ---------------------------------------------------------------------------
-        $(document).on('click','#documentofrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var description =  $('#doc_descripcion').val();
-            var comentario_archivo = $('#comentario_archivo').val();
-            var doc_archivo = $('#doc_archivo')[0].files[0];
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('doc_descripcion' , description);
-            formData.append('comentario_archivo', comentario_archivo);
-            formData.append('doc_archivo', doc_archivo)
-            console.log("descripcion ",description);
-            console.log("Comentario archivo ",comentario_archivo);
-            console.log("Documento Archivo ",doc_archivo );
-            console.log("csrf_token_name", csrf_token_name);
-            console.log(doc_archivo);
-            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>'
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                //console.log(response);
-                $("#docModal").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-        //Editar Documento ---------------------------------------------------------------------------
-        $(document).on('click','#documentoeditfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Documento_id').val();
-            var description =  $('#editdoc_descripcion').val();
-            var comentario_archivo = $('#editcomentario_archivo').val();
-            var doc_archivo = $('#editdoc_archivo')[0].files[0];
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id',id);
-            formData.append('doc_descripcion' , description);
-            formData.append('comentario_archivo', comentario_archivo);
-            formData.append('doc_archivo', doc_archivo);
-            formData.append('csrf_token_name', csrf_token_name);
-            console.log("id ",id);
-            console.log("descripcion ",description);
-            console.log("Comentario archivo ",comentario_archivo);
-            console.log("Documento Archivo ",doc_archivo );
-            console.log("csrf_token_name", csrf_token_name);
-            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/UpdateDocumento/");?>'
-            url = url+id;
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-               // console.log(response);
-                alert_float('success', "Actualizado Correctamente");
-                $("#docModalEdit").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-        //Añadir Evento ---------------------------------------------------------------------------
-        $(document).on('click','#eventosfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var tipo_evento =  $('#tipo_evento').val();
-            var evento_comentario = $('#evento_comentario').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_evento' , tipo_evento);
-            formData.append('evento_comentario', evento_comentario);
-            console.log("tipo_evento ",tipo_evento);
-            console.log("evento_comentario",evento_comentario);
-            console.log("csrf_token_name", csrf_token_name);
-            console.log("Form Data ", formData);
-            let url = '<?php echo admin_url("pi/EventosController/addEvento");?>'
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                console.log(response);
-                $("#eventoModal").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-        //Editar Evento ---------------------------------------------------------------------------
-        $(document).on('click','#editeventosfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Eventoid').val();
-            var tipo_evento =  $('#edittipo_evento').val();
-            var comentarios = $('#editevento_comentario').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_evento' , tipo_evento);
-            formData.append('comentarios', comentarios);
-            formData.append('id', id);
-            console.log('id ',id); 
-            console.log("tipo_evento ",tipo_evento);
-            console.log("comentarios",comentarios);
-            console.log("csrf_token_name", csrf_token_name);
-            console.log("Form Data ", formData);
-            let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/");?>'
-            console.log(url);
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                console.log(response);
-                $("#eventoModalEdit").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-        //Añadir Tareas ---------------------------------------------------------------------------
-        $(document).on('click','#tareasfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var tipo_tarea =  $('#tipo_tarea').val();
-            var descripcion = $('#descripcion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_tarea' , tipo_tarea);
-            formData.append('descripcion', descripcion);
-            console.log("tipo_tarea",tipo_tarea);
-            console.log("descripcion",descripcion);
-            console.log("csrf_token_name", csrf_token_name);
-            console.log("Form Data ", formData);
-            let url = '<?php echo admin_url("pi/TareasController/addTareas");?>'
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#addTask").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-        //Editar Tareas ---------------------------------------------------------------------------
-        $(document).on('click','#tareaseditfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Tareaid').val();
-            var tipo_tarea =  $('#edittipo_tarea').val();
-            var descripcion = $('#editdescripcion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id',id);
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_tarea' , tipo_tarea);
-            formData.append('descripcion', descripcion);
-            console.log('id',id);
-            console.log("tipo_tarea",tipo_tarea);
-            console.log("descripcion",descripcion);
-            console.log("csrf_token_name", csrf_token_name);
-            console.log("Form Data ", formData);
-            let url = '<?php echo admin_url("pi/TareasController/UpdateTareas/");?>'
-            url = url+id;
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-               alert_float('success', "Actualizado Correctamente");
-                $("#EditTask").modal('hide');
-               // location.reload();
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-        //Modal Edit Documento
-        $(document).on('click','.editdoc',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            console.log(element);
-            let id = $(element).attr('docid');
-            console.log(id);
-            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/EditDoc/");?>';
-            url = url + id;
-            console.log(url);
-            $.post(url,{id},function(response){
-            //console.log(response);
-            let doc =JSON.parse(response);
-            console.log("id ",doc[0]['id']);
-            $('#Documento_id').val(doc[0]['id']);
-            $('#editdoc_descripcion').val(doc[0]['descripcion']);
-            $('#editcomentario_archivo').val(doc[0]['comentario']);
-            $('#editdoc_archivo').val(doc[0]['path']);
-            })
-        })
-        //Modal Edit Tareas 
-        $(document).on('click','.edit',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('taskId');
-            let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            // console.log(response);
-            let tareas =JSON.parse(response);
-            console.log(tareas[0]['tipo_tareas_id']);
-            $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
-            $('#editdescripcion').val(tareas[0]['descripcion']);
-            $('#Tareaid').val(tareas[0]['id']);
-            })
-        })
-
-        //Modal Edit Eventos
-        $(document).on('click','.editeventos',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            console.log(element);
-            let id = $(element).attr('eventosid');
-            console.log(id);
-            let url = '<?php echo admin_url("pi/EventosController/EditEventos/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            console.log(response);
-            let eventos =JSON.parse(response);
-            console.log("Tipo Evento ",eventos[0]['tipo_evento_id']);
-            $('#edittipo_evento').val(eventos[0]['tipo_evento_id']);
-            $('#editevento_comentario').val(eventos[0]['comentarios']);
-            $('#Eventoid').val(eventos[0]['id']);
-            })
-        })
-
-        // ---------------------------------- Mostrar Anexo -----------------------------------------------
-        // Cambio Domicilio------------------------------------------------------
         
-        CambioDomicilio();
-        function CambioDomicilio(){
-            let title = `Cambio de Domicilio`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Oficina</th>
-                    <th>Staff</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/");?>';
-            let eliminar = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
-            
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
-                        let body = `<tr Domicilioid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
-                                </tr>
-                            `
-                        $('#anexobody').html(body);     
-                    });
-                })
-        }
-        $('#cambio_domicilio').on('click',function(){
-            CambioDomicilio();
-        })
-        // Cambio de Nombre
-        $('#cambio_nombre').on('click',function(){
-            let title = `Cambio de Nombre`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Oficina</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            $('#anexobody').html(``);
-            let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/");?>';
-            let eliminar = '<?php echo admin_url("pi/CambioNombreController/destroy/");?>';
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
-                        let body = `<tr Domicilioid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
-                                </tr>
-                            `
-                        $('#anexobody').html(body);     
-                    });
-                })
-        })
-        // Fusion
-        $('#fusion').on('click',function(){
-            let title = `Fusion`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Oficina</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            $('#anexobody').html(``);
-            let url = '<?php echo admin_url("pi/FusionController/showFusion/");?>';
-            let eliminar = '<?php echo admin_url("pi/FusionController/destroy/");?>';
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
-                        let body = `<tr Domicilioid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
-                                </tr>
-                            `
-                        $('#anexobody').html(body);     
-                    });
-                })
-        })
+        
+        
 
-        // Licencia
-        $('#licencia').on('click',function(){
-            let title = `Licencia`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Cliente</th>
-                    <th>Oficina</th>
-                    <th>Staff</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            $('#anexobody').html(``);
-            let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/");?>';
-            let eliminar = '<?php echo admin_url("pi/LicenciaController/destroy/");?>';
-                $.get(url, function(response){
-                    console.log(response);
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
-                        let body = `<tr Licenciaid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.cliente}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
-                                </tr>
-                            `
-                        $('#anexobody').html(body);     
-                    });
-                })
-        })
-
-        // Cesion
-        $('#cesion').on('click',function(){
-            let title = `Cesion`;
-            $('#anexotitulo').html(title);
-            let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Cliente</th>
-                    <th>Oficina</th>
-                    <th>Staff</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-            $('#anexohead').html(template);
-            $('#anexobody').html(``);
-            let url = '<?php echo admin_url("pi/CesionController/showCesion/");?>';
-            let eliminar = '<?php echo admin_url("pi/CesionController/destroy/");?>';
-                $.get(url, function(response){
-                    console.log(response);
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                        eliminar = eliminar+item.id;
-                        let body = `<tr Licenciaid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.cliente}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                        <td class="text-center">
-                                            <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                        </td>
-                                    </form> 
-                                </tr>
-                            `
-                        $('#anexobody').html(body);     
-                    });
-                })
-        })
+       
 
     </script>
 

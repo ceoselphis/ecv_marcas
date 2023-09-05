@@ -48,7 +48,6 @@ class FusionController extends AdminController
         if (!empty($data)){
             $insert = array(
                         'oficina_id' => $data['oficina'],
-                        'marcas_id' => 1,
                         'estado_id' => $data['estado'],
                         'num_solicitud' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -88,7 +87,7 @@ class FusionController extends AdminController
             /*`tbl_marcas_fusion`(`id`, `marcas_id`, `oficina_id`, `num_solicitud`, `fecha_solicitud`, `estado_id`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
             $insert = array(
                             'oficina_id' => $data['oficina'],
-                            'marcas_id' => 1,
+                            'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
                             'num_solicitud' => $data['nro_solicitud'],
                             'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -146,10 +145,10 @@ class FusionController extends AdminController
         return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
-    public function showFusion(){
+    public function showFusion(string $id = null){
         $CI = &get_instance();
         $CI->load->model("Fusion_model");
-        $marcas = $CI->Fusion_model->findAll();
+        $marcas = $CI->Fusion_model->findAllFusionMarcas($id);
         $data = array();
         foreach ($marcas as $row){
             $data[] = array(
@@ -319,7 +318,11 @@ class FusionController extends AdminController
         $CI->load->model("Fusion_model");
         $CI->load->helper('url');
         $query = $CI->Fusion_model->delete($id);
-        return redirect('pi/FusionController/');
+        if (isset($query)){
+            echo "Eliminado Correctamente";
+        }else {
+            echo "No se ha podido Eliminar";
+        }
         
         
     }

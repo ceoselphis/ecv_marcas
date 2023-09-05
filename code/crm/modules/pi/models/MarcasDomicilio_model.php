@@ -53,4 +53,13 @@ class MarcasDomicilio_model extends BaseModel
         $values = $query->result_array();
         return $values[0]['nombre']; 
     }
+
+    public function findAllCambioDomicilioMarcas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_cambio_domicilio');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
 }

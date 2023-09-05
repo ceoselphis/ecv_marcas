@@ -254,13 +254,13 @@ class MarcasSolicitudesDocumentoController extends AdminController
      * Deletes the item
      */
 
-    public function destroy(string $id)
+    public function destroy(string $id,string $identificacion)
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudesDocumento_model");
         $CI->load->helper('url');
-        $query = $CI->MarcasSolicitudesDocumento_model->delete($id);
-        return redirect('pi/MarcasSolicitudesController/create');
+        $query = $CI->MarcasSolicitudesDocumento_model->delete($identificacion);
+        return redirect('pi/MarcasSolicitudesController/edit/'.$id);
         
         
     }

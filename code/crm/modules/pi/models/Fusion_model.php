@@ -54,4 +54,13 @@ class Fusion_model extends BaseModel
         $values = $query->result_array();
         return $values[0]['nombre']; 
     }
+
+    public function findAllFusionMarcas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_fusion');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
 }

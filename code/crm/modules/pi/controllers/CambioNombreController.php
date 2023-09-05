@@ -59,7 +59,6 @@ class CambioNombreController extends AdminController
         if (!empty($data)){
             $insert = array(
                         'oficina_id' => $data['oficina'],
-                        'marcas_id' => 1,
                         'estado_id' => $data['estado'],
                         'num_solicitud' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -117,7 +116,7 @@ class CambioNombreController extends AdminController
             /*`tbl_marcas_cambio_nombre`(`id`, `marcas_id`, `oficina_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
             $insert = array(
                             'oficina_id' => $data['oficina'],
-                            'marcas_id' => 1,
+                            'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
                             'num_solicitud' => $data['nro_solicitud'],
                             'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -145,10 +144,10 @@ class CambioNombreController extends AdminController
         }
      }
 
-    public function showCambioNombre(){
+    public function showCambioNombre(string $id = null){
         $CI = &get_instance();
         $CI->load->model("CambioNombre_model");
-        $marcas = $CI->CambioNombre_model->findAll();
+        $marcas = $CI->CambioNombre_model->findAllCambioNombreMarcas($id);
         $data = array();
         foreach ($marcas as $row){
             $data[] = array(
@@ -318,7 +317,11 @@ class CambioNombreController extends AdminController
         $CI->load->model("CambioNombre_model");
         $CI->load->helper('url');
         $query = $CI->CambioNombre_model->delete($id);
-        return redirect('pi/CambioNombreController/');
+        if (isset($query)){
+            echo "Eliminado Correctamente";
+        }else {
+            echo "No se ha podido Eliminar";
+        }
         
         
     }

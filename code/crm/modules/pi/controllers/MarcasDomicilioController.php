@@ -66,7 +66,6 @@ class MarcasDomicilioController extends AdminController
         if (!empty($data)){
             $insert = array(
                         'oficina_id' => $data['oficina'],
-                        'marcas_id' => 1,
                         'estado_id' => $data['estado'],
                         'staff_id' => $data['staff'],
                         'num_solicitud' => $data['nro_solicitud'],
@@ -124,7 +123,7 @@ class MarcasDomicilioController extends AdminController
            /*`tbl_marcas_cambio_domicilio`(`id`, `marcas_id`, `oficina_id`, `staff_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
            $insert = array(
                            'oficina_id' => $data['oficina'],
-                           'marcas_id' => 1,
+                           'marcas_id' => $data['id_marcas'],
                            'estado_id' => $data['estado'],
                            'staff_id' => $data['staff'],
                            'num_solicitud' => $data['nro_solicitud'],
@@ -152,10 +151,10 @@ class MarcasDomicilioController extends AdminController
            echo "No tiene Data";
        }
     }
-     public function showCambioDomicilio(){
+     public function showCambioDomicilio(string $id = null){
         $CI = &get_instance();
         $CI->load->model("MarcasDomicilio_model");
-        $marcas = $CI->MarcasDomicilio_model->findAll();
+        $marcas = $CI->MarcasDomicilio_model->findAllCambioDomicilioMarcas($id);
         $data = array();
         foreach ($marcas as $row){
             $data[] = array(
@@ -321,7 +320,11 @@ class MarcasDomicilioController extends AdminController
         $CI->load->model("MarcasDomicilio_model");
         $CI->load->helper('url');
         $query = $CI->MarcasDomicilio_model->delete($id);
-        return redirect('pi/MarcasDomicilioController/');
+        if (isset($query)){
+            echo "Eliminado Correctamente";
+        }else {
+            echo "No se ha podido Eliminar";
+        }
         
         
     }

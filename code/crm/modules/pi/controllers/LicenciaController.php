@@ -17,10 +17,10 @@ class LicenciaController extends AdminController
         return $CI->load->view('anexos/index', ["anexos" => $CI->Licencia_model->findAll()]);
     }
 
-    public function showLicencia(){
+    public function showLicencia(string $id = null){
         $CI = &get_instance();
         $CI->load->model("Licencia_model");
-        $marcas = $CI->Licencia_model->findAll();
+        $marcas = $CI->Licencia_model->findAllLicenciaMarcas($id);
         $data = array();
         foreach ($marcas as $row){
             $data[] = array(
@@ -56,7 +56,6 @@ class LicenciaController extends AdminController
                         'client_id' => $data['cliente'],
                         'oficina_id' => $data['oficina'],
                         'staff_id' => $data['staff'],
-                        'marcas_id' => 1,
                         'estado_id' => $data['estado'],
                         'num_solicitud' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -112,7 +111,7 @@ class LicenciaController extends AdminController
                             'client_id' => $data['cliente'],
                             'oficina_id' => $data['oficina'],
                             'staff_id' => $data['staff'],
-                            'marcas_id' => 1,
+                            'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
                             'num_solicitud' => $data['nro_solicitud'],
                             'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -321,7 +320,11 @@ class LicenciaController extends AdminController
         $CI->load->model("Licencia_model");
         $CI->load->helper('url');
         $query = $CI->Licencia_model->delete($id);
-        return redirect('pi/LicenciaController/');
+        if (isset($query)){
+            echo "Eliminado Correctamente";
+        }else {
+            echo "No se ha podido Eliminar";
+        }
         
         
     }

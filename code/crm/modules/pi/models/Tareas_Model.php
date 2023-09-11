@@ -45,4 +45,21 @@ class Tareas_Model extends BaseModel
         }
         return $values;
     }
+
+    public function findAllTareasMarcas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_tareas');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
+    public function BuscarTipoTareas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_tareas');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['nombre']; 
+    }
 }

@@ -56,6 +56,23 @@ class TareasController extends AdminController
      * Recive the data for create a new item
      */
 
+     public function showTareas(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Tareas_Model");
+        $marcas = $CI->Tareas_Model->findAllTareasMarcas($id);
+        $data = array();
+        /*`tbl_marcas_eventos`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
+        foreach ($marcas as $row){
+            $data[] = array(
+                'id' => $row['id'],
+                'tipo_tarea' => $CI->Tareas_Model->BuscarTipoTareas($row['tipo_tareas_id']),
+                'descripcion' => $row['descripcion'],
+                'fecha' => $row['fecha'],
+            );
+        }
+        echo json_encode($data);
+
+     }
 
      public function addTareas(){
         $CI = &get_instance();
@@ -63,7 +80,7 @@ class TareasController extends AdminController
         if (!empty($data)){
             $insert = array(
                             'tipo_tareas_id' => $data['tipo_tarea'],
-                            'marcas_id' => 1,
+                            'marcas_id' => $data['id_marcas'],
                             'descripcion' => $data['descripcion'],
                             'fecha' => date('Y-m-d'),
                     );
@@ -86,12 +103,7 @@ class TareasController extends AdminController
         }
      }
 
-     public function showTareas(){
-        $CI = &get_instance();
-        $CI->load->model("Tareas_Model");
-        $query =$CI->Tareas_Model->findAll();
-        echo json_encode($query);
-     }
+    
 
     
      public function EditTareas(string $id = null){
@@ -116,7 +128,6 @@ class TareasController extends AdminController
         if (!empty($data)){
             $insert = array(
                             'tipo_tareas_id' => $data['tipo_tarea'],
-                            'marcas_id' => 1,
                             'descripcion' => $data['descripcion'],
                             'fecha' => date('Y-m-d'),
                     );
@@ -268,13 +279,17 @@ class TareasController extends AdminController
      * Deletes the item
      */
 
-    public function destroy(string $id,string $identificacion)
+     public function destroy(string $id)
     {
         $CI = &get_instance();
         $CI->load->model("Tareas_Model");
         $CI->load->helper('url');
-        $query = $CI->Tareas_Model->delete($identificacion);
-        return redirect('pi/MarcasSolicitudesController/edit/'.$id);
+        $query = $CI->Tareas_Model->delete($id);
+        if (isset($query)){
+            echo "Eliminado Correctamente";
+        }else {
+            echo "No se ha podido Eliminar";
+        }
         
         
     }

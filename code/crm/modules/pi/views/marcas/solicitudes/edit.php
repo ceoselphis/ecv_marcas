@@ -342,30 +342,7 @@ init_head();?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                            <?php if (!empty($eventos)) {?>
-                                                <?php foreach ($eventos as $row) {?>
-                                                    <tr eventosid = "<?php echo $row['id'];?>">
-                                                        <td><?php echo $row['id'];?></td>
-                                                        <td><?php echo $row['tipo_evento'];?></td>
-                                                        <td><?php echo $row['comentarios'];?></td>
-                                                        <td><?php echo $row['fecha'];?></td>
-                                                       
-                                                        <form method="DELETE" action="<?php echo admin_url("pi/EventosController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                            <td>
-                                                                <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                            </td>
-                                                        </form> 
-                                                    </tr>
-                                                <?php } ?>
-                                            <?php }
-                                            else {
-                                            ?>
-                                            <tr colspan="3">
-                                                <td>Sin Registros</td>
-                                            </tr>
-                                            <?php } ?>
+                                            <tbody id= "body_eventos">
                                             </tbody>
                                         </table>
                                     </div>
@@ -385,36 +362,15 @@ init_head();?>
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
-                                                    <th>Descripcion</th>
+                                                    <th>Tipo de Tarea</th>
                                                     <th>Comentarios</th>
                                                     <th>Fecha</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id = "body_tareas">
 
-                                            <?php if (!empty($tareas)) {?>
-                                                <?php foreach ($tareas as $row) {?>
-                                                    <tr taskId = "<?php echo $row['id'];?>">
-                                                        <td id = 'tareasid' ><?php echo $row['id'];?></td>
-                                                        <td><?php echo $row['tipo_tarea'];?></td>
-                                                        <td><?php echo $row['descripcion'];?></td>
-                                                        <td><?php echo $row['fecha'];?></td>
-                                                        <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                            <td>
-                                                                <a id="<?php echo $row['id'];?>" class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
-                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                            </td>
-                                                        </form> 
-                                                    </tr>
-                                                <?php } ?>
-                                            <?php }
-                                            else {
-                                            ?>
-                                            <tr colspan="3">
-                                                <td>Sin Registros</td>
-                                            </tr>
-                                            <?php } ?>
+                                            
                                             </tbody>
                                         </table>
                                     </div>
@@ -1898,6 +1854,8 @@ init_head();?>
         CambioNombre();
         Fusion();
         Licencia();
+        Eventos();
+        Tareas();
         function CambioDomicilio(){
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
             let body= ``;
@@ -2057,6 +2015,89 @@ init_head();?>
                 })
         }
 
+        // Eventos
+        function Eventos(){
+            let url = '<?php echo admin_url("pi/EventosController/showEventos/$id");?>';
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                         body += `<tr eventosid = "${item.id}" > 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.tipo_evento}</td>
+                                    <td class="text-center">${item.comentarios}</td>
+                                    <td class="text-center">${item.fecha}</td>
+                                        <td class="text-center">
+                                            <a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="evento-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>  
+                                   
+                                </tr>
+                            `
+                           
+                       
+                    });
+                       $('#body_eventos').html(body);   
+                })
+        }
+
+        // Tareas
+        function Tareas(){
+            let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                        listadomicilio.forEach(item => {
+                             body += `<tr taskId = "${item.id}">
+                                            <td class="text-center">${item.id}</td>
+                                            <td class="text-center">${item.tipo_tarea}</td>
+                                            <td class="text-center">${item.descripcion}</td>
+                                            <td class="text-center">${item.fecha}</td>
+                                            <td class="text-center">
+                                                <a id="<?php echo $row['id'];?>" class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                                <button class="tarea-delete btn btn-danger">
+                                                <i class="fas fa-trash"></i>Borrar
+                                                </button>
+                                            </td>  
+                                       
+                                    </tr>
+                                `
+                               
+                           
+                        });
+                    
+                       $('#body_tareas').html(body);   
+                })
+        }
+        function Documentos(){
+            let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                        listadomicilio.forEach(item => {
+                             body += `<tr taskId = "${item.id}">
+                                            <td class="text-center">${item.id}</td>
+                                            <td class="text-center">${item.tipo_tarea}</td>
+                                            <td class="text-center">${item.descripcion}</td>
+                                            <td class="text-center">${item.fecha}</td>
+                                            <td class="text-center">
+                                                <a id="<?php echo $row['id'];?>" class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                                <button class="tarea-delete btn btn-danger">
+                                                <i class="fas fa-trash"></i>Borrar
+                                                </button>
+                                            </td>  
+                                       
+                                    </tr>
+                                `
+                               
+                           
+                        });
+                    
+                       $('#body_tareas').html(body);   
+                })
+        }
         // Renovacion
         $('#renovacion').on('click',function(){
             let title = `Renovacion`;
@@ -2726,14 +2767,16 @@ init_head();?>
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
             var description =  $('#doc_descripcion').val();
             var comentario_archivo = $('#comentario_archivo').val();
             var doc_archivo = $('#doc_archivo')[0].files[0];
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('id_marcas',id_marcas);
             formData.append('doc_descripcion' , description);
             formData.append('comentario_archivo', comentario_archivo);
-            formData.append('doc_archivo', doc_archivo)
+            formData.append('doc_archivo', doc_archivo);
+            formData.append('csrf_token_name', csrf_token_name);
             console.log("descripcion ",description);
             console.log("Comentario archivo ",comentario_archivo);
             console.log("Documento Archivo ",doc_archivo );
@@ -2799,12 +2842,14 @@ init_head();?>
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
             var tipo_evento =  $('#tipo_evento').val();
             var evento_comentario = $('#evento_comentario').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('id_marcas',id_marcas);
             formData.append('tipo_evento' , tipo_evento);
             formData.append('evento_comentario', evento_comentario);
+            formData.append('csrf_token_name', csrf_token_name);
             let url = '<?php echo admin_url("pi/EventosController/addEvento");?>';
             $.ajax({
                 url,
@@ -2814,8 +2859,8 @@ init_head();?>
                 contentType: false
             }).then(function(response){
                 alert_float('success', "Insertado Correctamente");
-                
                 $("#eventoModal").modal('hide');
+                Eventos();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -2830,10 +2875,14 @@ init_head();?>
             var tipo_evento =  $('#edittipo_evento').val();
             var comentarios = $('#editevento_comentario').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
+            console.log('id', id); 
+            console.log('tipo_evento' , tipo_evento);
+            console.log('comentarios', comentarios);
+            console.log('csrf_token_name', csrf_token_name);
+            formData.append('id', id); 
             formData.append('tipo_evento' , tipo_evento);
             formData.append('comentarios', comentarios);
-            formData.append('id', id);
+            formData.append('csrf_token_name', csrf_token_name);
             let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/");?>';
             url = url+id;
             $.ajax({
@@ -2845,6 +2894,7 @@ init_head();?>
             }).then(function(response){
                 alert_float('success', "Actualizado Correctamente");
                 $("#eventoModalEdit").modal('hide');
+                Eventos();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -2871,6 +2921,7 @@ init_head();?>
             }).then(function(response){
                 alert_float('success', "Insertado Correctamente");
                 $("#addTask").modal('hide');
+                Tareas();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -2900,11 +2951,12 @@ init_head();?>
             }).then(function(response){
                alert_float('success', "Actualizado Correctamente");
                 $("#EditTask").modal('hide');
-               
+                Tareas();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
         });
+        // ------Eliminar
         //Eliminar Cesion
         $(document).on('click','.cesion-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
@@ -2997,14 +3049,15 @@ init_head();?>
                 });
            }
         });
-          //Eliminar Cambio Domicilio
-          $(document).on('click','.Cambio-Domicilio-delete',function(){
+          //Eliminar Eventos
+          $(document).on('click','.evento-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
                 let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CamDomid');
+                let id = $(element).attr('eventosid');
+                console.log(id);
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
                 formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
+                let url = '<?php echo admin_url("pi/EventosController/destroy/");?>';
                 url= url+id;
                 $.ajax({
                     url,
@@ -3013,9 +3066,31 @@ init_head();?>
                     processData: false,
                     contentType: false
                 }).then(function(response){
-                    console.log(response);
                     alert_float('success', "Eliminado Correctamente");
-                    CambioDomicilio();
+                    Eventos();
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+           }
+        });
+         //Eliminar Tareas
+         $(document).on('click','.tarea-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('taskId');
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TareasController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    Tareas();
                 }).catch(function(response){
                     alert("No puede agregar un Documento sin registro de la solicitud");
                 });

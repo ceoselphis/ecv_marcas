@@ -71,3 +71,27 @@
         //         }
         //     })
         // }
+
+
+        <?php if (!empty($tareas)) {?>
+                                                <?php foreach ($tareas as $row) {?>
+                                                    <tr taskId = "<?php echo $row['id'];?>">
+                                                        <td id = 'tareasid' ><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['tipo_tarea'];?></td>
+                                                        <td><?php echo $row['descripcion'];?></td>
+                                                        <td><?php echo $row['fecha'];?></td>
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a id="<?php echo $row['id'];?>" class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>

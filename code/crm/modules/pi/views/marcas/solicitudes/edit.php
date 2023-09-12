@@ -581,34 +581,13 @@ init_head();?>
                                                     <th>Nº</th>
                                                     <th>Archivo</th>
                                                     <th>Descripcion</th>
-                                                    <th>Creado Por</th>
+                                                    <th>Comentarios</th>
+                                                    <th>Documento</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody >
-                                            <?php if (!empty($SolDoc)) {?>
-                                                <?php foreach ($SolDoc as $row) {?>
-                                                    <tr docid = "<?php echo $row['id'];?>">
-                                                        <td><?php echo $row['id'];?></td>
-                                                        <td><?php echo $row['marcas_id'];?></td>
-                                                        <td><?php echo $row['descripcion'];?></td>
-                                                        <td><?php echo $row['path'];?></td>
-                                                        <td><?php echo $row['comentario'];?></td>
-                                                        <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                            <td>
-                                                                <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                            </td>
-                                                        </form> 
-                                                    </tr>
-                                                <?php } ?>
-                                            <?php }
-                                            else {
-                                            ?>
-                                            <tr colspan="3">
-                                                <td>Sin Registros</td>
-                                            </tr>
-                                            <?php } ?>
+                                            <tbody id="body_documentos">
+                                            
                                             </tbody>
                                         </table>
                                     </div>
@@ -629,7 +608,7 @@ init_head();?>
 
 
 
-<!-- Prioridad Modal -->
+<!-- Añadir Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -664,7 +643,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Tareas Modal -->
+<!-- Añadir Tareas Modal -->
 <div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -695,13 +674,13 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Tareas Modal Edit -->
+<!-- Editar Tareas Modal  -->
 <div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Tareas</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Editar Tareas</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -721,13 +700,13 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="tareaseditfrmsubmit" type="button" class="btn btn-primary">Actualizar</button>
+        <button id="tareaseditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Publicacion Modal -->
+<!-- Añadir Publicacion Modal -->
 <div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
     <?php echo form_hidden('pub_id', set_value('pub_id'));?>
@@ -767,6 +746,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
+<!-- Editar Publicacion Modal -->
 <div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
     <?php echo form_hidden('pub_id_edit', set_value('pub_id_edit'));?>
@@ -806,7 +786,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Evento Modal -->
+<!-- Añadir Evento Modal -->
 <div class="modal fade" id="eventoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -837,7 +817,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Evento Modal Edit -->
+<!-- Editar Evento Modal Edit -->
 <div class="modal fade" id="eventoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -863,7 +843,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="editeventosfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="editeventosfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -1652,7 +1632,7 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Documento Modal Create -->
+<!-- Añadir Documento Modal Create -->
 <div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -1693,13 +1673,13 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Documento Modal Edit -->
+<!-- Editar Documento Modal Edit -->
 <div class="modal fade" id="docModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrmedit']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Documento</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Editar Documento</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -1729,13 +1709,13 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="documentoeditfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="documentoeditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Signo Modal -->
+<!-- Añadir Signo Modal -->
 <div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -1776,13 +1756,13 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-<!-- Signo Modal -->
+<!-- Editar Signo Modal -->
 <div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Documento</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Editar Documento</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -1817,7 +1797,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="signofrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Añadir</button>
+        <button id="signofrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -1856,6 +1836,7 @@ init_head();?>
         Licencia();
         Eventos();
         Tareas();
+        Documentos();
         function CambioDomicilio(){
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
             let body= ``;
@@ -2056,7 +2037,7 @@ init_head();?>
                                             <td class="text-center">${item.descripcion}</td>
                                             <td class="text-center">${item.fecha}</td>
                                             <td class="text-center">
-                                                <a id="<?php echo $row['id'];?>" class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                                <a  class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
                                                 <button class="tarea-delete btn btn-danger">
                                                 <i class="fas fa-trash"></i>Borrar
                                                 </button>
@@ -2071,20 +2052,23 @@ init_head();?>
                        $('#body_tareas').html(body);   
                 })
         }
+        // Documentos
         function Documentos(){
-            let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/showDocumentos/$id");?>';
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
+                    
                         listadomicilio.forEach(item => {
-                             body += `<tr taskId = "${item.id}">
+                             body += `  <tr docid = "${item.id}">
                                             <td class="text-center">${item.id}</td>
-                                            <td class="text-center">${item.tipo_tarea}</td>
+                                            <td class="text-center">${item.marcas_id}</td>
                                             <td class="text-center">${item.descripcion}</td>
-                                            <td class="text-center">${item.fecha}</td>
+                                            <td class="text-center">${item.comentario}</td>
+                                            <td class="text-center">${item.path}</td>
                                             <td class="text-center">
-                                                <a id="<?php echo $row['id'];?>" class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
-                                                <button class="tarea-delete btn btn-danger">
+                                                <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                                <button class="documentos-delete btn btn-danger">
                                                 <i class="fas fa-trash"></i>Borrar
                                                 </button>
                                             </td>  
@@ -2095,7 +2079,7 @@ init_head();?>
                            
                         });
                     
-                       $('#body_tareas').html(body);   
+                       $('#body_documentos').html(body);   
                 })
         }
         // Renovacion
@@ -2772,18 +2756,12 @@ init_head();?>
             var comentario_archivo = $('#comentario_archivo').val();
             var doc_archivo = $('#doc_archivo')[0].files[0];
             var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
             formData.append('id_marcas',id_marcas);
             formData.append('doc_descripcion' , description);
             formData.append('comentario_archivo', comentario_archivo);
             formData.append('doc_archivo', doc_archivo);
-            formData.append('csrf_token_name', csrf_token_name);
-            console.log("descripcion ",description);
-            console.log("Comentario archivo ",comentario_archivo);
-            console.log("Documento Archivo ",doc_archivo );
-            console.log("csrf_token_name", csrf_token_name);
-            console.log(doc_archivo);
             let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>'
-            console.log(url);
             $.ajax({
                 url,
                 method: 'POST',
@@ -2792,8 +2770,8 @@ init_head();?>
                 contentType: false
             }).then(function(response){
                 alert_float('success', "Insertado Correctamente");
-                //console.log(response);
                 $("#docModal").modal('hide');
+                Documentos();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -2808,12 +2786,12 @@ init_head();?>
             var description =  $('#editdoc_descripcion').val();
             var comentario_archivo = $('#editcomentario_archivo').val();
             var doc_archivo = $('#editdoc_archivo')[0].files[0];
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();  
+            formData.append('csrf_token_name', csrf_token_name);
             formData.append('id',id);
             formData.append('doc_descripcion' , description);
             formData.append('comentario_archivo', comentario_archivo);
             formData.append('doc_archivo', doc_archivo);
-            formData.append('csrf_token_name', csrf_token_name);
             console.log("id ",id);
             console.log("descripcion ",description);
             console.log("Comentario archivo ",comentario_archivo);
@@ -2830,8 +2808,10 @@ init_head();?>
                 contentType: false
             }).then(function(response){
                // console.log(response);
+
                 alert_float('success', "Actualizado Correctamente");
                 $("#docModalEdit").modal('hide');
+                Documentos();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -3091,6 +3071,29 @@ init_head();?>
                 }).then(function(response){
                     alert_float('success', "Eliminado Correctamente");
                     Tareas();
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+           }
+        });
+         //Eliminar Documentos
+         $(document).on('click','.documentos-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('docid');
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    Documentos();
                 }).catch(function(response){
                     alert("No puede agregar un Documento sin registro de la solicitud");
                 });

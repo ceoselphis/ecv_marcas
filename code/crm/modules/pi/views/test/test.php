@@ -95,3 +95,27 @@
                                                 <td>Sin Registros</td>
                                             </tr>
                                             <?php } ?>
+
+                                            <?php if (!empty($SolDoc)) {?>
+                                                <?php foreach ($SolDoc as $row) {?>
+                                                    <tr docid = "<?php echo $row['id'];?>">
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['marcas_id'];?></td>
+                                                        <td><?php echo $row['descripcion'];?></td>
+                                                        <td><?php echo $row['path'];?></td>
+                                                        <td><?php echo $row['comentario'];?></td>
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$id}/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>

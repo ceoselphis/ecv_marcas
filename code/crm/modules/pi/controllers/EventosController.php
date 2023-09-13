@@ -55,8 +55,7 @@ class EventosController extends AdminController
         if (!empty($data)){
             $insert = array(
                             'tipo_evento_id' => $data['tipo_evento'],
-                            'marcas_id' => $data['id_marcas']
-                            ,
+                            'marcas_id' => $data['id_marcas'],
                             'comentarios' => $data['evento_comentario'],
                             'fecha' => date('Y-m-d'),
                     );

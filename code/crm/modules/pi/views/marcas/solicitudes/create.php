@@ -14,25 +14,25 @@ init_head();?>
                                     <div class="connecting-line"></div>
                                     <ul class="nav nav-tabs" role="tablist" style="display:flex">
                                         <li role="presentation" class="active">
-                                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registro</i></a>
+                                            <a href="#step1"  data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registro</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Solicitud</i></a>
+                                            <a href="#step2"  data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Solicitud</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Extra</i></a>
+                                            <a href="#step3"  data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Extra</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Expediente</i></a>
+                                            <a href="#step4"  data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Expediente</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab">5</span> <i> Eventos</i></a>
+                                            <a href="#step5"  data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab">5</span> <i> Eventos</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step6" data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab">6</span> <i> Tareas</i></a>
+                                            <a href="#step6"  data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab">6</span> <i> Tareas</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step7" data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Anexos</i></a>
+                                            <a href="#step7"  data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Anexos</i></a>
                                         </li>
                                         <li role="presentation" >
                                             <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab" style="background-color:#4BB543; color: white; border-color: white">8</span> <i style="color:#4BB543"> Documentos</i></a>
@@ -1741,6 +1741,39 @@ init_head();?>
   <?php echo form_close();?>
 </div>
 
+<!-- No puede ingresar -->
+<div class="modal fade" id="ErrorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Problemas al entrar este modulo</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="row" style="text-align: center;"> Primero Guarde antes entrar a este modulo</h1>
+                <div style="justify-content: center; text-align: center;">
+
+                    <img src = "http://localhost/ecv_marcas/code/crm/assets/images/Save.png" style="justify-content: center;" height="300px" width="300px">
+                </div>
+            </div>
+         
+            
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
 
 
 
@@ -1754,6 +1787,24 @@ init_head();?>
         CambioNombre();
         Fusion();
         Licencia();
+        // $(document).on('click','#step5',function(e){
+        //     console.log("Click");
+        //     $("#ErrorModal").modal('show');
+
+        // });
+        // $(document).on('click','#step6',function(e){
+        //     console.log("Click");
+        //     $("#ErrorModal").modal('show');
+        // });
+        // $(document).on('click','#step7',function(e){
+        //     console.log("Click");
+        //     $("#ErrorModal").modal('show');
+        // });
+        // $(document).on('click','#step8',function(e){
+        //     console.log("Click");
+        //     $("#ErrorModal").modal('show');
+        // });
+        
         // ---------------------------------- Mostrar Anexo -----------------------------------------------
         // Cambio Domicilio------------------------------------------------------
         function CambioDomicilio(){
@@ -3252,19 +3303,19 @@ init_head();?>
             });
         });
 
-        $(".next-step").click(function (e) {
+        // $(".next-step").click(function (e) {
 
-            var $active = $('.wizard .nav-tabs li.active');
-            $active.next().removeClass('disabled');
-            nextTab($active);
+        //     var $active = $('.wizard .nav-tabs li.active');
+        //     $active.next().removeClass('disabled');
+        //     nextTab($active);
 
-        });
-        $(".prev-step").click(function (e) {
+        // });
+        // $(".prev-step").click(function (e) {
 
-            var $active = $('.wizard .nav-tabs li.active');
-            prevTab($active);
+        //     var $active = $('.wizard .nav-tabs li.active');
+        //     prevTab($active);
 
-        });
+        // });
     
 
     function nextTab(elem) {

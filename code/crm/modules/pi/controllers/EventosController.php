@@ -27,6 +27,24 @@ class EventosController extends AdminController
         return $CI->load->view('eventos/index', ["eventos" => $data]);
     }
 
+    public function showEventos(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("Eventos_model");
+        $marcas = $CI->Eventos_model->findAllEventosMarcas($id);
+        $data = array();
+        /*`tbl_marcas_eventos`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
+        foreach ($marcas as $row){
+            $data[] = array(
+                'id' => $row['id'],
+                'tipo_evento' => $CI->Eventos_model->findTipoEvento($row['tipo_evento_id']),
+                'comentarios' => $row['comentarios'],
+                'fecha' => $row['fecha'],
+            );
+        }
+        echo json_encode($data);
+
+     }
+
     /**
      * Shows the form to create a new item
      */
@@ -37,7 +55,7 @@ class EventosController extends AdminController
         if (!empty($data)){
             $insert = array(
                             'tipo_evento_id' => $data['tipo_evento'],
-                            'marcas_id' => 1,
+                            'marcas_id' => $data['id_marcas'],
                             'comentarios' => $data['evento_comentario'],
                             'fecha' => date('Y-m-d'),
                     );
@@ -75,7 +93,6 @@ class EventosController extends AdminController
         if (!empty($data)){
             $insert = array(
                             'tipo_evento_id' => $data['tipo_evento'],
-                            'marcas_id' => 1,
                             'comentarios' => $data['comentarios'],
                             'fecha' => date('Y-m-d'),
                     );
@@ -217,12 +234,18 @@ class EventosController extends AdminController
      * Deletes the item
      */
 
-    public function destroy(string $id ,string $identificacion )
-    {
-        $CI = &get_instance();
-        $CI->load->model("Eventos_model");
-        $CI->load->helper('url');
-        $query = $CI->Eventos_model->delete($identificacion);
-        return redirect('pi/MarcasSolicitudesController/edit/'.$id);
-    }
+     public function destroy(string $id)
+     {
+         $CI = &get_instance();
+         $CI->load->model("Eventos_model");
+         $CI->load->helper('url');
+         $query = $CI->Eventos_model->delete($id);
+         if (isset($query)){
+             echo "Eliminado Correctamente";
+         }else {
+             echo "No se ha podido Eliminar";
+         }
+         
+         
+     }
 }

@@ -56,6 +56,25 @@ class MarcasSolicitudesDocumentoController extends AdminController
      * Recive the data for create a new item
      */
 
+     public function showDocumentos(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudesDocumento_model");
+        $marcas = $CI->MarcasSolicitudesDocumento_model->findAllDocumentosMarcas($id);
+        $data = array();
+        /*tbl_marcas_solicitudes_documentos`(`id`, `marcas_id`, `descripcion`, `comentario`, `path`)*/
+        foreach ($marcas as $row){
+            $data[] = array(
+                'id' => $row['id'],
+                'marcas_id' => $CI->MarcasSolicitudesDocumento_model->BuscarSolicitudesMarcas($row['marcas_id']),
+                'descripcion' => $row['descripcion'],
+                'comentario' => $row['comentario'],
+                'path' => $row['path'],
+            );
+        }
+        echo json_encode($data);
+
+     }
+
     public function store()
     {
         $CI = &get_instance();
@@ -151,10 +170,10 @@ class MarcasSolicitudesDocumentoController extends AdminController
         $CI = &get_instance();
         $data = $CI->input->post();
         $file = $_FILES;
-        $doc_arch =$file['doc_archivo']['name'];
+        $doc_arch =$file['doc_archivo']['name']; 
         if (!empty($data)){
             $insert = array(
-                            'marcas_id' => 1,
+                            'marcas_id' => $data['id_marcas'],
                             'descripcion' => $data['doc_descripcion'],
                             'comentario' => $data['comentario_archivo'],
                             'path' => $doc_arch,
@@ -254,14 +273,20 @@ class MarcasSolicitudesDocumentoController extends AdminController
      * Deletes the item
      */
 
-    public function destroy(string $id,string $identificacion)
-    {
-        $CI = &get_instance();
-        $CI->load->model("MarcasSolicitudesDocumento_model");
-        $CI->load->helper('url');
-        $query = $CI->MarcasSolicitudesDocumento_model->delete($identificacion);
-        return redirect('pi/MarcasSolicitudesController/edit/'.$id);
-        
-        
-    }
+    
+
+    public function destroy(string $id)
+     {
+         $CI = &get_instance();
+         $CI->load->model("MarcasSolicitudesDocumento_model");
+         $CI->load->helper('url');
+         $query = $CI->MarcasSolicitudesDocumento_model->delete($id);
+         if (isset($query)){
+             echo "Eliminado Correctamente";
+         }else {
+             echo "No se ha podido Eliminar";
+         }
+         
+         
+     }
 }

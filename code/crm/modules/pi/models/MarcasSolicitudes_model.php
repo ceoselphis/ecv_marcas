@@ -340,7 +340,7 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_tipos_eventos');
-        $this->db->where('materia_id  = 2');
+        $this->db->where('materia_id  = 1');
         $query = $this->db->get();
         $keys = array();
         $values = array();

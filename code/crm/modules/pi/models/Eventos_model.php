@@ -66,6 +66,16 @@ class Eventos_model extends BaseModel
         $this->db->from("tbl_tipos_eventos");
         $this->db->where("id = ".$id);
         $query = $this->db->get();
-        return $query->result_array();
+        $values =  $query->result_array();
+        return $values[0]['descripcion'];
+    }
+
+    public function findAllEventosMarcas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_eventos');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
     }
 }

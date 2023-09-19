@@ -2786,7 +2786,7 @@ init_head();?>
             var description =  $('#editdoc_descripcion').val();
             var comentario_archivo = $('#editcomentario_archivo').val();
             var doc_archivo = $('#editdoc_archivo')[0].files[0];
-            var csrf_token_name = $("input[name=csrf_token_name]").val();  
+            var csrf_token_name = $("input[name=csrf_token_name]").val();   
             formData.append('csrf_token_name', csrf_token_name);
             formData.append('id',id);
             formData.append('doc_descripcion' , description);
@@ -2796,7 +2796,7 @@ init_head();?>
             console.log("descripcion ",description);
             console.log("Comentario archivo ",comentario_archivo);
             console.log("Documento Archivo ",doc_archivo );
-            console.log("csrf_token_name", csrf_token_name);
+            console.log("csrf_token_name", csrf_token_name); 
             let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/UpdateDocumento/");?>'
             url = url+id;
             console.log(url);
@@ -2807,8 +2807,7 @@ init_head();?>
                 processData: false,
                 contentType: false
             }).then(function(response){
-               // console.log(response);
-
+               
                 alert_float('success', "Actualizado Correctamente");
                 $("#docModalEdit").modal('hide');
                 Documentos();

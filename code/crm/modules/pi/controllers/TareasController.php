@@ -77,6 +77,7 @@ class TareasController extends AdminController
      public function addTareas(){
         $CI = &get_instance();
         $data = $CI->input->post();
+       // echo json_encode($data);
         if (!empty($data)){
             $insert = array(
                             'tipo_tareas_id' => $data['tipo_tarea'],
@@ -84,7 +85,6 @@ class TareasController extends AdminController
                             'descripcion' => $data['descripcion'],
                             'fecha' => date('Y-m-d'),
                     );
-
             $CI->load->model("Tareas_Model");
                 try{
                     $query = $CI->Tareas_Model->insert($insert);

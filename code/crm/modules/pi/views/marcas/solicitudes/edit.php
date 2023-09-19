@@ -2885,12 +2885,14 @@ init_head();?>
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
             var tipo_tarea =  $('#tipo_tarea').val();
             var descripcion = $('#descripcion').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('id_marcas' , id_marcas);
             formData.append('tipo_tarea' , tipo_tarea);
             formData.append('descripcion', descripcion);
+            formData.append('csrf_token_name', csrf_token_name);
             let url = '<?php echo admin_url("pi/TareasController/addTareas");?>';
             $.ajax({
                 url,

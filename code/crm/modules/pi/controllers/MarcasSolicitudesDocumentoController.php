@@ -207,17 +207,18 @@ class MarcasSolicitudesDocumentoController extends AdminController
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudesDocumento_model");
         $data = $CI->input->post();
-        $file = $_FILES;
-        $doc_arch =$file['doc_archivo']['name'];
-        //echo json_encode($doc_arch);
-  
+        
         if (!empty($data)){
+            $file = $_FILES;
             $insert = array(
-                            'marcas_id' => 1,
                             'descripcion' => $data['doc_descripcion'],
                             'comentario' => $data['comentario_archivo'],
-                            'path' => $doc_arch,
+                            
                     );
+            if (!empty($file)){
+                $doc_arch =$file['doc_archivo']['name'];
+                $insert += ['path' => $doc_arch];
+            }
                     $query = $CI->MarcasSolicitudesDocumento_model->update($id, $insert);
                     if (isset($query))
                     {
@@ -225,7 +226,9 @@ class MarcasSolicitudesDocumentoController extends AdminController
                     }else {
                         echo "no hemos podido Actualizar";
                     }
-        }            
+        } else {
+            echo "No tiene Data";
+        }         
      }
     /**
      * Shows a form to edit the data

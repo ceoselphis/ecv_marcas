@@ -91,6 +91,50 @@ class BusquedasController extends AdminController
      * Recive the data for create a new item
      */
 
+    //  public function store()
+    // {
+    //     $CI = &get_instance();
+    //     $CI->load->model("Busquedas_model");
+    //     $CI->load->helper(['url','form']);
+    //     $CI->load->library('form_validation');
+    //     $data = $CI->input->post();
+        
+    //     /*`tbl_marcas_busquedas`(`id`, `comentarios`, `staff_id`, `marca`, `fecha_solicitud`, `fecha_respuesta`, `ref_cliente`, `busqueda_interna_id`, `busqueda_externa_id`, `clase_niza_id`, `pais_id`, `created_at`, `is_deleted`, `client_id`, `oficina_id`) */
+    //     $insert = array(
+    //         'comentarios' => $data['comentarios'],
+    //         'staff_id' => $data['staff_id'],
+    //         'marca' => $data['marca'],
+    //         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
+    //         'fecha_respuesta' => $this->turn_dates($data['fecha_respuesta']),
+    //         'ref_cliente' => $data['ref_cliente'],
+    //         'busqueda_interna_id' => $data['busqueda_interna_id'],
+    //         'busqueda_externa_id' => $data['busqueda_externa_id'],
+    //         'clase_niza_id' => $data['clase_niza_id'],
+    //         'pais_id' => $data['pais_id'],
+    //         'client_id' => $data['client_id'],
+    //         'oficina_id' => $data['oficina_id'],
+    //         'is_deleted' => 0,
+            
+    //     );
+    //     echo json_encode($insert);
+    //     $CI->load->model("Cesion_model");
+    //             try{
+    //                 $query = $CI->Cesion_model->insert($insert);
+    //                     if (isset($query)){
+    //                         echo "Insertado Correctamente";
+
+    //                     }else {
+    //                         echo "No hemos podido Insertar";
+    //                     }
+    //             }catch (Exception $e){
+    //                 return $e->getMessage();
+    //             }
+    //    // "id":"1","client_id":"19","oficina_id":"1","staff_id":"10","marca":"Alvion Marcas ","clase_niza_id":"1","pais_id":"12","fecha_solicitud":"04\/09\/2023","fecha_respuesta":"19\/09\/2023","ref_cliente":"AB-0005","busqueda_interna_id":"1","busqueda_externa_id":"1","comentarios":"Insertando gente en Base de datos"
+
+        
+        
+    // }
+
     public function store()
     {
         $CI = &get_instance();
@@ -165,6 +209,7 @@ class BusquedasController extends AdminController
             {
                 $data['busqueda_externa_id'] == NULL;
             }
+            $data['id']='';
             //we sent the data to the model
             $query = $CI->Busquedas_model->insert($data);
             if(isset($query))

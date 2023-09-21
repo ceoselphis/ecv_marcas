@@ -92,7 +92,7 @@ class PublicacionesMarcas_model extends BaseModel
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
-            array_push($values, $row['signo_archivo']);
+            array_push($values, $row['signonom']);
         }
         return array_combine($keys, $values);
     }
@@ -106,7 +106,7 @@ class PublicacionesMarcas_model extends BaseModel
         $this->db->where('id = '.$id);
         $query = $this->db->get();
         $result = $query->result_array();
-        return $result[0]['signo_archivo'];
+        return $result[0]['signonom'];
     }
 
     public function findAllPaises()

@@ -28,7 +28,7 @@ class MarcasSolicitudesController extends AdminController
             'Clase Niza'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'Tipo de Registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
-            'query'                 => $query
+            //'query'                 => $query
         ];
         return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
     }
@@ -281,13 +281,6 @@ class MarcasSolicitudesController extends AdminController
             'eventos'               => $datos,
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
             'tareas'                => $data,
-
-/*            'publicaciones'         => $CI->MarcasSolicitudes_model->findPublicacionesByMarca($id),
-            'eventos'               => $CI->MarcasSolicitudes_model->findEventosByMarca($id),
-            'tareas'                => $CI->MarcasSolicitudes_model->findTareasByMarca($id),
-            'id'                    => $id,
-            'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
-*/
         ]);
     }
 
@@ -510,40 +503,6 @@ class MarcasSolicitudesController extends AdminController
                 }
             }
         }
-
-        
-        /*$boletin_id = json_decode($params['boletin_id'], TRUE);
-        $pais_id = json_decode($params['pais_id'], TRUE);
-        $client_id = json_decode($params['client_id'],TRUE);
-        $oficina_id = json_decode($params['oficina_id'], TRUE);
-        $staff_id = json_decode($params['staff_id'], TRUE);
-        $tip_sol_id = json_decode($params['tip_sol_id'], TRUE);
-        $est_sol_id = json_decode($params['est_sol_id'], TRUE);
-        $tip_signo_id = json_decode($params['tip_signo_id'], TRUE);
-        $clase_niza_id = json_decode($params['clase_niza_id'], TRUE);
-        $tip_eve_id = json_decode($params['tip_eve_id'], TRUE);    
-        */
-        var_dump($result);
-        /*if($query)
-        {
-            foreach($query as $row)
-            {
-                $table[] = [
-                    'id' => $row['id'],
-                    'tipo' => $row['tipo_nom'],
-                    'propietario' => $row['nombre_propietario'],
-                    'nombre' => $row['signo'],
-                    'clases' => $row['clase_niza'],
-                    'estado' => $row['estado_nom'],
-                    'solicitud' => $row['solicitud'],
-                    'fecha_solicitud' => $row['fecha_solicitud'],
-                    'registro' => $row['registro'],
-                    'certificado' => $row['certificado'],
-                    'vigencia' => $row['fecha_vencimiento'],
-                    'paises' => $row['pais_nom'],
-                ];
-            }     
-        }*/
      }
 
     public function flip_dates($date)

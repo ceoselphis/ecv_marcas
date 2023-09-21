@@ -315,9 +315,19 @@ class MarcasSolicitudes_model extends BaseModel
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['clase_niza_id']);
-            array_push($values, $row['nombre'].' - '.$row['descripcion']);
+            array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
+    }
+
+
+    public function findClaseDescripcion($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_clase_niza');
+        $this->db->where('clase_niza_id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
     public function findClases($id = NULL)
@@ -384,7 +394,7 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function insertSolicitudesClases($params)
     {
-        $query = $this->db->insert_batch('tbl_marcas_clases', $params);
+        $query = $this->db->insert('tbl_marcas_clases', $params);
         return $query;
     }
 

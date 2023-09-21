@@ -627,4 +627,31 @@ class MarcasSolicitudesController extends AdminController
         }
     }
 
+    public function getClaseDescripcion()
+    {
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudes_model");
+        $CI->load->helper('url');
+        $form = $CI->input->post();
+        $query = $CI->MarcasSolicitudes_model->findClaseDescripcion($form['clase_niza_id'][0]);
+        echo json_encode(['code' => 200, 'message' => 'success', 'data' => ['descripcion' => $query[0]['descripcion']]]);
+
+    }
+
+    public function setClaseMarca()
+    {
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudes_model");
+        $CI->load->helper('url');
+        $form = $CI->input->post();
+        $clase_id = $form['clase_niza_id'];
+        $descripcion = $form['clase_descripcion'];
+        $marcas_id = $form['marcas_id'];
+        $params = ['marcas_id' => $marcas_id, 'descripcion' => $descripcion, 'clase_id' => $clase_id];
+        $query = $CI->MarcasSolicitudes_model->insertSolicitudesClases($params);
+        if($query){
+            echo json_encode(['code' => 200, 'message' => 'success']);
+        }
+    }
+
 }

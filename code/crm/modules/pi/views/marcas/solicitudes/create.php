@@ -97,28 +97,56 @@ init_head();?>
                                             'options'   =>  $tipos_signo_id,
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Clases', 'clase_niza_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'       => 'clase_niza_id',
-                                            'name'     => 'clase_niza_id',
-                                            'class'    => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $clase_niza_id,
-                                        ]);?>
+                                    <!-- Clase niza -->                                  
+                                    <div class="col-md-12" style="padding-top: 2%;">
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#claseNiza" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="claseNiza">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
+                                                                <table id="claseNizaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Clase</th>
+                                                                            <th>Descripcion</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Solicitantes', 'solicitantes_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'       => 'solicitantes_id',
-                                            'name'     => 'solicitantes_id',
-                                            'class'    => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $solicitantes,
-                                        ]);?>
+                                    <!-- Solicitantes -->
+                                    <div class="col-md-12">
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#solicitantes" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Solicitantes<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="solicitantes">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#solicitantesModal">Añadir solicitantes</button>
+                                                                <table id="solicitantesTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Código</th>
+                                                                            <th>Solicitantes</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    
-                                    
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
@@ -656,6 +684,73 @@ init_head();?>
         </div>
     </div>
 </div>
+
+<!-- Clase Niza Modal -->
+<div class="modal fade" id="claseNizaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Clase</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo form_label('Clase', 'clase_niza');?>
+                <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Descripcion', 'descripcion');?>
+                <?php echo form_input('descripcion','',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="claseNizaFrmSubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Solicitantes modal -->
+<div class="modal fade" id="solicitantesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'solicitantesFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Solicitante</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo form_label('Cliente', 'cliente');?>
+                <?php echo form_dropdown('cliente', $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Propietarios', 'propietarios');?>
+                <select id="propietarios" name="propietarios" class="form-control">
+                    <option>Seleccione una opción</option>
+                </select>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="claseNizaFrmSubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
 <!-- Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
@@ -1773,9 +1868,6 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
-
-
 
 <?php init_tail();?>
 
@@ -3332,6 +3424,13 @@ init_head();?>
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
 
+    </script>
+
+    <script>
+        $(document).on('change', '#clase_niza', function(e){
+            e.preventDefault();
+            var clase_niza = $("input[name=clase_niza]").val();
+        });
     </script>
 </body>
 </html>

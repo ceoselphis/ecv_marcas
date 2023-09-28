@@ -23,4 +23,22 @@ class MarcasPrioridad_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function findAllPrioridadMarcas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_prioridades');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
+
+    public function BuscarPais($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['nombre']; 
+    }
 }

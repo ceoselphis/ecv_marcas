@@ -2941,6 +2941,9 @@ init_head();?>
         //Eliminar Cesion
         $(document).on('click','.cesion-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('Cesionid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -2964,6 +2967,9 @@ init_head();?>
          //Eliminar Licencia
          $(document).on('click','.licencia-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('Licenciaid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -2987,6 +2993,9 @@ init_head();?>
          //Eliminar Fusion
          $(document).on('click','.fusion-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('Fusionid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3010,6 +3019,9 @@ init_head();?>
         //Eliminar Cambio Nombre
         $(document).on('click','.Cambio-Nombre-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('CamNomid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3033,6 +3045,9 @@ init_head();?>
           //Eliminar Eventos
           $(document).on('click','.evento-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('eventosid');
                 console.log(id);
@@ -3057,6 +3072,9 @@ init_head();?>
          //Eliminar Tareas
          $(document).on('click','.tarea-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('taskId');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3080,6 +3098,9 @@ init_head();?>
          //Eliminar Documentos
          $(document).on('click','.documentos-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('docid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();

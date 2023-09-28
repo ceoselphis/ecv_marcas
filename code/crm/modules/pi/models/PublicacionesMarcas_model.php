@@ -38,6 +38,8 @@ class PublicacionesMarcas_model extends BaseModel
         }
         return array_combine($keys, $values);
     }
+
+    
     public function findBoletin($id = null)
     {
         $this->db->select('*');

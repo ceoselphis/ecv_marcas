@@ -256,4 +256,23 @@ class ClasesController extends AdminController
         
         
     }
+
+    /*Method to get the description of the class */
+    public function getDescription()
+    {
+        $CI = &get_instance();
+        $CI->load->model("Clases_model");
+        $CI->load->helper(['url','form']);
+        $form = $CI->input->post();
+        $query = $CI->Clases_model->find($form['clase_id']);
+        if(!empty($query))
+        {
+            echo json_encode(['code' => 200, 'message' => 'success', 'data' => $query[0]['descripcion']]);
+        }
+        else{
+            echo json_encode(['code' => 404, 'message' => 'not found']);
+        }
+
+
+    }
 }

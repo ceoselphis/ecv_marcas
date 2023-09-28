@@ -114,6 +114,9 @@ init_head();?>
                                                                             <th>Descripcion</th>
                                                                         </tr>
                                                                     </thead>
+                                                                    <tbody>
+
+                                                                    </tbody>
                                                                 </table>
                                                             </div>
                                                         </div>
@@ -703,8 +706,8 @@ init_head();?>
                 <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-6">
-                <?php echo form_label('Descripcion', 'descripcion');?>
-                <?php echo form_input('descripcion','',['class' => 'form-control']);?>
+                <?php echo form_label('Descripcion', 'clase_niza_descripcion');?>
+                <?php echo form_input('clase_niza_descripcion',set_value('descripcion', ''),['class' => 'form-control']);?>
             </div>
         </div>
       </div>
@@ -1872,6 +1875,8 @@ init_head();?>
 <?php init_tail();?>
 
 </script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
     <script>
         
         Cesion()
@@ -2159,44 +2164,44 @@ init_head();?>
 
             //Modal Edit Licencia
             $(document).on('click','.EditLicencia',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('licenciaid');
-            let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let licencia =JSON.parse(response);
-            $('#licenciaid').val(licencia[0]['id']);
-            $('#editclientelicencia').val(licencia[0]['client_id']);
-            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
-            $('#editstafflicencia').val(licencia[0]['staff_id']);
-            $('#editestadolicencia').val(licencia[0]['estado_id']);
-            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
-            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
-            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
-            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
-            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
-            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('licenciaid');
+                let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
+                url = url + id;
+                $.post(url,{id},function(response){
+                let licencia =JSON.parse(response);
+                $('#licenciaid').val(licencia[0]['id']);
+                $('#editclientelicencia').val(licencia[0]['client_id']);
+                $('#editoficinalicencia').val(licencia[0]['oficina_id']);
+                $('#editstafflicencia').val(licencia[0]['staff_id']);
+                $('#editestadolicencia').val(licencia[0]['estado_id']);
+                $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
+                $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
+                $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
+                $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
+                $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
+                $('#editcomentariolicencia').val(licencia[0]['comentarios']);
             
             })
         })
 
             //Modal Edit Fusion
             $(document).on('click','.editFusion',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('fusionid');
-            let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let fusion =JSON.parse(response);
-            $('#fusionid').val(fusion[0]['id']); 
-            $('#editoficinaFusion').val(fusion[0]['oficina_id']);
-            $('#editestadoFusion').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioFusion').val(fusion[0]['comentarios']);
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('fusionid');
+                let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
+                url = url + id;
+                $.post(url,{id},function(response){
+                let fusion =JSON.parse(response);
+                $('#fusionid').val(fusion[0]['id']); 
+                $('#editoficinaFusion').val(fusion[0]['oficina_id']);
+                $('#editestadoFusion').val(fusion[0]['estado_id']);
+                $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
+                $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
+                $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
+                $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
+                $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
+                $('#editcomentarioFusion').val(fusion[0]['comentarios']);
             
             })
         })
@@ -2223,21 +2228,21 @@ init_head();?>
         })
             //Modal Edit Cambio de Domicilio
             $(document).on('click','.editCamDom',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('CamDomid');
-            let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let fusion =JSON.parse(response);
-            $('#camdomid').val(fusion[0]['id']); 
-            $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
-            $('#editestadoCamDom').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CamDomid');
+                let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
+                url = url + id;
+                $.post(url,{id},function(response){
+                let fusion =JSON.parse(response);
+                $('#camdomid').val(fusion[0]['id']); 
+                $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
+                $('#editestadoCamDom').val(fusion[0]['estado_id']);
+                $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
+                $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
+                $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
+                $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
+                $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
+                $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
             
            })
         })
@@ -2851,15 +2856,6 @@ init_head();?>
         
         
 
-    function fecha(){
-        var hoy = new Date();
-        var dd = hoy.getDate();
-        var mm = hoy.getMonth()+1;
-        var yy = hoy.getFullYear();
-        var fecha = '';
-        if(dd<10){
-            dd = '0'+dd;
-        var formData = new FormData();
         function fecha(){
             var hoy = new Date();
             var dd = hoy.getDate();
@@ -2868,15 +2864,24 @@ init_head();?>
             var fecha = '';
             if(dd<10){
                 dd = '0'+dd;
+            var formData = new FormData();
+            function fecha(){
+                var hoy = new Date();
+                var dd = hoy.getDate();
+                var mm = hoy.getMonth()+1;
+                var yy = hoy.getFullYear();
+                var fecha = '';
+                if(dd<10){
+                    dd = '0'+dd;
+                }
+                else if(mm<10){
+                    mm = '0'+mm;
+                }
+                fecha = dd+"/"+mm+"/"+yy;
+                return fecha;
             }
-            else if(mm<10){
-                mm = '0'+mm;
-            }
-            fecha = dd+"/"+mm+"/"+yy;
-            return fecha;
         }
-    }
-}
+        }
 
         $(".calendar").on('keyup', function(e){
             e.preventDefault();
@@ -3280,12 +3285,6 @@ init_head();?>
             //Pais_id fill
             pais_id = JSON.stringify($("select[name=pais_id]").val());
             formData.append('pais_id', pais_id);
-            //Clase_niza_id fill
-            clase_niza = JSON.stringify($("select[name=clase_niza_id]").val());
-            formData.append('clase_niza', clase_niza);
-            //solicitantes fill
-            solicitantes = JSON.stringify($("select[name=solicitantes_id]").val());
-            formData.append('solicitantes_id', solicitantes);
             formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
             formData.append('ref_interna', $("input[name=ref_interna]").val());
             formData.append('ref_cliente', $('input[name=ref_cliente]').val());
@@ -3393,6 +3392,7 @@ init_head();?>
                 prevTab($active);
 
             });
+            TablaClases();
         });
 
         // $(".next-step").click(function (e) {
@@ -3410,27 +3410,109 @@ init_head();?>
         // });
     
 
-    function nextTab(elem) {
-        $(elem).next().find('a[data-toggle="tab"]').click();
-    }
-    function prevTab(elem) {
-        $(elem).prev().find('a[data-toggle="tab"]').click();
-    }
-    //---------------------
         function nextTab(elem) {
             $(elem).next().find('a[data-toggle="tab"]').click();
         }
         function prevTab(elem) {
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
+        //---------------------
+            function nextTab(elem) {
+                $(elem).next().find('a[data-toggle="tab"]').click();
+            }
+            function prevTab(elem) {
+                $(elem).prev().find('a[data-toggle="tab"]').click();
+            }
 
     </script>
 
     <script>
-        $(document).on('change', '#clase_niza', function(e){
+    </script>
+
+
+    <script>
+        /***
+         * funcion para obtener la descripcion de la clase
+         * 
+         * 
+         */
+        $(document).on('change', 'select[name=clase_niza]', function(e)
+        {
             e.preventDefault();
-            var clase_niza = $("input[name=clase_niza]").val();
+            var clase_niza = $("select[name=clase_niza]").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'clase_id': clase_niza
+                },
+                success: function(response)
+                {
+                    res = JSON.parse(response);
+                    $("input[name=clase_niza_descripcion]").val(res.data);
+                }
+            });
         });
+    </script>
+    <script>
+        /***
+         * funcion para guardar el formulario de la clase
+         * 
+         * 
+         */
+        $(document).on('click', '#claseNizaFrmSubmit', function(e)
+        {
+            e.preventDefault();
+            var clase_id = $("select[name=clase_niza]").val();
+            var clase_descripcion = $("input[name=clase_niza_descripcion]").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasSolicitudesController/insertClases')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'clase_id' : clase_id,
+                    'clase_descripcion': clase_descripcion,
+                    'marcas_id' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#claseNizaFrm")[0].reset();
+                    $("#claseNizaModal").modal('hide');
+                    TablaClases();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        
+    </script>
+
+    <script>
+        function TablaClases()
+        {
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/'.$id);?>",
+                method: "POST",
+                success: function(response){
+                    res = JSON.parse(response);
+                    data = res.data;
+                    console.log(res);
+                    $('#claseNizaTbl').DataTable( {
+                        destroy: true,
+                        data: data,
+                        columns: [
+                            { data: 'clase' },
+                            { data: 'descripcion' },
+                        ],
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                        }
+                    } );
+                }
+            });
+        }
     </script>
 </body>
 </html>

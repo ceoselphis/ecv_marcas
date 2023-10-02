@@ -554,7 +554,6 @@ init_head();?>
                                                                     <tbody id = "body_cambio_domicilio">
 
                                                                     </tbody>
-                                                              
                                                                 </table>
                                                             </div>
                                                         </div>
@@ -1195,7 +1194,6 @@ init_head();?>
             <div class="col-md-3" style="margin-top:10px">
                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
                 <?php echo form_input(['name'=>'nro_solicitudCamDom','id'=>'nro_solicitudCamDom','class' => 'form-control'])?>
-              
             </div>
             <div class="col-md-3" style="margin-top:10px">
             <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
@@ -1231,8 +1229,42 @@ init_head();?>
                 <?php echo form_textarea(['name'=>'comentarioCamDom','id'=>'comentarioCamDom'],'',['class' => 'form-control']);?>
             </div>
         </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
+    </div>
+    <div class="col-md-12">
+        <div class="list-content">
+            <a href="#cambio_domicilioanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Anterior<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="cambio_domicilioanterior">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1 style="text-align:center;
+                                    color :#FF0505;
+                                    font-weight: bold; 
+                                ">Por favor guarde antes de entrar en este modulo</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-md-12">
+        <div class="list-content">
+            <a href="#cambio_domicilioactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Anterior<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="cambio_domicilioactual">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1 style="text-align:center;
+                                    color :#FF0505;
+                                    font-weight: bold; 
+                                ">Por favor guarde antes de entrar en este modulo</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="AddCambioDomiciliofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
@@ -1246,18 +1278,17 @@ init_head();?>
     <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Editar Cambio de Domicilio</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
+    </div>
+        <div class="modal-body">
         <div class="row">
         <input type="hidden" id="camdomid">
         <div class="col-md-4">
                 <?php echo form_label('Oficina', 'oficina');?>
-             
                 <?php echo form_dropdown(['name'=>'editoficinaCamDom','id'=>'editoficinaCamDom'], $oficinas, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-4">
@@ -1271,7 +1302,6 @@ init_head();?>
             <div class="col-md-3" style="margin-top:10px">
                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
                 <?php echo form_input(['name'=>'editnro_solicitudCamDom','id'=>'editnro_solicitudCamDom','class' => 'form-control'])?>
-              
             </div>
             <div class="col-md-3" style="margin-top:10px">
             <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitud');?>
@@ -1307,15 +1337,70 @@ init_head();?>
                 <?php echo form_textarea(['name'=>'editcomentarioCamDom','id'=>'editcomentarioCamDom'],'',['class' => 'form-control']);?>
             </div>
         </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
+    </div>
+    <div class="col-md-12">
+        <div class="list-content">
+            <a href="#Editarcambio_domicilioanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Anterior<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="Editarcambio_domicilioanterior">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id="btnCambioDomicilioAnterior" class="btn btn-primary pull-right" >Añadir Cambio Domicilio Anterior</button>
+                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead>
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Cambio de Domicilio</th>
+                                                    <th>Tipo de Domicilio</th>
+                                                    <th>Propietario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                        </thead>
+                                            <tbody id = "body_cambio_domicilio_anterior">
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-md-12">
+        <div class="list-content">
+            <a href="#Editarcambio_domicilioactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Actual<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="Editarcambio_domicilioactual">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" class="btnCambioDomicilioActual btn btn-primary pull-right"  >Añadir Cambio Domicilio Actual</button>
+                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead>
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Cambio de Domicilio</th>
+                                                    <th>Tipo de Domicilio</th>
+                                                    <th>Propietario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                        </thead>
+                                            <tbody id = "body_cambio_domicilio_actual">
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="EditCambioDomiciliofrmsubmit" type="button" class="btn btn-primary">Editar</button>
-      </div>
     </div>
-  </div>
-  <?php echo form_close();?>
+    </div>
 </div>
+<?php echo form_close();?>
+</div>
+
 <!-- Añadir Fusion -->
 <div class="modal fade" id="AddFusion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
@@ -1804,7 +1889,47 @@ init_head();?>
   <?php echo form_close();?>
 </div>
 
-
+<!-- Añadir Cambio Domicilio Actual Modal -->
+<div class="modal fade" id="CambioDomicilioActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Cambio Domicilio Actual</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_label('Archivo', 'signo_archivo');?>
+                <?php echo form_input([
+                    'id' => 'signo_archivo',
+                    'name' => 'signo_archivo',
+                    'type' => 'file',
+                    'class' => 'form-control',
+                ]);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Descripcion', 'descripcion_signo');?>
+                <?php echo form_textarea('descripcion_signo','', ['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Comentarios', 'comentario_signo');?>
+                <?php echo form_input('comentario_signo','',['class' => 'form-control']);?>
+            </div>
+            
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="signofrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
 
 
 <?php init_tail();?>
@@ -1837,13 +1962,64 @@ init_head();?>
         Eventos();
         Tareas();
         Documentos();
+        CambioDomicilioAnterior();
+        CambioDomicilioActual();
+
+        function CambioDomicilioActual(){
+            let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/showCambioDomicilioActual/$id");?>';
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CamDomActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cambio_domicilio}</td>
+                                    <td class="text-center">${item.tipo_domicilio}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class="editCamDom btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditCambioDomicilio1"><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cambio-Domicilio-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_cambio_domicilio_actual').html(body);     
+                })
+        }
+
+        function CambioDomicilioAnterior(){
+            let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/showCambioDomicilioAnterior/$id");?>';
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CamDomAnteriorid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cambio_domicilio}</td>
+                                    <td class="text-center">${item.tipo_domicilio}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class="editCamDom btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditCambioDomicilio1"><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cambio-Domicilio-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_cambio_domicilio_anterior').html(body);     
+                })
+        }
+
         function CambioDomicilio(){
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                         body += `<tr CamDomid = "${item.id}"> 
+                        body += `<tr CamDomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
                                     <td class="text-center">${item.staff}</td>
@@ -2003,7 +2179,7 @@ init_head();?>
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                         body += `<tr eventosid = "${item.id}" > 
+                        body += `<tr eventosid = "${item.id}" > 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.tipo_evento}</td>
                                     <td class="text-center">${item.comentarios}</td>
@@ -2014,13 +2190,10 @@ init_head();?>
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>
                                         </td>  
-                                   
                                 </tr>
                             `
-                           
-                       
                     });
-                       $('#body_eventos').html(body);   
+                    $('#body_eventos').html(body);   
                 })
         }
 
@@ -2042,14 +2215,11 @@ init_head();?>
                                                 <i class="fas fa-trash"></i>Borrar
                                                 </button>
                                             </td>  
-                                       
                                     </tr>
                                 `
-                               
-                           
                         });
                     
-                       $('#body_tareas').html(body);   
+                    $('#body_tareas').html(body);   
                 })
         }
         // Documentos
@@ -2058,9 +2228,8 @@ init_head();?>
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
-                    
                         listadomicilio.forEach(item => {
-                             body += `  <tr docid = "${item.id}">
+                            body += `  <tr docid = "${item.id}">
                                             <td class="text-center">${item.id}</td>
                                             <td class="text-center">${item.marcas_id}</td>
                                             <td class="text-center">${item.descripcion}</td>
@@ -2072,14 +2241,10 @@ init_head();?>
                                                 <i class="fas fa-trash"></i>Borrar
                                                 </button>
                                             </td>  
-                                       
                                     </tr>
                                 `
-                               
-                           
                         });
-                    
-                       $('#body_documentos').html(body);   
+                    $('#body_documentos').html(body);   
                 })
         }
         // Renovacion
@@ -2313,6 +2478,13 @@ init_head();?>
         }
 
         //----------------------------------- Modad Para Añadir, Editar y Eliminar -----------------------------------------------
+       // btnCambioDomicilioAnterior
+            $(document).on('click','.btnCambioDomicilioActual',function(e){
+                e.preventDefault();
+                console.log("Holla cambio")
+                $("EditCambioDomicilio").modal('hide');
+                // $("CambioDomicilioActualModal").modal('show');
+            })
             //Añadir Cesion ---------------------------------------------------------------------------
             $(document).on('click','#AddCesionfrmsubmit',function(e){
             e.preventDefault();
@@ -2661,7 +2833,7 @@ init_head();?>
         }); 
 
          //Añadir Cambio Domicilio ----------------------------------------------------------------------
-         $(document).on('click','#AddCambioDomiciliofrmsubmit',function(e){
+        $(document).on('click','#AddCambioDomiciliofrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -2761,7 +2933,7 @@ init_head();?>
             formData.append('doc_descripcion' , description);
             formData.append('comentario_archivo', comentario_archivo);
             formData.append('doc_archivo', doc_archivo);
-            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>'
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>';
             $.ajax({
                 url,
                 method: 'POST',

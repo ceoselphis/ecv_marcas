@@ -233,7 +233,7 @@ class MarcasPrioridadController extends AdminController
             'pais_id' => $data['pais_prioridad'],
             'numero_prioridad' => $data['nro_prioridad'],
             'fecha_prioridad' => "{$wDate[2]}-{$wDate[1]}-{$wDate[0]}",
-            'marcas_id'    => 1
+            'marcas_id'    => $data['id_marcas']
         );
         echo json_encode($insert);
         try
@@ -248,7 +248,7 @@ class MarcasPrioridadController extends AdminController
     public function showPrioridad(string $id = null){
         $CI = &get_instance();
         $CI->load->model("MarcasPrioridad_model");
-        $marcas = $CI->MarcasPrioridad_model->findAll($id);
+        $marcas = $CI->MarcasPrioridad_model->findPublicacionesMarcas($id);
         $data = array();
         /*`tbl_marcas_prioridades`(`id`, `marcas_id`, `pais_id`, `fecha_prioridad`, `numero_prioridad`) */
         foreach ($marcas as $row){
@@ -293,7 +293,7 @@ class MarcasPrioridadController extends AdminController
                     'pais_id' => $data['pais_prioridad'],
                     'numero_prioridad' => $data['nro_prioridad'],
                     'fecha_prioridad' => "{$wDate[2]}-{$wDate[1]}-{$wDate[0]}",
-                    'marcas_id'    => 1
+                    
                     );
                    
 

@@ -97,28 +97,59 @@ init_head();?>
                                             'options'   =>  $tipos_signo_id,
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Clases', 'clase_niza_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'       => 'clase_niza_id',
-                                            'name'     => 'clase_niza_id',
-                                            'class'    => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $clase_niza_id,
-                                        ]);?>
+                                    <!-- Clase niza -->                                  
+                                    <div class="col-md-12" style="padding-top: 2%;">
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#claseNiza" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="claseNiza">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
+                                                                <table id="claseNizaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Clase</th>
+                                                                            <th>Descripcion</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Solicitantes', 'solicitantes_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'       => 'solicitantes_id',
-                                            'name'     => 'solicitantes_id',
-                                            'class'    => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $solicitantes,
-                                        ]);?>
+                                    <!-- Solicitantes -->
+                                    <div class="col-md-12">
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#solicitantes" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Solicitantes<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="solicitantes">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#solicitantesModal">Añadir solicitantes</button>
+                                                                <table id="solicitantesTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Código</th>
+                                                                            <th>Solicitantes</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    
-                                    
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
@@ -664,6 +695,73 @@ init_head();?>
         </div>
     </div>
 </div>
+
+<!-- Clase Niza Modal -->
+<div class="modal fade" id="claseNizaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Clase</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo form_label('Clase', 'clase_niza');?>
+                <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Descripcion', 'clase_niza_descripcion');?>
+                <?php echo form_input('clase_niza_descripcion',set_value('descripcion', ''),['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="claseNizaFrmSubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Solicitantes modal -->
+<div class="modal fade" id="solicitantesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'solicitantesFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Solicitante</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo form_label('Cliente', 'cliente');?>
+                <?php echo form_dropdown('cliente', $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Propietarios', 'propietarios');?>
+                <select id="propietarios" name="propietarios" class="form-control">
+                    <option>Seleccione una opción</option>
+                </select>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="claseNizaFrmSubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
 <!-- Añadir Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
@@ -1860,12 +1958,11 @@ init_head();?>
   <?php echo form_close();?>
 </div>
 
-
-
-
 <?php init_tail();?>
 
 </script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
     <script>
         Publicaciones()
         Prioridad();
@@ -2024,10 +2121,8 @@ init_head();?>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
-                                   
                                 </tr>
                             `
-                         
                     });
                     $('#body_fusion').html(body);   
                 })
@@ -2042,7 +2137,7 @@ init_head();?>
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
                         eliminar = eliminar+item.id;
-                         body += `<tr Licenciaid = "${item.id}"> 
+                        body += `<tr Licenciaid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -2070,7 +2165,7 @@ init_head();?>
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
                         eliminar = eliminar+item.id;
-                         body += `<tr Cesionid = "${item.id}"> 
+                        body += `<tr Cesionid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -2085,10 +2180,8 @@ init_head();?>
                                     
                                 </tr>
                             `
-                           
-                       
                     });
-                       $('#body_cesion').html(body);   
+                    $('#body_cesion').html(body);   
                 })
         }
         
@@ -2147,7 +2240,7 @@ init_head();?>
 
          //----------------------------------- Funciones de la Informacion que Trae desde la Base de Datos -----------------------------------------------
          //Modal Edit Publicacion
-         $(document).on('click','.EditPublicacion',function(){
+        $(document).on('click','.EditPublicacion',function(){
             let element = $(this)[0].parentElement.parentElement;
             let id = $(element).attr('Publicacionid');
             let url = '<?php echo admin_url("pi/PublicacionesMarcasController/EditPublicacion/");?>';
@@ -2242,44 +2335,44 @@ init_head();?>
 
             //Modal Edit Licencia
             $(document).on('click','.EditLicencia',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('licenciaid');
-            let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let licencia =JSON.parse(response);
-            $('#licenciaid').val(licencia[0]['id']);
-            $('#editclientelicencia').val(licencia[0]['client_id']);
-            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
-            $('#editstafflicencia').val(licencia[0]['staff_id']);
-            $('#editestadolicencia').val(licencia[0]['estado_id']);
-            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
-            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
-            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
-            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
-            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
-            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('licenciaid');
+                let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
+                url = url + id;
+                $.post(url,{id},function(response){
+                let licencia =JSON.parse(response);
+                $('#licenciaid').val(licencia[0]['id']);
+                $('#editclientelicencia').val(licencia[0]['client_id']);
+                $('#editoficinalicencia').val(licencia[0]['oficina_id']);
+                $('#editstafflicencia').val(licencia[0]['staff_id']);
+                $('#editestadolicencia').val(licencia[0]['estado_id']);
+                $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
+                $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
+                $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
+                $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
+                $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
+                $('#editcomentariolicencia').val(licencia[0]['comentarios']);
             
             })
         })
 
             //Modal Edit Fusion
             $(document).on('click','.editFusion',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('fusionid');
-            let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let fusion =JSON.parse(response);
-            $('#fusionid').val(fusion[0]['id']); 
-            $('#editoficinaFusion').val(fusion[0]['oficina_id']);
-            $('#editestadoFusion').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioFusion').val(fusion[0]['comentarios']);
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('fusionid');
+                let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
+                url = url + id;
+                $.post(url,{id},function(response){
+                let fusion =JSON.parse(response);
+                $('#fusionid').val(fusion[0]['id']); 
+                $('#editoficinaFusion').val(fusion[0]['oficina_id']);
+                $('#editestadoFusion').val(fusion[0]['estado_id']);
+                $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
+                $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
+                $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
+                $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
+                $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
+                $('#editcomentarioFusion').val(fusion[0]['comentarios']);
             
             })
         })
@@ -2306,21 +2399,21 @@ init_head();?>
         })
             //Modal Edit Cambio de Domicilio
             $(document).on('click','.editCamDom',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('CamDomid');
-            let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let fusion =JSON.parse(response);
-            $('#camdomid').val(fusion[0]['id']); 
-            $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
-            $('#editestadoCamDom').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CamDomid');
+                let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
+                url = url + id;
+                $.post(url,{id},function(response){
+                let fusion =JSON.parse(response);
+                $('#camdomid').val(fusion[0]['id']); 
+                $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
+                $('#editestadoCamDom').val(fusion[0]['estado_id']);
+                $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
+                $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
+                $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
+                $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
+                $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
+                $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
             
            })
         })
@@ -3118,15 +3211,6 @@ init_head();?>
         
         
 
-    function fecha(){
-        var hoy = new Date();
-        var dd = hoy.getDate();
-        var mm = hoy.getMonth()+1;
-        var yy = hoy.getFullYear();
-        var fecha = '';
-        if(dd<10){
-            dd = '0'+dd;
-        var formData = new FormData();
         function fecha(){
             var hoy = new Date();
             var dd = hoy.getDate();
@@ -3135,15 +3219,24 @@ init_head();?>
             var fecha = '';
             if(dd<10){
                 dd = '0'+dd;
+            var formData = new FormData();
+            function fecha(){
+                var hoy = new Date();
+                var dd = hoy.getDate();
+                var mm = hoy.getMonth()+1;
+                var yy = hoy.getFullYear();
+                var fecha = '';
+                if(dd<10){
+                    dd = '0'+dd;
+                }
+                else if(mm<10){
+                    mm = '0'+mm;
+                }
+                fecha = dd+"/"+mm+"/"+yy;
+                return fecha;
             }
-            else if(mm<10){
-                mm = '0'+mm;
-            }
-            fecha = dd+"/"+mm+"/"+yy;
-            return fecha;
         }
-    }
-}
+        }
 
         $(".calendar").on('keyup', function(e){
             e.preventDefault();
@@ -3547,12 +3640,6 @@ init_head();?>
             //Pais_id fill
             pais_id = JSON.stringify($("select[name=pais_id]").val());
             formData.append('pais_id', pais_id);
-            //Clase_niza_id fill
-            clase_niza = JSON.stringify($("select[name=clase_niza_id]").val());
-            formData.append('clase_niza', clase_niza);
-            //solicitantes fill
-            solicitantes = JSON.stringify($("select[name=solicitantes_id]").val());
-            formData.append('solicitantes_id', solicitantes);
             formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
             formData.append('ref_interna', $("input[name=ref_interna]").val());
             formData.append('ref_cliente', $('input[name=ref_cliente]').val());
@@ -3660,6 +3747,7 @@ init_head();?>
                 prevTab($active);
 
             });
+            TablaClases();
         });
 
         // $(".next-step").click(function (e) {
@@ -3677,20 +3765,109 @@ init_head();?>
         // });
     
 
-    function nextTab(elem) {
-        $(elem).next().find('a[data-toggle="tab"]').click();
-    }
-    function prevTab(elem) {
-        $(elem).prev().find('a[data-toggle="tab"]').click();
-    }
-    //---------------------
         function nextTab(elem) {
             $(elem).next().find('a[data-toggle="tab"]').click();
         }
         function prevTab(elem) {
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
+        //---------------------
+            function nextTab(elem) {
+                $(elem).next().find('a[data-toggle="tab"]').click();
+            }
+            function prevTab(elem) {
+                $(elem).prev().find('a[data-toggle="tab"]').click();
+            }
 
+    </script>
+
+    <script>
+    </script>
+
+
+    <script>
+        /***
+         * funcion para obtener la descripcion de la clase
+         * 
+         * 
+         */
+        $(document).on('change', 'select[name=clase_niza]', function(e)
+        {
+            e.preventDefault();
+            var clase_niza = $("select[name=clase_niza]").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'clase_id': clase_niza
+                },
+                success: function(response)
+                {
+                    res = JSON.parse(response);
+                    $("input[name=clase_niza_descripcion]").val(res.data);
+                }
+            });
+        });
+    </script>
+    <script>
+        /***
+         * funcion para guardar el formulario de la clase
+         * 
+         * 
+         */
+        $(document).on('click', '#claseNizaFrmSubmit', function(e)
+        {
+            e.preventDefault();
+            var clase_id = $("select[name=clase_niza]").val();
+            var clase_descripcion = $("input[name=clase_niza_descripcion]").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasSolicitudesController/insertClases')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'clase_id' : clase_id,
+                    'clase_descripcion': clase_descripcion,
+                    'marcas_id' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#claseNizaFrm")[0].reset();
+                    $("#claseNizaModal").modal('hide');
+                    TablaClases();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        
+    </script>
+
+    <script>
+        function TablaClases()
+        {
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/'.$id);?>",
+                method: "POST",
+                success: function(response){
+                    res = JSON.parse(response);
+                    data = res.data;
+                    console.log(res);
+                    $('#claseNizaTbl').DataTable( {
+                        destroy: true,
+                        data: data,
+                        columns: [
+                            { data: 'clase' },
+                            { data: 'descripcion' },
+                        ],
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                        }
+                    } );
+                }
+            });
+        }
     </script>
 </body>
 </html>

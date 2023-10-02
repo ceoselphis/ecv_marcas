@@ -254,7 +254,7 @@ class PublicacionesMarcasController extends AdminController
      public function showPublicacion(string $id = null){
         $CI = &get_instance();
         $CI->load->model("PublicacionesMarcas_model");
-        $marcas = $CI->PublicacionesMarcas_model->findAll();
+        $marcas = $CI->PublicacionesMarcas_model->findPublicacionesMarcas($id);
         $data = array();
         /*tbl_marcas_publicaciones`(`id`, `tipo_pub_id`, `marcas_id`, `boletin_id`, `tomo`, `pagina` */
         foreach ($marcas as $row){
@@ -274,12 +274,11 @@ class PublicacionesMarcasController extends AdminController
      public function addPublicacion(){
         $CI = &get_instance();
         $data = $CI->input->post();
-        echo json_encode($data);
         if (!empty($data)){
             /*tbl_marcas_publicaciones`(`id`, `tipo_pub_id`, `marcas_id`, `boletin_id`, `tomo`, `pagina` */
             $insert = array(
                             'tipo_pub_id' => $data['tipo_publicacion'],
-                            'marcas_id' => 1,
+                            'marcas_id' => $data['id_marcas'],
                             'boletin_id' => $data['boletin_publicacion'],
                             'tomo' => $data['tomo_publicacion'],
                             'pagina' => $data['pag_publicacion'],
@@ -301,16 +300,16 @@ class PublicacionesMarcasController extends AdminController
         else {
             echo "No tiene Data";
         }
-     }
+    }
 
-     public function EditPublicacion(string $id = null){
+    public function EditPublicacion(string $id = null){
         $CI = &get_instance();
         $CI->load->model("PublicacionesMarcas_model");
         $query =$CI->PublicacionesMarcas_model->find($id);
         echo json_encode($query);   
-     }
+    }
 
-     public function UpdatePublicaciones(string $id = null){
+    public function UpdatePublicaciones(string $id = null){
         $CI = &get_instance();
         $CI->load->model("PublicacionesMarcas_model");
         $data = $CI->input->post();
@@ -321,8 +320,7 @@ class PublicacionesMarcasController extends AdminController
                         'tomo' => $data['tomo_publicacion'],
                         'pagina' => $data['pag_publicacion'],
                     );
-                   
-
+                
                     $query = $CI->PublicacionesMarcas_model->update($id, $insert);
                     if (isset($query))
                     {

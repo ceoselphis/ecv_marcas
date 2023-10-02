@@ -14,6 +14,14 @@ class MarcasPrioridad_model extends BaseModel
         parent::__construct();
     }
 
+    public function findPublicacionesMarcas($id = null){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_prioridades');
+        $this->db->where('marcas_id ='.$id);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
     public function findAllPrioridadByMarcas($id = null)
     {
         $this->db->select('a.id, b.nombre, a.fecha_prioridad, a.numero_prioridad');

@@ -67,13 +67,12 @@ class MarcasSolicitudesDocumentoController extends AdminController
                 'id' => $row['id'],
                 'marcas_id' => $CI->MarcasSolicitudesDocumento_model->BuscarSolicitudesMarcas($row['marcas_id']),
                 'descripcion' => $row['descripcion'],
-                'comentario' => $row['comentario'],
+                'comentario' => $row['comentarios'],
                 'path' => $row['path'],
             );
         }
         echo json_encode($data);
-
-     }
+    }
 
     public function store()
     {
@@ -170,22 +169,28 @@ class MarcasSolicitudesDocumentoController extends AdminController
         $CI = &get_instance();
         $data = $CI->input->post();
         $file = $_FILES;
-        $doc_arch =$file['doc_archivo']['name']; 
+        $doc_arch = '';
+        if (empty($file['doc_archivo'])){
+            $doc_arch ="No tiene"; 
+        }if(!empty($file['doc_archivo'])){
+
+            $doc_arch =$file['doc_archivo']['name']; 
+        }
         if (!empty($data)){
             $insert = array(
-                            'marcas_id' => $data['id_marcas'],
-                            'descripcion' => $data['doc_descripcion'],
-                            'comentario' => $data['comentario_archivo'],
-                            'path' => $doc_arch,
-                    );
+                'marcas_id' => $data['id_marcas'],
+                'descripcion' => $data['doc_descripcion'],
+                'comentarios' => $data['comentario_archivo'],
+                'path' => $doc_arch,
+            );
             $CI->load->model("MarcasSolicitudesDocumento_model");
                 try{
                     $query = $CI->MarcasSolicitudesDocumento_model->insert($insert);
                         if (isset($query)){
-                            echo "Insertado Correctamente";
+                            echo json_encode(['code' => 200, 'message' => 'Insertado Correctamente']);
 
                         }else {
-                            echo "No hemos podido Insertar";
+                            echo json_encode(['code' => 500, 'message' => 'No se ha podido Insertado']);
                         }
                 }catch (Exception $e){
                     return $e;
@@ -201,7 +206,7 @@ class MarcasSolicitudesDocumentoController extends AdminController
         $CI->load->model("MarcasSolicitudesDocumento_model");
         $query =$CI->MarcasSolicitudesDocumento_model->find($id);
         echo json_encode($query);   
-     }
+    }
 
      public function UpdateDocumento(string $id = null){
         $CI = &get_instance();

@@ -189,7 +189,7 @@ init_head();?>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody id="body_prioridad">
+                                                            <tbody>
 
                                                             </tbody>
                                                         </table> 
@@ -309,7 +309,7 @@ init_head();?>
                                                                             <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody id = "body_publicacion">
+                                                                    <tbody>
 
                                                                     </tbody>
                                                                 </table>
@@ -622,58 +622,21 @@ init_head();?>
         <div class="row">
             <div class="col-md-6">
                 <?php echo form_label('Pais de la prioridad', 'pais_prioridad');?>
-                <?php echo form_dropdown(['name'=>'pais_prioridad','id'=>'pais_prioridad'], $pais_id, '',['class' => 'form-control']);?>
+                <?php echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Fecha', 'fecha_prioridad');?>
-                <?php echo form_input(['name'=>'fecha_prioridad','id'=>'fecha_prioridad'], '', ['class' => 'form-control calendar']);?>
+                <?php echo form_input('fecha_prioridad', '', ['class' => 'form-control calendar']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Número', 'nro_prioridad');?>
-                <?php echo form_input(['name'=>'nro_prioridad','id'=>'nro_prioridad'],'',['class' => 'form-control']);?>
+                <?php echo form_input('nro_prioridad','',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="prioridadfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
-      </div>
-    </div>
-  </div>
-  <?php echo form_close();?>
-</div>
-
-<!-- Editar Prioridad Modal -->
-<div class="modal fade" id="EditprioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Editar Prioridad</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-        <input type="hidden" id="Prioridadid">
-            <div class="col-md-6">
-                <?php echo form_label('Pais de la prioridad', 'pais_prioridad');?>
-                <?php echo form_dropdown(['name'=>'editpais_prioridad','id'=>'editpais_prioridad'], $pais_id, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Fecha', 'fecha_prioridad');?>
-                <?php echo form_input(['name'=>'editfecha_prioridad','id'=>'editfecha_prioridad'], '', ['class' => 'form-control calendar']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Número', 'nro_prioridad');?>
-                <?php echo form_input(['name'=>'editnro_prioridad','id'=>'editnro_prioridad'],'',['class' => 'form-control']);?>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="Editprioridadfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -745,6 +708,7 @@ init_head();?>
 <!-- Añadir Publicacion Modal -->
 <div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
+    <?php echo form_hidden('pub_id', set_value('pub_id'));?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -756,20 +720,20 @@ init_head();?>
       <div class="modal-body">
         <div class="row">
             <div class="col-md-3">
-                <?php echo form_label('Tipo de Publicacion', 'pais_publicacion');?>
-                <?php echo form_dropdown(['name'=>'tipo_publicacion','id'=>'tipo_publicacion'], $tipo_publicacion, '',['class' => 'form-control']);?>
+                <?php echo form_label('Tipo', 'tipo_publicacion');?>
+                <?php echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'),['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Boletin', 'boletin_publicacion');?>
-                <?php echo form_dropdown(['name'=>'boletin_publicacion','id'=>'boletin_publicacion'], $boletines, set_value('boletin_publicacion') , ['class' => 'form-control']);?>
+                <?php echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion') , ['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Tomo', 'tomo_publicacion');?>
-                <?php echo form_input(['name'=>'tomo_publicacion','id'=>'tomo_publicacion'],'',['class' => 'form-control']);?>
+                <?php echo form_input('tomo_publicacion',set_value('tomo_publicacion'),['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Página', 'pag_publicacion');?>
-                <?php echo form_input(['name'=>'pag_publicacion','id'=>'pag_publicacion'],'',['class' => 'form-control']);?>
+                <?php echo form_input('pag_publicacion',set_value('pag_publicacion'),['class' => 'form-control']);?>
             </div>
         </div>
       </div>
@@ -781,10 +745,10 @@ init_head();?>
   </div>
   <?php echo form_close();?>
 </div>
-
 <!-- Editar Publicacion Modal -->
-<div class="modal fade" id="EditpublicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
+    <?php echo form_hidden('pub_id_edit', set_value('pub_id_edit'));?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -795,28 +759,27 @@ init_head();?>
       </div>
       <div class="modal-body">
         <div class="row">
-            <input type="hidden" id="Publicacionid">
             <div class="col-md-3">
-                <?php echo form_label('Tipo de Publicacion', 'pais_publicacion');?>
-                <?php echo form_dropdown(['name'=>'Edittipo_publicacion','id'=>'Edittipo_publicacion'], $tipo_publicacion, '',['class' => 'form-control']);?>
+                <?php echo form_label('Tipo', 'tipo_publicacion_edit');?>
+                <?php echo form_dropdown('tipo_publicacion_edit', $tipo_publicacion, set_value('tipo_publicacion_edit'),['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Boletin', 'boletin_publicacion');?>
-                <?php echo form_dropdown(['name'=>'Editboletin_publicacion','id'=>'Editboletin_publicacion'], $boletines, set_value('boletin_publicacion') , ['class' => 'form-control']);?>
+                <?php echo form_label('Boletin', 'boletin_publicacion_edit');?>
+                <?php echo form_dropdown('boletin_publicacion_edit', $boletines, set_value('boletin_publicacion_edit') , ['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Tomo', 'tomo_publicacion');?>
-                <?php echo form_input(['name'=>'Edittomo_publicacion','id'=>'Edittomo_publicacion'],'',['class' => 'form-control']);?>
+                <?php echo form_label('Tomo', 'tomo_publicacion_edit');?>
+                <?php echo form_input('tomo_publicacion_edit',set_value('tomo_publicacion_edit'),['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Página', 'pag_publicacion');?>
-                <?php echo form_input(['name'=>'Editpag_publicacion','id'=>'Editpag_publicacion'],'',['class' => 'form-control']);?>
+                <?php echo form_label('Página', 'pag_publicacion_edit');?>
+                <?php echo form_input('pag_publicacion_edit',set_value('pag_publicacion_edit'),['class' => 'form-control']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="Editpublicacionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+        <button id="publicacionfrmsubmitEdit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -1988,9 +1951,10 @@ init_head();?>
 </script>
 
     <script>
-        Prioridad();
-        Publicaciones();
-        Cesion();
+         // ---------------------------------- Mostrar Anexo -----------------------------------------------
+        // Cambio Domicilio------------------------------------------------------
+        
+        Cesion()
         CambioDomicilio();
         CambioNombre();
         Fusion();
@@ -1998,69 +1962,57 @@ init_head();?>
         Eventos();
         Tareas();
         Documentos();
-        
-        // ---------------------------------- Mostrar Lista en Ajax  -----------------------------------------------
-        //Publicaciones 
-        function Publicaciones(){
-            let url = '<?php echo admin_url("pi/PublicacionesMarcasController/showPublicacion/$id");?>';
-            let eliminar = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
-            let body= ``;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    if (listadomicilio  === null){   
-                        $('#body_publicacion').html("Sin Data"); 
-                    }  else {
+        CambioDomicilioAnterior();
+        CambioDomicilioActual();
 
-                        listadomicilio.forEach(item => {
-                            eliminar = eliminar+item.id;
-                            body += `<tr Publicacionid = "${item.id}"> 
-                                        <td class="text-center">${item.id}</td>
-                                        <td class="text-center">${item.tipo_pub_id}</td>
-                                        <td class="text-center">${item.boletin_id}</td>
-                                        <td class="text-center">${item.tomo}</td>
-                                        <td class="text-center">${item.pagina}</td>
-                                            <td class="text-center">
-                                                <a class="EditPublicacion btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditpublicacionModal"><i class="fas fa-edit"></i>Editar</a>
-                                                <button class="publicacion-delete btn btn-danger">
-                                                <i class="fas fa-trash"></i>Borrar
-                                                </button>
-                                            </td>
-                                        
-                                    </tr>
-                                `
-                            });
-                            $('#body_publicacion').html(body);     
-                    }
-                })
-        }
-        // Prioridad ------------------------------------------------------
-        function Prioridad(){
-            let url = '<?php echo admin_url("pi/MarcasPrioridadController/showPrioridad/$id");?>';
-            let eliminar = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
+        function CambioDomicilioActual(){
+            let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/showCambioDomicilioActual/$id");?>';
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        
-                        eliminar = eliminar+item.id;
-                        body += `<tr Prioridadid = "${item.id}"> 
-                                    <td class="text-center">${item.fecha_prioridad}</td>
-                                    <td class="text-center">${item.pais_id}</td>
-                                    <td class="text-center">${item.numero_prioridad}</td>
+                        body += `<tr CamDomActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cambio_domicilio}</td>
+                                    <td class="text-center">${item.tipo_domicilio}</td>
+                                    <td class="text-center">${item.propietario}</td>
                                         <td class="text-center">
-                                            <a class="EditPrioridad btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditprioridadModal"><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="prioridad-delete btn btn-danger">
+                                            <a class="editCamDom btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditCambioDomicilio1"><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cambio-Domicilio-delete btn btn-danger">
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>
                                         </td>
-                                    
                                 </tr>
                             `
                         });
-                        $('#body_prioridad').html(body);     
+                        $('#body_cambio_domicilio_actual').html(body);     
                 })
         }
-        // Cambio Domicilio------------------------------------------------------
+
+        function CambioDomicilioAnterior(){
+            let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/showCambioDomicilioAnterior/$id");?>';
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CamDomAnteriorid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cambio_domicilio}</td>
+                                    <td class="text-center">${item.tipo_domicilio}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class="editCamDom btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditCambioDomicilio1"><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cambio-Domicilio-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_cambio_domicilio_anterior').html(body);     
+                })
+        }
+
         function CambioDomicilio(){
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
             let body= ``;
@@ -2090,7 +2042,7 @@ init_head();?>
                         $('#body_cambio_domicilio').html(body);     
                 })
         }
-
+      
         // Cambio de Nombre
         function CambioNombre(){
             let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/$id");?>';
@@ -2098,7 +2050,7 @@ init_head();?>
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        body += `<tr CamNomid = "${item.id}"> 
+                         body += `<tr CamNomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
                                     <td class="text-center">${item.estado}</td>
@@ -2128,7 +2080,7 @@ init_head();?>
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        body += `<tr Fusionid = "${item.id}"> 
+                         body += `<tr Fusionid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
                                     <td class="text-center">${item.estado}</td>
@@ -2144,8 +2096,10 @@ init_head();?>
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>
                                         </td>
+                                  
                                 </tr>
                             `
+                         
                     });
                     $('#body_fusion').html(body);   
                 })
@@ -2158,7 +2112,7 @@ init_head();?>
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        body += `<tr Licenciaid = "${item.id}"> 
+                         body += `<tr Licenciaid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -2190,7 +2144,7 @@ init_head();?>
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                        body += `<tr Cesionid = "${item.id}" > 
+                         body += `<tr Cesionid = "${item.id}" > 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
                                     <td class="text-center">${item.oficina}</td>
@@ -2208,10 +2162,13 @@ init_head();?>
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>
                                         </td>
+                                   
                                 </tr>
                             `
+                           
+                       
                     });
-                    $('#body_cesion').html(body);   
+                       $('#body_cesion').html(body);   
                 })
         }
 
@@ -2247,7 +2204,7 @@ init_head();?>
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                         listadomicilio.forEach(item => {
-                            body += `<tr taskId = "${item.id}">
+                             body += `<tr taskId = "${item.id}">
                                             <td class="text-center">${item.id}</td>
                                             <td class="text-center">${item.tipo_tarea}</td>
                                             <td class="text-center">${item.descripcion}</td>
@@ -2283,11 +2240,10 @@ init_head();?>
                                                 <button class="documentos-delete btn btn-danger">
                                                 <i class="fas fa-trash"></i>Borrar
                                                 </button>
-                                            </td>             
+                                            </td>  
                                     </tr>
                                 `
                         });
-                    
                     $('#body_documentos').html(body);   
                 })
         }
@@ -2346,36 +2302,6 @@ init_head();?>
         })
 
          //----------------------------------- Funciones de la Informacion que Trae desde la Base de Datos -----------------------------------------------
-         //Modal Edit Publicacion
-        $(document).on('click','.EditPublicacion',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('Publicacionid');
-            let url = '<?php echo admin_url("pi/PublicacionesMarcasController/EditPublicacion/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let doc =JSON.parse(response);
-                $('#Publicacionid').val(doc[0]['id']);
-                $('#Edittipo_publicacion').val(doc[0]['tipo_pub_id']);
-                $('#Editboletin_publicacion').val(doc[0]['boletin_id']);
-                $('#Edittomo_publicacion').val(doc[0]['tomo']);
-                $('#Editpag_publicacion').val(doc[0]['pagina']);
-            })
-        })
-
-          //Modal Edit Prioridad
-        $(document).on('click','.EditPrioridad',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('Prioridadid');
-            let url = '<?php echo admin_url("pi/MarcasPrioridadController/EditPrioridad/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let doc =JSON.parse(response);
-            $('#Prioridadid').val(doc[0]['id']);
-            $('#editpais_prioridad').val(doc[0]['pais_id']);
-            $('#editfecha_prioridad').val(doc[0]['fecha_prioridad']);
-            $('#editnro_prioridad').val(doc[0]['numero_prioridad']);
-            })
-        })
          //Modal Edit Cesion
         $(document).on('click','.EditCesion',function(){
             let element = $(this)[0].parentElement.parentElement;
@@ -2443,8 +2369,8 @@ init_head();?>
             })
         })
 
-        //Modal Edit Cambio Nombre
-        $(document).on('click','.editCamNom',function(){
+          //Modal Edit Cambio Nombre
+          $(document).on('click','.editCamNom',function(){
             let element = $(this)[0].parentElement.parentElement;
             let id = $(element).attr('CamNomid');
             let url = '<?php  echo admin_url("pi/CambioNombreController/EditCambioNombre/");?>';
@@ -2461,7 +2387,7 @@ init_head();?>
             $('#editreferenciaclienteCamNom').val(fusion[0]['referencia_cliente']);
             $('#editcomentarioCamNom').val(fusion[0]['comentarios']);
             
-            })
+           })
         })
             //Modal Edit Cambio de Domicilio
             $(document).on('click','.editCamDom',function(){
@@ -2481,10 +2407,10 @@ init_head();?>
             $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
             $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
             
-            })
+           })
         })
          //Modal Edit Documento
-        $(document).on('click','.editdoc',function(){
+         $(document).on('click','.editdoc',function(){
             let element = $(this)[0].parentElement.parentElement;
             console.log(element);
             let id = $(element).attr('docid');
@@ -2552,143 +2478,13 @@ init_head();?>
         }
 
         //----------------------------------- Modad Para Añadir, Editar y Eliminar -----------------------------------------------
-         //Añadir Publicacion ---------------------------------------------------------------------------
-         $(document).on('click','#publicacionfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var tipo_publicacion =  $('#tipo_publicacion').val();
-            var boletin_publicacion = $('#boletin_publicacion').val();
-            var tomo_publicacion = $('#tomo_publicacion').val();
-            var pag_publicacion = $('#pag_publicacion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('id_marcas',id_marcas);
-            formData.append('tipo_publicacion' , tipo_publicacion);
-            formData.append('boletin_publicacion', boletin_publicacion);
-            formData.append('tomo_publicacion', tomo_publicacion);
-            formData.append('pag_publicacion', pag_publicacion);
-            let url = '<?php echo admin_url("pi/PublicacionesMarcasController/addPublicacion");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                console.log(response);
-                alert_float('success', "Insertado Correctamente");
-                $("#publicacionModal").modal('hide');
-                Publicaciones();
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-         //Editar Publicacion ---------------------------------------------------------------------------
-         $(document).on('click','#Editpublicacionfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Publicacionid').val();
-            var tipo_publicacion =  $('#Edittipo_publicacion').val();
-            var boletin_publicacion = $('#Editboletin_publicacion').val();
-            var tomo_publicacion = $('#Edittomo_publicacion').val();
-            var pag_publicacion = $('#Editpag_publicacion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_publicacion' , tipo_publicacion);
-            formData.append('boletin_publicacion', boletin_publicacion);
-            formData.append('tomo_publicacion', tomo_publicacion);
-            formData.append('pag_publicacion', pag_publicacion);
-            let url = '<?php echo admin_url("pi/PublicacionesMarcasController/UpdatePublicaciones/");?>';
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                console.log(response);
-                alert_float('success', "Insertado Correctamente");
-                $("#EditpublicacionModal").modal('hide');
-                Publicaciones();
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-        //Añadir Prioridad ---------------------------------------------------------------------------
-        $(document).on('click','#prioridadfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var pais_prioridad =  $('#pais_prioridad').val();
-            var fecha_prioridad = $('#fecha_prioridad').val();
-            var nro_prioridad = $('#nro_prioridad').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('id_marcas',id_marcas);
-            formData.append('pais_prioridad' , pais_prioridad);
-            formData.append('fecha_prioridad', fecha_prioridad);
-            formData.append('nro_prioridad', nro_prioridad);
-            console.log('csrf_token_name', csrf_token_name);
-            console.log('pais_prioridad' , pais_prioridad);
-            console.log('fecha_prioridad', fecha_prioridad);
-            console.log('nro_prioridad', nro_prioridad);
-            let url = '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#prioridadModal").modal('hide');
-                Prioridad();
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-         //Editar Prioridad ---------------------------------------------------------------------------
-        $(document).on('click','#Editprioridadfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Prioridadid').val();
-            var pais_prioridad =  $('#editpais_prioridad').val();
-            var fecha_prioridad = $('#editfecha_prioridad').val();
-            var nro_prioridad = $('#editnro_prioridad').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('pais_prioridad' , pais_prioridad);
-            formData.append('fecha_prioridad', fecha_prioridad);
-            formData.append('nro_prioridad', nro_prioridad);
-            console.log('csrf_token_name', csrf_token_name);
-            console.log('pais_prioridad' , pais_prioridad);
-            console.log('fecha_prioridad', fecha_prioridad);
-            console.log('nro_prioridad', nro_prioridad);
-            let url = '<?php echo admin_url("pi/MarcasPrioridadController/UpdatePrioridad/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                console.log(response);
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditprioridadModal").modal('hide');
-                Prioridad();
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
+       // btnCambioDomicilioAnterior
+            $(document).on('click','.btnCambioDomicilioActual',function(e){
+                e.preventDefault();
+                console.log("Holla cambio")
+                $("EditCambioDomicilio").modal('hide');
+                // $("CambioDomicilioActualModal").modal('show');
+            })
             //Añadir Cesion ---------------------------------------------------------------------------
             $(document).on('click','#AddCesionfrmsubmit',function(e){
             e.preventDefault();
@@ -2779,7 +2575,7 @@ init_head();?>
             });
         });
          //Añadir Licencia ---------------------------------------------------------------------------
-        $(document).on('click','#addlicenciafrmsubmit',function(e){
+         $(document).on('click','#addlicenciafrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -2824,7 +2620,7 @@ init_head();?>
         });
 
         //Editar Licencia ---------------------------------------------------------------------------
-        $(document).on('click','#editlicenciafrmsubmit',function(e){
+         $(document).on('click','#editlicenciafrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -2954,7 +2750,7 @@ init_head();?>
             });
         });
          //Añadir Cambio de Nombre -----------------------------------------------------------------
-        $(document).on('click','#AddCambioNombrefrmsubmit',function(e){
+         $(document).on('click','#AddCambioNombrefrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -2995,7 +2791,7 @@ init_head();?>
         }); 
 
          //Editar Cambio de Nombre -----------------------------------------------------------------
-        $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
+         $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -3183,6 +2979,7 @@ init_head();?>
                 processData: false,
                 contentType: false
             }).then(function(response){
+               
                 alert_float('success', "Actualizado Correctamente");
                 $("#docModalEdit").modal('hide');
                 Documentos();
@@ -3305,7 +3102,7 @@ init_head();?>
                 processData: false,
                 contentType: false
             }).then(function(response){
-            alert_float('success', "Actualizado Correctamente");
+               alert_float('success', "Actualizado Correctamente");
                 $("#EditTask").modal('hide');
                 Tareas();
             }).catch(function(response){
@@ -3316,9 +3113,6 @@ init_head();?>
         //Eliminar Cesion
         $(document).on('click','.cesion-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('Cesionid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3337,14 +3131,11 @@ init_head();?>
                 }).catch(function(response){
                     alert("No puede agregar un Documento sin registro de la solicitud");
                 });
-            }
+           }
         });
          //Eliminar Licencia
-        $(document).on('click','.licencia-delete',function(){
+         $(document).on('click','.licencia-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('Licenciaid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3368,9 +3159,6 @@ init_head();?>
          //Eliminar Fusion
          $(document).on('click','.fusion-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('Fusionid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3394,9 +3182,6 @@ init_head();?>
         //Eliminar Cambio Nombre
         $(document).on('click','.Cambio-Nombre-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('CamNomid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3415,14 +3200,11 @@ init_head();?>
                 }).catch(function(response){
                     alert("No puede agregar un Documento sin registro de la solicitud");
                 });
-            }
+           }
         });
           //Eliminar Eventos
-        $(document).on('click','.evento-delete',function(){
+          $(document).on('click','.evento-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('eventosid');
                 console.log(id);
@@ -3442,14 +3224,11 @@ init_head();?>
                 }).catch(function(response){
                     alert("No puede agregar un Documento sin registro de la solicitud");
                 });
-        }
+           }
         });
          //Eliminar Tareas
          $(document).on('click','.tarea-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('taskId');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3473,9 +3252,6 @@ init_head();?>
          //Eliminar Documentos
          $(document).on('click','.documentos-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('docid');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
@@ -3491,55 +3267,6 @@ init_head();?>
                 }).then(function(response){
                     alert_float('success', "Eliminado Correctamente");
                     Documentos();
-                }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
-                });
-            }
-        });
-         //Eliminar Prioridad
-         $(document).on('click','.prioridad-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                var formData = new FormData();
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('Prioridadid');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/MarcasPrioridadController/destroyPrioridad/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    console.log(response);
-                    alert_float('success', "Eliminado Correctamente");
-                    Prioridad();
-                }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
-                });
-           }
-        });//
-          //Eliminar Publicacion
-          $(document).on('click','.publicacion-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                var formData = new FormData();
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('Publicacionid');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/PublicacionesMarcasController/destroyPublicacion/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    Publicaciones();
                 }).catch(function(response){
                     alert("No puede agregar un Documento sin registro de la solicitud");
                 });
@@ -4070,31 +3797,31 @@ init_head();?>
             })
         })
 
-        // $(document).ready(function(){
-        //     $.ajax({
-        //         url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
-        //         method: "GET",
-        //         success: function(response)
-        //         {
-        //             table = JSON.parse(response);
-        //             $("#prioridadTbl").DataTable({
-        //                 language: {
-        //                     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        //                 },
-        //                 data: table,
-        //                 destroy: true,
-        //                 dataSrc: '',
-        //                 columns : [
-        //                     { data: 'fecha_prioridad'},
-        //                     { data: 'nombre'},
-        //                     { data: 'numero'},
-        //                     { data: 'acciones'},
-        //                 ],
-        //                 width: "100%"
-        //             });
-        //         }
-        //     })
-        // });
+        $(document).ready(function(){
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                method: "GET",
+                success: function(response)
+                {
+                    table = JSON.parse(response);
+                    $("#prioridadTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: table,
+                        destroy: true,
+                        dataSrc: '',
+                        columns : [
+                            { data: 'fecha_prioridad'},
+                            { data: 'nombre'},
+                            { data: 'numero'},
+                            { data: 'acciones'},
+                        ],
+                        width: "100%"
+                    });
+                }
+            })
+        });
 
         
 
@@ -4107,7 +3834,7 @@ init_head();?>
 
         // ------------step-wizard-------------
         $(document).ready(function () {
-            //getAllPublicaciones();
+            getAllPublicaciones();
             $('.nav-tabs > li a[title]').tooltip();
             
             //Wizard
@@ -4151,121 +3878,121 @@ init_head();?>
     </script>
 
     <script>
-        // $(document).on('click',"#publicacionfrmsubmit" , function(e)
-        // {
-        //     e.preventDefault();
-        //     var data = {
-        //         'csrf_token_name'    : $("input[name=csrf_token_name]").val(),
-        //         'tipo_publicacion'   : $("select[name=tipo_publicacion]").val(),
-        //         'boletin_publicacion': $("select[name=boletin_publicacion]").val(),
-        //         'tomo_publicacion'   : $("input[name=tomo_publicacion]").val(),
-        //         'pag_publicacion'    : $("input[name=pag_publicacion]").val(),
-        //     }
-        //     $.ajax({
-        //         url: "<?php //echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/'.$id);?>",
-        //         method: 'POST',
-        //         data: data,
-        //         success: function(response)
-        //         {
-        //             alert_float('success', 'Publicacion cargada exitosamente');
-        //             getAllPublicaciones();
-        //             $("#publicacionModal").modal('hide');
-        //         }
-        //     });
-        // });
+        $(document).on('click',"#publicacionfrmsubmit" , function(e)
+        {
+            e.preventDefault();
+            var data = {
+                'csrf_token_name'    : $("input[name=csrf_token_name]").val(),
+                'tipo_publicacion'   : $("select[name=tipo_publicacion]").val(),
+                'boletin_publicacion': $("select[name=boletin_publicacion]").val(),
+                'tomo_publicacion'   : $("input[name=tomo_publicacion]").val(),
+                'pag_publicacion'    : $("input[name=pag_publicacion]").val(),
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/'.$id);?>",
+                method: 'POST',
+                data: data,
+                success: function(response)
+                {
+                    alert_float('success', 'Publicacion cargada exitosamente');
+                    getAllPublicaciones();
+                    $("#publicacionModal").modal('hide');
+                }
+            });
+        });
 
-        // function getAllPublicaciones()
-        // {
-        //     $.ajax({
-        //         url:"<?php //echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
-        //         method: "POST",
-        //         success: function(response)
-        //         {
-        //             table = JSON.parse(response);
-        //             console.log(table.data);
-        //             $("#publicacionTbl").DataTable({
-        //                 language: {
-        //                         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        //                     },
-        //                     destroy: true,
-        //                     data: table.data,
-        //                     columns : [
-        //                         { data: 'fecha'},
-        //                         { data: 'nombre'},
-        //                         { data: 'boletin_id'},
-        //                         { data: 'tomo'},
-        //                         { data: 'pagina'},
-        //                         { data: 'acciones'}
-        //                     ]
-        //             });
-        //         }
-        //     });
-        // }
+        function getAllPublicaciones()
+        {
+            $.ajax({
+                url:"<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
+                method: "POST",
+                success: function(response)
+                {
+                    table = JSON.parse(response);
+                    console.log(table.data);
+                    $("#publicacionTbl").DataTable({
+                        language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                            },
+                            destroy: true,
+                            data: table.data,
+                            columns : [
+                                { data: 'fecha'},
+                                { data: 'nombre'},
+                                { data: 'boletin_id'},
+                                { data: 'tomo'},
+                                { data: 'pagina'},
+                                { data: 'acciones'}
+                            ]
+                    });
+                }
+            });
+        }
     </script>
     
 
     <script>
-        // $(document).on('click', '.editPublicacion', function(e)
-        // {
-        //     e.preventDefault();
-        //     var id = $(this).attr('id');
-        //     $.ajax({
-        //         url: "<?php //echo admin_url('pi/PublicacionesMarcasController/show/');?>"+id,
-        //         method: "POST",
-        //         success:function(response)
-        //         {
-        //             data = JSON.parse(response);
-        //             $("input[name=pub_id_edit]").val(data.id);
-        //             $("select[name=tipo_publicacion_edit]").val(data.tipo_pub_id);
-        //             $("select[name=boletin_publicacion_edit]").val(data.boletin_id);
-        //             $("input[name=tomo_publicacion_edit]").val(data.tomo);
-        //             $("input[name=pag_publicacion_edit]").val(data.pagina);
-        //         }
-        //     });
-        //     $("#publicacionEditModal").modal('show');
-        // });
+        $(document).on('click', '.editPublicacion', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/show/');?>"+id,
+                method: "POST",
+                success:function(response)
+                {
+                    data = JSON.parse(response);
+                    $("input[name=pub_id_edit]").val(data.id);
+                    $("select[name=tipo_publicacion_edit]").val(data.tipo_pub_id);
+                    $("select[name=boletin_publicacion_edit]").val(data.boletin_id);
+                    $("input[name=tomo_publicacion_edit]").val(data.tomo);
+                    $("input[name=pag_publicacion_edit]").val(data.pagina);
+                }
+            });
+            $("#publicacionEditModal").modal('show');
+        });
 
-        // $(document).on('click', '#publicacionfrmsubmitEdit', function(e)
-        // {
-        //     e.preventDefault();
-        //     var data = {
-        //         'csrf_token_name'   : $("input[name=csrf_token_name]").val(),
-        //         'tipo_pub_id'       : $("select[name=tipo_publicacion_edit]").val(),
-        //         'boletin_id'        : $("select[name=boletin_publicacion_edit]").val(),
-        //         'tomo'              : $("input[name=tomo_publicacion_edit]").val(),
-        //         'pagina'            : $("input[name=pag_publicacion_edit]").val(),
-        //         'marcas_id'         : $("input[name=id]").val(),
-        //         'id'                : $("input[name=pub_id_edit]").val()
-        //     }
-        //     $.ajax({
-        //         url: "<?php echo admin_url('pi/PublicacionesMarcasController/updatePublicacionByMarca/');?>",
-        //         method: 'POST',
-        //         data: data,
-        //         success: function(response)
-        //         {
-        //             alert_float('success', 'Publicacion editada exitosamente');
-        //             getAllPublicaciones();
-        //             $("#publicacionEditModal").modal('hide');
-        //         }
-        //     });
-        // });
+        $(document).on('click', '#publicacionfrmsubmitEdit', function(e)
+        {
+            e.preventDefault();
+            var data = {
+                'csrf_token_name'   : $("input[name=csrf_token_name]").val(),
+                'tipo_pub_id'       : $("select[name=tipo_publicacion_edit]").val(),
+                'boletin_id'        : $("select[name=boletin_publicacion_edit]").val(),
+                'tomo'              : $("input[name=tomo_publicacion_edit]").val(),
+                'pagina'            : $("input[name=pag_publicacion_edit]").val(),
+                'marcas_id'         : $("input[name=id]").val(),
+                'id'                : $("input[name=pub_id_edit]").val()
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/updatePublicacionByMarca/');?>",
+                method: 'POST',
+                data: data,
+                success: function(response)
+                {
+                    alert_float('success', 'Publicacion editada exitosamente');
+                    getAllPublicaciones();
+                    $("#publicacionEditModal").modal('hide');
+                }
+            });
+        });
 
-        // $(document).on('click', '.deletePublicacion', function(e)
-        // {
-        //     e.preventDefault();
-        //     var id = $(this).attr('id');
-        //     if(confirm("¿Esta seguro de eliminar este registro?"))
-        //     {
-        //         $.ajax({
-        //             url: "<?php echo admin_url('pi/PublicacionesMarcasController/deletePublicacionByMarca/');?>"+id,
-        //             method: "POST",
-        //             success: function(response)
-        //             {
-        //                 getAllPublicaciones();
-        //             }
-        //         });
-        //     }            
-        // });
+        $(document).on('click', '.deletePublicacion', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            if(confirm("¿Esta seguro de eliminar este registro?"))
+            {
+                $.ajax({
+                    url: "<?php echo admin_url('pi/PublicacionesMarcasController/deletePublicacionByMarca/');?>"+id,
+                    method: "POST",
+                    success: function(response)
+                    {
+                        getAllPublicaciones();
+                    }
+                });
+            }            
+        });
     </script>
 
     

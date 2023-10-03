@@ -251,85 +251,6 @@ class PublicacionesMarcasController extends AdminController
          }
      }
 
-     public function showPublicacion(string $id = null){
-        $CI = &get_instance();
-        $CI->load->model("PublicacionesMarcas_model");
-        $marcas = $CI->PublicacionesMarcas_model->findPublicacionesMarcas($id);
-        $data = array();
-        /*tbl_marcas_publicaciones`(`id`, `tipo_pub_id`, `marcas_id`, `boletin_id`, `tomo`, `pagina` */
-        foreach ($marcas as $row){
-            $data[] = array(
-            'id' => $row['id'],
-            'tipo_pub_id' => $CI->PublicacionesMarcas_model->findTipoPublicaciones($row['tipo_pub_id']),   
-            'boletin_id' => $CI->PublicacionesMarcas_model->findBoletin($row['boletin_id']),
-            'tomo' => $row['tomo'],
-            'pagina' => $row['pagina'],
-            
-            );
-        }
-        echo json_encode($data);
-
-     }
-
-     public function addPublicacion(){
-        $CI = &get_instance();
-        $data = $CI->input->post();
-        if (!empty($data)){
-            /*tbl_marcas_publicaciones`(`id`, `tipo_pub_id`, `marcas_id`, `boletin_id`, `tomo`, `pagina` */
-            $insert = array(
-                            'tipo_pub_id' => $data['tipo_publicacion'],
-                            'marcas_id' => $data['id_marcas'],
-                            'boletin_id' => $data['boletin_publicacion'],
-                            'tomo' => $data['tomo_publicacion'],
-                            'pagina' => $data['pag_publicacion'],
-                    );
-
-            $CI->load->model("PublicacionesMarcas_model");
-                try{
-                    $query = $CI->PublicacionesMarcas_model->insert($insert);
-                        if (isset($query)){
-                            echo "Insertado Correctamente";
-
-                        }else {
-                            echo "No hemos podido Insertar";
-                        }
-                }catch (Exception $e){
-                    return $e->getMessage();
-                }
-        }
-        else {
-            echo "No tiene Data";
-        }
-    }
-
-    public function EditPublicacion(string $id = null){
-        $CI = &get_instance();
-        $CI->load->model("PublicacionesMarcas_model");
-        $query =$CI->PublicacionesMarcas_model->find($id);
-        echo json_encode($query);   
-    }
-
-    public function UpdatePublicaciones(string $id = null){
-        $CI = &get_instance();
-        $CI->load->model("PublicacionesMarcas_model");
-        $data = $CI->input->post();
-        if (!empty($data)){
-            $insert = array(
-                        'tipo_pub_id' => $data['tipo_publicacion'],
-                        'boletin_id' => $data['boletin_publicacion'],
-                        'tomo' => $data['tomo_publicacion'],
-                        'pagina' => $data['pag_publicacion'],
-                    );
-                
-                    $query = $CI->PublicacionesMarcas_model->update($id, $insert);
-                    if (isset($query))
-                    {
-                        echo "Actualizado Correctamente";
-                    }
-        } else {
-            echo "No tiene Data";
-        }
-    }
     // public function edit(string $id = null)
     // {
     //     $CI = &get_instance();
@@ -546,20 +467,5 @@ class PublicacionesMarcasController extends AdminController
         {
             echo json_encode(['code' => 200, 'message' => 'borrado exitosamente']);
         }
-    }
-
-    public function destroyPublicacion(string $id)
-    {
-        $CI = &get_instance();
-        $CI->load->model("PublicacionesMarcas_model");
-        $CI->load->helper('url');
-        $query = $CI->PublicacionesMarcas_model->delete($id);
-        if (isset($query)){
-            echo "Eliminado Correctamente";
-        }else {
-            echo "No se ha podido Eliminar";
-        }
-        
-        
     }
 }

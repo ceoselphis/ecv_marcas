@@ -1964,7 +1964,7 @@ init_head();?>
         Documentos();
         CambioDomicilioAnterior();
         CambioDomicilioActual();
-
+        //Prueba
         function CambioDomicilioActual(){
             let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/showCambioDomicilioActual/$id");?>';
             let body= ``;

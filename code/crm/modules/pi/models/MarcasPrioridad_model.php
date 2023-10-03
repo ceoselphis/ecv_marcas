@@ -14,6 +14,14 @@ class MarcasPrioridad_model extends BaseModel
         parent::__construct();
     }
 
+    public function findPublicacionesMarcas($id = null){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_prioridades');
+        $this->db->where('marcas_id ='.$id);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
     public function findAllPrioridadByMarcas($id = null)
     {
         $this->db->select('a.id, b.nombre, a.fecha_prioridad, a.numero_prioridad');
@@ -22,5 +30,23 @@ class MarcasPrioridad_model extends BaseModel
         $this->db->where('a.marcas_id = '.$id);
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+    public function findAllPrioridadMarcas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_prioridades');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
+
+    public function BuscarPais($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['nombre']; 
     }
 }

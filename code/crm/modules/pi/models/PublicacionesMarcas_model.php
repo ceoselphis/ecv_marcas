@@ -14,6 +14,14 @@ class PublicacionesMarcas_model extends BaseModel
         parent::__construct();
     }
 
+    public function findPublicacionesMarcas($id = null){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_publicaciones');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values;
+    }   
     public function findAllBoletines()
     {
         $this->db->select('*');
@@ -38,6 +46,8 @@ class PublicacionesMarcas_model extends BaseModel
         }
         return array_combine($keys, $values);
     }
+
+    
     public function findBoletin($id = null)
     {
         $this->db->select('*');

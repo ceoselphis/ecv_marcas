@@ -36,83 +36,185 @@ class MarcasSolicitudesController extends AdminController
     /**
      * Shows the form to create a new item
      */
-
-    public function create()
+//INSERT INTO `tbl_marcas_solicitudes` (`id`, `tipo_registro_id`, `oficina_id`,`estado_id`, `tipo_solicitud_id`, `tipo_signo_id`) VALUES (4, 1, 1,1,1,1);
+public function create()
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
+       // $query = $CI->MarcasSolicitudes_model->findAll();
+       // echo json_encode($query);
         $id = intval($CI->MarcasSolicitudes_model->setCountPK());
-        /*Insertamos directamente un registro piloto para poder agregar cualquier anexo y demas*/
-        $insert = $CI->MarcasSolicitudes_model->insertRegistroPiloto($id);
-        $fields = $CI->MarcasSolicitudes_model->getFillableFields();
-        
-        $inputs = array();
-        $labels = array();
-        foreach($fields as $field)
-        {
-            if($field['type'] == 'INT')
-            {
-                $inputs[] = array(
-                    'name' => $field['name'],
-                    'id'   => $field['name'],
-                    'type' => 'range',
-                    'class' => 'form-control'
-                );
-            }
-            else{
-                $inputs[] = array(
-                    'name' => $field['name'],
-                    'id'   => $field['name'],
-                    'type' => 'text',
-                    'class' => 'form-control'
-                );
-            }
-        }
-        $data = array();
-        $tarea = $CI->MarcasSolicitudes_model->findAllTareas();
-        foreach ($tarea as $row){
-            $data[] = array(
-                'id' => $row['id'],
-                'tipo_tarea' => $CI->MarcasSolicitudes_model->BuscarTipoTareas($row['tipo_tareas_id']),
-                'descripcion' => $row['descripcion'],
-                'fecha' => $row['fecha'],
-            );
-        }
-        $eventos = $CI->MarcasSolicitudes_model->findAllEventos();
-        $datos = array();
-        foreach ($eventos as $row){
-            $datos[] = array(
-                'id' => $row['id'],
-                'tipo_evento' => $CI->MarcasSolicitudes_model->BuscarTipoEventos($row['tipo_evento_id']),
-                'comentarios' => $row['comentarios'],
-                'fecha' => $row['fecha'],
-            );
-        }
         $labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
-        return $CI->load->view('marcas/solicitudes/create', [
-            'fields'                => $inputs, 
-            'labels'                => $labels, 
-            'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
-            'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
-            'solicitantes'          => $CI->MarcasSolicitudes_model->findAllPropietarios(),
-            'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
-            'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
-            'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
-            'pais_id'               => $CI->MarcasSolicitudes_model->findAllPaises(),
-            'tipos_signo_id'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
-            'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
-            'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
-            'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
-            'id'                    => $id,
-            'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
-            'eventos'               => $datos,
-            'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
-            'tareas'                => $data,
-            'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
-            
+        return $CI->load->view('marcas/solicitudes/create',[
+                'labels'                => $labels, 
+                'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
+                'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
+                'solicitantes'          => $CI->MarcasSolicitudes_model->findAllPropietarios(),
+                'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
+                'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
+                'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
+                'pais_id'               => $CI->MarcasSolicitudes_model->findAllPaises(),
+                'tipos_signo_id'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
+                'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
+                'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
+                'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+                'id'                    => $id,
+                'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
+                'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
+                'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
+                'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
         ]);
+
+        // $id = intval($CI->MarcasSolicitudes_model->setCountPK());
+        // /*Insertamos directamente un registro piloto para poder agregar cualquier anexo y demas*/
+        // $insert = $CI->MarcasSolicitudes_model->insertRegistroPiloto($id);
+        // $fields = $CI->MarcasSolicitudes_model->getFillableFields();
+        
+        // $inputs = array();
+        // $labels = array();
+        // foreach($fields as $field)
+        // {
+        //     if($field['type'] == 'INT')
+        //     {
+        //         $inputs[] = array(
+        //             'name' => $field['name'],
+        //             'id'   => $field['name'],
+        //             'type' => 'range',
+        //             'class' => 'form-control'
+        //         );
+        //     }
+        //     else{
+        //         $inputs[] = array(
+        //             'name' => $field['name'],
+        //             'id'   => $field['name'],
+        //             'type' => 'text',
+        //             'class' => 'form-control'
+        //         );
+        //     }
+        // }
+        // $data = array();
+        // $tarea = $CI->MarcasSolicitudes_model->findAllTareas();
+        // foreach ($tarea as $row){
+        //     $data[] = array(
+        //         'id' => $row['id'],
+        //         'tipo_tarea' => $CI->MarcasSolicitudes_model->BuscarTipoTareas($row['tipo_tareas_id']),
+        //         'descripcion' => $row['descripcion'],
+        //         'fecha' => $row['fecha'],
+        //     );
+        // }
+        // $eventos = $CI->MarcasSolicitudes_model->findAllEventos();
+        // $datos = array();
+        // foreach ($eventos as $row){
+        //     $datos[] = array(
+        //         'id' => $row['id'],
+        //         'tipo_evento' => $CI->MarcasSolicitudes_model->BuscarTipoEventos($row['tipo_evento_id']),
+        //         'comentarios' => $row['comentarios'],
+        //         'fecha' => $row['fecha'],
+        //     );
+        // }
+        // $labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
+        // return $CI->load->view('marcas/solicitudes/create', [
+        //     'fields'                => $inputs, 
+        //     'labels'                => $labels, 
+        //     'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
+        //     'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
+        //     'solicitantes'          => $CI->MarcasSolicitudes_model->findAllPropietarios(),
+        //     'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
+        //     'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
+        //     'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
+        //     'pais_id'               => $CI->MarcasSolicitudes_model->findAllPaises(),
+        //     'tipos_signo_id'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
+        //     'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
+        //     'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
+        //     'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+        //     'id'                    => $id,
+        //     'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
+        //     'eventos'               => $datos,
+        //     'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
+        //     'tareas'                => $data,
+        //     'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
+        //     'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
+            
+        // ]);
                                 
     }
+    // public function create()
+    // {
+    //     $CI = &get_instance();
+    //     $CI->load->model("MarcasSolicitudes_model");
+    //     $id = intval($CI->MarcasSolicitudes_model->setCountPK());
+    //     /*Insertamos directamente un registro piloto para poder agregar cualquier anexo y demas*/
+    //     $insert = $CI->MarcasSolicitudes_model->insertRegistroPiloto($id);
+    //     $fields = $CI->MarcasSolicitudes_model->getFillableFields();
+        
+    //     $inputs = array();
+    //     $labels = array();
+    //     foreach($fields as $field)
+    //     {
+    //         if($field['type'] == 'INT')
+    //         {
+    //             $inputs[] = array(
+    //                 'name' => $field['name'],
+    //                 'id'   => $field['name'],
+    //                 'type' => 'range',
+    //                 'class' => 'form-control'
+    //             );
+    //         }
+    //         else{
+    //             $inputs[] = array(
+    //                 'name' => $field['name'],
+    //                 'id'   => $field['name'],
+    //                 'type' => 'text',
+    //                 'class' => 'form-control'
+    //             );
+    //         }
+    //     }
+    //     $data = array();
+    //     $tarea = $CI->MarcasSolicitudes_model->findAllTareas();
+    //     foreach ($tarea as $row){
+    //         $data[] = array(
+    //             'id' => $row['id'],
+    //             'tipo_tarea' => $CI->MarcasSolicitudes_model->BuscarTipoTareas($row['tipo_tareas_id']),
+    //             'descripcion' => $row['descripcion'],
+    //             'fecha' => $row['fecha'],
+    //         );
+    //     }
+    //     $eventos = $CI->MarcasSolicitudes_model->findAllEventos();
+    //     $datos = array();
+    //     foreach ($eventos as $row){
+    //         $datos[] = array(
+    //             'id' => $row['id'],
+    //             'tipo_evento' => $CI->MarcasSolicitudes_model->BuscarTipoEventos($row['tipo_evento_id']),
+    //             'comentarios' => $row['comentarios'],
+    //             'fecha' => $row['fecha'],
+    //         );
+    //     }
+    //     $labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
+    //     return $CI->load->view('marcas/solicitudes/create', [
+    //         'fields'                => $inputs, 
+    //         'labels'                => $labels, 
+    //         'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
+    //         'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
+    //         'solicitantes'          => $CI->MarcasSolicitudes_model->findAllPropietarios(),
+    //         'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
+    //         'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
+    //         'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),
+    //         'pais_id'               => $CI->MarcasSolicitudes_model->findAllPaises(),
+    //         'tipos_signo_id'        => $CI->MarcasSolicitudes_model->findAllTipoSigno(),
+    //         'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
+    //         'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
+    //         'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+    //         'id'                    => $id,
+    //         'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
+    //         'eventos'               => $datos,
+    //         'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
+    //         'tareas'                => $data,
+    //         'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
+    //         'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
+            
+    //     ]);
+                                
+    // }
 
     /**
      * Recive the data for create a new item
@@ -267,7 +369,7 @@ class MarcasSolicitudesController extends AdminController
             'eventos'               => $datos,
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
             'tareas'                => $data,
-
+            'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
 /*            'publicaciones'         => $CI->MarcasSolicitudes_model->findPublicacionesByMarca($id),
             'eventos'               => $CI->MarcasSolicitudes_model->findEventosByMarca($id),
             'tareas'                => $CI->MarcasSolicitudes_model->findTareasByMarca($id),

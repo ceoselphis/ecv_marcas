@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TipoMarcasDomicilioController extends AdminController
+class TipoCambioNombreController extends AdminController
 {
-    protected $models = ['TipoMarcasDomicilio_model'];
+    protected $models = ['TipoCambioNombre_model'];
 
     public function __construct()
     {
@@ -13,8 +13,8 @@ class TipoMarcasDomicilioController extends AdminController
     public function index($id = NULL)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
-        return $CI->load->view('anexos/index', ["anexos" => $CI->TipoMarcasDomicilio_model->findAll()]);
+        $CI->load->model("TipoCambioNombre_model");
+        return $CI->load->view('anexos/index', ["anexos" => $CI->TipoCambioNombre_model->findAll()]);
     }
 
     /**
@@ -24,8 +24,8 @@ class TipoMarcasDomicilioController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
-        $fields = $CI->TipoMarcasDomicilio_model->getFillableFields();
+        $CI->load->model("TipoCambioNombre_model");
+        $fields = $CI->TipoCambioNombre_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -52,16 +52,16 @@ class TipoMarcasDomicilioController extends AdminController
         return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
-    public function EditCambioDomicilio(string $id = null){
+    public function EditCambioNombre(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
-        $query =$CI->TipoMarcasDomicilio_model->find($id);
+        $CI->load->model("TipoCambioNombre_model");
+        $query =$CI->TipoCambioNombre_model->find($id);
         echo json_encode($query);   
     }
 
-    // public function UpdateCambioDomicilio(string $id = null){
+    // public function UpdateCambioNombre(string $id = null){
     //     $CI = &get_instance();
-    //     $CI->load->model("TipoMarcasDomicilio_model");
+    //     $CI->load->model("TipoCambioNombre_model");
     //     $data = $CI->input->post();
     //     if (!empty($data)){
     //         $insert = array(
@@ -76,7 +76,7 @@ class TipoMarcasDomicilioController extends AdminController
     //                     'comentarios' => $data['comentario'],
     //                 );
     //                 echo json_encode($insert);
-    //                 $query = $CI->TipoMarcasDomicilio_model->update($id, $insert);
+    //                 $query = $CI->TipoCambioNombre_model->update($id, $insert);
     //                 if (isset($query))
     //                 {
     //                     echo "Actualizado Correctamente";
@@ -115,20 +115,20 @@ class TipoMarcasDomicilioController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-    public function addCambioDomicilioAnterior(){
+    public function addCambioNombreAnterior(){
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
-        /*INSERT INTO `tbl_marcas_domicilios`(`domicilio_id`, `cambio_domicilio_id`, `tipo_domicilio`, `propietario_id`)
+        /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
         */ 
         $insert = array(
-            'cambio_domicilio_id' => $data['id_cambiodomiclio'],
-            'tipo_domicilio' => 1,
+            'cambio_nombre_id' => $data['id_cambiodomiclio'],
+            'tipo_nombre' => 1,
             'propietario_id' => $data['propietarios'],
         );
-        $CI->load->model("TipoMarcasDomicilio_model");
+        $CI->load->model("TipoCambioNombre_model");
             try{
-                $query = $CI->TipoMarcasDomicilio_model->insert($insert);
+                $query = $CI->TipoCambioNombre_model->insert($insert);
                     if (isset($query)){
                         echo "Insertado Correctamente";
 
@@ -143,20 +143,20 @@ class TipoMarcasDomicilioController extends AdminController
             echo "No tiene Data";
         }
     }
-    public function addCambioDomicilioActual(){
+    public function addCambioNombreActual(){
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
-        /*INSERT INTO `tbl_marcas_domicilios`(`domicilio_id`, `cambio_domicilio_id`, `tipo_domicilio`, `propietario_id`)
+        /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
         */ 
         $insert = array(
-            'cambio_domicilio_id' => $data['id_cambiodomiclio'],
-            'tipo_domicilio' => 2,
+            'cambio_nombre_id' => $data['id_cambiodomiclio'],
+            'tipo_nombre' => 2,
             'propietario_id' => $data['propietarios'],
         );
-        $CI->load->model("TipoMarcasDomicilio_model");
+        $CI->load->model("TipoCambioNombre_model");
             try{
-                $query = $CI->TipoMarcasDomicilio_model->insert($insert);
+                $query = $CI->TipoCambioNombre_model->insert($insert);
                     if (isset($query)){
                         echo "Insertado Correctamente";
 
@@ -171,19 +171,20 @@ class TipoMarcasDomicilioController extends AdminController
             echo "No tiene Data";
         }
     }
-    public function showCambioDomicilioAnterior(string $id = null){
+    public function showCambioNombreAnterior(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
-        $marcas = $CI->TipoMarcasDomicilio_model->findAllCambioDomicilio($id);
-        //echo json_encode($marcas);
+        $CI->load->model("TipoCambioNombre_model");
+        $marcas = $CI->TipoCambioNombre_model->findAllCambioNombre($id);
+         /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
+        */ 
         $data = array();
         foreach ($marcas as $row){
-            if ($row['tipo_domicilio']==1){
+            if ($row['tipo_nombre']==1){
                 $data[] = array(
-                'id' => $row['domicilio_id'],
-                'cambio_domicilio' => $CI->TipoMarcasDomicilio_model->BuscarCambioDomicilio($row['cambio_domicilio_id']),
-                'tipo_domicilio' => 'Anterior',
-                'propietario' => $CI->TipoMarcasDomicilio_model->BuscarPropietarios($row['propietario_id']),
+                'id' => $row['id'],
+                'cambio_nombre' => $CI->TipoCambioNombre_model->BuscarCambioNombre($row['cambio_nombre_id']),
+                'tipo_nombre' => 'Anterior',
+                'propietario' => $CI->TipoCambioNombre_model->BuscarPropietarios($row['propietario_id']),
                 );
             }
         }
@@ -191,19 +192,21 @@ class TipoMarcasDomicilioController extends AdminController
 
     }
 
-    public function showCambioDomicilioActual(string $id = null){
+    public function showCambioNombreActual(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
-        $marcas = $CI->TipoMarcasDomicilio_model->findAllCambioDomicilio($id);
-        //echo json_encode($marcas);
+        $CI->load->model("TipoCambioNombre_model");
+        $marcas = $CI->TipoCambioNombre_model->findAllCambioNombre($id);
+         /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
+        */ 
+        
         $data = array();
         foreach ($marcas as $row){
-            if ($row['tipo_domicilio']==2){
+            if ($row['tipo_nombre']==2){
                 $data[] = array(
-                'id' => $row['domicilio_id'],
-                'cambio_domicilio' => $CI->TipoMarcasDomicilio_model->BuscarCambioDomicilio($row['cambio_domicilio_id']),
-                'tipo_domicilio' => 'Actual',
-                'propietario' => $CI->TipoMarcasDomicilio_model->BuscarPropietarios($row['propietario_id']),
+                'id' => $row['id'],
+                'cambio_nombre' => $CI->TipoCambioNombre_model->BuscarCambioNombre($row['cambio_nombre_id']),
+                'tipo_nombre' => 'Actual',
+                'propietario' => $CI->TipoCambioNombre_model->BuscarPropietarios($row['propietario_id']),
                 );
             }
         }
@@ -213,9 +216,9 @@ class TipoMarcasDomicilioController extends AdminController
 
    
 
-    public function UpdateTipoCambioDomicilio(string $id = null){
+    public function UpdateTipoCambioNombre(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
+        $CI->load->model("TipoCambioNombre_model");
         $data = $CI->input->post();
         echo json_encode($data);
         if (!empty($data)){
@@ -224,7 +227,7 @@ class TipoMarcasDomicilioController extends AdminController
                     );
                     
                     echo json_encode($insert);
-                    $query = $CI->TipoMarcasDomicilio_model->update($id, $insert);
+                    $query = $CI->TipoCambioNombre_model->update($id, $insert);
                     echo json_encode($query);
                     if (isset($query))
                     {
@@ -240,7 +243,7 @@ class TipoMarcasDomicilioController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
+        $CI->load->model("TipoCambioNombre_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
@@ -263,7 +266,7 @@ class TipoMarcasDomicilioController extends AdminController
         
         if($CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->TipoMarcasDomicilio_model->getFillableFields();
+            $fields = $CI->TipoCambioNombre_model->getFillableFields();
             $inputs = array();
             $labels = array();
             foreach($fields as $field)
@@ -292,10 +295,10 @@ class TipoMarcasDomicilioController extends AdminController
         else
         {
             //we sent the data to the model
-            $query = $CI->TipoMarcasDomicilio_model->insert($data);
+            $query = $CI->TipoCambioNombre_model->insert($data);
             if(isset($query))
             {
-                return redirect(admin_url('pi/MarcasDomicilioController/'));
+                return redirect(admin_url('pi/MarcasNombreController/'));
             }
         }
         
@@ -317,16 +320,16 @@ class TipoMarcasDomicilioController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
+        $CI->load->model("TipoCambioNombre_model");
         $CI->load->helper('url');
-        $query = $CI->TipoMarcasDomicilio_model->find($id);
+        $query = $CI->TipoCambioNombre_model->find($id);
         if(isset($query))
         {
             $labels = array('Id', 'Nombre del anexo');
             return $CI->load->view('anexos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{
-            return redirect('pi/MarcasDomicilioController/');
+            return redirect('pi/MarcasNombreController/');
         }
     }
 
@@ -338,7 +341,7 @@ class TipoMarcasDomicilioController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
+        $CI->load->model("TipoCambioNombre_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
@@ -366,10 +369,10 @@ class TipoMarcasDomicilioController extends AdminController
         else
         {
             //We prepare the data 
-            $query = $CI->TipoMarcasDomicilio_model->update($id, $data);
+            $query = $CI->TipoCambioNombre_model->update($id, $data);
             if (isset($query))
             {
-                return redirect('pi/MarcasDomicilioController/');
+                return redirect('pi/MarcasNombreController/');
             }
         }
     }
@@ -381,9 +384,9 @@ class TipoMarcasDomicilioController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoMarcasDomicilio_model");
+        $CI->load->model("TipoCambioNombre_model");
         $CI->load->helper('url');
-        $query = $CI->TipoMarcasDomicilio_model->delete($id);
+        $query = $CI->TipoCambioNombre_model->delete($id);
         if (isset($query)){
             echo "Eliminado Correctamente";
         }else {

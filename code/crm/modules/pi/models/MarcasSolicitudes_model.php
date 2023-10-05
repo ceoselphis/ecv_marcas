@@ -819,6 +819,6 @@ class MarcasSolicitudes_model extends BaseModel
         return $query->result_array();
     }
     
-    
+   
 
 }

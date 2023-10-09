@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TipoCambioNombreController extends AdminController
+class TipoFusionController extends AdminController
 {
-    protected $models = ['TipoCambioNombre_model'];
+    protected $models = ['TipoFusion_model'];
 
     public function __construct()
     {
@@ -13,8 +13,8 @@ class TipoCambioNombreController extends AdminController
     public function index($id = NULL)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
-        return $CI->load->view('anexos/index', ["anexos" => $CI->TipoCambioNombre_model->findAll()]);
+        $CI->load->model("TipoFusion_model");
+        return $CI->load->view('anexos/index', ["anexos" => $CI->TipoFusion_model->findAll()]);
     }
 
     /**
@@ -24,8 +24,8 @@ class TipoCambioNombreController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
-        $fields = $CI->TipoCambioNombre_model->getFillableFields();
+        $CI->load->model("TipoFusion_model");
+        $fields = $CI->TipoFusion_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -52,16 +52,16 @@ class TipoCambioNombreController extends AdminController
         return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
-    public function EditCambioNombre(string $id = null){
+    public function EditFusion(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
-        $query =$CI->TipoCambioNombre_model->find($id);
+        $CI->load->model("TipoFusion_model");
+        $query =$CI->TipoFusion_model->find($id);
         echo json_encode($query);   
     }
 
-    // public function UpdateCambioNombre(string $id = null){
+    // public function UpdateFusion(string $id = null){
     //     $CI = &get_instance();
-    //     $CI->load->model("TipoCambioNombre_model");
+    //     $CI->load->model("TipoFusion_model");
     //     $data = $CI->input->post();
     //     if (!empty($data)){
     //         $insert = array(
@@ -76,7 +76,7 @@ class TipoCambioNombreController extends AdminController
     //                     'comentarios' => $data['comentario'],
     //                 );
     //                 echo json_encode($insert);
-    //                 $query = $CI->TipoCambioNombre_model->update($id, $insert);
+    //                 $query = $CI->TipoFusion_model->update($id, $insert);
     //                 if (isset($query))
     //                 {
     //                     echo "Actualizado Correctamente";
@@ -115,21 +115,21 @@ class TipoCambioNombreController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-    public function addCambioNombreAnterior(){
+    public function addFusionAnterior(){
         $CI = &get_instance();
         $data = $CI->input->post();
+        if (!empty($data)){
+        /*INSERT INTO `tbl_marcas_fusion_participantes`(`id`, `fusion_id`, `tipo_participante`, `propietario_id`)
+        */ 
+        $insert = array(
+            'fusion_id' => $data['id_cambio'],
+            'tipo_participante' => 1,
+            'propietario_id' => $data['propietarios'],
+        );
         
-        if (!empty($data)){
-        /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
-        */ 
-        $insert = array(
-            'cambio_nombre_id' => $data['id_cambionombre'],
-            'tipo_nombre' => 1,
-            'propietario_id' => $data['propietarios'],
-        );
-        $CI->load->model("TipoCambioNombre_model");
+        $CI->load->model("TipoFusion_model");
             try{
-                $query = $CI->TipoCambioNombre_model->insert($insert);
+                $query = $CI->TipoFusion_model->insert($insert);
                     if (isset($query)){
                         echo "Insertado Correctamente";
 
@@ -144,20 +144,20 @@ class TipoCambioNombreController extends AdminController
             echo "No tiene Data";
         }
     }
-    public function addCambioNombreActual(){
+    public function addFusionActual(){
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
-        /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
+        /*INSERT INTO `tbl_marcas_fusion_participantes`(`id`, `fusion_id`, `tipo_participante`, `propietario_id`)
         */ 
         $insert = array(
-            'cambio_nombre_id' => $data['id_cambionombre'],
-            'tipo_nombre' => 2,
+            'fusion_id' => $data['id_cambio'],
+            'tipo_participante' => 2,
             'propietario_id' => $data['propietarios'],
         );
-        $CI->load->model("TipoCambioNombre_model");
+        $CI->load->model("TipoFusion_model");
             try{
-                $query = $CI->TipoCambioNombre_model->insert($insert);
+                $query = $CI->TipoFusion_model->insert($insert);
                     if (isset($query)){
                         echo "Insertado Correctamente";
 
@@ -172,20 +172,19 @@ class TipoCambioNombreController extends AdminController
             echo "No tiene Data";
         }
     }
-    public function showCambioNombreAnterior(string $id = null){
+    public function showFusionAnterior(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
-        $marcas = $CI->TipoCambioNombre_model->findAllCambioNombre($id);
-         /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
-        */ 
+        $CI->load->model("TipoFusion_model");
+        $marcas = $CI->TipoFusion_model->findAllFusion($id);
+        //INSERT INTO `tbl_marcas_fusion_participantes`(`id`, `fusion_id`, `tipo_participante`, `propietario_id`)
         $data = array();
         foreach ($marcas as $row){
-            if ($row['tipo_nombre']==1){
+            if ($row['tipo_participante']==1){
                 $data[] = array(
                 'id' => $row['id'],
-                'cambio_nombre' => $CI->TipoCambioNombre_model->BuscarCambioNombre($row['cambio_nombre_id']),
-                'tipo_nombre' => 'Anterior',
-                'propietario' => $CI->TipoCambioNombre_model->BuscarPropietarios($row['propietario_id']),
+                'fusion' => $CI->TipoFusion_model->BuscarFusion($row['fusion_id']),
+                'tipo_participante' => 'Anterior',
+                'propietario' => $CI->TipoFusion_model->BuscarPropietarios($row['propietario_id']),
                 );
             }
         }
@@ -193,21 +192,19 @@ class TipoCambioNombreController extends AdminController
 
     }
 
-    public function showCambioNombreActual(string $id = null){
+    public function showFusionActual(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
-        $marcas = $CI->TipoCambioNombre_model->findAllCambioNombre($id);
-         /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
-        */ 
-        
+        $CI->load->model("TipoFusion_model");
+        $marcas = $CI->TipoFusion_model->findAllFusion($id);
+        //INSERT INTO `tbl_marcas_fusion_participantes`(`id`, `fusion_id`, `tipo_participante`, `propietario_id`)
         $data = array();
         foreach ($marcas as $row){
-            if ($row['tipo_nombre']==2){
+            if ($row['tipo_participante']==2){
                 $data[] = array(
                 'id' => $row['id'],
-                'cambio_nombre' => $CI->TipoCambioNombre_model->BuscarCambioNombre($row['cambio_nombre_id']),
-                'tipo_nombre' => 'Actual',
-                'propietario' => $CI->TipoCambioNombre_model->BuscarPropietarios($row['propietario_id']),
+                'fusion' => $CI->TipoFusion_model->BuscarFusion($row['fusion_id']),
+                'tipo' => 'Actual',
+                'propietario' => $CI->TipoFusion_model->BuscarPropietarios($row['propietario_id']),
                 );
             }
         }
@@ -217,9 +214,9 @@ class TipoCambioNombreController extends AdminController
 
    
 
-    public function UpdateTipoCambioNombre(string $id = null){
+    public function UpdateTipoFusion(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
+        $CI->load->model("TipoFusion_model");
         $data = $CI->input->post();
         echo json_encode($data);
         if (!empty($data)){
@@ -228,7 +225,7 @@ class TipoCambioNombreController extends AdminController
                     );
                     
                     echo json_encode($insert);
-                    $query = $CI->TipoCambioNombre_model->update($id, $insert);
+                    $query = $CI->TipoFusion_model->update($id, $insert);
                     echo json_encode($query);
                     if (isset($query))
                     {
@@ -244,7 +241,7 @@ class TipoCambioNombreController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
+        $CI->load->model("TipoFusion_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
@@ -267,7 +264,7 @@ class TipoCambioNombreController extends AdminController
         
         if($CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->TipoCambioNombre_model->getFillableFields();
+            $fields = $CI->TipoFusion_model->getFillableFields();
             $inputs = array();
             $labels = array();
             foreach($fields as $field)
@@ -296,10 +293,10 @@ class TipoCambioNombreController extends AdminController
         else
         {
             //we sent the data to the model
-            $query = $CI->TipoCambioNombre_model->insert($data);
+            $query = $CI->TipoFusion_model->insert($data);
             if(isset($query))
             {
-                return redirect(admin_url('pi/MarcasNombreController/'));
+                return redirect(admin_url('pi/MarcasDomicilioController/'));
             }
         }
         
@@ -321,16 +318,16 @@ class TipoCambioNombreController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
+        $CI->load->model("TipoFusion_model");
         $CI->load->helper('url');
-        $query = $CI->TipoCambioNombre_model->find($id);
+        $query = $CI->TipoFusion_model->find($id);
         if(isset($query))
         {
             $labels = array('Id', 'Nombre del anexo');
             return $CI->load->view('anexos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{
-            return redirect('pi/MarcasNombreController/');
+            return redirect('pi/MarcasDomicilioController/');
         }
     }
 
@@ -342,7 +339,7 @@ class TipoCambioNombreController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
+        $CI->load->model("TipoFusion_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
@@ -370,10 +367,10 @@ class TipoCambioNombreController extends AdminController
         else
         {
             //We prepare the data 
-            $query = $CI->TipoCambioNombre_model->update($id, $data);
+            $query = $CI->TipoFusion_model->update($id, $data);
             if (isset($query))
             {
-                return redirect('pi/MarcasNombreController/');
+                return redirect('pi/MarcasDomicilioController/');
             }
         }
     }
@@ -385,9 +382,9 @@ class TipoCambioNombreController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoCambioNombre_model");
+        $CI->load->model("TipoFusion_model");
         $CI->load->helper('url');
-        $query = $CI->TipoCambioNombre_model->delete($id);
+        $query = $CI->TipoFusion_model->delete($id);
         if (isset($query)){
             echo "Eliminado Correctamente";
         }else {

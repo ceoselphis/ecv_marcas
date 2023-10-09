@@ -41,7 +41,11 @@ class MarcasSolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
+        $id = intval($CI->MarcasSolicitudes_model->setCountPK());
+        /*Insertamos directamente un registro piloto para poder agregar cualquier anexo y demas*/
+        $insert = $CI->MarcasSolicitudes_model->insertRegistroPiloto($id);
         $fields = $CI->MarcasSolicitudes_model->getFillableFields();
+        
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -99,7 +103,7 @@ class MarcasSolicitudesController extends AdminController
             'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
-            'id'                    => intval($CI->MarcasSolicitudes_model->setCountPK()),
+            'id'                    => $id,
             'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
             'eventos'               => $datos,
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
@@ -181,28 +185,10 @@ class MarcasSolicitudesController extends AdminController
                 'pais_id'   => $row
             ];
         }
-        /*Seteamos el arreglo para la clase niza*/
-        foreach(json_decode($form['clase_niza'], TRUE) as  $row)
-        {
-            $claseNiza[] = array(
-                'marcas_id' => $solicitud['id'],
-                'clase_id' => $row
-            );
-        }
-        /*Seteamos el arreglo para los solicitantes */
-        foreach(json_decode($form['solicitantes_id'], TRUE) as $row)
-        {
-            $solicitantes[] = [
-                'marcas_id' => $solicitud['id'],
-                'propietario_id' => $row
-            ];
-        }
         //TODO: Recoger la solicitud de los anexos, tareas, y demas desde aca
         try {
-            $CI->MarcasSolicitudes_model->insert($solicitud);
+            $CI->MarcasSolicitudes_model->update($solicitud['id'], $solicitud);
             $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
-            $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
-            $CI->MarcasSolicitudes_model->insertMarcasSolicitantes($solicitantes);
             return redirect(admin_url('pi/MarcasSolicitudesController/edit/'.$solicitud['id']));
         } catch (\Throwable $th) {
             //Activate SYSLOG in the app
@@ -627,31 +613,49 @@ class MarcasSolicitudesController extends AdminController
         }
     }
 
-    public function getClaseDescripcion()
+    public function insertClases()
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
-        $CI->load->helper('url');
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
         $form = $CI->input->post();
-        $query = $CI->MarcasSolicitudes_model->findClaseDescripcion($form['clase_niza_id'][0]);
-        echo json_encode(['code' => 200, 'message' => 'success', 'data' => ['descripcion' => $query[0]['descripcion']]]);
-
-    }
-
-    public function setClaseMarca()
-    {
-        $CI = &get_instance();
-        $CI->load->model("MarcasSolicitudes_model");
-        $CI->load->helper('url');
-        $form = $CI->input->post();
-        $clase_id = $form['clase_niza_id'];
-        $descripcion = $form['clase_descripcion'];
-        $marcas_id = $form['marcas_id'];
-        $params = ['marcas_id' => $marcas_id, 'descripcion' => $descripcion, 'clase_id' => $clase_id];
-        $query = $CI->MarcasSolicitudes_model->insertSolicitudesClases($params);
-        if($query){
+        $params = [
+            'marcas_id' => $form['marcas_id'],
+            'clase_id'  => $form['clase_id'],
+            'descripcion' => $form['clase_descripcion']
+        ];
+        $query = $CI->MarcasSolicitudes_model->insertMarcasClases($params);
+        if($query)
+        {
             echo json_encode(['code' => 200, 'message' => 'success']);
         }
+        else{
+            echo json_encode(['code' => 500, 'message' => 'error']);
+        }
+    }
+
+    public function getClasesMarcas($marcas_id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudes_model");
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        $query = $CI->MarcasSolicitudes_model->getMarcasClases($marcas_id);
+        $result = array();
+        if(!empty($query))
+        {
+            foreach($query as $row)
+            {
+
+                $result[] = [
+                    'clase'         => $row['nombre'],
+                    'descripcion'   => $row['descripcion']
+                ];
+            }
+        }
+        echo json_encode(['code' => 200 , 'data' => $result]);
+
     }
 
 }

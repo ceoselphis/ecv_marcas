@@ -597,12 +597,14 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->delete('tbl_marcas_solicitantes', ['marcas_id' => $id]);
         return true;
     }
+
     public function findAllTareas(){
         $this->db->select('*');
         $this->db->from('tbl_marcas_tareas');
         $query = $this->db->get();   
         return $query->result_array();
     }
+
     public function findAllTipoTareas(){
         $this->db->select('*');
         $this->db->from('tbl_tipos_tareas');
@@ -616,6 +618,7 @@ class MarcasSolicitudes_model extends BaseModel
         }
         return array_combine($keys, $values); 
     }
+
     public function BuscarTipoTareas($id = NULL){
         $this->db->select('*');
         $this->db->from('tbl_tipos_tareas');
@@ -624,6 +627,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = $query->result_array();
         return $values[0]['nombre']; 
     }
+
     public function BuscarTipoEventos($id = NULL){
         $this->db->select('*');
         $this->db->from('tbl_tipos_eventos');
@@ -632,6 +636,7 @@ class MarcasSolicitudes_model extends BaseModel
         $values = $query->result_array();
         return $values[0]['descripcion']; 
     }
+
     public function findAllSolicitudesDocumento()
     {
         $this->db->select('*');
@@ -639,6 +644,7 @@ class MarcasSolicitudes_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
     public function findAllEventos()
     {
         $this->db->select('*');
@@ -793,7 +799,36 @@ class MarcasSolicitudes_model extends BaseModel
         }
         return array_combine($keys, $values); 
     }
+
+    public function insertRegistroPiloto($id = NULL)
+    {
+        $this->db->insert($this->tableName,
+        [
+            'id' => intval($id),
+            'tipo_registro_id' => 1,
+            'oficina_id' => 1,
+        ]);
+    }
+
+    public function insertMarcasClases(Array $params = null)
+    {
+        $query = $this->db->insert('tbl_marcas_clases', $params);
+        if($query)
+        {
+            return TRUE;
+        }
+    }
+
+    public function getMarcasClases($id = null)
+    {
+        $this->db->select('b.nombre, a.descripcion');
+        $this->db->from('tbl_marcas_clases a ');
+        $this->db->join('tbl_marcas_clase_niza b', 'a.clase_id = b.clase_niza_id');
+        $this->db->where("marcas_id = '{$id}'");
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     
-    
+   
 
 }

@@ -98,36 +98,9 @@ init_head();?>
                                             'options'   =>  $tipos_signo_id,
                                         ]);?>
                                     </div>
-                                    <!-- Clase niza -->                                  
-                                    <div class="col-md-12" style="padding-top: 2%;">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#claseNiza" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="claseNiza">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
-                                                                <table id="claseNizaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Clase</th>
-                                                                            <th>Descripcion</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <!-- Solicitantes -->
-                                    <div class="col-md-12">
+                                    <!--<div class="col-md-12">
                                         <div class="all-info-container">
                                             <div class="list-content">
                                                 <a href="#solicitantes" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Solicitantes<i class="fa fa-chevron-down"></i></a>
@@ -150,7 +123,7 @@ init_head();?>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="col-md-6">
                                         <?php echo form_label('Solicitantes', 'solicitantes_id');?>
                                         <?php echo form_dropdown([
@@ -161,7 +134,7 @@ init_head();?>
                                             'options' => $solicitantes,
                                         ]);?>
                                     </div>
-
+                                    <!-- Clase niza -->                                  
                                     <div class='col-md-12' style="padding: 2%;">
                                         <div class="all-info-container">
                                             <div class="list-content">
@@ -186,8 +159,6 @@ init_head();?>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>

@@ -8,6 +8,9 @@ $CI->load->view('marcas/solicitudes/css.php');?>
             <div class="col-md-12">
                 <?php echo form_open_multipart('',['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('id', $id);?>
+                <pre>
+                    <?php var_dump($values);?>
+                </pre>
                     <div class="panel_s">
                         <div class="panel-body">
                             <div class="wizard">
@@ -85,7 +88,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'id'    =>   'signonom',
                                             'name'  =>   'signonom',
                                             'class' =>   'form-control',
-                                            'value' =>  set_value('signonom', $values['signonom'])
+                                            'value' =>   set_value('signonom', $values['signonom'])
                                         ]);?>
                                     </div>
                                     <div class="col-md-1" style="padding-left:1%; padding-top:1.75%">
@@ -98,19 +101,35 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'name'      => 'tipo_signo_id',
                                             'class'     => 'form-control',
                                             'options'   =>  $tipos_signo_id,
+                                            'selected'  => set_value('tipo_signo_id', $values['tipo_signo_id'])
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Clases', 'clase_niza_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'       => 'clase_niza_id',
-                                            'name'     => 'clase_niza_id',
-                                            'class'    => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $clase_niza_id,
-                                            'selected' => set_value('clase_niza_id', $values['clase_niza_id'])
-                                        ]);?>
-                                    </div>
+                                    
+                                    <!-- Solicitantes -->
+                                    <!--<div class="col-md-12">
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#solicitantes" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Solicitantes<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="solicitantes">
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#solicitantesModal">Añadir solicitantes</button>
+                                                                <table id="solicitantesTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Código</th>
+                                                                            <th>Solicitantes</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>-->
                                     <div class="col-md-6">
                                         <?php echo form_label('Solicitantes', 'solicitantes_id');?>
                                         <?php echo form_dropdown([
@@ -122,8 +141,32 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'selected' => set_value('solicitantes_id', $values['solicitantes_id'])
                                         ]);?>
                                     </div>
-                                    
-                                    
+                                    <!-- Clase niza -->                                  
+                                    <div class='col-md-12' style="padding: 2%;">
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases <i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="clase_marcas">
+                                                    <div class="list-box">
+                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir clase</button>
+                                                        <table class="table table-responsive" id="prioridadTbl">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Fecha</th>
+                                                                    <th>Pais</th>
+                                                                    <th>Número</th>
+                                                                    <th>Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>

@@ -1259,10 +1259,6 @@
     </script>
 
     <script>
-        
-    </script>
-
-    <script>
         function TablaClases()
         {
             $.ajax({
@@ -1272,12 +1268,13 @@
                     res = JSON.parse(response);
                     data = res.data;
                     console.log(res);
-                    $('#claseNizaTbl').DataTable( {
+                    $('#claseTbl').DataTable( {
                         destroy: true,
                         data: data,
                         columns: [
                             { data: 'clase' },
                             { data: 'descripcion' },
+                            { data: 'acciones' }
                         ],
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',

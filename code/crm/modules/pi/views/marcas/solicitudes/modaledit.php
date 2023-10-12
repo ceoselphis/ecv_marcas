@@ -1,3 +1,67 @@
+<!-- Clase Niza Modal -->
+<div class="modal fade" id="claseNizaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Clase</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo form_label('Clase', 'clase_niza');?>
+                <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Descripcion', 'clase_niza_descripcion');?>
+                <?php echo form_input('clase_niza_descripcion',set_value('descripcion', ''),['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="claseNizaFrmSubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!--Clase niza Editar -->
+<div class="modal fade" id="claseNizaEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaEditFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Clase</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo form_label('Clase', 'clase_niza');?>
+                <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Descripcion', 'clase_niza_descripcion');?>
+                <?php echo form_input('clase_niza_descripcion',set_value('descripcion', ''),['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="claseNizaFrmSubmit" type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
 <!-- Añadir Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>

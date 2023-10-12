@@ -506,25 +506,25 @@
             })
         })
 
-            //Modal Edit Licencia
-            $(document).on('click','.EditLicencia',function(){
+        //Modal Edit Licencia
+        $(document).on('click','.EditLicencia',function(){
             let element = $(this)[0].parentElement.parentElement;
             let id = $(element).attr('licenciaid');
             let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
             url = url + id;
             $.post(url,{id},function(response){
-            let licencia =JSON.parse(response);
-            $('#licenciaid').val(licencia[0]['id']);
-            $('#editclientelicencia').val(licencia[0]['client_id']);
-            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
-            $('#editstafflicencia').val(licencia[0]['staff_id']);
-            $('#editestadolicencia').val(licencia[0]['estado_id']);
-            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
-            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
-            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
-            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
-            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
-            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
+                let licencia =JSON.parse(response);
+                $('#licenciaid').val(licencia[0]['id']);
+                $('#editclientelicencia').val(licencia[0]['client_id']);
+                $('#editoficinalicencia').val(licencia[0]['oficina_id']);
+                $('#editstafflicencia').val(licencia[0]['staff_id']);
+                $('#editestadolicencia').val(licencia[0]['estado_id']);
+                $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
+                $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
+                $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
+                $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
+                $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
+                $('#editcomentariolicencia').val(licencia[0]['comentarios']);
             
             })
         })
@@ -536,16 +536,16 @@
             let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
             url = url + id;
             $.post(url,{id},function(response){
-            let fusion =JSON.parse(response);
-            $('#fusionid').val(fusion[0]['id']); 
-            $('#editoficinaFusion').val(fusion[0]['oficina_id']);
-            $('#editestadoFusion').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioFusion').val(fusion[0]['comentarios']);
+                let fusion =JSON.parse(response);
+                $('#fusionid').val(fusion[0]['id']); 
+                $('#editoficinaFusion').val(fusion[0]['oficina_id']);
+                $('#editestadoFusion').val(fusion[0]['estado_id']);
+                $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
+                $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
+                $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
+                $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
+                $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
+                $('#editcomentarioFusion').val(fusion[0]['comentarios']);
             })
             FusionActual(id);
             FusionAnterior(id);
@@ -559,18 +559,17 @@
             let url = '<?php  echo admin_url("pi/CambioNombreController/EditCambioNombre/");?>';
             url = url + id;
             $.post(url,{id},function(response){
-            let fusion =JSON.parse(response);
-            console.log(fusion[0])
-            $('#camnomid').val(fusion[0]['id']); 
-            $('#editoficinaCamNom').val(fusion[0]['oficina_id']);
-            $('#editestadoCamNom').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudCamNom').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudCamNom').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCamNom').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionCamNom').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCamNom').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioCamNom').val(fusion[0]['comentarios']);
-            
+                let fusion =JSON.parse(response);
+                console.log(fusion[0])
+                $('#camnomid').val(fusion[0]['id']); 
+                $('#editoficinaCamNom').val(fusion[0]['oficina_id']);
+                $('#editestadoCamNom').val(fusion[0]['estado_id']);
+                $('#editnro_solicitudCamNom').val(fusion[0]['num_solicitud']);
+                $('#editfecha_solicitudCamNom').val(fusion[0]['fecha_solicitud']);
+                $('#editnro_resolucionCamNom').val(fusion[0]['num_resolucion']);
+                $('#editfecha_resolucionCamNom').val(fusion[0]['fecha_resolucion']);
+                $('#editreferenciaclienteCamNom').val(fusion[0]['referencia_cliente']);
+                $('#editcomentarioCamNom').val(fusion[0]['comentarios']);
            })
             $("#EditCambioNombre").modal('show');
            
@@ -579,21 +578,21 @@
         })
             //Modal Edit Cambio de Domicilio
             $(document).on('click','.editCamDom',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('CamDomid');
-            let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let fusion =JSON.parse(response);
-            $('#camdomid').val(fusion[0]['id']); 
-            $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
-            $('#editestadoCamDom').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CamDomid');
+                let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
+                url = url + id;
+                $.post(url,{id},function(response){
+                let fusion =JSON.parse(response);
+                $('#camdomid').val(fusion[0]['id']); 
+                $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
+                $('#editestadoCamDom').val(fusion[0]['estado_id']);
+                $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
+                $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
+                $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
+                $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
+                $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
+                $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
             
            })
                 $("#EditCambioDomicilio").modal('show');
@@ -610,13 +609,13 @@
             url = url + id;
             console.log(url);
             $.post(url,{id},function(response){
-            //console.log(response);
-            let doc =JSON.parse(response);
-            console.log("id ",doc[0]['id']);
-            $('#Documento_id').val(doc[0]['id']);
-            $('#editdoc_descripcion').val(doc[0]['descripcion']);
-            $('#editcomentario_archivo').val(doc[0]['comentario']);
-            $('#editdoc_archivo').val(doc[0]['path']);
+                //console.log(response);
+                let doc =JSON.parse(response);
+                console.log("id ",doc[0]['id']);
+                $('#Documento_id').val(doc[0]['id']);
+                $('#editdoc_descripcion').val(doc[0]['descripcion']);
+                $('#editcomentario_archivo').val(doc[0]['comentario']);
+                $('#editdoc_archivo').val(doc[0]['path']);
             })
         })
         //Modal Edit Tareas 
@@ -2406,4 +2405,94 @@
                 });
             }            
         });
+    </script>
+
+    <script>
+        /***
+         * funcion para guardar el formulario de la clase
+         * 
+         * 
+         */
+        $(document).on('click', '#claseNizaFrmSubmit', function(e)
+        {
+            e.preventDefault();
+            var clase_id = $("select[name=clase_niza]").val();
+            var clase_descripcion = $("input[name=clase_niza_descripcion]").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasSolicitudesController/insertClases')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'clase_id' : clase_id,
+                    'clase_descripcion': clase_descripcion,
+                    'marcas_id' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#claseNizaFrm")[0].reset();
+                    $("#claseNizaModal").modal('hide');
+                    TablaClases();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function TablaClases()
+        {
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/'.$id);?>",
+                method: "POST",
+                success: function(response){
+                    res = JSON.parse(response);
+                    data = res.data;
+                    console.log(res);
+                    $('#claseTbl').DataTable( {
+                        destroy: true,
+                        data: data,
+                        columns: [
+                            { data: 'clase' },
+                            { data: 'descripcion' },
+                            { data: 'acciones' }
+                        ],
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                        }
+                    } );
+                }
+            });
+        }
+    </script>
+
+    <script>
+        /***
+         * funcion para obtener la descripcion de la clase
+         * 
+         * 
+         */
+        $(document).on('change', 'select[name=clase_niza]', function(e)
+        {
+            e.preventDefault();
+            var clase_niza = $("select[name=clase_niza]").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'clase_id': clase_niza
+                },
+                success: function(response)
+                {
+                    res = JSON.parse(response);
+                    $("input[name=clase_niza_descripcion]").val(res.data);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).on('ready', function(e){
+            e.stopImmediatePropagation();
+            TablaClases();
+        })
     </script>

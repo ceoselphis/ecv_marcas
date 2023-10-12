@@ -145,12 +145,13 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#claseModal">Añadir clase</button>
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
                                                                 <table id="claseTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Clase</th>
                                                                             <th>Descripcion</th>
+                                                                            <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>
                                                                 </table>

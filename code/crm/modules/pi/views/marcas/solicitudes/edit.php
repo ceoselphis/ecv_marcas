@@ -919,6 +919,33 @@ init_head();?>
             </div>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="list-content">
+            <a href="#cambio_domicilioanterior" id="Alertacambio_domicilioanterior"data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="cambio_domicilioanterior">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-md-12">
+        <div class="list-content">
+            <a href="#cambio_domicilioactual" id="Alertacambio_domicilioactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="cambio_domicilioactual">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="addlicenciafrmsubmit" type="button" class="btn btn-primary">Añadir</button>
@@ -998,6 +1025,60 @@ init_head();?>
             </div>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="list-content">
+            <a href="#EditarLicenciaanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="EditarLicenciaanterior">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right" >Añadir Cambio Nombre Anterior</button>
+                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead>
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Nombre</th>
+                                                    <th>Tipo de Licencia</th>
+                                                    <th>Propietario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                        </thead>
+                                            <tbody id = "body_Licencia_anterior">
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-md-12">
+        <div class="list-content">
+            <a href="#EditarLicenciaactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="EditarLicenciaactual">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id = "btnLicenciaActual" class="btn btn-primary pull-right"  >Añadir Licencia Actual</button>
+                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead>
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Nombre</th>
+                                                    <th>Tipo de Licencia</th>
+                                                    <th>Propietario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                        </thead>
+                                            <tbody id = "body_Licencia_actual">
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="editlicenciafrmsubmit" type="button" class="btn btn-primary">Editar</button>
@@ -2378,13 +2459,13 @@ init_head();?>
             <input type="hidden" id="FusionAnterior_id">
             <div class="col-md-12">
                 <?php echo form_label('Propietario', 'propietario');?>
-                <?php echo form_dropdown(['id'=> 'Editarpropietarioscamnomanterior','name'=> 'Editarpropietarioscamnomanterior'], $solicitantes, '',['class' => 'form-control']);?>
+                <?php echo form_dropdown(['id'=> 'Editarpropietariosfusionanterior','name'=> 'Editarpropietariosfusionanterior'], $solicitantes, '',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCamNomAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
+        <button id="EditarFusionAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2422,6 +2503,61 @@ init_head();?>
         Tareas();
         Documentos();
         
+        //Licencia Actual
+        function LicenciaActual(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaActual/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr FusionActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.fusion}</td>
+                                    <td class="text-center">${item.tipo}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class=" btn btn-light" id ="EditbtnLicenciaActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Licencia-Actual-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_Licencia_actual').html(body);     
+                })
+        }
+        // Licencia Anterior
+        function LicenciaAnterior(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaAnterior/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    // listadomicilio.forEach(item => {
+                    //     body += `<tr FusionAnteriorid = "${item.id}"> 
+                    //                 <td class="text-center">${item.id}</td>
+                    //                 <td class="text-center">${item.fusion}</td>
+                    //                 <td class="text-center">${item.tipo_participante}</td>
+                    //                 <td class="text-center">${item.propietario}</td>
+                    //                     <td class="text-center">
+                    //                         <a class="btn btn-light" style= "background-color: white;" 
+                    //                         id ="EditbtnFusionAnterior" ><i class="fas fa-edit"></i>Editar</a>
+                    //                         <button class="Fusion-Anterior-delete btn btn-danger">
+                    //                         <i class="fas fa-trash"></i>Borrar
+                    //                         </button>
+                    //                     </td>
+                    //             </tr>
+                    //         `
+                    //     });
+                    //     $('#body_Licencia_anterior').html(body);     
+                })
+        }
         //Fusion Actual
         function FusionActual(id_cambio){
             let url = '<?php echo admin_url("pi/TipoFusionController/showFusionActual/");?>';
@@ -2922,6 +3058,8 @@ init_head();?>
             $('#editcomentariolicencia').val(licencia[0]['comentarios']);
             
             })
+            LicenciaActual(id);
+            LicenciaAnterior(id);
         })
 
             //Modal Edit Fusion
@@ -3212,14 +3350,14 @@ init_head();?>
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id = $('#CamNomAnterior_id').val();
+            var id = $('#FusionAnterior_id').val();
             console.log("id de Domiclio anterior", id );
-            var id_cambionombre = $('#camnomid').val();
-            var propietarios =  $('#Editarpropietarioscamnomanterior').val();
+            var id_cambionombre = $('#fusionid').val();
+            var propietarios =  $('#Editarpropietariosfusionanterior').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCambioNombreController/UpdateTipoCambioNombre/");?>';
+            let url = '<?php echo admin_url("pi/TipoFusionController/UpdateTipoFusion/");?>';
             url = url+id;
             console.log(url);
             $.ajax({
@@ -3231,9 +3369,9 @@ init_head();?>
             }).then(function(response){
                 console.log(response);
                 alert_float('success', "Actualizado Correctamente");
-                $("#EditarCambioNombreAnteriorModal").modal('hide');
-                $("#EditCambioNombre").modal('show');
-                CambioNombreAnterior(id_cambionombre);
+                $("#EditarFusionAnteriorModal").modal('hide');
+                $("#EditFusion").modal('show');
+                FusionAnterior(id_cambionombre);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -3262,27 +3400,27 @@ init_head();?>
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#FusionActualModal").modal('hide');
-                 $("#EditFusion").modal('show');
-                 FusionActual(id_cambio);
+                alert_float('success', "Insertado Correctamente");
+                $("#FusionActualModal").modal('hide');
+                $("#EditFusion").modal('show');
+                FusionActual(id_cambio);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
         });
          //Editar Fusion Actual  ---------------------------------------------------------------------------
-         $(document).on('click','#EditarFusionActualfrmsubmit',function(e){
+        $(document).on('click','#EditarFusionActualfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id = $('#CamNomActual_id').val();
+            var id = $('#FusionActual_id').val();
             console.log("id =",id );
-            var id_cambionombre = $('#camnomid').val();
-            var propietarios =  $('#Editpropietarioscamnomactual').val();
+            var id_cambionombre = $('#fusionid').val();
+            var propietarios =  $('#Editpropietariosfusionactual').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCambioNombreController/UpdateTipoCambioNombre/");?>';
+            let url = '<?php echo admin_url("pi/TipoFusionController/UpdateTipoFusion/");?>';
             url = url+id;
             console.log(url);
             $.ajax({
@@ -3294,9 +3432,9 @@ init_head();?>
             }).then(function(response){
                 console.log(response);
                 alert_float('success', "Actualizado Correctamente");
-                $("#EditCambioNombreActualModal").modal('hide');
-                $("#EditCambioNombre").modal('show');
-                CambioNombreActual(id_cambionombre);
+                $("#EditFusionActualModal").modal('hide');
+                $("#EditFusion").modal('show');
+                FusionActual(id_cambionombre);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -4166,7 +4304,58 @@ init_head();?>
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
         });
-        // ------Eliminar  
+        // ------Eliminar Registros ---------------------------------------------------------------------
+        //Eliminar Fusion Anterior
+        $(document).on('click','.Fusion-Anterior-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('FusionAnteriorid');
+                let id_cambio = $('#fusionid').val();
+                console.log(id);
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TipoFusionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    FusionAnterior(id_cambio);
+                    $("#EditFusion").modal('show');
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+            }
+        });
+        //Eliminar Fusion Actual
+        $(document).on('click','.Fusion-Actual-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('FusionActualid');
+                let id_cambio = $('#fusionid').val();
+                console.log(id);
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TipoFusionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    FusionActual(id_cambio);
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+            }
+        });
         //Eliminar Nombre Anterior
         $(document).on('click','.Cambio-Nombre-Anterior-delete',function(){
             if (confirm("Quieres eliminar este registro?")){

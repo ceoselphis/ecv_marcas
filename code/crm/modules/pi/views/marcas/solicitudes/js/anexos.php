@@ -24,6 +24,173 @@
         // });
         
         // ---------------------------------- Mostrar Anexo -----------------------------------------------
+         //Fusion Actual
+         function FusionActual(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoFusionController/showFusionActual/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr FusionActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.fusion}</td>
+                                    <td class="text-center">${item.tipo}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class=" btn btn-light" id ="EditbtnFusionActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Fusion-Actual-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_Fusion_actual').html(body);     
+                })
+        }
+        // Fusion Anterior
+        function FusionAnterior(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoFusionController/showFusionAnterior/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr FusionAnteriorid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.fusion}</td>
+                                    <td class="text-center">${item.tipo_participante}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-light" style= "background-color: white;" 
+                                            id ="EditbtnFusionAnterior" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Fusion-Anterior-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_Fusion_anterior').html(body);     
+                })
+        }
+
+        //Cambio Domicilio Actual
+        function CambioDomicilioActual(id_cambiodomiclio){
+            console.log("domicilio",id_cambiodomiclio);
+            let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/showCambioDomicilioActual/");?>';
+            url = url+id_cambiodomiclio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CamDomActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cambio_domicilio}</td>
+                                    <td class="text-center">${item.tipo_domicilio}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class=" btn btn-light" id ="EditbtnCambioDomicilioActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cambio-Domicilio-Actual-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_cambio_domicilio_actual').html(body);     
+                })
+        }
+        //Cambio Domicilio Anterior
+        function CambioDomicilioAnterior(id_cambiodomiclio){
+            let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/showCambioDomicilioAnterior/");?>';
+            url = url+id_cambiodomiclio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CamDomAnteriorid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cambio_domicilio}</td>
+                                    <td class="text-center">${item.tipo_domicilio}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class="editCamDomAnterior btn btn-light" style= "background-color: white;" 
+                                            id ="EditbtnCambioDomicilioAnterior" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="CambioDomicilioAnteriordelete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_cambio_domicilio_anterior').html(body);     
+                })
+        }
+
+        //Cambio Nombre Actual
+        function CambioNombreActual(id_cambionombre){
+            console.log("domicilio",id_cambionombre);
+            let url = '<?php echo admin_url("pi/TipoCambioNombreController/showCambioNombreActual/");?>';
+            url = url+id_cambionombre;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CamNomActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cambio_nombre}</td>
+                                    <td class="text-center">${item.tipo_nombre}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class=" btn btn-light" id ="EditbtnCambioNombreActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cambio-Nombre-Actual-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_cambio_nombre_actual').html(body);     
+                })
+        }
+        //Cambio Nombre Anterior
+        function CambioNombreAnterior(id_cambionombre){
+            let url = '<?php echo admin_url("pi/TipoCambioNombreController/showCambioNombreAnterior/");?>';
+            url = url+id_cambionombre;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CamNomAnteriorid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cambio_nombre}</td>
+                                    <td class="text-center">${item.tipo_nombre}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class="editCamDomAnterior btn btn-light" style= "background-color: white;" 
+                                            id ="EditbtnCambioNombreAnterior" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cambio-Nombre-Anterior-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_cambio_nombre_anterior').html(body);     
+                })
+        }
+
         // Cambio Domicilio------------------------------------------------------
         function CambioDomicilio(){
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/");?>';
@@ -306,8 +473,8 @@
             })
         })
 
-            //Modal Edit Fusion
-            $(document).on('click','.editFusion',function(){
+               //Modal Edit Fusion
+        $(document).on('click','.editFusion',function(){
             let element = $(this)[0].parentElement.parentElement;
             let id = $(element).attr('fusionid');
             let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
@@ -323,18 +490,21 @@
             $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
             $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
             $('#editcomentarioFusion').val(fusion[0]['comentarios']);
-            
             })
+            FusionActual(id);
+            FusionAnterior(id);
         })
 
           //Modal Edit Cambio Nombre
           $(document).on('click','.editCamNom',function(){
             let element = $(this)[0].parentElement.parentElement;
             let id = $(element).attr('CamNomid');
+            console.log(id);
             let url = '<?php  echo admin_url("pi/CambioNombreController/EditCambioNombre/");?>';
             url = url + id;
             $.post(url,{id},function(response){
             let fusion =JSON.parse(response);
+            console.log(fusion[0])
             $('#camnomid').val(fusion[0]['id']); 
             $('#editoficinaCamNom').val(fusion[0]['oficina_id']);
             $('#editestadoCamNom').val(fusion[0]['estado_id']);
@@ -346,6 +516,10 @@
             $('#editcomentarioCamNom').val(fusion[0]['comentarios']);
             
            })
+            $("#EditCambioNombre").modal('show');
+           
+                CambioNombreActual(id);
+                CambioNombreAnterior(id);
         })
             //Modal Edit Cambio de Domicilio
             $(document).on('click','.editCamDom',function(){
@@ -366,6 +540,9 @@
             $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
             
            })
+                $("#EditCambioDomicilio").modal('show');
+                CambioDomicilioActual(id);
+                CambioDomicilioAnterior(id);
         })
         function getFormData(){
             var config = {};

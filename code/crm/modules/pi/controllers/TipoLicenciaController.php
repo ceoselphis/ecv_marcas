@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TipoFusionController extends AdminController
+class TipoLicenciaController extends AdminController
 {
-    protected $models = ['TipoFusion_model'];
+    protected $models = ['TipoLicencia_model'];
 
     public function __construct()
     {
@@ -13,8 +13,8 @@ class TipoFusionController extends AdminController
     public function index($id = NULL)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
-        return $CI->load->view('anexos/index', ["anexos" => $CI->TipoFusion_model->findAll()]);
+        $CI->load->model("TipoLicencia_model");
+        return $CI->load->view('anexos/index', ["anexos" => $CI->TipoLicencia_model->findAll()]);
     }
 
     /**
@@ -24,8 +24,8 @@ class TipoFusionController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
-        $fields = $CI->TipoFusion_model->getFillableFields();
+        $CI->load->model("TipoLicencia_model");
+        $fields = $CI->TipoLicencia_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -52,16 +52,16 @@ class TipoFusionController extends AdminController
         return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
-    public function EditFusion(string $id = null){
+    public function EditLicencia(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
-        $query =$CI->TipoFusion_model->find($id);
+        $CI->load->model("TipoLicencia_model");
+        $query =$CI->TipoLicencia_model->find($id);
         echo json_encode($query);   
     }
 
-    // public function UpdateFusion(string $id = null){
+    // public function UpdateLicencia(string $id = null){
     //     $CI = &get_instance();
-    //     $CI->load->model("TipoFusion_model");
+    //     $CI->load->model("TipoLicencia_model");
     //     $data = $CI->input->post();
     //     if (!empty($data)){
     //         $insert = array(
@@ -76,7 +76,7 @@ class TipoFusionController extends AdminController
     //                     'comentarios' => $data['comentario'],
     //                 );
     //                 echo json_encode($insert);
-    //                 $query = $CI->TipoFusion_model->update($id, $insert);
+    //                 $query = $CI->TipoLicencia_model->update($id, $insert);
     //                 if (isset($query))
     //                 {
     //                     echo "Actualizado Correctamente";
@@ -115,7 +115,7 @@ class TipoFusionController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-    public function addFusionAnterior(){
+    public function addLicenciaAnterior(){
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
@@ -127,9 +127,9 @@ class TipoFusionController extends AdminController
             'propietario_id' => $data['propietarios'],
         );
         
-        $CI->load->model("TipoFusion_model");
+        $CI->load->model("TipoLicencia_model");
             try{
-                $query = $CI->TipoFusion_model->insert($insert);
+                $query = $CI->TipoLicencia_model->insert($insert);
                     if (isset($query)){
                         echo "Insertado Correctamente";
 
@@ -144,7 +144,7 @@ class TipoFusionController extends AdminController
             echo "No tiene Data";
         }
     }
-    public function addFusionActual(){
+    public function addLicenciaActual(){
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
@@ -155,9 +155,9 @@ class TipoFusionController extends AdminController
             'tipo_participante' => 2,
             'propietario_id' => $data['propietarios'],
         );
-        $CI->load->model("TipoFusion_model");
+        $CI->load->model("TipoLicencia_model");
             try{
-                $query = $CI->TipoFusion_model->insert($insert);
+                $query = $CI->TipoLicencia_model->insert($insert);
                     if (isset($query)){
                         echo "Insertado Correctamente";
 
@@ -172,19 +172,19 @@ class TipoFusionController extends AdminController
             echo "No tiene Data";
         }
     }
-    public function showFusionAnterior(string $id = null){
+    public function showLicenciaAnterior(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
-        $marcas = $CI->TipoFusion_model->findAllFusion($id);
+        $CI->load->model("TipoLicencia_model");
+        $marcas = $CI->TipoLicencia_model->findAllLicencia($id);
         //INSERT INTO `tbl_marcas_fusion_participantes`(`id`, `fusion_id`, `tipo_participante`, `propietario_id`)
         $data = array();
         foreach ($marcas as $row){
-            if ($row['tipo_participante']==1){
+            if ($row['tipo_licenciante']==1){
                 $data[] = array(
                 'id' => $row['id'],
-                'fusion' => $CI->TipoFusion_model->BuscarFusion($row['fusion_id']),
-                'tipo_participante' => 'Anterior',
-                'propietario' => $CI->TipoFusion_model->BuscarPropietarios($row['propietario_id']),
+                'licencia' => $CI->TipoLicencia_model->BuscarLicencia($row['fusion_id']),
+                'tipo' => 'Anterior',
+                'propietario' => $CI->TipoLicencia_model->BuscarPropietarios($row['propietario_id']),
                 );
             }
         }
@@ -192,19 +192,19 @@ class TipoFusionController extends AdminController
 
     }
 
-    public function showFusionActual(string $id = null){
+    public function showLicenciaActual(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
-        $marcas = $CI->TipoFusion_model->findAllFusion($id);
-        //INSERT INTO `tbl_marcas_fusion_participantes`(`id`, `fusion_id`, `tipo_participante`, `propietario_id`)
+        $CI->load->model("TipoLicencia_model");
+        $marcas = $CI->TipoLicencia_model->findAllLicencia($id);
+        //INSERT INTO `tbl_marcas_licenciantes`(`id`, `licencia_id`, `tipo_licenciante`, `propietario_id`)
         $data = array();
         foreach ($marcas as $row){
-            if ($row['tipo_participante']==2){
+            if ($row['tipo_licenciante']==2){
                 $data[] = array(
                 'id' => $row['id'],
-                'fusion' => $CI->TipoFusion_model->BuscarFusion($row['fusion_id']),
+                'licencia' => $CI->TipoLicencia_model->BuscarLicencia($row['licencia_id']),
                 'tipo' => 'Actual',
-                'propietario' => $CI->TipoFusion_model->BuscarPropietarios($row['propietario_id']),
+                'propietario' => $CI->TipoLicencia_model->BuscarPropietarios($row['propietario_id']),
                 );
             }
         }
@@ -213,9 +213,9 @@ class TipoFusionController extends AdminController
     }
 
 
-    public function UpdateTipoFusion(string $id = null){
+    public function UpdateTipoLicencia(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
+        $CI->load->model("TipoLicencia_model");
         $data = $CI->input->post();
         echo json_encode($data);
         if (!empty($data)){
@@ -224,7 +224,7 @@ class TipoFusionController extends AdminController
                     );
                     
                     echo json_encode($insert);
-                    $query = $CI->TipoFusion_model->update($id, $insert);
+                    $query = $CI->TipoLicencia_model->update($id, $insert);
                     echo json_encode($query);
                     if (isset($query))
                     {
@@ -240,7 +240,7 @@ class TipoFusionController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
+        $CI->load->model("TipoLicencia_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
@@ -263,7 +263,7 @@ class TipoFusionController extends AdminController
         
         if($CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->TipoFusion_model->getFillableFields();
+            $fields = $CI->TipoLicencia_model->getFillableFields();
             $inputs = array();
             $labels = array();
             foreach($fields as $field)
@@ -292,7 +292,7 @@ class TipoFusionController extends AdminController
         else
         {
             //we sent the data to the model
-            $query = $CI->TipoFusion_model->insert($data);
+            $query = $CI->TipoLicencia_model->insert($data);
             if(isset($query))
             {
                 return redirect(admin_url('pi/MarcasDomicilioController/'));
@@ -317,9 +317,9 @@ class TipoFusionController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
+        $CI->load->model("TipoLicencia_model");
         $CI->load->helper('url');
-        $query = $CI->TipoFusion_model->find($id);
+        $query = $CI->TipoLicencia_model->find($id);
         if(isset($query))
         {
             $labels = array('Id', 'Nombre del anexo');
@@ -338,7 +338,7 @@ class TipoFusionController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
+        $CI->load->model("TipoLicencia_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
@@ -366,7 +366,7 @@ class TipoFusionController extends AdminController
         else
         {
             //We prepare the data 
-            $query = $CI->TipoFusion_model->update($id, $data);
+            $query = $CI->TipoLicencia_model->update($id, $data);
             if (isset($query))
             {
                 return redirect('pi/MarcasDomicilioController/');
@@ -381,9 +381,9 @@ class TipoFusionController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoFusion_model");
+        $CI->load->model("TipoLicencia_model");
         $CI->load->helper('url');
-        $query = $CI->TipoFusion_model->delete($id);
+        $query = $CI->TipoLicencia_model->delete($id);
         if (isset($query)){
             echo "Eliminado Correctamente";
         }else {

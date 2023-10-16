@@ -2470,10 +2470,10 @@
          * 
          * 
          */
-        $(document).on('change', 'select[name=clase_niza]', function(e)
+        $(document).on('change', 'select[name=clase_niza_edit]', function(e)
         {
             e.preventDefault();
-            var clase_niza = $("select[name=clase_niza]").val();
+            var clase_niza = $("select[name=clase_niza_edit]").val();
             $.ajax({
                 url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
                 method: "POST",
@@ -2484,9 +2484,56 @@
                 success: function(response)
                 {
                     res = JSON.parse(response);
-                    $("input[name=clase_niza_descripcion]").val(res.data);
+                    $("input[name=clase_niza_descripcion_edit]").val(res.data);
                 }
             });
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.editarClase', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasClasesController/getClaseByMarcas');?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'id': id
+                },
+                success: function(response)
+                {
+                    res = JSON.parse(response);
+                    $("input[name=marcas_clase_id").val(res.data.id);
+                    $("select[name=clase_niza_edit]").val(res.data.clase_id);
+                    $("input[name=clase_niza_descripcion_edit]").val(res.data.descripcion);
+                }
+            });
+            $("#claseNizaEditModal").modal('show');
+        })
+    </script>
+    <script>
+        $(document).on('click', '#claseNizaEditFrmSubmit', function(e)
+        {
+            e.preventDefault();
+            var data = {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'clase_niza'     : $("select[name=clase_niza_edit]").val(),
+                'descripcion'    : $("input[name=clase_niza_descripcion_edit]").val(),
+                'id'             : $("input[name=marcas_clase_id]").val(),
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasClasesController/update/');?>",
+                method: "POST",
+                data: data,
+                success: function(response)
+                {
+                    $("#claseNizaEditModal").modal('hide');
+                    alert_float('success', 'Clase editada exitosamente');
+                }
+            });
+            TablaClases();
         });
     </script>
 

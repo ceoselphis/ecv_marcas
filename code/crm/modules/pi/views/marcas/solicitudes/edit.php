@@ -8,9 +8,6 @@ $CI->load->view('marcas/solicitudes/css.php');?>
             <div class="col-md-12">
                 <?php echo form_open_multipart('',['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('id', $id);?>
-                <pre>
-                    <?php var_dump($values);?>
-                </pre>
                     <div class="panel_s">
                         <div class="panel-body">
                             <div class="wizard">
@@ -149,17 +146,15 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                 <div class="collapse" id="clase_marcas">
                                                     <div class="list-box">
                                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir clase</button>
-                                                        <table class="table table-responsive" id="prioridadTbl">
+                                                        <table class="table table-responsive" id="claseTbl">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Fecha</th>
-                                                                    <th>Pais</th>
-                                                                    <th>Número</th>
-                                                                    <th>Acciones</th>
+                                                                    <td>Clase</td>
+                                                                    <td>Descripcion</td>
+                                                                    <td>Acciones</td>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-
                                                             </tbody>
                                                         </table> 
                                                     </div>

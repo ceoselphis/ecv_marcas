@@ -2538,6 +2538,27 @@
     </script>
 
     <script>
+        $(document).on('click', '.borrarClase', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            if(confirm('¿Esta seguro de eliminar este registro?'))
+            {
+                $.ajax({
+                url: "<?php echo admin_url('pi/MarcasClasesController/delete/');?>"+id,
+                method: "POST",
+                success: function(response)
+                {
+                    alert_float('success', 'Clase borrada exitosamente');
+                }
+            });
+            TablaClases();
+            }
+            
+        })
+    </script>
+
+    <script>
         $(document).on('ready', function(e){
             e.stopImmediatePropagation();
             TablaClases();

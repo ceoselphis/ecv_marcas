@@ -48,5 +48,20 @@ class MarcasClasesController extends AdminController
         
     }
 
+    public function delete($id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model('MarcasClases_model');
+        $query = $CI->MarcasClases_model->delete($id);
+        if($query)
+        {
+            echo json_encode(['code' => '200', 'message' => 'success']);
+        }
+        else
+        {
+            echo json_encode(['code' => '500', 'message' => 'error']);
+        }
+    }
+
 
 }

@@ -33,6 +33,7 @@
 <!--Clase niza Editar -->
 <div class="modal fade" id="claseNizaEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaEditFrm']);?>
+    <input name="marcas_clase_id" type="hidden">
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -44,18 +45,18 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-6">
-                <?php echo form_label('Clase', 'clase_niza');?>
-                <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control']);?>
+                <?php echo form_label('Clase', 'clase_niza_edit');?>
+                <?php echo form_dropdown('clase_niza_edit', $clase_niza_id, set_value('clase_niza_edit', ''),['class' => 'form-control']);?>
             </div>
             <div class="col-md-6">
-                <?php echo form_label('Descripcion', 'clase_niza_descripcion');?>
-                <?php echo form_input('clase_niza_descripcion',set_value('descripcion', ''),['class' => 'form-control']);?>
+                <?php echo form_label('Descripcion', 'clase_niza_descripcion_edit');?>
+                <?php echo form_input('clase_niza_descripcion_edit',set_value('clase_niza_descripcion_edit', ''),['class' => 'form-control']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="claseNizaFrmSubmit" type="button" class="btn btn-primary">Guardar</button>
+        <button id="claseNizaEditFrmSubmit" type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

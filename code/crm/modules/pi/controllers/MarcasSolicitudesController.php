@@ -651,7 +651,7 @@ class MarcasSolicitudesController extends AdminController
                 $result[] = [
                     'clase'         => $row['nombre'],
                     'descripcion'   => $row['descripcion'],
-                    'acciones' => '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#claseNizaEditModal"><i class="fas fa-edit"></i> Editar</button> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#claseNizaEditModal"><i class="fas fa-edit"></i> Borrar</button>',
+                    'acciones' => '<button type="button" class="btn btn-primary editarClase" id="'.$row['id'].'"><i class="fas fa-edit"></i> Editar</button> <button type="button" class="btn btn-danger borrarClase" id="'.$row['id'].'"><i class="fas fa-trash"></i> Borrar</button>',
                 ];
             }
         }

@@ -26,9 +26,121 @@
         Eventos();
         Tareas();
         Documentos();
+
+        //Cesion Actual
+        function CesionActual(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoCesionController/showCesionActual/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CesionActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cesion}</td>
+                                    <td class="text-center">${item.tipo}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class=" btn btn-light" id ="EditbtnCesionActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cesion-Actual-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_Cesion_actual').html(body);     
+                })
+        }
+        // Cesion Anterior
+        function CesionAnterior(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoCesionController/showCesionAnterior/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr CesionAnteriorid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.cesion}</td>
+                                    <td class="text-center">${item.tipo}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-light" style= "background-color: white;" 
+                                            id ="EditbtnCesionAnterior" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Cesion-Anterior-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_Cesion_anterior').html(body);     
+                })
+        }
+        //Licencia Actual
+        function LicenciaActual(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaActual/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr LicenciaActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.licencia}</td>
+                                    <td class="text-center">${item.tipo}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class=" btn btn-light" id ="EditbtnLicenciaActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Licencia-Actual-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_Licencia_actual').html(body);     
+                })
+        }
+        // Licencia Anterior
+        function LicenciaAnterior(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaAnterior/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr LicenciaAnteriorid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.licencia}</td>
+                                    <td class="text-center">${item.tipo}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-light" style= "background-color: white;" 
+                                            id ="EditbtnLicenciaAnterior" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Licencia-Anterior-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_Licencia_anterior').html(body);     
+                })
+        }
         
         //Fusion Actual
         function FusionActual(id_cambio){
+            
             let url = '<?php echo admin_url("pi/TipoFusionController/showFusionActual/");?>';
             url = url+id_cambio;
             console.log(url);
@@ -258,6 +370,7 @@
         
        // Fusion
         function Fusion(){
+            console.log("Pruebas");
             let url = '<?php echo admin_url("pi/FusionController/showFusion/$id");?>';
             let body= ``;
                 $.get(url, function(response){
@@ -482,7 +595,7 @@
             //     })
         })
 
-         //----------------------------------- Funciones de la Informacion que Trae desde la Base de Datos -----------------------------------------------
+         //----------------------------------- Funciones que trae la Informacion de la Base de Datos -----------------------------------------------
          //Modal Edit Cesion 
         $(document).on('click','.EditCesion',function(){
             let element = $(this)[0].parentElement.parentElement;
@@ -504,29 +617,33 @@
             $('#editcomentarioCesion').val(cesion[0]['comentarios']);
             
             })
+            CesionActual(id);
+            CesionAnterior(id);
         })
 
-        //Modal Edit Licencia
-        $(document).on('click','.EditLicencia',function(){
+           //Modal Edit Licencia
+           $(document).on('click','.EditLicencia',function(){
             let element = $(this)[0].parentElement.parentElement;
             let id = $(element).attr('licenciaid');
             let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
             url = url + id;
             $.post(url,{id},function(response){
-                let licencia =JSON.parse(response);
-                $('#licenciaid').val(licencia[0]['id']);
-                $('#editclientelicencia').val(licencia[0]['client_id']);
-                $('#editoficinalicencia').val(licencia[0]['oficina_id']);
-                $('#editstafflicencia').val(licencia[0]['staff_id']);
-                $('#editestadolicencia').val(licencia[0]['estado_id']);
-                $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
-                $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
-                $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
-                $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
-                $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
-                $('#editcomentariolicencia').val(licencia[0]['comentarios']);
+            let licencia =JSON.parse(response);
+            $('#licenciaid').val(licencia[0]['id']);
+            $('#editclientelicencia').val(licencia[0]['client_id']);
+            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
+            $('#editstafflicencia').val(licencia[0]['staff_id']);
+            $('#editestadolicencia').val(licencia[0]['estado_id']);
+            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
+            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
+            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
+            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
+            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
+            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
             
             })
+            LicenciaActual(id);
+            LicenciaAnterior(id);
         })
 
             //Modal Edit Fusion
@@ -679,6 +796,75 @@
                 alert_float('danger', "Primero guarde antes de entrar aqui");
             });
 
+             //--------Cambiar de Editar Cesion a Crear o Editar Cesion Actual y Anterior ---------------
+            // Cambiar de Modal de Editar Cesion por Editar Cesion Actual 
+            $(document).on('click','#EditbtnCesionActual',function(e){
+                e.preventDefault();
+                console.log("Cesion Actual");
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CesionActualid');
+                $('#CesionActual_id').val(id);
+                $("#EditCesion").modal('hide');
+                $("#EditCesionActualModal").modal('show');
+
+            });
+            // Cambiar de Modal de Editar Cesion por Editar Licencia Anterior 
+            $(document).on('click','#EditbtnCesionAnterior',function(e){
+                e.preventDefault();
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CesionAnteriorid');
+                $('#CesionAnterior_id').val(id);
+                $("#EditCesion").modal('hide');
+                $("#EditarCesionAnteriorModal").modal('show');
+            });
+            // Cambiar de Modal de Editar Cesion por Añadir Cesion Actual 
+            $(document).on('click','#btnCesionActual',function(e){
+                console.log("Cesion Actual")
+                e.preventDefault();
+                $("#EditCesion").modal('hide');
+                $("#CesionActualModal").modal('show');
+            });
+            // Cambiar de Modal de Editar Cesion por Añadir Cesion Anterior 
+            $(document).on('click','#btnCesionAnterior',function(e){
+                e.preventDefault();
+                $("#EditCesion").modal('hide');
+                $("#CesionAnteriorModal").modal('show');
+            });
+
+             //--------Cambiar de Editar Licencia a Crear o Editar Licencia Actual y Anterior ---------------
+            // Cambiar de Modal de Editar Licencia por Editar Licencia Actual 
+            $(document).on('click','#EditbtnLicenciaActual',function(e){
+                e.preventDefault();
+                console.log("Licencia Actual");
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('LicenciaActualid');
+                $('#LicenciaActual_id').val(id);
+                $("#EditLicencia").modal('hide');
+                $("#EditLicenciaActualModal").modal('show');
+
+            });
+            // Cambiar de Modal de Editar Licencia por Licencia Licencia Anterior 
+            $(document).on('click','#EditbtnLicenciaAnterior',function(e){
+                e.preventDefault();
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('LicenciaAnteriorid');
+                $('#LicenciaAnterior_id').val(id);
+                $("#EditLicencia").modal('hide');
+                $("#EditarLicenciaAnteriorModal").modal('show');
+            });
+            // Cambiar de Modal de Editar Licencia por Añadir Licencia Actual 
+            $(document).on('click','#btnLicenciaActual',function(e){
+                console.log("Licencia Actual")
+                e.preventDefault();
+                $("#EditLicencia").modal('hide');
+                $("#LicenciaActualModal").modal('show');
+            });
+            // Cambiar de Modal de Editar Licencia por Añadir Licencia Anterior 
+            $(document).on('click','#btnLicenciaAnterior',function(e){
+                e.preventDefault();
+                $("#EditLicencia").modal('hide');
+                $("#LicenciaAnteriorModal").modal('show');
+            });
             
              //--------Cambiar de Editar Fusion a Crear o Editar Fusion Actual y Anterior ---------------
             // Cambiar de Modal de Editar Fusion por Editar Fusion Actual 
@@ -696,7 +882,7 @@
             $(document).on('click','#EditbtnFusionAnterior',function(e){
                 e.preventDefault();
                 let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CamDomAnteriorid');
+                let id = $(element).attr('FusionAnteriorid');
                 $('#FusionAnterior_id').val(id);
                 $("#EditFusion").modal('hide');
                 $("#EditarFusionAnteriorModal").modal('show');
@@ -779,7 +965,257 @@
                 $("#EditCambioNombre").modal('hide');
                 $("#CambioNombreAnteriorModal").modal('show');
             });
-           //  -----------------------------------------------------------------------------------------------------
+           //  --------------------------------Añadir y Editar los siguientes Modulos---------------------------------------------
+             //Añadir Cesion Anterior  ---------------------------------------------------------------------------
+             $(document).on('click','#AñadirCesionAnteriorfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id_cambio = $('#cesionid').val();
+            var propietarios =  $('#propietarioscesionanterior').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_cambio',id_cambio);
+            formData.append('propietarios',propietarios);
+            formData.append('csrf_token_name', csrf_token_name);
+            console.log('id_cambio',id_cambio);
+            console.log('propietarios',propietarios);
+            console.log('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                 alert_float('success', "Insertado Correctamente");
+                 $("#CesionAnteriorModal").modal('hide');
+                 $("#EditCesion").modal('show');
+                 CesionAnterior(id_cambio);
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+          //Editar Cesion Anterior  ---------------------------------------------------------------------------
+          $(document).on('click','#EditarCesionAnteriorfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#CesionAnterior_id').val();
+            console.log("id de Cesion anterior", id );
+            var id_cambio = $('#cesionid').val();
+            var propietarios =  $('#Editarpropietarioscesionanterior').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('propietarios',propietarios);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoCesionController/UpdateTipoCesion/");?>';
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditarCesionAnteriorModal").modal('hide');
+                $("#EditCesion").modal('show');
+                CesionAnterior(id_cambio);
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+        //Añadir Cesion Actual  ---------------------------------------------------------------------------
+        $(document).on('click','#AñadirCesionActualfrmsubmit',function(e){
+            e.preventDefault();
+            console.log("Añadir Cesion Actual");
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id_cambio = $('#cesionid').val();
+            var propietarios =  $('#propietarioscesionactual').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_cambio',id_cambio);
+            formData.append('propietarios',propietarios);
+            formData.append('csrf_token_name', csrf_token_name);
+            console.log('id_cambio',id_cambio);
+            console.log('propietarios',propietarios);
+            console.log('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoCesionController/addCesionActual");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                 alert_float('success', "Insertado Correctamente");
+                 $("#CesionActualModal").modal('hide');
+                 $("#EditCesion").modal('show');
+                 CesionActual(id_cambio);
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+         //Editar Cesion Actual  ---------------------------------------------------------------------------
+         $(document).on('click','#EditarCesionActualfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#CesionActual_id').val();
+            console.log("id =",id );
+            var id_cambio = $('#cesionid').val();
+            var propietarios =  $('#Editpropietarioscesionactual').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('propietarios',propietarios);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoCesionController/UpdateTipoCesion/");?>';
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditCesionActualModal").modal('hide');
+                $("#EditCesion").modal('show');
+                CesionActual(id_cambio);
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+            //Añadir Cesion Anterior  ---------------------------------------------------------------------------
+            $(document).on('click','#AñadirCesionAnteriorfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id_cambio = $('#cesionid').val();
+            var propietarios =  $('#propietarioscesionanterior').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_cambio',id_cambio);
+            formData.append('propietarios',propietarios);
+            formData.append('csrf_token_name', csrf_token_name);
+            console.log('id_cambio',id_cambio);
+            console.log('propietarios',propietarios);
+            console.log('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                 alert_float('success', "Insertado Correctamente");
+                 $("#CesionAnteriorModal").modal('hide');
+                 $("#EditCesion").modal('show');
+                 CesionAnterior(id_cambio);
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+          //Editar Cesion Anterior  ---------------------------------------------------------------------------
+          $(document).on('click','#EditarCesionAnteriorfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#CesionAnterior_id').val();
+            console.log("id de Cesion anterior", id );
+            var id_cambio = $('#cesionid').val();
+            var propietarios =  $('#Editarpropietarioscesionanterior').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('propietarios',propietarios);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoCesionController/UpdateTipoCesion/");?>';
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditarCesionAnteriorModal").modal('hide');
+                $("#EditCesion").modal('show');
+                CesionAnterior(id_cambio);
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+        //Añadir Licencia Actual  ---------------------------------------------------------------------------
+        $(document).on('click','#AñadirLicenciaActualfrmsubmit',function(e){
+            e.preventDefault();
+            console.log("Añadir Licencia Actual");
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id_cambio = $('#licenciaid').val();
+            var propietarios =  $('#propietarioslicenciaactual').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_cambio',id_cambio);
+            formData.append('propietarios',propietarios);
+            formData.append('csrf_token_name', csrf_token_name);
+            console.log('id_cambio',id_cambio);
+            console.log('propietarios',propietarios);
+            console.log('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/addLicenciaActual");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                 alert_float('success', "Insertado Correctamente");
+                 $("#LicenciaActualModal").modal('hide');
+                 $("#EditLicencia").modal('show');
+                 LicenciaActual(id_cambio);
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+         //Editar Licencia Actual  ---------------------------------------------------------------------------
+         $(document).on('click','#EditarLicenciaActualfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#LicenciaActual_id').val();
+            console.log("id =",id );
+            var id_cambio = $('#licenciaid').val();
+            var propietarios =  $('#Editpropietarioslicenciaactual').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('propietarios',propietarios);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/UpdateTipoLicencia/");?>';
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditLicenciaActualModal").modal('hide');
+                $("#EditLicencia").modal('show');
+                LicenciaActual(id_cambio);
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
             //Añadir Fusion Anterior  ---------------------------------------------------------------------------
             $(document).on('click','#AñadirFusionAnteriorfrmsubmit',function(e){
             e.preventDefault();
@@ -816,14 +1252,14 @@
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id = $('#CamNomAnterior_id').val();
-            console.log("id de Domiclio anterior", id );
-            var id_cambionombre = $('#camnomid').val();
-            var propietarios =  $('#Editarpropietarioscamnomanterior').val();
+            var id = $('#FusionAnterior_id').val();
+            console.log("id de fusion anterior", id );
+            var id_cambio = $('#fusionid').val();
+            var propietarios =  $('#Editarpropietariosfusionanterior').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCambioNombreController/UpdateTipoCambioNombre/");?>';
+            let url = '<?php echo admin_url("pi/TipoFusionController/UpdateTipoFusion/");?>';
             url = url+id;
             console.log(url);
             $.ajax({
@@ -835,9 +1271,9 @@
             }).then(function(response){
                 console.log(response);
                 alert_float('success', "Actualizado Correctamente");
-                $("#EditarCambioNombreAnteriorModal").modal('hide');
-                $("#EditCambioNombre").modal('show');
-                CambioNombreAnterior(id_cambionombre);
+                $("#EditarFusionAnteriorModal").modal('hide');
+                $("#EditFusion").modal('show');
+                FusionAnterior(id_cambio);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -879,14 +1315,14 @@
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id = $('#CamNomActual_id').val();
+            var id = $('#FusionActual_id').val();
             console.log("id =",id );
-            var id_cambionombre = $('#camnomid').val();
-            var propietarios =  $('#Editpropietarioscamnomactual').val();
+            var id_cambio = $('#fusionid').val();
+            var propietarios =  $('#Editpropietariosfusionactual').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCambioNombreController/UpdateTipoCambioNombre/");?>';
+            let url = '<?php echo admin_url("pi/TipoFusionController/UpdateTipoFusion/");?>';
             url = url+id;
             console.log(url);
             $.ajax({
@@ -898,9 +1334,9 @@
             }).then(function(response){
                 console.log(response);
                 alert_float('success', "Actualizado Correctamente");
-                $("#EditCambioNombreActualModal").modal('hide');
-                $("#EditCambioNombre").modal('show');
-                CambioNombreActual(id_cambionombre);
+                $("#EditFusionActualModal").modal('hide');
+                $("#EditFusion").modal('show');
+                FusionActual(id_cambio);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -1770,7 +2206,158 @@
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
         });
-        // ------Eliminar  
+        // ------------------------------------------- Eliminar Registros ----------------------------------------------------------------------------------------------------------
+          //Eliminar Fusion Anterior
+          $(document).on('click','.Fusion-Anterior-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('FusionAnteriorid');
+                let id_cambio = $('#fusionid').val();
+                console.log(id);
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TipoFusionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    FusionAnterior(id_cambio);
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+            }
+        });
+        //Eliminar Fusion Actual
+        $(document).on('click','.Fusion-Actual-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('FusionActualid');
+                let id_cambio = $('#fusionid').val();
+                console.log(id);
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TipoFusionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    FusionActual(id_cambio);
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+            }
+        });
+        //Eliminar Licencia Anterior
+        $(document).on('click','.Licencia-Anterior-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('LicenciaAnteriorid');
+                let id_cambio = $('#cesionid').val();
+                console.log(id);
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TipoCesionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    CesionAnterior(id_cambio);
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+            }
+        });
+        //Eliminar Licencia Actual
+        $(document).on('click','.Licencia-Actual-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('LicenciaActualid');
+                let id_cambio = $('#licenciaid').val();
+                console.log(id);
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TipoLicenciaController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    LicenciaActual(id_cambio);
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+            }
+        });
+        //Eliminar Cesion Anterior
+        $(document).on('click','.Cesion-Anterior-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CesionAnteriorid');
+                let id_cambio = $('#cesionid').val();
+                console.log(id);
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TipoCesionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    CesionAnterior(id_cambio);
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+            }
+        });
+        //Eliminar Cesion Actual
+        $(document).on('click','.Cesion-Actual-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CesionActualid');
+                let id_cambio = $('#cesionid').val();
+                console.log(id);
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/TipoCesionController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    alert_float('success', "Eliminado Correctamente");
+                    CesionActual(id_cambio);
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+            }
+        });
+
         //Eliminar Nombre Anterior
         $(document).on('click','.Cambio-Nombre-Anterior-delete',function(){
             if (confirm("Quieres eliminar este registro?")){

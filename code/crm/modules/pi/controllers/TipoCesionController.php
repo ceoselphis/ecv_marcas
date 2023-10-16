@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TipoLicenciaController extends AdminController
+class TipoCesionController extends AdminController
 {
-    protected $models = ['TipoLicencia_model'];
+    protected $models = ['TipoCesion_model'];
 
     public function __construct()
     {
@@ -13,8 +13,8 @@ class TipoLicenciaController extends AdminController
     public function index($id = NULL)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
-        return $CI->load->view('anexos/index', ["anexos" => $CI->TipoLicencia_model->findAll()]);
+        $CI->load->model("TipoCesion_model");
+        return $CI->load->view('anexos/index', ["anexos" => $CI->TipoCesion_model->findAll()]);
     }
 
     /**
@@ -24,8 +24,8 @@ class TipoLicenciaController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
-        $fields = $CI->TipoLicencia_model->getFillableFields();
+        $CI->load->model("TipoCesion_model");
+        $fields = $CI->TipoCesion_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -52,16 +52,16 @@ class TipoLicenciaController extends AdminController
         return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
     }
 
-    public function EditLicencia(string $id = null){
+    public function EditCesion(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
-        $query =$CI->TipoLicencia_model->find($id);
+        $CI->load->model("TipoCesion_model");
+        $query =$CI->TipoCesion_model->find($id);
         echo json_encode($query);   
     }
 
-    // public function UpdateLicencia(string $id = null){
+    // public function UpdateCesion(string $id = null){
     //     $CI = &get_instance();
-    //     $CI->load->model("TipoLicencia_model");
+    //     $CI->load->model("TipoCesion_model");
     //     $data = $CI->input->post();
     //     if (!empty($data)){
     //         $insert = array(
@@ -76,7 +76,7 @@ class TipoLicenciaController extends AdminController
     //                     'comentarios' => $data['comentario'],
     //                 );
     //                 echo json_encode($insert);
-    //                 $query = $CI->TipoLicencia_model->update($id, $insert);
+    //                 $query = $CI->TipoCesion_model->update($id, $insert);
     //                 if (isset($query))
     //                 {
     //                     echo "Actualizado Correctamente";
@@ -115,21 +115,21 @@ class TipoLicenciaController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-    public function addLicenciaAnterior(){
+    public function addCesionAnterior(){
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
-        /*INSERT INTO `tbl_marcas_licenciantes`(`id`, `licencia_id`, `tipo_licenciante`, `propietario_id`)
-        */ 
-        $insert = array(
-            'licencia_id' => $data['id_cambio'],
-            'tipo_licenciante' => 1,
-            'propietario_id' => $data['propietarios'],
-        );
+        //INSERT INTO `tbl_marcas_cedentes_cesionarios`(`id`, `cedente_id`, `cesion_id`, `tipo_cedente`)
         
-        $CI->load->model("TipoLicencia_model");
+        $insert = array(
+            'cesion_id' => $data['id_cambio'],
+            'tipo_cedente' => 1,
+            'cedente_id' => $data['propietarios'],
+        );
+        echo "Prueba";
+        $CI->load->model("TipoCesion_model");
             try{
-                $query = $CI->TipoLicencia_model->insert($insert);
+                $query = $CI->TipoCesion_model->insert($insert);
                     if (isset($query)){
                         echo "Insertado Correctamente";
 
@@ -144,20 +144,21 @@ class TipoLicenciaController extends AdminController
             echo "No tiene Data";
         }
     }
-    public function addLicenciaActual(){
+    public function addCesionActual(){
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
         /*INSERT INTO `tbl_marcas_licenciantes`(`id`, `licencia_id`, `tipo_licenciante`, `propietario_id`)
         */ 
         $insert = array(
-            'licencia_id' => $data['id_cambio'],
-            'tipo_licenciante' => 2,
-            'propietario_id' => $data['propietarios'],
+            'cesion_id' => $data['id_cambio'],
+            'tipo_cedente' => 2,
+            'cedente_id' => $data['propietarios'],
         );
-        $CI->load->model("TipoLicencia_model");
+        echo "Prueba";
+        $CI->load->model("TipoCesion_model");
             try{
-                $query = $CI->TipoLicencia_model->insert($insert);
+                $query = $CI->TipoCesion_model->insert($insert);
                     if (isset($query)){
                         echo "Insertado Correctamente";
 
@@ -172,20 +173,20 @@ class TipoLicenciaController extends AdminController
             echo "No tiene Data";
         }
     }
-    public function showLicenciaAnterior(string $id = null){
+    public function showCesionAnterior(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
-        $marcas = $CI->TipoLicencia_model->findAllLicencia($id);
-       //INSERT INTO `tbl_marcas_licenciantes`(`id`, `licencia_id`, `tipo_licenciante`, `propietario_id`)
+        $CI->load->model("TipoCesion_model");
+        $marcas = $CI->TipoCesion_model->findAllCesion($id);
+       //INSERT INTO `tbl_marcas_cedentes_cesionarios`(`id`, `cedente_id`, `cesion_id`, `tipo_cedente`)
         //echo json_encode($marcas);
         $data = array();
         foreach ($marcas as $row){
-            if ($row['tipo_licenciante']==1){
+            if ($row['tipo_cedente']==1){
                 $data[] = array(
                 'id' => $row['id'],
-                'licencia' => $CI->TipoLicencia_model->BuscarLicencia($row['licencia_id']),
+                'cesion' => $CI->TipoCesion_model->BuscarCesion($row['cesion_id']),
                 'tipo' => 'Anterior',
-                'propietario' => $CI->TipoLicencia_model->BuscarPropietarios($row['propietario_id']),
+                'propietario' => $CI->TipoCesion_model->BuscarPropietarios($row['cedente_id']),
                 );
             }
         }
@@ -193,19 +194,19 @@ class TipoLicenciaController extends AdminController
 
     }
 
-    public function showLicenciaActual(string $id = null){
+    public function showCesionActual(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
-        $marcas = $CI->TipoLicencia_model->findAllLicencia($id);
-        //INSERT INTO `tbl_marcas_licenciantes`(`id`, `licencia_id`, `tipo_licenciante`, `propietario_id`)
+        $CI->load->model("TipoCesion_model");
+        $marcas = $CI->TipoCesion_model->findAllCesion($id);
+        //INSERT INTO `tbl_marcas_cedentes_cesionarios`(`id`, `cedente_id`, `cesion_id`, `tipo_cedente`)
         $data = array();
         foreach ($marcas as $row){
-            if ($row['tipo_licenciante']==2){
+            if ($row['tipo_cedente']==2){
                 $data[] = array(
-                'id' => $row['id'],
-                'licencia' => $CI->TipoLicencia_model->BuscarLicencia($row['licencia_id']),
-                'tipo' => 'Actual',
-                'propietario' => $CI->TipoLicencia_model->BuscarPropietarios($row['propietario_id']),
+                    'id' => $row['id'],
+                    'cesion' => $CI->TipoCesion_model->BuscarCesion($row['cesion_id']),
+                    'tipo' => 'Anterior',
+                    'propietario' => $CI->TipoCesion_model->BuscarPropietarios($row['cedente_id']),
                 );
             }
         }
@@ -214,18 +215,18 @@ class TipoLicenciaController extends AdminController
     }
 
 
-    public function UpdateTipoLicencia(string $id = null){
+    public function UpdateTipoCesion(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
+        $CI->load->model("TipoCesion_model");
         $data = $CI->input->post();
         echo json_encode($data);
         if (!empty($data)){
             $insert = array(
-                    'propietario_id' => $data['propietarios'],
+                    'cedente_id' => $data['propietarios'],
                     );
                     
                     echo json_encode($insert);
-                    $query = $CI->TipoLicencia_model->update($id, $insert);
+                    $query = $CI->TipoCesion_model->update($id, $insert);
                     echo json_encode($query);
                     if (isset($query))
                     {
@@ -241,7 +242,7 @@ class TipoLicenciaController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
+        $CI->load->model("TipoCesion_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
@@ -264,7 +265,7 @@ class TipoLicenciaController extends AdminController
         
         if($CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->TipoLicencia_model->getFillableFields();
+            $fields = $CI->TipoCesion_model->getFillableFields();
             $inputs = array();
             $labels = array();
             foreach($fields as $field)
@@ -293,7 +294,7 @@ class TipoLicenciaController extends AdminController
         else
         {
             //we sent the data to the model
-            $query = $CI->TipoLicencia_model->insert($data);
+            $query = $CI->TipoCesion_model->insert($data);
             if(isset($query))
             {
                 return redirect(admin_url('pi/MarcasDomicilioController/'));
@@ -318,9 +319,9 @@ class TipoLicenciaController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
+        $CI->load->model("TipoCesion_model");
         $CI->load->helper('url');
-        $query = $CI->TipoLicencia_model->find($id);
+        $query = $CI->TipoCesion_model->find($id);
         if(isset($query))
         {
             $labels = array('Id', 'Nombre del anexo');
@@ -339,7 +340,7 @@ class TipoLicenciaController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
+        $CI->load->model("TipoCesion_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
@@ -367,7 +368,7 @@ class TipoLicenciaController extends AdminController
         else
         {
             //We prepare the data 
-            $query = $CI->TipoLicencia_model->update($id, $data);
+            $query = $CI->TipoCesion_model->update($id, $data);
             if (isset($query))
             {
                 return redirect('pi/MarcasDomicilioController/');
@@ -382,9 +383,9 @@ class TipoLicenciaController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("TipoLicencia_model");
+        $CI->load->model("TipoCesion_model");
         $CI->load->helper('url');
-        $query = $CI->TipoLicencia_model->delete($id);
+        $query = $CI->TipoCesion_model->delete($id);
         if (isset($query)){
             echo "Eliminado Correctamente";
         }else {

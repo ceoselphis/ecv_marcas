@@ -453,6 +453,60 @@
             </div>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="list-content">
+            <a href="#EditarLicenciaanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="EditarLicenciaanterior">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right" >Añadir Licencia Anterior</button>
+                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead>
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Licencia</th>
+                                                    <th>Tipo de Licencia</th>
+                                                    <th>Propietario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                        </thead>
+                                            <tbody id = "body_Licencia_anterior">
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-md-12">
+        <div class="list-content">
+            <a href="#EditarLicenciaactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="EditarLicenciaactual">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id = "btnLicenciaActual" class="btn btn-primary pull-right"  >Añadir Licencia Actual</button>
+                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead>
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Licencia</th>
+                                                    <th>Tipo de Licencia</th>
+                                                    <th>Propietario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                        </thead>
+                                            <tbody id = "body_Licencia_actual">
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="editlicenciafrmsubmit" type="button" class="btn btn-primary">Editar</button>
@@ -611,6 +665,60 @@
             </div>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="list-content">
+            <a href="#EditarCesionanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion Anterior<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="EditarCesionanterior">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id="btnCesionAnterior" class="btn btn-primary pull-right" >Añadir Cesion Anterior</button>
+                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead>
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Cesion</th>
+                                                    <th>Tipo de Cesion</th>
+                                                    <th>Propietario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                        </thead>
+                                            <tbody id = "body_Cesion_anterior">
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-md-12">
+        <div class="list-content">
+            <a href="#EditarCesionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion Actual<i class="fa fa-chevron-down"></i></a>
+                <div class="collapse" id="EditarCesionactual">
+                    <div class="list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id = "btnCesionActual" class="btn btn-primary pull-right"  >Añadir Cesion Actual</button>
+                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead>
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Cesion</th>
+                                                    <th>Tipo de Cesion</th>
+                                                    <th>Propietario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                        </thead>
+                                            <tbody id = "body_Cesion_actual">
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="EditCesionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
@@ -1833,13 +1941,245 @@
             <input type="hidden" id="FusionAnterior_id">
             <div class="col-md-12">
                 <?php echo form_label('Propietario', 'propietario');?>
-                <?php echo form_dropdown(['id'=> 'Editarpropietarioscamnomanterior','name'=> 'Editarpropietarioscamnomanterior'], $solicitantes, '',['class' => 'form-control']);?>
+                <?php echo form_dropdown(['id'=> 'Editarpropietariosfusionanterior','name'=> 'Editarpropietariosfusionanterior'], $solicitantes, '',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCamNomAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
+        <button id="EditarFusionAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Añadir Licencia Actual Modal -->
+<div class="modal fade" id="LicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Licencia Actual</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+            <div class="col-md-12">
+                <?php echo form_label('Propietario', 'propietario');?>
+                <?php echo form_dropdown(['id'=> 'propietarioslicenciaactual','name'=> 'propietarioslicenciaactual'], $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="AñadirLicenciaActualfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Licencia Actual Modal -->
+<div class="modal fade" id="EditLicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Licencia Actual</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <input type="hidden" id="LicenciaActual_id">
+            <div class="col-md-12">
+                <?php echo form_label('Propietario', 'propietario');?>
+                <?php echo form_dropdown(['id'=> 'Editpropietarioslicenciaactual','name'=> 'Editpropietarioslicenciaactual'], $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="EditarLicenciaActualfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Añadir Licencia Anterior Modal -->
+<div class="modal fade" id="LicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Licencia Anterior</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+            <div class="col-md-12">
+                <?php echo form_label('Propietario', 'propietario');?>
+                <?php echo form_dropdown(['id'=> 'propietarioslicenciaanterior','name'=> 'propietarioslicenciaanterior'], $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="AñadirLicenciaAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Licencia Anterior Modal -->
+<div class="modal fade" id="EditarLicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Licencia Anterior</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <input type="hidden" id="LicenciaAnterior_id">
+            <div class="col-md-12">
+                <?php echo form_label('Propietario', 'propietario');?>
+                <?php echo form_dropdown(['id'=> 'Editarpropietarioslicenciaanterior','name'=> 'Editarpropietarioslicenciaanterior'], $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="EditarLicenciaAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Añadir Cesion Actual Modal -->
+<div class="modal fade" id="CesionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Cesion Actual</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+            <div class="col-md-12">
+                <?php echo form_label('Propietario', 'propietario');?>
+                <?php echo form_dropdown(['id'=> 'propietarioscesionactual','name'=> 'propietarioscesionactual'], $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="AñadirCesionActualfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Cesion Actual Modal -->
+<div class="modal fade" id="EditCesionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Cesion Actual</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <input type="hidden" id="CesionActual_id">
+            <div class="col-md-12">
+                <?php echo form_label('Propietario', 'propietario');?>
+                <?php echo form_dropdown(['id'=> 'Editpropietarioscesionactual','name'=> 'Editpropietarioscesionactual'], $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="EditarCesionActualfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Añadir Cesion Anterior Modal -->
+<div class="modal fade" id="CesionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Cesion Anterior</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+            <div class="col-md-12">
+                <?php echo form_label('Propietario', 'propietario');?>
+                <?php echo form_dropdown(['id'=> 'propietarioscesionanterior','name'=> 'propietarioscesionanterior'], $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="AñadirCesionAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Cesion Anterior Modal -->
+<div class="modal fade" id="EditarCesionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Cesion Anterior</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <input type="hidden" id="CesionAnterior_id">
+            <div class="col-md-12">
+                <?php echo form_label('Propietario', 'propietario');?>
+                <?php echo form_dropdown(['id'=> 'Editarpropietarioscesionanterior','name'=> 'Editarpropietarioscesionanterior'], $solicitantes, '',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="EditarCesionAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>

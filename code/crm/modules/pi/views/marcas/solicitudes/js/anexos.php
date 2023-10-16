@@ -24,6 +24,61 @@
         // });
         
         // ---------------------------------- Mostrar Anexo -----------------------------------------------
+        //Licencia Actual
+        function LicenciaActual(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaActual/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    listadomicilio.forEach(item => {
+                        body += `<tr FusionActualid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.fusion}</td>
+                                    <td class="text-center">${item.tipo}</td>
+                                    <td class="text-center">${item.propietario}</td>
+                                        <td class="text-center">
+                                            <a class=" btn btn-light" id ="EditbtnLicenciaActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="Licencia-Actual-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+                        });
+                        $('#body_Licencia_actual').html(body);     
+                })
+        }
+        // Licencia Anterior
+        function LicenciaAnterior(id_cambio){
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaAnterior/");?>';
+            url = url+id_cambio;
+            console.log(url);
+            let body= ``;
+                $.get(url, function(response){
+                    let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
+                    // listadomicilio.forEach(item => {
+                    //     body += `<tr FusionAnteriorid = "${item.id}"> 
+                    //                 <td class="text-center">${item.id}</td>
+                    //                 <td class="text-center">${item.fusion}</td>
+                    //                 <td class="text-center">${item.tipo_participante}</td>
+                    //                 <td class="text-center">${item.propietario}</td>
+                    //                     <td class="text-center">
+                    //                         <a class="btn btn-light" style= "background-color: white;" 
+                    //                         id ="EditbtnFusionAnterior" ><i class="fas fa-edit"></i>Editar</a>
+                    //                         <button class="Fusion-Anterior-delete btn btn-danger">
+                    //                         <i class="fas fa-trash"></i>Borrar
+                    //                         </button>
+                    //                     </td>
+                    //             </tr>
+                    //         `
+                    //     });
+                    //     $('#body_Licencia_anterior').html(body);     
+                })
+        }
          //Fusion Actual
          function FusionActual(id_cambio){
             let url = '<?php echo admin_url("pi/TipoFusionController/showFusionActual/");?>';
@@ -471,6 +526,8 @@
             $('#editcomentariolicencia').val(licencia[0]['comentarios']);
             
             })
+            LicenciaActual(id);
+            LicenciaAnterior(id);
         })
 
                //Modal Edit Fusion

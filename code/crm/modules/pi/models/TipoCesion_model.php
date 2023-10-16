@@ -3,10 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require __DIR__ . '/BaseModel.php';
 
-class TipoLicencia_model extends BaseModel
+class TipoCesion_model extends BaseModel
 {
     protected $primaryKey = 'id';
-    protected $tableName =  'tbl_marcas_licenciantes';
+    protected $tableName =  'tbl_marcas_cedentes_cesionarios';
     protected $DBgroup = 'default';
     
     public function __construct()
@@ -27,9 +27,9 @@ class TipoLicencia_model extends BaseModel
         return array_combine($keys, $values); 
     }
 
-    public function BuscarLicencia($id = NULL){
+    public function BuscarCesion($id = NULL){
         $this->db->select('*');
-        $this->db->from('tbl_marcas_licencia');
+        $this->db->from('tbl_marcas_cesiones');
         $this->db->where('id = '.$id);
         $query = $this->db->get();
         $values = $query->result_array();
@@ -54,10 +54,10 @@ class TipoLicencia_model extends BaseModel
         return $values[0]['nombre']; 
     }
 
-    public function findAllLicencia($id = NULL){
+    public function findAllCesion($id = NULL){
         $this->db->select('*');
-        $this->db->from('tbl_marcas_licenciantes');
-        $this->db->where('licencia_id = '.$id);
+        $this->db->from('tbl_marcas_cedentes_cesionarios');
+        $this->db->where('cesion_id = '.$id);
         $query = $this->db->get();
         $values = $query->result_array();
         return $values; 

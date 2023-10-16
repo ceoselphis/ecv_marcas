@@ -602,7 +602,7 @@ class MarcasSolicitudesController extends AdminController
                         'certificado' => $row['certificado'],
                         'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
                         'pais' => $row['pais_nom'],
-                        'acciones' => '<a href="'.admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']).'"><i class="fas fa-edit"></i> Editar</a>',
+                        'acciones' => '<button href="'.admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']).'"><i class="fas fa-edit"></i> Editar</>',
                     ];
                 }
                 echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   
@@ -650,7 +650,8 @@ class MarcasSolicitudesController extends AdminController
 
                 $result[] = [
                     'clase'         => $row['nombre'],
-                    'descripcion'   => $row['descripcion']
+                    'descripcion'   => $row['descripcion'],
+                    'acciones' => '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#claseNizaEditModal"><i class="fas fa-edit"></i> Editar</button> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#claseNizaEditModal"><i class="fas fa-edit"></i> Borrar</button>',
                 ];
             }
         }

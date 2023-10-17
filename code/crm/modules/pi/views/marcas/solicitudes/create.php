@@ -144,7 +144,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                 <div class="collapse" id="clase_marcas">
                                                     <div class="list-box">
                                                         <div class="row">
-                                                            <div class="col-md-12">
+                                                            <div class="col-12">
                                                                 <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
                                                                 <table id="claseTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
@@ -222,7 +222,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
                                                         </div>
                                                         <div class="col-12" style="padding: 1% 1% 1% 0%;">    
-                                                            <table class="table table-responsive table-dark">
+                                                            <table id="prioridadTbl" class="table table-responsive table-dark">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Fecha</th>
@@ -334,12 +334,13 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
-                                                                <table id="prioridadTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <table id="publicacionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Fecha</th>
-                                                                            <th>Pais</th>
-                                                                            <th>Número</th>
+                                                                            <th>Boletin</th>
+                                                                            <th>Tomo</th>
+                                                                            <th>Pagina</th>
                                                                             <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>

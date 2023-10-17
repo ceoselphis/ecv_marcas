@@ -466,7 +466,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddLicencia">Añadir licencia</button>
+                                                                <button type="button" class="btn btn-primary pull-right" id="AddLicenciaAbrirModal" data-toggle="modal" data-target="#AddLicencia">Añadir licencia</button>
                                                                 <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>

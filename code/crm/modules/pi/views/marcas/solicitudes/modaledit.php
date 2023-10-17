@@ -318,66 +318,139 @@
       </div>
       <div class="modal-body">
         <div class="row">
-        <input type="hidden" id="licenciaid">
-        <div class="col-md-3">
-                <?php echo form_label('Cliente', 'cliente');?>
-                <?php echo form_dropdown(['name'=>'clientelicencia','id'=>'clientelicencia'], $clientes, '',['class' => 'form-control']);?>
+          <div class="wizard">
+            <div class="wizard-inner">
+              <div class="connecting-line"></div>
+                <ul class="nav nav-tabs" role="tablist" style="display:flex">
+                  <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
+                      <a href="#editlicenciastep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Licencia</i></a>
+                  </li>
+                  <li role="presentation" >
+                      <a href="#gia " data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Licencia Anterior y Actual</i></a>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficina');?>
-             
-                <?php echo form_dropdown(['name'=>'oficinalicencia','id'=>'oficinalicencia'], $oficinas, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Staff', 'staff');?>  
-                <?php echo form_dropdown(['name'=>'stafflicencia','id'=>'stafflicencia'], $responsable, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Estado', 'estado');?>
-                <?php echo form_dropdown(['name'=>'estadolicencia','id'=>'estadolicencia'], $estados_solicitudes, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
-                <?php echo form_input(['name'=>'nro_solicitudlicencia','id'=>'nro_solicitudlicencia','class' => 'form-control'])?>
-            </div>
-            <div class="col-md-3" style="margin-top:10px">
-            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitudlicencia');?>
-            <?php echo form_input([
+            <div class="tab-content" id="main_form">
+              <!-- Step 1 -->
+                <div class="tab-pane active" role="tabpanel" id="editlicenciastep1">
+                  <input type="hidden" id="licenciaid">
+                  <div class="col-md-3">
+                    <?php echo form_label('Cliente', 'cliente');?>
+                    <?php echo form_dropdown(['name'=>'clientelicencia','id'=>'clientelicencia'], $clientes, '',['class' => 'form-control']);?>
+                  </div>
+                  <div class="col-md-3">
+                    <?php echo form_label('Oficina', 'oficina');?>
+                    <?php echo form_dropdown(['name'=>'oficinalicencia','id'=>'oficinalicencia'], $oficinas, '',['class' => 'form-control']   );?>
+                  </div>
+                  <div class="col-md-3">
+                    <?php echo form_label('Staff', 'staff');?>  
+                    <?php echo form_dropdown(['name'=>'stafflicencia','id'=>'stafflicencia'], $responsable, '',['class' => 'form-control']);?>
+                  </div>
+                  <div class="col-md-3">
+                    <?php echo form_label('Estado', 'estado');?>
+                    <?php echo form_dropdown(['name'=>'estadolicencia','id'=>'estadolicencia'], $estados_solicitudes, '',['class' => 'form-control']);?>
+                  </div>
+                  <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                    <?php echo form_input(['name'=>'nro_solicitudlicencia','id'=>'nro_solicitudlicencia','class' => 'form-control'])?>
+                  </div>
+                  <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Fecha de Solicitud', 'fecha_solicitudlicencia');?>
+                    <?php echo form_input([
                                             'id' => 'fecha_solicitudlicencia',
                                             'name' => 'fecha_solicitudlicencia',
                                             'class' => 'form-control calendar',
                                             'value' => set_value('fecha_solicitudlicencia'),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
-            </div>   
-            <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
-                <?php echo form_input(['name'=>'nro_resolucionlicencia','id'=>'nro_resolucionlicencia','class' => 'form-control'])?>
-               
-            </div>
-            <div class="col-md-3" style="margin-top:10px">
-            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionlicencia');?>
-            <?php echo form_input([
+                  </div>   
+                  <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                    <?php echo form_input(['name'=>'nro_resolucionlicencia','id'=>'nro_resolucionlicencia','class' => 'form-control'])?>
+                  </div>
+                  <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionlicencia');?>
+                    <?php echo form_input([
                                             'id' => 'fecha_resolucionlicencia',
                                             'name' => 'fecha_resolucionlicencia',
                                             'class' => 'form-control calendar',
                                             'value' => set_value('fecha_resolucionlicencia'),
                                             'placeholder' => 'Fecha Resolucion'
                                         ]);?>
-            </div> 
-            <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
-                <?php echo form_input(['name'=>'referenciaclientelicencia','id'=>'referenciaclientelicencia'],'',['class' => 'form-control']);?>
+                  </div> 
+                  <div class="col-md-12" style="margin-top:10px">
+                    <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                    <?php echo form_input(['name'=>'referenciaclientelicencia','id'=>'referenciaclientelicencia'],'',['class' => 'form-control']);?>
+                  </div>
+                  <div class="col-md-12" style="margin-top:10px">
+                    <?php echo form_label('Comentario', 'comentario');?>
+                    <?php echo form_textarea(['name'=>'comentariolicencia','id'=>'comentariolicencia'],'',['class' => 'form-control']);?>
+                  </div>
+                </div> <!--fin step 1-->
+                <!-- Step 2 -->
+                <div class="tab-pane" role="tabpanel" id="editlicenciastep2">
+                    <div class="col-md-12">
+                      <div class="list-content">
+                          <a href="#AddLicenciaanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                              <div class="collapse" id="AddLicenciaanterior">
+                                  <div class="list-box">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right" >Añadir Licencia Anterior</button>
+                                                  <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                    <thead>
+                                                      <tr>
+                                                          <th>Nº</th>
+                                                          <th>Licencia</th>
+                                                          <th>Tipo de Licencia</th>
+                                                          <th>Propietario</th>
+                                                          <th>Acciones</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody id = "body_add_Licencia_anterior">
+                                                    </tbody>
+                                                  </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                <div class="col-md-12">
+                  <div class="list-content">
+                      <a href="#AddLicenciaactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                          <div class="collapse" id="AddLicenciaactual">
+                              <div class="list-box">
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <button type="button" id = "btnLicenciaActual" class="btn btn-primary pull-right"  >Añadir Licencia Actual</button>
+                                              <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                <thead>
+                                                  <tr>
+                                                      <th>Nº</th>
+                                                      <th>Licencia</th>
+                                                      <th>Tipo de Licencia</th>
+                                                      <th>Propietario</th>
+                                                      <th>Acciones</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody id = "body_add_Licencia_actual">
+                                                </tbody>
+                                              </table>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                  </div>
+                </div>   <!--Fin Step 2-->                 
+              </div> <!--Panel Body-->
             </div>
-            <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Comentario', 'comentario');?>
-                <?php echo form_textarea(['name'=>'comentariolicencia','id'=>'comentariolicencia'],'',['class' => 'form-control']);?>
-            </div>
-        </div>
-      </div>
+    </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="addlicenciafrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="EditlicenciaAbrirModalfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>
@@ -388,125 +461,145 @@
 <div class="modal fade" id="EditLicencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Editar Licencia</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">Editar Licencia</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-        <input type="hidden" id="licenciaid">
-        <div class="col-md-3">
-                <?php echo form_label('Cliente', 'cliente');?>
-                <?php echo form_dropdown(['name'=>'editclientelicencia','id'=>'editclientelicencia'], $clientes, '',['class' => 'form-control']);?>
+          </button>
+        </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="wizard">
+          <div class="wizard-inner">
+            <div class="connecting-line"></div>
+              <ul class="nav nav-tabs" role="tablist" style="display:flex">
+                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#licenciastep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Licencia</i></a>
+                </li>
+                <li role="presentation" >
+                    <a href="#licenciastep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Licencia Anterior y Actual</i></a>
+                </li>
+              </ul>
             </div>
-            <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficina');?>
-             
-                <?php echo form_dropdown(['name'=>'editoficinalicencia','id'=>'editoficinalicencia'], $oficinas, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Staff', 'staff');?>  
-                <?php echo form_dropdown(['name'=>'editstafflicencia','id'=>'editstafflicencia'], $responsable, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Estado', 'estado');?>
-                <?php echo form_dropdown(['name'=>'editestadolicencia','id'=>'editestadolicencia'], $estados_solicitudes, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
-                <?php echo form_input(['name'=>'editnro_solicitudlicencia','id'=>'editnro_solicitudlicencia','class' => 'form-control'])?>
-            </div>
-            <div class="col-md-3" style="margin-top:10px">
-            <?php echo form_label('Fecha de Solicitud', 'fecha_solicitud');?>
-            <?php echo form_input([
+          </div>
+            <div class="tab-content" id="main_form">
+              <!-- Step 1 -->
+              <div class="tab-pane active" role="tabpanel" id="licenciastep1">
+                <input type="hidden" id="licenciaid">
+                <div class="col-md-3">
+                  <?php echo form_label('Cliente', 'cliente');?>
+                  <?php echo form_dropdown(['name'=>'editclientelicencia','id'=>'editclientelicencia'], $clientes, '',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-3">
+                  <?php echo form_label('Oficina', 'oficina');?>
+                  <?php echo form_dropdown(['name'=>'editoficinalicencia','id'=>'editoficinalicencia'], $oficinas, '',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-3">
+                    <?php echo form_label('Staff', 'staff');?>  
+                    <?php echo form_dropdown(['name'=>'editstafflicencia','id'=>'editstafflicencia'], $responsable, '',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-3">
+                    <?php echo form_label('Estado', 'estado');?>
+                    <?php echo form_dropdown(['name'=>'editestadolicencia','id'=>'editestadolicencia'], $estados_solicitudes, '',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
+                    <?php echo form_input(['name'=>'editnro_solicitudlicencia','id'=>'editnro_solicitudlicencia','class' => 'form-control'])?>
+                </div>
+                <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Fecha de Solicitud', 'fecha_solicitud');?>
+                    <?php echo form_input([
                                             'id' => 'editfecha_solicitudlicencia',
                                             'name' => 'editfecha_solicitudlicencia',
                                             'class' => 'form-control calendar',
                                             'value' => set_value('fecha_solicitud'),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
-            </div>   
-            <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
-                <?php echo form_input(['name'=>'editnro_resolucionlicencia','id'=>'editnro_resolucionlicencia','class' => 'form-control'])?>
+                </div>   
+                <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Nº de Resolucion	', 'nro_resolucion');?>
+                    <?php echo form_input(['name'=>'editnro_resolucionlicencia','id'=>'editnro_resolucionlicencia','class' => 'form-control'])?>
                
-            </div>
-            <div class="col-md-3" style="margin-top:10px">
-            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucion');?>
-            <?php echo form_input([
+                </div>
+                <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucion');?>
+                <?php echo form_input([
                                             'id' => 'editfecha_resolucionlicencia',
                                             'name' => 'editfecha_resolucionlicencia',
                                             'class' => 'form-control calendar',
                                             'value' => set_value('fecha_solicitud'),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
-            </div> 
-            <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
-                <?php echo form_input(['name'=>'editreferenciaclientelicencia','id'=>'editreferenciaclientelicencia'],'',['class' => 'form-control']);?>
+                </div> 
+                <div class="col-md-12" style="margin-top:10px">
+                    <?php echo form_label('Referencia Cliente', 'referenciacliente');?>
+                    <?php echo form_input(['name'=>'editreferenciaclientelicencia','id'=>'editreferenciaclientelicencia'],'',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-12" style="margin-top:10px">
+                    <?php echo form_label('Comentario', 'comentario');?>
+                    <?php echo form_textarea(['name'=>'editcomentariolicencia','id'=>'editcomentariolicencia'],'',['class' => 'form-control']);?>
+                </div>
+              </div> <!--fin step 1-->
+            <!-- Step 2 -->
+            <div class="tab-pane" role="tabpanel" id="licenciastep2">
+              <div class="col-md-12">
+                <div class="list-content">
+                    <a href="#EditarLicenciaanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                        <div class="collapse" id="EditarLicenciaanterior">
+                            <div class="list-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right" >Añadir Licencia Anterior</button>
+                                            <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                <thead>
+                                                        <tr>
+                                                            <th>Nº</th>
+                                                            <th>Licencia</th>
+                                                            <th>Tipo de Licencia</th>
+                                                            <th>Propietario</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                </thead>
+                                                    <tbody id = "body_Licencia_anterior">
+                                                    </tbody>
+                                                </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
-            <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Comentario', 'comentario');?>
-                <?php echo form_textarea(['name'=>'editcomentariolicencia','id'=>'editcomentariolicencia'],'',['class' => 'form-control']);?>
+            <div class="col-md-12">
+                <div class="list-content">
+                    <a href="#EditarLicenciaactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                        <div class="collapse" id="EditarLicenciaactual">
+                            <div class="list-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" id = "btnLicenciaActual" class="btn btn-primary pull-right">Añadir Licencia Actual</button>
+                                            <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                <thead>
+                                                        <tr>
+                                                            <th>Nº</th>
+                                                            <th>Licencia</th>
+                                                            <th>Tipo de Licencia</th>
+                                                            <th>Propietario</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                </thead>
+                                                    <tbody id = "body_Licencia_actual">
+                                                    </tbody>
+                                                </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+          </div> <!--fin Step2-->
       </div>
-      <div class="col-md-12">
-        <div class="list-content">
-            <a href="#EditarLicenciaanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
-                <div class="collapse" id="EditarLicenciaanterior">
-                    <div class="list-box">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right" >Añadir Licencia Anterior</button>
-                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                        <thead>
-                                                <tr>
-                                                    <th>Nº</th>
-                                                    <th>Licencia</th>
-                                                    <th>Tipo de Licencia</th>
-                                                    <th>Propietario</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                        </thead>
-                                            <tbody id = "body_Licencia_anterior">
-                                            </tbody>
-                                        </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-    <div class="col-md-12">
-        <div class="list-content">
-            <a href="#EditarLicenciaactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
-                <div class="collapse" id="EditarLicenciaactual">
-                    <div class="list-box">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="button" id = "btnLicenciaActual" class="btn btn-primary pull-right"  >Añadir Licencia Actual</button>
-                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                        <thead>
-                                                <tr>
-                                                    <th>Nº</th>
-                                                    <th>Licencia</th>
-                                                    <th>Tipo de Licencia</th>
-                                                    <th>Propietario</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                        </thead>
-                                            <tbody id = "body_Licencia_actual">
-                                            </tbody>
-                                        </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
     </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

@@ -106,7 +106,9 @@
                                 </tr>
                             `
                         });
-                        $('#body_Licencia_actual').html(body);     
+                        $('#body_Licencia_actual').html(body);  
+                        $('#body_add_Licencia_anterior').html(body);     
+                        
                 })
         }
         // Licencia Anterior
@@ -134,7 +136,8 @@
                                 </tr>
                             `
                         });
-                        $('#body_Licencia_anterior').html(body);     
+                        $('#body_Licencia_anterior').html(body);   
+                        ('#body_add_Licencia_actual').html(body);    
                 })
         }
         
@@ -785,6 +788,7 @@
         }
 
         //----------------------------------- Modad Para Añadir, Editar y Eliminar -----------------------------------------------
+           
             //Alerta Error para cambio de domicilio Actual
             $(document).on('click','#Alertacambio_domicilioactual',function(e){
                 e.preventDefault();
@@ -1091,13 +1095,13 @@
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
         });
-            //Añadir Cesion Anterior  ---------------------------------------------------------------------------
-            $(document).on('click','#AñadirCesionAnteriorfrmsubmit',function(e){
+            //Añadir Licencia Anterior  ---------------------------------------------------------------------------
+            $(document).on('click','#AñadirLicenciaAnteriorfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id_cambio = $('#cesionid').val();
-            var propietarios =  $('#propietarioscesionanterior').val();
+            var id_cambio = $('#licenciaid').val();
+            var propietarios =  $('#propietarioslicenciaanterior').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('id_cambio',id_cambio);
             formData.append('propietarios',propietarios);
@@ -1105,7 +1109,7 @@
             console.log('id_cambio',id_cambio);
             console.log('propietarios',propietarios);
             console.log('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/addLicenciaAnterior");?>'
             $.ajax({
                 url,
                 method: 'POST',
@@ -1115,26 +1119,26 @@
             }).then(function(response){
                 console.log(response);
                  alert_float('success', "Insertado Correctamente");
-                 $("#CesionAnteriorModal").modal('hide');
-                 $("#EditCesion").modal('show');
-                 CesionAnterior(id_cambio);
+                 $("#LicenciaAnteriorModal").modal('hide');
+                 $("#EditLicencia").modal('show');
+                 LicenciaAnterior(id_cambio);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
         });
-          //Editar Cesion Anterior  ---------------------------------------------------------------------------
-          $(document).on('click','#EditarCesionAnteriorfrmsubmit',function(e){
+          //Editar Licencia Anterior  ---------------------------------------------------------------------------
+          $(document).on('click','#EditarLicenciaAnteriorfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id = $('#CesionAnterior_id').val();
+            var id = $('#LicenciaAnterior_id').val();
             console.log("id de Cesion anterior", id );
-            var id_cambio = $('#cesionid').val();
-            var propietarios =  $('#Editarpropietarioscesionanterior').val();
+            var id_cambio = $('#licenciaid').val();
+            var propietarios =  $('#Editarpropietarioslicenciaanterior').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCesionController/UpdateTipoCesion/");?>';
+            let url = '<?php echo admin_url("pi/TipoLicenciaController/UpdateTipoLicencia/");?>';
             url = url+id;
             console.log(url);
             $.ajax({
@@ -1146,9 +1150,9 @@
             }).then(function(response){
                 console.log(response);
                 alert_float('success', "Actualizado Correctamente");
-                $("#EditarCesionAnteriorModal").modal('hide');
-                $("#EditCesion").modal('show');
-                CesionAnterior(id_cambio);
+                $("#EditarLicenciaAnteriorModal").modal('hide');
+                $("#EditLicencia").modal('show');
+                LicenciaAnterior(id_cambio);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
@@ -1668,6 +1672,85 @@
                 alert_float('success', "Actualizado Correctamente");
                 $("#EditCesion").modal('hide');
                 Cesion()
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        });
+        //Añadir Licencia Cuando Abre el Modal
+        $(document).on('click','#AddLicenciaAbrirModal',function(e){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
+                const id_marcas = '<?php echo $id?>';
+                const csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('id_marcas',id_marcas);
+                formData.append('csrf_token_name', csrf_token_name);
+                console.log('id_marcas',id_marcas);
+                console.log('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/LicenciaController/addLicenciaShowModal");?>';
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    console.log("response ",response);
+                    $('#licenciaid').val(response);
+                    LicenciaActual(response);
+                    LicenciaAnterior(response);
+
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+                
+
+        });
+
+          //Editar Licencia Cuando Abre el Modal---------------------------------------------------------------------------
+          $(document).on('click','#EditlicenciaAbrirModalfrmsubmit',function(e){
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#licenciaid').val();
+            //const id_marcas = '<?php //echo $id?>';
+            var cliente =  $('#clientelicencia').val();
+            var oficina = $('#oficinalicencia').val();
+            var staff =  $('#stafflicencia').val();
+            var estado =  $('#estadolicencia').val();
+            var nro_solicitud =  $('#nro_solicitudlicencia').val();
+            var fecha_solicitud = $('#fecha_solicitudlicencia').val();
+            var nro_resolucion =  $('#nro_resolucionlicencia').val();
+            var fecha_resolucion = $('#fecha_resolucionlicencia').val();
+            var referenciacliente =  $('#referenciaclientelicencia').val();
+            var comentario =  $('#comentariolicencia').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            //formData.append('id_marcas',id_marcas);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/LicenciaController/UpdateLicencia/");?>'
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                $("#AddLicencia").modal('hide');
+                Licencia();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });

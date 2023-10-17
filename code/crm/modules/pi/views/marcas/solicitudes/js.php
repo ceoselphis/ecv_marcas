@@ -1103,30 +1103,7 @@
         });
 
 
-        $("#prioridadfrmsubmit").on('click', function(e){
-            e.preventDefault();
-            data = {
-                'pais_prioridad' : $("select[name=pais_prioridad").val(),
-                'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
-                'nro_prioridad'  : $("input[name=nro_prioridad").val(),
-                'solicitud_id'   : $("input[name=solicitud_id").val(),
-            }
-            $.ajax({
-                url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>',
-                method: 'POST',
-                data : data
-            }).then(function(response){
-                new DataTable("#prioridadTbl", {
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                    ajax: JSON.parse(response.data),
-                }
-                });
-                $("#prioridadModal").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar una prioridad sin registro de la solicitud");
-            });
-        });
+        
 
         
 
@@ -1352,3 +1329,180 @@
             });
         }
     </script>
+
+    <script>
+        function TablaPrioridad()
+        {
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                method: "GET",
+                success: function(response)
+                {
+                    table = JSON.parse(response);
+                    $("#prioridadTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: table,
+                        destroy: true,
+                        dataSrc: '',
+                        columns : [
+                            { data: 'fecha_prioridad'},
+                            { data: 'nombre'},
+                            { data: 'numero'},
+                            { data: 'acciones'},
+                        ],
+                        width: "100%"
+                    });
+                }
+            })
+        }
+    </script>
+
+    <script>
+        $("#prioridadfrmsubmit").on('click', function(e){
+            e.preventDefault();
+            data = {
+                'pais_prioridad' : $("select[name=pais_prioridad").val(),
+                'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
+                'nro_prioridad'  : $("input[name=nro_prioridad").val(),
+                'solicitud_id'   : $("input[name=solicitud_id").val(),
+            }
+            $.ajax({
+                url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>',
+                method: 'POST',
+                data : data,
+                success: function(response)
+                {
+                    TablaPrioridad();
+                    $("#prioridadModal").modal('hide');
+                    alert_float('success', 'Registro guardado exitosamente');
+                }
+            });
+        });
+    </script>
+
+    <script> 
+        $(document).on('click', '.borrarPrioridad',function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            if(confirm("¿Esta seguro de eliminar este registro?"))
+            {
+                $.ajax({
+                    url: "<?php echo admin_url("pi/MarcasPrioridadController/destroy/");?>"+id,
+                    method:"POST",
+                    success: function(response)
+                    {
+                        alert_float('success', 'Registro eliminado exitosamente');
+                    }
+                });
+            }
+            TablaPrioridad();
+        });
+    </script>
+
+    <script>
+        $(document).on('click', "#publicacionfrmsubmit", function(e)
+        {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var data = {
+                "tipo_publicacion"   : $("select[name=tipo_publicacion]").val(),
+                "boletin_publicacion": $("select[name=boletin_publicacion]").val(),
+                "tomo_publicacion"   : $("input[name=tomo_publicacion]").val(),
+                "pag_publicacion"    : $("input[name=pag_publicacion]").val(),
+                "csrf_token_name"    : $("input[name=csrf_token_name]").val()
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/'.$id);?>",
+                method: "POST",
+                data: data,
+                success: function(response)
+                {
+                    alert_float('success', 'Publicacion cargada exitosamente');
+                    $("#publicacionModal").modal('hide');
+                }
+            });
+            TablaPublicacion();
+        });
+    </script>
+
+    <script>
+        function TablaPublicacion()
+        {
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
+                method: "POST",
+                success: function(response)
+                {
+                    res = JSON.parse(response);
+                    console.log(res.data);
+                    $("#publicacionTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: res.data,
+                        destroy: true,
+                        dataSrc: '',
+                        columns : [
+                            { data: 'fecha'},
+                            { data: 'boletin_id'},
+                            { data: 'tomo'},
+                            { data: 'pagina'},
+                            { data: 'acciones'},
+                        ],
+                        width: "100%"
+                    });
+                }
+            })
+        }
+    </script>
+
+    <script> 
+        $(document).on('click', '.editPublicacion', function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/getPublicaciones/');?>"+id,
+                method: "POST",
+                success: function(response)
+                {
+                    res = JSON.parse(response);
+                    console.log(res);
+                    $("select[name=tipo_publicacion_edit]").val(res.data.tipo_pub_id);
+                    $("select[name=boletin_publicacion_edit]").val(res.data.boletin_id);
+                    $("input[name=tomo_publicacion_edit]").val(res.data.tomo);
+                    $("input[name=pag_publicacion_edit]").val(res.data.pagina);
+                    $("input[name=marcas_id_edit]").val(res.data.marcas_id);
+                }                
+            });
+            $("#publicacionEditModal").modal('show');
+            TablaPublicacion();
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.deletePublicacion' ,function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var id = $(this).attr('id');
+            if(confirm("¿Desea eliminar este registro?"))
+            {
+                $.ajax({
+                    url: "<?php admin_url('pi/PublicacionesMarcasController/updatePublicacionByMarca');?>",
+                    method: "POST",
+                    success: function(response)
+                    {
+                        alert_float('success', 'Registro eliminado exitosamente');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        
+    </script>
+

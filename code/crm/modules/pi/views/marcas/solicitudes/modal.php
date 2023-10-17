@@ -100,6 +100,7 @@
 <!-- Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
+    <?php echo form_hidden('solicitud_id', set_value('solicitud_id', $id));?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -212,8 +213,8 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-3">
-                <?php echo form_label('Tipo', 'pais_publicacion');?>
-                <?php echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
+                <?php echo form_label('Tipo Publicacion', 'tipo_publicacion');?>
+                <?php echo form_dropdown('tipo_publicacion', $tipo_publicacion, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Boletin', 'boletin_publicacion');?>
@@ -221,11 +222,52 @@
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Tomo', 'tomo_publicacion');?>
-                <?php echo form_input('tomo_publicacion','',['class' => 'form-control']);?>
+                <?php echo form_input('tomo_publicacion',set_value("tomo_publicacion", ''),['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Página', 'pag_publicacion');?>
-                <?php echo form_input('pag_publicacion','',['class' => 'form-control']);?>
+                <?php echo form_input('pag_publicacion',set_value('tomo_publicacion', ''),['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="publicacionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Publicacion Edit Modal -->
+<div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionEditFrm']);?>
+    <?php echo form_hidden("marcas_id_edit", set_value('marcas_id_edit', ''));?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Publicacion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-3">
+                <?php echo form_label('Tipo Publicacion', 'tipo_publicacion_edit');?>
+                <?php echo form_dropdown('tipo_publicacion_edit', $tipo_publicacion, set_value('tipo_publicacion_edit', '') , ['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Boletin', 'boletin_publicacion_edit');?>
+                <?php echo form_dropdown('boletin_publicacion_edit', $boletines, set_value('boletin_publicacion_edit') , ['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Tomo', 'tomo_publicacion_edit');?>
+                <?php echo form_input('tomo_publicacion_edit',set_value("tomo_publicacion_edit", ''),['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Página', 'pag_publicacion_edit');?>
+                <?php echo form_input('pag_publicacion_edit',set_value('tomo_publicacion_edit', ''),['class' => 'form-control']);?>
             </div>
         </div>
       </div>

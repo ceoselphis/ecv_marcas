@@ -224,7 +224,7 @@ class MarcasPrioridadController extends AdminController
         try
         {
             $CI->MarcasPrioridad_model->insert($insert);
-            echo json_encode(['code' => 200, 'message' => 'Guardado Exitosamente']);
+            echo json_encode(['code' => 200, 'message' => 'success']);
         } catch (Exception $e){
             return $e;
         }
@@ -243,9 +243,7 @@ class MarcasPrioridadController extends AdminController
                 'fecha_prioridad' => $this->flip_dates($row['fecha_prioridad']),
                 'nombre' => $row['nombre'],
                 'numero' => $row['numero_prioridad'],
-                'acciones' => '<form method="DELETE" action="'.admin_url('pi/MarcasPrioridadController/destroy/'.$row['id']).'" onsubmit="confirm("¿Esta seguro de eliminar este registro?")">
-                                    <button type="submit" class="btn btn-danger deletePrioridad"><i class="fas fa-trash"></i>Borrar</button>
-                               </form>',
+                'acciones' => '<button id="'.$row['id'].'" class="btn btn-danger borrarPrioridad"><i class="fas fa-trash"></i> Borrar</button>',
             ];
         }
         echo json_encode($response);

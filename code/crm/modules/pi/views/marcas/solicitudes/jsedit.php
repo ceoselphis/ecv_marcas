@@ -624,6 +624,28 @@
             CesionAnterior(id);
         })
 
+        function InformacionLicencia(id){
+            let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
+            let licencia =JSON.parse(response);
+            $('#licenciaid').val(licencia[0]['id']);
+            $('#editclientelicencia').val(licencia[0]['client_id']);
+            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
+            $('#editstafflicencia').val(licencia[0]['staff_id']);
+            $('#editestadolicencia').val(licencia[0]['estado_id']);
+            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
+            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
+            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
+            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
+            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
+            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
+            
+            })
+            LicenciaActual(id);
+            LicenciaAnterior(id);
+        }
+
            //Modal Edit Licencia
            $(document).on('click','.EditLicencia',function(){
             let element = $(this)[0].parentElement.parentElement;
@@ -788,7 +810,13 @@
         }
 
         //----------------------------------- Modad Para Añadir, Editar y Eliminar -----------------------------------------------
-           
+        
+            $(document).on('click','#AñadirFusion',function(e){
+                e.preventDefault();
+                console.log("Añadir Fusion");
+                $("#AddFusion").modal('show');
+
+            });
             //Alerta Error para cambio de domicilio Actual
             $(document).on('click','#Alertacambio_domicilioactual',function(e){
                 e.preventDefault();
@@ -868,6 +896,22 @@
                 e.preventDefault();
                 $("#EditLicencia").modal('hide');
                 $("#LicenciaAnteriorModal").modal('show');
+            });
+            // Cambiar de Modal de Añadir Licencia por Añadir Licencia Actual 
+            $(document).on('click','#addbtnLicenciaActual',function(e){
+                console.log("Licencia Actual")
+                e.preventDefault();
+                ActualizarLicencia();
+                $("#AddLicencia").modal('hide');
+                $("#LicenciaActualModal").modal('show');
+            });
+            // Cambiar de Modal de Añadir Licencia por Añadir Licencia Anterior 
+            $(document).on('click','#addbtnLicenciaAnterior',function(e){
+                e.preventDefault();
+                ActualizarLicencia();
+                $("#AddLicencia").modal('hide');
+                $("#LicenciaAnteriorModal").modal('show');
+
             });
             
              //--------Cambiar de Editar Fusion a Crear o Editar Fusion Actual y Anterior ---------------
@@ -1121,6 +1165,7 @@
                  alert_float('success', "Insertado Correctamente");
                  $("#LicenciaAnteriorModal").modal('hide');
                  $("#EditLicencia").modal('show');
+                 InformacionLicencia(id_cambio);
                  LicenciaAnterior(id_cambio);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
@@ -1184,6 +1229,7 @@
                  alert_float('success', "Insertado Correctamente");
                  $("#LicenciaActualModal").modal('hide');
                  $("#EditLicencia").modal('show');
+                 InformacionLicencia(id_cambio);
                  LicenciaActual(id_cambio);
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
@@ -1706,10 +1752,7 @@
                 
 
         });
-
-          //Editar Licencia Cuando Abre el Modal---------------------------------------------------------------------------
-          $(document).on('click','#EditlicenciaAbrirModalfrmsubmit',function(e){
-            e.preventDefault();
+        function ActualizarLicencia(){
             var formData = new FormData();
             var data = getFormData(this);
             var id = $('#licenciaid').val();
@@ -1748,12 +1791,18 @@
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                alert_float('success', "Insertado Correctamente");
+                alert_float('success', "Actualizado Correctamente");
                 $("#AddLicencia").modal('hide');
                 Licencia();
             }).catch(function(response){
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
+        }
+
+          //Editar Licencia Cuando Abre el Modal---------------------------------------------------------------------------
+          $(document).on('click','#EditlicenciaAbrirModalfrmsubmit',function(e){
+            e.preventDefault();
+            ActualizarLicencia();
         });
          //Añadir Licencia ---------------------------------------------------------------------------
          $(document).on('click','#addlicenciafrmsubmit',function(e){

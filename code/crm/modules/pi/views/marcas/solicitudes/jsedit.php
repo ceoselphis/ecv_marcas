@@ -51,7 +51,8 @@
                                 </tr>
                             `
                         });
-                        $('#body_Cesion_actual').html(body);     
+                        $('#body_Cesion_actual').html(body);   
+                        $('#body_add_Cesion_actual').html(body);   
                 })
         }
         // Cesion Anterior
@@ -79,7 +80,9 @@
                                 </tr>
                             `
                         });
-                        $('#body_Cesion_anterior').html(body);     
+                        $('#body_Cesion_anterior').html(body);  
+                        $('#body_add_Cesion_anterior').html(body);    
+                         
                 })
         }
         //Licencia Actual
@@ -465,7 +468,8 @@
                                 </tr>
                             `
                     });
-                       $('#body_cesion').html(body);   
+                       $('#body_cesion').html(body);  
+                        
                 })
         }
 
@@ -624,27 +628,7 @@
             CesionAnterior(id);
         })
 
-        function InformacionLicencia(id){
-            let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let licencia =JSON.parse(response);
-            $('#licenciaid').val(licencia[0]['id']);
-            $('#editclientelicencia').val(licencia[0]['client_id']);
-            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
-            $('#editstafflicencia').val(licencia[0]['staff_id']);
-            $('#editestadolicencia').val(licencia[0]['estado_id']);
-            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
-            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
-            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
-            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
-            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
-            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
-            
-            })
-            LicenciaActual(id);
-            LicenciaAnterior(id);
-        }
+        
 
            //Modal Edit Licencia
            $(document).on('click','.EditLicencia',function(){
@@ -811,12 +795,12 @@
 
         //----------------------------------- Modad Para Añadir, Editar y Eliminar -----------------------------------------------
         
-            $(document).on('click','#AñadirFusion',function(e){
-                e.preventDefault();
-                console.log("Añadir Fusion");
-                $("#AddFusion").modal('show');
+            // $(document).on('click','#AñadirFusion',function(e){
+            //     e.preventDefault();
+            //     console.log("Añadir Fusion");
+            //     $("#AddFusion").modal('show');
 
-            });
+            // });
             //Alerta Error para cambio de domicilio Actual
             $(document).on('click','#Alertacambio_domicilioactual',function(e){
                 e.preventDefault();
@@ -863,6 +847,21 @@
                 $("#CesionAnteriorModal").modal('show');
             });
 
+            // Cambiar de Modal de Añadir Cesion por Añadir Cesion Actual 
+            $(document).on('click','#addbtnCesionActual',function(e){
+                console.log("Cesion Actual")
+                e.preventDefault();
+                ActualizarCesion();
+                $("#AddCesion").modal('hide');
+                $("#CesionActualModal").modal('show');
+            });
+            // Cambiar de Modal de Añadir Cesion por Añadir Cesion Anterior 
+            $(document).on('click','#addbtnCesionAnterior',function(e){
+                e.preventDefault();
+                ActualizarCesion();
+                $("#AddCesion").modal('hide');
+                $("#CesionAnteriorModal").modal('show');
+            });
              //--------Cambiar de Editar Licencia a Crear o Editar Licencia Actual y Anterior ---------------
             // Cambiar de Modal de Editar Licencia por Editar Licencia Actual 
             $(document).on('click','#EditbtnLicenciaActual',function(e){
@@ -1678,6 +1677,98 @@
             });
         });
 
+         //Añadir Cesion Cuando Abre el Modal
+         $(document).on('click','#AddCesionAbrirModal',function(e){
+                e.preventDefault();
+                var formData = new FormData();
+                var data = getFormData(this);
+                const id_marcas = '<?php echo $id?>';
+                const csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('id_marcas',id_marcas);
+                formData.append('csrf_token_name', csrf_token_name);
+                console.log('id_marcas',id_marcas);
+                console.log('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/CesionController/addCesionShowModal");?>';
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    console.log("response ",response);
+                    $('#cesionid').val(response);
+                    CesionActual(response);
+                    CesionAnterior(response);
+
+                }).catch(function(response){
+                    alert("No puede agregar un Documento sin registro de la solicitud");
+                });
+                
+
+        });
+        function LimpiarCesion(){
+            var cliente =  $('#clienteCesion').val("");
+            var oficina = $('#oficinaCesion').val("");
+            var staff =  $('#staffCesion').val("");
+            var estado =  $('#estadoCesion').val("");
+            var nro_solicitud =  $('#nro_solicitudCesion').val("");
+            var fecha_solicitud = $('#fecha_solicitudCesion').val("");
+            var nro_resolucion =  $('#nro_resolucionCesion').val("");
+            var fecha_resolucion = $('#fecha_resolucionCesion').val("");
+            var referenciacliente =  $('#referenciaclienteCesion').val("");
+            var comentario =  $('#comentarioCesion').val("");
+        }
+        function ActualizarCesion(){
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#cesionid').val();
+            //const id_marcas = '<?php echo $id?>';
+            var cliente =  $('#clienteCesion').val();
+            var oficina = $('#oficinaCesion').val();
+            var staff =  $('#staffCesion').val();
+            var estado =  $('#estadoCesion').val();
+            var nro_solicitud =  $('#nro_solicitudCesion').val();
+            var fecha_solicitud = $('#fecha_solicitudCesion').val();
+            var nro_resolucion =  $('#nro_resolucionCesion').val();
+            var fecha_resolucion = $('#fecha_resolucionCesion').val();
+            var referenciacliente =  $('#referenciaclienteCesion').val();
+            var comentario =  $('#comentarioCesion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            //formData.append('id_marcas',id_marcas);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/CesionController/UpdateCesion/");?>';
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddCesion").modal('hide');
+                Cesion()
+            }).catch(function(response){
+                alert("No puede agregar un Documento sin registro de la solicitud");
+            });
+        }
+        //Editar Licencia Cuando Abre el Modal---------------------------------------------------------------------------
+        $(document).on('click','#EditcesionAbrirModalfrmsubmit',function(e){
+            e.preventDefault();
+            ActualizarCesion();
+            LimpiarCesion();
+        });
         //Editar Cesion ---------------------------------------------------------------------------
         $(document).on('click','#EditCesionfrmsubmit',function(e){
             e.preventDefault();
@@ -1752,6 +1843,18 @@
                 
 
         });
+        function LimpiarLicencia(){
+            var cliente =  $('#clientelicencia').val("");
+            var oficina = $('#oficinalicencia').val("");
+            var staff =  $('#stafflicencia').val("");
+            var estado =  $('#estadolicencia').val();
+            var nro_solicitud =  $('#nro_solicitudlicencia').val("");
+            var fecha_solicitud = $('#fecha_solicitudlicencia').val("");
+            var nro_resolucion =  $('#nro_resolucionlicencia').val("");
+            var fecha_resolucion = $('#fecha_resolucionlicencia').val("");
+            var referenciacliente =  $('#referenciaclientelicencia').val("");
+            var comentario =  $('#comentariolicencia').val("");
+        }
         function ActualizarLicencia(){
             var formData = new FormData();
             var data = getFormData(this);
@@ -1803,6 +1906,7 @@
           $(document).on('click','#EditlicenciaAbrirModalfrmsubmit',function(e){
             e.preventDefault();
             ActualizarLicencia();
+            LimpiarLicencia();
         });
          //Añadir Licencia ---------------------------------------------------------------------------
          $(document).on('click','#addlicenciafrmsubmit',function(e){

@@ -80,6 +80,41 @@ class CesionController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+    public function addCesionShowModal(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+            /*`tbl_marcas_cesiones`(`id`, `client_id`, `oficina_id`, `marcas_id`, `staff_id`, `estado_id`, `solicitud_num`, `fecha_solicitud`, `resolucion_num`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+            $insert = array(
+                            'client_id' => "1",
+                            'oficina_id' => "1",
+                            'staff_id' => "1",
+                            'marcas_id' => $data['id_marcas'],
+                            'estado_id' => "1",
+                            'solicitud_num' => "",
+                            'fecha_solicitud' => "",
+                            'resolucion_num' => "",
+                            'fecha_resolucion' => "",
+                            'referencia_cliente' => "",
+                            'comentarios' => "",
+                    );
+            //echo json_encode($insert);
+            $CI->load->model("Cesion_model");
+                try{
+                    $query = $CI->Cesion_model->insert($insert);
+                        if (isset($query)){
+                            $cantidad = $CI->Cesion_model->CantidadCesion();
+                            echo $cantidad;
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+      
+        
+    }
      public function addCesion(){
         $CI = &get_instance();
         $data = $CI->input->post();

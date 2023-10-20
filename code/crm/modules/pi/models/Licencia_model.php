@@ -72,7 +72,7 @@ class Licencia_model extends BaseModel
         return $values; 
     }
 
-    public function CantidadLicencia($id = NULL){
+    public function CantidadLicencia(){
         $this->db->select('max(id) as cantidad');
         $this->db->from('tbl_marcas_licencia');
         $query = $this->db->get();

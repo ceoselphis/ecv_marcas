@@ -62,4 +62,12 @@ class MarcasDomicilio_model extends BaseModel
         $values = $query->result_array();
         return $values; 
     }
+
+    public function CantidadCambioDomicilio(){
+        $this->db->select('max(id) as cantidad');
+        $this->db->from('tbl_marcas_cambio_domicilio');
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['cantidad']; 
+    }
 }

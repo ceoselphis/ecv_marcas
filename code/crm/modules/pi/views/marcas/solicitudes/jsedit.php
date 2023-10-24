@@ -55,6 +55,7 @@
                         $('#body_add_Cesion_actual').html(body);   
                 })
         }
+
         // Cesion Anterior
         function CesionAnterior(id_cambio){
             let url = '<?php echo admin_url("pi/TipoCesionController/showCesionAnterior/");?>';
@@ -82,7 +83,6 @@
                         });
                         $('#body_Cesion_anterior').html(body);  
                         $('#body_add_Cesion_anterior').html(body);    
-                         
                 })
         }
         //Licencia Actual
@@ -140,7 +140,7 @@
                             `
                         });
                         $('#body_Licencia_anterior').html(body);   
-                        ('#body_add_Licencia_actual').html(body);    
+                        $('#body_add_Licencia_actual').html(body);    
                 })
         }
         
@@ -169,7 +169,8 @@
                                 </tr>
                             `
                         });
-                        $('#body_Fusion_actual').html(body);     
+                        $('#body_Fusion_actual').html(body);  
+                        $('#body_add_Fusion_actual').html(body);   
                 })
         }
         // Fusion Anterior
@@ -197,7 +198,8 @@
                                 </tr>
                             `
                         });
-                        $('#body_Fusion_anterior').html(body);     
+                        $('#body_Fusion_anterior').html(body); 
+                        $('#body_add_Fusion_anterior').html(body);    
                 })
         }
 
@@ -225,7 +227,8 @@
                                 </tr>
                             `
                         });
-                        $('#body_cambio_domicilio_actual').html(body);     
+                        $('#body_cambio_domicilio_actual').html(body);
+                        $('#body_add_cambio_domicilio_actual').html(body);     
                 })
         }
         //Cambio Domicilio Anterior
@@ -252,7 +255,8 @@
                                 </tr>
                             `
                         });
-                        $('#body_cambio_domicilio_anterior').html(body);     
+                        $('#body_cambio_domicilio_anterior').html(body); 
+                        $('#body_add_cambio_domicilio_anterior').html(body);     
                 })
         }
 
@@ -281,7 +285,8 @@
                                 </tr>
                             `
                         });
-                        $('#body_cambio_nombre_actual').html(body);     
+                        $('#body_cambio_nombre_actual').html(body); 
+                        $('#body_add_cambio_nombre_actual').html(body);    
                 })
         }
         //Cambio Nombre Anterior
@@ -308,7 +313,8 @@
                                 </tr>
                             `
                         });
-                        $('#body_cambio_nombre_anterior').html(body);     
+                        $('#body_cambio_nombre_anterior').html(body);   
+                        $('#body_add_cambio_nombre_anterior').html(body);  
                 })
         }
 
@@ -351,7 +357,7 @@
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                     listadomicilio.forEach(item => {
-                         body += `<tr CamNomid = "${item.id}"> 
+                        body += `<tr CamNomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.oficina}</td>
                                     <td class="text-center">${item.estado}</td>
@@ -603,11 +609,7 @@
         })
 
          //----------------------------------- Funciones que trae la Informacion de la Base de Datos -----------------------------------------------
-         //Modal Edit Cesion 
-        $(document).on('click','.EditCesion',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('cesionid');
-            console.log(id);
+         function MostrarCesion(id){
             let url = '<?php echo admin_url("pi/CesionController/EditCesion/");?>';
             url = url + id;
             $.post(url,{id},function(response){
@@ -626,14 +628,17 @@
             })
             CesionActual(id);
             CesionAnterior(id);
+         }
+
+         //Modal Edit Cesion 
+        $(document).on('click','.EditCesion',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('cesionid');
+            MostrarCesion(id);
+            
         })
 
-        
-
-           //Modal Edit Licencia
-           $(document).on('click','.EditLicencia',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('licenciaid');
+         function MostrarLicencia(id){
             let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
             url = url + id;
             $.post(url,{id},function(response){
@@ -653,12 +658,16 @@
             })
             LicenciaActual(id);
             LicenciaAnterior(id);
+        }
+
+           //Modal Edit Licencia
+           $(document).on('click','.EditLicencia',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('licenciaid');
+            MostrarLicencia(id);
         })
 
-            //Modal Edit Fusion
-        $(document).on('click','.editFusion',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('fusionid');
+        function MostrarFusion(id){
             let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
             url = url + id;
             $.post(url,{id},function(response){
@@ -675,13 +684,15 @@
             })
             FusionActual(id);
             FusionAnterior(id);
+        }
+            //Modal Edit Fusion
+        $(document).on('click','.editFusion',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('fusionid');
+            MostrarFusion(id);
         })
 
-          //Modal Edit Cambio Nombre
-          $(document).on('click','.editCamNom',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('CamNomid');
-            console.log(id);
+        function MostrarCambioNombre(id){
             let url = '<?php  echo admin_url("pi/CambioNombreController/EditCambioNombre/");?>';
             url = url + id;
             $.post(url,{id},function(response){
@@ -696,37 +707,48 @@
                 $('#editfecha_resolucionCamNom').val(fusion[0]['fecha_resolucion']);
                 $('#editreferenciaclienteCamNom').val(fusion[0]['referencia_cliente']);
                 $('#editcomentarioCamNom').val(fusion[0]['comentarios']);
-           })
-            $("#EditCambioNombre").modal('show');
-           
+            });
+            $("#EditCambioNombre").modal('show'); 
                 CambioNombreActual(id);
                 CambioNombreAnterior(id);
+        }
+
+        //Modal Edit Cambio Nombre
+        $(document).on('click','.editCamNom',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('CamNomid');
+            MostrarCambioNombre(id);
         })
-            //Modal Edit Cambio de Domicilio
-            $(document).on('click','.editCamDom',function(){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CamDomid');
-                let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
-                url = url + id;
-                $.post(url,{id},function(response){
-                let fusion =JSON.parse(response);
-                $('#camdomid').val(fusion[0]['id']); 
-                $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
-                $('#editestadoCamDom').val(fusion[0]['estado_id']);
-                $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
-                $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
-                $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
-                $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
-                $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
-                $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
-            
-           })
-                $("#EditCambioDomicilio").modal('show');
-                CambioDomicilioActual(id);
-                CambioDomicilioAnterior(id);
-        })
-         //Modal Edit Documento
-         $(document).on('click','.editdoc',function(){
+
+        function MostrarCambioDomicilio(id) {
+            let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
+            url = url + id;
+            $.post(url,{id},function(response){
+            let fusion =JSON.parse(response);
+            $('#camdomid').val(fusion[0]['id']); 
+            $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
+            $('#editestadoCamDom').val(fusion[0]['estado_id']);
+            $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
+            $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
+            $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
+            $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
+            $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
+            $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
+            })
+        $("#EditCambioDomicilio").modal('show');
+        CambioDomicilioActual(id);
+        CambioDomicilioAnterior(id);
+        }
+
+        //Modal Edit Cambio de Domicilio
+        $(document).on('click','.editCamDom',function(){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('CamDomid');
+            MostrarCambioDomicilio(id);
+        });
+
+        //Modal Edit Documento
+        $(document).on('click','.editdoc',function(){
             let element = $(this)[0].parentElement.parentElement;
             console.log(element);
             let id = $(element).attr('docid');
@@ -743,7 +765,8 @@
                 $('#editcomentario_archivo').val(doc[0]['comentario']);
                 $('#editdoc_archivo').val(doc[0]['path']);
             })
-        })
+        });
+
         //Modal Edit Tareas 
         $(document).on('click','.editTareas',function(){
             let element = $(this)[0].parentElement.parentElement;
@@ -795,12 +818,6 @@
 
         //----------------------------------- Modad Para Añadir, Editar y Eliminar -----------------------------------------------
         
-            // $(document).on('click','#AñadirFusion',function(e){
-            //     e.preventDefault();
-            //     console.log("Añadir Fusion");
-            //     $("#AddFusion").modal('show');
-
-            // });
             //Alerta Error para cambio de domicilio Actual
             $(document).on('click','#Alertacambio_domicilioactual',function(e){
                 e.preventDefault();
@@ -934,17 +951,32 @@
                 $("#EditFusion").modal('hide');
                 $("#EditarFusionAnteriorModal").modal('show');
             });
-            // Cambiar de Modal de Editar Fusion por Añadir Fusion Actual 
-            $(document).on('click','#btnFusionActual',function(e){
+              // Cambiar de Modal de Editar Fusion por Añadir Fusion Actual 
+              $(document).on('click','#btnFusionActual',function(e){
                 console.log("Fusion Actial")
                 e.preventDefault();
                 $("#EditFusion").modal('hide');
                 $("#FusionActualModal").modal('show');
             });
-            // Cambiar de Modal de Editar Cambio Domiclio por Añadir Cambio Domicilio Anterior 
+            // Cambiar de Modal de Editar Fusion por Añadir Fusion Anterior 
             $(document).on('click','#btnFusionAnterior',function(e){
                 e.preventDefault();
                 $("#EditFusion").modal('hide');
+                $("#FusionAnteriorModal").modal('show');
+            });
+            // Cambiar de Modal de Añadir Fusion por Añadir Fusion Actual 
+            $(document).on('click','#addbtnFusionActual',function(e){
+                console.log("Fusion Actual")
+                e.preventDefault();
+                ActualizarFusion();
+                $("#AddFusion").modal('hide');
+                $("#FusionActualModal").modal('show');
+            });
+            // Cambiar de Modal de Añadir Fusion por Añadir Fusion Anterior 
+            $(document).on('click','#addbtnFusionAnterior',function(e){
+                e.preventDefault();
+                ActualizarFusion();
+                $("#AddFusion").modal('hide');
                 $("#FusionAnteriorModal").modal('show');
             });
             //--------Cambiar de Editar Domicilio a Crear o Editar Cambio de Domicilio Actual y Anterior ---------------
@@ -977,6 +1009,20 @@
             $(document).on('click','#btnCambioDomicilioAnterior',function(e){
                 e.preventDefault();
                 $("#EditCambioDomicilio").modal('hide');
+                $("#CambioDomicilioAnteriorModal").modal('show');
+            });
+            // Cambiar de Modal de Añadir Cambio Domiclio por Añadir Cambio Domicilio Actual 
+            $(document).on('click','#addbtnCambioDomicilioActual',function(e){
+                e.preventDefault();
+                ActualizarCambioDomicilio();
+                $("#AddCambioDomicilio").modal('hide');
+                $("#CambioDomicilioActualModal").modal('show');
+            });
+            // Cambiar de Modal de Añadir Cambio Domiclio por Añadir Cambio Domicilio Anterior 
+            $(document).on('click','#addbtnCambioDomicilioAnterior',function(e){
+                e.preventDefault();
+                ActualizarCambioDomicilio();
+                $("#AddCambioDomicilio").modal('hide');
                 $("#CambioDomicilioAnteriorModal").modal('show');
             });
               //--------Cambiar de Editar Nombre a Crear o Editar Cambio de Nombre Actual y Anterior ---------------
@@ -1012,6 +1058,20 @@
                 $("#EditCambioNombre").modal('hide');
                 $("#CambioNombreAnteriorModal").modal('show');
             });
+             // Cambiar de Modal de Añadir Cambio Nombre por Añadir Cambio Nombre Actual 
+             $(document).on('click','#addbtnCambioNombreActual',function(e){
+                e.preventDefault();
+                ActualizarCambioNombre();
+                $("#AddCambioNombre").modal('hide');
+                $("#CambioNombreActualModal").modal('show');
+            });
+            // Cambiar de Modal de Añadir Cambio Nombre por Añadir Cambio Nombre Anterior 
+            $(document).on('click','#addbtnCambioNombreAnterior',function(e){
+                e.preventDefault();
+                ActualizarCambioNombre();
+                $("#AddCambioNombre").modal('hide');
+                $("#CambioNombreAnteriorModal").modal('show');
+            });
            //  --------------------------------Añadir y Editar los siguientes Modulos---------------------------------------------
              //Añadir Cesion Anterior  ---------------------------------------------------------------------------
              $(document).on('click','#AñadirCesionAnteriorfrmsubmit',function(e){
@@ -1039,9 +1099,10 @@
                  alert_float('success', "Insertado Correctamente");
                  $("#CesionAnteriorModal").modal('hide');
                  $("#EditCesion").modal('show');
+                 MostrarCesion(id_cambio);
                  CesionAnterior(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cesion Anterior");
             });
         });
           //Editar Cesion Anterior  ---------------------------------------------------------------------------
@@ -1072,7 +1133,7 @@
                 $("#EditCesion").modal('show');
                 CesionAnterior(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Cesion Anterior");
             });
         });
         //Añadir Cesion Actual  ---------------------------------------------------------------------------
@@ -1099,12 +1160,13 @@
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#CesionActualModal").modal('hide');
-                 $("#EditCesion").modal('show');
-                 CesionActual(id_cambio);
+                alert_float('success', "Insertado Correctamente");
+                $("#CesionActualModal").modal('hide');
+                $("#EditCesion").modal('show');
+                MostrarCesion(id_cambio);
+                CesionActual(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cesion Actual");
             });
         });
          //Editar Cesion Actual  ---------------------------------------------------------------------------
@@ -1135,7 +1197,7 @@
                 $("#EditCesion").modal('show');
                 CesionActual(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Cesion Actual");
             });
         });
             //Añadir Licencia Anterior  ---------------------------------------------------------------------------
@@ -1164,10 +1226,10 @@
                  alert_float('success', "Insertado Correctamente");
                  $("#LicenciaAnteriorModal").modal('hide');
                  $("#EditLicencia").modal('show');
-                 InformacionLicencia(id_cambio);
+                 MostrarLicencia(id_cambio);
                  LicenciaAnterior(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Licencia Anterior");
             });
         });
           //Editar Licencia Anterior  ---------------------------------------------------------------------------
@@ -1198,7 +1260,7 @@
                 $("#EditLicencia").modal('show');
                 LicenciaAnterior(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Licencia Anterior");
             });
         });
         //Añadir Licencia Actual  ---------------------------------------------------------------------------
@@ -1213,7 +1275,7 @@
             formData.append('id_cambio',id_cambio);
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            console.log('id_cambio',id_cambio);
+            console.log('id_cambio Licencia Actual',id_cambio);
             console.log('propietarios',propietarios);
             console.log('csrf_token_name', csrf_token_name);
             let url = '<?php echo admin_url("pi/TipoLicenciaController/addLicenciaActual");?>'
@@ -1225,13 +1287,13 @@
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#LicenciaActualModal").modal('hide');
-                 $("#EditLicencia").modal('show');
-                 InformacionLicencia(id_cambio);
-                 LicenciaActual(id_cambio);
+                alert_float('success', "Insertado Correctamente");
+                $("#LicenciaActualModal").modal('hide');
+                $("#EditLicencia").modal('show');
+                MostrarLicencia(id_cambio);
+                LicenciaActual(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Licencia Actual");
             });
         });
          //Editar Licencia Actual  ---------------------------------------------------------------------------
@@ -1262,7 +1324,7 @@
                 $("#EditLicencia").modal('show');
                 LicenciaActual(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Licencia Actual");
             });
         });
             //Añadir Fusion Anterior  ---------------------------------------------------------------------------
@@ -1288,12 +1350,13 @@
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#FusionAnteriorModal").modal('hide');
-                 $("#EditFusion").modal('show');
-                 FusionAnterior(id_cambio);
+                alert_float('success', "Insertado Correctamente");
+                $("#FusionAnteriorModal").modal('hide');
+                $("#EditFusion").modal('show');
+                MostrarFusion(id_cambio);
+                FusionAnterior(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Fusion Anterior");
             });
         });
           //Editar Fusion Anterior  ---------------------------------------------------------------------------
@@ -1324,7 +1387,7 @@
                 $("#EditFusion").modal('show');
                 FusionAnterior(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Fusion Anterior");
             });
         });
         //Añadir Fusion Actual  ---------------------------------------------------------------------------
@@ -1351,12 +1414,13 @@
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#FusionActualModal").modal('hide');
-                 $("#EditFusion").modal('show');
-                 FusionActual(id_cambio);
+                alert_float('success', "Insertado Correctamente");
+                $("#FusionActualModal").modal('hide');
+                $("#EditFusion").modal('show');
+                MostrarFusion(id_cambio);
+                FusionActual(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Fusion Actual");
             });
         });
          //Editar Fusion Actual  ---------------------------------------------------------------------------
@@ -1387,21 +1451,21 @@
                 $("#EditFusion").modal('show');
                 FusionActual(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Fusion Actual");
             });
         });
-              //Añadir Cambio de Nombre Anterior  ---------------------------------------------------------------------------
+            //Añadir Cambio de Nombre Anterior  ---------------------------------------------------------------------------
             $(document).on('click','#AñadirCamNomAnteriorfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id_cambionombre = $('#camnomid').val();
+            var id_cambio = $('#camnomid').val();
             var propietarios =  $('#propietarioscamnomanterior').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_cambionombre',id_cambionombre);
+            formData.append('id_cambionombre',id_cambio);
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            console.log('id_cambionombre',id_cambionombre);
+            console.log('id_cambionombre',id_cambio);
             console.log('propietarios',propietarios);
             console.log('csrf_token_name', csrf_token_name);
             let url = '<?php echo admin_url("pi/TipoCambioNombreController/addCambioNombreAnterior");?>'
@@ -1413,12 +1477,13 @@
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#CambioNombreAnteriorModal").modal('hide');
-                 $("#EditCambioNombre").modal('show');
-                 CambioNombreAnterior(id_cambionombre);
+                alert_float('success', "Insertado Correctamente");
+                $("#CambioNombreAnteriorModal").modal('hide');
+                $("#EditCambioNombre").modal('show');
+                CambioNombreAnterior(id_cambio);
+                MostrarCambioNombre(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cambio de Nombre Anterior");
             });
         });
           //Editar Cambio de Nombre Anterior  ---------------------------------------------------------------------------
@@ -1449,7 +1514,7 @@
                 $("#EditCambioNombre").modal('show');
                 CambioNombreAnterior(id_cambionombre);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Cambio de Nombre Anterior");
             });
         });
         //Añadir Cambio de Nombre Actual  ---------------------------------------------------------------------------
@@ -1457,13 +1522,13 @@
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id_cambionombre = $('#camnomid').val();
+            var id_cambio = $('#camnomid').val();
             var propietarios =  $('#propietarioscamnomactual').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_cambionombre',id_cambionombre);
+            formData.append('id_cambionombre',id_cambio);
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            console.log('id_cambionombre',id_cambionombre);
+            console.log('id_cambionombre',id_cambio);
             console.log('propietarios',propietarios);
             console.log('csrf_token_name', csrf_token_name);
             let url = '<?php echo admin_url("pi/TipoCambioNombreController/addCambioNombreActual");?>'
@@ -1475,12 +1540,13 @@
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#CambioNombreActualModal").modal('hide');
-                 $("#EditCambioNombre").modal('show');
-                 CambioNombreActual(id_cambionombre);
+                alert_float('success', "Insertado Correctamente");
+                $("#CambioNombreActualModal").modal('hide');
+                $("#EditCambioNombre").modal('show');
+                CambioNombreActual(id_cambio);
+                MostrarCambioNombre(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cambio de Nombre Actual");
             });
         });
          //Editar Cambio de Nombre Actual  ---------------------------------------------------------------------------
@@ -1511,7 +1577,7 @@
                 $("#EditCambioNombre").modal('show');
                 CambioNombreActual(id_cambionombre);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Cambio de Nombre Actual");
             });
         });
 
@@ -1520,10 +1586,10 @@
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id_cambiodomiclio = $('#camdomid').val();
+            var id_cambio = $('#camdomid').val();
             var propietarios =  $('#propietarioscamdomanterior').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_cambiodomiclio',id_cambiodomiclio);
+            formData.append('id_cambiodomiclio',id_cambio);
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
             let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/addCambioDomicilioAnterior");?>'
@@ -1538,9 +1604,10 @@
                  alert_float('success', "Insertado Correctamente");
                  $("#CambioDomicilioAnteriorModal").modal('hide');
                  $("#EditCambioDomicilio").modal('show');
-                 CambioDomicilioAnterior(id_cambiodomiclio);
+                 CambioDomicilioAnterior(id_cambio);
+                 MostrarCambioDomicilio(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cambio de Domiclio Anterior");
             });
         });
 
@@ -1572,21 +1639,21 @@
                 $("#EditCambioDomicilio").modal('show');
                 CambioDomicilioAnterior(id_cambiodomiclio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cambio de Domiclio Anterior");
             });
         });
-            //Añadir Cambio de Domiclio Actual  ---------------------------------------------------------------------------
-            $(document).on('click','#AñadirCamDomActualfrmsubmit',function(e){
+        //Añadir Cambio de Domiclio Actual  ---------------------------------------------------------------------------
+        $(document).on('click','#AñadirCamDomActualfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
-            var id_cambiodomiclio = $('#camdomid').val();
+            var id_cambio = $('#camdomid').val();
             var propietarios =  $('#propietarioscamdomactual').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_cambiodomiclio',id_cambiodomiclio);
+            formData.append('id_cambiodomicilio',id_cambio);
             formData.append('propietarios',propietarios);
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/addCambioDomicilioActual/");?>'
+            let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/addCambioDomicilioActual");?>'
             $.ajax({
                 url,
                 method: 'POST',
@@ -1595,12 +1662,13 @@
                 contentType: false
             }).then(function(response){
                 console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#CambioDomicilioActualModal").modal('hide');
-                 $("#EditCambioDomicilio").modal('show');
-                 CambioDomicilioActual(id_cambiodomiclio);
+                alert_float('success', "Insertado Correctamente");
+                $("#CambioDomicilioActualModal").modal('hide');
+                $("#EditCambioDomicilio").modal('show');
+                CambioDomicilioActual(id_cambio);
+                MostrarCambioDomicilio(id_cambio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cambio de Domiclio Anterior");
             });
         });
          //Editar Cambio de Domiclio Actual  ---------------------------------------------------------------------------
@@ -1629,11 +1697,11 @@
                 $("#EditCambioDomicilio").modal('show');
                 CambioDomicilioActual(id_cambiodomiclio);
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Cambio de Domiclio Actual ");
             });
         });
-            //Añadir Cesion ---------------------------------------------------------------------------
-            $(document).on('click','#AddCesionfrmsubmit',function(e){
+        //Añadir Cesion ---------------------------------------------------------------------------
+        $(document).on('click','#AddCesionfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -1673,7 +1741,7 @@
                 $("#AddCesion").modal('hide');
                 Cesion()
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cesion");
             });
         });
 
@@ -1702,7 +1770,7 @@
                     CesionAnterior(response);
 
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Añadir Cesion");
                 });
                 
 
@@ -1760,7 +1828,7 @@
                 $("#AddCesion").modal('hide');
                 Cesion()
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Actualizar Cesion");
             });
         }
         //Editar Licencia Cuando Abre el Modal---------------------------------------------------------------------------
@@ -1810,7 +1878,7 @@
                 $("#EditCesion").modal('hide');
                 Cesion()
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Cesion");
             });
         });
         //Añadir Licencia Cuando Abre el Modal
@@ -1838,7 +1906,7 @@
                     LicenciaAnterior(response);
 
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Añadir Licencia");
                 });
                 
 
@@ -1898,7 +1966,7 @@
                 $("#AddLicencia").modal('hide');
                 Licencia();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo ActualizarLicencia");
             });
         }
 
@@ -1949,7 +2017,7 @@
                 $("#AddLicencia").modal('hide');
                 Licencia()
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Licencia");
             });
         });
 
@@ -1995,11 +2063,102 @@
                 $("#EditLicencia").modal('hide');
                 Licencia()
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Licencia");
             });
         });
 
-        
+        //Añadir Fusion Cuando Abre el Modal
+        $(document).on('click','#AddFusionAbrirModal',function(e){
+                e.preventDefault();
+                console.log("LLegue a Fusion Abrir modal")
+                var formData = new FormData();
+                var data = getFormData(this);
+                const id_marcas = '<?php echo $id?>';
+                const csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('id_marcas',id_marcas);
+                formData.append('csrf_token_name', csrf_token_name);
+                console.log('id_marcas',id_marcas);
+                console.log('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/FusionController/addFusionShowModal");?>';
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    console.log("response ",response);
+                    $('#fusionid').val(response);
+                    FusionActual(response);
+                    FusionAnterior(response);
+
+                }).catch(function(response){
+                    alert("No se pudo Añadir Fusion");
+                });
+                
+
+        });
+
+        function LimpiarFusion(){
+            $('#oficinaFusion').val("");
+            $('#estadoFusion').val("");
+            $('#nro_solicitudFusion').val("");
+            $('#fecha_solicitudFusion').val("");
+            $('#nro_resolucionFusion').val("");
+            $('#fecha_resolucionFusion').val("");
+            $('#referenciaclienteFusion').val("");
+            $('#comentarioFusion').val("");
+        }
+
+        function ActualizarFusion(){
+            var formData = new FormData();
+            var data = getFormData(this);
+            //const id_marcas = '<?php //echo $id?>';
+            var id = $('#fusionid').val();
+            var oficina = $('#oficinaFusion').val();
+            var estado =  $('#estadoFusion').val();
+            var nro_solicitud =  $('#nro_solicitudFusion').val();
+            var fecha_solicitud = $('#fecha_solicitudFusion').val();
+            var nro_resolucion =  $('#nro_resolucionFusion').val();
+            var fecha_resolucion = $('#fecha_resolucionFusion').val();
+            var referenciacliente =  $('#referenciaclienteFusion').val();
+            var comentario =  $('#comentarioFusion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            //formData.append('id_marcas',id_marcas);
+            formData.append('oficina',oficina);
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/FusionController/UpdateFusion/");?>'
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#AddFusion").modal('hide');
+                Fusion();
+            }).catch(function(response){
+                alert("No se pudo Actualizar Fusion");
+            });
+        }
+
+          //Editar Fusion Cuando Abre el Modal---------------------------------------------------------------------------
+          $(document).on('click','#EditfusionAbrirModalfrmsubmit',function(e){
+            e.preventDefault();
+            ActualizarFusion();
+            LimpiarFusion();
+        });
+
 
         //Añadir Fusion ---------------------------------------------------------------------------
         $(document).on('click','#addfusionfrmsubmit',function(e){
@@ -2038,7 +2197,7 @@
                 $("#AddFusion").modal('hide');
                 Fusion()
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Fusion");
             });
         });
 
@@ -2080,12 +2239,105 @@
                 $("#EditFusion").modal('hide');
                 Fusion();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Fusion");
             });
             
         });
-         //Añadir Cambio de Nombre -----------------------------------------------------------------
-         $(document).on('click','#AddCambioNombrefrmsubmit',function(e){
+        
+        //Añadir Cambio de Nombre Cuando Abre el Modal
+        $(document).on('click','#AddCambioNombreAbrirModal',function(e){
+            e.preventDefault();
+            console.log("LLegue a Cambio de Nombre modal")
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            const csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('csrf_token_name', csrf_token_name);
+            console.log('id_marcas',id_marcas);
+                console.log('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/CambioNombreController/addCambioNombreShowModal");?>';
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    console.log("response ",response);
+                    $('#camnomid').val(response);
+                    CambioNombreActual(response);
+                    CambioNombreAnterior(response);
+
+                }).catch(function(response){
+                    alert("No se pudo Añadir Cambio de Nombre");
+                });
+                
+                
+        });
+
+        function ActualizarCambioNombre() {
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#camnomid').val();
+            const id_marcas = '<?php echo $id?>';
+            var oficina = $('#oficinaCamNom').val();
+            var estado =  $('#estadoCamNom').val();
+            var nro_solicitud =  $('#nro_solicitudCamNom').val();
+            var fecha_solicitud = $('#fecha_solicitudCamNom').val();
+            var nro_resolucion =  $('#nro_resolucionCamNom').val();
+            var fecha_resolucion = $('#fecha_resolucionCamNom').val();
+            var referenciacliente =  $('#referenciaclienteCamNom').val();
+            var comentario =  $('#comentarioCamNom').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('oficina',oficina);
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/CambioNombreController/UpdateCambioNombre/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#AddCambioNombre").modal('hide');
+                CambioNombre();
+            }).catch(function(response){
+                alert("No se pudo Editar Cambio de Nombre");
+            });
+        }
+
+        function LimpiarCambioNombre(){
+            $('#oficinaCamNom').val("");
+            $('#estadoCamNom').val("");
+            $('#nro_solicitudCamNom').val("");
+            $('#fecha_solicitudCamNom').val("");
+            $('#nro_resolucionCamNom').val("");
+            $('#fecha_resolucionCamNom').val("");
+            $('#referenciaclienteCamNom').val("");
+            $('#comentarioCamNom').val("");
+        }
+        
+        //Editar Cambio Nombre Cuando Abre el Modal---------------------------------------------------------------------------
+        $(document).on('click','#EditCambioNombreAbrirModalfrmsubmit',function(e){
+            e.preventDefault();
+            ActualizarCambioNombre();
+            LimpiarCambioNombre();
+        });
+
+
+        //Añadir Cambio de Nombre -----------------------------------------------------------------
+        $(document).on('click','#AddCambioNombrefrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -2121,12 +2373,13 @@
                 $("#AddCambioNombre").modal('hide');
                 CambioNombre();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cambio de Nombre");
             });
         }); 
 
-         //Editar Cambio de Nombre -----------------------------------------------------------------
-         $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
+
+        //Editar Cambio de Nombre -----------------------------------------------------------------
+        $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -2163,11 +2416,102 @@
                 $("#EditCambioNombre").modal('hide');
                 CambioNombre();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Cambio de Nombre");
             });
-            
         }); 
 
+        //Añadir Cambio de Domicilio Cuando Abre el Modal
+        $(document).on('click','#AddCambioDomicilioAbrirModal',function(e){
+            e.preventDefault();
+            console.log("LLegue a Cambio de Domicilio modal")
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            const csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('csrf_token_name', csrf_token_name);
+            console.log('id_marcas',id_marcas);
+                console.log('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilioShowModal");?>';
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    console.log("response ",response);
+                    $('#camdomid').val(response);
+                    CambioDomicilioActual(response);
+                    CambioDomicilioAnterior(response);
+                }).catch(function(response){
+                    alert("No se pudo Añadir Cambio de Nombre");
+                });
+                
+                
+        });
+
+        function ActualizarCambioDomicilio(){
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#camdomid').val();
+            //const id_marcas = '<?php echo $id?>';
+            var oficina = $('#oficinaCamDom').val();
+            var staff =  $('#staffCamDom').val();
+            var estado =  $('#estadoCamDom').val();
+            var nro_solicitud =  $('#nro_solicitudCamDom').val();
+            var fecha_solicitud = $('#fecha_solicitudCamDom').val();
+            var nro_resolucion =  $('#nro_resolucionCamDom').val();
+            var fecha_resolucion = $('#fecha_resolucionCamDom').val();
+            var referenciacliente =  $('#referenciaclienteCamDom').val();
+            var comentario =  $('#comentarioCamDom').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+           // formData.append('id_marcas',id_marcas);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditCambioDomicilio").modal('hide');
+                CambioDomicilio();
+            }).catch(function(response){
+                alert("No se pudo Editar Cambio Domicilio");
+            });
+        }
+
+        function LimpiarCambioDomicilio(){
+            $('#oficinaCamDom').val("");
+            $('#staffCamDom').val("");
+            $('#estadoCamDom').val("");
+            $('#nro_solicitudCamDom').val("");
+            $('#fecha_solicitudCamDom').val("");
+            $('#nro_resolucionCamDom').val("");
+            $('#fecha_resolucionCamDom').val("");
+            $('#referenciaclienteCamDom').val("");
+            $('#comentarioCamDom').val("");
+        }
+
+         //Editar Cambio Nombre Cuando Abre el Modal---------------------------------------------------------------------------
+         $(document).on('click','#EditCambioDomicilioAbrirModalfrmsubmit',function(e){
+            e.preventDefault();
+            ActualizarCambioDomicilio();
+            LimpiarCambioDomicilio();
+        });
          //Añadir Cambio Domicilio ----------------------------------------------------------------------
         $(document).on('click','#AddCambioDomiciliofrmsubmit',function(e){
             e.preventDefault();
@@ -2207,7 +2551,7 @@
                 $("#AddCambioDomicilio").modal('hide');
                 CambioDomicilio();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Cambio Domicilio");
             });
             
         });
@@ -2252,10 +2596,11 @@
                 $("#EditCambioDomicilio").modal('hide');
                 CambioDomicilio();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Cambio Domicilio");
             });
             
         });
+
         //Añadir Documento ---------------------------------------------------------------------------
         $(document).on('click','#documentofrmsubmit',function(e){
             e.preventDefault();
@@ -2283,7 +2628,7 @@
                 $("#docModal").modal('hide');
                 Documentos();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Documento");
             });
         });
 
@@ -2321,7 +2666,7 @@
                 $("#docModalEdit").modal('hide');
                 Documentos();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Documento");
             });
         });
 
@@ -2350,7 +2695,7 @@
                 $("#eventoModal").modal('hide');
                 Eventos();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Evento");
             });
         });
 
@@ -2380,7 +2725,7 @@
                 $("#eventoModalEdit").modal('hide');
                 Eventos();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Evento");
             });
         });
 
@@ -2409,7 +2754,7 @@
                 $("#addTask").modal('hide');
                 Tareas();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Añadir Tareas");
             });
         });
 
@@ -2439,7 +2784,7 @@
                 $("#EditTask").modal('hide');
                 Tareas();
             }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
+                alert("No se pudo Editar Tareas");
             });
         });
         // ------------------------------------------- Eliminar Registros ----------------------------------------------------------------------------------------------------------
@@ -2464,7 +2809,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     FusionAnterior(id_cambio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Fusion Anterior");
                 });
             }
         });
@@ -2489,7 +2834,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     FusionActual(id_cambio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Fusion Actual");
                 });
             }
         });
@@ -2514,7 +2859,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     CesionAnterior(id_cambio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Licencia Anterior");
                 });
             }
         });
@@ -2539,7 +2884,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     LicenciaActual(id_cambio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Licencia Actual");
                 });
             }
         });
@@ -2564,7 +2909,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     CesionAnterior(id_cambio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Cesion Anterior");
                 });
             }
         });
@@ -2589,7 +2934,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     CesionActual(id_cambio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Cesion Actual");
                 });
             }
         });
@@ -2615,7 +2960,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     CambioNombreActual(id_cambio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Nombre Anterior");
                 });
             }
         });
@@ -2640,7 +2985,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     CambioNombreActual(id_cambio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Nombre Actual");
                 });
             }
         });
@@ -2667,7 +3012,7 @@
                 //$("#EditCambioDomicilio").modal('show');
                 CambioDomicilioActual(id_cambiodomiclio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Domicilio Anterior");
                 });
             }
         });
@@ -2694,7 +3039,7 @@
                 //$("#EditCambioDomicilio").modal('show');
                 CambioDomicilioActual(id_cambiodomiclio);
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Domicilio Actual");
                 });
             }
         });
@@ -2717,7 +3062,7 @@
                 alert_float('success', "Eliminado Correctamente");
                 Cesion();
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Cesion");
                 });
             }
         });
@@ -2740,7 +3085,7 @@
                 alert_float('success', "Eliminado Correctamente");
                 Licencia();
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Licencia");
                 });
            }
         });
@@ -2763,7 +3108,7 @@
                 alert_float('success', "Eliminado Correctamente");
                 Fusion();
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Fusion");
                 });
            }
         });
@@ -2786,7 +3131,31 @@
                 alert_float('success', "Eliminado Correctamente");
                 CambioNombre();
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Cambio Nombre");
+                });
+           }
+        });
+
+        //Eliminar Cambio Domicilio
+        $(document).on('click','.Cambio-Domicilio-delete',function(){
+            if (confirm("Quieres eliminar este registro?")){
+                let element = $(this)[0].parentElement.parentElement;
+                let id = $(element).attr('CamDomid');
+                var csrf_token_name = $("input[name=csrf_token_name]").val();
+                formData.append('csrf_token_name', csrf_token_name);
+                let url = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
+                url= url+id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                CambioDomicilio();
+                }).catch(function(response){
+                    alert("No se pudo Eliminar Cambio Domicilio");
                 });
            }
         });
@@ -2810,7 +3179,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     Eventos();
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Eventos");
                 });
            }
         });
@@ -2833,7 +3202,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     Tareas();
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Tareas");
                 });
            }
         });
@@ -2856,7 +3225,7 @@
                     alert_float('success', "Eliminado Correctamente");
                     Documentos();
                 }).catch(function(response){
-                    alert("No puede agregar un Documento sin registro de la solicitud");
+                    alert("No se pudo Eliminar Documentos");
                 });
            }
         });

@@ -85,30 +85,62 @@ class CambioNombreController extends AdminController
         echo json_encode($query);   
      }
     private function flip_dates($date)
-     {
-         try{
-             $wdate = explode('-',$date);
-             $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
-             return $cdate;
-         }
-         catch (Exception $e)
-         {
-             echo 'Caught exception: ',  $e->getMessage(), "\n";
-         }
-     }
- 
-     private function turn_dates($date)
-     {
-         try{
-             $wdate = explode('/',$date);
-             $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-             return $cdate;
-         }
-         catch (Exception $e)
-         {
-             echo 'Caught exception: ',  $e->getMessage(), "\n";
-         }
-     }
+    {
+        try{
+            $wdate = explode('-',$date);
+            $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+            return $cdate;
+        }
+        catch (Exception $e)
+        {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
+    private function turn_dates($date)
+    {
+        try{
+            $wdate = explode('/',$date);
+            $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+            return $cdate;
+        }
+        catch (Exception $e)
+        {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
+    public function addCambioNombreShowModal(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+            /*INSERT INTO `tbl_marcas_cambio_nombre`(`id`, `marcas_id`, `oficina_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+            $insert = array(
+                            'oficina_id' => "1",
+                            'marcas_id' => "1",
+                            'estado_id' => "1",
+                            'num_solicitud' => "",
+                            'fecha_solicitud' => "",
+                            'num_resolucion' => "",
+                            'fecha_resolucion' => "",
+                            'referencia_cliente' => "",
+                            'comentarios' => "",
+                    );
+            //echo json_encode($insert);
+            $CI->load->model("CambioNombre_model");
+                try{
+                    $query = $CI->CambioNombre_model->insert($insert);
+                        if (isset($query)){
+                            $cantidad = $CI->CambioNombre_model->CantidadCambioNombre();
+                            echo $cantidad;
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+    }
+
     public function addCambioNombre(){
         $CI = &get_instance();
         $data = $CI->input->post();

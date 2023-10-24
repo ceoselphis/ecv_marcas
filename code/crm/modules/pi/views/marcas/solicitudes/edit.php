@@ -502,8 +502,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                 <div class="collapse" id="fusion">
                                                     <div class="list-box">
                                                         <div class="row">
-                                                            <div class="col-md-12"> <!--data-toggle="modal" data-target="#AddFusion"-->
-                                                                <button type="button" class="btn btn-primary pull-right" id="AñadirFusion" >Añadir Fusion</button>
+                                                            <div class="col-md-12"> <!---->
+                                                                <button type="button" class="btn btn-primary pull-right" id="AddFusionAbrirModal" data-toggle="modal" data-target="#AddFusion">Añadir Fusion</button>
                                                                 <table id="fusionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                 <thead>
                                                                         <tr>
@@ -538,7 +538,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de nombre</button>
+                                                                <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de nombre</button>
                                                                 <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                 <thead>
                                                                         <tr>
@@ -573,7 +573,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioDomicilio">Añadir cambio de domicilio</button>
+                                                                <button type="button" id="AddCambioDomicilioAbrirModal" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioDomicilio" >Añadir cambio de domicilio</button>
                                                                 <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                 <thead>
                                                                         <tr>

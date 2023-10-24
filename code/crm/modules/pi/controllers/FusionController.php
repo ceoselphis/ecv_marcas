@@ -79,6 +79,39 @@ class FusionController extends AdminController
              echo 'Caught exception: ',  $e->getMessage(), "\n";
          }
      }
+
+     public function addFusionShowModal(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+            /*`tbl_marcas_fusion`(`id`, `marcas_id`, `oficina_id`, `num_solicitud`, `fecha_solicitud`, `estado_id`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`) */ 
+            $insert = array(
+                            'oficina_id' => "1",
+                            'marcas_id' => $data['id_marcas'],
+                            'estado_id' => "1",
+                            'num_solicitud' => "",
+                            'fecha_solicitud' => "",
+                            'num_resolucion' => "",
+                            'fecha_resolucion' => "",
+                            'referencia_cliente' => "",
+                            'comentarios' => "",
+                    );
+            //echo json_encode($insert);
+            $CI->load->model("Fusion_model");
+                try{
+                    $query = $CI->Fusion_model->insert($insert);
+                        if (isset($query)){
+                            $cantidad = $CI->Fusion_model->CantidadFusion();
+                            echo $cantidad;
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+      
+        
+    }
     public function addFusion(){
         $CI = &get_instance();
         $data = $CI->input->post();

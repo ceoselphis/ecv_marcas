@@ -548,6 +548,7 @@ class MarcasSolicitudesController extends AdminController
         $form = json_decode($CI->input->post('data'), TRUE);
         $result = array();
         $query = array();
+        $url = admin_url('pi/MarcasSolicitudesController/edit/');
         foreach($form as $key => $value)
         {
             if($value === '')
@@ -574,7 +575,7 @@ class MarcasSolicitudesController extends AdminController
                        'certificado' => $row['certificado'],
                        'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
                        'pais' => $row['pais_nom'],
-                       'acciones' => '<a href="{admin_url("pi/MarcasSolicitudesController/edit/"{$row["id"]}")}"><i class="fas fa-edit"></i> Editar</a>'
+                       'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
                     ]; 
                 }
                 echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   
@@ -603,7 +604,7 @@ class MarcasSolicitudesController extends AdminController
                         'certificado' => $row['certificado'],
                         'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
                         'pais' => $row['pais_nom'],
-                        'acciones' => '<button href="'.admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']).'"><i class="fas fa-edit"></i> Editar</>',
+                        'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
                     ];
                 }
                 echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   

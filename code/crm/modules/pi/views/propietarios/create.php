@@ -4,8 +4,9 @@ init_head();?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
-                <div class="col-md-12">
+            <div class="col-md-12">
                 <?php echo form_open(admin_url('pi/PropietariosController/store'),['id' => 'propietariosFrm' , 'name' => 'propietariosFrm']);?>
+                <?php echo form_hidden('id', $id);?>
                     <div class="panel_s">
                         <div class="panel-body">
                             <div class="wizard">
@@ -37,56 +38,133 @@ init_head();?>
                                                 'id' => 'codigo',
                                                 'name' => 'codigo',
                                                 'required' => 'required',
-                                                'class' => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => set_value('codigo', ''),
                                             ]);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Pais', 'pais_id');?>
-                                            <?php echo form_dropdown('pais_id', $paises ,set_value('pais_id', 'pais_id'), ['class' => 'form-control'])?>
+                                            <?php echo form_dropdown('pais_id', $paises ,set_value('pais_id', ''), ['class' => 'form-control'])?>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php echo form_label('Propietario', 'nombre_propietario')?>
-                                            <?php echo form_input('nombre_propietario', set_value('nombre_propietario'),['class' => 'form-control']);?>
+                                            <?php echo form_label('Propietario', 'propietario')?>
+                                            <?php echo form_input('nombre_propietario', set_value('propietario', ''),['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Estado Civil',);?>
-                                            <?php echo form_dropdown('estado_civil', ['Soltero(a)', 'Casado(a)', 'Divorciado(a)', 'Viudo(a)', 'Concubinato(a)'], set_value('estado_civil'), ['class' => 'form-control']);?>
+                                            <?php echo form_dropdown('estado_civil', ['Soltero(a)', 'Casado(a)', 'Divorciado(a)', 'Viudo(a)', 'Concubinato(a)'], set_value('estado_civil', ''), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Representante Legal','representante_legal');?>
-                                            <?php echo form_input('representante_legal',  set_value('representante_legal'), ['class' => 'form-control']);?>
+                                            <?php echo form_input('representante_legal',  set_value('representante_legal', ''), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-12">
                                             <?php echo form_label('Direccion','direccion');?>
-                                            <?php echo form_textarea('direccion',  set_value('direccion'), ['class' => 'form-control']);?>
+                                            <?php echo form_textarea('direccion',  set_value('direccion', ''), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Ciudad','ciudad');?>
-                                            <?php echo form_input('ciudad',  set_value('ciudad'), ['class' => 'form-control']);?>
+                                            <?php echo form_input('ciudad',  set_value('ciudad', ''), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Estado','estado');?>
-                                            <?php echo form_input('estado',  set_value('estado'), ['class' => 'form-control']);?>
+                                            <?php echo form_input('estado',  set_value('estado', ''), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Código Postal','codigo_postal');?>
-                                            <?php echo form_input('codigo_postal',  set_value('codigo_postal'), ['class' => 'form-control']);?>
+                                            <?php echo form_input('codigo_postal',  set_value('codigo_postal', ''), ['class' => 'form-control']);?>
                                         </div> 
                                         <div class="col-md-6">
                                             <?php echo form_label('Actividad Comercial','actividad_comercial');?>
-                                            <?php echo form_input('actividad_comercial',  set_value('actividad_comercial'), ['class' => 'form-control']);?>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <?php echo form_label('Datos Registro','actividad_comercial');?>
-                                            <?php echo form_input('datos_registro',  set_value('datos_registro'), ['class' => 'form-control']);?>
+                                            <?php echo form_input('actividad_comercial',  set_value('actividad_comercial', ''), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-12">
-                                            <?php echo form_label('Notas','notas');?>
-                                            <?php echo form_textarea('notas',  set_value('notas'), ['class' => 'form-control']);?>
-                                        </div>            
+                                            <?php echo form_label('Datos Registro','actividad_comercial');?>
+                                            <?php echo form_textarea('datos_registro',  set_value('datos_registro', ''), ['class' => 'form-control']);?>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for>Datos registro</label>
+                                            <select name="datosRegistro">
+                                                <option value="">Seleccione una opcion</option>
+                                                <option value="empresa constituida y existente conforme a las leyes de , domiciliada en ">Persona Juridica</option>
+                                                <option value="">Persona Natural</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <ul class="list-inline pull-right">
-                                        <li><button type="submit" class="btn btn-primary next-step">Siguiente</button></li>
+                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
+                                    </ul>
+                                </div>
+                                <!-- Step 2 -->
+                                <div class="tab-pane" role="tabpanel" id="step2">
+                                    <div class="col-md-2">
+                                        <?php echo form_label('Número','poder_num');?>
+                                        <?php 
+                                        echo form_input('numero',  set_value('numero', ''), ['class' => 'form-control']);?>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <?php echo form_label('Fecha','fecha');?>
+                                        <?php 
+                                        echo form_input('fecha',  set_value('fecha', ''), ['class' => 'form-control calendar']);?>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <?php echo form_label('Apoderados', 'apoderados');?>
+                                        <?php echo form_dropdown('apoderados', $staff ,set_value('apoderados', ''), ['class' => 'form-control', 'multiple' => 'multiple'])?>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Origen','origen');?>
+                                        <?php 
+                                        echo form_textarea('origen',  set_value('origen', ''), ['class' => 'form-control']);?>
+                                    </div>
+                                    
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="default-btn prev-step">Atrás</button></li>
+                                        <li><button type="submit" class="btn btn-success"> Guardar</button></li>
+                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
+                                    </ul>
+                                </div>
+                                <!-- Step 3 --->
+                                <div class="tab-pane" role="tabpanel" id="step3">
+                                    <div class="col-12">
+                                        <?php echo form_label('Notas', 'notas');?>
+                                        <?php echo form_textarea('notas', set_value('notas', ''), ['class' => 'form-control'])?>
+                                    </div>
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="default-btn prev-step">Atrás</button></li>
+                                        <li><button type="submit" class="btn btn-success"> Guardar</button></li>
+                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
+                                    </ul>
+                                </div>
+                                <!-- Step 4 -->
+                                <div class="tab-pane" role="tabpanel" id="step4">
+                                    <div class="col-md-12" style="padding-top: 1.5%" >
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#documentos" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Documentos<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="documentos">
+                                                    <div class="list-box">
+                                                        <div class="col-12" >
+                                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#documentosModal">Añadir</button>
+                                                        </div>
+                                                        <div class="col-md-12" style="padding: 1% 1% 1% 0%;">    
+                                                            <table class="table table-striped text-justify" id="docTable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ID</th>
+                                                                        <th>Documento</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="default-btn prev-step">Atrás</button></li>
+                                        <li><button type="submit" class="btn btn-success"> Guardar</button></li>
+                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
                                     </ul>
                                 </div>
                             </div>
@@ -98,36 +176,8 @@ init_head();?>
         </div>
     </div>
 </div>
-<!-- Apoderados Modal -->
-<div class="modal fade" id="apoderados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open('', ['method' => 'POST', 'id' => 'apoderadosFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Apoderados</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <?php echo form_hidden('poder_id', $id)?>
-                <?php echo form_label('Abogado', 'staff_id');?>
-                <?php echo form_dropdown('staff_id', $staff, set_value('staff_id'),['class' => 'form-control', 'multiple' => 'multiple']);?>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="apoderadofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
-      </div>
-    </div>
-  </div>
-  <?php echo form_close();?>
-</div>
 
-<!-- Prioridad Modal -->
+<!-- Documentos Modal -->
 <div class="modal fade" id="documentosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'documentosApoderadosFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -161,7 +211,7 @@ init_head();?>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="apoderadofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="documentoFrmSubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>
@@ -169,9 +219,10 @@ init_head();?>
 </div>
 
 
-
-
 <?php init_tail();?>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css"/>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
 
     <script>
     function fecha(){
@@ -214,13 +265,14 @@ init_head();?>
             virtualScroll: 600
         });
     </script>
-    <script>
+    <!--<script>
+
         new DataTable(".table-responsive", {
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
             }
         });
-    </script>
+    </script>-->
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto');
@@ -542,11 +594,6 @@ init_head();?>
             background-color: rgb(29 78 216);
         }
 
-
-
-
-
-
         @media (max-width: 767px){
             .sign-content h3{
                 font-size: 40px;
@@ -574,110 +621,147 @@ init_head();?>
         
     </style>
     <script>
-        function getFormData(){
-            var config = {};
-            $('input').each(function () {
-                config[this.name] = this.value;
-            });
-            $("select").each(function()
-            {
-                config[this.name] = this.value;
-            });
-            return config;
-        }
-        $("#solicitudfrm").on('submit', function(e)
+        $("#documentoFrmSubmit").on('click', function(e)
         {
             e.preventDefault();
             var formData = new FormData();
-            var data = getFormData(this);
             formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-            formData.append('signo_archivo' , document.getElementById('signo_archivo').files[0]);
-            formData.append('doc_descripcion', $("textarea[name=doc_descripcion]").val());
-            formData.append('comentario_signo', $("input[name=comentario_signo").val())
-            formData.append('solicitud', JSON.stringify(data));
-            formData.append('comentarios', $("textarea[name=comentarios]").val());
-            formData.append('paises_solicitantes', $("#pais_id").val());
-            formData.append('clase_niza_id', $("#clase_niza_id").val());
-            formData.append('solicitantes_id', $("#solicitantes_id").val());
+            formData.append('descripcion', $("input[name=descripcion]").val());
+            formData.append('archivo' , document.getElementById('archivo').files[0]);
+            formData.append('comentarios', $("input[name=comentarios]").val());
             $.ajax({
-                url:'<?php echo admin_url('pi/MarcasSolicitudesController/store');?>',
+                url:'<?php echo admin_url('pi/PropietariosController/storeDocument/');?>',
                 method: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false
             }).then(function(response){
-                location.href = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$solicitud_id}");?>';
+                $("#documentosModal").modal('hide');
             }).catch(function(response){
                 <?php if(ENVIRONMENT != 'production') { ?>
-                 alert(response);
+                    alert_float('success', response.message);
                 <?php } else { ?>
-                    alert('ha ocurrido un error');
+                    alert_float('success', response.message);
                 <?php } ?>
             });
         });
 
-
-        $("#prioridadfrmsubmit").on('click', function(e){
-            e.preventDefault();
-            data = {
-                'pais_prioridad' : $("select[name=pais_prioridad").val(),
-                'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
-                'nro_prioridad'  : $("input[name=nro_prioridad").val(),
-                'solicitud_id'   : $("input[name=solicitud_id").val(),
-            }
+        function getDocument()
+        {
             $.ajax({
-                url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>',
-                method: 'POST',
-                data : data
-            }).then(function(response){
-                new DataTable("#prioridadTbl", {
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                    ajax: JSON.parse(response.data),
+                url: "<?php echo admin_url('pi/PropietariosController/getDocument/'.$id);?>",
+                method: "POST",
+                success: function(response){
+                    res = JSON.parse(response);
+                    data = res.data;
+                    
+                    $('#docTable').DataTable( {
+                        destroy: true,
+                        data: data,
+                        columns: [
+                            { data: 'id' },
+                            { data: 'descripcion' },
+                            { data: 'archivo' },
+                            { data: 'acciones'}
+                        ],
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                        }
+                    } );
                 }
-                });
-                $("#prioridadModal").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar una prioridad sin registro de la solicitud");
+            });
+        }
+
+        // ------------step-wizard-------------
+        $(document).ready(function () {
+            $('.nav-tabs > li a[title]').tooltip();
+            
+            //Wizard
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+                var $target = $(e.target);
+            
+                if ($target.parent().hasClass('disabled')) {
+                    return false;
+                }
+            });
+
+            $(".next-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                $active.next().removeClass('disabled');
+                nextTab($active);
+
+            });
+            $(".prev-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                prevTab($active);
+
             });
         });
 
-        // ------------step-wizard-------------
-    $(document).ready(function () {
-        $('.nav-tabs > li a[title]').tooltip();
-        
-        //Wizard
-        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-
-            var $target = $(e.target);
-        
-            if ($target.parent().hasClass('disabled')) {
-                return false;
-            }
-        });
-
-        $(".next-step").click(function (e) {
-
-            var $active = $('.wizard .nav-tabs li.active');
-            $active.next().removeClass('disabled');
-            nextTab($active);
-
-        });
-        $(".prev-step").click(function (e) {
-
-            var $active = $('.wizard .nav-tabs li.active');
-            prevTab($active);
-
-        });
-    });
-
-    function nextTab(elem) {
-        $(elem).next().find('a[data-toggle="tab"]').click();
-    }
-    function prevTab(elem) {
-        $(elem).prev().find('a[data-toggle="tab"]').click();
-    }
+        function nextTab(elem) {
+            $(elem).next().find('a[data-toggle="tab"]').click();
+        }
+        function prevTab(elem) {
+            $(elem).prev().find('a[data-toggle="tab"]').click();
+        }
 
     </script>
+
+    <script>
+        $(document).on('change', 'select[name=datosRegistro]', function(e)
+        {
+            e.preventDefault();
+            var val = $(this).val();
+            $("textarea[name=datos_registro]").val(val);
+        });
+    </script>
+
+<script>
+    $(document).on('submit', '#propietariosFrm', function(e)
+    {
+        e.preventDefault();
+        var data = {
+            "id"                 : $("input[name=id]").val(),
+            "codigo"             : $("input[name=codigo]").val(),
+            "pais_id"            : $("select[name=pais_id]").val(),
+            "nombre_propietario" : $("input[name=nombre_propietario]").val(),
+            "estado_civil"       : $("select[name=estado_civil]").val(),
+            "representante_legal": $("input[name=representante_legal]").val(),
+            "direccion"          : $("textarea[name=direccion]").val(),
+            "estado"             : $("input[name=estado]").val(),
+            "ciudad"             : $("input[name=ciudad]").val(),
+            "codigo_postal"      : $("input[name=codigo_postal]").val(),
+            "actividad_comercial": $("input[name=actividad_comercial").val(),
+            "datos_registro"     : $("textarea[name=datos_registro]").val(),
+            "numero"             : $("input[name=numero]").val(),
+            "fecha"              : $("input[name=fecha]").val(),
+            "apoderados"         : $("select[name=apoderados]").val(),
+            "origen"             : $("textarea[name=origen]").val(),
+            "notas"              : $("textarea[name=notas]").val(),
+        }
+        $.ajax({
+            url: "<?php echo admin_url('pi/PropietariosController/store');?>",
+            method: "POST",
+            data: {
+                data: JSON.stringify(data),
+                "csrf_token_name": $("input[name=csrf_token_name]").val()
+            },
+            success: function(response)
+            {
+                if(response.code = 200)
+                {
+                    //location.href = "<?php echo admin_url('pi/PropietariosController/edit/'.$id);?>";
+                }
+                else
+                {
+                    alert_float('error', 'No se ha podido guardar');
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

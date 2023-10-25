@@ -80,16 +80,17 @@ class Propietarios_model extends BaseModel
     public function findApoderados($id = null)
     {
         $this->db->select('*');
-        $this->db->from('tbl_poderes');
-        $this->db->where("id = ".$id);
+        $this->db->from('tbl_apoderados');
+        $this->db->where("poder_id = ".$id);
         $query = $this->db->get();
         return $query->result_array();
     }
 
     public function insertPoder($params = NULL)
     {
-        $query = $this->db->insert('tbl_poderes', $params);
-        return $query;
+        $this->db->insert('tbl_poderes', $params);
+        $insert_id = $this->db->count_all('tbl_poderes');
+        return $insert_id;
     }
 
     public function insertDocument($params = NULL)

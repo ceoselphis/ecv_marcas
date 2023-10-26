@@ -173,7 +173,17 @@ class MarcasSolicitudesDocumentoController extends AdminController
         if (empty($file['doc_archivo'])){
             $doc_arch ="No tiene"; 
         }if(!empty($file['doc_archivo'])){
-
+            $fpath = FCPATH.'uploads/marcas/documentos/'.$file['doc_archivo']['name'];
+           // $path = site_url('uploads/marcas/documentos/'.$file['doc_archivo']['name']);
+            $fileType = pathinfo($fpath, PATHINFO_EXTENSION);
+            // Mover el archivo a la carpeta de destino
+                if (move_uploaded_file($file['doc_archivo']['tmp_name'], $fpath)) {
+                    echo "El archivo PDF se ha subido exitosamente.";
+                } else {
+                    
+                    throw new Exception('Error al subir el archivo'); 
+                }
+            
             $doc_arch =$file['doc_archivo']['name']; 
         }
         if (!empty($data)){
@@ -201,6 +211,11 @@ class MarcasSolicitudesDocumentoController extends AdminController
         }
         
     }
+
+    public function DeleteArchivoDocumento(string $archivo){
+        $path = site_url('uploads/marcas/documentos/'.$archivo);
+        unlink($path);
+    }
     public function EditDoc(string $id = null){
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudesDocumento_model");
@@ -211,6 +226,8 @@ class MarcasSolicitudesDocumentoController extends AdminController
      public function UpdateDocumento(string $id = null){
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudesDocumento_model");
+        //$query =$CI->MarcasSolicitudesDocumento_model->find($id);
+        //$this->DeleteArchivoDocumento($query[0]['path']);
         $data = $CI->input->post();
         
         if (!empty($data)){
@@ -287,6 +304,8 @@ class MarcasSolicitudesDocumentoController extends AdminController
      {
          $CI = &get_instance();
          $CI->load->model("MarcasSolicitudesDocumento_model");
+         //$query =$CI->MarcasSolicitudesDocumento_model->find($id);
+         //$this->DeleteArchivoDocumento($query[0]['path']);
          $CI->load->helper('url');
          $query = $CI->MarcasSolicitudesDocumento_model->delete($id);
          if (isset($query)){

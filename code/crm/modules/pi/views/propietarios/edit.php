@@ -82,6 +82,14 @@ init_head();?>
                                             <?php echo form_textarea('datos_registro',  set_value('datos_registro'), ['class' => 'form-control']);?>
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label" for>Datos registro</label>
+                                        <select name="datosRegistro">
+                                            <option value="">Seleccione una opcion</option>
+                                            <option value="empresa constituida y existente conforme a las leyes de , domiciliada en ">Persona Juridica</option>
+                                            <option value="">Persona Natural</option>
+                                        </select>
+                                    </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
                                     </ul>
@@ -103,10 +111,7 @@ init_head();?>
                                     </div>
                                     <div class="col-md-8">
                                         <?php echo form_label('Apoderados', 'apoderados');?>
-                                        <pre>
-                                            <?php var_dump($apoderados);?>
-                                        </pre>
-                                        <?php echo form_dropdown('apoderados', $staff ,set_value('apoderados', ), ['class' => 'form-control', 'multiple' => 'multiple'])?>
+                                        <?php echo form_dropdown('apoderados', $staff ,set_value('apoderados', $apoderados), ['class' => 'form-control', 'multiple' => 'multiple'])?>
                                     </div>
                                     <div class="col-md-12">
                                         <?php echo form_label('Origen','origen');?>
@@ -763,6 +768,59 @@ init_head();?>
     });
     
     
+</script>
+
+    <script>
+        $(document).on('change', 'select[name=datosRegistro]', function(e)
+        {
+            e.preventDefault();
+            var val = $(this).val();
+            $("textarea[name=datos_registro]").val(val);
+        });
+    </script>
+<script>
+    $(document).on('submit', '#propietariosFrm', function(e)
+    {
+        e.preventDefault();
+        var data = {
+            "id"                 : $("input[name=id]").val(),
+            "codigo"             : $("input[name=codigo]").val(),
+            "pais_id"            : $("select[name=pais_id]").val(),
+            "nombre_propietario" : $("input[name=nombre_propietario]").val(),
+            "estado_civil"       : $("select[name=estado_civil]").val(),
+            "representante_legal": $("input[name=representante_legal]").val(),
+            "direccion"          : $("textarea[name=direccion]").val(),
+            "estado"             : $("input[name=estado]").val(),
+            "ciudad"             : $("input[name=ciudad]").val(),
+            "codigo_postal"      : $("input[name=codigo_postal]").val(),
+            "actividad_comercial": $("input[name=actividad_comercial").val(),
+            "datos_registro"     : $("textarea[name=datos_registro]").val(),
+            "numero"             : $("input[name=numero]").val(),
+            "fecha"              : $("input[name=fecha]").val(),
+            "apoderados"         : $("select[name=apoderados]").val(),
+            "origen"             : $("textarea[name=origen]").val(),
+            "notas"              : $("textarea[name=notas]").val(),
+        }
+        $.ajax({
+            url: "<?php echo admin_url('pi/PropietariosController/update/'.$id);?>",
+            method: "POST",
+            data: {
+                data: JSON.stringify(data),
+                "csrf_token_name": $("input[name=csrf_token_name]").val()
+            },
+            success: function(response)
+            {
+                if(response.code = 200)
+                {
+                    //location.href = "<?php echo admin_url('pi/PropietariosController/edit/'.$id);?>";
+                }
+                else
+                {
+                    alert_float('error', 'No se ha podido guardar');
+                }
+            }
+        });
+    });
 </script>
 </body>
 </html>

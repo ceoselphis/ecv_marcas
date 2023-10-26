@@ -753,7 +753,7 @@ init_head();?>
             {
                 if(response.code = 200)
                 {
-                    //location.href = "<?php echo admin_url('pi/PropietariosController/edit/'.$id);?>";
+                    location.href = "<?php echo admin_url('pi/PropietariosController/edit/'.$id);?>";
                 }
                 else
                 {

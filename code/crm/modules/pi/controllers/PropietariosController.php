@@ -94,6 +94,7 @@ class PropietariosController extends AdminController
             'propietario_id' => $id,
         ];
         $propietarios = [
+            'id'      => $data['id'],
             'pais_id' => $data['pais_id'],
             'codigo'  => $data['codigo'],
             'nombre_propietario' => $data['nombre_propietario'],
@@ -110,7 +111,19 @@ class PropietariosController extends AdminController
         ];
         $query = $CI->Propietarios_model->insert($propietarios);
         $poder_id = $CI->Propietarios_model->insertPoder($poder);
-        
+        /*Iteramos sobre los apoderados para insertar dentro de la tabla de apoderados*/
+        $dsApoderados = array();
+        foreach($data['apoderados'] as $row)
+        {
+            $dsApoderados[] = [
+                'poder_id' => $poder_id,
+                'staff_id' => intval($row),
+            ];
+        }
+        /*Insertamos en la tabla*/
+        unset($query);
+        $query = $CI->Propietarios_model->insertApoderados($dsApoderados);
+        /*Devolvemos el resultado*/
         if (isset($query))
         {
             echo json_encode(['code' => 200, 'message' => 'success']);
@@ -168,68 +181,34 @@ class PropietariosController extends AdminController
         $data = $CI->input->post();
         $wdate = '' ? '' : explode('/', $data['fecha']);
         $data['fecha'] = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-        //We validate the data
-        //we set the rules
-        $config = array(
-            [
-                'field' => 'nombre_propietario',
-                'label' => 'Propietario',
-                'rules' => 'trim|required|min_length[1]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar un nombre de propietario ',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-            [
-                'field' => 'codigo',
-                'label' => 'Código',
-                'rules' => 'trim|required|min_length[5]|max_length[20]',
-                'errors' => [
-                    'required' => 'Debe indicar un código',
-                    'min_length' => 'Código demasiado corto',
-                    'max_lenght' => 'Código demasiado largo'
-                ]
-            ],         
-        );
-        $CI->form_validation->set_rules($config);
-        if($CI->form_validation->run() == FALSE)
+        //We prepare the data 
+        $poder = [
+            'numero' => $data['numero'],
+            'fecha'     => $data['fecha'],
+            'origen'    => $data['origen'],
+            'propietario_id' => $id,
+        ];
+        $propietarios = [
+            'pais_id' => $data['pais_id'],
+            'codigo'  => $data['codigo'],
+            'nombre_propietario' => $data['nombre_propietario'],
+            'estado_civil' => $data['estado_civil'],
+            'representante_legal' => $data['representante_legal'],
+            'direccion' => $data['direccion'],
+            'ciudad' => $data['ciudad'],
+            'estado' => $data['estado'],
+            'codigo_postal' => $data['codigo_postal'],
+            'actividad_comercial' => $data['actividad_comercial'],
+            'notas' => $data['notas'],
+            'modified_at' => date('Y-m-d'),
+            'modified_by' => $_SESSION['staff_user_id'],
+        ];
+        $query = $CI->Propietarios_model->update($id, $propietarios);
+        $poderResult = $CI->Propietarios_model->insertPoder($poder);
+        if (isset($query))
         {
-            $this->edit($id);
+            return redirect('pi/PropietariosController/edit/'.$id);
         }
-        else
-        {
-            //We prepare the data 
-            $poder = [
-                'numero' => $data['numero'],
-                'fecha'     => $data['fecha'],
-                'origen'    => $data['origen'],
-                'propietario_id' => $id,
-            ];
-            $propietarios = [
-                'pais_id' => $data['pais_id'],
-                'codigo'  => $data['codigo'],
-                'nombre_propietario' => $data['nombre_propietario'],
-                'estado_civil' => $data['estado_civil'],
-                'representante_legal' => $data['representante_legal'],
-                'direccion' => $data['direccion'],
-                'ciudad' => $data['ciudad'],
-                'estado' => $data['estado'],
-                'codigo_postal' => $data['codigo_postal'],
-                'actividad_comercial' => $data['actividad_comercial'],
-                'notas' => $data['notas'],
-                'modified_at' => date('Y-m-d'),
-                'modified_by' => $_SESSION['staff_user_id'],
-
-            ];
-            $poderResult = $CI->Propietarios_model->insertPoder($poder);
-            $query = $CI->Propietarios_model->update($id, $propietarios);
-            if (isset($query))
-            {
-                return redirect('pi/PropietariosController/edit/'.$id);
-            }
-        }
-        
     }
 
     /**

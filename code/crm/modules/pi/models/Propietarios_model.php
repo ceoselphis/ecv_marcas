@@ -79,18 +79,32 @@ class Propietarios_model extends BaseModel
 
     public function findApoderados($id = null)
     {
-        $this->db->select('*');
-        $this->db->from('tbl_apoderados');
+        $this->db->select('staffid, CONCAT(firstname, lastname) AS name');
+        $this->db->from('tbl_apoderados a');
+        $this->db->join('tblstaff b', 'a.staff_id = b.staffid');
         $this->db->where("poder_id = ".$id);
         $query = $this->db->get();
-        return $query->result_array();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['staffid']);
+            array_push($values, strtoupper("{$row['name']}"));
+        }
+        return array_combine($keys, $values);
     }
 
     public function insertPoder($params = NULL)
     {
         $this->db->insert('tbl_poderes', $params);
-        $insert_id = $this->db->count_all('tbl_poderes');
-        return $insert_id;
+        $insert_id = $this->db->query('SELECT LAST_INSERT_ID()');
+        return $insert_id->result_array()[0]['LAST_INSERT_ID()'];
+    }
+
+    public function insertApoderados($params = NULL)
+    {
+        $this->db->insert_batch('tbl_apoderados', $params);
+        return true;
     }
 
     public function insertDocument($params = NULL)

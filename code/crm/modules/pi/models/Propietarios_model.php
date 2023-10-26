@@ -79,19 +79,18 @@ class Propietarios_model extends BaseModel
 
     public function findApoderados($id = null)
     {
-        $this->db->select('staffid, CONCAT(firstname, lastname) AS name');
+        $this->db->select('staffid');
         $this->db->from('tbl_apoderados a');
         $this->db->join('tblstaff b', 'a.staff_id = b.staffid');
-        $this->db->where("poder_id = ".$id);
+        $this->db->join('tbl_poderes c', 'a.poder_id = c.id');
+        $this->db->where("c.propietario_id = ".$id);
         $query = $this->db->get();
         $keys = array();
-        $values = array();
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['staffid']);
-            array_push($values, strtoupper("{$row['name']}"));
         }
-        return array_combine($keys, $values);
+        return $keys;
     }
 
     public function insertPoder($params = NULL)
@@ -110,6 +109,18 @@ class Propietarios_model extends BaseModel
     public function insertDocument($params = NULL)
     {
         $query = $this->db->insert('tbl_propietarios_documentos', $params);
+        return $query;
+    }
+
+    public function updatePoder($poder_id, $data)
+    {
+        $query = $this->db->update('tbl_poderes', $data, "id = {$poder_id}");
+        return $query;
+    }
+
+    public function updateApoderados($data)
+    {
+        $query = $this->db->update_batch('tbl_poderes', $data);
         return $query;
     }
 

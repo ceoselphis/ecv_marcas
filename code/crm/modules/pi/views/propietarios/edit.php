@@ -96,6 +96,7 @@ init_head();?>
                                 </div>
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
+                                    <?php echo form_hidden("poder_id", set_value('poder_id', $poderes[0]['id']));?>
                                     <div class="col-md-2">
                                         <?php echo form_label('Número','poder_num');?>
                                         <?php 
@@ -111,7 +112,14 @@ init_head();?>
                                     </div>
                                     <div class="col-md-8">
                                         <?php echo form_label('Apoderados', 'apoderados');?>
-                                        <?php echo form_dropdown('apoderados', $staff ,set_value('apoderados', $apoderados), ['class' => 'form-control', 'multiple' => 'multiple'])?>
+                                        <?php echo form_dropdown([
+                                                'id'       => 'apoderados',
+                                                'name'     => 'apoderados',
+                                                'class'    => 'form-control',
+                                                'multiple' => 'multiple',
+                                                'options'  =>  $staff,
+                                                'selected' => $apoderados
+                                        ]);?>
                                     </div>
                                     <div class="col-md-12">
                                         <?php echo form_label('Origen','origen');?>
@@ -800,6 +808,7 @@ init_head();?>
             "apoderados"         : $("select[name=apoderados]").val(),
             "origen"             : $("textarea[name=origen]").val(),
             "notas"              : $("textarea[name=notas]").val(),
+            "poder_id"           : $("input[name=poder_id]").val(),
         }
         $.ajax({
             url: "<?php echo admin_url('pi/PropietariosController/update/'.$id);?>",
@@ -812,7 +821,7 @@ init_head();?>
             {
                 if(response.code = 200)
                 {
-                    //location.href = "<?php echo admin_url('pi/PropietariosController/edit/'.$id);?>";
+                    location.href = "<?php echo admin_url('pi/PropietariosController/edit/'.$id);?>";
                 }
                 else
                 {

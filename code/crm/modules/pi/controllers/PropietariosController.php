@@ -105,6 +105,7 @@ class PropietariosController extends AdminController
             'estado' => $data['estado'],
             'codigo_postal' => $data['codigo_postal'],
             'actividad_comercial' => $data['actividad_comercial'],
+            'datos_registro' => $data['datos_registro'],
             'notas' => $data['notas'],
             'modified_at' => date('Y-m-d'),
             'modified_by' => $_SESSION['staff_user_id'],
@@ -204,10 +205,25 @@ class PropietariosController extends AdminController
             'modified_by' => $_SESSION['staff_user_id'],
         ];
         $query = $CI->Propietarios_model->update($id, $propietarios);
-        $poderResult = $CI->Propietarios_model->insertPoder($poder);
+        $poderResult = $CI->Propietarios_model->updatePoder($data['poder_id'], $poder);
+        /*Iteramos sobre los apoderados para insertar dentro de la tabla de apoderados*/
+        $dsApoderados = array();
+        foreach($data['apoderados'] as $row)
+        {
+            $dsApoderados[] = [
+                'poder_id' => $data['poder_id'],
+                'staff_id' => intval($row),
+            ];
+        }
+        unset($query);
+        $query = $CI->Propietarios_model->updateApoderados($dsApoderados);
         if (isset($query))
         {
-            return redirect('pi/PropietariosController/edit/'.$id);
+            echo json_encode(['code' => 200, 'message' => 'success']);
+        }
+        else
+        {
+            echo json_encode(['code' => 500, 'message' => 'not found']);
         }
     }
 

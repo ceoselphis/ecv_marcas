@@ -147,6 +147,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
+          <div class="col-md-4">
+            <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']);?>
+            <?php echo form_dropdown([
+              'name' => 'project_id',
+              'id' => 'project_id',
+              'class' => 'form-control',
+              'selected' => set_value('project_id', ''), 
+              'options' => $projects
+            ]);?>
+          </div>
             <div class="col-md-2">
               <?php echo form_label('Fecha limite', "fecha_limite");?>
               <?php echo form_input([
@@ -157,13 +167,13 @@
                 'placeholder' => 'Fecha Limite'
               ]);?>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-6">
                 <?php echo form_label('Tipo Tarea', 'tipo_tarea');?>
                 <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12" style="margin-top: 15px;">
                 <?php echo form_label('Descripcion', 'descripcion');?>
-                <?php echo form_textarea(['name'=>'descripcion','id'=>'descripcion'],'',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'descripcion','id'=>'descripcion'], set_value('descripcion', '') , ['class' => 'form-control']);?>
             </div>
         </div>
       </div>
@@ -189,14 +199,33 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <input type="hidden" id="Tareaid">
-            <div class="col-md-12">
-                <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
-                <?php echo form_dropdown(['name'=>'edittipo_tarea','id'=>'edittipo_tarea','class' => 'form-control'], $tipo_tareas  );?>
+          <div class="col-md-4">
+            <?php echo form_label('Proyecto', 'project_id_edit', ['class' => 'form-label']);?>
+            <?php echo form_dropdown([
+              'name' => 'project_id_edit',
+              'id' => 'project_id_edit',
+              'class' => 'form-control',
+              'selected' => set_value('project_id_edit', ''), 
+              'options' => $projects
+            ]);?>
+          </div>
+            <div class="col-md-2">
+              <?php echo form_label('Fecha limite', "fecha_limite_edit");?>
+              <?php echo form_input([
+                'id' => 'fecha_limite_edit',
+                'name' => 'fecha_limite_edit',
+                'class' => 'form-control calendar',
+                'value' => set_value('fecha_limite_edit'),
+                'placeholder' => 'Fecha Limite'
+              ]);?>
+            </div>
+            <div class="col-md-6">
+                <?php echo form_label('Tipo Tarea', 'tipo_tarea_edit');?>
+                <?php echo form_dropdown(['name'=>'tipo_tarea_edit','id'=>'tipo_tarea_edit'], $tipo_tareas, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12" style="margin-top: 15px;">
-                <?php echo form_label('Descripcion', 'descripcion');?>
-                <?php echo form_textarea(['name'=>'editdescripcion','id'=>'editdescripcion'],'',['class' => 'form-control']);?>
+                <?php echo form_label('Descripcion', 'descripcion_edit');?>
+                <?php echo form_textarea(['name'=>'descripcion_edit','id'=>'descripcion_edit'], set_value('descripcion_edit', '') , ['class' => 'form-control']);?>
             </div>
         </div>
       </div>

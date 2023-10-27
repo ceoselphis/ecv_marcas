@@ -384,21 +384,11 @@ $CI->load->view('marcas/solicitudes/css.php');
                                 </div>
                                 <!-- Step 6 -->
                                 <div class="tab-pane" role="tabpanel" id="step6">
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']);?>
-                                        <?php echo form_dropdown([
-                                            'name' => 'project_id',
-                                            'id' => 'project_id',
-                                            'class' => 'form-control',
-                                            'selected' => set_value('project_id', ''), 
-                                            'options' => $projects
-                                        ]);?>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
+                                        <table class="table table-responsive" id="tareas">
                                             <thead>
                                                 <tr>
                                                     <th>Nro</th>
@@ -409,28 +399,6 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <?php if (!empty($tareas)) {?>
-                                                <?php foreach ($tareas as $row) {?>
-                                                    <tr taskId = "<?php echo $row['id'];?>">
-                                                        <td id = 'tareasid' ><?php echo $row['id'];?></td>
-                                                        <td><?php echo $row['tipo_tarea'];?></td>
-                                                        <td><?php echo $row['descripcion'];?></td>
-                                                        <td><?php echo $row['fecha'];?></td>
-                                                        <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                            <td>
-                                                                <a id="<?php echo $row['id'];?>" class="edit btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
-                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                            </td>
-                                                        </form> 
-                                                    </tr>
-                                                <?php } ?>
-                                            <?php }
-                                            else {
-                                            ?>
-                                            <tr colspan="3">
-                                                <td>Sin Registros</td>
-                                            </tr>
-                                            <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>

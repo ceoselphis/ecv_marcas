@@ -2675,6 +2675,7 @@
                 processData: false,
                 contentType: false
             }).then(function(response){ 
+                console.log(response);
                 alert_float('success', "Actualizado Correctamente");
                 $("#docModalEdit").modal('hide');
                 Documentos();

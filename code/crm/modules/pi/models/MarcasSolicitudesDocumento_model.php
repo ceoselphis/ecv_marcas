@@ -46,4 +46,6 @@ class MarcasSolicitudesDocumento_model extends BaseModel
         $values = $query->result_array();
         return $values[0]['signonom']; 
     }
+
+    
 }

@@ -101,31 +101,6 @@ $CI->load->view('marcas/solicitudes/css.php');
                                         ]);?>
                                     </div>
                                     
-                                    <!-- Solicitantes -->
-                                    <!--<div class="col-md-12">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#solicitantes" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Solicitantes<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="solicitantes">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#solicitantesModal">Añadir solicitantes</button>
-                                                                <table id="solicitantesTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Código</th>
-                                                                            <th>Solicitantes</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
                                     <div class="col-md-6">
                                         <?php echo form_label('Solicitantes', 'solicitantes_id');?>
                                         <?php echo form_dropdown([
@@ -409,7 +384,17 @@ $CI->load->view('marcas/solicitudes/css.php');
                                 </div>
                                 <!-- Step 6 -->
                                 <div class="tab-pane" role="tabpanel" id="step6">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']);?>
+                                        <?php echo form_dropdown([
+                                            'name' => 'project_id',
+                                            'id' => 'project_id',
+                                            'class' => 'form-control',
+                                            'selected' => set_value('project_id', ''), 
+                                            'options' => $projects
+                                        ]);?>
+                                    </div>
+                                    <div class="col-md-6">
                                         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">

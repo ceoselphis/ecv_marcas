@@ -828,6 +828,23 @@ class MarcasSolicitudes_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
+
+    public function findAllProjects()
+    {
+        $this->db->select('id, name');
+        $this->db->from('tblprojects');
+        $this->db->where('status < 4');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['name']);
+        }
+        return array_combine($keys, $values); 
+    }
     
    
 

@@ -147,8 +147,18 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
+            <div class="col-md-2">
+              <?php echo form_label('Fecha limite', "fecha_limite");?>
+              <?php echo form_input([
+                'id' => 'fecha_limite',
+                'name' => 'fecha_limite',
+                'class' => 'form-control calendar',
+                'value' => set_value('fecha_limite'),
+                'placeholder' => 'Fecha Limite'
+              ]);?>
+            </div>
+            <div class="col-md-10">
+                <?php echo form_label('Tipo Tarea', 'tipo_tarea');?>
                 <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12" style="margin-top: 15px;">

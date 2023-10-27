@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\map;
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class TareasController extends AdminController
@@ -291,6 +294,115 @@ class TareasController extends AdminController
             echo "No se ha podido Eliminar";
         }
         
+        
+    }
+
+    /*Añadimos tareas a los proyectos*/ 
+    public function addTaskToMarcasAndProject()
+    {
+        $CI = &get_instance();
+        $CI->load->model('Tareas_Model');
+        $CI->load->helper('url');
+        $request = $CI->input->post();
+        $data = json_decode($request['data'], true);
+        
+        /*Invertimos las fechas */
+        $fecha = $this->turn_dates($data['fecha_limite']);
+        /*Obtenemos los demas datos*/
+        $tipoTarea = $CI->Tareas_Model->findTipoTareas($data['tipo_tarea'])[0]['nombre'];
+        $task = [
+            'name'        => $tipoTarea,
+            'description' => $data['descripcion'],
+            'priority'    => '1',
+            'dateadded'   => date('Y-m-d'),
+            'startdate'   => date('Y-m-d'),
+            'duedate'     => $fecha,
+            'addedfrom'   => '1',
+            'is_added_from_contact' => '0',
+            'status'      => '4',
+            'recurring'   => '0',
+            'cycles'      => '0',
+            'total_cycles'=> '0',
+            'custom_recurring' => '0',
+            'rel_id'      => $data['project_id'],
+            'rel_type'    => 'project',
+            'is_public'   => '0',
+            'billable'   => '1',
+            'billed'      => '0',
+            'invoice_id'  => '0',
+            'hourly_rate' => '0.00',
+            "milestone"   => '1',
+            'kanban_order'=> '1',
+            'milestone_order' => '0',
+            'visible_to_client' => '0',
+            'deadline_notified' => '0',
+        ];        
+        $task_id = $CI->Tareas_Model->insertTask($task);
+        $tarea = [
+            'tipo_tareas_id' => $data['tipo_tarea'],
+            'marcas_id'      => $data['marcas_id'],
+            'fecha'          => date('Y-m-d'),
+            'descripcion'    => $data['descripcion'],
+            'project_id'     => $data['project_id'],
+            'task_id'        => $task_id
+        ];
+        $query = $CI->Tareas_Model->insert($tarea);
+        if($query)
+        {
+            echo json_encode(['code' => 200, 'message' => 'tarea registrada con exito']);
+        }
+        else
+        {
+            echo json_encode(['code' => 500, 'message' => 'error']);
+        }
+    }
+
+    public function flip_dates($date)
+    {
+        if($date != '')
+        {
+            try{
+                $wdate = explode('-',$date);
+                $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+                return $cdate;
+            }
+            catch (Exception $e)
+            {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        }
+        elseif ($date == '0000-00-00') {
+            try{
+                $wdate = explode('-',$date);
+                $cdate = "{$wdate[2]}/{$wdate[1]}/{$wdate[0]}";
+                return $cdate;
+            }
+            catch (Exception $e)
+            {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        }
+        else{
+            return '';
+        }
+    }
+
+    public function turn_dates($date)
+    {
+        if($date != ''){
+            try{
+                $wdate = explode('/',$date);
+                $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                return $cdate;
+            }
+            catch (Exception $e)
+            {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        }
+        else{
+            return NULL;
+        }
         
     }
 }

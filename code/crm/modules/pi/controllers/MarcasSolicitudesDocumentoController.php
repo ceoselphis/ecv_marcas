@@ -150,7 +150,7 @@ class MarcasSolicitudesDocumentoController extends AdminController
     public function showSolicitudDocumento(){
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudesDocumento_model");
-        $data = $CI->MarcasSolicitudesDocumento_model->findAll();
+        $data = $CI->MarcasSolicitudesDocumento_model->findAllDocumentosMarcas();
         $json = array();
         foreach ($data as $row ) {
             $json[] = array(
@@ -166,6 +166,7 @@ class MarcasSolicitudesDocumentoController extends AdminController
 
     public function addSolicitudDocumento()
     {
+        /*INSERT INTO `tbl_marcas_solicitudes_documentos`(`id`, `marcas_id`, `comentarios`, `path`, `descripcion`) */
         $CI = &get_instance();
         $data = $CI->input->post();
         $file = $_FILES;
@@ -173,7 +174,17 @@ class MarcasSolicitudesDocumentoController extends AdminController
         if (empty($file['doc_archivo'])){
             $doc_arch ="No tiene"; 
         }if(!empty($file['doc_archivo'])){
-
+            $fpath = FCPATH.'uploads/marcas/documentos/'.$file['doc_archivo']['name'];
+           // $path = site_url('uploads/marcas/documentos/'.$file['doc_archivo']['name']);
+            $fileType = pathinfo($fpath, PATHINFO_EXTENSION);
+            // Mover el archivo a la carpeta de destino
+                if (move_uploaded_file($file['doc_archivo']['tmp_name'], $fpath)) {
+                    echo "El archivo PDF se ha subido exitosamente.";
+                } else {
+                    
+                    throw new Exception('Error al subir el archivo'); 
+                }
+            
             $doc_arch =$file['doc_archivo']['name']; 
         }
         if (!empty($data)){
@@ -201,6 +212,11 @@ class MarcasSolicitudesDocumentoController extends AdminController
         }
         
     }
+
+    public function DeleteArchivoDocumento(string $archivo){
+        $path = site_url('uploads/marcas/documentos/'.$archivo);
+        unlink($path);
+    }
     public function EditDoc(string $id = null){
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudesDocumento_model");
@@ -209,22 +225,33 @@ class MarcasSolicitudesDocumentoController extends AdminController
     }
 
      public function UpdateDocumento(string $id = null){
+        /*INSERT INTO `tbl_marcas_solicitudes_documentos`(`id`, `marcas_id`, `comentarios`, `path`, `descripcion`) */
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudesDocumento_model");
         $data = $CI->input->post();
-        
+        $file = $_FILES;
+        echo json_encode($data);
         if (!empty($data)){
-            $file = $_FILES;
             $insert = array(
-                            'descripcion' => $data['doc_descripcion'],
-                            'comentario' => $data['comentario_archivo'],
-                            
-                    );
+                'descripcion' => $data['doc_descripcion'],
+                'comentarios' => $data['comentario_archivo'],
+                
+            );
+            //echo json_encode($insert);
             if (!empty($file)){
+                $fpath = FCPATH.'uploads/marcas/documentos/'.$file['doc_archivo']['name'];
+                //echo json_encode($fpath);
+                if (move_uploaded_file($file['doc_archivo']['tmp_name'], $fpath)) {
+                    echo "El archivo PDF se ha subido exitosamente.";
+                } else {
+                    
+                    throw new Exception('Error al subir el archivo'); 
+                }
                 $doc_arch =$file['doc_archivo']['name'];
                 $insert += ['path' => $doc_arch];
             }
                     $query = $CI->MarcasSolicitudesDocumento_model->update($id, $insert);
+                    echo json_encode($query);
                     if (isset($query))
                     {
                         echo "Actualizado Correctamente";
@@ -262,20 +289,19 @@ class MarcasSolicitudesDocumentoController extends AdminController
      * 
      */
 
-     public function update(string $id = null)
-     {
-         $idioma = array('us','es','it');
-         $CI = &get_instance();
-         $CI->load->model("MarcasSolicitudesDocumento_model");
-         $CI->load->helper('url');
-         $data = $CI->input->post();
-             $query = $CI->MarcasSolicitudesDocumento_model->update($id, $data);
-             if (isset($query))
-             {
-                 return redirect('pi/MarcasSolicitudesController/create');
-             }
-         
-     }
+    public function update(string $id = null)
+    {
+        $idioma = array('us','es','it');
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudesDocumento_model");
+        $CI->load->helper('url');
+        $data = $CI->input->post();
+            $query = $CI->MarcasSolicitudesDocumento_model->update($id, $data);
+            if (isset($query))
+            {
+                return redirect('pi/MarcasSolicitudesController/create');
+            } 
+    }
 
     /**
      * Deletes the item
@@ -284,17 +310,17 @@ class MarcasSolicitudesDocumentoController extends AdminController
     
 
     public function destroy(string $id)
-     {
-         $CI = &get_instance();
-         $CI->load->model("MarcasSolicitudesDocumento_model");
-         $CI->load->helper('url');
-         $query = $CI->MarcasSolicitudesDocumento_model->delete($id);
-         if (isset($query)){
-             echo "Eliminado Correctamente";
-         }else {
-             echo "No se ha podido Eliminar";
-         }
-         
-         
-     }
+    {
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudesDocumento_model");
+         //$query =$CI->MarcasSolicitudesDocumento_model->find($id);
+         //$this->DeleteArchivoDocumento($query[0]['path']);
+        $CI->load->helper('url');
+        $query = $CI->MarcasSolicitudesDocumento_model->delete($id);
+        if (isset($query)){
+            echo "Eliminado Correctamente";
+        }else {
+            echo "No se ha podido Eliminar";
+        }
+    }
 }

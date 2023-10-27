@@ -533,15 +533,22 @@
         function Documentos(){
             let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/showDocumentos/$id");?>';
             let body= ``;
+            let archivo = `<?php echo site_url('uploads/marcas/documentos/');?>`;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
                         listadomicilio.forEach(item => {
+                            let 
+                            archivofinal= archivo + item.path;
                             body += `  <tr docid = "${item.id}">
                                             <td class="text-center">${item.id}</td>
                                             <td class="text-center">${item.marcas_id}</td>
                                             <td class="text-center">${item.descripcion}</td>
                                             <td class="text-center">${item.comentario}</td>
-                                            <td class="text-center">${item.path}</td>
+                                            <td class="text-center">
+                                            <a href="${archivofinal}" target="_blank"> 
+                                            ${item.path}
+                                            </a> 
+                                            </td>
                                             <td class="text-center">
                                                 <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
                                                 <button class="documentos-delete btn btn-danger">
@@ -757,13 +764,13 @@
             url = url + id;
             console.log(url);
             $.post(url,{id},function(response){
-                //console.log(response);
+                console.log(response);
                 let doc =JSON.parse(response);
                 console.log("id ",doc[0]['id']);
                 $('#Documento_id').val(doc[0]['id']);
                 $('#editdoc_descripcion').val(doc[0]['descripcion']);
-                $('#editcomentario_archivo').val(doc[0]['comentario']);
-                $('#editdoc_archivo').val(doc[0]['path']);
+                $('#editcomentario_archivo').val(doc[0]['comentarios']);
+                //$('#editdoc_archivo').val(doc[0]['path']);
             })
         });
 
@@ -2611,25 +2618,31 @@
             var comentario_archivo = $('#comentario_archivo').val();
             var doc_archivo = $('#doc_archivo')[0].files[0];
             var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('id_marcas',id_marcas);
-            formData.append('doc_descripcion' , description);
-            formData.append('comentario_archivo', comentario_archivo);
-            formData.append('doc_archivo', doc_archivo);
-            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>';
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#docModal").modal('hide');
-                Documentos();
-            }).catch(function(response){
-                alert("No se pudo Añadir Documento");
-            });
+            if (doc_archivo['type'] != 'application/pdf'){
+                alert("Solamente se pueden subir archivos PDF");
+            }else {
+
+                formData.append('csrf_token_name', csrf_token_name);
+                formData.append('id_marcas',id_marcas);
+                formData.append('doc_descripcion' , description);
+                formData.append('comentario_archivo', comentario_archivo);
+                formData.append('doc_archivo', doc_archivo);
+                let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>';
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function(response){
+                    console.log(response);
+                    alert_float('success', "Insertado Correctamente");
+                    $("#docModal").modal('hide');
+                    Documentos();
+                }).catch(function(response){
+                    alert("Error al Subir el Archvio ",response.name);
+                });
+            }
         });
 
         //Editar Documento ---------------------------------------------------------------------------
@@ -2662,6 +2675,7 @@
                 processData: false,
                 contentType: false
             }).then(function(response){ 
+                console.log(response);
                 alert_float('success', "Actualizado Correctamente");
                 $("#docModalEdit").modal('hide');
                 Documentos();

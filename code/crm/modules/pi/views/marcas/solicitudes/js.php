@@ -1504,14 +1504,43 @@
                 {
                     $("#addTask").modal('hide');
                     alert_float('success', "Tarea asignada exitosamente");
-                    mostrar_tarea();
+                    $.ajax({
+                            url: "<?php echo admin_url('pi/TareasController/showTareas/'.$id);?>",
+                            method: "POST",
+                            data: {
+                                'csrf_token_name': $("input[name=csrf_token_name]").val()
+                            },
+                            success: function(response)
+                            {
+                                res = JSON.parse(response);
+                                $("#tareas").DataTable({
+                                    language: {
+                                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                                    },
+                                    data: res,
+                                    destroy: true,
+                                    dataSrc: '',
+                                    columns : [
+                                        { data: 'id'},
+                                        { data: 'tipo_tarea'},
+                                        { data: 'descripcion'},
+                                        { data: "fecha"},
+                                        { data: 'acciones'},
+                                    ],
+                                    width: "100%"
+                                });
+                            }
+                        })
                 }
             })
+           
         })
     </script>
 
-<script>
+    <script>
         $(document).on('click', '#tareasfrmeditsubmit', function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
             e.preventDefault();
             var data = {
                 "project_id" : $("#project_id").val(),

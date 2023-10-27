@@ -70,7 +70,8 @@ class TareasController extends AdminController
                 'id' => $row['id'],
                 'tipo_tarea' => $CI->Tareas_Model->BuscarTipoTareas($row['tipo_tareas_id']),
                 'descripcion' => $row['descripcion'],
-                'fecha' => $row['fecha'],
+                'fecha' => $this->flip_dates($row['fecha']),
+                'acciones' => '<button type="button" class="btn btn-primary editarTarea" id="'.$row['id'].'"><i class="fas fa-edit"></i> Editar</button> <button type="button" class="btn btn-danger borrarTarea" id="'.$row['id'].'"><i class="fas fa-trash"></i> Borrar</button>',
             );
         }
         echo json_encode($data);

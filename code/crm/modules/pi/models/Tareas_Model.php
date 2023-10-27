@@ -62,4 +62,11 @@ class Tareas_Model extends BaseModel
         $values = $query->result_array();
         return $values[0]['nombre']; 
     }
+
+    public function insertTask($data = NULL)
+    {
+        $this->db->insert('tbltasks', $data);
+        $insert_id = $this->db->query('SELECT LAST_INSERT_ID()');
+        return $insert_id->result_array()[0]['LAST_INSERT_ID()'];
+    }
 }

@@ -236,7 +236,7 @@
             })
         })
         //Modal Edit Tareas 
-        $(document).on('click','.edit',function(){
+        /*$(document).on('click','.edit',function(){
             let element = $(this)[0].parentElement.parentElement;
             let id = $(element).attr('taskId');
             let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
@@ -247,7 +247,7 @@
             $('#editdescripcion').val(tareas[0]['descripcion']);
             $('#Tareaid').val(tareas[0]['id']);
             })
-        })
+        })*/
 
         //Modal Edit Eventos
         $(document).on('click','.editeventos',function(){
@@ -922,62 +922,6 @@
             });
         });
 
-        //Añadir Tareas ---------------------------------------------------------------------------
-        $(document).on('click','#tareasfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var tipo_tarea =  $('#tipo_tarea').val();
-            var descripcion = $('#descripcion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_tarea' , tipo_tarea);
-            formData.append('descripcion', descripcion);
-            let url = '<?php echo admin_url("pi/TareasController/addTareas");?>';
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#addTask").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-
-        //Editar Tareas ---------------------------------------------------------------------------
-        $(document).on('click','#tareaseditfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Tareaid').val();
-            var tipo_tarea =  $('#edittipo_tarea').val();
-            var descripcion = $('#editdescripcion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id',id);
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_tarea' , tipo_tarea);
-            formData.append('descripcion', descripcion);
-            let url = '<?php echo admin_url("pi/TareasController/UpdateTareas/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-               alert_float('success', "Actualizado Correctamente");
-                $("#EditTask").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
-        
-        
 
         function fecha(){
             var hoy = new Date();
@@ -1503,6 +1447,126 @@
     </script>
 
     <script>
-        
+        function mostrar_tarea()
+        {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            $.ajax({
+                url: "<?php admin_url('pi/TareasController/showTareas/'.$id);?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val()
+                },
+                success: function(response)
+                {
+                    res = JSON.parse(response);
+                    console.log(res.data);
+                    $("#tareas").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: res.data,
+                        destroy: true,
+                        dataSrc: '',
+                        columns : [
+                            { data: 'fecha'},
+                            { data: 'boletin_id'},
+                            { data: 'tomo'},
+                            { data: 'pagina'},
+                            { data: 'acciones'},
+                        ],
+                        width: "100%"
+                    });
+                }
+            })
+        }
     </script>
+
+    <script>
+        $(document).on('click', '#tareasfrmsubmit', function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var data = {
+                "project_id" : $("#project_id").val(),
+                "tipo_tarea" : $("#tipo_tarea").val(),
+                "descripcion": $("#descripcion").val(),
+                "fecha_limite": $("#fecha_limite").val(),
+                "marcas_id"   : $("input[name=id]").val(),
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/TareasController/addTaskToMarcasAndProject');?>",
+                method: "POST",
+                data : {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    "data": JSON.stringify(data),
+                },
+                success: function(response)
+                {
+                    $("#addTask").modal('hide');
+                    alert_float('success', "Tarea asignada exitosamente");
+                    $.ajax({
+                            url: "<?php echo admin_url('pi/TareasController/showTareas/'.$id);?>",
+                            method: "POST",
+                            data: {
+                                'csrf_token_name': $("input[name=csrf_token_name]").val()
+                            },
+                            success: function(response)
+                            {
+                                res = JSON.parse(response);
+                                $("#tareas").DataTable({
+                                    language: {
+                                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                                    },
+                                    data: res,
+                                    destroy: true,
+                                    dataSrc: '',
+                                    columns : [
+                                        { data: 'id'},
+                                        { data: 'tipo_tarea'},
+                                        { data: 'descripcion'},
+                                        { data: "fecha"},
+                                        { data: 'acciones'},
+                                    ],
+                                    width: "100%"
+                                });
+                            }
+                        })
+                }
+            })
+           
+        })
+    </script>
+
+    <script>
+        $(document).on('click', '#tareasfrmeditsubmit', function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            var data = {
+                "project_id" : $("#project_id").val(),
+                "tipo_tarea" : $("#tipo_tarea").val(),
+                "descripcion": $("#descripcion").val(),
+                "fecha_limite": $("#fecha_limite").val(),
+                "marcas_id"   : $("input[name=id]").val(),
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/TareasController/addTaskToMarcasAndProject');?>",
+                method: "POST",
+                data : {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    "data": JSON.stringify(data),
+                },
+                success: function(response)
+                {
+                    $("#addTask").modal('hide');
+                    alert_float('success', "Tarea asignada exitosamente");
+                    mostrar_tarea();
+                }
+            })
+        })
+    </script>
+
+
+
+    
 

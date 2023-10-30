@@ -186,6 +186,33 @@
     }
 </style>
 
+<script>
+    //Insertar Solicitudes Marcas
+    $(document).on('click','#InsertarSolicitudesMarcas',function(e){
+        e.preventDefault();
+        console.log("LLegue a Cambio de Domicilio modal")
+        var formData = new FormData();
+        var data = getFormData(this);
+        const csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilioShowModal");?>';
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log("response ",response);
+            $('#camdomid').val(response);
+            CambioDomicilioActual(response);
+            CambioDomicilioAnterior(response);
+        }).catch(function(response){
+            alert("No se pudo Añadir Cambio de Nombre");
+        });
+    });
+</script>
 <!-- <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>

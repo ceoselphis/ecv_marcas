@@ -116,6 +116,38 @@ class MarcasSolicitudesController extends AdminController
                                 
     }
 
+    public function addSolicitudesMarcas(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+            /*`tbl_marcas_licencia`(`id`, `marcas_id`, `client_id`, `oficina_id`, `staff_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+            $insert = array(
+                            'client_id' => "1",
+                            'oficina_id' => "1",
+                            'staff_id' => "1",
+                            'marcas_id' => $data['id_marcas'],
+                            'estado_id' => "1",
+                            'num_solicitud' => "",
+                            'fecha_solicitud' => "",
+                            'num_resolucion' => "",
+                            'fecha_resolucion' => "",
+                            'referencia_cliente' => "",
+                            'comentarios' => "",
+                    );
+            //echo json_encode($insert);
+            $CI->load->model("Licencia_model");
+                try{
+                    $query = $CI->Licencia_model->insert($insert);
+                        if (isset($query)){
+                            $cantidad = $CI->Licencia_model->CantidadLicencia();
+                            echo $cantidad;
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+    }
     /**
      * Recive the data for create a new item
      */

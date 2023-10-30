@@ -507,9 +507,11 @@
         // Tareas
         function Tareas(){
             let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
+            console.log(url);
             let body= ``;
                 $.get(url, function(response){
                     let listadomicilio = JSON.parse(response);
+                    console.log(listadomicilio);
                         listadomicilio.forEach(item => {
                             body += `<tr taskId = "${item.id}">
                                             <td class="text-center">${item.id}</td>

@@ -46,19 +46,19 @@ $CI->load->view('marcas/solicitudes/css.php');
                                 <!-- Step 1 -->
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" >
                                             <?php echo form_label('Tipo de solicitud', 'tipo_registro_id');?>
                                             <?php echo form_dropdown(['name'=>'tipo_registro_id','id'=>'tipo_registro_id'], $tipo_registro ,set_value('tipo_registro_id'), ['class' => 'form-control'])?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" >
                                             <?php echo form_label('Cliente','client_id');?>
                                             <?php echo form_dropdown('client_id', $clientes, set_value('client_id'), ['class' => 'form-control']);?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Oficina', 'oficina_id')?>
                                             <?php echo form_dropdown('oficina_id',$oficinas,set_value('oficina_id'),['class' => 'form-control']);?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Responsable','staff_id');?>
                                             <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id'), ['class' => 'form-control']);?>
                                         </div>                    
@@ -101,7 +101,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                         ]);?>
                                     </div>
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Solicitantes', 'solicitantes_id');?>
                                         <?php echo form_dropdown([
                                             'id'       => 'solicitantes_id',
@@ -175,15 +175,15 @@ $CI->load->view('marcas/solicitudes/css.php');
                                         <?php echo form_label('Carpeta', 'carpeta');?>
                                         <?php echo form_input('carpeta', set_value('carpeta'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Libro', 'libro');?>
                                         <?php echo form_input('libro', set_value('libro'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Tomo', 'tomo');?>
                                         <?php echo form_input('tomo', set_value('tomo'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Folio', 'folio');?>
                                         <?php echo form_input('folio', set_value('folio'), ['class' => 'form-control'])?>
                                     </div>
@@ -214,7 +214,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             </div>    
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="padding-top:15px;">
                                         <?php echo form_label('Comentarios', 'comentarios');?>
                                         <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control']);?>
                                     </div>
@@ -230,7 +230,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                         <?php echo form_label('Estado de Solicitud', 'estado_id');?>
                                         <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value($fields[3]['name']), ['class' => 'form-control']);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Solicitud'); ?>
                                         <?php echo form_input([
                                             'id' => 'num_solicitud',
@@ -240,7 +240,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             'placeholder' => 'Nº de Solicitud'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Fecha de Solicitud'); ?>
                                         <?php echo form_input([
                                             'id' => 'fecha_solicitud',
@@ -250,7 +250,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Registro'); ?>
                                         <?php echo form_input([
                                             'id' => 'num_registro',
@@ -260,7 +260,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             'placeholder' => 'Nº Registro'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Fecha de registro"); ?>
                                         <?php echo form_input([
                                             'id' => 'fecha_registro',
@@ -270,7 +270,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             'placeholder' => 'Fecha de Registro'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Nº de Certificado"); ?>
                                         <?php echo form_input([
                                             'id' => 'num_certificado',
@@ -280,7 +280,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             'placeholder' => 'Nº de Certificado'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Fecha de certificado"); ?>
                                         <?php echo form_input([
                                             'id' => 'fecha_certificado',
@@ -290,7 +290,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             'placeholder' => 'Fecha de Certificado'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Fecha de Vencimiento'); ?>
                                         <?php echo form_input([
                                             'id' => 'fecha_vencimiento',
@@ -357,7 +357,6 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                         <td><?php echo $row['tipo_evento'];?></td>
                                                         <td><?php echo $row['comentarios'];?></td>
                                                         <td><?php echo $row['fecha'];?></td>
-                                                       
                                                         <form method="DELETE" action="<?php echo admin_url("pi/EventosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                             <td>
                                                                 <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
@@ -620,7 +619,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                         <td><?php echo $row['marcas_id'];?></td>
                                                         <td><?php echo $row['descripcion'];?></td>
                                                         <td><?php echo $row['path'];?></td>
-                                                        <td><?php echo $row['comentario'];?></td>
+                                                        <td><?php echo $row['comentarios'];?></td>
                                                         <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                             <td>
                                                                 <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>

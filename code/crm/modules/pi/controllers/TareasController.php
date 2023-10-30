@@ -64,14 +64,13 @@ class TareasController extends AdminController
         $CI->load->model("Tareas_Model");
         $marcas = $CI->Tareas_Model->findAllTareasMarcas($id);
         $data = array();
-        /*`tbl_marcas_eventos`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
+        /*`INSERT INTO `tbl_marcas_tareas`(`id`, `tipo_tareas_id`, `marcas_id`, `fecha`, `descripcion`) */
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
                 'tipo_tarea' => $CI->Tareas_Model->BuscarTipoTareas($row['tipo_tareas_id']),
                 'descripcion' => $row['descripcion'],
-                'fecha' => $this->flip_dates($row['fecha']),
-                'acciones' => '<button type="button" class="btn btn-primary editarTarea" id="'.$row['id'].'"><i class="fas fa-edit"></i> Editar</button> <button type="button" class="btn btn-danger borrarTarea" id="'.$row['id'].'"><i class="fas fa-trash"></i> Borrar</button>',
+                'fecha' => $row['fecha'], 
             );
         }
         echo json_encode($data);

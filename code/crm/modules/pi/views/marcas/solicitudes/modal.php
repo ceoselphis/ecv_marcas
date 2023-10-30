@@ -147,6 +147,10 @@
       </div>
       <div class="modal-body">
         <div class="row">
+            <div class="col-md-4">
+                <?php echo form_label('Proyecto', 'project_id');?>
+                <?php echo form_dropdown(['name'=>'project_id','id'=>'project_id','class' => 'form-control'], $projects);?>
+            </div>
             <div class="col-md-12">
                 <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
                 <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
@@ -180,7 +184,11 @@
       <div class="modal-body">
         <div class="row">
             <input type="hidden" id="Tareaid">
-            <div class="col-md-12">
+            <div class="col-md-4">
+                <?php echo form_label('Proyecto', 'project_id_edit');?>
+                <?php echo form_dropdown(['name'=>'project_id_edit','id'=>'project_id_edit','class' => 'form-control'], $projects);?>
+            </div>
+            <div class="col-md-6">
                 <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
                 <?php echo form_dropdown(['name'=>'edittipo_tarea','id'=>'edittipo_tarea','class' => 'form-control'], $tipo_tareas  );?>
             </div>

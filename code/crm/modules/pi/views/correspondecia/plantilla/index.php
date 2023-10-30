@@ -19,7 +19,7 @@
                                             <th>Staff</th>
                                             <th>Contenido</th>
                                             <th>Materia</th>
-                                            <th>Idioma</th>
+                                           <!-- <th>Idioma</th>-->
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -32,7 +32,7 @@
                                                     <td><?php echo $row['staff_id'];?></td>
                                                     <td><?php echo $row['content'];?></td>
                                                     <td><?php echo $row['materia'];?></td>
-                                                    <td><?php echo $row['idioma'];?></td>
+                                                    <!--<td><?php //echo $row['idioma'];?></td>-->
                                                     <form method="DELETE" action="<?php echo admin_url("pi/CorrespondeciaPlantillaController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
                                                             <a class="btn btn-light" href="<?php echo admin_url("pi/CorrespondeciaPlantillaController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i> Editar</a>

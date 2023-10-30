@@ -134,6 +134,8 @@ class TareasController extends AdminController
                             'tipo_tareas_id' => $data['tipo_tarea'],
                             'descripcion' => $data['descripcion'],
                             'fecha' => date('Y-m-d'),
+                            'project_id' => $data['project_id'],
+                            'task_id' => $data['task_id'],
                     );
                     $query = $CI->Tareas_Model->update($id, $insert);
                     if (isset($query))
@@ -406,4 +408,14 @@ class TareasController extends AdminController
         }
         
     }
+
+    public function findDetailTask($id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model('Tareas_Model');
+        $CI->load->helper('url');
+        $query = $CI->Tareas_Model->findTaskDetail($id);
+
+    }
+
 }

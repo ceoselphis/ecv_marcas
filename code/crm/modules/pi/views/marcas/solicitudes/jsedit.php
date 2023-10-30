@@ -786,6 +786,7 @@
             $('#editdescripcion').val(tareas[0]['descripcion']);
             $('#Tareaid').val(tareas[0]['id']);
             })
+            
         })
 
         //Modal Edit Eventos
@@ -2077,15 +2078,12 @@
         //Añadir Fusion Cuando Abre el Modal
         $(document).on('click','#AddFusionAbrirModal',function(e){
                 e.preventDefault();
-                console.log("LLegue a Fusion Abrir modal")
                 var formData = new FormData();
                 var data = getFormData(this);
                 const id_marcas = '<?php echo $id?>';
                 const csrf_token_name = $("input[name=csrf_token_name]").val();
                 formData.append('id_marcas',id_marcas);
                 formData.append('csrf_token_name', csrf_token_name);
-                console.log('id_marcas',id_marcas);
-                console.log('csrf_token_name', csrf_token_name);
                 let url = '<?php echo admin_url("pi/FusionController/addFusionShowModal");?>';
                 $.ajax({
                     url,
@@ -2094,7 +2092,6 @@
                     processData: false,
                     contentType: false
                 }).then(function(response){
-                    console.log("response ",response);
                     $('#fusionid').val(response);
                     FusionActual(response);
                     FusionAnterior(response);

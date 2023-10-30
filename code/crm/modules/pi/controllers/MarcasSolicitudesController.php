@@ -250,6 +250,7 @@ class MarcasSolicitudesController extends AdminController
         $values['fecha_solicitud'] = $this->flip_dates($values['fecha_solicitud']);
         $values['prueba_uso'] = $this->flip_dates($values['prueba_uso']);
         $values['primer_uso'] = $this->flip_dates($values['primer_uso']);
+        $values['projects'] = $CI->MarcasSolicitudes_model->findProjectByMarca($id);
         return $CI->load->view('marcas/solicitudes/edit', [
             'values'                => $values, 
             'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
@@ -269,6 +270,7 @@ class MarcasSolicitudesController extends AdminController
             'eventos'               => $datos,
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
             'tareas'                => $data,
+            'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
         ]);
     }
 

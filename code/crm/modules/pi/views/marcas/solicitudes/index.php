@@ -13,7 +13,7 @@
                         <div class="_body">
                             <div class="row" style="padding: 2%;">
                                 <div class="col-md-12">
-                                    <table id="tableResult">
+                                    <table class="table" id="tableResult">
                                         <thead style="text-align: justify;">
                                             <tr>
                                                 <td>Código</td>
@@ -186,6 +186,15 @@
     }
 </style>
 
+<!-- <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    new DataTable(".table", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script> -->
 
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>

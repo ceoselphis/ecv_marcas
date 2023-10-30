@@ -38,7 +38,7 @@ class CorrespondeciaPlantillaController extends AdminController
                 'staff_id' => $CI->CorrespondenciaPlantilla_model->BuscarStaff($row['staff_id']),
                 'content' => $this->ResumirContenido($row['content']),
                 'materia' => $CI->CorrespondenciaPlantilla_model->BuscarMaterias($row['materia_id']),
-                'idioma' => $row['idioma']
+                //'idioma' => $row['idioma']
             );
         }
         return $CI->load->view('correspondecia/plantilla/index', array('correspondencia' => $data));

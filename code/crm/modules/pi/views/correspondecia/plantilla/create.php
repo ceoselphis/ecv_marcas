@@ -15,19 +15,19 @@
                     <div class="panel-body">
                     <div class="modal-body"> 
                         <?php echo form_open(admin_url('pi/CorrespondeciaPlantillaController/store')); ?>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <?php echo form_label($labels[1],$labels[1]);?>
                             <br />
                             <?php echo form_input($fields[1],set_value($fields[1]['name']));?>
                             <?php echo form_error($fields[1]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <?php echo form_label($labels[2],$labels[2]);?>
                             <br />
                             <?php echo form_dropdown(['name'=>'staff_id','class' => 'form-control', 'id' => 'staff_id'], $staffid  );?>
                             <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
-                        <div class="col-md-3" >
+                        <div class="col-md-4" >
                             <?php echo form_label('Materia','materia' );?>
                             <!-- <?php //echo form_label($labels[1],$labels[1]);?> -->
                             <br />
@@ -35,14 +35,14 @@
                             <!-- <?php //echo form_input($fields[1],set_value($fields[1]['name']));?>
                             <?php echo form_error('materia', '<div class="text-danger">', '</div>');?> -->
                         </div>
-                        <div class="col-md-3" >
-                            <?php echo form_label('Idioma','idioma' );?>
-                            <!-- <?php //echo form_label($labels[1],$labels[1]);?> -->
+                        <!-- <div class="col-md-3" >
+                            <?php //echo form_label('Idioma','idioma' );?>
+                            <?php //echo form_label($labels[1],$labels[1]);?> 
                             <br />
-                            <?php echo form_dropdown(['name'=>'idioma','class' => 'form-control', 'id' => 'idioma'], $idioma  );?>
-                            <!-- <?php //echo form_input($fields[1],set_value($fields[1]['name']));?>
-                            <?php echo form_error('idioma', '<div class="text-danger">', '</div>');?> -->
-                        </div>
+                            <?php //echo form_dropdown(['name'=>'idioma','class' => 'form-control', 'id' => 'idioma'], $idioma  );?>
+                            <?php //echo form_input($fields[1],set_value($fields[1]['name']));?>
+                            <?php //echo form_error('idioma', '<div class="text-danger">', '</div>');?> 
+                        </div>-->
                         <div class="col-md-12" style="padding-top: 15px;">
                             <?php echo form_label($labels[3],$labels[3]);?>
                             <br/>

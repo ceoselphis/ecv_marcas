@@ -101,31 +101,6 @@ $CI->load->view('marcas/solicitudes/css.php');
                                         ]);?>
                                     </div>
                                     
-                                    <!-- Solicitantes -->
-                                    <!--<div class="col-md-12">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#solicitantes" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Solicitantes<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="solicitantes">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#solicitantesModal">Añadir solicitantes</button>
-                                                                <table id="solicitantesTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Código</th>
-                                                                            <th>Solicitantes</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
                                     <div class="col-md-6">
                                         <?php echo form_label('Solicitantes', 'solicitantes_id');?>
                                         <?php echo form_dropdown([
@@ -413,7 +388,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
+                                        <table class="table table-responsive" id="tareas">
                                             <thead>
                                                 <tr>
                                                     <th>Nro</th>
@@ -424,28 +399,6 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <?php if (!empty($tareas)) {?>
-                                                <?php foreach ($tareas as $row) {?>
-                                                    <tr taskId = "<?php echo $row['id'];?>">
-                                                        <td id = 'tareasid' ><?php echo $row['id'];?></td>
-                                                        <td><?php echo $row['tipo_tarea'];?></td>
-                                                        <td><?php echo $row['descripcion'];?></td>
-                                                        <td><?php echo $row['fecha'];?></td>
-                                                        <form method="DELETE" action="<?php echo admin_url("pi/TareasController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                            <td>
-                                                                <a id="<?php echo $row['id'];?>" class="edit btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
-                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                            </td>
-                                                        </form> 
-                                                    </tr>
-                                                <?php } ?>
-                                            <?php }
-                                            else {
-                                            ?>
-                                            <tr colspan="3">
-                                                <td>Sin Registros</td>
-                                            </tr>
-                                            <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>

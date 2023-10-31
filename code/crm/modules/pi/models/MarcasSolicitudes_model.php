@@ -845,6 +845,23 @@ class MarcasSolicitudes_model extends BaseModel
         }
         return array_combine($keys, $values); 
     }
+
+    public function findProjectByMarca($id = null)
+    {
+        $this->db->select('a.id, a.name');
+        $this->db->from('tblprojects a');
+        $this->db->join('tbl_marcas_tareas b', 'a.id = b.project_id');
+        $this->db->where("b.project_id = {$id}");
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['name']);
+        }
+        return array_combine($keys, $values); 
+    }
     
    
     public function CantidadSolicitudes(){

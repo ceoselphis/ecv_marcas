@@ -112,7 +112,17 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-4">
+              <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']);?>
+              <?php echo form_dropdown([
+                'name' => 'project_id',
+                'id' => 'project_id',
+                'class' => 'form-control',
+                'selected' => set_value('project_id', $values['projects']), 
+                'options' => $projects
+              ]);?>
+            </div>
+            <div class="col-md-4">
                 <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
                 <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
             </div>
@@ -145,7 +155,17 @@
       <div class="modal-body">
         <div class="row">
             <input type="hidden" id="Tareaid">
-            <div class="col-md-12">
+            <div class="col-md-4">
+              <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']);?>
+              <?php echo form_dropdown([
+                'name' => 'project_id',
+                'id' => 'project_id',
+                'class' => 'form-control',
+                'selected' => set_value('project_id', $values['projects']), 
+                'options' => $projects
+              ]);?>
+            </div>
+            <div class="col-md-8">
                 <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
                 <?php echo form_dropdown(['name'=>'edittipo_tarea','id'=>'edittipo_tarea','class' => 'form-control'], $tipo_tareas  );?>
             </div>

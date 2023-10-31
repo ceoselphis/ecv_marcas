@@ -44,11 +44,12 @@
                             <?php //echo form_error('idioma', '<div class="text-danger">', '</div>');?> 
                         </div>-->
                         <div class="col-md-12" style="padding-top: 15px;">
-                            <?php echo form_label($labels[3],$labels[3]);?>
+                            <?php  echo form_label($labels[3],$labels[3]);?>
                             <br/>
-                            <?php echo form_textarea($fields[3],set_value($fields[3]['name']) );?>
-                            <?php echo form_error($fields[3]['name'], '<div class="text-danger">', '</div>');?>
+                            <?php  echo form_textarea($fields[3],set_value($fields[3]['name']) );?>
+                            <?php  echo form_error($fields[3]['name'], '<div class="text-danger">', '</div>');?>
                         </div>
+                        <?php //echo render_textarea('description', '', $contents, [], [], '', 'tinymce'); ?>
                         <div class="col-md-4">
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
@@ -66,7 +67,8 @@
 
 
 <?php init_tail();?>
-<script src="https://cdn.tiny.cloud/1/ce4zhhy5lb5vndptqligurhagsxf21159a1gxczjjybvh3ib/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<!-- <script src="C:\wamp64\www\ecv_marcas\code\crm\assets\plugins\tinymce\tinymce.min.js"></script> -->
+ <script src="https://cdn.tiny.cloud/1/ce4zhhy5lb5vndptqligurhagsxf21159a1gxczjjybvh3ib/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
      <script>
     tinymce.init({
       selector: 'textarea',
@@ -82,7 +84,7 @@
     });
     
 
-  </script>
+  </script> 
 </body>
 </html>
 

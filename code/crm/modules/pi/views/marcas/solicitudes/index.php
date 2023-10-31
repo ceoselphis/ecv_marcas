@@ -6,8 +6,8 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/MarcasSolicitudesController/create');?>"><i class="fas fa-plus"></i> Nueva Solicitud de marca</a>                            
+                        <div class="_buttons"> <!--href="<?php //echo admin_url('pi/MarcasSolicitudesController/create');?>" -->
+                            <a class="btn btn-primary" id="InsertarSolicitudesMarcas"><i class="fas fa-plus"></i> Nueva Solicitud de marca</a>                            
                             <button type="button" class="btn btn-default btn-outline pull-right" data-toggle="modal" data-target="#filterModal"><i class="fas fa-filter"></i> Filtrar por</button>
                         </div>
                         <div class="_body">
@@ -186,17 +186,33 @@
     }
 </style>
 
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    function getFormData(){
+            var config = {};
+            $('input').each(function () {
+                config[this.name] = this.value;
+            });
+            $("select").each(function()
+            {
+                config[this.name] = this.value;
+            });
+            return config;
+        }
+</script>
 <script>
     //Insertar Solicitudes Marcas
     $(document).on('click','#InsertarSolicitudesMarcas',function(e){
         e.preventDefault();
-        console.log("LLegue a Cambio de Domicilio modal")
+        console.log("LLegue a Insertar Solicitudes Marcas")
         var formData = new FormData();
         var data = getFormData(this);
         const csrf_token_name = $("input[name=csrf_token_name]").val();
         formData.append('csrf_token_name', csrf_token_name);
         console.log('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilioShowModal");?>';
+        let url = '<?php echo admin_url("pi/MarcasSolicitudesController/addSolicitudesMarcas");?>';
+        let solicitudesEdit = '<?php echo admin_url('pi/MarcasSolicitudesController/edit/');?>';
         $.ajax({
             url,
             method: 'POST',
@@ -205,9 +221,8 @@
             contentType: false
         }).then(function(response){
             console.log("response ",response);
-            $('#camdomid').val(response);
-            CambioDomicilioActual(response);
-            CambioDomicilioAnterior(response);
+            solicitudesEdit =solicitudesEdit+response; 
+            location.replace(solicitudesEdit);
         }).catch(function(response){
             alert("No se pudo Añadir Cambio de Nombre");
         });

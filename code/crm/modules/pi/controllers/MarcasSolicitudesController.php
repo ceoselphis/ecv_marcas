@@ -118,27 +118,41 @@ class MarcasSolicitudesController extends AdminController
 
     public function addSolicitudesMarcas(){
         $CI = &get_instance();
-        $data = $CI->input->post();
-            /*`tbl_marcas_licencia`(`id`, `marcas_id`, `client_id`, `oficina_id`, `staff_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+        //$data = $CI->input->post();
+            /*`INSERT INTO `tbl_marcas_solicitudes`(`id`, `tipo_registro_id`, `client_id`, `oficina_id`, `staff_id`, `signo_archivo`, `signonom`, `tipo_signo_id`, `tipo_solicitud_id`, `ref_interna`, `primer_uso`, `ref_cliente`, `prueba_uso`, `carpeta`, `libro`, `folio`, `tomo`, `comentarios`, `estado_id`, `solicitud`, `fecha_solicitud`, `registro`, `fecha_registro`, `certificado`, `fecha_certificado`, `fecha_vencimiento`)*/ 
             $insert = array(
-                            'client_id' => "1",
-                            'oficina_id' => "1",
-                            'staff_id' => "1",
-                            'marcas_id' => $data['id_marcas'],
-                            'estado_id' => "1",
-                            'num_solicitud' => "",
-                            'fecha_solicitud' => "",
-                            'num_resolucion' => "",
-                            'fecha_resolucion' => "",
-                            'referencia_cliente' => "",
-                            'comentarios' => "",
+                'tipo_registro_id'=> '1', 
+                'client_id'=> '1', 
+                'oficina_id'=> '1', 
+                'staff_id'=> '1', 
+                'signo_archivo'=> '', 
+                'signonom'=> '', 
+                'tipo_signo_id'=> '1', 
+                'tipo_solicitud_id'=> '1', 
+                'ref_interna'=> '', 
+                'primer_uso'=> '', 
+                'ref_cliente'=> '', 
+                'prueba_uso'=> '', 
+                'carpeta'=> '', 
+                'libro'=> '', 
+                'folio'=> '', 
+                'tomo'=> '', 
+                'comentarios'=> '', 
+                'estado_id'=> '1', 
+                'solicitud'=> '', 
+                'fecha_solicitud'=> '', 
+                'registro'=> '', 
+                'fecha_registro'=> '', 
+                'certificado'=> '', 
+                'fecha_certificado'=> '', 
+                'fecha_vencimiento'=> '',
                     );
             //echo json_encode($insert);
-            $CI->load->model("Licencia_model");
+            $CI->load->model("MarcasSolicitudes_model");
                 try{
-                    $query = $CI->Licencia_model->insert($insert);
+                    $query = $CI->MarcasSolicitudes_model->insert($insert);
                         if (isset($query)){
-                            $cantidad = $CI->Licencia_model->CantidadLicencia();
+                            $cantidad = $CI->MarcasSolicitudes_model->CantidadSolicitudes();
                             echo $cantidad;
 
                         }else {

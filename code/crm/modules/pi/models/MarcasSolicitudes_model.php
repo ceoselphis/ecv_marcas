@@ -847,5 +847,11 @@ class MarcasSolicitudes_model extends BaseModel
     }
     
    
-
+    public function CantidadSolicitudes(){
+        $this->db->select('max(id) as cantidad');
+        $this->db->from('tbl_marcas_solicitudes');
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['cantidad']; 
+    }
 }

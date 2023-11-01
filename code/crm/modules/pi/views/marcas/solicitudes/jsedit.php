@@ -26,39 +26,7 @@
         Eventos();
         Tareas();
         Documentos();
-        //Prioridad();
-
-        // //Prioridad
-        // function Prioridad(){
-        //     let url = '<?php echo admin_url("pi/MarcasPrioridadController/showPrioridad/$id");?>';
-        //     let body= ``;
-        //     console.log("Llegue a Prioridad")
-        //     $.get(url, function(response){
-        //         let lista = JSON.parse(response);
-        //         console.log(lista)
-        //         if (lista === null){
-        //             body = `No tiene Data`;
-        //         }else {
-        //             lista.forEach(item => {
-        //                 body += `<tr Prioridadid = "${item.id}"> 
-        //                             <td class="text-center">${item.id}</td>
-        //                             <td class="text-center">${item.pais}</td>
-        //                             <td class="text-center">${item.numero_prioridad}</td>
-        //                             <td class="text-center">${item.fecha_prioridad}</td>
-        //                                 <td class="text-center">
-        //                                     <a class="EditPrioridad btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditprioridadModal"><i class="fas fa-edit"></i>Editar</a>
-        //                                     <button class="prioridad-delete btn btn-danger">
-        //                                         <i class="fas fa-trash"></i>Borrar
-        //                                         </button>
-        //                                 </td>
-                                        
-        //                         </tr>
-        //                     `
-        //                 });
-        //         }
-        //         $('#body_prioridad').html(body);     
-        //     })
-        // }
+        
         //Cesion Actual
         function CesionActual(id_cambio){
             let url = '<?php echo admin_url("pi/TipoCesionController/showCesionActual/");?>';
@@ -355,7 +323,7 @@
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
             let body= ``; //data-toggle="modal" data-target="#EditCambioDomicilio"
                 $.get(url, function(data){
-                    let lista = JSON.parse(data);
+                    let listadomicilio = JSON.parse(data);
                     listadomicilio.forEach(item => {
                         body += `<tr CamDomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>

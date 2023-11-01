@@ -317,6 +317,7 @@ class MarcasSolicitudesController extends AdminController
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
             'tareas'                => $data,
             'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
+            'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
         ]);
     }
 

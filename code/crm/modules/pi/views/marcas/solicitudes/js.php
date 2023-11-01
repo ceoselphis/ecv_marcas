@@ -530,8 +530,8 @@
             });
         });
 
-         //Añadir Licencia ---------------------------------------------------------------------------
-         $(document).on('click','#addlicenciafrmsubmit',function(e){
+        //Añadir Licencia ---------------------------------------------------------------------------
+        $(document).on('click','#addlicenciafrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -574,7 +574,7 @@
         });
 
         //Editar Licencia ---------------------------------------------------------------------------
-         $(document).on('click','#editlicenciafrmsubmit',function(e){
+        $(document).on('click','#editlicenciafrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -740,8 +740,8 @@
             });
         }); 
 
-         //Editar Cambio de Nombre -----------------------------------------------------------------
-         $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
+        //Editar Cambio de Nombre -----------------------------------------------------------------
+        $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -782,8 +782,8 @@
             });
         }); 
 
-         //Añadir Cambio Domicilio ----------------------------------------------------------------------
-         $(document).on('click','#AddCambioDomiciliofrmsubmit',function(e){
+        //Añadir Cambio Domicilio ----------------------------------------------------------------------
+        $(document).on('click','#AddCambioDomiciliofrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -866,7 +866,7 @@
                 alert("No puede agregar un Documento sin registro de la solicitud");
             });
         });
-
+        
         //Añadir Evento ---------------------------------------------------------------------------
         $(document).on('click','#eventosfrmsubmit',function(e){
             e.preventDefault();

@@ -224,7 +224,7 @@
             solicitudesEdit =solicitudesEdit+response; 
             location.replace(solicitudesEdit);
         }).catch(function(response){
-            alert("No se pudo Añadir Cambio de Nombre");
+            alert("No se pudo Insertar Solicitud de Marcas");
         });
     });
 </script>

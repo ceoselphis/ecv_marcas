@@ -145,8 +145,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                 <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases <i class="fa fa-chevron-down"></i></a>
                                                 <div class="collapse" id="clase_marcas">
                                                     <div class="list-box">
-                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir clase</button>
-                                                        <table class="table table-responsive" id="claseTbl">
+                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
+                                                        <table class="ultimate table table-responsive " id="claseTbl">
                                                             <thead>
                                                                 <tr>
                                                                     <td>Clase</td>
@@ -228,7 +228,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
+                                                            <tbody >
 
                                                             </tbody>
                                                         </table> 
@@ -371,7 +371,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
+                                        <table class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
@@ -397,7 +397,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
+                                        <table class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
@@ -430,7 +430,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right" id="AddCesionAbrirModal" data-toggle="modal" data-target="#AddCesion" >Añadir Cesion</button>
-                                                                <table id="cesionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <br><br><br>
+                                                                <table id="cesionTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -467,7 +468,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right" id="AddLicenciaAbrirModal" data-toggle="modal" data-target="#AddLicencia">Añadir licencia</button>
-                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <br><br><br>
+                                                                <table id="licenciaTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -504,7 +506,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                         <div class="row">
                                                             <div class="col-md-12"> <!---->
                                                                 <button type="button" class="btn btn-primary pull-right" id="AddFusionAbrirModal" data-toggle="modal" data-target="#AddFusion">Añadir Fusion</button>
-                                                                <table id="fusionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <br><br><br>
+                                                                <table id="fusionTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                 <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -539,7 +542,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de nombre</button>
-                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <br><br><br>
+                                                                <table id="licenciaTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                 <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -574,7 +578,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <button type="button" id="AddCambioDomicilioAbrirModal" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioDomicilio" >Añadir cambio de domicilio</button>
-                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <br><br><br>
+                                                                <table id="CambioDomicilioTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                 <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -613,7 +618,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docModal">Añadir Documento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="table table-responsive">
+                                        <table class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
@@ -654,3 +659,20 @@ $CI->load->view('marcas/solicitudes/css.php');?>
     
 </body>
 </html>
+<?php init_tail();?>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    new DataTable(".ultimate", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script>
+<script>
+    new DataTable(".anexo", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script>

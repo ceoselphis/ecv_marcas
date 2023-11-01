@@ -26,7 +26,39 @@
         Eventos();
         Tareas();
         Documentos();
+        //Prioridad();
 
+        // //Prioridad
+        // function Prioridad(){
+        //     let url = '<?php echo admin_url("pi/MarcasPrioridadController/showPrioridad/$id");?>';
+        //     let body= ``;
+        //     console.log("Llegue a Prioridad")
+        //     $.get(url, function(response){
+        //         let lista = JSON.parse(response);
+        //         console.log(lista)
+        //         if (lista === null){
+        //             body = `No tiene Data`;
+        //         }else {
+        //             lista.forEach(item => {
+        //                 body += `<tr Prioridadid = "${item.id}"> 
+        //                             <td class="text-center">${item.id}</td>
+        //                             <td class="text-center">${item.pais}</td>
+        //                             <td class="text-center">${item.numero_prioridad}</td>
+        //                             <td class="text-center">${item.fecha_prioridad}</td>
+        //                                 <td class="text-center">
+        //                                     <a class="EditPrioridad btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditprioridadModal"><i class="fas fa-edit"></i>Editar</a>
+        //                                     <button class="prioridad-delete btn btn-danger">
+        //                                         <i class="fas fa-trash"></i>Borrar
+        //                                         </button>
+        //                                 </td>
+                                        
+        //                         </tr>
+        //                     `
+        //                 });
+        //         }
+        //         $('#body_prioridad').html(body);     
+        //     })
+        // }
         //Cesion Actual
         function CesionActual(id_cambio){
             let url = '<?php echo admin_url("pi/TipoCesionController/showCesionActual/");?>';
@@ -322,8 +354,8 @@
         function CambioDomicilio(){
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
             let body= ``; //data-toggle="modal" data-target="#EditCambioDomicilio"
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
+                $.get(url, function(data){
+                    let lista = JSON.parse(data);
                     listadomicilio.forEach(item => {
                         body += `<tr CamDomid = "${item.id}"> 
                                     <td class="text-center">${item.id}</td>
@@ -333,7 +365,7 @@
                                     <td class="text-center">${item.num_solicitud}</td>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
+                                    <td class="text-center">${item.fecha_resolucion}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
                                         <td class="text-center">
@@ -400,7 +432,7 @@
                                     <td class="text-center">${item.comentarios}</td>
                                         <td class="text-center">
                                             <a class="editFusion btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="fusion-delete btn btn-danger">
+                                            <button  class="fusion-delete btn btn-danger">
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>
                                         </td>
@@ -470,7 +502,6 @@
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>
                                         </td>
-                                   
                                 </tr>
                             `
                     });
@@ -1981,7 +2012,7 @@
         }
 
           //Editar Licencia Cuando Abre el Modal---------------------------------------------------------------------------
-          $(document).on('click','#EditlicenciaAbrirModalfrmsubmit',function(e){
+        $(document).on('click','#EditlicenciaAbrirModalfrmsubmit',function(e){
             e.preventDefault();
             ActualizarLicencia();
             LimpiarLicencia();
@@ -3104,6 +3135,7 @@
         });
          //Eliminar Fusion
          $(document).on('click','.fusion-delete',function(){
+            console.log("Eliminar Fusion");
             if (confirm("Quieres eliminar este registro?")){
                 let element = $(this)[0].parentElement.parentElement;
                 let id = $(element).attr('Fusionid');
@@ -3339,6 +3371,7 @@
 
         $("#prioridadfrmsubmit").on('click', function(e){
             e.preventDefault();
+            console.log("Entre a Prioridad")
             data = {
                 'pais_prioridad' : $("select[name=pais_prioridad").val(),
                 'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
@@ -3643,6 +3676,7 @@
     </script>
 
     <script>
+        TablaClases();
         function TablaClases()
         {
             $.ajax({

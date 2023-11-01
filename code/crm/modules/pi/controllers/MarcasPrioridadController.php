@@ -21,6 +21,26 @@ class MarcasPrioridadController extends AdminController
      * Shows the form to create a new item
      */
 
+     public function showPrioridad(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("MarcasPrioridad_model");
+        $marcas = $CI->MarcasPrioridad_model->findAllPrioridadMarcas($id);
+        $data = array();
+        /*
+        INSERT INTO `tbl_marcas_prioridades`(`id`, `marcas_id`, `pais_id`, `fecha_prioridad`, `numero_prioridad`)
+         */
+        foreach ($marcas as $row){
+            $data[] = array(
+            'id' => $row['id'],
+            'pais' => $CI->MarcasPrioridad_model->BuscarPais($row['pais_id']),   
+            'num_solicitud' => $row['num_solicitud'],
+            'fecha_prioridad' => $row['fecha_prioridad'],
+            'numero_prioridad' => $row['num_resolucion'],
+            );
+        }
+        echo json_encode($data);
+
+     }
     public function create()
     {
         $CI = &get_instance();

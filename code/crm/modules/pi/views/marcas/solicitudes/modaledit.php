@@ -69,7 +69,49 @@
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Prioridad</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo form_label('Pais de la prioridad', 'pais_prioridad');?>
+                <?php echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Fecha', 'fecha_prioridad');?>
+                <?php echo form_input([
+                                            'id' => 'fecha_prioridad',
+                                            'name' => 'fecha_prioridad',
+                                            'class' => 'form-control calendar',
+                                            'placeholder' => 'Fecha Prioridad'
+                                        ]);?>
+                <?php //echo form_input('fecha_prioridad', '', ['class' => 'form-control calendar']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Número', 'nro_prioridad');?>
+                <?php echo form_input('nro_prioridad','',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="prioridadfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Prioridad Modal -->
+<div class="modal fade" id="EditprioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Prioridad</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -98,7 +140,6 @@
   </div>
   <?php echo form_close();?>
 </div>
-
 <!-- Añadir Tareas Modal -->
 <div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>

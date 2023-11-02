@@ -53,11 +53,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             <?php echo form_label('Cliente','client_id');?>
                                             <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $values['client_id']), ['class' => 'form-control']);?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Oficina', 'oficina_id')?>
                                             <?php echo form_dropdown('oficina_id',$oficinas,set_value('oficina_id', $values['oficina_id']),['class' => 'form-control']);?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Responsable','staff_id');?>
                                             <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control']);?>
                                         </div>                    
@@ -127,7 +127,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             </div>
                                         </div>
                                     </div>-->
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Solicitantes', 'solicitantes_id');?>
                                         <?php echo form_dropdown([
                                             'id'       => 'solicitantes_id',
@@ -200,15 +200,15 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                         <?php echo form_label('Carpeta', 'carpeta');?>
                                         <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Libro', 'libro');?>
                                         <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Tomo', 'tomo');?>
                                         <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Folio', 'folio');?>
                                         <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control'])?>
                                     </div>
@@ -237,7 +237,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             </div>    
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="padding-top:15px;">
                                         <?php echo form_label('Comentarios', 'comentarios');?>
                                         <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control']);?>
                                     </div>
@@ -253,7 +253,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                         <?php echo form_label('Estado de Solicitud', 'estado_id');?>
                                         <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control']);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Solicitud'); ?>
                                         <?php echo form_input([
                                             'id' => 'num_solicitud',
@@ -263,7 +263,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'placeholder' => 'Nº de Solicitud'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Fecha de Solicitud'); ?>
                                         <?php 
                                         echo form_input([
@@ -274,7 +274,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Registro'); ?>
                                         <?php 
                                         echo form_input([
@@ -285,7 +285,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'placeholder' => 'Nº Registro'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Fecha de registro"); ?>
                                         <?php 
                                         echo form_input([
@@ -296,7 +296,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'placeholder' => 'Fecha de Registro'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Nº de Certificado"); ?>
                                         <?php echo form_input([
                                             'id' => 'num_certificado',
@@ -306,7 +306,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'placeholder' => 'Nº de Certificado'
                                         ]);?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Fecha de certificado"); ?>
                                         <?php 
                                         echo form_input([
@@ -431,7 +431,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right" id="AddCesionAbrirModal" data-toggle="modal" data-target="#AddCesion" >Añadir Cesion</button>
                                                                 <br><br><br>
-                                                                <table id="cesionTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <table id="CesionTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -469,7 +469,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right" id="AddLicenciaAbrirModal" data-toggle="modal" data-target="#AddLicencia">Añadir licencia</button>
                                                                 <br><br><br>
-                                                                <table id="licenciaTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <table id="LicenciaTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -507,7 +507,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                             <div class="col-md-12"> <!---->
                                                                 <button type="button" class="btn btn-primary pull-right" id="AddFusionAbrirModal" data-toggle="modal" data-target="#AddFusion">Añadir Fusion</button>
                                                                 <br><br><br>
-                                                                <table id="fusionTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <table id="FusionTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                 <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -543,7 +543,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de nombre</button>
                                                                 <br><br><br>
-                                                                <table id="licenciaTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <table id="CambioNombreTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                 <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -669,10 +669,10 @@ $CI->load->view('marcas/solicitudes/css.php');?>
         }
     });
 </script>
-<script>
+<!-- <script>
     new DataTable(".anexo", {
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
         }
     });
-</script>
+</script> -->

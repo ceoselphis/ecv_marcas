@@ -79,55 +79,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                 'selected' => set_value('pais_id', $values['pais_id'])
                                         ]);?>
                                     </div>
-                                    <div class="col-md-2">  
-                                        <?php echo form_label('Signo', 'signonom');?>
-                                        <?php echo form_input([
-                                            'id'    =>   'signonom',
-                                            'name'  =>   'signonom',
-                                            'class' =>   'form-control',
-                                            'value' =>   set_value('signonom', $values['signonom'])
-                                        ]);?>
-                                    </div>
-                                    <div class="col-md-1" style="padding-left:1%; padding-top:1.75%">
-                                        <button type="button" class="btn btn-outline" data-toggle="modal" data-target="#signoModal"><i class="fas fa-paperclip"></i> Añadir</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <?php echo form_label('Tipo Signo', 'tipo_signo_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'        => 'tipo_signo_id',
-                                            'name'      => 'tipo_signo_id',
-                                            'class'     => 'form-control',
-                                            'options'   =>  $tipos_signo_id,
-                                            'selected'  => set_value('tipo_signo_id', $values['tipo_signo_id'])
-                                        ]);?>
-                                    </div>
-                                    
-                                    <!-- Solicitantes -->
-                                    <!--<div class="col-md-12">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#solicitantes" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Solicitantes<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="solicitantes">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#solicitantesModal">Añadir solicitantes</button>
-                                                                <table id="solicitantesTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Código</th>
-                                                                            <th>Solicitantes</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
-                                    <div class="col-md-6" style="padding-top:15px;">
+                                    <div class="col-md-6">
                                         <?php echo form_label('Solicitantes', 'solicitantes_id');?>
                                         <?php echo form_dropdown([
                                             'id'       => 'solicitantes_id',
@@ -136,6 +88,28 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'multiple' => 'multiple',
                                             'options' => $solicitantes,
                                             'selected' => set_value('solicitantes_id', $values['solicitantes_id'])
+                                        ]);?>
+                                    </div>
+                                    <div class="col-md-4">  
+                                        <?php echo form_label('Signo', 'signonom');?>
+                                        <?php echo form_input([
+                                            'id'    =>   'signonom',
+                                            'name'  =>   'signonom',
+                                            'class' =>   'form-control',
+                                            'value' =>   set_value('signonom', $values['signonom'])
+                                        ]);?>
+                                    </div>
+                                    <div class="col-md-2" style="padding-top: 2%; padding-bottom:0%">
+                                        <button type="button" class="btn btn-outline" data-toggle="modal" data-target="#signoModal"><i class="fas fa-paperclip"></i> Añadir</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Tipo Signo', 'tipo_signo_id');?>
+                                        <?php echo form_dropdown([
+                                            'id'        => 'tipo_signo_id',
+                                            'name'      => 'tipo_signo_id',
+                                            'class'     => 'form-control',
+                                            'options'   =>  $tipos_signo_id,
+                                            'selected'  => set_value('tipo_signo_id', $values['tipo_signo_id'])
                                         ]);?>
                                     </div>
                                     <!-- Clase niza -->                                  
@@ -170,7 +144,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 3 --->
                                 <div class="tab-pane" role="tabpanel" id="step3">
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <?php echo form_label('Tipo Solicitud', 'tipo_solicitud_id');?>
                                         <?php echo form_dropdown([
                                             'id'        => 'tipo_solicitud_id',
@@ -180,35 +154,35 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'selected'  => set_value('tipo_solicitud_id', $values['tipo_solicitud_id']),
                                         ]);?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <?php echo form_label('Referencia interna', 'ref_interna');?>
                                         <?php echo form_input('ref_interna', set_value('ref_interna', $values['ref_interna']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <?php echo form_label('Referencia cliente', 'ref_cliente');?>
                                         <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
                                         <?php echo form_input('primer_uso', set_value('primer_uso', $values['primer_uso']), ['class' => 'form-control calendar'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso');?>
                                         <?php echo form_input('prueba_uso', set_value('prueba_uso', $values['prueba_uso']), ['class' => 'form-control calendar'])?>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <?php echo form_label('Carpeta', 'carpeta');?>
                                         <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2" style="padding-top:15px;">
+                                    <div class="col-md-4" >
                                         <?php echo form_label('Libro', 'libro');?>
                                         <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2" style="padding-top:15px;">
+                                    <div class="col-md-4">
                                         <?php echo form_label('Tomo', 'tomo');?>
                                         <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-2" style="padding-top:15px;">
+                                    <div class="col-md-4" >
                                         <?php echo form_label('Folio', 'folio');?>
                                         <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control'])?>
                                     </div>

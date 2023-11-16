@@ -70,7 +70,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Paises Designados', 'pais_id');?>
                                         <?php echo form_dropdown([
                                                 'id'       => 'pais_id',

@@ -70,7 +70,7 @@ function pi_menu_item_collapsible()
 
      //Menu de configuracion
     $CI->app_menu->add_sidebar_menu_item('52', [
-        'slug'     => 'config', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'configuracion', // Required ID/slug UNIQUE for the child menu
         'name'     => 'SPI Configuracion', // The name if the item
         'position' => 11, // The menu position
         'icon'     => 'fa-sharp fa-solid fa-gear', // Font awesome icon
@@ -78,15 +78,15 @@ function pi_menu_item_collapsible()
     
     //Clases
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'clases', // Required ID/slug UNIQUE for the child menu
-        'name'     => 'Administrador de clases', // The name if the item
+        'slug'     => 'configuracion-clases', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Clase Niza', // The name if the item
         'href'     => admin_url('pi/ClasesController'), // URL of the item
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
     //Eventos
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'tipos-eventos', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'configuracion-eventos', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Eventos', // The name if the item
         'href'     => admin_url('pi/TiposEventosController'), // URL of the item
         'position' => 11, // The menu position
@@ -95,7 +95,7 @@ function pi_menu_item_collapsible()
     
     //materias
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'materias', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'configuracion-materias', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de materias', // The name if the item
         'href'     => admin_url('pi/MateriasController'), // URL of the item
         'position' => 11, // The menu position
@@ -103,7 +103,7 @@ function pi_menu_item_collapsible()
     ]);
     //Estados
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'estados', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'configuracion-estados', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Estados', // The name if the item
         'href'     => admin_url('pi/EstadosController'), // URL of the item
         'position' => 11, // The menu position
@@ -111,7 +111,7 @@ function pi_menu_item_collapsible()
     ]);
     //Boletines
     $CI->app_menu->add_sidebar_children_item('52', [
-        'slug'     => 'boletines', // Required ID/slug UNIQUE for the child menu
+        'slug'     => 'configuracion-boletines', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Boletines', // The name if the item
         'href'     => admin_url('pi/BoletinesController'), // URL of the item
         'position' => 11, // The menu position
@@ -125,6 +125,23 @@ function pi_menu_item_collapsible()
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
+
+    $CI->app_menu->add_sidebar_children_item('52', [
+        'slug'     => 'configuracion-signos', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Administrador de Tipos de Signos', // The name if the item
+        'href'     => admin_url('pi/TiposSignosController'), // URL of the item
+        'position' => 11, // The menu position
+        //'icon'     => 'fa fa-plus', // Font awesome icon
+    ]);
+
+    // Publicaciones de Marcas
+    /*$CI->app_menu->add_sidebar_children_item('52', [
+        'slug'     => 'publicaciones-marcas', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Publicaciones de Marcas', // The name if the item
+        'href'     => admin_url('pi/PublicacionesMarcasController'), // URL of the item
+        'position' => 11, // The menu position
+        //'icon'     => 'fa fa-passport', // Font awesome icon
+    ]);*/
 
     
     
@@ -147,40 +164,17 @@ function pi_menu_item_collapsible()
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
 
-    $CI->app_menu->add_sidebar_children_item('53', [
-        'slug'     => 'tipos-signos', // Required ID/slug UNIQUE for the child menu
-        'name'     => 'Administrador de Tipos de Signos', // The name if the item
-        'href'     => admin_url('pi/TiposSignosController'), // URL of the item
-        'position' => 11, // The menu position
-        //'icon'     => 'fa fa-plus', // Font awesome icon
-    ]);
     
-    //Cambios anteriores al registro
+    
+    //Acciones contra terceros
     $CI->app_menu->add_sidebar_children_item('53', [
-        'slug'     => 'anexos-before', // Required ID/slug UNIQUE for the child menu
-        'name'     => 'Cambios Anteriores al registro', // The name if the item
-        'href'     => admin_url('pi/AnexosController/1'), // URL of the item
+        'slug'     => 'cambios-terceros', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Acciones a Terceros', // The name if the item
+        'href'     => admin_url('pi/AccionesTercero/'), // URL of the item
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
 
-    //Cambios Posteriores al registro
-    $CI->app_menu->add_sidebar_children_item('53', [
-        'slug'     => 'anexos-after', // Required ID/slug UNIQUE for the child menu
-        'name'     => 'Cambios Posteriores al registro', // The name if the item
-        'href'     => admin_url('pi/AnexosController/2'), // URL of the item
-        'position' => 11, // The menu position
-        //'icon'     => 'fa fa-plus', // Font awesome icon
-    ]);
-
-    // Publicaciones de Marcas
-    $CI->app_menu->add_sidebar_children_item('53', [
-        'slug'     => 'publicaciones-marcas', // Required ID/slug UNIQUE for the child menu
-        'name'     => 'Publicaciones de Marcas', // The name if the item
-        'href'     => admin_url('pi/PublicacionesMarcasController'), // URL of the item
-        'position' => 11, // The menu position
-        //'icon'     => 'fa fa-passport', // Font awesome icon
-    ]);
     // Solicitudes de Marcas
     $CI->app_menu->add_sidebar_children_item('53', [
         'slug'     => 'solicitudes-marcas', // Required ID/slug UNIQUE for the child menu
@@ -199,39 +193,55 @@ function pi_menu_item_collapsible()
         'position' => 12, // The menu position
         'icon'     => 'fa-solid fa-microscope', // Font awesome icon
     ]);
-    //Prioridades
+    //Solicitudes
     $CI->app_menu->add_sidebar_children_item('54', [
-        'slug'     => 'patentesprioridad', // Required ID/slug UNIQUE for the child menu
-        'name'     => 'Administrador de Prioridades de patentes', // The name if the item
-        'href'     => admin_url('pi/PatentePrioridadController'), // URL of the item
+        'slug'     => 'solicitudes-patentes', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Solicitudes de patentes', // The name if the item
+        'href'     => admin_url('pi/patentes/SolicitudesController'), // URL of the item
         'position' => 12, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
     //Inventores
     $CI->app_menu->add_sidebar_children_item('54', [
-        'slug'     => 'inventores', // Required ID/slug UNIQUE for the child menu
-        'name'     => 'Administrador de Inventores', // The name if the item
-        'href'     => admin_url('pi/InventoresController'), // URL of the item
+        'slug'     => 'inventores-patentes', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Inventores', // The name if the item
+        'href'     => admin_url('pi/patentes/InventoresController'), // URL of the item
         'position' => 12, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
 
-    $CI->app_menu->add_sidebar_children_item('54', [
+    /*$CI->app_menu->add_sidebar_children_item('54', [
         'slug'     => 'tipospatentes', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Administrador de Tipos de Patentes', // The name if the item
         'href'     => admin_url('pi/TiposPatentesController'), // URL of the item
         'position' => 12, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
-    ]);
+    ]);*/
 
     /**
      * Derecho de Autor
      */
-    /*$CI->app_menu->add_sidebar_menu_item('56', [
+    $CI->app_menu->add_sidebar_menu_item('56', [
         'slug'     => 'copyright', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Derecho de Autor', // The name if the item
         'position' => 11, // The menu position
         'icon'     => 'fa-sharp fa-solid fa-copyright', // Font awesome icon
+    ]);
+
+    $CI->app_menu->add_sidebar_children_item('56', [
+        'slug'     => 'copyright-solicitudes', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Solicitudes', // The name if the item
+        'href'     => admin_url('pi/copyright/SolicitudesController'), // URL of the item
+        'position' => 12, // The menu position
+        //'icon'     => 'fa fa-plus', // Font awesome icon
+    ]);
+
+    $CI->app_menu->add_sidebar_children_item('56', [
+        'slug'     => 'copyright-autores', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Autores', // The name if the item
+        'href'     => admin_url('pi/copyright/AutoresController'), // URL of the item
+        'position' => 12, // The menu position
+        //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
 
     /**

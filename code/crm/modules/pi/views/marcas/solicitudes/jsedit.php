@@ -3649,7 +3649,7 @@
         {
             $.ajax({
                 url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/'.$id);?>",
-                method: "POST",
+                method: "GET",
                 success: function(response){
                     res = JSON.parse(response);
                     data = res.data;

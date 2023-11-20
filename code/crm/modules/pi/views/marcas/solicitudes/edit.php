@@ -76,7 +76,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                 'class'    => 'form-control',
                                                 'multiple' => 'multiple',
                                                 'options' => $pais_id,
-                                                'selected' => set_value('pais_id', $values['pais_id'])
+                                                'selected' => is_null($values['pais_id']) ? set_value('pais_id', $values['pais_id']) : '226',
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">

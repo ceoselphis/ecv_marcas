@@ -620,10 +620,10 @@ class MarcasSolicitudesController extends AdminController
                        'clase' =>  $row['clase_niza'],
                        'estado' => $row['estado_expediente'],
                        'solicitud' => $row['solicitud'],
-                       'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                       'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
                        'registro' => $row['registro'],
                        'certificado' => $row['certificado'],
-                       'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
+                       'vigencia' => is_null($row['fecha_vencimiento']) ? '' : date('d/m/Y', strtotime($row['fecha_vencimiento'])),
                        'pais' => $row['pais_nom'],
                        'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
                     ]; 

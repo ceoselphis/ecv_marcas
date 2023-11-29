@@ -1,12 +1,13 @@
 <?php 
 $CI = &get_instance();
 init_head();
-$CI->load->view('marcas/solicitudes/css.php');?>
+$CI->load->view('marcas/solicitudes/css.php');
+?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
             <div class="col-md-12">
-                <?php echo form_open_multipart('',['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
+                <?php echo form_open_multipart(admin_url('pi/MarcasSolicitudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('id', $id);?>
                     <div class="panel_s">
                         <div class="panel-body">
@@ -15,28 +16,25 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                     <div class="connecting-line"></div>
                                     <ul class="nav nav-tabs" role="tablist" style="display:flex">
                                         <li role="presentation" class="active">
-                                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registro</i></a>
+                                            <a href="#step1"  data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Inicio</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Solicitud</i></a>
+                                            <a href="#step2"  data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Marca Base</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Extra</i></a>
+                                            <a href="#step3"  data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Marca Opuesta</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Expediente</i></a>
+                                            <a href="#step4"  data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Expediente</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab">5</span> <i> Eventos</i></a>
+                                            <a href="#step5"  data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab">5</span> <i> Eventos</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step6" data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab">6</span> <i> Tareas</i></a>
+                                            <a href="#step6"  data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab">6</span> <i> Tareas</i></a>
                                         </li>
                                         <li role="presentation" >
-                                            <a href="#step7" data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Anexos</i></a>
-                                        </li>
-                                        <li role="presentation" >
-                                            <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab" style="background-color:#4BB543; color: white; border-color: white">8</span> <i style="color:#4BB543"> Documentos</i></a>
+                                            <a href="#step7"  data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Documentos</i></a>
                                         </li>
                                     </ul>
                             </div>
@@ -45,21 +43,24 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 <!-- Step 1 -->
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <?php echo form_label('Tipo de solicitud', 'tipo_registro_id');?>
-                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro ,set_value('tipo_registro_id', $values['tipo_registro_id']), ['class' => 'form-control'])?>
+                                        <div class="col-md-6" >
+                                            <?php echo form_label('Tipo de solicitud', 'tipo_solicitud_id');?>
+                                            <?php 
+                                            echo form_dropdown(
+                                                ['name'=>'tipo_solicitud_id','id'=>'tipo_solicitud_id'], 
+                                                $tipo_solicitud ,set_value('tipo_solicitud_id'), ['class' => 'form-control'])?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" >
                                             <?php echo form_label('Cliente','client_id');?>
-                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $values['client_id']), ['class' => 'form-control']);?>
+                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id'), ['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Oficina', 'oficina_id')?>
-                                            <?php echo form_dropdown('oficina_id',$oficinas,set_value('oficina_id', $values['oficina_id']),['class' => 'form-control']);?>
+                                            <?php echo form_dropdown('oficina_id',$oficinas,set_value('oficina_id'),['class' => 'form-control']);?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Responsable','staff_id');?>
-                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control']);?>
+                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id'), ['class' => 'form-control']);?>
                                         </div>                    
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -68,123 +69,90 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
+                                    
                                     <div class="col-md-6">
-                                        <?php echo form_label('Paises Designados', 'pais_id');?>
+                                        <?php echo form_label('Denominacion', 'marcas_id');?>
                                         <?php echo form_dropdown([
-                                                'id'       => 'pais_id',
-                                                'name'     => 'pais_id',
+                                                'id'       => 'marcas_id',
+                                                'name'     => 'marcas_id',
                                                 'class'    => 'form-control',
-                                                'multiple' => 'multiple',
-                                                'options' => $pais_id,
-                                                'selected' => is_null($values['pais_id']) ? set_value('pais_id', $values['pais_id']) : '226',
+                                                'options' => $marcas,
+                                        ]);?>
+                                    </div>
+                                    <div class="col-md-6">  
+                                        <?php echo form_label('Clase', 'clase_id');?>
+                                        <?php echo form_dropdown([
+                                            'id' => 'clase_id',
+                                            'name' => 'clase_id',
+                                            'class' => 'form-control',
+                                            'options' => $clase_niza
                                         ]);?>
                                     </div>
                                     <div class="col-md-6">
-                                        <?php echo form_label('Solicitantes', 'solicitantes_id');?>
+                                        <?php echo form_label('Pais', 'pais_id');?>
                                         <?php echo form_dropdown([
-                                            'id'       => 'solicitantes_id',
-                                            'name'     => 'solicitantes_id',
-                                            'class'    => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $solicitantes,
-                                            'selected' => set_value('solicitantes_id', $values['solicitantes_id'])
+                                            'id' => 'pais_id',
+                                            'name' => 'pais_id',
+                                            'class' => 'form-control',
+                                            'options' => $paises
                                         ]);?>
                                     </div>
-                                    <div class="col-md-4">  
-                                        <?php echo form_label('Signo', 'signonom');?>
+                                    
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Solicitud', 'nro_solicitud');?>
                                         <?php echo form_input([
-                                            'id'    =>   'signonom',
-                                            'name'  =>   'signonom',
-                                            'class' =>   'form-control',
-                                            'value' =>   set_value('signonom', $values['signonom'])
+                                            'id'       => 'nro_solicitud',
+                                            'name'     => 'nro_solicitud',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('nro_solicitud', '', TRUE),
                                         ]);?>
                                     </div>
-                                    <div class="col-md-2" style="padding-top: 2%; padding-bottom:0%">
-                                        <button type="button" class="btn btn-outline" data-toggle="modal" data-target="#signoModal"><i class="fas fa-paperclip"></i> Añadir</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Tipo Signo', 'tipo_signo_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'        => 'tipo_signo_id',
-                                            'name'      => 'tipo_signo_id',
-                                            'class'     => 'form-control',
-                                            'options'   =>  $tipos_signo_id,
-                                            'selected'  => set_value('tipo_signo_id', $values['tipo_signo_id'])
-                                        ]);?>
-                                    </div>
-                                    <!-- Clase niza -->                                  
-                                    <div class='col-md-12' style="padding: 2%;">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases <i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="clase_marcas">
-                                                    <div class="list-box">
-                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
-                                                        <table class="ultimate table table-responsive " id="claseTbl">
-                                                            <thead>
-                                                                <tr>
-                                                                    <td>Clase</td>
-                                                                    <td>Descripcion</td>
-                                                                    <td>Acciones</td>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            </tbody>
-                                                        </table> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul class="list-inline pull-right">
-                                        <li><button type="button" class="default-btn prev-step">Atrás</button></li>
-                                        <li><button type="submit" class="btn btn-success"> Guardar</button></li>
-                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
-                                    </ul>
+                                    
+                                    
                                 </div>
                                 <!-- Step 3 --->
                                 <div class="tab-pane" role="tabpanel" id="step3">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Tipo Solicitud', 'tipo_solicitud_id');?>
                                         <?php echo form_dropdown([
                                             'id'        => 'tipo_solicitud_id',
                                             'name'      => 'tipo_solicitud_id',
                                             'class'     => 'form-control',
                                             'options'   => $tipo_solicitud,
-                                            'selected'  => set_value('tipo_solicitud_id', $values['tipo_solicitud_id']),
+                                            'selected'  => set_value('tipo_solicitud_id', '1'),
                                         ]);?>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Referencia interna', 'ref_interna');?>
-                                        <?php echo form_input('ref_interna', set_value('ref_interna', $values['ref_interna']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('ref_interna', set_value('ref_interna'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Referencia cliente', 'ref_cliente');?>
-                                        <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control'])?>
                                     </div>
-                                    <!--<div class="col-md-4">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
-                                        <?php echo form_input('primer_uso', set_value('primer_uso', $values['primer_uso']), ['class' => 'form-control calendar'])?>
-                                    </div>-->
-                                    <div class="col-md-4">
+                                        <?php echo form_input('primer_uso', set_value('primer_uso'), ['class' => 'form-control calendar'])?>
+                                    </div>
+                                    <div class="col-md-2">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso');?>
-                                        <?php echo form_input('prueba_uso', set_value('prueba_uso', $values['prueba_uso']), ['class' => 'form-control calendar'])?>
+                                        <?php echo form_input('prueba_uso', set_value('prueba_uso'), ['class' => 'form-control calendar'])?>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <?php echo form_label('Carpeta', 'carpeta');?>
-                                        <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('carpeta', set_value('carpeta'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-4" >
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Libro', 'libro');?>
-                                        <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('libro', set_value('libro'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Tomo', 'tomo');?>
-                                        <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('tomo', set_value('tomo'), ['class' => 'form-control'])?>
                                     </div>
-                                    <div class="col-md-4" >
+                                    <div class="col-md-2" style="padding-top:15px;">
                                         <?php echo form_label('Folio', 'folio');?>
-                                        <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control'])?>
+                                        <?php echo form_input('folio', set_value('folio'), ['class' => 'form-control'])?>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%" >
                                         <div class="all-info-container">
@@ -192,20 +160,22 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                 <a href="#prioridad" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Prioridades<i class="fa fa-chevron-down"></i></a>
                                                 <div class="collapse" id="prioridad">
                                                     <div class="list-box">
-                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
-                                                        <table class="table table-responsive" id="prioridadTbl">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Fecha</th>
-                                                                    <th>Pais</th>
-                                                                    <th>Número</th>
-                                                                    <th>Acciones</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody >
-
-                                                            </tbody>
-                                                        </table> 
+                                                        <div class="col-12" >
+                                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
+                                                        </div>
+                                                        <div class="col-12" style="padding: 1% 1% 1% 0%;">    
+                                                            <table id="prioridadTbl" class="table table-responsive table-dark">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Fecha</th>
+                                                                        <th>Pais</th>
+                                                                        <th>Número</th>
+                                                                        <th>Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table> 
+                                                        </div>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>    
@@ -213,7 +183,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                     </div>
                                     <div class="col-md-12" style="padding-top:15px;">
                                         <?php echo form_label('Comentarios', 'comentarios');?>
-                                        <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control']);?>
+                                        <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control']);?>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
@@ -225,7 +195,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="col-md-12">
                                         <?php echo form_label('Estado de Solicitud', 'estado_id');?>
-                                        <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control']);?>
+                                        <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value($fields[3]['name']), ['class' => 'form-control']);?>
                                     </div>
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Solicitud'); ?>
@@ -233,72 +203,67 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                             'id' => 'num_solicitud',
                                             'name' => 'num_solicitud',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_solicitud', $values['solicitud']),
+                                            'value' => set_value('num_solicitud'),
                                             'placeholder' => 'Nº de Solicitud'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Fecha de Solicitud'); ?>
-                                        <?php 
-                                        echo form_input([
+                                        <?php echo form_input([
                                             'id' => 'fecha_solicitud',
                                             'name' => 'fecha_solicitud',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud', $values['fecha_solicitud']),
+                                            'value' => set_value('fecha_solicitud'),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Registro'); ?>
-                                        <?php 
-                                        echo form_input([
+                                        <?php echo form_input([
                                             'id' => 'num_registro',
                                             'name' => 'num_registro',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_registro', $values['registro']),
+                                            'value' => set_value('num_registro'),
                                             'placeholder' => 'Nº Registro'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Fecha de registro"); ?>
-                                        <?php 
-                                        echo form_input([
+                                        <?php echo form_input([
                                             'id' => 'fecha_registro',
                                             'name' => 'fecha_registro',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_registro', $values['fecha_registro']),
+                                            'value' => set_value('fecha_registro'),
                                             'placeholder' => 'Fecha de Registro'
                                         ]);?>
                                     </div>
-                                    <!--<div class="col-md-6" style="padding-top:15px;">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Nº de Certificado"); ?>
                                         <?php echo form_input([
                                             'id' => 'num_certificado',
                                             'name' => 'num_certificado',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_certificado', $values['certificado']),
+                                            'value' => set_value('num_certificado'),
                                             'placeholder' => 'Nº de Certificado'
                                         ]);?>
                                     </div>
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Fecha de certificado"); ?>
-                                        <?php 
-                                        echo form_input([
+                                        <?php echo form_input([
                                             'id' => 'fecha_certificado',
                                             'name' => 'fecha_certificado',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_certificado', $values['fecha_certificado']),
+                                            'value' => set_value('fecha_certificado'),
                                             'placeholder' => 'Fecha de Certificado'
                                         ]);?>
-                                    </div>-->
-                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Fecha de Vencimiento'); ?>
-                                        <?php 
-                                        echo form_input([
+                                        <?php echo form_input([
                                             'id' => 'fecha_vencimiento',
                                             'name' => 'fecha_vencimiento',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_vencimiento', $values['fecha_vencimiento']),
+                                            'value' => set_value('fecha_vencimiento'),
                                             'placeholder' => 'Fecha Vencimiento'
                                         ]);?>
                                     </div>
@@ -310,21 +275,17 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
+                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
                                                                 <table id="publicacionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Fecha</th>
-                                                                            <th>Tipo de Publicacion</th>
                                                                             <th>Boletin</th>
                                                                             <th>Tomo</th>
                                                                             <th>Pagina</th>
                                                                             <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody>
-
-                                                                    </tbody>
                                                                 </table>
                                                             </div>
                                                         </div>
@@ -344,18 +305,40 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                     <div class="col-md-12" >
                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                     </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                    <div class="col-md-12" style="padding-top: 20px;">
+                                        <table class="table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
-                                                    <th>Descripcion</th>
-                                                    <th>Comentarios</th>
+                                                    <th>Tipo Evento</th>
+                                                    <th>Comentario</th>
                                                     <th>Fecha</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id= "body_eventos">
+                                            <tbody>
+                                            <?php if (!empty($eventos)) {?>
+                                                <?php foreach ($eventos as $row) {?>
+                                                    <tr eventosid = "<?php echo $row['id'];?>">
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['tipo_evento'];?></td>
+                                                        <td><?php echo $row['comentarios'];?></td>
+                                                        <td><?php echo $row['fecha'];?></td>
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/EventosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a class="editeventos btn btn-light"  data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -371,19 +354,17 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table class="table table-responsive" id="tareas">
                                             <thead>
                                                 <tr>
-                                                    <th>Id</th>
+                                                    <th>Nro</th>
                                                     <th>Tipo de Tarea</th>
-                                                    <th>Comentarios</th>
+                                                    <th>Descripcion</th>
                                                     <th>Fecha</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id = "body_tareas">
-
-                                            
+                                            <tbody>
                                             </tbody>
                                         </table>
                                     </div>
@@ -403,9 +384,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" id="AddCesionAbrirModal" data-toggle="modal" data-target="#AddCesion" >Añadir Cesion</button>
-                                                                <br><br><br>
-                                                                <table id="CesionTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCesion">Añadir Cesion</button>
+                                                                <table id="cesionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -419,7 +399,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
+                                                                          
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="body_cesion">
@@ -441,9 +421,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" id="AddLicenciaAbrirModal" data-toggle="modal" data-target="#AddLicencia">Añadir licencia</button>
-                                                                <br><br><br>
-                                                                <table id="LicenciaTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddLicencia">Añadir licencia</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
@@ -457,7 +436,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
+                                                                            
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="body_licencia">
@@ -478,11 +457,10 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                 <div class="collapse" id="fusion">
                                                     <div class="list-box">
                                                         <div class="row">
-                                                            <div class="col-md-12"> <!---->
-                                                                <button type="button" class="btn btn-primary pull-right" id="AddFusionAbrirModal" data-toggle="modal" data-target="#AddFusion">Añadir Fusion</button>
-                                                                <br><br><br>
-                                                                <table id="FusionTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                <thead>
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddFusion">Añadir Fusion</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
                                                                             <th>Oficina</th>
@@ -493,7 +471,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
+                                                                            
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="body_fusion">
@@ -515,10 +493,9 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de nombre</button>
-                                                                <br><br><br>
-                                                                <table id="CambioNombreTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                <thead>
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de nombre</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
                                                                             <th>Oficina</th>
@@ -529,7 +506,7 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
+                                                                            
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="body_cambio_nombre">
@@ -551,10 +528,9 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" id="AddCambioDomicilioAbrirModal" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioDomicilio" >Añadir cambio de domicilio</button>
-                                                                <br><br><br>
-                                                                <table id="CambioDomicilioTbl" class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                <thead>
+                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioDomicilio">Añadir cambio de domicilio</button>
+                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <thead>
                                                                         <tr>
                                                                             <th>Nº</th>
                                                                             <th>Oficina</th>
@@ -566,9 +542,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                                                             <th>Fecha de Resolucion</th>
                                                                             <th>Referencia Cliente</th>
                                                                             <th>Comentarios</th>
-                                                                            <th>Acciones</th>
                                                                         </tr>
-                                                                </thead>
+                                                                    </thead>
                                                                     <tbody id = "body_cambio_domicilio">
 
                                                                     </tbody>
@@ -592,19 +567,41 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docModal">Añadir Documento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table id = "soldocTbl" class="table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
-                                                    <th>Archivo</th>
+                                                    <th>Creado Por</th>
                                                     <th>Descripcion</th>
+                                                    <th>Archivo</th>
                                                     <th>Comentarios</th>
-                                                    <th>Documento</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="body_documentos">
-                                            
+                                            <tbody >
+                                            <?php if (!empty($SolDoc)) {?>
+                                                <?php foreach ($SolDoc as $row) {?>
+                                                    <tr docid = "<?php echo $row['id'];?>">
+                                                        <td><?php echo $row['id'];?></td>
+                                                        <td><?php echo $row['marcas_id'];?></td>
+                                                        <td><?php echo $row['descripcion'];?></td>
+                                                        <td><?php echo $row['path'];?></td>
+                                                        <td><?php echo $row['comentarios'];?></td>
+                                                        <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                            <td>
+                                                                <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                            </td>
+                                                        </form> 
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php }
+                                            else {
+                                            ?>
+                                            <tr colspan="3">
+                                                <td>Sin Registros</td>
+                                            </tr>
+                                            <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -622,31 +619,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
         </div>
     </div>
 </div>
-
-<?php $CI->load->view('marcas/solicitudes/modaledit.php');?>
-
+<?php $CI->load->view('marcas/solicitudes/modal.php');?>
 <?php init_tail();?>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-<?php $CI->load->view('marcas/solicitudes/jsedit.php');?>
-
-    
+<?php $CI->load->view('marcas/solicitudes/js.php');?>
 </body>
 </html>
-<?php init_tail();?>
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
-<script>
-    new DataTable(".ultimate", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
-</script>
-<!-- <script>
-    new DataTable(".anexo", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
-</script> -->

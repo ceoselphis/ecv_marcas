@@ -14,17 +14,30 @@
                                 <table class="table" id="tableResult">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Nombre</th>
+                                            <th>Codigo</th>
+                                            <th>Tipo</th>
+                                            <th>Demandante</th>
+                                            <th>Demandado</th>
+                                            <th>Objeto</th>
+                                            <th>Nº solicitud</th>
+                                            <th>Fecha Solicitud</th>
+                                            <th>Estado</th>
+                                            <th>Pais</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if (!empty($anexos)) {?>
-                                            <?php foreach ($anexos as $row) {?>
+                                        <?php if (!empty($acciones)) {?>
+                                            <?php foreach ($acciones as $row) {?>
                                                 <tr>
-                                                    <td><?php echo $row['tip_ax_id'];?></td>
-                                                    <td><?php echo $row['nombre_anexo'];?></td>
+                                                    <td><?php echo $row['id'];?></td>
+                                                    <td><?php echo $row['tipo_solicitud'];?></td>
+                                                    <td><?php echo $row['cliente'];?></td>
+                                                    <td><?php echo $row['propietario'];?></td>
+                                                    <td><?php echo $row['marca'];?></td>
+                                                    <td><?php echo $row['nro_solicitud'];?></td>
+                                                    <td><?php echo $row['fecha_solicitud'];?></td>
+                                                    <td><?php echo $row['marca'];?></td>
                                                     <form method="DELETE" action="<?php echo admin_url("pi/AccionesTerceroController/destroy/{$row['tip_ax_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                                         <td>
                                                             <a class="btn btn-light" href="<?php echo admin_url("pi/AccionesTerceroController/edit/{$row['tip_ax_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
@@ -60,13 +73,13 @@
 <?php init_tail();?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
-<script>
+<!--<script>
     new DataTable(".table", {
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
         }
     });
-</script>
+</script>-->
 
 
 </body>

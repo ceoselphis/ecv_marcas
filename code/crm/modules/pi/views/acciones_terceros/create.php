@@ -7,8 +7,7 @@ $CI->load->view('marcas/solicitudes/css.php');
     <div class="content">
         <div class="row">
             <div class="col-md-12">
-                <?php echo form_open_multipart(admin_url('pi/MarcasSolicitudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
-                <?php echo form_hidden('id', $id);?>
+                <?php echo form_open_multipart(admin_url('pi/AccionesTerceroController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                     <div class="panel_s">
                         <div class="panel-body">
                             <div class="wizard">
@@ -70,7 +69,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <?php echo form_label('Denominacion', 'marcas_id');?>
                                         <?php echo form_dropdown([
                                                 'id'       => 'marcas_id',
@@ -88,6 +87,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             'options' => $clase_niza
                                         ]);?>
                                     </div>
+
                                     <div class="col-md-6">
                                         <?php echo form_label('Pais', 'pais_id');?>
                                         <?php echo form_dropdown([
@@ -99,7 +99,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                     </div>
                                     
                                     <div class="col-md-6">
-                                        <?php echo form_label('Solicitud', 'nro_solicitud');?>
+                                        <?php echo form_label('Nº Solicitud', 'nro_solicitud');?>
                                         <?php echo form_input([
                                             'id'       => 'nro_solicitud',
                                             'name'     => 'nro_solicitud',
@@ -107,84 +107,214 @@ $CI->load->view('marcas/solicitudes/css.php');
                                             'value'    => set_value('nro_solicitud', '', TRUE),
                                         ]);?>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Fecha Solicitud', 'fecha_solicitud');?>
+                                        <?php echo form_input([
+                                            'id'       => 'fecha_solicitud',
+                                            'name'     => 'fecha_solicitud',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('fecha_solicitud', '', TRUE),
+                                        ]);?>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Nº Registro', 'nro_registro');?>
+                                        <?php echo form_input([
+                                            'id'       => 'nro_registro',
+                                            'name'     => 'nro_registro',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('nro_registro', '', TRUE),
+                                        ]);?>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Fecha Registro', 'fecha_registro');?>
+                                        <?php echo form_input([
+                                            'id'       => 'fecha_registro',
+                                            'name'     => 'fecha_registro',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('fecha_registro', '', TRUE),
+                                        ]);?>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Propietario', 'propietario_id');?>
+                                        <?php echo form_dropdown([
+                                            'id' => 'propietario_id',
+                                            'name' => 'propietario_id',
+                                            'class' => 'form-control',
+                                            'options' => $propietarios
+                                        ]);?>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Ciudad', 'ciudad_propietario');?>
+                                        <?php echo form_input([
+                                            'id'       => 'ciudad_propietario',
+                                            'name'     => 'ciudad_propietario',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('ciudad_propietario', '', TRUE),
+                                        ]);?>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Pais', 'pais_propietario');?>
+                                        <?php echo form_dropdown([
+                                            'id' => 'pais_propietario',
+                                            'name' => 'pais_propietario',
+                                            'class' => 'form-control',
+                                            'options' => $paises
+                                        ]);?>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Fundamento', 'fundamento');?>
+                                        <?php echo form_textarea([
+                                            'id' => 'fundamento',
+                                            'name' => 'fundamento',
+                                            'class' => 'form-control',
+                                        ]);?>
+                                    </div>
+
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="default-btn prev-step">Atrás</button></li>
+                                        <li><button type="submit" class="btn btn-success"> Guardar</button></li>
+                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
+                                    </ul>
                                     
                                     
                                 </div>
                                 <!-- Step 3 --->
                                 <div class="tab-pane" role="tabpanel" id="step3">
-                                    <div class="col-md-2">
-                                        <?php echo form_label('Tipo Solicitud', 'tipo_solicitud_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'        => 'tipo_solicitud_id',
-                                            'name'      => 'tipo_solicitud_id',
-                                            'class'     => 'form-control',
-                                            'options'   => $tipo_solicitud,
-                                            'selected'  => set_value('tipo_solicitud_id', '1'),
+                                <div class="col-md-12">
+                                        <?php echo form_label('Denominacion', 'marca_opuesta');?>
+                                        <?php echo form_input([
+                                                'id'       => 'marca_opuesta',
+                                                'name'     => 'marca_opuesta',
+                                                'class'    => 'form-control',
+                                                'value'    => set_value('marca_opuesta', '')
                                         ]);?>
                                     </div>
-                                    <div class="col-md-2">
-                                        <?php echo form_label('Referencia interna', 'ref_interna');?>
-                                        <?php echo form_input('ref_interna', set_value('ref_interna'), ['class' => 'form-control'])?>
+                                    <div class="col-md-6">  
+                                        <?php echo form_label('Clase', 'clase_niza');?>
+                                        <?php echo form_dropdown([
+                                            'id' => 'clase_niza',
+                                            'name' => 'clase_niza',
+                                            'class' => 'form-control',
+                                            'options' => $clase_niza
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-2">
-                                        <?php echo form_label('Referencia cliente', 'ref_cliente');?>
-                                        <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control'])?>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Pais', 'pais_id');?>
+                                        <?php echo form_dropdown([
+                                            'id' => 'pais_id',
+                                            'name' => 'pais_id',
+                                            'class' => 'form-control',
+                                            'options' => $paises
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-2">
-                                        <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
-                                        <?php echo form_input('primer_uso', set_value('primer_uso'), ['class' => 'form-control calendar'])?>
+                                    
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Nº Solicitud', 'nro_solicitud');?>
+                                        <?php echo form_input([
+                                            'id'       => 'nro_solicitud',
+                                            'name'     => 'nro_solicitud',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('nro_solicitud', '', TRUE),
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-2">
-                                        <?php echo form_label('Prueba Uso', 'prueba_uso');?>
-                                        <?php echo form_input('prueba_uso', set_value('prueba_uso'), ['class' => 'form-control calendar'])?>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Fecha Solicitud', 'fecha_solicitud');?>
+                                        <?php echo form_input([
+                                            'id'       => 'fecha_solicitud',
+                                            'name'     => 'fecha_solicitud',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('fecha_solicitud', '', TRUE),
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-2">
-                                        <?php echo form_label('Carpeta', 'carpeta');?>
-                                        <?php echo form_input('carpeta', set_value('carpeta'), ['class' => 'form-control'])?>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Nº Registro', 'nro_registro');?>
+                                        <?php echo form_input([
+                                            'id'       => 'nro_registro',
+                                            'name'     => 'nro_registro',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('nro_registro', '', TRUE),
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-2" style="padding-top:15px;">
-                                        <?php echo form_label('Libro', 'libro');?>
-                                        <?php echo form_input('libro', set_value('libro'), ['class' => 'form-control'])?>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Fecha Registro', 'fecha_registro');?>
+                                        <?php echo form_input([
+                                            'id'       => 'fecha_registro',
+                                            'name'     => 'fecha_registro',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('fecha_registro', '', TRUE),
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-2" style="padding-top:15px;">
-                                        <?php echo form_label('Tomo', 'tomo');?>
-                                        <?php echo form_input('tomo', set_value('tomo'), ['class' => 'form-control'])?>
+
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Propietario', 'propietario');?>
+                                        <?php echo form_dropdown([
+                                            'id' => 'propietario',
+                                            'name' => 'propietario',
+                                            'class' => 'form-control',
+                                            'value' => set_value('propietario', '')
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-2" style="padding-top:15px;">
-                                        <?php echo form_label('Folio', 'folio');?>
-                                        <?php echo form_input('folio', set_value('folio'), ['class' => 'form-control'])?>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Ciudad', 'ciudad_propietario');?>
+                                        <?php echo form_input([
+                                            'id'       => 'ciudad_propietario',
+                                            'name'     => 'ciudad_propietario',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('ciudad_propietario', '', TRUE),
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%" >
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#prioridad" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Prioridades<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="prioridad">
-                                                    <div class="list-box">
-                                                        <div class="col-12" >
-                                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir prioridad</button>
-                                                        </div>
-                                                        <div class="col-12" style="padding: 1% 1% 1% 0%;">    
-                                                            <table id="prioridadTbl" class="table table-responsive table-dark">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Fecha</th>
-                                                                        <th>Pais</th>
-                                                                        <th>Número</th>
-                                                                        <th>Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table> 
-                                                        </div>
-                                                    
-                                                    </div>
-                                                </div>
-                                            </div>    
-                                        </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Pais', 'pais_propietario');?>
+                                        <?php echo form_dropdown([
+                                            'id' => 'pais_propietario',
+                                            'name' => 'pais_propietario',
+                                            'class' => 'form-control',
+                                            'options' => $paises
+                                        ]);?>
                                     </div>
-                                    <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Comentarios', 'comentarios');?>
-                                        <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control']);?>
+
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Agente', 'agente');?>
+                                        <?php echo form_input([
+                                            'id' => 'agente',
+                                            'name' => 'agente',
+                                            'class' => 'form-control',
+                                        ]);?>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Boletin', 'boletin');?>
+                                        <?php echo form_dropdown([
+                                                'id' => 'boletin',
+                                                'name' => 'boletin',
+                                                'class' => 'form-control',
+                                                'options' => $boletines
+                                            ]);?>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Fecha', 'fecha');?>
+                                        <?php echo form_input([
+                                                'id' => 'fecha',
+                                                'name' => 'fecha',
+                                                'class' => 'form-control',
+                                                'value' => set_value('fecha', ''),
+                                            ]);?>
+                                    </div>
+
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
@@ -195,27 +325,7 @@ $CI->load->view('marcas/solicitudes/css.php');
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="col-md-12">
                                         <?php echo form_label('Estado de Solicitud', 'estado_id');?>
-                                        <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value($fields[3]['name']), ['class' => 'form-control']);?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Nº de Solicitud'); ?>
-                                        <?php echo form_input([
-                                            'id' => 'num_solicitud',
-                                            'name' => 'num_solicitud',
-                                            'class' => 'form-control',
-                                            'value' => set_value('num_solicitud'),
-                                            'placeholder' => 'Nº de Solicitud'
-                                        ]);?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Fecha de Solicitud'); ?>
-                                        <?php echo form_input([
-                                            'id' => 'fecha_solicitud',
-                                            'name' => 'fecha_solicitud',
-                                            'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_solicitud'),
-                                            'placeholder' => 'Fecha Solicitud'
-                                        ]);?>
+                                        <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', ''), ['class' => 'form-control']);?>
                                     </div>
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Registro'); ?>
@@ -619,8 +729,6 @@ $CI->load->view('marcas/solicitudes/css.php');
         </div>
     </div>
 </div>
-<?php $CI->load->view('marcas/solicitudes/modal.php');?>
 <?php init_tail();?>
-<?php $CI->load->view('marcas/solicitudes/js.php');?>
 </body>
 </html>

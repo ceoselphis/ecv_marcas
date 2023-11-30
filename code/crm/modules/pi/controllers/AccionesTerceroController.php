@@ -26,31 +26,21 @@ class AccionesTerceroController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("AccionesContraTerceros_model");
-        $fields = $CI->AccionesContraTerceros_model->getFillableFields();
-        $inputs = array();
-        $labels = array();
-        foreach($fields as $field)
-        {
-            if($field['type'] == 'INT')
-            {
-                $inputs[] = array(
-                    'name' => $field['name'],
-                    'id'   => $field['name'],
-                    'type' => 'range',
-                    'class' => 'form-control'
-                );
-            }
-            else{
-                $inputs[] = array(
-                    'name' => $field['name'],
-                    'id'   => $field['name'],
-                    'type' => 'text',
-                    'class' => 'form-control'
-                );
-            }
-        }
-        $labels = ['Id', 'Nombre del anexo'];
-        return $CI->load->view('acciones_terceros/create', ['fields' => $inputs, 'labels' => $labels]);
+        $data = [
+            'tipo_solicitud' => $CI->AccionesContraTerceros_model->getTipoSolicitudes(),
+            'clientes'       => $CI->AccionesContraTerceros_model->getAllClients(),
+            'oficinas'       => $CI->AccionesContraTerceros_model->getAllOficinas(),
+            'responsable'    => $CI->AccionesContraTerceros_model->getAllStaff(),
+            'marcas'         => $CI->AccionesContraTerceros_model->getAllMarcas(),
+            'clase_niza'     => $CI->AccionesContraTerceros_model->getAllClases(),
+            'paises'         => $CI->AccionesContraTerceros_model->getAllPaises(),
+            'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
+            'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
+            'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
+        ];
+        
+        
+        return $CI->load->view('acciones_terceros/create', $data);
     }
 
     /**

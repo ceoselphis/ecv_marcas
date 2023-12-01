@@ -327,54 +327,13 @@ $CI->load->view('marcas/solicitudes/css.php');
                                         <?php echo form_label('Estado de Solicitud', 'estado_id');?>
                                         <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', ''), ['class' => 'form-control']);?>
                                     </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Nº de Registro'); ?>
-                                        <?php echo form_input([
-                                            'id' => 'num_registro',
-                                            'name' => 'num_registro',
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Comentarios', 'comentarios');?>
+                                        <?php echo form_textarea([
+                                            'id' => 'comentarios',
+                                            'name' => 'comentarios',
                                             'class' => 'form-control',
-                                            'value' => set_value('num_registro'),
-                                            'placeholder' => 'Nº Registro'
-                                        ]);?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label("Fecha de registro"); ?>
-                                        <?php echo form_input([
-                                            'id' => 'fecha_registro',
-                                            'name' => 'fecha_registro',
-                                            'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_registro'),
-                                            'placeholder' => 'Fecha de Registro'
-                                        ]);?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label("Nº de Certificado"); ?>
-                                        <?php echo form_input([
-                                            'id' => 'num_certificado',
-                                            'name' => 'num_certificado',
-                                            'class' => 'form-control',
-                                            'value' => set_value('num_certificado'),
-                                            'placeholder' => 'Nº de Certificado'
-                                        ]);?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label("Fecha de certificado"); ?>
-                                        <?php echo form_input([
-                                            'id' => 'fecha_certificado',
-                                            'name' => 'fecha_certificado',
-                                            'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_certificado'),
-                                            'placeholder' => 'Fecha de Certificado'
-                                        ]);?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Fecha de Vencimiento'); ?>
-                                        <?php echo form_input([
-                                            'id' => 'fecha_vencimiento',
-                                            'name' => 'fecha_vencimiento',
-                                            'class' => 'form-control calendar',
-                                            'value' => set_value('fecha_vencimiento'),
-                                            'placeholder' => 'Fecha Vencimiento'
+                                            'value' => set_value('comentarios', '')
                                         ]);?>
                                     </div>
                                     <div class="col-md-12" style="padding: 1.5% 1.5% 1.5% 1.5%;">

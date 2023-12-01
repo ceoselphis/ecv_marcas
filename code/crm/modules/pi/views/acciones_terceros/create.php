@@ -1,7 +1,7 @@
 <?php
 $CI = &get_instance();
 init_head();
-$CI->load->view('marcas/solicitudes/css.php');
+$CI->load->view('acciones_terceros/css.php');
 ?>
 <div id="wrapper">
     <div class="content">

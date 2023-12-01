@@ -59,8 +59,8 @@ class AccionesTerceroController extends AdminController
         //we set the rules
         $config = array(
             [
-                'field' => 'nombre_anexo',
-                'label' => 'Nombre del Anexo',
+                'field' => 'nro_solicitud',
+                'label' => 'Numero de solicitud',
                 'rules' => 'trim|required|min_length[3]|max_length[60]',
                 'errors' => [
                     'required' => 'Debe indicar un nombre para el anexo',
@@ -96,8 +96,19 @@ class AccionesTerceroController extends AdminController
                     );
                 }
             }
-            $labels = ['Id', 'Nombre del anexo'];
-            return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
+            $data = [
+                'tipo_solicitud' => $CI->AccionesContraTerceros_model->getTipoSolicitudes(),
+                'clientes'       => $CI->AccionesContraTerceros_model->getAllClients(),
+                'oficinas'       => $CI->AccionesContraTerceros_model->getAllOficinas(),
+                'responsable'    => $CI->AccionesContraTerceros_model->getAllStaff(),
+                'marcas'         => $CI->AccionesContraTerceros_model->getAllMarcas(),
+                'clase_niza'     => $CI->AccionesContraTerceros_model->getAllClases(),
+                'paises'         => $CI->AccionesContraTerceros_model->getAllPaises(),
+                'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
+                'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
+                'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
+            ];
+            return $CI->load->view('acciones_terceros/create', $data);
         }
         else
         {

@@ -37,6 +37,7 @@ class AccionesTerceroController extends AdminController
             'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
             'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
             'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
+            'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
         ];
         
         

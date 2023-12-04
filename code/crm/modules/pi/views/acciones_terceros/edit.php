@@ -689,7 +689,10 @@ $CI->load->view('acciones_terceros/css.php');
         </div>
     </div>
 </div>
+<?php $CI->load->view('acciones_terceros/modal.php');?>
 <?php init_tail(); ?>
+
+<?php $CI->load->view('acciones_terceros/js.php');?>
 </body>
 
 </html>

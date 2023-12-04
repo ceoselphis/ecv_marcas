@@ -116,7 +116,7 @@ $CI->load->view('acciones_terceros/css.php');
                                         <?php echo form_input([
                                             'id'       => 'fecha_solicitud',
                                             'name'     => 'fecha_solicitud',
-                                            'class'    => 'form-control',
+                                            'class'    => 'form-control calendar',
                                             'value'    => set_value('fecha_solicitud', '', TRUE),
                                         ]); ?>
                                     </div>
@@ -136,7 +136,7 @@ $CI->load->view('acciones_terceros/css.php');
                                         <?php echo form_input([
                                             'id'       => 'fecha_registro',
                                             'name'     => 'fecha_registro',
-                                            'class'    => 'form-control',
+                                            'class'    => 'form-control calendar',
                                             'value'    => set_value('fecha_registro', '', TRUE),
                                         ]); ?>
                                     </div>
@@ -212,8 +212,8 @@ $CI->load->view('acciones_terceros/css.php');
                                     <div class="col-md-6">
                                         <?php echo form_label('Pais', 'pais_id'); ?>
                                         <?php echo form_dropdown([
-                                            'id' => 'pais_id',
-                                            'name' => 'pais_id',
+                                            'id' => 'pais_id_opuesta',
+                                            'name' => 'pais_id_opuesta',
                                             'class' => 'form-control',
                                             'options' => $paises
                                         ]); ?>
@@ -222,20 +222,20 @@ $CI->load->view('acciones_terceros/css.php');
                                     <div class="col-md-6">
                                         <?php echo form_label('Nº Solicitud', 'nro_solicitud'); ?>
                                         <?php echo form_input([
-                                            'id'       => 'nro_solicitud',
-                                            'name'     => 'nro_solicitud',
+                                            'id'       => 'nro_solicitud_opuesta',
+                                            'name'     => 'nro_solicitud_opuesta',
                                             'class'    => 'form-control',
-                                            'value'    => set_value('nro_solicitud', '', TRUE),
+                                            'value'    => set_value('nro_solicitud_opuesta', '', TRUE),
                                         ]); ?>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo form_label('Fecha Solicitud', 'fecha_solicitud'); ?>
+                                        <?php echo form_label('Fecha Solicitud', 'fecha_solicitud_opuesta'); ?>
                                         <?php echo form_input([
-                                            'id'       => 'fecha_solicitud',
-                                            'name'     => 'fecha_solicitud',
-                                            'class'    => 'form-control',
-                                            'value'    => set_value('fecha_solicitud', '', TRUE),
+                                            'id'       => 'fecha_solicitud_opuesta',
+                                            'name'     => 'fecha_solicitud_opuesta',
+                                            'class'    => 'form-control calendar',
+                                            'value'    => set_value('fecha_solicitud_opuesta', '', TRUE),
                                         ]); ?>
                                     </div>
 
@@ -243,47 +243,47 @@ $CI->load->view('acciones_terceros/css.php');
                                         <?php echo form_label('Nº Registro', 'nro_registro'); ?>
                                         <?php echo form_input([
                                             'id'       => 'nro_registro',
-                                            'name'     => 'nro_registro',
+                                            'name'     => 'nro_registro_opuesta',
                                             'class'    => 'form-control',
                                             'value'    => set_value('nro_registro', '', TRUE),
                                         ]); ?>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo form_label('Fecha Registro', 'fecha_registro'); ?>
+                                        <?php echo form_label('Fecha Registro', 'fecha_registro_opuesta'); ?>
                                         <?php echo form_input([
-                                            'id'       => 'fecha_registro',
-                                            'name'     => 'fecha_registro',
-                                            'class'    => 'form-control',
-                                            'value'    => set_value('fecha_registro', '', TRUE),
+                                            'id'       => 'fecha_registro_opuesta',
+                                            'name'     => 'fecha_registro_opuesta',
+                                            'class'    => 'form-control calendar',
+                                            'value'    => set_value('fecha_registro_opuesta', '', TRUE),
                                         ]); ?>
                                     </div>
 
                                     <div class="col-md-12">
-                                        <?php echo form_label('Propietario', 'propietario'); ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'propietario',
-                                            'name' => 'propietario',
-                                            'class' => 'form-control',
-                                            'value' => set_value('propietario', '')
-                                        ]); ?>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Ciudad', 'ciudad_propietario'); ?>
+                                        <?php echo form_label('Propietario', 'propietario_opuesta'); ?>
                                         <?php echo form_input([
-                                            'id'       => 'ciudad_propietario',
-                                            'name'     => 'ciudad_propietario',
-                                            'class'    => 'form-control',
-                                            'value'    => set_value('ciudad_propietario', '', TRUE),
+                                            'id' => 'propietario_opuesta',
+                                            'name' => 'propietario_opuesta',
+                                            'class' => 'form-control',
+                                            'value' => set_value('propietario_opuesta', '')
                                         ]); ?>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo form_label('Pais', 'pais_propietario'); ?>
+                                        <?php echo form_label('Ciudad', 'ciudad_propietario_opuesta'); ?>
+                                        <?php echo form_input([
+                                            'id'       => 'ciudad_propietario_opuesta',
+                                            'name'     => 'ciudad_propietario_opuesta',
+                                            'class'    => 'form-control',
+                                            'value'    => set_value('ciudad_propietario_opuesta', '', TRUE),
+                                        ]); ?>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Pais', 'pais_propietario_opuesta'); ?>
                                         <?php echo form_dropdown([
-                                            'id' => 'pais_propietario',
-                                            'name' => 'pais_propietario',
+                                            'id' => 'pais_propietario_opuesta',
+                                            'name' => 'pais_propietario_opuesta',
                                             'class' => 'form-control',
                                             'options' => $paises
                                         ]); ?>
@@ -309,11 +309,11 @@ $CI->load->view('acciones_terceros/css.php');
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo form_label('Fecha', 'fecha'); ?>
+                                        <?php echo form_label('Fecha', 'fecha_boletin'); ?>
                                         <?php echo form_input([
-                                            'id' => 'fecha',
-                                            'name' => 'fecha',
-                                            'class' => 'form-control',
+                                            'id' => 'fecha_boletin',
+                                            'name' => 'fecha_boletin',
+                                            'class' => 'form-control calendar',
                                             'value' => set_value('fecha', ''),
                                         ]); ?>
                                     </div>
@@ -448,236 +448,12 @@ $CI->load->view('acciones_terceros/css.php');
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">
                                     <div class="col-md-12">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#cesion" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="cesion">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCesion">Añadir Cesion</button>
-                                                                <table id="cesionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Nº</th>
-                                                                            <th>Cliente</th>
-                                                                            <th>Oficina</th>
-                                                                            <th>Staff</th>
-                                                                            <th>Estado</th>
-                                                                            <th>Nº de Solicitud</th>
-                                                                            <th>Fecha de Solicitud</th>
-                                                                            <th>Nº de Resolucion</th>
-                                                                            <th>Fecha de Resolucion</th>
-                                                                            <th>Referencia Cliente</th>
-                                                                            <th>Comentarios</th>
 
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody id="body_cesion">
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#licencia" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="licencia">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddLicencia">Añadir licencia</button>
-                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Nº</th>
-                                                                            <th>Cliente</th>
-                                                                            <th>Oficina</th>
-                                                                            <th>Staff</th>
-                                                                            <th>Estado</th>
-                                                                            <th>Nº de Solicitud</th>
-                                                                            <th>Fecha de Solicitud</th>
-                                                                            <th>Nº de Resolucion</th>
-                                                                            <th>Fecha de Resolucion</th>
-                                                                            <th>Referencia Cliente</th>
-                                                                            <th>Comentarios</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody id="body_licencia">
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#fusion" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="fusion">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddFusion">Añadir Fusion</button>
-                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Nº</th>
-                                                                            <th>Oficina</th>
-                                                                            <th>Estado</th>
-                                                                            <th>Nº de Solicitud</th>
-                                                                            <th>Fecha de Solicitud</th>
-                                                                            <th>Nº de Resolucion</th>
-                                                                            <th>Fecha de Resolucion</th>
-                                                                            <th>Referencia Cliente</th>
-                                                                            <th>Comentarios</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody id="body_fusion">
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#cambio_nombre" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio de Nombre<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="cambio_nombre">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de nombre</button>
-                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Nº</th>
-                                                                            <th>Oficina</th>
-                                                                            <th>Estado</th>
-                                                                            <th>Nº de Solicitud</th>
-                                                                            <th>Fecha de Solicitud</th>
-                                                                            <th>Nº de Resolucion</th>
-                                                                            <th>Fecha de Resolucion</th>
-                                                                            <th>Referencia Cliente</th>
-                                                                            <th>Comentarios</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody id="body_cambio_nombre">
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#cambio_domicilio" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio de Domicilio<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="cambio_domicilio">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioDomicilio">Añadir cambio de domicilio</button>
-                                                                <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Nº</th>
-                                                                            <th>Oficina</th>
-                                                                            <th>Staff</th>
-                                                                            <th>Estado</th>
-                                                                            <th>Nº de Solicitud</th>
-                                                                            <th>Fecha de Solicitud</th>
-                                                                            <th>Nº de Resolucion</th>
-                                                                            <th>Fecha de Resolucion</th>
-                                                                            <th>Referencia Cliente</th>
-                                                                            <th>Comentarios</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody id="body_cambio_domicilio">
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
                                         <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
-                                    </ul>
-                                </div>
-                                <!-- Step 8 -->
-                                <div class="tab-pane" role="tabpanel" id="step8">
-                                    <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docModal">Añadir Documento</button>
-                                    </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table id="soldocTbl" class="table table-responsive">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nº</th>
-                                                    <th>Creado Por</th>
-                                                    <th>Descripcion</th>
-                                                    <th>Archivo</th>
-                                                    <th>Comentarios</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php if (!empty($SolDoc)) { ?>
-                                                    <?php foreach ($SolDoc as $row) { ?>
-                                                        <tr docid="<?php echo $row['id']; ?>">
-                                                            <td><?php echo $row['id']; ?></td>
-                                                            <td><?php echo $row['marcas_id']; ?></td>
-                                                            <td><?php echo $row['descripcion']; ?></td>
-                                                            <td><?php echo $row['path']; ?></td>
-                                                            <td><?php echo $row['comentarios']; ?></td>
-                                                            <form method="DELETE" action="<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/{$row['id']}"); ?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                                <td>
-                                                                    <a class="editdoc btn btn-light" data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                                </td>
-                                                            </form>
-                                                        </tr>
-                                                    <?php } ?>
-                                                <?php } else {
-                                                ?>
-                                                    <tr colspan="3">
-                                                        <td>Sin Registros</td>
-                                                    </tr>
-                                                <?php } ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <ul class="list-inline pull-right">
-                                        <li><button type="button" class="default-btn prev-step">Atrás</button></li>
-                                        <li><button type="submit" class="btn btn-success"> Guardar</button></li>
                                     </ul>
                                 </div>
                             </div>
@@ -689,7 +465,10 @@ $CI->load->view('acciones_terceros/css.php');
         </div>
     </div>
 </div>
+<?php $CI->load->view('acciones_terceros/modal.php');?>
 <?php init_tail(); ?>
+
+<?php $CI->load->view('acciones_terceros/js.php');?>
 </body>
 
 </html>

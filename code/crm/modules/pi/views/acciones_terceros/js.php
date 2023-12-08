@@ -3,8 +3,6 @@
 <script>
     $("#pais_id option[value=226]");
 </script>
-
-
 <script>
     function fecha() {
         var hoy = new Date();
@@ -56,9 +54,6 @@
         virtualScroll: 600
     });
 </script>
-
-
-
 <script>
     // ------------step-wizard-------------
     $(document).ready(function() {
@@ -118,4 +113,28 @@
     function prevTab(elem) {
         $(elem).prev().find('a[data-toggle="tab"]').click();
     }
+</script>
+
+<script>
+    $("#marcas_id").on('change', function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $.ajax({
+            url: "<?php echo admin_url('pi/AccionesTerceroController/findDenominacion'); ?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'marcas_id' : $("#marcas_id").val(),
+            },
+            success: function(response)
+            {
+                res = JSON.parse(response);
+                res.data.clase.forEach(function(index){
+                    clase = [];
+                    
+                });
+                $("#clase_niza").val();
+            }
+        })
+    })
 </script>

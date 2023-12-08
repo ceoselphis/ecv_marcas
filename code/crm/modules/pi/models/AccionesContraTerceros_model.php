@@ -195,4 +195,22 @@ class AccionesContraTerceros_model extends BaseModel
         return array_combine($keys, $values); 
     }
 
+    public function findDenominacionBase($id = null)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes');
+        $this->db->where('id = ', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function findClaseNiza($marcas_id = null)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_clases');
+        $this->db->where('marcas_id = ', $marcas_id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
 }

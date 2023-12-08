@@ -207,7 +207,24 @@ class AccionesTerceroController extends AdminController
         $CI->load->helper('url');
         $query = $CI->AccionesContraTerceros_model->delete($id);
         return redirect('pi/anexoscontroller/');
-        
-        
+    }
+
+    public function findDenominacion()
+    {
+        $CI = &get_instance();
+        $CI->load->model('AccionesContraTerceros_model');
+        $data = $CI->input->post();
+        $denominacion = $CI->AccionesContraTerceros_model->findDenominacionBase($data['marcas_id']);
+        if(!empty($denominacion))
+        {
+            $clase = $CI->AccionesContraTerceros_model->findClaseNiza($data['marcas_id']);
+            $denominacion['clase'] = $clase;
+            echo json_encode(['code' => 200, 'message' => 'success', 'data' => $denominacion]);
+        }
+        else
+        {
+            echo json_encode(['code' => 404, 'message' => 'not found']);
+        }
+
     }
 }

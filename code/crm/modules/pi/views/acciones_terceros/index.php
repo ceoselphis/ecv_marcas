@@ -6,7 +6,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/AccionesTerceroController/create');?>"><i class="fas fa-plus"></i> Nuevo Anexo</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/AccionesTerceroController/create');?>"><i class="fas fa-plus"></i> Nueva Accion a Terceros</a>
                             </div>
                         </div>
                         <div class="row">
@@ -49,8 +49,17 @@
                                         <?php }
                                         else {
                                         ?>
-                                        <tr colspan="3">
+                                        <tr colspan="9">
                                             <td>Sin Registros</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <?php } ?>
                                     </tbody>
@@ -73,13 +82,13 @@
 <?php init_tail();?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
-<!--<script>
-    new DataTable(".table", {
+<script>
+    new DataTable("#tableResult", {
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
         }
     });
-</script>-->
+</script>
 
 
 </body>

@@ -129,12 +129,15 @@
             success: function(response)
             {
                 res = JSON.parse(response);
-                res.data.clase.forEach(function(index){
-                    clase = [];
-                    
-                });
-                $("#clase_niza").val();
+                console.log(res);
+                $("#clase_niza").val(res.data.clase);
+                $("#nro_solicitud").val(res.data[0].solicitud);
+                $("#nro_registro").val(res.data[0].registro);
+                $("#fecha_solicitud").val(res.data[0].fecha_solicitud);
+                $("#fecha_vencimiento").val(res.data[0].fecha_vencimiento);
+                $("#fecha_registro").val(res.data[0].fecha_registro);
+                $("#propietario_id").val(res.data[0].client_id);
             }
-        })
-    })
+        });
+    });
 </script>

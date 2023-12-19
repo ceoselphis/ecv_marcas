@@ -51,6 +51,7 @@ class LicenciaController extends AdminController
         $CI = &get_instance();
         $CI->load->model("Licencia_model");
         $data = $CI->input->post();
+        echo json_encode($data);
         if (!empty($data)){
             $insert = array(
                         'client_id' => $data['cliente'],
@@ -71,7 +72,9 @@ class LicenciaController extends AdminController
                     {
                         echo "Actualizado Correctamente";
                     }
-        }  
+        }  else {
+            echo "No tiene Data";
+        }
     }
     /**
      * Shows the form to create a new item
@@ -101,6 +104,42 @@ class LicenciaController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+    public function addLicenciaShowModal(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+            /*`tbl_marcas_licencia`(`id`, `marcas_id`, `client_id`, `oficina_id`, `staff_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
+            $insert = array(
+                            'client_id' => "1",
+                            'oficina_id' => "1",
+                            'staff_id' => "1",
+                            'marcas_id' => $data['id_marcas'],
+                            'estado_id' => "1",
+                            'num_solicitud' => "",
+                            'fecha_solicitud' => "",
+                            'num_resolucion' => "",
+                            'fecha_resolucion' => "",
+                            'referencia_cliente' => "",
+                            'comentarios' => "",
+                    );
+            //echo json_encode($insert);
+            $CI->load->model("Licencia_model");
+                try{
+                    $query = $CI->Licencia_model->insert($insert);
+                        if (isset($query)){
+                            $cantidad = $CI->Licencia_model->CantidadLicencia();
+                            echo $cantidad;
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+      
+        
+    }
+
      public function addLicencia(){
         $CI = &get_instance();
         $data = $CI->input->post();

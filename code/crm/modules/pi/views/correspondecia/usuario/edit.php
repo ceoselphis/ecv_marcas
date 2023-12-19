@@ -9,7 +9,7 @@
                         <?php echo form_open(admin_url('pi/CorrespondeciaUsuarioController/update/'.$id), 'form'); ?>
                         
                             <?php foreach($values as $key => $value){?>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                 <?php echo form_label('Clientes','cliente' );?>
                                 <!-- <?php //echo form_label($labels[1],$labels[1]);?> -->
                                 <br/>
@@ -17,7 +17,7 @@
                                 <!-- <?php //echo form_input($fields[1],set_value($fields[1]['name']));?>
                                 <?php echo form_error('cliente', '<div class="text-danger">', '</div>');?> -->
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <?php echo form_label($labels[2],$labels[2]);?>
                                     <br />
                                     <?php echo form_input( array(
@@ -30,22 +30,17 @@
                                     <?php echo form_error('Expediente', '<div class="text-danger">', '</div>');?>
                                 </div>
                         
-                                <div class="col-md-4">
+                                <div class="col-md-6" style="padding-top: 15px;">
                                     <?php echo form_label($labels[3],$labels[3]);?>
                                     <br />
                                     <?php echo form_dropdown(['name'=>'staff_id','class' => 'form-control', 'id' => 'staff_id'], $staffid , $values[0]['staff_id'] );?>
                                     <?php echo form_error('staff_id', '<div class="text-danger">', '</div>');?>
                                 </div>
-                                <div class="col-md-4" style="padding-top: 15px;">
+                                <div class="col-md-6" style="padding-top: 15px;">
                                 <?php echo form_label($labels[4],$labels[4]);?>
                                 <br/>
-                                <?php echo form_input(array(
-                                        'name' => 'plantilla_id',
-                                        'id'   => 'plantilla_id',
-                                        'type' => 'text',
-                                        'class' => 'form-control',
-                                        'value' => $values[0]['plantilla_id'])
-                                );?>
+                                <?php echo form_dropdown(['name'=>'plantilla_id','class' => 'form-control', 'id' => 'plantilla_id'], $plantilla , $values[0]['plantilla_id'] );?>
+                                <!-- <?php //echo form_input(array( 'name' => 'plantilla_id','id'   => 'plantilla_id','type' => 'text','class' => 'form-control','value' => $values[0]['plantilla_id']));?> -->
                                 <?php echo form_error('plantilla_id', '<div class="text-danger">', '</div>');?>
                        
                             <?php } ?>

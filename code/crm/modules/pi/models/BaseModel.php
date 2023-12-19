@@ -135,7 +135,7 @@ abstract class BaseModel extends CI_Model
     /**/
     public function last_insert_id()
     {
-        $insert_id = $this->db->insert_id();
+        $insert_id = $this->db->count_all($this->tableName);
         return $insert_id;
     }
 

@@ -28,4 +28,24 @@ class MarcasSolicitudesDocumento_model extends BaseModel
         }
         return array_combine($keys, $values);
     }
+
+    public function findAllDocumentosMarcas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes_documentos');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
+
+    public function BuscarSolicitudesMarcas($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['signonom']; 
+    }
+
+    
 }

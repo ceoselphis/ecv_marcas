@@ -14,7 +14,21 @@ class PublicacionesMarcasController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("PublicacionesMarcas_model");
-        return $CI->load->view('marcas/publicaciones/index', ["publicaciones" => $CI->PublicacionesMarcas_model->findAll()]);
+        $data = $CI->PublicacionesMarcas_model->findAll();
+        $publicaciones = array();
+        foreach($data as $row){
+            $publicaciones[] = array(
+                'id' => $row['id'],
+                'tipo_pub_id' => $CI->PublicacionesMarcas_model->findTipoPublicaciones($row['tipo_pub_id']),
+                'marcas_id'=>  $CI->PublicacionesMarcas_model->findSolicitudesMarcas($row['marcas_id']),
+                'boletin_id' => $CI->PublicacionesMarcas_model->findBoletin($row['boletin_id']),
+                'tomo' => $row['tomo'],
+                'pagina' => $row['pagina']
+            );
+
+        }
+        
+        return $CI->load->view('marcas/publicaciones/index', ["publicaciones" => $publicaciones]);
     }
 
     /**
@@ -42,7 +56,7 @@ class PublicacionesMarcasController extends AdminController
         {
             $tipoPub[$row['id']] = $row['nombre'];
         }
-        $solicitud = array();
+        $solicitud = $CI->PublicacionesMarcas_model->findAllSolicitudesMarcas();
         /*if(!empty($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas()))
         {
             foreach($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas() as $row)
@@ -218,65 +232,84 @@ class PublicacionesMarcasController extends AdminController
      * Shows a form to edit the data
      */
 
-    public function edit(string $id = null)
-    {
-        $CI = &get_instance();
-        $CI->load->model("PublicacionesMarcas_model");
-        $CI->load->helper('url');
-        $query = $CI->PublicacionesMarcas_model->find($id);
-        $fields = $CI->PublicacionesMarcas_model->getFillableFields();
-        $boletines = array();
-        foreach($CI->PublicacionesMarcas_model->findAllBoletines() as $row)
-        {
-            $boletines[$row['boletin_id']] = $row['nombre'];
-
-        }
-        $paises = array();
-        foreach($CI->PublicacionesMarcas_model->findAllPaises() as $row)
-        {
-            $paises[$row['pais_id']] = $row['nombre'];
-        }
-        $tipoPub = array();
-        foreach($CI->PublicacionesMarcas_model->findAllTipoPublicaciones() as $row)
-        {
-            $tipoPub[$row['tipo_pub_id']] = $row['nombre'];
-        }
-        $solicitud = array();
-        foreach($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas() as $row)
-        {
-            $solicitud[$row['solicitud_id']] = $row['reg_num_id'];
-        }
-        $inputs = array();
-        $labels = array();
-        foreach($fields as $field)
-        {
-            if($field['type'] == 'INT')
-            {
-                $inputs[] = array(
-                    'name' => $field['name'],
-                    'id'   => $field['name'],
-                    'type' => 'range',
-                    'class' => 'form-control'
-                );
-            }
-            else{
-                $inputs[] = array(
-                    'name' => $field['name'],
-                    'id'   => $field['name'],
-                    'type' => 'text',
-                    'class' => 'form-control'
-                );
-            }
-        }
-        if(!empty($query))
-        {
+     public function edit(string $id = null)
+     {
+         $CI = &get_instance();
+         $CI->load->model("PublicacionesMarcas_model");
+         $CI->load->helper('url');
+         $query = $CI->PublicacionesMarcas_model->find($id);
+         if(isset($query))
+         {
+            $solicitud = $CI->PublicacionesMarcas_model->findAllSolicitudesMarcas();
+            $tipoPub = $CI->PublicacionesMarcas_model->findAllTipoPublicacionesAct();
+            $boletines = $CI->PublicacionesMarcas_model->findAllBoletinesAct();
             $labels = ['Id','Solicitud', 'Boletin', 'Tipo de Publicacion', 'Tomo', 'Página'];
-            return $CI->load->view('marcas/publicaciones/edit', ['fields' => $inputs, 'labels' => $labels, 'boletines' => $boletines, 'tipoPub' => $tipoPub, 'solicitud' => $solicitud, 'id' => $id, 'values' => $query]);
-        }
-        else{
+            return $CI->load->view('marcas/publicaciones/edit', [ 'labels' => $labels, 'boletines' => $boletines, 'tipoPub' => $tipoPub, 'solicitud' => $solicitud, 'id' => $id, 'values' => $query]);
+         }
+         else{
             return redirect('pi/publicacionesmarcascontroller/');
-        }
-    }
+         }
+     }
+
+    // public function edit(string $id = null)
+    // {
+    //     $CI = &get_instance();
+    //     $CI->load->model("PublicacionesMarcas_model");
+    //     $CI->load->helper('url');
+    //     $query = $CI->PublicacionesMarcas_model->find($id);
+    //     $fields = $CI->PublicacionesMarcas_model->getFillableFields();
+    //     $boletines = array();
+    //     foreach($CI->PublicacionesMarcas_model->findAllBoletines() as $row)
+    //     {
+    //         $boletines[$row['boletin_id']] = $row['nombre'];
+
+    //     }
+    //     $paises = array();
+    //     foreach($CI->PublicacionesMarcas_model->findAllPaises() as $row)
+    //     {
+    //         $paises[$row['pais_id']] = $row['nombre'];
+    //     }
+    //     $tipoPub = array();
+    //     foreach($CI->PublicacionesMarcas_model->findAllTipoPublicaciones() as $row)
+    //     {
+    //         $tipoPub[$row['tipo_pub_id']] = $row['nombre'];
+    //     }
+    //     $solicitud = array();
+    //     foreach($CI->PublicacionesMarcas_model->findAllSolicitudesMarcas() as $row)
+    //     {
+    //         $solicitud[$row['solicitud_id']] = $row['reg_num_id'];
+    //     }
+    //     $inputs = array();
+    //     $labels = array();
+    //     foreach($fields as $field)
+    //     {
+    //         if($field['type'] == 'INT')
+    //         {
+    //             $inputs[] = array(
+    //                 'name' => $field['name'],
+    //                 'id'   => $field['name'],
+    //                 'type' => 'range',
+    //                 'class' => 'form-control'
+    //             );
+    //         }
+    //         else{
+    //             $inputs[] = array(
+    //                 'name' => $field['name'],
+    //                 'id'   => $field['name'],
+    //                 'type' => 'text',
+    //                 'class' => 'form-control'
+    //             );
+    //         }
+    //     }
+    //     if(!empty($query))
+    //     {
+    //         $labels = ['Id','Solicitud', 'Boletin', 'Tipo de Publicacion', 'Tomo', 'Página'];
+    //         return $CI->load->view('marcas/publicaciones/edit', ['fields' => $inputs, 'labels' => $labels, 'boletines' => $boletines, 'tipoPub' => $tipoPub, 'solicitud' => $solicitud, 'id' => $id, 'values' => $query]);
+    //     }
+    //     else{
+    //         return redirect('pi/publicacionesmarcascontroller/');
+    //     }
+    // }
 
     /**
      * Recive the data to update
@@ -382,6 +415,22 @@ class PublicacionesMarcasController extends AdminController
         }
     }
 
+    public function getPublicaciones($id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model('PublicacionesMarcas_model');
+        $query = $CI->PublicacionesMarcas_model->find($id);
+        if(!empty($query))
+        {
+            echo json_encode(['code' => 200, 'message' => 'success', 'data' => $query[0]]);
+        }
+        else
+        {
+            echo json_encode(['code' => 404, 'message' => 'not found']);
+        }
+
+    }
+
     public function getAllPublicacionesByMarca($id = NULL)
     {
         $CI = &get_instance();
@@ -398,7 +447,7 @@ class PublicacionesMarcasController extends AdminController
                     'tomo'          => $row['tomo'],
                     'pagina'        => $row['pagina'],
                     'nombre'        => $row['nombre'],
-                    'acciones'      => '<button class="btn btn-light editPublicacion" id='.$row['id'].'><i class="fas fa-edit"></i>Editar</button>
+                    'acciones'      => '<button class="btn btn-primary editPublicacion" id='.$row['id'].'><i class="fas fa-edit"></i>Editar</button>
                                         <button type="button" class="btn btn-danger deletePublicacion" id='.$row['id'].'><i class="fas fa-trash"></i>Borrar</button>'
                 ];
             }
@@ -406,7 +455,7 @@ class PublicacionesMarcasController extends AdminController
         }
     }
 
-    public function updatePublicacionByMarca($id = NULL)
+    public function updatePublicacionByMarca()
     {
         $CI = &get_instance();
         $CI->load->model('PublicacionesMarcas_model');

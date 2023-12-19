@@ -27,15 +27,15 @@
                                         <?php if (!empty($publicaciones)) {?>
                                             <?php foreach ($publicaciones as $row) {?>
                                                 <tr>
-                                                    <td><?php echo $row['pub_id'];?></td>
-                                                    <td><?php echo $row['solicitud_id'];?></td>
-                                                    <td><?php echo $row['boletin_id'];?></td>
-                                                    <td><?php echo $row['tomo'];?></td>
-                                                    <td><?php echo $row['pagina'];?></td>
-                                                    <td><?php echo $row['tipo_pub_id'];?>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/PublicacionesMarcasController/destroy/{$row['pub_id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                        <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/PublicacionesMarcasController/edit/{$row['pub_id']}");?>"><i class="fas fa-edit"></i>Editar</a>
+                                                    <td class="text-center"><?php echo $row['id'];?></td>
+                                                    <td class="text-center"><?php echo $row['marcas_id'];?></td>
+                                                    <td class="text-center"><?php echo $row['boletin_id'];?></td>
+                                                    <td class="text-center"><?php echo $row['tomo'];?></td>
+                                                    <td class="text-center"><?php echo $row['pagina'];?></td>
+                                                    <td class="text-center"><?php echo $row['tipo_pub_id'];?>
+                                                    <form method="DELETE" action="<?php echo admin_url("pi/PublicacionesMarcasController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                        <td class="text-center">
+                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/PublicacionesMarcasController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>
                                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
                                                         </td>
                                                     </form> 
@@ -68,3 +68,13 @@
 <?php init_tail();?>
 </body>
 </html>
+
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    new DataTable(".table", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script>

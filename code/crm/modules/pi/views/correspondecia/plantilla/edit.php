@@ -34,14 +34,14 @@
                                     <!-- <?php //echo form_input($fields[1],set_value($fields[1]['name']));?>
                                     <?php echo form_error('materia', '<div class="text-danger">', '</div>');?> -->
                                 </div>
-                                <div class="col-md-3" >
-                                    <?php echo form_label('Idioma','idioma' );?>
-                                    <!-- <?php //echo form_label($labels[1],$labels[1]);?> -->
+                                <!-- <div class="col-md-3" >
+                                    <?php //echo form_label('Idioma','idioma' );?>
+                                     <?php //echo form_label($labels[1],$labels[1]);?> 
                                     <br />
-                                    <?php echo form_dropdown(['name'=>'idioma','class' => 'form-control', 'id' => 'idioma'], $idioma,$clave  );?>
-                                    <!-- <?php //echo form_input($fields[1],set_value($fields[1]['name']));?>
-                                    <?php echo form_error('materia', '<div class="text-danger">', '</div>');?> -->
-                                </div>
+                                    <?php //echo form_dropdown(['name'=>'idioma','class' => 'form-control', 'id' => 'idioma'], $idioma,$clave  );?>
+                                     <?php //echo form_input($fields[1],set_value($fields[1]['name']));?>
+                                    <?php //echo form_error('materia', '<div class="text-danger">', '</div>');?> 
+                                </div> -->
                                     <div class="col-md-12" style="padding-top: 15px;">
                                     <?php echo form_label($labels[3],$labels[3]);?>
                                     <br/>

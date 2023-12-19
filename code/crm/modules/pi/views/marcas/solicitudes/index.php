@@ -6,13 +6,13 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/MarcasSolicitudesController/create');?>"><i class="fas fa-plus"></i> Nueva Solicitud de marca</a>                            
+                        <div class="_buttons"> <!--href="<?php //echo admin_url('pi/MarcasSolicitudesController/create');?>" -->
+                            <a class="btn btn-primary" id="InsertarSolicitudesMarcas"><i class="fas fa-plus"></i> Nueva Solicitud de marca</a>                            
                             <button type="button" class="btn btn-default btn-outline pull-right" data-toggle="modal" data-target="#filterModal"><i class="fas fa-filter"></i> Filtrar por</button>
                         </div>
                         <div class="_body">
                             <div class="row" style="padding: 2%;">
-                                <div class="col-md-12" >
+                                <div class="col-md-12">
                                     <table class="table" id="tableResult">
                                         <thead style="text-align: justify;">
                                             <tr>
@@ -31,51 +31,12 @@
                                                 <td>Acciones</td>
                                             </tr>
                                         </thead>
-                                        <tbody >
-                                            <?php 
-                                            if(!empty($marcas['query']))
-                                            {
-                                                foreach($marcas['query'] as $row){ ?>
-                                                <tr>
-                                                    <td><?php echo $row['id'] ?></td>
-                                                    <td><?php echo $row['tipo_registro'] ?></td>
-                                                    <td><?php echo $row['nombre_propietario'] ?></td>
-                                                    <td><?php echo $row['marca'] ?></td>
-                                                    <td><?php echo $row['clase_niza'] ?></td>
-                                                    <td><?php echo $row['estado_expediente'] ?></td>
-                                                    <td><?php echo $row['solicitud'] ?></td>
-                                                    <td>
-                                                        <?php 
-                                                        if($row['fecha_solicitud'] == '' || is_null($row['fecha_solicitud']))
-                                                        {
-                                                            echo $row['fecha_solicitud'];
-                                                        }
-                                                        else{
-                                                            echo date('d/m/Y', strtotime($row['fecha_solicitud']));
-                                                        }?>
-                                                    </td>
-                                                    <td><?php echo $row['registro'] ?></td>
-                                                    <td><?php echo $row['certificado'] ?></td>
-                                                    <td>
-                                                        <?php 
-                                                        if($row['fecha_vencimiento'] == '' || is_null($row['fecha_vencimiento'])){
-                                                            echo $row['fecha_vencimiento'];
-                                                        }
-                                                        else{
-                                                            echo date('d/m/Y', strtotime($row['fecha_vencimiento']));
-                                                        }?>
-                                                    </td>
-                                                    <td><?php echo $row['pais_nom'] ?></td>
-                                                    <td><a href="<?php echo admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']) ?>"><i class="fas fa-edit"></i> Editar</a></td>
-                                                </tr>
-                                            <?php }
-                                            } ?>
+                                        <tbody>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -99,119 +60,107 @@
         <div class="row">
             <div class="col-md-4">
                 <?php echo form_label('Boletines','boletin_id' );?>
-                <?php echo form_dropdown([
-                    'name' => 'boletin_id',
-                    'id' => 'boletin_id',
-                    'options' => $marcas['Boletines'],
-                    'class' => 'form-control'
-                ]);?>
+                <select class='form-control' name='boletin_id' id="boletin_id">
+                    <option value=''>Seleccione una opcion</option>
+                    <?php foreach($marcas['Boletines'] as $key => $value) { ?>
+                        <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                    <?php } ?> 
+                </select>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Clientes','client_id' );?>
-                <?php echo form_dropdown([
-                    'id' => 'client_id',
-                    'name' => 'client_id',
-                    'options' => $marcas['Clientes'],
-                    'class' => 'form-control'
-                ]);?>
+                <select class='form-control' name='client_id' id="client_id">   
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Clientes'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Oficinas','oficina_id' );?>
-                <?php echo form_dropdown([
-                    'id' => 'oficina_id',
-                    'name' => 'oficina_id',
-                    'options' => $marcas['Oficinas'],
-                    'class' => 'form-control'
-                ]);
-                ?>
+                <select class='form-control' name='oficina_id' id="oficina_id">
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Oficinas'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Responsables','staff_id' );?>
-                <?php echo form_dropdown(
-                    [
-                        'id'     => 'staff_id',
-                        'name'   => 'staff_id',
-                        'class'  => 'form-control',
-                        'options'=> $marcas['Responsables']
-                    ]
-                );?>
+                <select class='form-control' name='staff_id' id='staff_id'>
+                <option value=''>Seleccione una opcion</option>
+                    <?php foreach($marcas['Responsables'] as $key => $value) { ?>
+                        <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                    <?php } ?>
+                </select>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipo de Solicitud','tip_sol_id' );?>
-                <?php
-                echo form_dropdown([
-                    'id' => 'tip_sol_id',
-                    'name' => 'tip_sol_id',
-                    'class' => 'form-control',
-                    'options' => $marcas['Tipo de Solicitud']
-                ]);
-                ?>
+                <select name="tip_sol_id" id="tip_sol_id" class='form-control'>
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Tipo de Solicitud'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
+                
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Estado de Solicitud','est_sol_id' );?>
-                <?php 
-                echo form_dropdown([
-                    'id' => 'est_sol_id',
-                    'name' => 'est_sol_id',
-                    'options' => $marcas['Estado de Solicitud'],
-                    'class' => 'form-control'
-                ]);
-                ?>
+                <select name="est_sol_id" id="est_sol_id" class='form-control'>
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Estado de Solicitud'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
+                
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Pais','pais_id' );?>
-                <?php
-                echo form_dropdown([
-                    'id' => 'pais_id',
-                    'name' => 'pais_id',
-                    'options' => $marcas['Pais'],
-                    'class' => 'form-control'
-                ]);
-                ?>
+                <select name="pais_id" id="pais_id" class='form-control'>
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Pais'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
+                
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipos de Signo','tip_signo_id' );?>
-                <?php
-                echo form_dropdown([
-                    'id' => 'tip_signo_id',
-                    'name' => 'tip_signo_id',
-                    'class' => 'form-control',
-                    'options' => $marcas['Tipos de Signo']
-                ]);
-                ?>
+                <select name="tip_signo_id" id="tip_signo_id" class='form-control'>
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Tipos de Signo'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Clase Niza','clase_niza_id' );?>
-                <?php 
-                echo form_dropdown([
-                    'id' => 'clase_niza_id',
-                    'name' => 'clase_niza_id',
-                    'options' => $marcas['Clase Niza'],
-                    'class' => 'form-control'
-                ]);
-                ?>
+                <select name="clase_niza_id" id="clase_niza_id" class='form-control'>
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Clase Niza'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
+                
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipo de Registro','tip_reg_id' );?>
-                <?php 
-                echo form_dropdown([
-                    'id'        => 'tip_reg_id',
-                    'name'      => 'tip_reg_id',
-                    'options'   => $marcas['Tipo de Registro'],
-                    'class'     => 'form-control'
-                ]);
-                ?>
+                <select name="tip_reg_id" id="tip_reg_id" class='form-control'>
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Tipo de Registro'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
+                
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipo de Evento','tip_eve_id' );?>
-                <?php
-                echo form_dropdown([
-                    'id'        => 'tip_eve_id',
-                    'name'      => 'tip_eve_id',
-                    'class'     => 'form-control',
-                    'options'   =>  $marcas['Tipo de Evento']
-                ]);
-                ?>
+                <select name="tip_eve_id" id="tip_eve_id" class='form-control'>
+                    <option value=''>Seleccione una opcion</option>
+                        <?php foreach($marcas['Tipo de Evento'] as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php } ?>
+                </select>
             </div>
             <div class="col-md-4">
 
@@ -237,6 +186,57 @@
     }
 </style>
 
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    function getFormData(){
+            var config = {};
+            $('input').each(function () {
+                config[this.name] = this.value;
+            });
+            $("select").each(function()
+            {
+                config[this.name] = this.value;
+            });
+            return config;
+        }
+</script>
+<script>
+    //Insertar Solicitudes Marcas
+    $(document).on('click','#InsertarSolicitudesMarcas',function(e){
+        e.preventDefault();
+        console.log("LLegue a Insertar Solicitudes Marcas")
+        var formData = new FormData();
+        var data = getFormData(this);
+        const csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/MarcasSolicitudesController/addSolicitudesMarcas");?>';
+        let solicitudesEdit = '<?php echo admin_url('pi/MarcasSolicitudesController/edit/');?>';
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log("response ",response);
+            solicitudesEdit =solicitudesEdit+response; 
+            location.replace(solicitudesEdit);
+        }).catch(function(response){
+            alert("No se pudo Insertar Solicitud de Marcas");
+        });
+    });
+</script>
+<!-- <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script>
+    new DataTable(".table", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script> -->
 
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>

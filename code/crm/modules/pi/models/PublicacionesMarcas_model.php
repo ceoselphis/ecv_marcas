@@ -24,14 +24,28 @@ class PublicacionesMarcas_model extends BaseModel
         return $result;
     }
 
+    public function findAllBoletinesAct()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_boletines');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['descripcion']);
+        }
+        return array_combine($keys, $values);
+    }
     public function findBoletin($id = null)
     {
         $this->db->select('*');
         $this->db->from('tbl_boletines');
-        $this->db->where('boletin_id = '.$id);
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         $result = $query->result_array();
-        return $result;
+        return $result[0]['descripcion'];
     }
 
     public function findAllTipoPublicaciones()
@@ -43,33 +57,56 @@ class PublicacionesMarcas_model extends BaseModel
         return $result;
     }
 
+    public function findAllTipoPublicacionesAct()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_publicacion');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
     public function findTipoPublicaciones($id = null)
     {
         $this->db->select('*');
         $this->db->from('tbl_tipo_publicacion');
-        $this->db->where('tipo_pub_id = '.$id);
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         $result = $query->result_array();
-        return $result;
+        return $result[0]['nombre'];
     }
 
     public function findAllSolicitudesMarcas()
     {
         $this->db->select('*');
-        $this->db->from('tbl_tipo_publicacion');
+        $this->db->from('tbl_marcas_solicitudes');
         $query = $this->db->get();
-        $result = $query->result_array();
-        return $result;
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['signonom']);
+        }
+        return array_combine($keys, $values);
     }
+
+   
 
     public function findSolicitudesMarcas($id = null)
     {
         $this->db->select('*');
         $this->db->from('tbl_marcas_solicitudes');
-        $this->db->where('solicitud_id');
+        $this->db->where('id = '.$id);
         $query = $this->db->get();
         $result = $query->result_array();
-        return $result;
+        return $result[0]['signonom'];
     }
 
     public function findAllPaises()

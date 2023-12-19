@@ -28,7 +28,7 @@ class MarcasSolicitudesController extends AdminController
             'Clase Niza'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'Tipo de Registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
-            'query'                 => $query
+            //'query'                 => $query
         ];
         return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
     }
@@ -41,7 +41,11 @@ class MarcasSolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
+        $id = intval($CI->MarcasSolicitudes_model->setCountPK());
+        /*Insertamos directamente un registro piloto para poder agregar cualquier anexo y demas*/
+        $insert = $CI->MarcasSolicitudes_model->insertRegistroPiloto($id);
         $fields = $CI->MarcasSolicitudes_model->getFillableFields();
+        
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -99,17 +103,65 @@ class MarcasSolicitudesController extends AdminController
             'clase_niza_id'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'tipo_registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'tipo_evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
-            'id'                    => intval($CI->MarcasSolicitudes_model->setCountPK()),
+            'id'                    => $id,
             'SolDoc'                => $CI->MarcasSolicitudes_model->findAllSolicitudesDocumento(),
             'eventos'               => $datos,
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
             'tareas'                => $data,
             'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
+            'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
+            'projects'                 => $CI->MarcasSolicitudes_model->findAllProjects(),
             
         ]);
                                 
     }
 
+    public function addSolicitudesMarcas(){
+        $CI = &get_instance();
+        //$data = $CI->input->post();
+            /*`INSERT INTO `tbl_marcas_solicitudes`(`id`, `tipo_registro_id`, `client_id`, `oficina_id`, `staff_id`, `signo_archivo`, `signonom`, `tipo_signo_id`, `tipo_solicitud_id`, `ref_interna`, `primer_uso`, `ref_cliente`, `prueba_uso`, `carpeta`, `libro`, `folio`, `tomo`, `comentarios`, `estado_id`, `solicitud`, `fecha_solicitud`, `registro`, `fecha_registro`, `certificado`, `fecha_certificado`, `fecha_vencimiento`)*/ 
+            $insert = array(
+                'tipo_registro_id'=> '1', 
+                'client_id'=> '1', 
+                'oficina_id'=> '1', 
+                'staff_id'=> '1', 
+                'signo_archivo'=> '', 
+                'signonom'=> '', 
+                'tipo_signo_id'=> '1', 
+                'tipo_solicitud_id'=> '1', 
+                'ref_interna'=> '', 
+                'primer_uso'=> '', 
+                'ref_cliente'=> '', 
+                'prueba_uso'=> '', 
+                'carpeta'=> '', 
+                'libro'=> '', 
+                'folio'=> '', 
+                'tomo'=> '', 
+                'comentarios'=> '', 
+                'estado_id'=> '1', 
+                'solicitud'=> '', 
+                'fecha_solicitud'=> '', 
+                'registro'=> '', 
+                'fecha_registro'=> '', 
+                'certificado'=> '', 
+                'fecha_certificado'=> '', 
+                'fecha_vencimiento'=> '',
+                    );
+            //echo json_encode($insert);
+            $CI->load->model("MarcasSolicitudes_model");
+                try{
+                    $query = $CI->MarcasSolicitudes_model->insert($insert);
+                        if (isset($query)){
+                            $cantidad = $CI->MarcasSolicitudes_model->CantidadSolicitudes();
+                            echo $cantidad;
+
+                        }else {
+                            echo "No hemos podido Insertar";
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+    }
     /**
      * Recive the data for create a new item
      */
@@ -181,28 +233,10 @@ class MarcasSolicitudesController extends AdminController
                 'pais_id'   => $row
             ];
         }
-        /*Seteamos el arreglo para la clase niza*/
-        foreach(json_decode($form['clase_niza'], TRUE) as  $row)
-        {
-            $claseNiza[] = array(
-                'marcas_id' => $solicitud['id'],
-                'clase_id' => $row
-            );
-        }
-        /*Seteamos el arreglo para los solicitantes */
-        foreach(json_decode($form['solicitantes_id'], TRUE) as $row)
-        {
-            $solicitantes[] = [
-                'marcas_id' => $solicitud['id'],
-                'propietario_id' => $row
-            ];
-        }
         //TODO: Recoger la solicitud de los anexos, tareas, y demas desde aca
         try {
-            $CI->MarcasSolicitudes_model->insert($solicitud);
+            $CI->MarcasSolicitudes_model->update($solicitud['id'], $solicitud);
             $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
-            $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
-            $CI->MarcasSolicitudes_model->insertMarcasSolicitantes($solicitantes);
             return redirect(admin_url('pi/MarcasSolicitudesController/edit/'.$solicitud['id']));
         } catch (\Throwable $th) {
             //Activate SYSLOG in the app
@@ -262,6 +296,7 @@ class MarcasSolicitudesController extends AdminController
         $values['fecha_solicitud'] = $this->flip_dates($values['fecha_solicitud']);
         $values['prueba_uso'] = $this->flip_dates($values['prueba_uso']);
         $values['primer_uso'] = $this->flip_dates($values['primer_uso']);
+        $values['projects'] = $CI->MarcasSolicitudes_model->findProjectByMarca($id);
         return $CI->load->view('marcas/solicitudes/edit', [
             'values'                => $values, 
             'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 
@@ -281,13 +316,8 @@ class MarcasSolicitudesController extends AdminController
             'eventos'               => $datos,
             'tipo_tareas'           => $CI->MarcasSolicitudes_model->findAllTipoTareas(),
             'tareas'                => $data,
-
-/*            'publicaciones'         => $CI->MarcasSolicitudes_model->findPublicacionesByMarca($id),
-            'eventos'               => $CI->MarcasSolicitudes_model->findEventosByMarca($id),
-            'tareas'                => $CI->MarcasSolicitudes_model->findTareasByMarca($id),
-            'id'                    => $id,
+            'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
             'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
-*/
         ]);
     }
 
@@ -510,40 +540,6 @@ class MarcasSolicitudesController extends AdminController
                 }
             }
         }
-
-        
-        /*$boletin_id = json_decode($params['boletin_id'], TRUE);
-        $pais_id = json_decode($params['pais_id'], TRUE);
-        $client_id = json_decode($params['client_id'],TRUE);
-        $oficina_id = json_decode($params['oficina_id'], TRUE);
-        $staff_id = json_decode($params['staff_id'], TRUE);
-        $tip_sol_id = json_decode($params['tip_sol_id'], TRUE);
-        $est_sol_id = json_decode($params['est_sol_id'], TRUE);
-        $tip_signo_id = json_decode($params['tip_signo_id'], TRUE);
-        $clase_niza_id = json_decode($params['clase_niza_id'], TRUE);
-        $tip_eve_id = json_decode($params['tip_eve_id'], TRUE);    
-        */
-        var_dump($result);
-        /*if($query)
-        {
-            foreach($query as $row)
-            {
-                $table[] = [
-                    'id' => $row['id'],
-                    'tipo' => $row['tipo_nom'],
-                    'propietario' => $row['nombre_propietario'],
-                    'nombre' => $row['signo'],
-                    'clases' => $row['clase_niza'],
-                    'estado' => $row['estado_nom'],
-                    'solicitud' => $row['solicitud'],
-                    'fecha_solicitud' => $row['fecha_solicitud'],
-                    'registro' => $row['registro'],
-                    'certificado' => $row['certificado'],
-                    'vigencia' => $row['fecha_vencimiento'],
-                    'paises' => $row['pais_nom'],
-                ];
-            }     
-        }*/
      }
 
     public function flip_dates($date)
@@ -602,6 +598,7 @@ class MarcasSolicitudesController extends AdminController
         $form = json_decode($CI->input->post('data'), TRUE);
         $result = array();
         $query = array();
+        $url = admin_url('pi/MarcasSolicitudesController/edit/');
         foreach($form as $key => $value)
         {
             if($value === '')
@@ -623,12 +620,12 @@ class MarcasSolicitudesController extends AdminController
                        'clase' =>  $row['clase_niza'],
                        'estado' => $row['estado_expediente'],
                        'solicitud' => $row['solicitud'],
-                       'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                       'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
                        'registro' => $row['registro'],
                        'certificado' => $row['certificado'],
-                       'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
+                       'vigencia' => is_null($row['fecha_vencimiento']) ? '' : date('d/m/Y', strtotime($row['fecha_vencimiento'])),
                        'pais' => $row['pais_nom'],
-                       'acciones' => '<a href="{admin_url("pi/MarcasSolicitudesController/edit/"{$row["id"]}")}"><i class="fas fa-edit"></i> Editar</a>'
+                       'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
                     ]; 
                 }
                 echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   
@@ -657,7 +654,7 @@ class MarcasSolicitudesController extends AdminController
                         'certificado' => $row['certificado'],
                         'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
                         'pais' => $row['pais_nom'],
-                        'acciones' => '<a href="'.admin_url('pi/MarcasSolicitudesController/edit/'.$row['id']).'"><i class="fas fa-edit"></i> Editar</a>',
+                        'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
                     ];
                 }
                 echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   
@@ -666,6 +663,52 @@ class MarcasSolicitudesController extends AdminController
                 echo json_encode(['code' => 404, 'message' => 'not found']);
             }
         }
+    }
+
+    public function insertClases()
+    {
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudes_model");
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        $form = $CI->input->post();
+        $params = [
+            'marcas_id' => $form['marcas_id'],
+            'clase_id'  => $form['clase_id'],
+            'descripcion' => $form['clase_descripcion']
+        ];
+        $query = $CI->MarcasSolicitudes_model->insertMarcasClases($params);
+        if($query)
+        {
+            echo json_encode(['code' => 200, 'message' => 'success']);
+        }
+        else{
+            echo json_encode(['code' => 500, 'message' => 'error']);
+        }
+    }
+
+    public function getClasesMarcas($marcas_id = NULL)
+    {
+        $CI = &get_instance();
+        $CI->load->model("MarcasSolicitudes_model");
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        $query = $CI->MarcasSolicitudes_model->getMarcasClases($marcas_id);
+        $result = array();
+        if(!empty($query))
+        {
+            foreach($query as $row)
+            {
+
+                $result[] = [
+                    'clase'         => $row['nombre'],
+                    'descripcion'   => $row['descripcion'],
+                    'acciones' => '<button type="button" class="btn btn-primary editarClase" id="'.$row['id'].'"><i class="fas fa-edit"></i> Editar</button> <button type="button" class="btn btn-danger borrarClase" id="'.$row['id'].'"><i class="fas fa-trash"></i> Borrar</button>',
+                ];
+            }
+        }
+        echo json_encode(['code' => 200 , 'data' => $result]);
+
     }
 
 }

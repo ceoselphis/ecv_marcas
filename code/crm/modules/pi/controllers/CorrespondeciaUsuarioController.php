@@ -228,8 +228,14 @@ class CorrespondeciaUsuarioController extends AdminController
         if(isset($query))
         {
             $labels = ['id', 'Cliente','Expediente','Staff' ,'Plantilla'];
-            return $CI->load->view('correspondecia/usuario/edit', ['labels' => $labels, 'values' => $query, 'id' => $id,'clientes' => $CI->CorrespondeciaUsuario_model->findAllClients(),
-            'staffid' => $CI->CorrespondeciaUsuario_model->findAllStaff()]);
+            return $CI->load->view('correspondecia/usuario/edit', [
+            'labels' => $labels, 
+            'values' => $query, 
+            'id' => $id,
+            'clientes' => $CI->CorrespondeciaUsuario_model->findAllClients(),
+            'staffid' => $CI->CorrespondeciaUsuario_model->findAllStaff(),
+            'plantilla' => $CI->CorrespondeciaUsuario_model->findAllPlantilla()
+        ]);
         }
         else{
             return redirect('pi/CorrespondeciaUsuarioController/');

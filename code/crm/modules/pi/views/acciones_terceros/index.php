@@ -7,6 +7,7 @@
                     <div class="panel-body">
                         <div class="_buttons">
                             <a class="btn btn-primary" href="<?php echo admin_url('pi/AccionesTerceroController/create');?>"><i class="fas fa-plus"></i> Nueva Accion a Terceros</a>
+                            <button class="btn btn-white pull-right" data-toggle="modal" data-target="#search"><i class="fas fa-filter"></i> </button>
                             </div>
                         </div>
                         <div class="row">
@@ -72,6 +73,16 @@
         </div>
     </div>
 </div>
+
+<!-- Large modal -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="search">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      ...
+    </div>
+  </div>
+</div>
+
 <style>
     th, td {
         text-align: center;

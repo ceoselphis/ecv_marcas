@@ -84,9 +84,26 @@
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
     new DataTable("#tableResult", {
+        destroy: true,
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
+        },
+        ajax: {
+            url: '<?php echo admin_url('pi/AccionesTerceroController/getAcciones');?>',
+            dataSrc: 'data'
+        },
+        columns: [
+            {data : 'codigo'},
+            {data : 'tipo'},
+            {data : 'demandante'},
+            {data : 'demandado'},
+            {data : 'objeto'},
+            {data : 'nro_solicitud'},
+            {data : 'fecha_solicitud'},
+            {data : 'estado'},
+            {data : 'pais'},
+            {data : 'acciones'}
+        ]
     });
 </script>
 

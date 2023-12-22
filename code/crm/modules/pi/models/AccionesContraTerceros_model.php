@@ -213,4 +213,41 @@ class AccionesContraTerceros_model extends BaseModel
         return $query->result_array();
     }
 
+    public function findCliente($id = null)
+    {
+        $this->db->select('company');
+        $this->db->from('tblclients');
+        $this->db->where('userid = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function findMarca($id = null)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function findEstatus($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_eventos');
+        $this->db->where('id  = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function findPais($id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
 }

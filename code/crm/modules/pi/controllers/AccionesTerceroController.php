@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class AccionesTerceroController extends AdminController
 {
@@ -10,12 +10,53 @@ class AccionesTerceroController extends AdminController
     {
         parent::__construct();
     }
-      
+
     public function index($id = NULL)
     {
         $CI = &get_instance();
-        $CI->load->model("AccionesContraTerceros_model");
+        
         return $CI->load->view('acciones_terceros/index');
+    }
+
+    public function getAcciones()
+    {
+        $CI = &get_instance();
+        $CI->load->model("AccionesContraTerceros_model");
+        $query = $CI->AccionesContraTerceros_model->findAll();
+        $table = array();
+        if (!empty($query)) {
+            foreach ($query as $row) {
+                $table[] = [
+                    'codigo'            => $row['id'],
+                    'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['tipo_solicitud_id']],
+                    'demandante'        => $CI->AccionesContraTerceros_model->findCliente($row['client_id'])[0]['company'],
+                    'demandado'         => $row['propietario'],
+                    'objeto'            => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['signonom'],
+                    'nro_solicitud'     => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['registro'],
+                    'fecha_solicitud'   => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                    'estado'            => $CI->AccionesContraTerceros_model->findEstatus($row['estado_id'])[0]['descripcion'],
+                    'pais'              => $CI->AccionesContraTerceros_model->findPais($row['pais_id'])[0]['nombre'],
+                    'acciones'          => '<a class="btn btn-primary href="'.admin_url('pi/AccionesTerceroController/edit').$row['id'].'"><i class="fas fa-edit"></i> Editar</a>"'
+                ];
+            }
+            echo json_encode(['code' => 200, 'message' => 'success', 'data' => $table]);
+        }
+        else
+        {
+            $table[] = [
+                'codigo'            => '',
+                'tipo'              => '',
+                'demandante'        => '',
+                'demandado'         => '',
+                'objeto'            =>'',
+                'nro_solicitud'     => '',
+                'fecha_solicitud'   => '',
+                'estado'            => '',
+                'pais'              => '',
+                'acciones'          => ''
+            ];
+            echo json_encode(['code' => 404, 'message' => 'not found', 'data' => $table]);
+        }
     }
 
     /**
@@ -39,8 +80,8 @@ class AccionesTerceroController extends AdminController
             'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
             'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
         ];
-        
-        
+
+
         return $CI->load->view('acciones_terceros/create', $data);
     }
 
@@ -52,9 +93,9 @@ class AccionesTerceroController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("AccionesContraTerceros_model");
-        $CI->load->helper(['url','form']);
+        $CI->load->helper(['url', 'form']);
         $CI->load->library('form_validation');
-        
+
         $form = array();
         echo "<pre>";
         $data = $CI->input->post();
@@ -68,7 +109,7 @@ class AccionesTerceroController extends AdminController
         $form['pais_id']           = $data['pais_id_opuesta'];
         $form['solicitud_nro']     = $data['nro_solicitud_opuesta'];
         $form['fecha_solicitud']   = $data['fecha_solicitud_opuesta'];
-        $form['registro_nro']      = $data['nro_registro_opuesta']; 
+        $form['registro_nro']      = $data['nro_registro_opuesta'];
         $form['fecha_registro']    = $data['fecha_registro_opuesta'];
         $form['propietario']       = $data['propietario_opuesta'];
         $form['agente']            = $data['agente'];
@@ -83,9 +124,6 @@ class AccionesTerceroController extends AdminController
         } catch (\Throwable $th) {
             echo json_encode($th->getMessage());
         }
-        
-
-        
     }
 
     /**
@@ -94,7 +132,6 @@ class AccionesTerceroController extends AdminController
 
     public function show(string $id = null)
     {
-
     }
 
     /**
@@ -135,7 +172,7 @@ class AccionesTerceroController extends AdminController
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
-        $CI->load->helper(['url','form']);
+        $CI->load->helper(['url', 'form']);
         $CI->load->library('form_validation');
         //we validate the data
         //we set the rules
@@ -152,16 +189,12 @@ class AccionesTerceroController extends AdminController
             ],
         );
         $CI->form_validation->set_rules($config);
-        if($CI->form_validation->run() == FALSE)
-        {
+        if ($CI->form_validation->run() == FALSE) {
             $this->edit($id);
-        }
-        else
-        {
+        } else {
             //We prepare the data 
             $query = $CI->AccionesContraTerceros_model->update($id, $data);
-            if (isset($query))
-            {
+            if (isset($query)) {
                 return redirect('pi/anexoscontroller/');
             }
         }
@@ -187,24 +220,18 @@ class AccionesTerceroController extends AdminController
         $data = $CI->input->post();
         $denominacion = $CI->AccionesContraTerceros_model->findDenominacionBase($data['marcas_id']);
         $response = array();
-        if(!empty($denominacion))
-        {
+        if (!empty($denominacion)) {
             $clase = $CI->AccionesContraTerceros_model->findClaseNiza($data['marcas_id']);
-            if(!empty($clase))
-            {
+            if (!empty($clase)) {
                 $clase_id = array();
-                foreach($clase as $row)
-                {
+                foreach ($clase as $row) {
                     $clase_id[] = $row['clase_id'];
                 }
                 $denominacion['clase'] = $clase_id;
             }
             echo json_encode(['code' => 200, 'message' => 'success', 'data' => $denominacion]);
-        }
-        else
-        {
+        } else {
             echo json_encode(['code' => 404, 'message' => 'not found']);
         }
-
     }
 }

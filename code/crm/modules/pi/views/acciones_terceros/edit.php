@@ -8,10 +8,7 @@ $CI->load->view('acciones_terceros/css.php');
     <div class="content">
         <div class="row">
             <div class="col-md-12">
-            <?php echo "<pre>";
-var_dump($values);
-die(); ?>
-                <?php echo form_open_multipart(admin_url('pi/AccionesTerceroController/store'), ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
+                <?php echo form_open_multipart(admin_url('pi/AccionesTerceroController/update/'.$values['id']), ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="wizard">
@@ -478,7 +475,6 @@ die(); ?>
 </div>
 <?php $CI->load->view('acciones_terceros/modal.php');?>
 <?php init_tail(); ?>
-
 <?php $CI->load->view('acciones_terceros/js.php');?>
 </body>
 

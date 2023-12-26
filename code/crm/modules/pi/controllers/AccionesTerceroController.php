@@ -14,8 +14,21 @@ class AccionesTerceroController extends AdminController
     public function index($id = NULL)
     {
         $CI = &get_instance();
-        
-        return $CI->load->view('acciones_terceros/index');
+        $CI->load->model("AccionesContraTerceros_model");
+        $data = [
+            'tipo_solicitud' => $CI->AccionesContraTerceros_model->getTipoSolicitudes(),
+            'clientes'       => $CI->AccionesContraTerceros_model->getAllClients(),
+            'oficinas'       => $CI->AccionesContraTerceros_model->getAllOficinas(),
+            'responsable'    => $CI->AccionesContraTerceros_model->getAllStaff(),
+            'marcas'         => $CI->AccionesContraTerceros_model->getAllMarcas(),
+            'clase_niza'     => $CI->AccionesContraTerceros_model->getAllClases(),
+            'paises'         => $CI->AccionesContraTerceros_model->getAllPaises(),
+            'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
+            'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
+            'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
+            'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
+        ];
+        return $CI->load->view('acciones_terceros/index', ['marcas' => $data]);
     }
 
     public function getAcciones()
@@ -26,6 +39,7 @@ class AccionesTerceroController extends AdminController
         $table = array();
         if (!empty($query)) {
             foreach ($query as $row) {
+                $href = admin_url('pi/AccionesTerceroController/edit/').$row['id'];
                 $table[] = [
                     'codigo'            => $row['id'],
                     'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['tipo_solicitud_id']],
@@ -36,7 +50,7 @@ class AccionesTerceroController extends AdminController
                     'fecha_solicitud'   => date('d/m/Y', strtotime($row['fecha_solicitud'])),
                     'estado'            => $CI->AccionesContraTerceros_model->findEstatus($row['estado_id'])[0]['descripcion'],
                     'pais'              => $CI->AccionesContraTerceros_model->findPais($row['pais_id'])[0]['nombre'],
-                    'acciones'          => '<a class="btn btn-primary href="'.admin_url('pi/AccionesTerceroController/edit').$row['id'].'"><i class="fas fa-edit"></i> Editar</a>"'
+                    'acciones'          => '<a class="btn btn-primary" href="'.$href.'"><i class="fas fa-edit"></i> Editar</a>'
                 ];
             }
             echo json_encode(['code' => 200, 'message' => 'success', 'data' => $table]);
@@ -97,7 +111,6 @@ class AccionesTerceroController extends AdminController
         $CI->load->library('form_validation');
 
         $form = array();
-        echo "<pre>";
         $data = $CI->input->post();
         $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
         $form['client_id']         = $data['client_id'];
@@ -170,33 +183,31 @@ class AccionesTerceroController extends AdminController
         $CI = &get_instance();
         $CI->load->model("AccionesContraTerceros_model");
         $CI->load->helper('url');
+        $form = array();
         $data = $CI->input->post();
-        //We validate the data
-        $CI->load->helper(['url', 'form']);
-        $CI->load->library('form_validation');
-        //we validate the data
-        //we set the rules
-        $config = array(
-            [
-                'field' => 'nombre_anexo',
-                'label' => 'Nombre del Anexo',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar un nombre para el anexo',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-        );
-        $CI->form_validation->set_rules($config);
-        if ($CI->form_validation->run() == FALSE) {
-            $this->edit($id);
-        } else {
-            //We prepare the data 
-            $query = $CI->AccionesContraTerceros_model->update($id, $data);
-            if (isset($query)) {
-                return redirect('pi/anexoscontroller/');
-            }
+        $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
+        $form['client_id']         = $data['client_id'];
+        $form['oficina_id']        = $data['staff_id'];
+        $form['marcas_id']         = $data['marcas_id'];
+        $form['fundamento']        = $data['fundamento'];
+        $form['marca_opuesta']     = $data['marca_opuesta'];
+        $form['clase_niza']        = $data['clase_niza'];
+        $form['pais_id']           = $data['pais_id_opuesta'];
+        $form['solicitud_nro']     = $data['nro_solicitud_opuesta'];
+        $form['fecha_solicitud']   = $data['fecha_solicitud_opuesta'];
+        $form['registro_nro']      = $data['nro_registro_opuesta'];
+        $form['fecha_registro']    = $data['fecha_registro_opuesta'];
+        $form['propietario']       = $data['propietario_opuesta'];
+        $form['agente']            = $data['agente'];
+        $form['boletin_id']        = $data['boletin'];
+        $form['fecha_boletin']     = $data['fecha_boletin'];
+        $form['estado_id']         = $data['estado_id'];
+        $form['comentarios']       = $data['comentarios'];
+        try {
+            $query = $CI->AccionesContraTerceros_model->update($id, $form);
+            return redirect("pi/AccionesTerceroController");
+        } catch (\Throwable $th) {
+            echo json_encode($th->getMessage());
         }
     }
 

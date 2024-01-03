@@ -5,7 +5,7 @@ require __DIR__ . '/BaseModel.php';
 
 class Inventores_model extends BaseModel
 {
-    protected $primaryKey = 'inventor_id';
+    protected $primaryKey = 'id_inventor';
     protected $tableName =  'tbl_patentes_inventores';
     protected $DBgroup = 'default';
     
@@ -22,7 +22,7 @@ class Inventores_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['pais_id']);
+            array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
@@ -32,7 +32,7 @@ class Inventores_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from("tbl_paises");
-        $this->db->where("pais_id = ".$id);
+        $this->db->where("id = ".$id);
         $query = $this->db->get();
         return $query->result_array();
     }

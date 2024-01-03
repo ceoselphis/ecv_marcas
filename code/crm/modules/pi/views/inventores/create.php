@@ -1,4 +1,4 @@
-<?php init_head();?>
+<?php init_head(); ?>
 
 <div id="wrapper">
     <div class="content">
@@ -6,73 +6,103 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body" style="padding-bottom: 0%;">
-                        <?php echo form_open(admin_url('pi/InventoresController/store'), 'form'); ?>
+                        <?php echo form_open(admin_url('pi/patentes/InventoresController/store'), 'form'); ?>
                         <div class="col-md-2">
-                            <?php echo form_label($labels[1]);?>
-                            <br />
-                            <?php echo form_dropdown("pais_id",$pais, [0], ['class' => "form-control"]);?>
-                            <br />
+                            <?php echo form_label('Código', 'codigo', ['class' => 'form-label']); ?>
+                            <?php echo form_input([
+                                'id' => 'codigo',
+                                'name' => 'codigo',
+                                'value' => set_value('codigo', str_pad((intval($codigo) + 1), 4, '0', STR_PAD_LEFT)),
+                                'class' => 'form-control'
+                            ]); ?>
                         </div>
                         <div class="col-md-2">
-                            <?php echo form_label($labels[6]);?>
-                            <br />
-                            <?php echo form_input($fields[6],set_value($fields[6]['name']),['class' => 'form-control']);?>
-                            <?php echo form_error($fields[6]['name'], '<div class="text-danger">', '</div>');?>
+                            <?php echo form_label('Pais', 'pais_id', ['class' => 'form-label']); ?>
+                            <select id="pais_id" name="pais_id" class="form-control">
+                                <option>Seleccione</option>
+                                <?php foreach ($paises as $key => $value) { ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="col-md-4">
-                            <?php echo form_label($labels[2]);?>
-                            <br />
-                            <?php echo form_input($fields[2],set_value($fields[2]['name']),['class' => 'form-control']);?>
-                            <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>');?>
+                            <?php echo form_label('Nombre', 'nombre', ['class' => 'form-label']); ?>
+                            <?php echo form_input([
+                                'id' => 'nombre',
+                                'name' => 'nombre',
+                                'value' => set_value('nombre', ''),
+                                'class' => 'form-control'
+                            ]); ?>
                         </div>
                         <div class="col-md-4">
-                            <?php echo form_label($labels[3]);?>
-                            <br />
-                            <?php echo form_input($fields[3],set_value($fields[3]['name']),['class' => 'form-control']);?>
-                            <?php echo form_error($fields[3]['name'], '<div class="text-danger">', '</div>');?>
-                        </div>
-                    </div>
-                    <div class="panel-body" style="padding-top: 0%;">
-                        <div class="col-md-6">
-                            <?php echo form_label($labels[4])?>
-                            <br />
-                            <?php echo form_textarea($fields[4], set_value($fields[4]['name']), ['class' => 'form-control']);?>
-                            <?php echo form_error($fields[4]['name'], '<div class="text-danger">', '</div>');?>
+                            <?php echo form_label('Apellido', 'apellido', ['class' => 'form-label']); ?>
+                            <?php echo form_input([
+                                'id' => 'apellido',
+                                'name' => 'apellido',
+                                'value' => set_value('apellido', ''),
+                                'class' => 'form-control'
+                            ]); ?>
                         </div>
                         <div class="col-md-6">
-                            <?php echo form_label($labels[5])?>
-                            <br />
-                            <?php echo form_textarea($fields[5], set_value($fields[5]['name']), ['class' => 'form-control']);?>
-                            <?php echo form_error($fields[5]['name'], '<div class="text-danger">', '</div>');?>
+                            <?php echo form_label('Direccion', 'direccion', ['class' => 'form-label']); ?>
+                            <?php echo form_input([
+                                'id' => 'direccion',
+                                'name' => 'direccion',
+                                'value' => set_value('direccion', ''),
+                                'class' => 'form-control'
+                            ]); ?>
                         </div>
-                        <div class="col-3" style="padding-top: 19%;">
-                            <button class="btn btn-primary" type="submit" >Guardar</button>
-                            <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/InventoresController');?>" class="btn btn-success">Volver atras</a>
+                        <div class="col-md-6">
+                            <?php echo form_label('Nacionalidad', 'nacionalidad', ['class' => 'form-label']); ?>
+                            <?php echo form_input([
+                                'id' => 'nacionalidad',
+                                'name' => 'nacionalidad',
+                                'value' => set_value('nacionalidad', ''),
+                                'class' => 'form-control'
+                            ]); ?>
                         </div>
                     </div>
-                        
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <?php echo form_label('Comentarios', 'comentarios', ['class' => 'form-label']); ?>
+                            <?php echo form_textarea([
+                                'id' => 'comentarios',
+                                'name' => 'comentarios',
+                                'value' => set_value('comentarios', ''),
+                                'class' => 'form-control'
+                            ]); ?>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                            <button class="btn btn-gray" type="reset">Limpiar</button>
+                            <a href="<?php echo admin_url('pi/patentes/InventoresController'); ?>" class="btn btn-success">Volver atras</a>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+</div>
+</div>
 
 
-<?php init_tail();?>
-
+<?php init_tail(); ?>
 
 <script>
-        $("select").selectpicker({
-            liveSearch:true,
-            virtualScroll: 600,
-        })
-        $("select[multiple=multiple]").selectpicker({
-            liveSearch:true,
-            virtualScroll: 600
-        });
+    $("select").selectpicker({
+        liveSearch: true,
+        virtualScroll: 600,
+    })
+    $("select[multiple=multiple]").selectpicker({
+        liveSearch: true,
+        virtualScroll: 600
+    });
 </script>
 
 </body>
+
 </html>

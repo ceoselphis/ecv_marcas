@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AnexosController extends AdminController
+class SolicitudesController extends AdminController
 {
-    protected $models = ['Anexos_model'];
+    protected $models = ['PatentesSolicitudes_model'];
 
     public function __construct()
     {

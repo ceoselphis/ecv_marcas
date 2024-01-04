@@ -22,8 +22,6 @@
                                         <th scope="col" class="px-6 py-4">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -50,21 +48,33 @@
         method: "GET",
         success: function(response) {
             data = JSON.parse(response);
-
+            table = data.data;
+            console.log(table);
             new DataTable(".table", {
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                    destroy: true,
-                    data: data.data,
-                    columns : [
-                        { data: 'codigo'      },
-                        { data: 'pais'        },
-                        { data: 'nombre'      },
-                        { data: 'apellido'    },
-                        { data: 'nacionalidad'},
-                        { data: 'acciones'    }
-                    ]
-                }
+                },
+                destroy: true,
+                data: data.data,
+                columns: [{
+                        data: 'codigo'
+                    },
+                    {
+                        data: 'pais'
+                    },
+                    {
+                        data: 'nombre'
+                    },
+                    {
+                        data: 'apellido'
+                    },
+                    {
+                        data: 'nacionalidad'
+                    },
+                    {
+                        data: 'acciones'
+                    }
+                ]
             });
         }
     });

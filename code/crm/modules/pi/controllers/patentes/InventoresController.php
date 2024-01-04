@@ -69,9 +69,10 @@ class InventoresController extends AdminController
         $CI->load->model("Inventores_model");
         $CI->load->helper('url');
         $query = $CI->Inventores_model->find($id);
+        $paises = $CI->Inventores_model->findAllPais();
         if (isset($query)) {
             $labels = array('Id', 'Nombre del anexo');
-            return $CI->load->view('anexos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
+            return $CI->load->view('inventores/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'paises' => $paises]);
         } else {
             return redirect('pi/patentes/InventoresController/');
         }
@@ -88,33 +89,15 @@ class InventoresController extends AdminController
         $CI->load->model("Inventores_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
-        //We validate the data
-        $CI->load->helper(['url', 'form']);
-        $CI->load->library('form_validation');
-        //we validate the data
-        //we set the rules
-        $config = array(
-            [
-                'field' => 'nombre_anexo',
-                'label' => 'Nombre del Anexo',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar un nombre para el anexo',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-        );
-        $CI->form_validation->set_rules($config);
-        if ($CI->form_validation->run() == FALSE) {
-            $this->edit($id);
-        } else {
-            //We prepare the data 
+        try {
             $query = $CI->Inventores_model->update($id, $data);
-            if (isset($query)) {
-                return redirect('pi/patentes/InventoresController/');
-            }
+            return redirect('pi/patentes/InventoresController');
+        } catch (\Throwable $th) {
+            echo $th;
         }
+        
+        
+        
     }
 
     /**
@@ -146,7 +129,7 @@ class InventoresController extends AdminController
                     'nombre' => $value['nombre'],
                     'apellido' => $value['apellido'],
                     'nacionalidad' => $value['nacionalidad'],
-                    'acciones' => '<a class="btn btn-primary" href="'.admin_url('pi/patentes/InventoresController/edit/').$value['id_inventor'].'"><i class="fas fa-edit"></i> Editar</a> <a class="btn btn-primary" href="'.admin_url('pi/patentes/InventoresController/delete/').$value['id_inventor'].'"><i class="fas fa-trash"></i> Borrar</a>'
+                    'acciones' => '<a class="btn btn-primary" href="'.admin_url('pi/patentes/InventoresController/edit/').$value['id_inventor'].'"><i class="fas fa-edit"></i> Editar</a>'
                 ];
                 
             }

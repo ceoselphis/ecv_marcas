@@ -72,8 +72,8 @@ abstract class BaseModel extends CI_Model
 
     public function update($id = null, Array $params)
     {
-        $this->db->set($params);
         $this->db->where($this->primaryKey.' = '.$id);
+        $this->db->set($params);
         $query = $this->db->update($this->tableName);
         return $query;
     }

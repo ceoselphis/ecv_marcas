@@ -12,7 +12,7 @@
                         </div>
                         <div class="_body">
                             <div class="row" style="padding: 2%;">
-                                <div class="col-md-12">
+                                <div class="col-md-12 pre-scrollable">
                                     <table class="table" id="tableResult">
                                         <thead style="text-align: justify;">
                                             <tr>

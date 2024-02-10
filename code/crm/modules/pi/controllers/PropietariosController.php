@@ -33,6 +33,27 @@ class PropietariosController extends AdminController
         return $CI->load->view('propietarios/index', ["propietarios" => $data]);
     }
 
+    public function showPropietarios(){
+        $CI = &get_instance();
+        $CI->load->model("Propietarios_model");
+        $data = array();
+        $propietarios = $CI->Propietarios_model->findAll();
+        foreach ($propietarios as $row){
+            $data[] = array(
+                'id' => $row['id'],
+                'codigo' => $row['codigo'],
+                'nombre' => $row['nombre_propietario'],
+                'pais'   => $CI->Propietarios_model->findPaises($row['pais_id']),
+                'poder_num' => $CI->Propietarios_model->findAllPoderes($row['id']),
+                'fecha_creacion' => $row['created_at'],
+                'creado_por' => $CI->Propietarios_model->searchStaff($row['created_by']),
+                'fecha_modificacion' => $row['modified_at'],
+                'modificado_por' => $CI->Propietarios_model->searchStaff($row['modified_by'])
+            );
+            echo json_encode($data);
+        }
+    }
+
     /**
      * Shows the form to create a new item
      */

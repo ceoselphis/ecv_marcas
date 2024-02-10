@@ -67,6 +67,21 @@ class Propietarios_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function searchStaff($id= NULL){
+        $this->db->select('*');
+        $this->db->from('tblstaff');
+        $this->db->where("staffid = ".$id);
+        $query = $this->db->get();
+       
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            
+            array_push($values, strtoupper("{$row['firstname']} {$row['lastname']}"));
+        }
+        return $values[0];
+    }
+
     public function findAllPoderes($propietario_id = NULL)
     {
         $this->db->select('*');

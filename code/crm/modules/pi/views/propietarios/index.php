@@ -10,7 +10,7 @@
                             <a class="btn btn-primary" href="<?php echo admin_url('pi/PropietariosController/generateReport');?>"><i class="fas fa-file-pdf"></i> Generar Reporte</a>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="padding: 10px 50px 10px 50px;">
                             
                             <div class="col-md-12">
                                 <table class="table" id="tableResult">
@@ -24,9 +24,10 @@
                                             <th>Creado por</th>
                                             <th>Fecha Modificacion</th>
                                             <th>Modificado Por</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="body_propietarios">
                                         <?php if (!empty($propietarios)) {?>
                                             <?php foreach ($propietarios as $row) {?>
                                                 <tr>
@@ -83,6 +84,10 @@
     
 </style>
 
+
+<script>
+
+</script>
 <?php init_tail();?>
 
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>

@@ -18,7 +18,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 *
 */
 //define('APP_BASE_URL', 'http://localhost:8080/');
-define('APP_BASE_URL', 'http://crm.localhost:80/');
+define('APP_BASE_URL', 'http://localhost/ecv_marcas/code/crm');
 
 /*
 * --------------------------------------------------------------------------

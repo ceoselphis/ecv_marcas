@@ -8,6 +8,7 @@
                         <div class="_buttons">
                             <a class="btn btn-primary" href="<?php echo admin_url('pi/PropietariosController/create');?>"><i class="fas fa-plus"></i> Nuevo propietario</a>
                             <a class="btn btn-primary" href="<?php echo admin_url('pi/PropietariosController/generateReport');?>"><i class="fas fa-file-pdf"></i> Generar Reporte</a>
+                            <button id="BotonFiltrar" type="button" class="btn btn-default btn-outline pull-right" ><i class="fas fa-filter"></i> Filtrar por</button>
                             </div>
                         </div>
                         <div class="row" >
@@ -39,6 +40,14 @@
         </div>
     </div>
 </div>
+
+<!-- FilterModal -->
+<div class="modal fade" id="FiltrarPropietarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <h1>Prueba</h1>
+  <?php echo form_close();?>
+</div>
+
+
 <style>
     th, td {
         text-align: center;
@@ -59,6 +68,12 @@
     });
 </script>
 <script>
+    $(document).ready(function() {
+        $("#BotonFiltrar").click(function() {
+        console.log("Boton Filtrar");
+        $("#FiltrarPropietarios").modal('show'); 
+    });
+    })
     Propietarios();
     function Propietarios() {
         let url = '<?php echo admin_url("pi/PropietariosController/showPropietarios/"); ?>';
@@ -73,14 +88,14 @@
                 eliminar = eliminar + item.id;
                 modificar = modificar + item.id;
                 body += `<tr Propietariosid = "${item.id}"> 
-                                    <td class="text-center">${item.codigo}</td>
-                                    <td class="text-center">${item.nombre}</td>
-                                    <td class="text-center">${item.pais}</td>
-                                    <td class="text-center">${item.poder_num}</td>
-                                    <td class="text-center">${item.fecha_creacion}</td>
-                                    <td class="text-center">${item.creado_por}</td>
-                                    <td class="text-center">${item.fecha_modificacion}</td>
-                                    <td class="text-center">${item.modificado_por}</td>
+                                    <td >${item.codigo}</td>
+                                    <td >${item.nombre}</td>
+                                    <td >${item.pais}</td>
+                                    <td >${item.poder_num}</td>
+                                    <td >${item.fecha_creacion}</td>
+                                    <td >${item.creado_por}</td>
+                                    <td >${item.fecha_modificacion}</td>
+                                    <td >${item.modificado_por}</td>
                                     <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
                                     <td>
                                         <a class="btn btn-light" href="${modificar}"><i class="fas fa-edit"></i>Editar</a>
@@ -93,7 +108,7 @@
             $('#body_propietarios').html(body);
         })
     }
-
+    
 </script>
 </body>
 </html>

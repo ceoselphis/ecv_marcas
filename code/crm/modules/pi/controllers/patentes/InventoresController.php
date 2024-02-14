@@ -14,7 +14,7 @@ class InventoresController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Inventores_model");
-        return $CI->load->view('inventores/index');
+        return $CI->load->view('patente/inventores/index');
     }
 
     /**
@@ -28,7 +28,7 @@ class InventoresController extends AdminController
         $paises = $CI->Inventores_model->findAllPais();
         $data = ['paises' => $paises, 'codigo' => $CI->Inventores_model->last_insert_id()];
         return  $CI->load->view(
-            'inventores/create', $data
+            'patente/inventores/create', $data
         );
     }
 
@@ -72,7 +72,7 @@ class InventoresController extends AdminController
         $paises = $CI->Inventores_model->findAllPais();
         if (isset($query)) {
             $labels = array('Id', 'Nombre del anexo');
-            return $CI->load->view('inventores/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'paises' => $paises]);
+            return $CI->load->view('patente/inventores/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'paises' => $paises]);
         } else {
             return redirect('pi/patentes/InventoresController/');
         }
@@ -129,7 +129,7 @@ class InventoresController extends AdminController
                     'nombre' => $value['nombre'],
                     'apellido' => $value['apellido'],
                     'nacionalidad' => $value['nacionalidad'],
-                    'acciones' => '<a class="btn btn-primary" href="'.admin_url('pi/patentes/InventoresController/edit/').$value['id_inventor'].'"><i class="fas fa-edit"></i> Editar</a>'
+                    'acciones' => '<a class="btn btn-primary" href="'.admin_url('pi/patentes/InventoresController/edit/').$value['id'].'"><i class="fas fa-edit"></i> Editar</a>'
                 ];
                 
             }

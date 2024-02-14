@@ -16,21 +16,18 @@ class PatentesSolicitudes_model extends BaseModel
 
     public function getTipoSolicitudes()
     {
-        return [
-            1  => 'Oposición',
-            2  => 'Cancelación',
-            3  => 'Nulidad',
-            4  => 'Infracción',
-            5  => 'Abandono',
-            6  => 'Uso Indebido',
-            7  => 'Medida en Frontera',
-            8  => 'Tutela',
-            9  => 'Demanda',
-            10 => 'Denuncia',
-            11 => 'Contencioso Adtvo.',
-            12 => 'Objeción',
-            13 => 'Licencia'
-        ];
+        $this->db->select('*');
+        $this->db->from('tbl_patente_tipo_patente');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+
     }
 
     public function getAllClients()

@@ -69,9 +69,8 @@ $CI->load->view('marcas/solicitudes/css.php');
                                 </div>
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
-                                    
                                     <div class="col-md-2">
-                                        <?php echo form_label('Paises Designados', 'pais_id');?>
+                                        <?php echo form_label('Pais', 'pais_id');?>
                                         <?php echo form_dropdown([
                                                 'id'       => 'pais_id',
                                                 'name'     => 'pais_id',
@@ -80,25 +79,15 @@ $CI->load->view('marcas/solicitudes/css.php');
                                                 'options' => $pais_id,
                                         ]);?>
                                     </div>
-                                    <div class="col-md-2">  
-                                        <?php echo form_label('Signo', 'signonom');?>
+                                    <div class="col-md-2">
+                                        <?php echo form_label('Titulo', 'titulo'); ?>
                                         <?php echo form_input([
-                                            'id'    =>   'signonom',
-                                            'name'  =>   'signonom',
-                                            'class' =>   'form-control',
-                                        ]);?>
-                                    </div>
-                                    <div class="col-md-1" style="padding-left:1%; padding-top:1.75%">
-                                        <button type="button" class="btn btn-outline" data-toggle="modal" data-target="#signoModal"><i class="fas fa-paperclip"></i> Añadir</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <?php echo form_label('Tipo Signo', 'tipo_signo_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'        => 'tipo_signo_id',
-                                            'name'      => 'tipo_signo_id',
-                                            'class'     => 'form-control',
-                                            'options'   =>  $tipos_signo_id,
-                                        ]);?>
+                                            'id' => 'titulo',
+                                            'name' => 'titulo',
+                                            'class' => 'form-control',
+                                            'required' => 'required',
+                                            'value' => set_value('titulo', ''),
+                                        ]); ?>
                                     </div>
                                     
                                     <div class="col-md-6" style="padding-top:15px;">

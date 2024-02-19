@@ -7,7 +7,7 @@ $CI->load->view('marcas/solicitudes/css.php');
     <div class="content">
         <div class="row">
             <div class="col-md-12">
-                <?php echo form_open_multipart(admin_url('pi/MarcasSolicitudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
+                <?php echo form_open_multipart(admin_url('pi/patentes/SolicitudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
                 <?php echo form_hidden('id', $id);?>
                     <div class="panel_s">
                         <div class="panel-body">

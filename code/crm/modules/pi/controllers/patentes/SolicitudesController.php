@@ -26,12 +26,13 @@ class SolicitudesController extends AdminController
         $CI = &get_instance();
         $CI->load->model("PatentesSolicitudes_model");
         $data = [
-            'id' => $CI->PatentesSolicitudes_model->last_insert_id(),
+            'id'            => $CI->PatentesSolicitudes_model->last_insert_id(),
             'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
-            'clientes' => $CI->PatentesSolicitudes_model->getAllClients(),
-            'oficinas' => $CI->PatentesSolicitudes_model->getAllOficinas(),
-            'responsable' => $CI->PatentesSolicitudes_model->getAllStaff(),
-            'pais_id' => $CI->PatentesSolicitudes_model->getAllPaises(),
+            'clientes'      => $CI->PatentesSolicitudes_model->getAllClients(),
+            'oficinas'      => $CI->PatentesSolicitudes_model->getAllOficinas(),
+            'responsable'   => $CI->PatentesSolicitudes_model->getAllStaff(),
+            'pais_id'       => $CI->PatentesSolicitudes_model->getAllPaises(),
+            
         ];
         return $CI->load->view('patente/solicitudes/create', $data);
     }

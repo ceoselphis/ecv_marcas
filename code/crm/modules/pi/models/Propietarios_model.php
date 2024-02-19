@@ -37,6 +37,16 @@ class Propietarios_model extends BaseModel
         return $query->result_array();
     }
 
+    public function searchPaises($id = null)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $this->db->where("id = ".$id);
+        $query = $this->db->get();
+        $pais= $query->result_array();
+        return $pais[0]['nombre'];
+    }
+
     public function findAllStaff()
     {
         $query = $this->db->get('tblstaff');
@@ -67,6 +77,21 @@ class Propietarios_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function searchStaff($id= NULL){
+        $this->db->select('*');
+        $this->db->from('tblstaff');
+        $this->db->where("staffid = ".$id);
+        $query = $this->db->get();
+       
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            
+            array_push($values, strtoupper("{$row['firstname']} {$row['lastname']}"));
+        }
+        return $values[0];
+    }
+
     public function findAllPoderes($propietario_id = NULL)
     {
         $this->db->select('*');
@@ -77,6 +102,20 @@ class Propietarios_model extends BaseModel
         return $query->result_array();
     }
 
+    public function searchAllPoderes($propietario_id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_poderes');
+        $this->db->where("propietario_id = ".$propietario_id);
+        $this->db->order_by('id', 'DESC');
+        $query = $this->db->get();
+        $resultado= $query->result_array();
+        if (empty($resultado)){
+            return '';
+        }else{
+            return $resultado[0]['numero'];
+        }
+    }
     public function findApoderados($id = null)
     {
         $this->db->select('staffid');

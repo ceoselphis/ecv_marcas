@@ -8,9 +8,10 @@
                         <div class="_buttons">
                             <a class="btn btn-primary" href="<?php echo admin_url('pi/PropietariosController/create');?>"><i class="fas fa-plus"></i> Nuevo propietario</a>
                             <a class="btn btn-primary" href="<?php echo admin_url('pi/PropietariosController/generateReport');?>"><i class="fas fa-file-pdf"></i> Generar Reporte</a>
+                            <button id="BotonFiltrar" type="button" class="btn btn-default btn-outline pull-right" ><i class="fas fa-filter"></i> Filtrar por</button>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" >
                             
                             <div class="col-md-12">
                                 <table class="table" id="tableResult">
@@ -24,48 +25,11 @@
                                             <th>Creado por</th>
                                             <th>Fecha Modificacion</th>
                                             <th>Modificado Por</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <?php if (!empty($propietarios)) {?>
-                                            <?php foreach ($propietarios as $row) {?>
-                                                <tr>
-                                                    <td><?php echo $row['codigo'];?></td>
-                                                    <td><?php echo $row['nombre'];?></td>
-                                                    <td><?php echo $row['pais'][0]['nombre'];?></td>
-                                                    <td><?php 
-                                                    $poder = empty($row['numero']) ? ('') : ($row['numero']);
-                                                    echo $poder;
-                                                    ?></td>
-                                                    <td><?php echo $row['fecha_creacion'];?></td>
-                                                    <td>
-                                                        <?php 
-                                                            $staff_by = empty($row['creado_por']) ? ('') : ($row['creado_por'][1]) ;
-                                                            echo $staff_by;?>
-                                                    </td>
-                                                    <td>
-                                                        <?php 
-                                                            $fecha_mod = empty($row['fecha_modificacion']) ? ('') : $row['fecha_modificacion'];
-                                                            echo $fecha_mod;
-                                                        ?>
-                                                    </td>
-                                                    <td><?php 
-                                                    $mod_by = empty($row['modificado_por']) ? ('') : $row['modificado_por'][1] ;?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/PropietariosController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                        <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/PropietariosController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i>Editar</a>
-                                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                        </td>
-                                                    </form> 
-                                                </tr>
-                                            <?php } ?>
-                                        <?php }
-                                        else {
-                                        ?>
-                                        <tr >
-                                            <td colspan="8">Sin Registros</td>
-                                        </tr>
-                                        <?php } ?>
+                                    <tbody id="body_propietarios">
+                                    
                                     </tbody>
                                 </table>
                             </div>
@@ -76,6 +40,14 @@
         </div>
     </div>
 </div>
+
+<!-- FilterModal -->
+<div class="modal fade" id="FiltrarPropietarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <h1>Prueba</h1>
+  <?php echo form_close();?>
+</div>
+
+
 <style>
     th, td {
         text-align: center;
@@ -83,6 +55,7 @@
     
 </style>
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <?php init_tail();?>
 
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
@@ -93,6 +66,49 @@
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
         }
     });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#BotonFiltrar").click(function() {
+        console.log("Boton Filtrar");
+        $("#FiltrarPropietarios").modal('show'); 
+    });
+    })
+    Propietarios();
+    function Propietarios() {
+        let url = '<?php echo admin_url("pi/PropietariosController/showPropietarios/"); ?>';
+        let eliminar = '<?php echo admin_url("pi/PropietariosController/destroy/"); ?>';
+        let modificar = '<?php echo admin_url("pi/PropietariosController/edit/");?>'
+        console.log(url); 
+        let body = ``;
+        $.get(url, function(response) {
+            let listadomicilio = JSON.parse(response);
+            console.log(listadomicilio);
+            listadomicilio.forEach(item => {
+                eliminar = eliminar + item.id;
+                modificar = modificar + item.id;
+                body += `<tr Propietariosid = "${item.id}"> 
+                                    <td >${item.codigo}</td>
+                                    <td >${item.nombre}</td>
+                                    <td >${item.pais}</td>
+                                    <td >${item.poder_num}</td>
+                                    <td >${item.fecha_creacion}</td>
+                                    <td >${item.creado_por}</td>
+                                    <td >${item.fecha_modificacion}</td>
+                                    <td >${item.modificado_por}</td>
+                                    <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                    <td>
+                                        <a class="btn btn-light" href="${modificar}"><i class="fas fa-edit"></i>Editar</a>
+                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                    </td>
+                                    </form> 
+                                </tr>
+                            `
+            });
+            $('#body_propietarios').html(body);
+        })
+    }
+    
 </script>
 </body>
 </html>

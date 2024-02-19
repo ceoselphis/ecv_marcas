@@ -13,8 +13,10 @@ class SolicitudesController extends AdminController
     public function index($id = NULL)
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
-        return $CI->load->view('anexos/index', ["anexos" => $CI->Anexos_model->findAll()]);
+        $CI->load->model("PatentesSolicitudes_model");
+        return $CI->load->view('patentes/solicitudes/index', [
+            'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
+        ]);
     }
 
     /**
@@ -24,8 +26,8 @@ class SolicitudesController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
-        $fields = $CI->Anexos_model->getFillableFields();
+        $CI->load->model("PatentesSolicitudes_model");
+        $fields = $CI->PatentesSolicitudes_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -49,7 +51,22 @@ class SolicitudesController extends AdminController
             }
         }
         $labels = ['Id', 'Nombre del anexo'];
-        return $CI->load->view('anexos/create', ['fields' => $inputs, 'labels' => $labels]);
+        return $CI->load->view('patente/solicitudes/create', [
+            'fields' => $inputs, 
+            'labels' => $labels,
+            'id' => $CI->PatentesSolicitudes_model->last_insert_id(),
+            'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
+            'clientes' => $CI->PatentesSolicitudes_model->getAllClients(),
+            'oficinas' => $CI->PatentesSolicitudes_model->getAllOficinas(),
+            'responsable' => $CI->PatentesSolicitudes_model->getAllStaff(),
+            'pais_id' => $CI->PatentesSolicitudes_model->getAllPaises(),
+            'propietarios' => $CI->PatentesSolicitudes_model->getAllPropietarios(),
+            'inventores' => $CI->PatentesSolicitudes_model->getAllInventores(),
+            'estados_solicitudes' => $CI->PatentesSolicitudes_model->getAllEstadoExpediente(),
+            
+
+            
+        ]);
     }
 
     /**
@@ -59,7 +76,7 @@ class SolicitudesController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
+        $CI->load->model("PatentesSolicitudes_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
@@ -82,7 +99,7 @@ class SolicitudesController extends AdminController
         
         if($CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->Anexos_model->getFillableFields();
+            $fields = $CI->PatentesSolicitudes_model->getFillableFields();
             $inputs = array();
             $labels = array();
             foreach($fields as $field)
@@ -111,7 +128,7 @@ class SolicitudesController extends AdminController
         else
         {
             //we sent the data to the model
-            $query = $CI->Anexos_model->insert($data);
+            $query = $CI->PatentesSolicitudes_model->insert($data);
             if(isset($query))
             {
                 return redirect(admin_url('pi/anexoscontroller/'));
@@ -136,9 +153,9 @@ class SolicitudesController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
+        $CI->load->model("PatentesSolicitudes_model");
         $CI->load->helper('url');
-        $query = $CI->Anexos_model->find($id);
+        $query = $CI->PatentesSolicitudes_model->find($id);
         if(isset($query))
         {
             $labels = array('Id', 'Nombre del anexo');
@@ -157,7 +174,7 @@ class SolicitudesController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
+        $CI->load->model("PatentesSolicitudes_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
@@ -185,7 +202,7 @@ class SolicitudesController extends AdminController
         else
         {
             //We prepare the data 
-            $query = $CI->Anexos_model->update($id, $data);
+            $query = $CI->PatentesSolicitudes_model->update($id, $data);
             if (isset($query))
             {
                 return redirect('pi/anexoscontroller/');
@@ -200,9 +217,9 @@ class SolicitudesController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("Anexos_model");
+        $CI->load->model("PatentesSolicitudes_model");
         $CI->load->helper('url');
-        $query = $CI->Anexos_model->delete($id);
+        $query = $CI->PatentesSolicitudes_model->delete($id);
         return redirect('pi/anexoscontroller/');
         
         

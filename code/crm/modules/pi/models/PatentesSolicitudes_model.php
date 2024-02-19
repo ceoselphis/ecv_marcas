@@ -16,21 +16,15 @@ class PatentesSolicitudes_model extends BaseModel
 
     public function getTipoSolicitudes()
     {
-        return [
-            1  => 'Oposición',
-            2  => 'Cancelación',
-            3  => 'Nulidad',
-            4  => 'Infracción',
-            5  => 'Abandono',
-            6  => 'Uso Indebido',
-            7  => 'Medida en Frontera',
-            8  => 'Tutela',
-            9  => 'Demanda',
-            10 => 'Denuncia',
-            11 => 'Contencioso Adtvo.',
-            12 => 'Objeción',
-            13 => 'Licencia'
-        ];
+        $query = $this->db->get('tbl_patente_tipo_patente');
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
     }
 
     public function getAllClients()
@@ -175,7 +169,7 @@ class PatentesSolicitudes_model extends BaseModel
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
-            array_push($values, "{$row['codigo']} - {$row['nombre']}");
+            array_push($values, "{$row['nombre']}");
         }
         return array_combine($keys, $values);
     }
@@ -247,6 +241,21 @@ class PatentesSolicitudes_model extends BaseModel
         $this->db->where('id = '.$id);
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+    public function getAllInventores()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_patentes_inventores');
+        $query = $this->db->get();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['codigo'].'-'.$row['nombre'].' '.$row['apellido']);
+        }
+        return array_combine($keys, $values); 
     }
 
 

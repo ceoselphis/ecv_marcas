@@ -146,6 +146,54 @@ class MarcasSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function findAllContactos()
+    {
+        $this->db->select('*');
+        $this->db->from('tblcontacts');
+        $this->db->order_by("firstname", 'ASC');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['userid']);
+            array_push($values, $row['firstname'] . ' ' . $row['lastname']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllPropietarios2()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_propietarios');
+        $this->db->order_by("nombre_propietario", 'ASC');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre_propietario']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllTipoPublicacion2()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_publicacion');
+        $this->db->order_by("nombre", 'ASC');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
     public function findEstadosSolicitudes($id = NULL)
     {
         $this->db->select('*');
@@ -692,6 +740,88 @@ class MarcasSolicitudes_model extends BaseModel
         {
             return [];
         }
+    }
+
+    public function searchWhere2($params): array{
+        $this->db->select('id, nombre_tipo_registro as tipo_registro, nombre_propietario, marca, nombre_niza as clase_niza, nombre_solictud as estado_expediente, nombre_pais_solicitud as pais_nom, num_solicitud as solicitud, fecha_solicitud, num_registro as registro, certificado, fecha_vencimiento');
+        $this->db->distinct();
+        $this->db->from('view_marcas_solicitudes');
+        foreach($params as $key => $value)
+        {
+            switch ($key) {
+                case 'marca':
+                case 'ref_cliente':
+                case 'ref_interna':
+                case 'num_solicitud':
+                case 'num_registro':
+                case 'descripcion_niza':
+                    $this->db->like($key,$value);
+                    break;
+                case 'fecha_solicitud_desde':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_solicitud >=', $data);
+                    break;
+                case 'fecha_solicitud_hasta':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_solicitud <=', $data);
+                    break;
+                case 'fecha_vencimiento_desde':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_vencimiento >=', $data);
+                    break;
+                case 'fecha_vencimiento_hasta':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_vencimiento <=', $data);
+                    break;
+                case 'fecha_evento_desde':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_evento >=', $data);
+                    break;
+                case 'fecha_evento_hasta':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_evento <=', $data);
+                    break;
+                case 'prueba_uso_desde':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('prueba_uso >=', $data);
+                    break;
+                case 'prueba_uso_hasta':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('prueba_uso <=', $data);
+                    break;
+                case 'fecha_registro_desde':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_registro >=', $data);
+                    break;
+                case 'fecha_registro_hasta':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_registro <=', $data);
+                    break;
+                default:
+                    $this->db->where($key, $value);
+            }
+        }
+        $this->db->order_by("id", 'ASC');
+        $result = $this->db->get();
+        if($result->num_rows() > 0)
+        {
+            return $result->result_array();
+        }
+        else
+        {
+            return [];
+        }
+
     }
 
     public function findAllMarcasDomicilio()

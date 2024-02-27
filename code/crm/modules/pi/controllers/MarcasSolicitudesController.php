@@ -28,6 +28,9 @@ class MarcasSolicitudesController extends AdminController
             'Clase Niza'         => $CI->MarcasSolicitudes_model->findAllClases(),
             'Tipo de Registro'         => $CI->MarcasSolicitudes_model->findAllTiposRegistros(),
             'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
+            'contactos'           => $CI->MarcasSolicitudes_model->findAllContactos(),
+            'propietarios'           => $CI->MarcasSolicitudes_model->findAllPropietarios2(),
+            'tipo publicacion'           => $CI->MarcasSolicitudes_model->findAllTipoPublicacion2(),
             //'query'                 => $query
         ];
         return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
@@ -636,7 +639,8 @@ class MarcasSolicitudesController extends AdminController
             } 
         }
         else{
-            $query = $CI->MarcasSolicitudes_model->searchWhere($form);
+            //$query = $CI->MarcasSolicitudes_model->searchWhere($form);
+            $query = $CI->MarcasSolicitudes_model->searchWhere2($form);
             if(!empty($query))
             {
                 foreach($query as $row)

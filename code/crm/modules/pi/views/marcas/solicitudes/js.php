@@ -188,37 +188,7 @@
             `;
         $('#anexohead').html(template);
         $('#anexobody').html(``);
-        // let url = '<?php //echo admin_url("pi/CesionController/showCesion/");
-                        ?>';
-        // let eliminar = '<?php //echo admin_url("pi/CesionController/destroy/");
-                            ?>';
-        //     $.get(url, function(response){
-        //         let listadomicilio = JSON.parse(response);
-        //         listadomicilio.forEach(item => {
-        //             eliminar = eliminar+item.id;
-        //             let body = `<tr Licenciaid = "${item.id}"> 
-        //                         <td class="text-center">${item.id}</td>
-        //                         <td class="text-center">${item.cliente}</td>
-        //                         <td class="text-center">${item.oficina}</td>
-        //                         <td class="text-center">${item.staff}</td>
-        //                         <td class="text-center">${item.estado}</td>
-        //                         <td class="text-center">${item.num_solicitud}</td>
-        //                         <td class="text-center">${item.fecha_solicitud}</td>
-        //                         <td class="text-center">${item.num_resolucion}</td>
-        //                         <td class="text-center">${item.fecha_solicitud}</td>
-        //                         <td class="text-center">${item.referencia_cliente}</td>
-        //                         <td class="text-center">${item.comentarios}</td>
-        //                         <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-        //                             <td class="text-center">
-        //                                 <a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-        //                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-        //                             </td>
-        //                         </form> 
-        //                     </tr>
-        //                 `
-        //             $('#anexobody').html(body);     
-        //         });
-        //     })
+        
     })
 
     //----------------------------------- Funciones de la Informacion que Trae desde la Base de Datos -----------------------------------------------

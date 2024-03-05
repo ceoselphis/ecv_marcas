@@ -45,10 +45,9 @@ class MarcasSolicitudesController extends AdminController
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
         $id = intval($CI->MarcasSolicitudes_model->setCountPK());
-        /*Insertamos directamente un registro piloto para poder agregar cualquier anexo y demas*/
-        $insert = $CI->MarcasSolicitudes_model->insertRegistroPiloto($id);
-        $fields = $CI->MarcasSolicitudes_model->getFillableFields();
         
+        
+        $fields = $CI->MarcasSolicitudes_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -113,7 +112,7 @@ class MarcasSolicitudesController extends AdminController
             'tareas'                => $data,
             'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
             'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
-            'projects'                 => $CI->MarcasSolicitudes_model->findAllProjects(),
+            'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
             
         ]);
                                 

@@ -16,8 +16,8 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <!--href="<?php //echo admin_url('pi/MarcasSolicitudesController/create');                                              ?>" -->
-                            <a class="btn btn-primary" id="InsertarSolicitudesMarcas"><i class="fas fa-plus"></i> Nueva
+                            <a href="<?php echo admin_url('pi/MarcasSolicitudesController/create');?>" 
+                            class="btn btn-primary"><i class="fas fa-plus"></i> Nueva
                                 Solicitud de marca</a>
                             <button type="button" class="btn btn-default btn-outline pull-right" data-toggle="modal"
                                 data-target="#filterModal"><i class="fas fa-filter"></i> Filtrar por</button>

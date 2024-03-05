@@ -743,12 +743,13 @@ class MarcasSolicitudes_model extends BaseModel
     }
 
     public function searchWhere2($params): array{
-        $this->db->select('id, nombre_tipo_registro as tipo_registro, nombre_propietario, marca, nombre_niza as clase_niza, nombre_solictud as estado_expediente, nombre_pais_solicitud as pais_nom, num_solicitud as solicitud, fecha_solicitud, num_registro as registro, certificado, fecha_vencimiento');
+        $this->db->select('id, cod_contador, nombre_tipo_registro as tipo_registro, nombre_propietario, marca, nombre_niza as clase_niza, nombre_solictud as estado_expediente, nombre_pais_solicitud as pais_nom, num_solicitud as solicitud, fecha_solicitud, num_registro as registro, certificado, fecha_vencimiento');
         $this->db->distinct();
         $this->db->from('view_marcas_solicitudes');
         foreach($params as $key => $value)
         {
             switch ($key) {
+                case 'cod_contador':
                 case 'marca':
                 case 'ref_cliente':
                 case 'ref_interna':
@@ -811,7 +812,7 @@ class MarcasSolicitudes_model extends BaseModel
                     $this->db->where($key, $value);
             }
         }
-        $this->db->order_by("id", 'ASC');
+        //$this->db->order_by("id", 'ASC');
         $result = $this->db->get();
         if($result->num_rows() > 0)
         {

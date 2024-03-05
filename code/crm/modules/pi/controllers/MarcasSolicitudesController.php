@@ -125,6 +125,7 @@ class MarcasSolicitudesController extends AdminController
             /*`INSERT INTO `tbl_marcas_solicitudes`(`id`, `tipo_registro_id`, `client_id`, `oficina_id`, `staff_id`, `signo_archivo`, `signonom`, `tipo_signo_id`, `tipo_solicitud_id`, `ref_interna`, `primer_uso`, `ref_cliente`, `prueba_uso`, `carpeta`, `libro`, `folio`, `tomo`, `comentarios`, `estado_id`, `solicitud`, `fecha_solicitud`, `registro`, `fecha_registro`, `certificado`, `fecha_certificado`, `fecha_vencimiento`)*/ 
             $insert = array(
                 'tipo_registro_id'=> '1', 
+                'cod_contador' => '',
                 'client_id'=> '1', 
                 'oficina_id'=> '1', 
                 'staff_id'=> '1', 
@@ -153,9 +154,11 @@ class MarcasSolicitudesController extends AdminController
             //echo json_encode($insert);
             $CI->load->model("MarcasSolicitudes_model");
                 try{
+                    $cantidad = $CI->MarcasSolicitudes_model->CantidadSolicitudes();
+                    $insert['cod_contador'] = 'M-' . ($cantidad+1);
                     $query = $CI->MarcasSolicitudes_model->insert($insert);
                         if (isset($query)){
-                            $cantidad = $CI->MarcasSolicitudes_model->CantidadSolicitudes();
+                            //$cantidad = $CI->MarcasSolicitudes_model->CantidadSolicitudes();
                             echo $cantidad;
 
                         }else {
@@ -616,7 +619,7 @@ class MarcasSolicitudesController extends AdminController
             {
                 foreach($query as $row){
                     $result[] =  [
-                       'id' => $row['id'],
+                       'cod_contador' => $row['cod_contador'],
                        'tipo' =>  $row['tipo_registro'],
                        'propietario' => $row['nombre_propietario'],
                        'nombre' => $row['signonom'],
@@ -646,7 +649,7 @@ class MarcasSolicitudesController extends AdminController
                 foreach($query as $row)
                 {
                     $result[] = [
-                        'id' => $row['id'],
+                        'cod_contador' => $row['cod_contador'],
                         'tipo' => $row['tipo_registro'],
                         'propietario' => $row['nombre_propietario'],
                         'nombre' => $row['marca'],

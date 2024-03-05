@@ -46,6 +46,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
                                         <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', '');?><strong><?php echo ' ' . $values['cod_contador']; ?></strong></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             <?php echo form_label('Tipo de solicitud', 'tipo_registro_id');?>
                                             <?php echo form_dropdown('tipo_registro_id', $tipo_registro ,set_value('tipo_registro_id', $values['tipo_registro_id']), ['class' => 'form-control'])?>
                                         </div>
@@ -68,6 +73,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', '');?><strong><?php echo ' ' . $values['cod_contador']; ?></strong></h4>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Paises Designados', 'pais_id');?>
                                         <?php echo form_dropdown([
@@ -144,6 +154,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 3 --->
                                 <div class="tab-pane" role="tabpanel" id="step3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', '');?><strong><?php echo ' ' . $values['cod_contador']; ?></strong></h4>
+                                        </div>
+                                    </div>
                                     <div class="col-md-4">
                                         <?php echo form_label('Tipo Solicitud', 'tipo_solicitud_id');?>
                                         <?php echo form_dropdown([
@@ -163,8 +178,8 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                         <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control'])?>
                                     </div>
                                     <!--<div class="col-md-4">
-                                        <?php echo form_label('Fecha de Primer Uso','primer_uso');?>
-                                        <?php echo form_input('primer_uso', set_value('primer_uso', $values['primer_uso']), ['class' => 'form-control calendar'])?>
+                                        <php echo form_label('Fecha de Primer Uso','primer_uso');?>
+                                        <php echo form_input('primer_uso', set_value('primer_uso', $values['primer_uso']), ['class' => 'form-control calendar'])?>
                                     </div>-->
                                     <div class="col-md-4">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso');?>
@@ -223,6 +238,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 4 -->
                                 <div class="tab-pane" role="tabpanel" id="step4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', '');?><strong><?php echo ' ' . $values['cod_contador']; ?></strong></h4>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <?php echo form_label('Estado de Solicitud', 'estado_id');?>
                                         <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control']);?>
@@ -341,6 +361,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 5 -->
                                 <div class="tab-pane" role="tabpanel" id="step5">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', '');?><strong><?php echo ' ' . $values['cod_contador']; ?></strong></h4>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12" >
                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                     </div>
@@ -367,6 +392,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 6 -->
                                 <div class="tab-pane" role="tabpanel" id="step6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', '');?><strong><?php echo ' ' . $values['cod_contador']; ?></strong></h4>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
@@ -395,6 +425,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', '');?><strong><?php echo ' ' . $values['cod_contador']; ?></strong></h4>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12" >
                                         <div class="all-info-container">
                                             <div class="list-content">
@@ -588,6 +623,11 @@ $CI->load->view('marcas/solicitudes/css.php');?>
                                 </div>
                                 <!-- Step 8 -->
                                 <div class="tab-pane" role="tabpanel" id="step8">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', '');?><strong><?php echo ' ' . $values['cod_contador']; ?></strong></h4>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docModal">Añadir Documento</button>
                                     </div>

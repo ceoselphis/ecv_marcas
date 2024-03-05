@@ -95,15 +95,15 @@
                                     <div class="row row-group">
                                         <!-- Código Expediente -->
                                         <div class="col-md-4 col-md-offset-0">
-                                            <label for="codigo_id">
+                                            <label for="cod_contador">
                                                 <?php echo ('Código Expediente'); ?>
                                             </label>
                                             <?php
                                             echo form_input([
-                                                'id' => 'codigo_id',
-                                                'name' => 'codigo_id',
+                                                'id' => 'cod_contador',
+                                                'name' => 'cod_contador',
                                                 'class' => 'form-control',
-                                                'value' => set_value('codigo_id', ''),
+                                                'value' => set_value('cod_contador', ''),
                                                 'placeholder' => 'Código Expediente'
                                             ]); ?>
                                         </div>
@@ -664,7 +664,7 @@
             'm.tipo_evento_id': $("select[name=tip_eve_id]").val()
         }; */
         var params = {
-            //'codigo_id': $("input[name=codigo_id]").val(), ESTE ES PARA EL CODIGO DE EXPEDIENTE
+            'cod_contador': $("input[name=cod_contador]").val(),
             'id_pais_solicitud': $("select[name=paisSol_id]").val(),
             'marca': $("input[name=marca]").val(),
             'id_cliente': $("select[name=client_id]").val(),
@@ -715,7 +715,7 @@
                     destroy: true,
                     data: table.data,
                     columns: [
-                        { data: 'id' },
+                        { data: 'cod_contador' },
                         { data: 'tipo' },
                         { data: 'propietario' },
                         { data: 'nombre' },

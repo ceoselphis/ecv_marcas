@@ -15,7 +15,7 @@ class MarcasSolicitudesController extends AdminController
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
         $CI->load->library('pagination');
-        $query = $CI->MarcasSolicitudes_model->findAll();
+        //$query = $CI->MarcasSolicitudes_model->findAll();
         $data = [
             'Boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
             'Oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(), 

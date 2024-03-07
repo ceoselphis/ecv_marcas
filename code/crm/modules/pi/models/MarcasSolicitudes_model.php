@@ -1002,4 +1002,23 @@ class MarcasSolicitudes_model extends BaseModel
         $values = $query->result_array();
         return $values[0]['cantidad']; 
     }
+
+
+    public function getInvoicesByMarca($marcaid = null)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_facturas');
+        $this->db->where('marcas_id = '.$marcaid);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function getInvoice($id = null)
+    {
+        $this->db->select("*");
+        $this->db->from('tblinvoices');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

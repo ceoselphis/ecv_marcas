@@ -16,7 +16,9 @@ class PatentesSolicitudes_model extends BaseModel
 
     public function getTipoSolicitudes()
     {
-        $query = $this->db->get('tbl_patente_tipo_patente');
+        $this->db->select('*');
+        $this->db->from('tbl_patente_tipo_patente');
+        $query = $this->db->get();
         $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
@@ -25,6 +27,7 @@ class PatentesSolicitudes_model extends BaseModel
             array_push($values, $row['nombre']);
         }
         return array_combine($keys, $values);
+
     }
 
     public function getAllClients()

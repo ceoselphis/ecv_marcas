@@ -9,14 +9,12 @@ class SolicitudesController extends AdminController
     {
         parent::__construct();
     }
-
-    public function index($id = NULL)
+      
+    public function index()
     {
         $CI = &get_instance();
         $CI->load->model("PatentesSolicitudes_model");
-        return $CI->load->view('patente/solicitudes/index', [
-            'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
-        ]);
+        return $CI->load->view('patente/solicitudes/index');
     }
 
     /**
@@ -27,40 +25,16 @@ class SolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("PatentesSolicitudes_model");
-        $fields = $CI->PatentesSolicitudes_model->getFillableFields();
-        $inputs = array();
-        $labels = array();
-        foreach ($fields as $field) {
-            if ($field['type'] == 'INT') {
-                $inputs[] = array(
-                    'name' => $field['name'],
-                    'id'   => $field['name'],
-                    'type' => 'range',
-                    'class' => 'form-control'
-                );
-            } else {
-                $inputs[] = array(
-                    'name' => $field['name'],
-                    'id'   => $field['name'],
-                    'type' => 'text',
-                    'class' => 'form-control'
-                );
-            }
-        }
-        $labels = ['Id', 'Nombre del anexo'];
-        return $CI->load->view('patente/solicitudes/create', [
-            'fields' => $inputs,
-            'labels' => $labels,
-            'id' => $CI->PatentesSolicitudes_model->last_insert_id(),
+        $data = [
+            'id'            => $CI->PatentesSolicitudes_model->last_insert_id(),
             'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
-            'clientes' => $CI->PatentesSolicitudes_model->getAllClients(),
-            'oficinas' => $CI->PatentesSolicitudes_model->getAllOficinas(),
-            'responsable' => $CI->PatentesSolicitudes_model->getAllStaff(),
-            'pais_id' => $CI->PatentesSolicitudes_model->getAllPaises(),
-            'propietarios' => $CI->PatentesSolicitudes_model->getAllPropietarios(),
-            'inventores' => $CI->PatentesSolicitudes_model->getAllInventores(),
-            'estados_solicitudes' => $CI->PatentesSolicitudes_model->getAllEstadoExpediente(),
-        ]);
+            'clientes'      => $CI->PatentesSolicitudes_model->getAllClients(),
+            'oficinas'      => $CI->PatentesSolicitudes_model->getAllOficinas(),
+            'responsable'   => $CI->PatentesSolicitudes_model->getAllStaff(),
+            'pais_id'       => $CI->PatentesSolicitudes_model->getAllPaises(),
+            
+        ];
+        return $CI->load->view('patente/solicitudes/create', $data);
     }
 
     /**
@@ -71,7 +45,7 @@ class SolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("PatentesSolicitudes_model");
-        $CI->load->helper(['url', 'form']);
+        $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
         $data = $CI->input->post();
@@ -90,8 +64,9 @@ class SolicitudesController extends AdminController
             ],
         );
         $CI->form_validation->set_rules($config);
-
-        if ($CI->form_validation->run() == FALSE) {
+        
+        if($CI->form_validation->run() == FALSE)
+        {
             $fields = $CI->PatentesSolicitudes_model->getFillableFields();
             $inputs = array();
             $labels = array();
@@ -113,23 +88,14 @@ class SolicitudesController extends AdminController
                 }
             }
             $labels = ['Id', 'Nombre del anexo'];
-            return $CI->load->view('patente/solicitudes/create', [
-                'fields' => $inputs,
-                'labels' => $labels,
-                'id' => $CI->PatentesSolicitudes_model->last_insert_id(),
-                'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
-                'clientes' => $CI->PatentesSolicitudes_model->getAllClients(),
-                'oficinas' => $CI->PatentesSolicitudes_model->getAllOficinas(),
-                'responsable' => $CI->PatentesSolicitudes_model->getAllStaff(),
-                'pais_id' => $CI->PatentesSolicitudes_model->getAllPaises(),
-                'propietarios' => $CI->PatentesSolicitudes_model->getAllPropietarios(),
-                'inventores' => $CI->PatentesSolicitudes_model->getAllInventores(),
-                'estados_solicitudes' => $CI->PatentesSolicitudes_model->getAllEstadoExpediente(),
-            ]);
-        } else {
+            return $CI->load->view('patente/solicitudes/create', ['fields' => $inputs, 'labels' => $labels]);
+        }
+        else
+        {
             //we sent the data to the model
             $query = $CI->PatentesSolicitudes_model->insert($data);
-            if (isset($query)) {
+            if(isset($query))
+            {
                 return redirect(admin_url('pi/patentes/SolicitudesController/'));
             }
         }
@@ -153,23 +119,13 @@ class SolicitudesController extends AdminController
         $CI->load->model("PatentesSolicitudes_model");
         $CI->load->helper('url');
         $query = $CI->PatentesSolicitudes_model->find($id);
-        if (isset($query)) {
+        if(isset($query))
+        {
             $labels = array('Id', 'Nombre del anexo');
-            return $CI->load->view('patente/solicitudes/edit', [
-                'labels' => $labels, 
-                'values' => $query, 
-                'id' => $id,
-                'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
-                'clientes' => $CI->PatentesSolicitudes_model->getAllClients(),
-                'oficinas' => $CI->PatentesSolicitudes_model->getAllOficinas(),
-                'responsable' => $CI->PatentesSolicitudes_model->getAllStaff(),
-                'pais_id' => $CI->PatentesSolicitudes_model->getAllPaises(),
-                'propietarios' => $CI->PatentesSolicitudes_model->getAllPropietarios(),
-                'inventores' => $CI->PatentesSolicitudes_model->getAllInventores(),
-                'estados_solicitudes' => $CI->PatentesSolicitudes_model->getAllEstadoExpediente(),
-            ]);
-        } else {
-            return redirect('pi/patentes/SolicitudesController/');
+            return $CI->load->view('patente/solicitudes/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
+        }
+        else{
+            return redirect('pi/patentes/SolicitudesController');
         }
     }
 
@@ -207,8 +163,9 @@ class SolicitudesController extends AdminController
         } else {
             //We prepare the data 
             $query = $CI->PatentesSolicitudes_model->update($id, $data);
-            if (isset($query)) {
-                return redirect('pi/patentes/SolicitudesController/');
+            if (isset($query))
+            {
+                return redirect('pi/patentes/SolicitudesController');
             }
         }
     }
@@ -223,6 +180,8 @@ class SolicitudesController extends AdminController
         $CI->load->model("PatentesSolicitudes_model");
         $CI->load->helper('url');
         $query = $CI->PatentesSolicitudes_model->delete($id);
-        return redirect('pi/patentes/SolicitudesController/');
+        return redirect('pi/patentes/SolicitudesController');
+        
+        
     }
 }

@@ -26,7 +26,6 @@
         expensePreviewDropzone, taskTrackingChart, cfh_popover_templates = {},
         _table_api;
     </script>
-     
     <?php app_admin_head(); ?>
 </head>
 

@@ -14,9 +14,15 @@ class PropietariosController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("Propietarios_model");
+        $CI->load->library('pagination');
         $data = array();
+        $data = [
+            //'propiertarios'             => $CI->Propietarios_model->findAllPropietarios(),
+            'pais'              => $CI->Propietarios_model->findAllPaises(), 
+            //'num_poder'              => $CI->Propietarios_model->findAllPoderes2(),
+        ];
         
-        foreach($CI->Propietarios_model->findAll() as $row)
+        /* foreach($CI->Propietarios_model->findAll() as $row)
         {
             $data[] = array(
                 'id' => $row['id'],
@@ -29,9 +35,92 @@ class PropietariosController extends AdminController
                 'fecha_modificacion' => $row['modified_at'],
                 'modificado_por' => $CI->Propietarios_model->findStaff($row['modified_by'])
             );
-        }
+        } */
         return $CI->load->view('propietarios/index', ["propietarios" => $data]);
     }
+
+    public function filterSearch()
+    {
+        $CI = &get_instance();
+        $CI->load->model('Propietarios_model');
+        $form = json_decode($CI->input->post('data'), TRUE);
+        $result = array();
+        $query = array();
+        $url_delete = admin_url('pi/PropietariosController/destroy/');
+        $url_edit = admin_url('pi/PropietariosController/edit/');
+        foreach($form as $key => $value)
+        {
+            if($value === '')
+            {
+                unset($form[$key]);
+            }
+        }
+        if(empty($form))
+        {
+            $query = $CI->Propietarios_model->findAll();
+            if(!empty($query))
+            {
+                foreach($query as $row){
+
+                    $result[] = array(
+                        /* 'id' => $row['id'], */
+                        'codigo' => $row['codigo'],
+                        'nombre' => $row['nombre_propietario'],
+                        'pais'   => $CI->Propietarios_model->searchPaises($row['pais_id']),
+                        'poder_num' => $CI->Propietarios_model->searchAllPoderes($row['id']),
+                        'fecha_creacion' => $row['created_at'],
+                        'creado_por' => $CI->Propietarios_model->searchStaff($row['created_by']),
+                        'fecha_modificacion' => $row['modified_at'],
+                        'modificado_por' => $CI->Propietarios_model->searchStaff($row['modified_by']),
+                        'acciones' => "<div class=\"container\"><div class=\"row\">
+                        <div class=\"col-xs-6\"><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></div>
+                        <div class=\"col-xs-6\"><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
+                        <button type='submit' class='btn btn-danger'><i class='fas fa-trash'></i>Borrar</button>
+                        </form></div></div></div>",
+                    );
+                }
+                echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   
+            }
+            else
+            {
+                echo json_encode(['code' => 404, 'message' => 'not found']);
+            } 
+        }
+        else{
+            $query = $CI->Propietarios_model->searchWhere($form);
+            if(!empty($query))
+            {
+                foreach($query as $row)
+                {
+                    $result[] = [
+                        /* 'id' => $row['id'], */
+                        'codigo' => $row['codigo'],
+                        'nombre' => $row['nombre_propietario'],
+                        'pais'   => $row['nombre'],
+                        'poder_num' => $row['numero'],
+                        'fecha_creacion' => $row['created_at'],
+                        'creado_por' => $row['firstname_created'].' '.$row['lastname_created'],
+                        'fecha_modificacion' => $row['modified_at'],
+                        'modificado_por' => $row['firstname_modif'].' '.$row['lastname_modif'],
+                        'acciones' => "<table><tr>
+                        <td><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></td>
+                        <td><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
+                        <button type='submit' class='btn btn-danger'><i class='fas fa-trash'></i>Borrar</button>
+                        </form></td></tr></table>",
+                    ];
+                }
+                echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   
+            }
+            else{
+                echo json_encode(['code' => 404, 'message' => 'not found']);
+            }
+        }
+    }
+
+    public function search()
+     {
+
+     }
 
     public function showPropietarios(){
         $CI = &get_instance();

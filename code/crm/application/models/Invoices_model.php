@@ -1877,4 +1877,14 @@ class Invoices_model extends App_Model
             'active' => 1, 'invoice_emails' => 1,
         ]);
     }
+
+
+    public function insertMarcaFactura($marca_id, $invoiceId, $staffid)
+    {
+        $this->db->insert('tbl_marcas_facturas', [
+            "marcas_id" => $marca_id,
+            "facturas_id" => $invoiceId,
+            "staff_id" => $staffid
+        ]);
+    }
 }

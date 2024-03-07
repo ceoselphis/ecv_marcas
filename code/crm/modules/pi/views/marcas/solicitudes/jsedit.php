@@ -3644,7 +3644,7 @@
     </script>
 
     <script>
-        TablaClases();
+        ///TablaClases();
         function TablaClases()
         {
             $.ajax({
@@ -3769,5 +3769,36 @@
         $(document).on('ready', function(e){
             e.stopImmediatePropagation();
             TablaClases();
+            tablaFacturas();
         })
+    </script>
+
+    <script>
+        function tablaFacturas()
+        {
+            $.ajax({
+                url:"<?php echo admin_url("pi/MarcasSolicitudesController/getInvoicesByMarca/{$id}");?>",
+                method:"GET",
+                success: function(response){
+                    res = JSON.parse(response);
+                    $('#tblInvoices').DataTable( {
+                        destroy: true,
+                        data: res.data,
+                        columns: [
+                            { data: 'factura' },
+                            { data: 'fecha' },
+                            { data: 'estatus'},
+                            { data: 'acciones' }
+                        ],
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                        }
+                    } );
+                }
+            })
+        }
+    </script>
+
+    <script>
+        $("select[name=invoice]").select
     </script>

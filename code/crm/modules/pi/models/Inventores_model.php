@@ -5,7 +5,7 @@ require __DIR__ . '/BaseModel.php';
 
 class Inventores_model extends BaseModel
 {
-    protected $primaryKey = 'id_inventor';
+    protected $primaryKey = 'id';
     protected $tableName =  'tbl_patentes_inventores';
     protected $DBgroup = 'default';
     

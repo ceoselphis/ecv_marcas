@@ -28,6 +28,54 @@ class Propietarios_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function findAllPropietarios()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_propietarios');
+        $this->db->order_by("nombre_propietario", 'ASC');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre_propietario']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllPaises()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $this->db->order_by("nombre", 'ASC');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllPoderes2($propietario_id = NULL)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_poderes');
+        $this->db->order_by("numero", 'ASC');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['numero']);
+        }
+        return array_combine($keys, $values);
+    }
+
     public function findPaises($id = null)
     {
         $this->db->select('*');
@@ -162,6 +210,47 @@ class Propietarios_model extends BaseModel
         $query = $this->db->update_batch('tbl_poderes', $data);
         return $query;
     }
+    public function searchWhere($params): array{
+        $this->db->select('a.id, a.codigo, a.nombre_propietario, c.nombre, b.numero, a.created_at, d.firstname as firstname_created, d.lastname as lastname_created, a.modified_at, e.firstname as firstname_modif, e.lastname as lastname_modif');
+        $this->db->from('tbl_propietarios a');
+        $this->db->join('tbl_poderes b', 'a.id = b.propietario_id', 'left outer');
+        $this->db->join('tbl_paises c', 'a.pais_id = c.id', 'left outer');
+        $this->db->join('tblstaff d', 'a.created_by = d.staffid', 'left outer');
+        $this->db->join('tblstaff e', 'a.created_by = e.staffid', 'left outer');
 
+        foreach($params as $key => $value)
+        {
+            switch ($key) {
+                case 'a.codigo':
+                case 'a.nombre_propietario':
+                case 'b.numero':
+                    $this->db->like($key,$value);
+                    break;
+                case 'fecha_desde':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('a.created_at >=', $data);
+                    break;
+                case 'fecha_hasta':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('a.created_at <=', $data);
+                    break;
+                default:
+                    $this->db->where($key, $value);
+            }
+        }
+        $this->db->order_by("a.nombre_propietario", 'ASC');
+        $result = $this->db->get();
+        if($result->num_rows() > 0)
+        {
+            return $result->result_array();
+        }
+        else
+        {
+            return [];
+        }
+
+    }
 
 }

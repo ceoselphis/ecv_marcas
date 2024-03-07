@@ -2,7 +2,5 @@
     "cSpell.language": "es-ES,es",
     "cSpell.enableFiletypes": [
         "!php"
-    ],
-    "intelephense.environment.documentRoot": "/",
-    "intelephense.environment.phpVersion": "7.4"
+    ]
 }

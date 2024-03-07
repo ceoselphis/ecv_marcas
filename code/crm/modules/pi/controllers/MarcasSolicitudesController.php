@@ -717,4 +717,10 @@ class MarcasSolicitudesController extends AdminController
 
     }
 
+    public function marcasInvoice($marcas_id = null)
+    {
+        $CI = &get_instance();
+        return is_null($marcas_id) ? null : redirect(admin_url("invoices/invoice?marca_id={$marcas_id}"));
+    }
+
 }

@@ -292,9 +292,11 @@ class Invoices extends AdminController
 
     /* Add new invoice or update existing */
     public function invoice($id = '')
-    {
+    {   
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
+            $marca_id = $invoice_data['marcaid'];
+            unset($invoice_data['marcaid']);
             if ($id == '') {
                 if (!has_permission('invoices', '', 'create')) {
                     access_denied('invoices');
@@ -316,6 +318,11 @@ class Invoices extends AdminController
                 $id = $this->invoices_model->add($invoice_data);
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('invoice')));
+                    /*We add the new invoice in the table */
+                    if(!empty($marca_id))
+                    {
+                        $this->invoices_model->insertMarcaFactura($marca_id, $id, $_SESSION['staffid']);
+                    }
                     $redUrl = admin_url('invoices/list_invoices/' . $id);
 
                     if (isset($invoice_data['save_and_record_payment'])) {

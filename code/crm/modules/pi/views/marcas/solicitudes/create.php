@@ -36,10 +36,10 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         <a href="#step7" data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Anexos</i></a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab" style="background-color:#4BB543; color: white; border-color: white">8</span> <i style="color:#4BB543"> Documentos</i></a>
+                                        <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">8</span> <i> Documentos</i></a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#step9" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab" style="background-color:#4BB543; color: white; border-color: white">8</span> <i style="color:#4BB543"> Facturas</i></a>
+                                        <a href="#step9" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">8</span> <i> Facturas</i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -78,7 +78,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step2">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' ; ?></strong></h4>
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -243,7 +243,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' ;?></strong></h4>
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -366,7 +366,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step5">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' ; ?></strong></h4>
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -628,7 +628,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step8">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' ; ?></strong></h4>
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -658,6 +658,24 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 </div>
                                 <!-- Step 9 -->
                                 <div class="tab-pane" role="tabpanel" id="step9">
+                                    <div class="row">
+                                        <a class="btn btn-primary" href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/". $id);?>"><i class="fas fa-plus"></i> Añadir nueva factura</a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" style="padding-top: 1.5%;">
+                                            <table class="ultimate table table-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Factura</th>
+                                                        <th>Fecha</th>
+                                                        <th>Estado</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblInvoices">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
 
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>

@@ -126,26 +126,22 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         ]); ?>
                                     </div>
                                     <!-- Clase niza -->
-                                    <div class='col-md-12' style="padding: 2%;">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases <i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="clase_marcas">
-                                                    <div class="list-box">
-                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
-                                                        <table class="ultimate table table-responsive " id="claseTbl">
-                                                            <thead>
-                                                                <tr>
-                                                                    <td>Clase</td>
-                                                                    <td>Descripcion</td>
-                                                                    <td>Acciones</td>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
+                                    <div class="all-info-container">
+                                        <div class="list-content">
+                                            <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases <i class="fa fa-chevron-down"></i></a>
+                                            <div class="collapse" id="clase_marcas">
+                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
+                                                <table class="ultimate table table-responsive" id="claseTbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>Clase</td>
+                                                            <td>Descripcion</td>
+                                                            <td>Acciones</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -659,22 +655,22 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <!-- Step 9 -->
                                 <div class="tab-pane" role="tabpanel" id="step9">
                                     <div class="row">
-                                        <a class="btn btn-primary" href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/". $id);?>"><i class="fas fa-plus"></i> Añadir nueva factura</a>
+                                        <a class="btn btn-primary" href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/" . $id); ?>"><i class="fas fa-plus"></i> Añadir nueva factura</a>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#facturaModal"><i class="fas fa-plus"></i> Añadir factura existente</button>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12" style="padding-top: 1.5%;">
-                                            <table class="ultimate table table-responsive">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Factura</th>
-                                                        <th>Fecha</th>
-                                                        <th>Estado</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tblInvoices">
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div class="col-md-12" style="padding-top: 1.5%;">
+                                        <table class="ultimate table table-responsive" id="tblInvoices">
+                                            <thead>
+                                                <tr>
+                                                    <th>Factura</th>
+                                                    <th>Fecha</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
                                     </div>
 
                                     <ul class="list-inline pull-right">

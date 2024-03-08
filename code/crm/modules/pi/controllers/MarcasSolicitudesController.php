@@ -110,6 +110,7 @@ class MarcasSolicitudesController extends AdminController
             'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
             'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
             'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
+            'invoices'              => $CI->MarcasSolicitues_model->findAllInvoices(),
 
         ]);
     }

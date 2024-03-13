@@ -1,4 +1,6 @@
-<?php init_head();?>
+<?php 
+$CI = &get_instance();
+init_head();?>
 
 <div id="wrapper">
     <div class="content">

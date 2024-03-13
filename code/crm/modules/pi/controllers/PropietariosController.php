@@ -72,11 +72,11 @@ class PropietariosController extends AdminController
                         'creado_por' => $CI->Propietarios_model->searchStaff($row['created_by']),
                         'fecha_modificacion' => $row['modified_at'],
                         'modificado_por' => $CI->Propietarios_model->searchStaff($row['modified_by']),
-                        'acciones' => "<div class=\"container\"><div class=\"row\">
+                        'acciones' => "<div class=\"row row-group\">
                         <div class=\"col-xs-6\"><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></div>
                         <div class=\"col-xs-6\"><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
-                        <button type='submit' class='btn btn-danger'><i class='fas fa-trash'></i>Borrar</button>
-                        </form></div></div></div>",
+                        <button type='submit' class='btn btn-danger col-mrg'><i class='fas fa-trash'></i>Borrar</button>
+                        </form></div></div>",
                     );
                 }
                 echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   
@@ -102,11 +102,11 @@ class PropietariosController extends AdminController
                         'creado_por' => $row['firstname_created'].' '.$row['lastname_created'],
                         'fecha_modificacion' => $row['modified_at'],
                         'modificado_por' => $row['firstname_modif'].' '.$row['lastname_modif'],
-                        'acciones' => "<table><tr>
-                        <td><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></td>
-                        <td><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
-                        <button type='submit' class='btn btn-danger'><i class='fas fa-trash'></i>Borrar</button>
-                        </form></td></tr></table>",
+                        'acciones' => "<div class=\"row row-group\">
+                        <div class=\"col-md-6\"><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></div>
+                        <div class=\"col-md-6\"><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
+                        <button type='submit' class='btn btn-danger col-mrg'><i class='fas fa-trash'></i>Borrar</button>
+                        </form></div></div>",
                     ];
                 }
                 echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   

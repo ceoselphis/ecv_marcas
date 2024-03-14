@@ -561,7 +561,7 @@
             </div>
             <div class="modal-footer" style="padding-top: 1.5%;">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="reset" class="btn btn-gray">Limpiar</button>
+                <button id="limpiar"  type="button" class="btn btn-gray">Limpiar</button>
                 <button id="filterSubmit" type="button" class="btn btn-primary" data-dismiss="modal">Buscar</button>
             </div>
         </div>
@@ -648,6 +648,27 @@
         liveSearch: true,
         virtualScroll: 600
     });
+
+    $("#limpiar").on('click', function (event) {
+        // recorrer todos los campos
+        $(':input', '#filter').each(function() {
+            var type = this.type;
+            var tag = this.tagName.toLowerCase();
+            //limpiar los valores de los campos
+            if (type == 'text' || type == 'password' || tag == 'textarea')
+                this.value = '';
+            // los checkboxes y radios, le quitamos el checked
+            else if (type == 'checkbox' || type == 'radio')
+                this.checked = false;
+            // los select quedan con indice -
+            else if (tag == 'select'){
+                this.selectedIndex = 0;
+                $('select').selectpicker('refresh'); 
+            }
+        });
+    });
+
+
     $("#filterSubmit").on('click', function (event) {
         event.preventDefault();
         /* var params = {

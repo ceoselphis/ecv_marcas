@@ -231,7 +231,7 @@ function pi_menu_item_collapsible()
     $CI->app_menu->add_sidebar_children_item('56', [
         'slug'     => 'copyright-solicitudes', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Solicitudes', // The name if the item
-        'href'     => admin_url('pi/copyright/SolicitudesController'), // URL of the item
+        'href'     => admin_url('pi/AutoresSolicitudController'), // URL of the item
         'position' => 12, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
@@ -239,7 +239,7 @@ function pi_menu_item_collapsible()
     $CI->app_menu->add_sidebar_children_item('56', [
         'slug'     => 'copyright-autores', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Autores', // The name if the item
-        'href'     => admin_url('pi/copyright/AutoresController'), // URL of the item
+        'href'     => admin_url('pi/AutoresController'), // URL of the item
         'position' => 12, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);

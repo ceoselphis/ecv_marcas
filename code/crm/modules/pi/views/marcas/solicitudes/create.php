@@ -688,6 +688,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
     </div>
 </div>
 
+
 <?php $CI->load->view('marcas/solicitudes/modal.php'); ?>
 
 <?php init_tail(); ?>

@@ -1021,4 +1021,19 @@ class MarcasSolicitudes_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function findAllInvoices()
+    {
+        $this->db->select("a.id, CONCAT(a.prefix, '-', a.number) as name");
+        $this->db->from("tblinvoices a");
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['name']);
+        }
+        return array_combine($keys, $values); 
+    }
 }

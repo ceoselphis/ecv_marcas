@@ -2665,7 +2665,9 @@
         <div class="row">
           <div class="col-md-12">
             <select class="form-control" name="invoiceID">
-              <?php echo $invoices;?>
+              <?php foreach($invoices as $key => $value){ ?>
+                <option value="<?php echo $key;?>"><?php echo $value;?></option>
+                <?}?>
             </select>
           </div>
 

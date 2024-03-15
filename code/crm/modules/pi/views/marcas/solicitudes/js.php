@@ -160,7 +160,6 @@
                                 </tr>
                             `
 
-
             });
             $('#body_cesion').html(body);
         })
@@ -1145,7 +1144,7 @@
                 'csrf_token_name': $("input[name=csrf_token_name]").val(),
                 'clase_id': clase_id,
                 'clase_descripcion': clase_descripcion,
-                'marcas_id': "<?php echo $id; ?>"
+                'marcas_id': $("input[name=id]").val()
             },
             success: function(response) {
                 $("#claseNizaFrm")[0].reset();
@@ -1289,7 +1288,7 @@
             'pais_prioridad': $("select[name=pais_prioridad").val(),
             'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
             'nro_prioridad': $("input[name=nro_prioridad").val(),
-            'solicitud_id': $("input[name=solicitud_id").val(),
+            'solicitud_id': $("input[name=id]").val(),
         }
         $.ajax({
             url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad"); ?>',
@@ -1554,4 +1553,27 @@
             }
         })
     })
+</script>
+
+<script>
+    $(document).on('click', "#invoiceMarcaSubmit" ,function(){
+        e.preventDefault()
+        let data = {
+            "invoiceID": $("select[name=invoiceID]").val(),
+            "marcaID"  : $("input[name=id]").val()
+        }
+        $.ajax({
+            url:"<?php echo admin_url("pi/MarcasSolicitudesController/addInvoice");?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                "data"           : JSON.stringify(data)
+            },
+            success: function(response)
+            {
+                $("facturaModal").modal('hide');
+                alert_float('success', "Factura asignada exitosamente");
+            }
+        })
+    });
 </script>

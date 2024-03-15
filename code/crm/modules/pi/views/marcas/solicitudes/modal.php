@@ -2652,7 +2652,7 @@
 
 <!-- Añadir factura existente -->
 <div class="modal fade" id="facturaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <?php echo form_open('', ['name' => "invoiceMarcaFrm"]); ?>
+  <?php echo form_open('', ['name' => "invoiceMarcaFrm", 'id' => "invoiceMarcaFrm"]); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">

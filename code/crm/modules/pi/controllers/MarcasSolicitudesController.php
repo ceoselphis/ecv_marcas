@@ -174,6 +174,8 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         // Preparamos la data
         $form = $CI->input->post();
+        print_r($form);
+        die();
         /*Inicializamos los arreglos*/
         $solicitud = array();
         $paisSol = array();

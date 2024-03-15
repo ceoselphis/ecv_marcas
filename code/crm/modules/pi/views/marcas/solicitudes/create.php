@@ -49,7 +49,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?></h4>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -78,7 +78,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step2">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -155,7 +155,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step3">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' ' ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -170,16 +170,12 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                     </div>
                                     <div class="col-md-4">
                                         <?php echo form_label('Referencia interna', 'ref_interna'); ?>
-                                        <?php echo form_input('ref_interna', set_value('ref_interna'), ['class' => 'form-control']) ?>
+                                        <?php echo form_input('ref_interna', set_value('ref_interna', "M-{$id}"), ['class' => 'form-control']) ?>
                                     </div>
                                     <div class="col-md-4">
                                         <?php echo form_label('Referencia cliente', 'ref_cliente'); ?>
                                         <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control']) ?>
                                     </div>
-                                    <!--<div class="col-md-4">
-                                        <php echo form_label('Fecha de Primer Uso','primer_uso');?>
-                                        <php echo form_input('primer_uso', set_value('primer_uso', $values['primer_uso']), ['class' => 'form-control calendar'])?>
-                                    </div>-->
                                     <div class="col-md-4">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso'); ?>
                                         <?php echo form_input('prueba_uso', set_value('prueba_uso'), ['class' => 'form-control calendar']) ?>
@@ -239,7 +235,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -362,7 +358,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step5">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -393,7 +389,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step6">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' ' ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -426,7 +422,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step7">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -624,7 +620,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step8">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -710,10 +706,3 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
         }
     });
 </script>
-<!-- <script>
-    new DataTable(".anexo", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
-</script> -->

@@ -72,7 +72,6 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-
                     <div role="tabpanel">
                         <ul class="nav nav-tabs">
                             <li role="presentation" class="active">

@@ -197,7 +197,7 @@ function pi_menu_item_collapsible()
     $CI->app_menu->add_sidebar_children_item('54', [
         'slug'     => 'solicitudes-patentes', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Solicitudes de patentes', // The name if the item
-        'href'     => admin_url('pi/patentes/SolicitudesController'), // URL of the item
+        'href'     => admin_url('pi/patentes/SolicitudesController/create'), // URL of the item
         'position' => 12, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);

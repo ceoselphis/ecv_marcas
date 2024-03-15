@@ -17,7 +17,7 @@ class PatentesSolicitudes_model extends BaseModel
     public function getTipoSolicitudes()
     {
         $this->db->select('*');
-        $this->db->from('tbl_patente_tipo_patente');
+        $this->db->from('tbl_patentes_tipos');
         $query = $this->db->get();
         $keys = array();
         $values = array();
@@ -67,21 +67,6 @@ class PatentesSolicitudes_model extends BaseModel
         {
             array_push($keys, $row['staffid']);
             array_push($values, $row['firstname'].' '.$row['lastname']);
-        }
-        return array_combine($keys, $values);
-    }
-
-    public function getAllMarcas()
-    {
-        $this->db->select('id, ref_interna, signonom');
-        $this->db->from('tbl_marcas_solicitudes');
-        $query = $this->db->get();
-        $keys = array();
-        $values = array();
-        foreach($query->result_array() as $row)
-        {
-            array_push($keys, $row['id']);
-            array_push($values, $row['ref_interna'].' - '.$row['signonom']);
         }
         return array_combine($keys, $values);
     }

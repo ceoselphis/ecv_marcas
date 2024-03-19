@@ -27,8 +27,8 @@
     // ---------------------------------- Mostrar Anexo -----------------------------------------------
     // Cambio Domicilio------------------------------------------------------
     function CambioDomicilio() {
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCambioDomicilio/"); ?>';
+        let eliminar = '<?php echo admin_url("pi/patentes/SolicitudesController/destroy/"); ?>';
         let body = ``;
         $.get(url, function(response) {
             let listadomicilio = JSON.parse(response);
@@ -54,8 +54,8 @@
     }
     // Cambio de Nombre
     function CambioNombre() {
-        let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/CambioNombreController/destroy/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCambioNombre/"); ?>';
+        let eliminar = '<?php echo admin_url("pi/patentes/SolicitudesController/destroy/"); ?>';
         let body = ``;
         $.get(url, function(response) {
             let listadomicilio = JSON.parse(response);
@@ -81,8 +81,8 @@
 
     // Fusion
     function Fusion() {
-        let url = '<?php echo admin_url("pi/FusionController/showFusion/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/FusionController/destroy/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showFusion/"); ?>';
+        let eliminar = '<?php echo admin_url("pi/patentes/SolicitudesController/destroy/"); ?>';
         let body = ``;
         $.get(url, function(response) {
             let listadomicilio = JSON.parse(response);
@@ -109,8 +109,8 @@
 
     // Licencia
     function Licencia() {
-        let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/LicenciaController/destroy/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showLicencia/"); ?>';
+        let eliminar = '<?php echo admin_url("pi/patentes/SolicitudesController/destroy/"); ?>';
         let body = ``;
         $.get(url, function(response) {
             let listadomicilio = JSON.parse(response);
@@ -137,8 +137,8 @@
     }
     // Cesion
     function Cesion() {
-        let url = '<?php echo admin_url("pi/CesionController/showCesion/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/CesionController/destroy/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCesion/"); ?>';
+        let eliminar = '<?php echo admin_url("pi/patentes/SolicitudesController/destroy/"); ?>';
         let body = ``;
         $.get(url, function(response) {
             let listadomicilio = JSON.parse(response);
@@ -159,6 +159,7 @@
                                     
                                 </tr>
                             `
+
 
             });
             $('#body_cesion').html(body);
@@ -187,7 +188,37 @@
             `;
         $('#anexohead').html(template);
         $('#anexobody').html(``);
-        
+        // let url = '<?php //echo admin_url("pi/patentes/SolicitudesController/showCesion/");
+                        ?>';
+        // let eliminar = '<?php //echo admin_url("pi/patentes/SolicitudesController/destroy/");
+                            ?>';
+        //     $.get(url, function(response){
+        //         let listadomicilio = JSON.parse(response);
+        //         listadomicilio.forEach(item => {
+        //             eliminar = eliminar+item.id;
+        //             let body = `<tr Licenciaid = "${item.id}"> 
+        //                         <td class="text-center">${item.id}</td>
+        //                         <td class="text-center">${item.cliente}</td>
+        //                         <td class="text-center">${item.oficina}</td>
+        //                         <td class="text-center">${item.staff}</td>
+        //                         <td class="text-center">${item.estado}</td>
+        //                         <td class="text-center">${item.num_solicitud}</td>
+        //                         <td class="text-center">${item.fecha_solicitud}</td>
+        //                         <td class="text-center">${item.num_resolucion}</td>
+        //                         <td class="text-center">${item.fecha_solicitud}</td>
+        //                         <td class="text-center">${item.referencia_cliente}</td>
+        //                         <td class="text-center">${item.comentarios}</td>
+        //                         <form method="DELETE" action="${eliminar}" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+        //                             <td class="text-center">
+        //                                 <a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+        //                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+        //                             </td>
+        //                         </form> 
+        //                     </tr>
+        //                 `
+        //             $('#anexobody').html(body);     
+        //         });
+        //     })
     })
 
     //----------------------------------- Funciones de la Informacion que Trae desde la Base de Datos -----------------------------------------------
@@ -195,7 +226,7 @@
     $(document).on('click', '.editdoc', function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('docid');
-        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/EditDoc/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/EditDoc/"); ?>';
         url = url + id;
         $.post(url, {
             id
@@ -211,7 +242,7 @@
     /*$(document).on('click','.edit',function(){
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskId');
-        let url = '<?php echo admin_url("pi/TareasController/EditTareas/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/EditTareas/"); ?>';
         url = url + id;
         $.post(url,{id},function(response){
         let tareas =JSON.parse(response);
@@ -225,7 +256,7 @@
     $(document).on('click', '.editeventos', function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('eventosid');
-        let url = '<?php echo admin_url("pi/EventosController/EditEventos/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/EditEventos/"); ?>';
         url = url + id;
         $.post(url, {
             id
@@ -241,7 +272,7 @@
     $(document).on('click', '.EditCesion', function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('cesionid');
-        let url = '<?php echo admin_url("pi/CesionController/EditCesion/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/EditCesion/"); ?>';
         url = url + id;
         $.post(url, {
             id
@@ -265,7 +296,7 @@
     $(document).on('click', '.EditLicencia', function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('licenciaid');
-        let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/EditLicencia/"); ?>';
         url = url + id;
         $.post(url, {
             id
@@ -290,7 +321,7 @@
     $(document).on('click', '.editFusion', function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('fusionid');
-        let url = '<?php echo admin_url("pi/FusionController/EditFusion/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/EditFusion/"); ?>';
         url = url + id;
         $.post(url, {
             id
@@ -313,7 +344,7 @@
     $(document).on('click', '.editCamNom', function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('CamNomid');
-        let url = '<?php echo admin_url("pi/CambioNombreController/EditCambioNombre/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/EditCambioNombre/"); ?>';
         url = url + id;
         $.post(url, {
             id
@@ -335,7 +366,7 @@
     $(document).on('click', '.editCamDom', function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('CamDomid');
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/EditCambioDomicilio/"); ?>';
         url = url + id;
         $.post(url, {
             id
@@ -379,7 +410,7 @@
         formData.append('doc_descripcion', description);
         formData.append('comentario_archivo', comentario_archivo);
         formData.append('doc_archivo', doc_archivo);
-        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/addSolicitudDocumento"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -410,7 +441,7 @@
         formData.append('comentario_archivo', comentario_archivo);
         formData.append('doc_archivo', doc_archivo);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/UpdateDocumento/"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/UpdateDocumento/"); ?>'
         url = url + id;
         $.ajax({
             url,
@@ -453,7 +484,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/CesionController/addCesion"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/addCesion"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -497,7 +528,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/CesionController/UpdateCesion/"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/UpdateCesion/"); ?>'
         url = url + id;
         $.ajax({
             url,
@@ -541,7 +572,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/LicenciaController/addLicencia"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/addLicencia"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -586,7 +617,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/LicenciaController/UpdateLicencia/"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/UpdateLicencia/"); ?>'
         url = url + id;
         $.ajax({
             url,
@@ -628,7 +659,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/FusionController/addFusion"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/addFusion"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -669,7 +700,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/FusionController/UpdateFusion/"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/UpdateFusion/"); ?>'
         url = url + id;
         $.ajax({
             url,
@@ -708,7 +739,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/CambioNombreController/addCambioNombre"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/addCambioNombre"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -749,7 +780,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/CambioNombreController/UpdateCambioNombre/"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/UpdateCambioNombre/"); ?>'
         url = url + id;
         $.ajax({
             url,
@@ -791,7 +822,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilio"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/addCambioDomicilio"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -834,7 +865,7 @@
         formData.append('referenciacliente', referenciacliente);
         formData.append('comentario', comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/UpdateCambioDomicilio/"); ?>'
         url = url + id;
         $.ajax({
             url,
@@ -862,7 +893,7 @@
         formData.append('csrf_token_name', csrf_token_name);
         formData.append('tipo_evento', tipo_evento);
         formData.append('evento_comentario', evento_comentario);
-        let url = '<?php echo admin_url("pi/EventosController/addEvento"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/addEvento"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -890,7 +921,7 @@
         formData.append('tipo_evento', tipo_evento);
         formData.append('comentarios', comentarios);
         formData.append('id', id);
-        let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/"); ?>'
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/UpdateEventos/"); ?>'
         url = url + id;
         $.ajax({
             url,
@@ -957,9 +988,6 @@
         virtualScroll: 600
     });
 </script>
-
-
-
 <script>
     function getFormData() {
         var config = {};
@@ -1007,13 +1035,13 @@
         formData.append('comentario_signo', $("input[name=comentario_signo]").val());
         formData.append('tipo_signo_id', $('select[name=tipo_signo_id]').val());
         $.ajax({
-            url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
+            url: '<?php echo admin_url('pi/patentes/SolicitudesController/store'); ?>',
             method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
             success: function(response) {
-                location.replace('<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
+                location.replace('<?php echo admin_url("pi/patentes/SolicitudesController/edit/{$id}"); ?>');
             },
             fail: function(request) {
                 <?php if (ENVIRONMENT != 'production') { ?>
@@ -1099,11 +1127,8 @@
         $(elem).prev().find('a[data-toggle="tab"]').click();
     }
 </script>
-
 <script>
 </script>
-
-
 <script>
     /***
      * funcion para obtener la descripcion de la clase
@@ -1138,13 +1163,13 @@
         var clase_id = $("select[name=clase_niza]").val();
         var clase_descripcion = $("input[name=clase_niza_descripcion]").val();
         $.ajax({
-            url: "<?php echo admin_url('pi/MarcasSolicitudesController/insertClases') ?>",
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/insertClases') ?>",
             method: "POST",
             data: {
                 'csrf_token_name': $("input[name=csrf_token_name]").val(),
                 'clase_id': clase_id,
                 'clase_descripcion': clase_descripcion,
-                'marcas_id': $("input[name=id]").val()
+                'marcas_id': "<?php echo $id; ?>"
             },
             success: function(response) {
                 $("#claseNizaFrm")[0].reset();
@@ -1154,7 +1179,6 @@
         });
     });
 </script>
-
 <script>
     $(document).on('click', '.editarClase', function(e) {
         e.preventDefault();
@@ -1197,7 +1221,6 @@
         TablaClases();
     });
 </script>
-
 <script>
     $(document).on('click', '.borrarClase', function(e) {
         e.preventDefault();
@@ -1215,11 +1238,10 @@
 
     })
 </script>
-
 <script>
     function TablaClases() {
         $.ajax({
-            url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/' . $id); ?>",
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/getClasesMarcas/' . $id); ?>",
             method: "POST",
             success: function(response) {
                 res = JSON.parse(response);
@@ -1246,11 +1268,10 @@
         });
     }
 </script>
-
 <script>
     function TablaPrioridad() {
         $.ajax({
-            url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/' . $id); ?>",
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/getAllPrioridades/' . $id); ?>",
             method: "GET",
             success: function(response) {
                 table = JSON.parse(response);
@@ -1280,7 +1301,6 @@
         })
     }
 </script>
-
 <script>
     $("#prioridadfrmsubmit").on('click', function(e) {
         e.preventDefault();
@@ -1288,10 +1308,10 @@
             'pais_prioridad': $("select[name=pais_prioridad").val(),
             'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
             'nro_prioridad': $("input[name=nro_prioridad").val(),
-            'solicitud_id': $("input[name=id]").val(),
+            'solicitud_id': $("input[name=solicitud_id").val(),
         }
         $.ajax({
-            url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad"); ?>',
+            url: '<?php echo admin_url("pi/patentes/SolicitudesController/addPrioridad"); ?>',
             method: 'POST',
             data: data,
             success: function(response) {
@@ -1302,14 +1322,13 @@
         });
     });
 </script>
-
 <script>
     $(document).on('click', '.borrarPrioridad', function(e) {
         e.preventDefault();
         var id = $(this).attr('id');
         if (confirm("¿Esta seguro de eliminar este registro?")) {
             $.ajax({
-                url: "<?php echo admin_url("pi/MarcasPrioridadController/destroy/"); ?>" + id,
+                url: "<?php echo admin_url("pi/patentes/SolicitudesController/destroy/"); ?>" + id,
                 method: "POST",
                 success: function(response) {
                     alert_float('success', 'Registro eliminado exitosamente');
@@ -1319,7 +1338,6 @@
         TablaPrioridad();
     });
 </script>
-
 <script>
     $(document).on('click', "#publicacionfrmsubmit", function(e) {
         e.preventDefault();
@@ -1332,7 +1350,7 @@
             "csrf_token_name": $("input[name=csrf_token_name]").val()
         }
         $.ajax({
-            url: "<?php echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/' . $id); ?>",
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/addPublicacionMarcas/' . $id); ?>",
             method: "POST",
             data: data,
             success: function(response) {
@@ -1343,11 +1361,10 @@
         TablaPublicacion();
     });
 </script>
-
 <script>
     function TablaPublicacion() {
         $.ajax({
-            url: "<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/' . $id); ?>",
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/getAllPublicacionesByMarca/' . $id); ?>",
             method: "POST",
             success: function(response) {
                 res = JSON.parse(response);
@@ -1381,14 +1398,13 @@
         })
     }
 </script>
-
 <script>
     $(document).on('click', '.editPublicacion', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         var id = $(this).attr('id');
         $.ajax({
-            url: "<?php echo admin_url('pi/PublicacionesMarcasController/getPublicaciones/'); ?>" + id,
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/getPublicaciones/'); ?>" + id,
             method: "POST",
             success: function(response) {
                 res = JSON.parse(response);
@@ -1404,7 +1420,6 @@
         TablaPublicacion();
     });
 </script>
-
 <script>
     $(document).on('click', '.deletePublicacion', function(e) {
         e.preventDefault();
@@ -1412,7 +1427,7 @@
         var id = $(this).attr('id');
         if (confirm("¿Desea eliminar este registro?")) {
             $.ajax({
-                url: "<?php admin_url('pi/PublicacionesMarcasController/updatePublicacionByMarca'); ?>",
+                url: "<?php admin_url('pi/patentes/SolicitudesController/updatePublicacionByMarca'); ?>",
                 method: "POST",
                 success: function(response) {
                     alert_float('success', 'Registro eliminado exitosamente');
@@ -1421,13 +1436,12 @@
         }
     });
 </script>
-
 <script>
     function mostrar_tarea() {
         event.preventDefault();
         event.stopImmediatePropagation();
         $.ajax({
-            url: "<?php admin_url('pi/TareasController/showTareas/' . $id); ?>",
+            url: "<?php admin_url('pi/patentes/SolicitudesController/showTareas/' . $id); ?>",
             method: "POST",
             data: {
                 'csrf_token_name': $("input[name=csrf_token_name]").val()
@@ -1464,7 +1478,6 @@
         })
     }
 </script>
-
 <script>
     $(document).on('click', '#tareasfrmsubmit', function(e) {
         e.preventDefault();
@@ -1477,7 +1490,7 @@
             "marcas_id": $("input[name=id]").val(),
         }
         $.ajax({
-            url: "<?php echo admin_url('pi/TareasController/addTaskToMarcasAndProject'); ?>",
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/addTaskToMarcasAndProject'); ?>",
             method: "POST",
             data: {
                 'csrf_token_name': $("input[name=csrf_token_name]").val(),
@@ -1487,7 +1500,7 @@
                 $("#addTask").modal('hide');
                 alert_float('success', "Tarea asignada exitosamente");
                 $.ajax({
-                    url: "<?php echo admin_url('pi/TareasController/showTareas/' . $id); ?>",
+                    url: "<?php echo admin_url('pi/patentes/SolicitudesController/showTareas/' . $id); ?>",
                     method: "POST",
                     data: {
                         'csrf_token_name': $("input[name=csrf_token_name]").val()
@@ -1526,7 +1539,6 @@
 
     })
 </script>
-
 <script>
     $(document).on('click', '#tareasfrmeditsubmit', function(e) {
         e.preventDefault();
@@ -1540,7 +1552,7 @@
             "marcas_id": $("input[name=id]").val(),
         }
         $.ajax({
-            url: "<?php echo admin_url('pi/TareasController/addTaskToMarcasAndProject'); ?>",
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/addTaskToMarcasAndProject'); ?>",
             method: "POST",
             data: {
                 'csrf_token_name': $("input[name=csrf_token_name]").val(),
@@ -1556,24 +1568,5 @@
 </script>
 
 <script>
-    $(document).on('click', "#invoiceMarcaSubmit" ,function(){
-        e.preventDefault()
-        let data = {
-            "invoiceID": $("select[name=invoiceID]").val(),
-            "marcaID"  : $("input[name=id]").val()
-        }
-        $.ajax({
-            url:"<?php echo admin_url("pi/MarcasSolicitudesController/addInvoice");?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                "data"           : JSON.stringify(data)
-            },
-            success: function(response)
-            {
-                $("facturaModal").modal('hide');
-                alert_float('success', "Factura asignada exitosamente");
-            }
-        })
-    });
+    
 </script>

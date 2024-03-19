@@ -49,7 +49,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?></h4>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -78,7 +78,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step2">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -126,26 +126,22 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         ]); ?>
                                     </div>
                                     <!-- Clase niza -->
-                                    <div class='col-md-12' style="padding: 2%;">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases <i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="clase_marcas">
-                                                    <div class="list-box">
-                                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
-                                                        <table class="ultimate table table-responsive " id="claseTbl">
-                                                            <thead>
-                                                                <tr>
-                                                                    <td>Clase</td>
-                                                                    <td>Descripcion</td>
-                                                                    <td>Acciones</td>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
+                                    <div class="all-info-container">
+                                        <div class="list-content">
+                                            <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Clases <i class="fa fa-chevron-down"></i></a>
+                                            <div class="collapse" id="clase_marcas">
+                                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#claseNizaModal">Añadir clase</button>
+                                                <table class="ultimate table table-responsive" id="claseTbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>Clase</td>
+                                                            <td>Descripcion</td>
+                                                            <td>Acciones</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +155,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step3">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' ' ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -174,16 +170,12 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                     </div>
                                     <div class="col-md-4">
                                         <?php echo form_label('Referencia interna', 'ref_interna'); ?>
-                                        <?php echo form_input('ref_interna', set_value('ref_interna'), ['class' => 'form-control']) ?>
+                                        <?php echo form_input('ref_interna', set_value('ref_interna', "M-{$id}"), ['class' => 'form-control']) ?>
                                     </div>
                                     <div class="col-md-4">
                                         <?php echo form_label('Referencia cliente', 'ref_cliente'); ?>
                                         <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control']) ?>
                                     </div>
-                                    <!--<div class="col-md-4">
-                                        <php echo form_label('Fecha de Primer Uso','primer_uso');?>
-                                        <php echo form_input('primer_uso', set_value('primer_uso', $values['primer_uso']), ['class' => 'form-control calendar'])?>
-                                    </div>-->
                                     <div class="col-md-4">
                                         <?php echo form_label('Prueba Uso', 'prueba_uso'); ?>
                                         <?php echo form_input('prueba_uso', set_value('prueba_uso'), ['class' => 'form-control calendar']) ?>
@@ -243,7 +235,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step4">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -366,7 +358,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step5">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -397,7 +389,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step6">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' ' ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -430,7 +422,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step7">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -628,7 +620,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <div class="tab-pane" role="tabpanel" id="step8">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' '; ?></strong></h4>
+                                            <h4><?php echo form_label("N° Expediente Solicitud: M-{$id}"); ?><strong><?php echo ' '; ?></strong></h4>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -659,22 +651,22 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <!-- Step 9 -->
                                 <div class="tab-pane" role="tabpanel" id="step9">
                                     <div class="row">
-                                        <a class="btn btn-primary" href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/". $id);?>"><i class="fas fa-plus"></i> Añadir nueva factura</a>
+                                        <a class="btn btn-primary" href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/" . $id); ?>"><i class="fas fa-plus"></i> Añadir nueva factura</a>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#facturaModal"><i class="fas fa-plus"></i> Añadir factura existente</button>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12" style="padding-top: 1.5%;">
-                                            <table class="ultimate table table-responsive">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Factura</th>
-                                                        <th>Fecha</th>
-                                                        <th>Estado</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tblInvoices">
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div class="col-md-12" style="padding-top: 1.5%;">
+                                        <table class="ultimate table table-responsive" id="tblInvoices">
+                                            <thead>
+                                                <tr>
+                                                    <th>Factura</th>
+                                                    <th>Fecha</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
                                     </div>
 
                                     <ul class="list-inline pull-right">
@@ -691,6 +683,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
         </div>
     </div>
 </div>
+
 
 <?php $CI->load->view('marcas/solicitudes/modal.php'); ?>
 
@@ -713,10 +706,3 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
         }
     });
 </script>
-<!-- <script>
-    new DataTable(".anexo", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
-</script> -->

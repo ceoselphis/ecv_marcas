@@ -45,8 +45,6 @@ class MarcasSolicitudesController extends AdminController
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
         $id = intval($CI->MarcasSolicitudes_model->setCountPK());
-
-
         $fields = $CI->MarcasSolicitudes_model->getFillableFields();
         $inputs = array();
         $labels = array();
@@ -110,7 +108,8 @@ class MarcasSolicitudesController extends AdminController
             'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
             'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
             'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
-
+            'invoices'              => $CI->MarcasSolicitudes_model->findAllInvoices(),
+            'contador'              => $this->addSolicitudesMarcas()
         ]);
     }
 
@@ -175,6 +174,8 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         // Preparamos la data
         $form = $CI->input->post();
+        print_r($form);
+        die();
         /*Inicializamos los arreglos*/
         $solicitud = array();
         $paisSol = array();
@@ -230,7 +231,6 @@ class MarcasSolicitudesController extends AdminController
                 'pais_id'   => $row
             ];
         }
-        //TODO: Recoger la solicitud de los anexos, tareas, y demas desde aca
         try {
             $CI->MarcasSolicitudes_model->update($solicitud['id'], $solicitud);
             $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);

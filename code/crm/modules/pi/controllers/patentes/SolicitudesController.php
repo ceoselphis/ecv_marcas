@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class SolicitudesController extends AdminController
 {
@@ -70,18 +70,15 @@ class SolicitudesController extends AdminController
             $fields = $CI->PatentesSolicitudes_model->getFillableFields();
             $inputs = array();
             $labels = array();
-            foreach($fields as $field)
-            {
-                if($field['type'] == 'INT')
-                {
+            foreach ($fields as $field) {
+                if ($field['type'] == 'INT') {
                     $inputs[] = array(
                         'name' => $field['name'],
                         'id'   => $field['name'],
                         'type' => 'range',
                         'class' => 'form-control'
                     );
-                }
-                else{
+                } else {
                     $inputs[] = array(
                         'name' => $field['name'],
                         'id'   => $field['name'],
@@ -102,7 +99,6 @@ class SolicitudesController extends AdminController
                 return redirect(admin_url('pi/patentes/SolicitudesController/'));
             }
         }
-        
     }
 
     /**
@@ -111,7 +107,6 @@ class SolicitudesController extends AdminController
 
     public function show(string $id = null)
     {
-
     }
 
     /**
@@ -146,7 +141,7 @@ class SolicitudesController extends AdminController
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
-        $CI->load->helper(['url','form']);
+        $CI->load->helper(['url', 'form']);
         $CI->load->library('form_validation');
         //we validate the data
         //we set the rules
@@ -163,12 +158,9 @@ class SolicitudesController extends AdminController
             ],
         );
         $CI->form_validation->set_rules($config);
-        if($CI->form_validation->run() == FALSE)
-        {
+        if ($CI->form_validation->run() == FALSE) {
             $this->edit($id);
-        }
-        else
-        {
+        } else {
             //We prepare the data 
             $query = $CI->PatentesSolicitudes_model->update($id, $data);
             if (isset($query))

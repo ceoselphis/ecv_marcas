@@ -353,17 +353,6 @@
 
         })
     })
-
-    function getFormData() {
-        var config = {};
-        $('input').each(function() {
-            config[this.name] = this.value;
-        });
-        $("select").each(function() {
-            config[this.name] = this.value;
-        });
-        return config;
-    }
     //----------------------------------- Modal Para Añadir y Editar -----------------------------------------------
 
     //Añadir Documento ---------------------------------------------------------------------------
@@ -958,22 +947,10 @@
     });
 </script>
 
-
-
 <script>
-    function getFormData() {
-        var config = {};
-        $('input').each(function() {
-            config[this.name] = this.value;
-        });
-        $("select").each(function() {
-            config[this.name] = this.value;
-        });
-        return config;
-    }
-    $("#solicitudfrm").on('submit', function(e) {
-        var formData = new FormData();
+    $(document).on('submit',"#solicitudfrm" ,function(e) {
         e.preventDefault();
+        var formData = new FormData();
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', $("input[name=id]").val());
         formData.append('tipo_registro_id', $("select[name=tipo_registro_id]").val());
@@ -1101,10 +1078,6 @@
 </script>
 
 <script>
-</script>
-
-
-<script>
     /***
      * funcion para obtener la descripcion de la clase
      * 
@@ -1127,6 +1100,7 @@
         });
     });
 </script>
+
 <script>
     /***
      * funcion para guardar el formulario de la clase
@@ -1176,6 +1150,7 @@
         $("#claseNizaEditModal").modal('show');
     })
 </script>
+
 <script>
     $(document).on('click', '#claseNizaEditFrmSubmit', function(e) {
         e.preventDefault();

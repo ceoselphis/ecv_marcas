@@ -109,7 +109,7 @@ class MarcasSolicitudesController extends AdminController
             'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
             'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
             'invoices'              => $CI->MarcasSolicitudes_model->findAllInvoices(),
-            'contador'              => $this->addSolicitudesMarcas()
+            'contador'              => $id
         ]);
     }
 

@@ -1,6 +1,15 @@
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
+    /*Inicializamos el localstorage*/
+    localStorage.setItem("clase_niza", JSON.stringify([]));
+    localStorage.setItem("prioridad", JSON.stringify([]));
+    localStorage.setItem("publicacion", JSON.stringify([]));
+    localStorage.setItem('eventos', JSON.stringify([]));
+    localStorage.setItem('tareas', JSON.stringify([]));
+    localStorage.setItem('facturas', JSON.stringify([]));
+</script>
+<script>
     Cesion()
     CambioDomicilio();
     CambioNombre();
@@ -187,7 +196,7 @@
             `;
         $('#anexohead').html(template);
         $('#anexobody').html(``);
-        
+
     })
 
     //----------------------------------- Funciones de la Informacion que Trae desde la Base de Datos -----------------------------------------------
@@ -948,7 +957,7 @@
 </script>
 
 <script>
-    $(document).on('submit',"#solicitudfrm" ,function(e) {
+    $(document).on('submit', "#solicitudfrm", function(e) {
         e.preventDefault();
         var formData = new FormData();
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
@@ -983,6 +992,9 @@
         formData.append('descripcion_signo', $("textarea[name=descripcion_signo]").val());
         formData.append('comentario_signo', $("input[name=comentario_signo]").val());
         formData.append('tipo_signo_id', $('select[name=tipo_signo_id]').val());
+        formData.append('clase_niza_id', localStorage.getItem("clase_niza"));
+        formData.append('prioridad_id', localStorage.getItem("prioridad"));
+        formData.append("publicacion_id", localStorage.getItem("publicacion"));
         $.ajax({
             url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
             method: 'POST',
@@ -990,7 +1002,7 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                location.replace('<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
+                //location.replace('<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
             },
             fail: function(request) {
                 <?php if (ENVIRONMENT != 'production') { ?>
@@ -1109,15 +1121,32 @@
      */
     $(document).on('click', '#claseNizaFrmSubmit', function(e) {
         e.preventDefault();
-        var clase_id = $("select[name=clase_niza]").val();
-        var clase_descripcion = $("input[name=clase_niza_descripcion]").val();
-        $.ajax({
+        var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
+        var data = {
+            'clase_id': $("select[name=clase_niza]").val(),
+            'clase_descripcion': $("input[name=clase_niza_descripcion]").val(),
+            'marcas_id': $("input[name=id]").val(),
+            "acciones": "<a id='" + (claseNiza.length) + "' class='btn btn-sm btn-danger borrarClase'>Eliminar</a>",
+        }
+
+        claseNiza.push(data);
+        try {
+            localStorage.setItem("clase_niza", JSON.stringify(claseNiza));
+            $("#claseNizaFrm")[0].reset();
+            $("#claseNizaModal").modal('hide');
+            TablaClases();
+        } catch (error) {
+            alert(error);
+        }
+
+
+        /*$.ajax({
             url: "<?php echo admin_url('pi/MarcasSolicitudesController/insertClases') ?>",
             method: "POST",
             data: {
                 'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                'clase_id': clase_id,
-                'clase_descripcion': clase_descripcion,
+                'clase_id': $("select[name=clase_niza]").val(),
+                'clase_descripcion': $("input[name=clase_niza_descripcion]").val(),
                 'marcas_id': $("input[name=id]").val()
             },
             success: function(response) {
@@ -1125,75 +1154,52 @@
                 $("#claseNizaModal").modal('hide');
                 TablaClases();
             }
-        });
-    });
-</script>
-
-<script>
-    $(document).on('click', '.editarClase', function(e) {
-        e.preventDefault();
-        var id = $(this).attr('id');
-        $.ajax({
-            url: "<?php echo admin_url('pi/MarcasClasesController/getClaseByMarcas'); ?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                'id': id
-            },
-            success: function(response) {
-                res = JSON.parse(response);
-                $("input[name=marcas_clase_id").val(res.data.id);
-                $("select[name=clase_niza_edit]").val(res.data.clase_id);
-                $("input[name=clase_niza_descripcion_edit]").val(res.data.descripcion);
-            }
-        });
-        $("#claseNizaEditModal").modal('show');
-    })
-</script>
-
-<script>
-    $(document).on('click', '#claseNizaEditFrmSubmit', function(e) {
-        e.preventDefault();
-        var data = {
-            'csrf_token_name': $("input[name=csrf_token_name]").val(),
-            'clase_niza': $("select[name=clase_niza_edit]").val(),
-            'descripcion': $("input[name=clase_niza_descripcion_edit]").val(),
-            'id': $("input[name=marcas_clase_id]").val(),
-        }
-        $.ajax({
-            url: "<?php echo admin_url('pi/MarcasClasesController/update/'); ?>",
-            method: "POST",
-            data: data,
-            success: function(response) {
-                $("#claseNizaEditModal").modal('hide');
-                alert_float('success', 'Clase editada exitosamente');
-            }
-        });
-        TablaClases();
+        });*/
     });
 </script>
 
 <script>
     $(document).on('click', '.borrarClase', function(e) {
         e.preventDefault();
-        var id = $(this).attr('id');
+        var id = parseInt($(this).attr('id'));
+        var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
-            $.ajax({
+            claseNiza.length == 1 ? claseNiza = [] : claseNiza.splice(id, 1);
+            localStorage.setItem("clase_niza", JSON.stringify(claseNiza));
+            alert_float('success', 'Clase borrada exitosamente');
+            /*$.ajax({
                 url: "<?php echo admin_url('pi/MarcasClasesController/delete/'); ?>" + id,
                 method: "POST",
                 success: function(response) {
                     alert_float('success', 'Clase borrada exitosamente');
                 }
-            });
+            });*/
             TablaClases();
         }
-
     })
 </script>
 
 <script>
     function TablaClases() {
-        $.ajax({
+        var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
+        $('#claseTbl').DataTable({
+            destroy: true,
+            data: claseNiza,
+            columns: [{
+                    data: 'clase_id'
+                },
+                {
+                    data: 'clase_descripcion'
+                },
+                {
+                    data: 'acciones'
+                }
+            ],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+            }
+        });
+        /*$.ajax({
             url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/' . $id); ?>",
             method: "POST",
             success: function(response) {
@@ -1218,13 +1224,36 @@
                     }
                 });
             }
-        });
+        });*/
     }
 </script>
 
 <script>
     function TablaPrioridad() {
-        $.ajax({
+        table = JSON.parse(localStorage.getItem("prioridad"));
+        $("#prioridadTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            data: table,
+            destroy: true,
+            dataSrc: '',
+            columns: [{
+                    data: 'fecha_prioridad'
+                },
+                {
+                    data: 'pais_prioridad'
+                },
+                {
+                    data: 'nro_prioridad'
+                },
+                {
+                    data: 'acciones'
+                },
+            ],
+            width: "100%"
+        });
+        /*$.ajax({
             url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/' . $id); ?>",
             method: "GET",
             success: function(response) {
@@ -1252,20 +1281,27 @@
                     width: "100%"
                 });
             }
-        })
+        })*/
     }
 </script>
 
 <script>
     $("#prioridadfrmsubmit").on('click', function(e) {
         e.preventDefault();
+        prioridad = JSON.parse(localStorage.getItem('prioridad'));
         data = {
             'pais_prioridad': $("select[name=pais_prioridad").val(),
             'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
             'nro_prioridad': $("input[name=nro_prioridad").val(),
             'solicitud_id': $("input[name=id]").val(),
+            "acciones": "<a id='" + (prioridad.length) + "' class='btn btn-sm btn-danger borrarPrioridad'>Eliminar</a>",
         }
-        $.ajax({
+        prioridad.push(data);
+        localStorage.setItem("prioridad", JSON.stringify(prioridad));
+        TablaPrioridad();
+        $("#prioridadModal").modal('hide');
+        alert_float('success', 'Registro guardado exitosamente');
+        /*$.ajax({
             url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad"); ?>',
             method: 'POST',
             data: data,
@@ -1274,22 +1310,27 @@
                 $("#prioridadModal").modal('hide');
                 alert_float('success', 'Registro guardado exitosamente');
             }
-        });
+        });*/
     });
 </script>
 
 <script>
     $(document).on('click', '.borrarPrioridad', function(e) {
         e.preventDefault();
-        var id = $(this).attr('id');
+        var id = parseInt($(this).attr('id'));
+        var prioridad = JSON.parse(localStorage.getItem("prioridad"));
         if (confirm("¿Esta seguro de eliminar este registro?")) {
-            $.ajax({
+            prioridad.length == 1 ? prioridad = [] : prioridad.splice(id, 1);
+            console.log(prioridad);
+            localStorage.setItem("prioridad", JSON.stringify(prioridad));
+            alert_float('success', 'Registro eliminado exitosamente');
+            /*$.ajax({
                 url: "<?php echo admin_url("pi/MarcasPrioridadController/destroy/"); ?>" + id,
                 method: "POST",
                 success: function(response) {
                     alert_float('success', 'Registro eliminado exitosamente');
                 }
-            });
+            });*/
         }
         TablaPrioridad();
     });
@@ -1299,14 +1340,20 @@
     $(document).on('click', "#publicacionfrmsubmit", function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
+        var publicacion = JSON.parse(localStorage.getItem("publicacion"));
         var data = {
-            "tipo_publicacion": $("select[name=tipo_publicacion]").val(),
-            "boletin_publicacion": $("select[name=boletin_publicacion]").val(),
-            "tomo_publicacion": $("input[name=tomo_publicacion]").val(),
-            "pag_publicacion": $("input[name=pag_publicacion]").val(),
-            "csrf_token_name": $("input[name=csrf_token_name]").val()
+            "tipo_publicacion_id": $("select[name=tipo_publicacion]").val(),
+            "boletin_id": $("select[name=boletin_publicacion]").val(),
+            "tomo": $("input[name=tomo_publicacion]").val(),
+            "pagina": $("input[name=pag_publicacion]").val(),
+            "marcas_id": $("input[name=id]").val(),
+            "acciones": "<a id='" + (publicacion.length) + "' class='btn btn-sm btn-danger deletePublicacion'>Eliminar</a>",
         }
-        $.ajax({
+        publicacion.push(data);
+        localStorage.setItem("publicacion", JSON.stringify(publicacion));
+        alert_float('success', 'Publicacion cargada exitosamente');
+        $("#publicacionModal").modal('hide');
+        /*$.ajax({
             url: "<?php echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/' . $id); ?>",
             method: "POST",
             data: data,
@@ -1314,85 +1361,59 @@
                 alert_float('success', 'Publicacion cargada exitosamente');
                 $("#publicacionModal").modal('hide');
             }
-        });
+        });*/
         TablaPublicacion();
     });
 </script>
 
 <script>
     function TablaPublicacion() {
-        $.ajax({
-            url: "<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/' . $id); ?>",
-            method: "POST",
-            success: function(response) {
-                res = JSON.parse(response);
-                console.log(res.data);
-                $("#publicacionTbl").DataTable({
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                    },
-                    data: res.data,
-                    destroy: true,
-                    dataSrc: '',
-                    columns: [{
-                            data: 'fecha'
-                        },
-                        {
-                            data: 'boletin_id'
-                        },
-                        {
-                            data: 'tomo'
-                        },
-                        {
-                            data: 'pagina'
-                        },
-                        {
-                            data: 'acciones'
-                        },
-                    ],
-                    width: "100%"
-                });
-            }
-        })
-    }
-</script>
-
-<script>
-    $(document).on('click', '.editPublicacion', function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        var id = $(this).attr('id');
-        $.ajax({
-            url: "<?php echo admin_url('pi/PublicacionesMarcasController/getPublicaciones/'); ?>" + id,
-            method: "POST",
-            success: function(response) {
-                res = JSON.parse(response);
-                console.log(res);
-                $("select[name=tipo_publicacion_edit]").val(res.data.tipo_pub_id);
-                $("select[name=boletin_publicacion_edit]").val(res.data.boletin_id);
-                $("input[name=tomo_publicacion_edit]").val(res.data.tomo);
-                $("input[name=pag_publicacion_edit]").val(res.data.pagina);
-                $("input[name=marcas_id_edit]").val(res.data.marcas_id);
-            }
+        tabla = JSON.parse(localStorage.getItem("publicacion"));
+        $("#publicacionTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            data: tabla,
+            destroy: true,
+            columns: [{
+                    data: 'tipo_publicacion_id'
+                },
+                {
+                    data: 'boletin_id'
+                },
+                {
+                    data: 'tomo'
+                },
+                {
+                    data: 'pagina'
+                },
+                {
+                    data: 'acciones'
+                },
+            ],
+            width: "100%"
         });
-        $("#publicacionEditModal").modal('show');
-        TablaPublicacion();
-    });
+    }
 </script>
 
 <script>
     $(document).on('click', '.deletePublicacion', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        var id = $(this).attr('id');
+        var id = parseInt($(this).attr('id'));
+        var publicacion = JSON.parse(localStorage.getItem("publicacion"));
         if (confirm("¿Desea eliminar este registro?")) {
-            $.ajax({
+            publicacion.length == 1 ? publicacion = [] : publicacion.splice(id, 1);
+            localStorage.setItem("publicacion", JSON.stringify(publicacion));
+            alert_float('success', 'Publicacion eliminada exitosamente');
+            TablaPublicacion();
+            /*$.ajax({
                 url: "<?php admin_url('pi/PublicacionesMarcasController/updatePublicacionByMarca'); ?>",
                 method: "POST",
                 success: function(response) {
                     alert_float('success', 'Registro eliminado exitosamente');
                 }
-            });
+            });*/
         }
     });
 </script>
@@ -1531,21 +1552,20 @@
 </script>
 
 <script>
-    $(document).on('click', "#invoiceMarcaSubmit" ,function(){
+    $(document).on('click', "#invoiceMarcaSubmit", function() {
         e.preventDefault()
         let data = {
             "invoiceID": $("select[name=invoiceID]").val(),
-            "marcaID"  : $("input[name=id]").val()
+            "marcaID": $("input[name=id]").val()
         }
         $.ajax({
-            url:"<?php echo admin_url("pi/MarcasSolicitudesController/addInvoice");?>",
+            url: "<?php echo admin_url("pi/MarcasSolicitudesController/addInvoice"); ?>",
             method: "POST",
             data: {
                 'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                "data"           : JSON.stringify(data)
+                "data": JSON.stringify(data)
             },
-            success: function(response)
-            {
+            success: function(response) {
                 $("facturaModal").modal('hide');
                 alert_float('success', "Factura asignada exitosamente");
             }

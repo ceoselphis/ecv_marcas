@@ -174,14 +174,11 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         // Preparamos la data
         $form = $CI->input->post();
-        print_r($form);
-        die();
         /*Inicializamos los arreglos*/
         $solicitud = array();
         $paisSol = array();
         $claseNiza = array();
         $solicitantes = array();
-
         /*Seteamos el arreglo para la solicitud */
 
         $solicitud['id'] = $form['id'];
@@ -193,9 +190,9 @@ class MarcasSolicitudesController extends AdminController
         $solicitud['tipo_signo_id'] = $form['tipo_signo_id'];
         $solicitud['tipo_solicitud_id'] = $form['tipo_solicitud_id'];
         $solicitud['ref_interna'] = $form['ref_interna'];
-        $solicitud['primer_uso'] = $this->turn_dates($form['primer_uso']);
+        $solicitud['primer_uso'] = empty($form['primer_uso']) || '' ? NULL : $this->turn_dates($form['primer_uso']);
         $solicitud['ref_cliente'] = $form['ref_cliente'];
-        $solicitud['prueba_uso'] = $this->turn_dates($form['prueba_uso']);
+        $solicitud['prueba_uso'] = empty($form['prueba_uso']) || '' ? NULL : $this->turn_dates($form['prueba_uso']);
         $solicitud['carpeta'] = $form['carpeta'];
         $solicitud['libro'] = $form['libro'];
         $solicitud['folio'] = $form['folio'];
@@ -203,23 +200,34 @@ class MarcasSolicitudesController extends AdminController
         $solicitud['comentarios'] = $form['comentarios'];
         $solicitud['estado_id'] = $form['estado_id'];
         $solicitud['solicitud'] = $form['solicitud'];
-        $solicitud['fecha_solicitud'] = $this->turn_dates($form['fecha_solicitud']);
+        $solicitud['fecha_solicitud'] = empty($form['fecha_solicitud']) || '' ? NULL : $this->turn_dates($form['fecha_solicitud']);
         $solicitud['registro'] = $form['registro'];
-        $solicitud['fecha_registro'] = $this->turn_dates($form['fecha_registro']);
+        $solicitud['fecha_registro'] = empty($form['fecha_registro']) || '' ? NULL : $this->turn_dates($form['fecha_registro']);
         $solicitud['certificado']     = $form['certificado'];
-        $solicitud['fecha_certificado'] = $this->turn_dates($form['fecha_certificado']);
-        $solicitud['fecha_vencimiento']    = $this->turn_dates($form['fecha_vencimiento']);
+        $solicitud['fecha_certificado'] = empty($form['fecha_certificado']) || '' ? NULL : $this->turn_dates($form['fecha_certificado']);
+        $solicitud['fecha_vencimiento'] = empty($form['fecha_vencimiento']) || '' ? NULL : $this->turn_dates($form['fecha_vencimiento']);
 
         /*Seteamos el valor del signo*/
         $file = '';
-        if (!empty($_FILES['signo_archivo'])) {
+        if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
             $file = $_FILES['signo_archivo'];
-        } else {
-            $file = NULL;
         }
         if ($file != NULL) {
             //We fill the data of the         
-            $fpath = FCPATH . 'uploads/marcas/signos/' . $form['id'] . '-' . $file['name'];
+            $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
+            $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
+            move_uploaded_file($file['tmp_name'], $fpath);
+            $solicitud['signo_archivo'] = $path;
+        }
+
+        /*Seteamos el valor del signo*/
+        $file = '';
+        if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
+            $file = $_FILES['signo_archivo'];
+        }
+        if ($file != NULL) {
+            //We fill the data of the         
+            $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
             $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
             move_uploaded_file($file['tmp_name'], $fpath);
             $solicitud['signo_archivo'] = $path;
@@ -227,18 +235,29 @@ class MarcasSolicitudesController extends AdminController
         /*Seteamos el arreglo para los paises designados*/
         foreach (json_decode($form['pais_id'], TRUE) as $row) {
             $paisSol[] = [
-                'marcas_id' => $solicitud['id'],
+                'marcas_id' => $form['id'],
                 'pais_id'   => $row
             ];
         }
+        $claseNiza = json_decode($form['clase_niza_id'], TRUE);
+        /*Seteamos el arreglo para los solicitantes */
+        foreach (json_decode($form['solicitantes_id'], TRUE) as $row) {
+            $solicitantes[] = [
+                'marcas_id' => $form['id'],
+                'propietario_id' => $row
+            ];
+        }
         try {
-            $CI->MarcasSolicitudes_model->update($solicitud['id'], $solicitud);
+            $CI->MarcasSolicitudes_model->insert($solicitud);
             $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
-            return redirect(admin_url('pi/MarcasSolicitudesController/edit/' . $solicitud['id']));
+            $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
+            $CI->MarcasSolicitudes_model->insertMarcasSolicitantes($solicitantes);
+            echo  json_encode(['code' => 200, 'message' => 'Cambios realizados exitosamente']);
         } catch (\Throwable $th) {
             //Activate SYSLOG in the app
             echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
         }
+
     }
 
     /**
@@ -259,6 +278,10 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->model("MarcasSolicitudes_model");
         //We get the data
         $values = $CI->MarcasSolicitudes_model->find($id)[0];
+        if(is_null($values) || empty($values))
+        {
+            return redirect(admin_url('pi/MarcasSolicitudesController/create'));
+        }
         $pais_id = $CI->MarcasSolicitudes_model->findPaisesDesignados($id);
         $clase_id = $CI->MarcasSolicitudes_model->findClasesSolicitudes($id);
         $solicitantes = $CI->MarcasSolicitudes_model->findMarcasSolicitantes($id);
@@ -287,10 +310,10 @@ class MarcasSolicitudesController extends AdminController
         $values['solicitantes_id'] = $solicitantes;
         $values['fecha_certificado'] = $this->flip_dates($values['fecha_certificado']);
         $values['fecha_vencimiento'] = $this->flip_dates($values['fecha_vencimiento']);
-        $values['fecha_registro'] = $this->flip_dates($values['fecha_registro']);
-        $values['fecha_solicitud'] = $this->flip_dates($values['fecha_solicitud']);
-        $values['prueba_uso'] = $this->flip_dates($values['prueba_uso']);
-        $values['primer_uso'] = $this->flip_dates($values['primer_uso']);
+        $values['fecha_registro'] = is_null($values['fecha_registro']) ? '' : $this->flip_dates($values['fecha_registro']);
+        $values['fecha_solicitud'] = is_null($values['fecha_solicitud']) ? '' : $this->flip_dates($values['fecha_solicitud']);
+        $values['prueba_uso'] = is_null($values['prueba_uso']) ? '' : $this->flip_dates($values['prueba_uso']);
+        $values['primer_uso'] = is_null($values['primer_uso']) ? '' : $this->flip_dates($values['primer_uso']);
         $values['projects'] = $CI->MarcasSolicitudes_model->findProjectByMarca($id);
         return $CI->load->view('marcas/solicitudes/edit', [
             'values'                => $values,

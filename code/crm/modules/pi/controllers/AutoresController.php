@@ -30,7 +30,6 @@ class AutoresController extends AdminController
         $this->LoadPage();
     }
 
-
     private function LoadPage(){
         $CI = &get_instance();
         $CI->load->model("Autores_model");

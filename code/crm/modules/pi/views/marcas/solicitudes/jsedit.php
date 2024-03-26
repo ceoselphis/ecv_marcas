@@ -3282,15 +3282,15 @@
             pais_id = JSON.stringify($("select[name=pais_id]").val());
             formData.append('pais_id', pais_id);
             //Clase_niza_id fill
-            clase_niza = JSON.stringify($("select[name=clase_niza_id]").val());
-            formData.append('clase_niza', clase_niza);
+            //clase_niza = JSON.stringify($("select[name=clase_niza_id]").val());
+            //formData.append('clase_niza', clase_niza);
             //solicitantes fill
-            solicitantes = JSON.stringify($("select[name=solicitantes_id]").val());
+            solicitantes = JSON.stringify($("select[name=solicitantes_id]").val());//**revisar insert */
             formData.append('solicitantes_id', solicitantes);
             formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
             formData.append('ref_interna', $("input[name=ref_interna]").val());
             formData.append('ref_cliente', $('input[name=ref_cliente]').val());
-            formData.append('primer_uso', $('input[name=primer_uso').val());
+            //formData.append('primer_uso', $('input[name=primer_uso').val());
             formData.append('prueba_uso', $('input[name=prueba_uso]').val());
             formData.append('carpeta', $("input[name=carpeta]").val());
             formData.append('libro', $("input[name=libro]").val());
@@ -3310,6 +3310,12 @@
             formData.append('descripcion_signo', $("textarea[name=descripcion_signo]").val());
             formData.append('comentario_signo', $("input[name=comentario_signo]").val());
             formData.append('tipo_signo_id', $('select[name=tipo_signo_id]').val());
+            /* alert($("input[name=id]").val());
+            // Display the key/value pairs
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+            return; */
             $.ajax({
                 url:'<?php echo admin_url("pi/MarcasSolicitudesController/update/{$id}");?>',
                 method: 'POST',

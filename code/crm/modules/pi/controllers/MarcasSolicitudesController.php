@@ -85,6 +85,7 @@ class MarcasSolicitudesController extends AdminController
                 'fecha' => $row['fecha'],
             );
         }
+        $cod_contador = 'M-' . ($CI->MarcasSolicitudes_model->CantidadSolicitudes() + 1);
         $labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
         return $CI->load->view('marcas/solicitudes/create', [
             'fields'                => $inputs,
@@ -109,7 +110,7 @@ class MarcasSolicitudesController extends AdminController
             'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
             'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
             'invoices'              => $CI->MarcasSolicitudes_model->findAllInvoices(),
-            'contador'              => $this->addSolicitudesMarcas()
+            'cod_contador'          => $cod_contador
         ]);
     }
 
@@ -174,8 +175,6 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         // Preparamos la data
         $form = $CI->input->post();
-        print_r($form);
-        die();
         /*Inicializamos los arreglos*/
         $solicitud = array();
         $paisSol = array();
@@ -185,6 +184,7 @@ class MarcasSolicitudesController extends AdminController
         /*Seteamos el arreglo para la solicitud */
 
         $solicitud['id'] = $form['id'];
+        $solicitud['cod_contador'] = $form['cod_contador'];
         $solicitud['tipo_registro_id'] = $form['tipo_registro_id'];
         $solicitud['client_id'] = $form['client_id'];
         $solicitud['oficina_id'] = $form['oficina_id'];
@@ -232,7 +232,8 @@ class MarcasSolicitudesController extends AdminController
             ];
         }
         try {
-            $CI->MarcasSolicitudes_model->update($solicitud['id'], $solicitud);
+            //$CI->MarcasSolicitudes_model->update($solicitud['id'], $solicitud);
+            $CI->MarcasSolicitudes_model->insert($solicitud);
             $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
             return redirect(admin_url('pi/MarcasSolicitudesController/edit/' . $solicitud['id']));
         } catch (\Throwable $th) {

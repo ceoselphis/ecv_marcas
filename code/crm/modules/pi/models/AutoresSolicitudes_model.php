@@ -35,43 +35,6 @@ class AutoresSolicitudes_model extends BaseModel
         }
     }
 
-    public function getFieldsRegistros()
-    {
-        $query = $this->db->query("SHOW fields FROM tbl_tm_registros_principales");
-        return $query->result_array();
-        
-    }
-
-    public function getLastIdRegistros()
-    {
-        $query = $this->db->query("SELECT reg_num_id FROM tbl_tm_registros_principales ORDER by reg_num_id DESC LIMIT 1");
-        if(empty($query->result_array()))
-        {
-            return 1;
-        }
-        else{
-            return (intval($query->result_array()[0]['reg_num_id']) + 1);
-        }
-        
-    }
-    
-    public function findAllRegistros()
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_tm_registros_principales');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
-    public function findRegistros($id = NULL)
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_tm_registros_principales');
-        $this->db->where('reg_num_id = '.$id);
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
     public function findAllClasificacion()
     {
         $this->db->select('*');
@@ -161,22 +124,6 @@ class AutoresSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
-    /* public function findAllContactos()
-    {
-        $this->db->select('*');
-        $this->db->from('tblcontacts');
-        $this->db->order_by("firstname", 'ASC');
-        $query = $this->db->get();
-        $keys = array();
-        $values = array();
-        foreach($query->result_array() as $row)
-        {
-            array_push($keys, $row['userid']);
-            array_push($values, $row['firstname'] . ' ' . $row['lastname']);
-        }
-        return array_combine($keys, $values);
-    } */
-
     public function findAllPropietarios2()
     {
         $this->db->select('*');
@@ -192,22 +139,6 @@ class AutoresSolicitudes_model extends BaseModel
         }
         return array_combine($keys, $values);
     }
-
-    /* public function findAllTipoPublicacion2()
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_tipo_publicacion');
-        $this->db->order_by("nombre", 'ASC');
-        $query = $this->db->get();
-        $keys = array();
-        $values = array();
-        foreach($query->result_array() as $row)
-        {
-            array_push($keys, $row['id']);
-            array_push($values, $row['nombre']);
-        }
-        return array_combine($keys, $values);
-    } */
 
     public function findEstadosSolicitudes($id = NULL)
     {
@@ -286,6 +217,21 @@ class AutoresSolicitudes_model extends BaseModel
         {
             array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllPaisesClientes()
+    {
+        $this->db->select('*');
+        $this->db->from('tblcountries');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['country_id']);
+            array_push($values, $row['short_name']);
         }
         return array_combine($keys, $values);
     }
@@ -372,27 +318,27 @@ class AutoresSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
-    public function insertPaisesDesignados($params)
+    public function insertAutoresDesignados($params)
     {
-        $query = $this->db->insert_batch('tbl_marcas_solicitudes_paises', $params);
+        $query = $this->db->insert_batch('tbl_derecho_autor_autores', $params);
         return $query;
     }
 
-    public function updatePaisesDesignados($id, $params)
+    public function updateAutoresDesignados($id, $params)
     {
-        $query = $this->db->update_batch('tbl_marcas_solicitudes_paises', $params);
+        $query = $this->db->update_batch('tbl_derecho_autor_autores', $params);
         return $query;
     }
 
-    public function insertSolicitudesClases($params)
+    public function insertSolicitantesDesignados($params)
     {
-        $query = $this->db->insert('tbl_marcas_clases', $params);
+        $query = $this->db->insert_batch('tbl_derecho_autor_solicitantes', $params);
         return $query;
     }
 
-    public function updateSolicitudesClases($id, $params)
+    public function updateSolicitantesDesignados($id, $params)
     {
-        $query = $this->db->update_batch('tbl_marcas_clases', $params);
+        $query = $this->db->update_batch('tbl_derecho_autor_solicitantes', $params);
         return $query;
     }
 
@@ -408,62 +354,36 @@ class AutoresSolicitudes_model extends BaseModel
         return $query;
     }
 
-    public function findMarcasSolicitantes($id = NULL)
+    public function findAutorSolicitantes($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_marcas_solicitantes a');
-        $this->db->join('tbl_propietarios b', 'a.propietario_id = b.id');
-        $this->db->where('a.marcas_id = '.$id);
+        $this->db->from('tbl_derecho_autor_solicitantes a');
+        $this->db->join('tbl_propietarios b', 'a.id_propietario = b.id');
+        $this->db->where('a.id_solicitud = '.$id);
         $query = $this->db->get();
-        $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['marcas_id']);
-            array_push($values, $row['propietario_id']);
+            array_push($values, $row['id_propietario']);
         }
-        return array_combine($keys, $values);
+        return $values;
     }
 
-    public function findPaisesDesignados($id = NULL)
+    public function findAutoresDesignados($id = NULL)
     {
-        $this->db->select('*');
-        $this->db->from('tbl_marcas_solicitudes_paises a');
-        $this->db->join('tbl_paises b', 'a.id = b.id');
-        $this->db->where('a.marcas_id = '.$id);
+        $this->db->select('id_autor');
+        $this->db->from('tbl_derecho_autor_autores a');
+        $this->db->join('tbl_autores b', 'a.id_autor = b.id');
+        $this->db->where('a.id_solicitud = '.$id);
         $query = $this->db->get();
-        $keys = array();
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['pais_id']);
-            array_push($values, $row['nombre']);
+            array_push($values, $row['id_autor']);
         }
-        return $keys;
-    }
-
-    public function insertMarcasSignos($params)
-    {
-        $query = $this->db->insert('tbl_signos_solicitud_marcas', $params);
-        return $query;
+        return $values;
     }
     
-    public function updateMarcasSignos($id, $params)
-    {
-        $this->db->where('marcas_id = '.$id);
-        $query = $this->db->update('tbl_signos_solicitud_marcas', $params);
-        return $query;
-    }
-
-    public function findSignosMarcas($id = NULL)
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_signos_solicitud_marcas');
-        $this->db->where('marcas_id = '.$id);
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
     public function findPublicacionesMarcas($id = NULL)
     {
         $this->db->select('*');
@@ -472,38 +392,6 @@ class AutoresSolicitudes_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
-
-    public function findClasesSolicitudes($id = NULL)
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_marcas_clases a');
-        $this->db->join('tbl_marcas_clase_niza b', 'a.clase_id = b.clase_niza_id');
-        $this->db->where('a.marcas_id = '.$id);
-        $query = $this->db->get();
-        $keys = array();
-        $values = array();
-        foreach($query->result_array() as $row)
-        {
-            array_push($keys, $row['clase_id']);
-            array_push($values, $row['descripcion']);
-        }
-        return $keys;
-    }
-
-    /* public function findAllBoletines()
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_boletines');
-        $query = $this->db->get();
-        $keys = array();
-        $values = array();
-        foreach($query->result_array() as $row)
-        {
-            array_push($keys, $row['id']);
-            array_push($values, $row['descripcion']);
-        }
-        return array_combine($keys, $values);
-    } */
 
     public function search($params = NULL)
     {
@@ -572,27 +460,30 @@ class AutoresSolicitudes_model extends BaseModel
         return array_combine($keys, $values);      
     }
 
-    public function deletePaisesDesignadosBySolicitud($id = null)
+    public function deleteAutoresDesignadosBySolicitud($id = null)
     {
-        $this->db->delete('tbl_marcas_solicitudes_paises', ['marcas_id' => $id]);
+        $this->db->delete('tbl_derecho_autor_autores', ['id_solicitud' => $id]);
         return true;
     }
 
-    public function deleteClasesNizaBySolicitud($id = NULL)
-    {
-        $this->db->delete('tbl_marcas_clases', ['marcas_id' => $id]);
-        return true;
-    }
 
-    public function deleteMarcasSolicitantesBySolicitud($id = NULL)
+    public function deletePropietariosDesignadosBySolicitud($id = NULL)
     {
-        $this->db->delete('tbl_marcas_solicitantes', ['marcas_id' => $id]);
+        $this->db->delete('tbl_derecho_autor_solicitantes', ['id_solicitud' => $id]);
         return true;
     }
 
     public function findAllTareas(){
         $this->db->select('*');
         $this->db->from('tbl_derecho_autor_tareas');
+        $query = $this->db->get();   
+        return $query->result_array();
+    }
+
+    public function findAllTareasTipos(){
+        $this->db->select('*');
+        $this->db->from('tbl_derecho_autor_tareas a');
+        $this->db->join('tbl_tipos_tareas b', 'a.id_tipo_tareas = b.id', 'left outer');
         $query = $this->db->get();   
         return $query->result_array();
     }
@@ -644,7 +535,16 @@ class AutoresSolicitudes_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
-    
+ 
+    public function findAllEventosTipos()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_derecho_autor_eventos a');
+        $this->db->join('tbl_tipos_eventos b', 'a.id_tipo_evento = b.id', 'left outer');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+   
     public function searchWhere($params): array
     {
         $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, a.signonom as marca ,f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
@@ -687,70 +587,45 @@ class AutoresSolicitudes_model extends BaseModel
     }
 
     public function searchWhere2($params): array{
-        $this->db->select('id, cod_contador, nombre_tipo_registro as tipo_registro, nombre_propietario, marca, nombre_niza as clase_niza, nombre_solictud as estado_expediente, nombre_pais_solicitud as pais_nom, num_solicitud as solicitud, fecha_solicitud, num_registro as registro, certificado, fecha_vencimiento');
+        $this->db->select('a.id, a.cod_contador, b.descripcion, a.titulo, c.nombre as estado_exp, a.solicitud, a.fecha_solicitud, a.registro, d.nombre pais');
         $this->db->distinct();
-        $this->db->from('view_marcas_solicitudes');
+        $this->db->from('tbl_derecho_autor_solicitudes a');
+        $this->db->join('tbl_derecho_autor_tipo b', 'a.id_tipo_solicitud = b.id_tipo_solicitud', 'left outer');
+        $this->db->join('tbl_estado_expediente c', 'a.id_estado = c.id', 'left outer');
+        $this->db->join('tbl_paises d', 'a.id_pais = d.id', 'left outer');
+        $this->db->join('tbl_derecho_autor_eventos e', 'a.id = e.id_solicitud', 'left outer');
+        $this->db->join('tbl_tipos_eventos f', 'e.id_tipo_evento = f.id', 'left outer');
+        $this->db->join('tblclients g', 'a.client_id = g.userid', 'left outer');
+        $this->db->join('tblcountries h', 'g.country = h.country_id', 'left outer');
+        $this->db->join('tbl_derecho_autor_solicitantes i', 'a.id = i.id_solicitud', 'left outer');
+        $this->db->join('tbl_propietarios j', 'j.id = i.id_propietario', 'left outer');
+        $this->db->join('tbl_paises k', 'j.pais_id = k.id', 'left outer');
+        
+        
+        
+        
         foreach($params as $key => $value)
         {
             switch ($key) {
                 case 'cod_contador':
-                case 'marca':
-                case 'ref_cliente':
+                case 'titulo':
                 case 'ref_interna':
-                case 'num_solicitud':
-                case 'num_registro':
-                case 'descripcion_niza':
+                case 'solicitud':
+                case 'registro':
                     $this->db->like($key,$value);
                     break;
-                case 'fecha_solicitud_desde':
+                case 'soli_desde':
                     $wdate = '' ? '' : explode('/', $value);
                     $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
                     $this->db->where('fecha_solicitud >=', $data);
                     break;
-                case 'fecha_solicitud_hasta':
+                case 'soli_hasta':
                     $wdate = '' ? '' : explode('/', $value);
                     $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
                     $this->db->where('fecha_solicitud <=', $data);
                     break;
-                case 'fecha_vencimiento_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_vencimiento >=', $data);
-                    break;
-                case 'fecha_vencimiento_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_vencimiento <=', $data);
-                    break;
-                case 'fecha_evento_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_evento >=', $data);
-                    break;
-                case 'fecha_evento_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_evento <=', $data);
-                    break;
-                case 'prueba_uso_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('prueba_uso >=', $data);
-                    break;
-                case 'prueba_uso_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('prueba_uso <=', $data);
-                    break;
-                case 'fecha_registro_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_registro >=', $data);
-                    break;
-                case 'fecha_registro_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_registro <=', $data);
+                case 'paisProp_id':
+                    $this->db->where('k.id', $value);
                     break;
                 default:
                     $this->db->where($key, $value);
@@ -769,39 +644,14 @@ class AutoresSolicitudes_model extends BaseModel
 
     }
 
-    public function findAllMarcasDomicilio()
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_marcas_cambio_domicilio');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
     public function findAll()
     {
-        $this->db->select('a.id, b.nombre as tipo_registro, d.nombre_propietario, a.signonom as marca ,f.nombre as clase_niza, g.nombre as estado_expediente, i.nombre as pais_nom, a.solicitud, a.fecha_solicitud, a.registro, a.certificado, a.fecha_vencimiento');
+        $this->db->select('a.id, a.cod_contador, b.descripcion, a.titulo, c.nombre as estado_exp, a.solicitud, a.fecha_solicitud, a.registro, d.nombre pais');
         $this->db->distinct();
-        $this->db->from('tbl_marcas_solicitudes a');
-        $this->db->join('tbl_marcas_tipo_registro b', 'a.tipo_registro_id = b.id', 'left outer');
-        $this->db->join('tbl_marcas_solicitantes c', 'a.id = c.marcas_id', 'left outer');
-        $this->db->join('tbl_propietarios d', 'c.propietario_id = d.id', 'left outer');
-        $this->db->join('tbl_marcas_clases e', 'a.id = e.marcas_id', 'left outer');
-        $this->db->join('tbl_marcas_clase_niza f', 'e.clase_id = f.clase_niza_id', 'left outer');
-        $this->db->join('tbl_estado_expediente g', 'a.estado_id = g.id', 'left outer');
-        $this->db->join('tbl_marcas_solicitudes_paises h', 'a.id = h.marcas_id', 'left outer');
-        $this->db->join('tbl_paises i', 'h.pais_id = i.id', 'left outer');
-        $this->db->join('tblclients j','a.client_id = j.userid ', 'left outer');
-        $this->db->join('tbl_tipo_solicitud k', 'k.id = a.tipo_solicitud_id', 'left outer');
-        $this->db->join('tbl_tipo_signo l', 'a.tipo_signo_id = l.id', 'left outer');
-        $this->db->join('tbl_marcas_eventos m', 'a.id = m.marcas_id', 'left outer');
-        $this->db->join('tbl_tipos_eventos n', 'm.tipo_evento_id = n.id', 'left outer');
-        $this->db->join('tbl_oficina o', 'a.oficina_id = o.oficina_id', 'left outer');
-        $this->db->join('tbl_estado_expediente p', 'a.estado_id = p.id', 'left outer');
-        $this->db->join('tbl_marcas_clases q', 'a.id = q.marcas_id', 'left outer');
-        $this->db->join('tbl_marcas_clase_niza r', 'r.clase_niza_id = q.clase_id', 'left outer');
-        $this->db->join('tbl_marcas_publicaciones s', 's.marcas_id = a.id', 'left outer');
-        $this->db->join('tbl_boletines t', 't.id = s.boletin_id', 'left outer');
-        $this->db->join('tblstaff u', 'a.staff_id = u.staffid', 'left outer');
+        $this->db->from('tbl_derecho_autor_solicitudes a');
+        $this->db->join('tbl_derecho_autor_tipo b', 'a.id_tipo_solicitud = b.id_tipo_solicitud', 'left outer');
+        $this->db->join('tbl_estado_expediente c', 'a.id_estado = c.id', 'left outer');
+        $this->db->join('tbl_paises d', 'a.id_pais = d.id', 'left outer');
         $this->db->limit(150);
         $query = $this->db->get();
         if($query->num_rows() > 0)
@@ -810,22 +660,6 @@ class AutoresSolicitudes_model extends BaseModel
         }
     }
 
-    /* public function findPublicacionesByMarca($id = NULL)
-    {
-        if(!is_null($id))
-        {
-            $this->db->select('a.id, b.descripcion, a.tomo, a.pagina');
-            $this->db->from('tbl_marcas_publicaciones a');
-            $this->db->join('tbl_boletines b', 'a.boletin_id = b.id');
-            $this->db->join('tbl_paises c', 'b.pais_id = c.id');
-            $this->db->where('a.marcas_id', $id);
-            $query = $this->db->get();
-            if($query->num_rows() > 0)
-            {
-                return $query->result_array();
-            }
-        }
-    } */
 
     public function findEventosByMarca($id = NULL)
     {
@@ -860,51 +694,6 @@ class AutoresSolicitudes_model extends BaseModel
         }
     }
 
-    /* public function findAllTipoPublicacion()
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_tipo_publicacion');
-        $query = $this->db->get();
-        $keys = array('');
-        $values = array('Seleccione una opcion');
-        foreach($query->result_array() as $row)
-        {
-            array_push($keys, $row['id']);
-            array_push($values, $row['nombre']);
-        }
-        return array_combine($keys, $values); 
-    } */
-
-    public function insertRegistroPiloto($id = NULL)
-    {
-        $this->db->insert($this->tableName,
-        [
-            'id' => intval($id),
-            'tipo_registro_id' => 1,
-            'oficina_id' => 1,
-        ]);
-    }
-
-    public function insertMarcasClases(Array $params = null)
-    {
-        $query = $this->db->insert('tbl_marcas_clases', $params);
-        if($query)
-        {
-            return TRUE;
-        }
-    }
-
-    public function getMarcasClases($id = null)
-    {
-        $this->db->select('a.id, b.nombre, a.descripcion');
-        $this->db->from('tbl_marcas_clases a ');
-        $this->db->join('tbl_marcas_clase_niza b', 'a.clase_id = b.clase_niza_id');
-        $this->db->where("marcas_id = '{$id}'");
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
-
     public function findAllProjects()
     {
         $this->db->select('id, name');
@@ -921,11 +710,11 @@ class AutoresSolicitudes_model extends BaseModel
         return array_combine($keys, $values); 
     }
 
-    public function findProjectByMarca($id = null)
+    public function findProjectByAutor($id = null)
     {
         $this->db->select('a.id, a.name');
         $this->db->from('tblprojects a');
-        $this->db->join('tbl_marcas_tareas b', 'a.id = b.project_id');
+        $this->db->join('tbl_derecho_autor_tareas b', 'a.id = b.project_id');
         $this->db->where("b.project_id = {$id}");
         $query = $this->db->get();
         $keys = array();
@@ -944,25 +733,9 @@ class AutoresSolicitudes_model extends BaseModel
         $this->db->from('tbl_derecho_autor_solicitudes');
         $query = $this->db->get();
         $values = $query->result_array();
-        return (empty($values[0]['cantidad']) || $values[0]['cantidad'] == null) ? 1 : $values[0]['cantidad']; 
+        return (empty($values[0]['cantidad']) || $values[0]['cantidad'] == null) ? 0 : $values[0]['cantidad']; 
     }
 
 
-    public function getInvoicesByMarca($marcaid = null)
-    {
-        $this->db->select('*');
-        $this->db->from('tbl_marcas_facturas');
-        $this->db->where('marcas_id = '.$marcaid);
-        $query = $this->db->get();
-        return $query->result_array();
-    }
 
-    public function getInvoice($id = null)
-    {
-        $this->db->select("*");
-        $this->db->from('tblinvoices');
-        $this->db->where('id = '.$id);
-        $query = $this->db->get();
-        return $query->result_array();
-    }
 }

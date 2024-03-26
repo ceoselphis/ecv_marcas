@@ -214,7 +214,7 @@
     });
 
 
-    $("#solicitudfrm").on('submit', function(e) {
+    $("#solicitudfrmOLD").on('submit', function(e) {
         var formData = new FormData();
         e.preventDefault();
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());

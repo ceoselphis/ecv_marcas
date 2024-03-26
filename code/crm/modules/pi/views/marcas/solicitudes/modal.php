@@ -141,6 +141,7 @@
   </div>
   <?php echo form_close(); ?>
 </div>
+
 <!-- Añadir Tareas Modal -->
 <div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']); ?>
@@ -160,7 +161,7 @@
               'name' => 'project_id',
               'id' => 'project_id',
               'class' => 'form-control',
-              'selected' => set_value('project_id', $values['projects']),
+              //'selected' => set_value('project_id', $values['projects']),
               'options' => $projects
             ]); ?>
           </div>
@@ -185,7 +186,7 @@
 
 <!-- Editar Tareas Modal  -->
 <div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']); ?>
+  <?php echo form_open('', ['method' => 'POST', 'id' => 'tareaseditfrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -2667,7 +2668,7 @@
             <select class="form-control" name="invoiceID">
               <?php foreach($invoices as $key => $value){ ?>
                 <option value="<?php echo $key;?>"><?php echo $value;?></option>
-                <?}?>
+                <?php } ?>
             </select>
           </div>
 

@@ -976,6 +976,7 @@
         e.preventDefault();
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', $("input[name=id]").val());
+        formData.append('cod_contador', $("input[name=cod_contador]").val());
         formData.append('tipo_registro_id', $("select[name=tipo_registro_id]").val());
         formData.append('client_id', $("select[name=client_id]").val());
         formData.append('oficina_id', $("select[name=oficina_id]").val());
@@ -986,7 +987,7 @@
         formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
         formData.append('ref_interna', $("input[name=ref_interna]").val());
         formData.append('ref_cliente', $('input[name=ref_cliente]').val());
-        formData.append('primer_uso', $('input[name=primer_uso').val());
+        //formData.append('primer_uso', $('input[name=primer_uso').val());
         formData.append('prueba_uso', $('input[name=prueba_uso]').val());
         formData.append('carpeta', $("input[name=carpeta]").val());
         formData.append('libro', $("input[name=libro]").val());

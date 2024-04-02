@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-#require 'ecv_marcas\vendor\autoload.php';
-#require 'C:\laragon\www\ecv_marcas\vendor\michelf\php-markdown\Michelf\Markdown.php';
+
+
 use League\HTMLToMarkdown\HtmlConverter;
 use Michelf\Markdown;
 class CorrespondeciaPlantillaController extends AdminController

@@ -1,6 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+if (file_exists(APPPATH."modules/pi/vendor/autoload.php"))
+{
+    require APPPATH."modules/pi/vendor/autoload.php";
+}
+else
+{
+    echo "install composer";
+    die();
+};
 
 use League\HTMLToMarkdown\HtmlConverter;
 use Michelf\Markdown;

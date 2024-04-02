@@ -145,4 +145,26 @@ class CorrespondeciaUsuario_model extends BaseModel
         }
         return $values[0];
     }
+
+    public function findAll(){
+        $this->db->select('a.id, b.company, a.expediente, CONCAT(c.firstname, " ", c.lastname) as staff, d.descripcion');
+        $this->db->distinct();
+        $this->db->from('tbl_correspondecia_usuario a');
+        $this->db->join('tblclients b', 'a.cliente = b.userid', 'left outer');
+        $this->db->join('tblstaff c', 'a.staff_id = c.staffid', 'left outer');
+        $this->db->join('tbl_correspondencia_plantilla d', 'a.plantilla_id = d.id', 'left outer');
+        try{
+            $query = $this->db->get();
+            if($query->num_rows() > 0)
+            {
+                return $query->result_array();
+            }
+        }catch (Exception $e){
+            log_message( 'error', $e->getMessage( ) . ' in ' . $e->getFile() . ':' . $e->getLine() );
+            //return $e->getMessage();
+        }
+    }
+
+    
+
 }

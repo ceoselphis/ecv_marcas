@@ -23,29 +23,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if (!empty($correspondencia)) {?>
-                                            <?php foreach ($correspondencia as $row) {?>
-                                                <tr>
-                                                    <td><?php echo $row['id'];?></td>
-                                                    <td><?php echo $row['cliente'];?></td>
-                                                    <td><?php echo $row['expediente'];?></td>
-                                                    <td><?php echo $row['staff_id'];?></td>
-                                                    <td><?php echo $row['plantilla_id'];?></td>
-                                                    <form method="DELETE" action="<?php echo admin_url("pi/CorrespondeciaUsuarioController/destroy/{$row['id']}");?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                        <td>
-                                                            <a class="btn btn-light" href="<?php echo admin_url("pi/CorrespondeciaUsuarioController/edit/{$row['id']}");?>"><i class="fas fa-edit"></i> Editar</a>
-                                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Borrar</button>
-                                                        </td>
-                                                    </form> 
-                                                </tr>
-                                            <?php } ?>
-                                        <?php }
-                                        else {
-                                        ?>
-                                        <tr colspan="3">
-                                            <td>Sin Registros</td>
-                                        </tr>
-                                        <?php } ?>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -67,11 +45,34 @@
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
-    new DataTable(".table", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
+    $(function() {
+        $('#tableResult').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            ajax: {
+                url: '<?php echo admin_url('pi/CorrespondeciaUsuarioController/loadData') ?>',
+                method: 'POST',
+                data: {
+                    "csrf_token_name": $("input[name=csrf_token_name]").val()
+                }/* ,
+                dataSrc: function (response) {
+                    return response;
+                } */
+            },
+            destroy: true,
+            columns: [
+                { data: 'id' },
+                { data: 'cliente' },
+                { data: 'expediente' },
+                { data: 'staff_id' },
+                { data: 'plantilla_id' },
+                { data: 'acciones' }
+            ]
+
+        });
     });
+
 </script>
 
 

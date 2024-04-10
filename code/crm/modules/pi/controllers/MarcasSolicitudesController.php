@@ -30,7 +30,7 @@ class MarcasSolicitudesController extends AdminController
             'Tipo de Evento'           => $CI->MarcasSolicitudes_model->findAllTipoEvento(),
             'contactos'           => $CI->MarcasSolicitudes_model->findAllContactos(),
             'propietarios'           => $CI->MarcasSolicitudes_model->findAllPropietarios2(),
-            'tipo publicacion'           => $CI->MarcasSolicitudes_model->findAllTipoPublicacion2(),
+            'tipo publicacion'           => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
             //'query'                 => $query
         ];
         return $CI->load->view('marcas/solicitudes/index', ["marcas" => $data]);
@@ -42,22 +42,27 @@ class MarcasSolicitudesController extends AdminController
 
     public function create()
     {
+        $this->LoadPage();
+    }
+
+    private function LoadPage(){
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
         $id = intval($CI->MarcasSolicitudes_model->setCountPK());
+        //$cod_contador = 'M-' + $id;
         $fields = $CI->MarcasSolicitudes_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach ($fields as $field) {
             if ($field['type'] == 'INT') {
-                $inputs[] = array(
+                $inputs[$field['name']] = array(
                     'name' => $field['name'],
                     'id'   => $field['name'],
                     'type' => 'range',
                     'class' => 'form-control'
                 );
             } else {
-                $inputs[] = array(
+                $inputs[$field['name']] = array(
                     'name' => $field['name'],
                     'id'   => $field['name'],
                     'type' => 'text',
@@ -110,7 +115,7 @@ class MarcasSolicitudesController extends AdminController
             'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
             'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
             'invoices'              => $CI->MarcasSolicitudes_model->findAllInvoices(),
-            'cod_contador'              => $id
+            'cod_contador'          => $cod_contador
         ]);
     }
 
@@ -166,100 +171,333 @@ class MarcasSolicitudesController extends AdminController
     /**
      * Recive the data for create a new item
      */
+    private function ValidationsForm(){
+        $CI = &get_instance();
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        
+        //we validate the data
+         $config = array(
+            [
+                'field' => 'tipo_registro_id',
+                'label' => 'Tipo de solicitud',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar el Tipo de Solicitud'
+                ]
+            ],
+            [
+                'field' => 'client_id',
+                'label' => 'Cliente',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar el Cliente'
+                ]
+            ],
+            [
+                'field' => 'oficina_id',
+                'label' => 'Oficina',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar la Oficina'
+                ]
+            ],
+            [
+                'field' => 'staff_id',
+                'label' => 'Responsable',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar el Responsable'
+                ]
+            ],
+            [
+                'field' => 'signonom',
+                'label' => 'Signo',
+                'rules' => 'trim|min_length[2]|max_length[255]',
+                'errors' => [
+                    'min_length' => 'Signo demasiado corto',
+                    'max_length' => 'Signo demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'tipo_signo_id',
+                'label' => 'Tipo Signo',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar el Tipo Signo'
+                ]
+            ],
+            [
+                'field' => 'tipo_solicitud_id',
+                'label' => 'Tipo Solicitud',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar el Tipo Solicitud'
+                ]
+            ],
+            [
+                'field' => 'ref_interna',
+                'label' => 'Referencia Interna',
+                'rules' => 'trim|min_length[2]|max_length[20]',
+                'errors' => [
+                    'min_length' => 'Referencia Interna demasiado corta',
+                    'max_length' => 'Referencia Interna demasiado larga'
+                ]
+            ],
+            [
+                'field' => 'ref_cliente',
+                'label' => 'Referencia Cliente',
+                'rules' => 'trim|min_length[2]|max_length[20]',
+                'errors' => [
+                    'min_length' => 'Referencia Cliente demasiado corta',
+                    'max_length' => 'Referencia Cliente demasiado larga'
+                ]
+            ],
+            [
+                'field' => 'carpeta',
+                'label' => 'Carpeta',
+                'rules' => 'trim|max_length[20]',
+                'errors' => [
+                    'max_length' => 'Carpeta demasiado larga'
+                ]
+            ],
+            [
+                'field' => 'libro',
+                'label' => 'Libro',
+                'rules' => 'trim|max_length[20]',
+                'errors' => [
+                    'max_length' => 'Libro demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'tomo',
+                'label' => 'Tomo',
+                'rules' => 'trim|max_length[20]',
+                'errors' => [
+                    'max_length' => 'Tomo demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'folio',
+                'label' => 'Folio',
+                'rules' => 'trim|max_length[20]',
+                'errors' => [
+                    'max_length' => 'Folio demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'comentarios',
+                'label' => 'Comentarios',
+                'rules' => 'trim|min_length[5]|max_length[200]',
+                'errors' => [
+                    'min_length' => 'Comentarios demasiado corto',
+                    'max_length' => 'Comentarios demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'estado_id',
+                'label' => 'Estado de Solicitud',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar el Estado de Solicitud'
+                ]
+            ],
+            [
+                'field' => 'solicitud',
+                'label' => 'Nº de Solicitud',
+                'rules' => 'trim|max_length[20]',
+                'errors' => [
+                    'max_length' => 'Nº de Solicitud demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'fecha_solicitud',
+                'label' => 'Fecha de Solicitud',
+                'rules' => 'trim|required',
+                'errors' => [
+                    'required' => 'Debe indicar la Fecha de Solicitud'
+                ]
+            ],
+            [
+                'field' => 'registro',
+                'label' => 'Nº de Registro',
+                'rules' => 'trim|min_length[2]|max_length[20]',
+                'errors' => [
+                    'min_length' => 'Nº de Registro demasiado corto',
+                    'max_length' => 'Nº de Registro demasiado largo'
+                ]
+            ],
+            [
+                'field' => 'certificado',
+                'label' => 'Nº de Certificado',
+                'rules' => 'trim|min_length[2]|max_length[20]',
+                'errors' => [
+                    'min_length' => 'Nº de Certificado demasiado corto',
+                    'max_length' => 'Nº de Certificado demasiado largo'
+                ]
+            ]
+        );
+        //we set the rules
+        $CI->form_validation->set_rules($config);
+       return $CI->form_validation->run();
+    }
 
     public function store()
     {
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
-        $CI->load->helper(['url', 'form']);
-        $CI->load->library('form_validation');
-        // Preparamos la data
-        $form = $CI->input->post();
-        /*Inicializamos los arreglos*/
-        $solicitud = array();
-        $paisSol = array();
-        $claseNiza = array();
-        $solicitantes = array();
-        /*Seteamos el arreglo para la solicitud */
+        if($this->ValidationsForm() == FALSE)
+        {
+            echo json_encode(['code' => 201, 'error' => $CI->form_validation->error_array()]);
+        }
+        else{
+            // Preparamos la data
+            $form = $CI->input->post();
+            /*Inicializamos los arreglos*/
+            $solicitud = array();
+            $paisSol = array();
+            $claseNiza = array();
+            $solicitantes = array();
+            /*Seteamos el arreglo para la solicitud */
 
-        $solicitud['id'] = $form['id'];
-        $solicitud['cod_contador'] = $form['cod_contador'];
-        $solicitud['tipo_registro_id'] = $form['tipo_registro_id'];
-        $solicitud['client_id'] = $form['client_id'];
-        $solicitud['oficina_id'] = $form['oficina_id'];
-        $solicitud['staff_id'] = $form['staff_id'];
-        $solicitud['signonom'] = $form['signonom'];
-        $solicitud['tipo_signo_id'] = $form['tipo_signo_id'];
-        $solicitud['tipo_solicitud_id'] = $form['tipo_solicitud_id'];
-        $solicitud['ref_interna'] = $form['ref_interna'];
-        $solicitud['primer_uso'] = empty($form['primer_uso']) || '' ? NULL : $this->turn_dates($form['primer_uso']);
-        $solicitud['ref_cliente'] = $form['ref_cliente'];
-        $solicitud['prueba_uso'] = empty($form['prueba_uso']) || '' ? NULL : $this->turn_dates($form['prueba_uso']);
-        $solicitud['carpeta'] = $form['carpeta'];
-        $solicitud['libro'] = $form['libro'];
-        $solicitud['folio'] = $form['folio'];
-        $solicitud['tomo'] = $form['tomo'];
-        $solicitud['comentarios'] = $form['comentarios'];
-        $solicitud['estado_id'] = $form['estado_id'];
-        $solicitud['solicitud'] = $form['solicitud'];
-        $solicitud['fecha_solicitud'] = empty($form['fecha_solicitud']) || '' ? NULL : $this->turn_dates($form['fecha_solicitud']);
-        $solicitud['registro'] = $form['registro'];
-        $solicitud['fecha_registro'] = empty($form['fecha_registro']) || '' ? NULL : $this->turn_dates($form['fecha_registro']);
-        $solicitud['certificado']     = $form['certificado'];
-        $solicitud['fecha_certificado'] = empty($form['fecha_certificado']) || '' ? NULL : $this->turn_dates($form['fecha_certificado']);
-        $solicitud['fecha_vencimiento'] = empty($form['fecha_vencimiento']) || '' ? NULL : $this->turn_dates($form['fecha_vencimiento']);
+            $solicitud['id'] = $form['id'];
+            $solicitud['cod_contador'] = $form['cod_contador'];
+            $solicitud['tipo_registro_id'] = $form['tipo_registro_id'];
+            $solicitud['client_id'] = $form['client_id'];
+            $solicitud['oficina_id'] = $form['oficina_id'];
+            $solicitud['staff_id'] = $form['staff_id'];
+            $solicitud['signonom'] = $form['signonom'];
+            $solicitud['tipo_signo_id'] = $form['tipo_signo_id'];
+            $solicitud['tipo_solicitud_id'] = $form['tipo_solicitud_id'];
+            $solicitud['ref_interna'] = $form['ref_interna'];
+            $solicitud['primer_uso'] = empty($form['primer_uso']) || '' ? NULL : $this->turn_dates($form['primer_uso']);
+            $solicitud['ref_cliente'] = $form['ref_cliente'];
+            $solicitud['prueba_uso'] = empty($form['prueba_uso']) || '' ? NULL : $this->turn_dates($form['prueba_uso']);
+            $solicitud['carpeta'] = $form['carpeta'];
+            $solicitud['libro'] = $form['libro'];
+            $solicitud['folio'] = $form['folio'];
+            $solicitud['tomo'] = $form['tomo'];
+            $solicitud['comentarios'] = $form['comentarios'];
+            $solicitud['estado_id'] = $form['estado_id'];
+            $solicitud['solicitud'] = $form['solicitud'];
+            $solicitud['fecha_solicitud'] = empty($form['fecha_solicitud']) || '' ? NULL : $this->turn_dates($form['fecha_solicitud']);
+            $solicitud['registro'] = $form['registro'];
+            $solicitud['fecha_registro'] = empty($form['fecha_registro']) || '' ? NULL : $this->turn_dates($form['fecha_registro']);
+            $solicitud['certificado']     = $form['certificado'];
+            $solicitud['fecha_certificado'] = empty($form['fecha_certificado']) || '' ? NULL : $this->turn_dates($form['fecha_certificado']);
+            $solicitud['fecha_vencimiento'] = empty($form['fecha_vencimiento']) || '' ? NULL : $this->turn_dates($form['fecha_vencimiento']);
 
-        /*Seteamos el valor del signo*/
-        $file = '';
-        if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
-            $file = $_FILES['signo_archivo'];
-        }
-        if ($file != NULL) {
-            //We fill the data of the         
-            $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
-            $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
-            move_uploaded_file($file['tmp_name'], $fpath);
-            $solicitud['signo_archivo'] = $path;
-        }
+            /*Seteamos el valor del signo*/
+            $file = '';
+            if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
+                $file = $_FILES['signo_archivo'];
+            }
+            if ($file != NULL) {
+                //We fill the data of the         
+                $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
+                $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
+                move_uploaded_file($file['tmp_name'], $fpath);
+                $solicitud['signo_archivo'] = $path;
+            }
 
-        /*Seteamos el valor del signo*/
-        $file = '';
-        if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
-            $file = $_FILES['signo_archivo'];
-        }
-        if ($file != NULL) {
-            //We fill the data of the         
-            $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
-            $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
-            move_uploaded_file($file['tmp_name'], $fpath);
-            $solicitud['signo_archivo'] = $path;
-        }
-        /*Seteamos el arreglo para los paises designados*/
-        foreach (json_decode($form['pais_id'], TRUE) as $row) {
-            $paisSol[] = [
-                'marcas_id' => $form['id'],
-                'pais_id'   => $row
-            ];
-        }
-        $claseNiza = json_decode($form['clase_niza_id'], TRUE);
-        /*Seteamos el arreglo para los solicitantes */
-        foreach (json_decode($form['solicitantes_id'], TRUE) as $row) {
-            $solicitantes[] = [
-                'marcas_id' => $form['id'],
-                'propietario_id' => $row
-            ];
-        }
-        try {
-            $CI->MarcasSolicitudes_model->insert($solicitud);
-            $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
-            $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
-            $CI->MarcasSolicitudes_model->insertMarcasSolicitantes($solicitantes);
-            echo  json_encode(['code' => 200, 'message' => 'Cambios realizados exitosamente']);
-        } catch (\Throwable $th) {
-            //Activate SYSLOG in the app
-            echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
-        }
+            /*Seteamos el valor del signo*/
+            $file = '';
+            if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
+                $file = $_FILES['signo_archivo'];
+            }
+            if ($file != NULL) {
+                //We fill the data of the         
+                $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
+                $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
+                move_uploaded_file($file['tmp_name'], $fpath);
+                $solicitud['signo_archivo'] = $path;
+            }
+            /*Seteamos el arreglo para los paises designados*/
+            foreach (json_decode($form['pais_id'], TRUE) as $row) {
+                $paisSol[] = [
+                    'marcas_id' => $form['id'],
+                    'pais_id'   => $row
+                ];
+            }
+            /*Seteamos el arreglo para los solicitantes */
+            foreach (json_decode($form['solicitantes_id'], TRUE) as $row) {
+                $solicitantes[] = [
+                    'marcas_id' => $form['id'],
+                    'propietario_id' => $row
+                ];
+            }
 
+            /*Seteamos el arreglo para las clases */
+            $claseNiza = json_decode($form['clase_niza_id'], TRUE);
+            for ($i = 0; $i < count($claseNiza); ++$i){
+                unset($claseNiza[$i]['acciones']);
+            }
+
+            /*Seteamos el arreglo para las prioridades */
+            $prioridades = json_decode($form['prioridad_id'], TRUE);
+            for ($i = 0; $i < count($prioridades); ++$i){
+                unset($prioridades[$i]['pais_name']);
+                unset($prioridades[$i]['acciones']);
+                $prioridades[$i]['fecha_prioridad'] = empty($prioridades[$i]['fecha_prioridad']) || '' ? NULL : $this->turn_dates($prioridades[$i]['fecha_prioridad']);
+            }
+
+            /*Seteamos el arreglo para las publicaciones */
+            $publicacion = json_decode($form['publicacion_id'], TRUE);
+            for ($i = 0; $i < count($publicacion); ++$i){
+                unset($publicacion[$i]['tipo_pub_name']);
+                unset($publicacion[$i]['boletin_name']);
+                unset($publicacion[$i]['acciones']);
+                $publicacion[$i]['fecha'] = empty($publicacion[$i]['fecha']) || '' ? NULL : $this->turn_dates($publicacion[$i]['fecha']);
+            }
+
+            /*Seteamos el arreglo para los eventos */
+            $eventos = json_decode($form['eventos_id'], TRUE);
+            for ($i = 0; $i < count($eventos); ++$i){
+                unset($eventos[$i]['tipo_evento_name']);
+                unset($eventos[$i]['acciones']);
+                $eventos[$i]['fecha'] = empty($eventos[$i]['fecha']) || '' ? NULL : $this->turn_dates($eventos[$i]['fecha']);
+            }
+
+            /*Seteamos el arreglo para las treas */
+            $tareas = json_decode($form['tareas_id'], TRUE);
+            for ($i = 0; $i < count($tareas); ++$i){
+                unset($tareas[$i]['project_id_name']);
+                unset($tareas[$i]['tipo_tareas_id_name']);
+                unset($tareas[$i]['acciones']);
+                $tareas[$i]['fecha'] = empty($tareas[$i]['fecha']) || '' ? NULL : $this->turn_dates($tareas[$i]['fecha']);
+            }
+
+            try {
+                $CI->MarcasSolicitudes_model->insert($solicitud);
+                if (!empty($paisSol)) {
+                    $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
+                }
+                if (!empty($claseNiza)) {
+                    $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
+                }
+                if (!empty($prioridades)) {
+                    $CI->MarcasSolicitudes_model->insertPrioridades($prioridades);
+                }
+                if (!empty($solicitantes)) {
+                    $CI->MarcasSolicitudes_model->insertMarcasSolicitantes($solicitantes);
+                }
+                if (!empty($publicacion)) {
+                    $CI->MarcasSolicitudes_model->insertPublicaciones($publicacion);
+                }
+                if (!empty($eventos)) {
+                    $CI->MarcasSolicitudes_model->insertEventos($eventos);
+                }
+                if (!empty($tareas)) {
+                    $CI->MarcasSolicitudes_model->insertTareas($tareas);
+                }
+
+                echo json_encode(['code' => 200, 'error' => '']);
+            } catch (\Throwable $th) {
+                //Activate SYSLOG in the app
+                echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
+            }
+
+        }
     }
 
     /**

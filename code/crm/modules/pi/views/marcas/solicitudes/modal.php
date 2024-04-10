@@ -1,5 +1,7 @@
+<?php $select = ['' => '']; ?>
 <!-- Clase Niza Modal -->
-<div class="modal fade" id="claseNizaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="claseNizaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -13,7 +15,9 @@
         <div class="row">
           <div class="col-md-6">
             <?php echo form_label('Clase', 'clase_niza'); ?>
-            <?php echo form_dropdown('clase_niza', $clase_niza_id, '', ['class' => 'form-control']); ?>
+            <?php
+            $clase_niza_id = $select + $clase_niza_id;
+            echo form_dropdown('clase_niza', $clase_niza_id, '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-6">
             <?php echo form_label('Descripcion', 'clase_niza_descripcion'); ?>
@@ -31,7 +35,8 @@
 </div>
 
 <!--Clase niza Editar -->
-<div class="modal fade" id="claseNizaEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="claseNizaEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaEditFrm']); ?>
   <input name="marcas_clase_id" type="hidden">
   <div class="modal-dialog modal-lg" role="document">
@@ -64,7 +69,8 @@
 </div>
 
 <!-- Añadir Prioridad Modal -->
-<div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -78,7 +84,9 @@
         <div class="row">
           <div class="col-md-6">
             <?php echo form_label('Pais de la prioridad', 'pais_prioridad'); ?>
-            <?php echo form_dropdown('pais_prioridad', $pais_id, '', ['class' => 'form-control']); ?>
+            <?php
+            $pais_id = $select + $pais_id;
+            echo form_dropdown('pais_prioridad', $pais_id, '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Fecha', 'fecha_prioridad'); ?>
@@ -88,12 +96,16 @@
               'class' => 'form-control calendar',
               'placeholder' => 'Fecha Prioridad'
             ]); ?>
-            <?php //echo form_input('fecha_prioridad', '', ['class' => 'form-control calendar']);
-            ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Número', 'nro_prioridad'); ?>
-            <?php echo form_input('nro_prioridad', '', ['class' => 'form-control']); ?>
+            <?php echo form_input([
+              'id' => 'nro_prioridad',
+              'name' => 'nro_prioridad',
+              'class' => 'form-control',
+              'placeholder' => 'Número Prioridad',
+              'type' => 'number'
+            ]); ?>
           </div>
         </div>
       </div>
@@ -107,7 +119,8 @@
 </div>
 
 <!-- Editar Prioridad Modal -->
-<div class="modal fade" id="EditprioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditprioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -157,19 +170,28 @@
         <div class="row">
           <div class="col-md-4">
             <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']); ?>
-            <?php echo form_dropdown([
+            <?php 
+            $projects = $select + $projects;
+            echo form_dropdown([
               'name' => 'project_id',
               'id' => 'project_id',
               'class' => 'form-control',
-              //'selected' => set_value('project_id', $values['projects']),
               'options' => $projects
             ]); ?>
           </div>
           <div class="col-md-4">
             <?php echo form_label('Tipo Tareas', 'tipo_tarea'); ?>
-            <?php echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'], $tipo_tareas, '', ['class' => 'form-control']); ?>
+            <?php 
+            $tipo_tareas = $select + $tipo_tareas;
+            echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'], $tipo_tareas, '', ['class' => 'form-control']); ?>
           </div>
-          <div class="col-md-12" style="margin-top: 15px;">
+          <div class="col-md-4">
+            <?php echo form_label('Fecha', 'fecha_tarea'); ?>
+            <?php echo form_input('fecha_tarea', '', ['class' => 'form-control calendar']); ?>
+          </div>
+        </div>
+        <div class="row" style="padding-top:15px;">
+          <div class="col-md-12">
             <?php echo form_label('Descripcion', 'descripcion'); ?>
             <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control']); ?>
           </div>
@@ -185,7 +207,8 @@
 </div>
 
 <!-- Editar Tareas Modal  -->
-<div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open('', ['method' => 'POST', 'id' => 'tareaseditfrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -228,7 +251,8 @@
 </div>
 
 <!-- Añadir Publicacion Modal -->
-<div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="publicacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']); ?>
   <?php echo form_hidden('pub_id', set_value('pub_id')); ?>
   <div class="modal-dialog modal-lg" role="document">
@@ -241,13 +265,28 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-3">
-            <?php echo form_label('Tipo', 'tipo_publicacion'); ?>
-            <?php echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control']); ?>
+          <div class="col-md-3 col-md-offset-3">
+            <?php echo form_label('Fecha', 'fecha_publicacion'); ?>
+            <?php echo form_input([
+              'id' => 'fecha_publicacion',
+              'name' => 'fecha_publicacion',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Publicación'
+            ]); ?>
           </div>
           <div class="col-md-3">
+            <?php echo form_label('Tipo', 'tipo_publicacion'); ?>
+            <?php
+            $tipo_publicacion = $select + $tipo_publicacion;
+            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control']); ?>
+          </div>
+        </div>
+        <div class="row" style="padding-top:15px;">
+          <div class="col-md-3 col-md-offset-1">
             <?php echo form_label('Boletin', 'boletin_publicacion'); ?>
-            <?php echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control']); ?>
+            <?php
+            $boletines = $select + $boletines;
+            echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Tomo', 'tomo_publicacion'); ?>
@@ -269,7 +308,8 @@
 </div>
 
 <!-- Editar Publicacion Modal -->
-<div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']); ?>
   <?php echo form_hidden('pub_id_edit', set_value('pub_id_edit')); ?>
   <div class="modal-dialog modal-lg" role="document">
@@ -310,7 +350,8 @@
 </div>
 
 <!-- Añadir Evento Modal -->
-<div class="modal fade" id="eventoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="eventoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -322,10 +363,23 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8 col-md-offset-0">
             <?php echo form_label('Tipo Evento', 'tipo_evento'); ?>
-            <?php echo form_dropdown(['name' => 'tipo_evento', 'id' => 'tipo_evento'], $tipo_evento, '', ['class' => 'form-control']); ?>
+            <?php
+            $tipo_evento = $select + $tipo_evento;
+            echo form_dropdown(['name' => 'tipo_evento', 'id' => 'tipo_evento'], $tipo_evento, '', ['class' => 'form-control']); ?>
           </div>
+          <div class="col-md-4">
+            <?php echo form_label('Fecha Evento', 'fecha_evento'); ?>
+            <?php echo form_input([
+              'id' => 'fecha_evento',
+              'name' => 'fecha_evento',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Evento'
+            ]); ?>
+          </div>
+        </div>
+        <div class="row" style="padding-top:15px;">
           <div class="col-md-12">
             <?php echo form_label('Comentario', 'evento_comentario'); ?>
             <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control']); ?>
@@ -342,7 +396,8 @@
 </div>
 
 <!-- Editar Evento Modal Edit -->
-<div class="modal fade" id="eventoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="eventoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -375,7 +430,8 @@
 </div>
 
 <!-- Añadir Licencia -->
-<div class="modal fade" id="AddLicencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddLicencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -391,11 +447,14 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#addlicenciastep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Licencia</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#addlicenciastep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Licencia</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#addlicenciastep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Licencia Anterior y Actual</i></a>
+                  <a href="#addlicenciastep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Licencia Anterior y Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -461,13 +520,16 @@
             <div class="tab-pane" role="tabpanel" id="addlicenciastep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#AddLicenciaanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#AddLicenciaanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddLicenciaanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnLicenciaAnterior" class="btn btn-primary pull-right">Añadir Licencia Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnLicenciaAnterior" class="btn btn-primary pull-right">Añadir
+                            Licencia Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -488,13 +550,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#AddLicenciaactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#AddLicenciaactual" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddLicenciaactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnLicenciaActual" class="btn btn-primary pull-right">Añadir Licencia Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnLicenciaActual" class="btn btn-primary pull-right">Añadir
+                            Licencia Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -527,7 +592,8 @@
 </div>
 
 <!-- Editar Licencia -->
-<div class="modal fade" id="EditLicencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditLicencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -543,11 +609,14 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#licenciastep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Licencia</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#licenciastep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span
+                      class="round-tab">1 </span> <i>Registrar Licencia</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#licenciastep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Licencia Anterior y Actual</i></a>
+                  <a href="#licenciastep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Licencia Anterior y Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -614,13 +683,16 @@
             <div class="tab-pane" role="tabpanel" id="licenciastep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#EditarLicenciaanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#EditarLicenciaanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="EditarLicenciaanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right">Añadir Licencia Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right">Añadir
+                            Licencia Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -641,13 +713,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#EditarLicenciaactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#EditarLicenciaactual" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="EditarLicenciaactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnLicenciaActual" class="btn btn-primary pull-right">Añadir Licencia Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnLicenciaActual" class="btn btn-primary pull-right">Añadir
+                            Licencia Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -680,7 +755,8 @@
 </div>
 
 <!-- Añadir Cesion -->
-<div class="modal fade" id="AddCesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddCesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -696,11 +772,14 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#addcesionstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#addcesionstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#addcesionstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
+                  <a href="#addcesionstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -766,13 +845,16 @@
             <div class="tab-pane" role="tabpanel" id="addcesionstep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#AddCesionanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#AddCesionanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cesion Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddCesionanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnCesionAnterior" class="btn btn-primary pull-right">Añadir Cesion Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnCesionAnterior" class="btn btn-primary pull-right">Añadir
+                            Cesion Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -793,13 +875,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#AddCesionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#AddCesionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion
+                    Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddCesionactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnCesionActual" class="btn btn-primary pull-right">Añadir Cesion Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnCesionActual" class="btn btn-primary pull-right">Añadir Cesion
+                            Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -832,7 +917,8 @@
 </div>
 
 <!-- Editar Cesion -->
-<div class="modal fade" id="EditCesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditCesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -848,11 +934,14 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#editcesionstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#editcesionstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#editcesionstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
+                  <a href="#editcesionstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -918,13 +1007,16 @@
             <div class="tab-pane " role="tabpanel" id="editcesionstep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#EditarCesionanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#EditarCesionanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cesion Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="EditarCesionanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnCesionAnterior" class="btn btn-primary pull-right">Añadir Cesion Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnCesionAnterior" class="btn btn-primary pull-right">Añadir Cesion
+                            Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -945,13 +1037,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#EditarCesionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#EditarCesionactual" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cesion Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="EditarCesionactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnCesionActual" class="btn btn-primary pull-right">Añadir Cesion Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnCesionActual" class="btn btn-primary pull-right">Añadir Cesion
+                            Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -986,7 +1081,8 @@
 
 
 <!-- Añadir Cambio de Domicilio -->
-<div class="modal fade" id="AddCambioDomicilio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddCambioDomicilio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1002,11 +1098,15 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#addcamdomstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio de Domicilio</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#addcamdomstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio de Domicilio</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#addcamdomstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cambio de Domicilio Anterior y Actual</i></a>
+                  <a href="#addcamdomstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cambio de Domicilio Anterior y
+                      Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -1070,13 +1170,16 @@
             <div class="tab-pane" role="tabpanel" id="addcamdomstep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#Addcambio_domicilioanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#Addcambio_domicilioanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cambio Domicilio Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="Addcambio_domicilioanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnCambioDomicilioAnterior" class="btn btn-primary pull-right">Añadir Cambio Domicilio Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnCambioDomicilioAnterior"
+                            class="btn btn-primary pull-right">Añadir Cambio Domicilio Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1097,13 +1200,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#Addcambio_domicilioactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#Addcambio_domicilioactual" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cambio Domicilio Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="Addcambio_domicilioactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnCambioDomicilioActual" class="btn btn-primary pull-right">Añadir Cambio Domicilio Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnCambioDomicilioActual"
+                            class="btn btn-primary pull-right">Añadir Cambio Domicilio Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1136,7 +1242,8 @@
 </div>
 
 <!-- Editar Cambio de Domicilio -->
-<div class="modal fade" id="EditCambioDomicilio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditCambioDomicilio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1152,11 +1259,15 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#Editcamdomstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio de Domicilio</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#Editcamdomstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio de Domicilio</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#Editcamdomstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cambio de Domicilio Anterior y Actual</i></a>
+                  <a href="#Editcamdomstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cambio de Domicilio Anterior y
+                      Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -1220,13 +1331,16 @@
             <div class="tab-pane" role="tabpanel" id="Editcamdomstep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#Editarcambio_domicilioanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#Editarcambio_domicilioanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cambio Domicilio Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="Editarcambio_domicilioanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnCambioDomicilioAnterior" class="btn btn-primary pull-right">Añadir Cambio Domicilio Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnCambioDomicilioAnterior"
+                            class="btn btn-primary pull-right">Añadir Cambio Domicilio Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1247,13 +1361,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#Editarcambio_domicilioactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#Editarcambio_domicilioactual" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cambio Domicilio Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="Editarcambio_domicilioactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnCambioDomicilioActual" class="btn btn-primary pull-right">Añadir Cambio Domicilio Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnCambioDomicilioActual" class="btn btn-primary pull-right">Añadir
+                            Cambio Domicilio Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1286,7 +1403,8 @@
 </div>
 
 <!-- Añadir Fusion -->
-<div class="modal fade" id="AddFusion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddFusion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'fusionFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1302,11 +1420,14 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#addfusionstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#addfusionstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#addfusionstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
+                  <a href="#addfusionstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -1364,13 +1485,16 @@
             <div class="tab-pane " role="tabpanel" id="addfusionstep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#AddFusionanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#AddFusionanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Fusion Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddFusionanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnFusionAnterior" class="btn btn-primary pull-right">Añadir Fusion Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnFusionAnterior" class="btn btn-primary pull-right">Añadir
+                            Fusion Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1391,13 +1515,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#AddFusionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#AddFusionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion
+                    Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddFusionactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnFusionActual" class="btn btn-primary pull-right">Añadir Fusion Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnFusionActual" class="btn btn-primary pull-right">Añadir Fusion
+                            Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1430,7 +1557,8 @@
 </div>
 
 <!-- Editar Fusion -->
-<div class="modal fade" id="EditFusion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditFusion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1446,11 +1574,14 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#editfusionstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#editfusionstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#editfusionstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
+                  <a href="#editfusionstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -1511,13 +1642,16 @@
             <div class="tab-pane " role="tabpanel" id="editfusionstep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#EditarFusionanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#EditarFusionanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Fusion Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="EditarFusionanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnFusionAnterior" class="btn btn-primary pull-right">Añadir Fusion Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnFusionAnterior" class="btn btn-primary pull-right">Añadir Fusion
+                            Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1538,13 +1672,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#EditarFusionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#EditarFusionactual" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Fusion Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="EditarFusionactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnFusionActual" class="btn btn-primary pull-right">Añadir Fusion Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnFusionActual" class="btn btn-primary pull-right">Añadir Fusion
+                            Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1577,7 +1714,8 @@
 </div>
 
 <!-- Añadir Cambio de Nombre -->
-<div class="modal fade" id="AddCambioNombre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddCambioNombre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1593,11 +1731,14 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#addcamnomstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio Nombre</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#addcamnomstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio Nombre</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#addcamnomstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cambio Nombre Anterior y Actual</i></a>
+                  <a href="#addcamnomstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cambio Nombre Anterior y Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -1657,13 +1798,16 @@
             <div class="tab-pane" role="tabpanel" id="addcamnomstep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#Addcambio_nombreanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Nombre Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#Addcambio_nombreanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cambio Nombre Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="Addcambio_nombreanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnCambioNombreAnterior" class="btn btn-primary pull-right">Añadir Cambio Nombre Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnCambioNombreAnterior"
+                            class="btn btn-primary pull-right">Añadir Cambio Nombre Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1684,13 +1828,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#addcambio_nombreactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Nombre Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#addcambio_nombreactual" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cambio Nombre Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="addcambio_nombreactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnCambioNombreActual" class="btn btn-primary pull-right">Añadir Cambio Nombre Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="addbtnCambioNombreActual" class="btn btn-primary pull-right">Añadir
+                            Cambio Nombre Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1723,7 +1870,8 @@
 </div>
 
 <!-- Editar Cambio de Nombre -->
-<div class="modal fade" id="EditCambioNombre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditCambioNombre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1739,11 +1887,14 @@
             <div class="wizard-inner">
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#editcamnomstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio Nombre</i></a>
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#editcamnomstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio Nombre</i></a>
                 </li>
                 <li role="presentation">
-                  <a href="#editcamnomstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cambio Nombre Anterior y Actual</i></a>
+                  <a href="#editcamnomstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cambio Nombre Anterior y Actual</i></a>
                 </li>
               </ul>
             </div>
@@ -1803,13 +1954,16 @@
             <div class="tab-pane" role="tabpanel" id="editcamnomstep2">
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#Editarcambio_nombreanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Nombre Anterior<i class="fa fa-chevron-down"></i></a>
+                  <a href="#Editarcambio_nombreanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cambio Nombre Anterior<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="Editarcambio_nombreanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnCambioNombreAnterior" class="btn btn-primary pull-right">Añadir Cambio Nombre Anterior</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnCambioNombreAnterior" class="btn btn-primary pull-right">Añadir
+                            Cambio Nombre Anterior</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1830,13 +1984,16 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#Editarcambio_nombreactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Nombre Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#Editarcambio_nombreactual" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cambio Nombre Actual<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="Editarcambio_nombreactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="btnCambioNombreActual" class="btn btn-primary pull-right">Añadir Cambio Nombre Actual</button>
-                          <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <button type="button" id="btnCambioNombreActual" class="btn btn-primary pull-right">Añadir
+                            Cambio Nombre Actual</button>
+                          <table id="licenciaTbl"
+                            class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1869,7 +2026,8 @@
 </div>
 
 <!-- Anexo Modal -->
-<div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'anexoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1900,7 +2058,8 @@
   <?php echo form_close(); ?>
 </div>
 <!-- Añadir Documento Modal Create -->
-<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1941,7 +2100,8 @@
   <?php echo form_close(); ?>
 </div>
 <!-- Editar Documento Modal Edit -->
-<div class="modal fade" id="docModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="docModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrmedit']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1983,7 +2143,8 @@
   <?php echo form_close(); ?>
 </div>
 <!-- Añadir Signo Modal -->
-<div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2024,7 +2185,8 @@
   <?php echo form_close(); ?>
 </div>
 <!-- Editar Signo Modal -->
-<div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2057,7 +2219,8 @@
         <div class="row">
           <div class="col-md-8">
             <?php if (isset($values['signo_archivo'])) { ?>
-              <img class="img-responsive" src="<?php echo $values['signo_archivo']; ?>" alt="<?php echo $values['signonom']; ?>">
+              <img class="img-responsive" src="<?php echo $values['signo_archivo']; ?>"
+                alt="<?php echo $values['signonom']; ?>">
             <?php } ?>
           </div>
         </div>
@@ -2072,7 +2235,8 @@
 </div>
 
 <!-- Añadir Cambio Domicilio Actual Modal -->
-<div class="modal fade" id="CambioDomicilioActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CambioDomicilioActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2093,7 +2257,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirCamDomActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirCamDomActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2101,7 +2266,8 @@
 </div>
 
 <!-- Editar Cambio Domicilio Actual Modal -->
-<div class="modal fade" id="EditCambioDomicilioActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditCambioDomicilioActualModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2122,7 +2288,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCamDomActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarCamDomActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2130,7 +2297,8 @@
 </div>
 
 <!-- Añadir Cambio Domicilio Anterior Modal -->
-<div class="modal fade" id="CambioDomicilioAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CambioDomicilioAnteriorModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2151,7 +2319,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirCamDomAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirCamDomAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2159,7 +2328,8 @@
 </div>
 
 <!-- Editar Cambio Domicilio Anterior Modal -->
-<div class="modal fade" id="EditarCambioDomicilioAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditarCambioDomicilioAnteriorModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2180,7 +2350,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCamDomAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarCamDomAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2188,7 +2359,8 @@
 </div>
 
 <!-- Añadir Cambio Nombre Actual Modal -->
-<div class="modal fade" id="CambioNombreActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CambioNombreActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2209,7 +2381,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirCamNomActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirCamNomActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2217,7 +2390,8 @@
 </div>
 
 <!-- Editar Cambio Nombre Actual Modal -->
-<div class="modal fade" id="EditCambioNombreActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditCambioNombreActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2238,7 +2412,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCamNomActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarCamNomActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2246,7 +2421,8 @@
 </div>
 
 <!-- Añadir Cambio Nombre Anterior Modal -->
-<div class="modal fade" id="CambioNombreAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CambioNombreAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2267,7 +2443,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirCamNomAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirCamNomAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2275,7 +2452,8 @@
 </div>
 
 <!-- Editar Cambio Nombre Anterior Modal -->
-<div class="modal fade" id="EditarCambioNombreAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditarCambioNombreAnteriorModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2296,7 +2474,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCamNomAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarCamNomAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2304,7 +2483,8 @@
 </div>
 
 <!-- Añadir Fusion Actual Modal -->
-<div class="modal fade" id="FusionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="FusionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2325,7 +2505,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirFusionActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirFusionActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2333,7 +2514,8 @@
 </div>
 
 <!-- Editar Fusion Actual Modal -->
-<div class="modal fade" id="EditFusionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditFusionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2354,7 +2536,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarFusionActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarFusionActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2362,7 +2545,8 @@
 </div>
 
 <!-- Añadir Fusion Anterior Modal -->
-<div class="modal fade" id="FusionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="FusionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2383,7 +2567,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirFusionAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirFusionAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2391,7 +2576,8 @@
 </div>
 
 <!-- Editar Fusion Anterior Modal -->
-<div class="modal fade" id="EditarFusionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditarFusionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2412,7 +2598,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarFusionAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarFusionAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2420,7 +2607,8 @@
 </div>
 
 <!-- Añadir Licencia Actual Modal -->
-<div class="modal fade" id="LicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="LicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2441,7 +2629,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirLicenciaActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirLicenciaActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2449,7 +2638,8 @@
 </div>
 
 <!-- Editar Licencia Actual Modal -->
-<div class="modal fade" id="EditLicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditLicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2470,7 +2660,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarLicenciaActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarLicenciaActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2478,7 +2669,8 @@
 </div>
 
 <!-- Añadir Licencia Anterior Modal -->
-<div class="modal fade" id="LicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="LicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2499,7 +2691,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirLicenciaAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirLicenciaAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2507,7 +2700,8 @@
 </div>
 
 <!-- Editar Licencia Anterior Modal -->
-<div class="modal fade" id="EditarLicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditarLicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2528,7 +2722,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarLicenciaAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarLicenciaAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2536,7 +2731,8 @@
 </div>
 
 <!-- Añadir Cesion Actual Modal -->
-<div class="modal fade" id="CesionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CesionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2557,7 +2753,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirCesionActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirCesionActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2565,7 +2762,8 @@
 </div>
 
 <!-- Editar Cesion Actual Modal -->
-<div class="modal fade" id="EditCesionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditCesionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2586,7 +2784,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCesionActualfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarCesionActualfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2594,7 +2793,8 @@
 </div>
 
 <!-- Añadir Cesion Anterior Modal -->
-<div class="modal fade" id="CesionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CesionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2615,7 +2815,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="AñadirCesionAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
+        <button id="AñadirCesionAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Añadir</button>
       </div>
     </div>
   </div>
@@ -2623,7 +2824,8 @@
 </div>
 
 <!-- Editar Cesion Anterior Modal -->
-<div class="modal fade" id="EditarCesionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditarCesionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2644,7 +2846,8 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCesionAnteriorfrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        <button id="EditarCesionAnteriorfrmsubmit" type="button" class="btn btn-primary"
+          data-dismiss="modal">Editar</button>
       </div>
     </div>
   </div>
@@ -2652,7 +2855,8 @@
 </div>
 
 <!-- Añadir factura existente -->
-<div class="modal fade" id="facturaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="facturaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <?php echo form_open('', ['name' => "invoiceMarcaFrm", 'id' => "invoiceMarcaFrm"]); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2666,9 +2870,11 @@
         <div class="row">
           <div class="col-md-12">
             <select class="form-control" name="invoiceID">
-              <?php foreach($invoices as $key => $value){ ?>
-                <option value="<?php echo $key;?>"><?php echo $value;?></option>
-                <?php } ?>
+              <?php foreach ($invoices as $key => $value) { ?>
+                <option value="<?php echo $key; ?>">
+                  <?php echo $value; ?>
+                </option>
+              <?php } ?>
             </select>
           </div>
 

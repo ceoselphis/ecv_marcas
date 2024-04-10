@@ -181,7 +181,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|required|min_length[5]|max_length[100]',
                 'errors' => [
                     'min_length' => 'Título demasiado corto',
-                    'max_lenght' => 'Título demasiado largo',
+                    'max_length' => 'Título demasiado largo',
                     'required' => 'Debe indicar un Título'
                 ]
             ],
@@ -191,7 +191,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|required|min_length[5]|max_length[200]',
                 'errors' => [
                     'min_length' => 'Descripción demasiado corta',
-                    'max_lenght' => 'Descripción demasiado larga',
+                    'max_length' => 'Descripción demasiado larga',
                     'required' => 'Debe indicar una Descripción'
                 ]
             ],
@@ -227,7 +227,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|required|min_length[5]|max_length[100]',
                 'errors' => [
                     'min_length' => 'Titulo Clasificación demasiado corto',
-                    'max_lenght' => 'Titulo Clasificación demasiado largo',
+                    'max_length' => 'Titulo Clasificación demasiado largo',
                     'required' => 'Debe indicar un Titulo para la Clasificación'
                 ]
             ],
@@ -237,7 +237,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|required|min_length[5]|max_length[100]',
                 'errors' => [
                     'min_length' => 'Autor Clasificación demasiado corto',
-                    'max_lenght' => 'Autor Clasificación demasiado largo',
+                    'max_length' => 'Autor Clasificación demasiado largo',
                     'required' => 'Debe indicar un Autor para la Clasificación'
                 ]
             ],
@@ -255,7 +255,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[2]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Referencia Interna demasiado corta',
-                    'max_lenght' => 'Referencia Interna demasiado larga'
+                    'max_length' => 'Referencia Interna demasiado larga'
                 ]
             ],
             [
@@ -264,7 +264,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[2]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Referencia Cliente demasiado corta',
-                    'max_lenght' => 'Referencia Cliente demasiado larga'
+                    'max_length' => 'Referencia Cliente demasiado larga'
                 ]
             ],
             [
@@ -273,7 +273,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[1]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Carpeta demasiado corta',
-                    'max_lenght' => 'Carpeta demasiado larga'
+                    'max_length' => 'Carpeta demasiado larga'
                 ]
             ],
             [
@@ -282,7 +282,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[1]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Libro demasiado corto',
-                    'max_lenght' => 'Libro demasiado largo'
+                    'max_length' => 'Libro demasiado largo'
                 ]
             ],
             [
@@ -291,7 +291,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[1]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Tomo demasiado corto',
-                    'max_lenght' => 'Tomo demasiado largo'
+                    'max_length' => 'Tomo demasiado largo'
                 ]
             ],
             [
@@ -300,7 +300,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[1]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Folio demasiado corto',
-                    'max_lenght' => 'Folio demasiado largo'
+                    'max_length' => 'Folio demasiado largo'
                 ]
             ],
             [
@@ -309,7 +309,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[5]|max_length[200]',
                 'errors' => [
                     'min_length' => 'Comentarios demasiado corto',
-                    'max_lenght' => 'Comentarios demasiado largo'
+                    'max_length' => 'Comentarios demasiado largo'
                 ]
             ],
             [
@@ -318,7 +318,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[2]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Nº de Solicitud demasiado corta',
-                    'max_lenght' => 'Nº de Solicitud demasiado larga'
+                    'max_length' => 'Nº de Solicitud demasiado larga'
                 ]
             ],
             [
@@ -327,7 +327,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[2]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Nº de Registro demasiado corto',
-                    'max_lenght' => 'Nº de Registro demasiado largo'
+                    'max_length' => 'Nº de Registro demasiado largo'
                 ]
             ],
             [
@@ -336,7 +336,7 @@ class AutoresSolicitudesController extends AdminController
                 'rules' => 'trim|min_length[2]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Nº de Certificado demasiado corto',
-                    'max_lenght' => 'Nº de Certificado demasiado largo'
+                    'max_length' => 'Nº de Certificado demasiado largo'
                 ]
             ]
 

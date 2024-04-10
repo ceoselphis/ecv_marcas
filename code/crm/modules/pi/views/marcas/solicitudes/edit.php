@@ -293,7 +293,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             'placeholder' => 'Fecha de Registro'
                                         ]); ?>
                                     </div>
-                                    <!--<div class="col-md-6" style="padding-top:15px;">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Nº de Certificado"); ?>
                                         <?php echo form_input([
                                             'id' => 'num_certificado',
@@ -313,7 +313,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             'value' => set_value('fecha_certificado', $values['fecha_certificado']),
                                             'placeholder' => 'Fecha de Certificado'
                                         ]); ?>
-                                    </div>-->
+                                    </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Fecha de Vencimiento'); ?>
                                         <?php

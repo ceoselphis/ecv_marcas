@@ -140,7 +140,7 @@ class CorrespondeciaUsuarioController extends AdminController
                 'errors' => [
                     'required' => 'Debe indicar un Expediente',
                     'min_length' => 'Expediente demasiado corto',
-                    'max_lenght' => 'Expediente demasiado largo'
+                    'max_length' => 'Expediente demasiado largo'
                 ]
             ],
             [

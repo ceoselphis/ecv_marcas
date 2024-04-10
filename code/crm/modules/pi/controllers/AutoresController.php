@@ -76,7 +76,7 @@ class AutoresController extends AdminController
                 'errors' => [
                     'required' => 'Debe indicar un Nombre',
                     'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
+                    'max_length' => 'Nombre demasiado largo'
                 ]
             ],
             [
@@ -86,7 +86,7 @@ class AutoresController extends AdminController
                 'errors' => [
                     'required' => 'Debe indicar un Apellido',
                     'min_length' => 'Apellido demasiado corto',
-                    'max_lenght' => 'Apellido demasiado largo'
+                    'max_length' => 'Apellido demasiado largo'
                 ]
             ],
             [
@@ -95,7 +95,7 @@ class AutoresController extends AdminController
                 'rules' => 'trim|valid_email|min_length[8]|max_length[100]',
                 'errors' => [
                     'min_length' => 'Email demasiado corto',
-                    'max_lenght' => 'Email demasiado largo',
+                    'max_length' => 'Email demasiado largo',
                     'valid_email' => 'Email no válido'
                 ]
             ],
@@ -105,7 +105,7 @@ class AutoresController extends AdminController
                 'rules' => 'trim|numeric|min_length[4]|max_length[10]',
                 'errors' => [
                     'min_length' => 'Cédula demasiado corta',
-                    'max_lenght' => 'Cédula demasiado larga',
+                    'max_length' => 'Cédula demasiado larga',
                     'numeric' => 'La cédula debe contener solo números'
                 ]
             ],
@@ -115,7 +115,7 @@ class AutoresController extends AdminController
                 'rules' => 'trim|numeric|min_length[5]|max_length[30]',
                 'errors' => [
                     'min_length' => 'Teléfono demasiado corto',
-                    'max_lenght' => 'Teléfono demasiado largo',
+                    'max_length' => 'Teléfono demasiado largo',
                     'numeric' => 'El número de Teléfono debe contener solo números'
                 ]
             ],
@@ -125,7 +125,7 @@ class AutoresController extends AdminController
                 'rules' => 'trim|numeric|min_length[5]|max_length[30]',
                 'errors' => [
                     'min_length' => 'Fax demasiado corto',
-                    'max_lenght' => 'Fax demasiado largo',
+                    'max_length' => 'Fax demasiado largo',
                     'numeric' => 'El número de Fax debe contener solo números'
                 ]
             ],
@@ -135,7 +135,7 @@ class AutoresController extends AdminController
                 'rules' => 'trim|min_length[5]|max_length[200]',
                 'errors' => [
                     'min_length' => 'Dirección demasiada corta',
-                    'max_lenght' => 'Dirección demasiada larga'
+                    'max_length' => 'Dirección demasiada larga'
                 ]
             ],
             [
@@ -144,7 +144,7 @@ class AutoresController extends AdminController
                 'rules' => 'trim|min_length[3]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Ciudad demasiada corta',
-                    'max_lenght' => 'Ciudad demasiada larga'
+                    'max_length' => 'Ciudad demasiada larga'
                 ]
             ],
             [
@@ -153,7 +153,7 @@ class AutoresController extends AdminController
                 'rules' => 'trim|min_length[3]|max_length[20]',
                 'errors' => [
                     'min_length' => 'Estado demasiada corto',
-                    'max_lenght' => 'Estado demasiada largo'
+                    'max_length' => 'Estado demasiada largo'
                 ]
             ]
         );

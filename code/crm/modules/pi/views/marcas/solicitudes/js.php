@@ -852,28 +852,98 @@
     //Añadir Evento ---------------------------------------------------------------------------
     $(document).on('click', '#eventosfrmsubmit', function(e) {
         e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var tipo_evento = $('#tipo_evento').val();
-        var evento_comentario = $('#evento_comentario').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('csrf_token_name', csrf_token_name);
-        formData.append('tipo_evento', tipo_evento);
-        formData.append('evento_comentario', evento_comentario);
-        let url = '<?php echo admin_url("pi/EventosController/addEvento"); ?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
-            $("#eventoModal").modal('hide');
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
+        e.stopImmediatePropagation();
+        if ($("select[name=tipo_evento]").val() && $("input[name=fecha_evento]").val() && $("textarea[name=evento_comentario]").val()) {
+            
+            var eventos = JSON.parse(localStorage.getItem("eventos"));
+            var data = {
+                "fecha": $("input[name=fecha_evento]").val(),
+                "tipo_evento_id": $("select[name=tipo_evento]").val(),
+                'tipo_evento_name': $("select[name=tipo_evento] option:selected").text(),
+                "comentarios": $("textarea[name=evento_comentario]").val(),
+                "marcas_id": $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (eventos.length) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+            eventos.push(data);
+
+            try {
+                localStorage.setItem("eventos", JSON.stringify(eventos));
+                $("#eventoFrm")[0].reset();
+                $('select[name=tipo_evento]').prop('selectedIndex', 0);
+                $('select[name=tipo_evento]').selectpicker('refresh'); 
+                $("#eventoModal").modal('hide');
+                alert_float('success', 'Registro guardado exitosamente');
+                TablaEventos();
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            alert_float('danger', 'Debe seleccionar los datos para el Evento');
+        }
+
     });
+
+    function TablaEventos() {
+        tabla = JSON.parse(localStorage.getItem("eventos"));
+        $("#eventosTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '35%', targets: 0 },
+                { width: '40%', targets: 1 },
+                { width: '10%', targets: 2 },
+                { width: '15%', targets: 3 }
+            ],
+            columns: [
+                {
+                    data: 'tipo_evento_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'comentarios',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'fecha',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
+    $(document).on('click', '.deleteEvento', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id'));
+        var eventos = JSON.parse(localStorage.getItem("eventos"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            eventos.length == 1 ? eventos = [] : eventos.splice(id, 1);
+            localStorage.setItem("eventos", JSON.stringify(eventos));
+            alert_float('success', 'Evento borrado exitosamente');
+            TablaEventos();
+        }
+    })
+
 
     //Editar Evento ---------------------------------------------------------------------------
     $(document).on('click', '#editeventosfrmsubmit', function(e) {
@@ -970,6 +1040,9 @@
         //Pais_id fill
         pais_id = JSON.stringify($("select[name=pais_id]").val());
         formData.append('pais_id', pais_id);
+        //solicitantes_id fill
+        solicitantes_id = JSON.stringify($("select[name=solicitantes_id]").val());
+        formData.append('solicitantes_id', solicitantes_id);
         formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
         formData.append('ref_interna', $("input[name=ref_interna]").val());
         formData.append('ref_cliente', $('input[name=ref_cliente]').val());
@@ -981,11 +1054,11 @@
         formData.append('folio', $("input[name=folio]").val());
         formData.append('comentarios', $("textarea[name=comentarios]").val());
         formData.append('estado_id', $("select[name=estado_id]").val());
-        formData.append('solicitud', $("input[name=num_solicitud]").val());
+        formData.append('solicitud', $("input[name=solicitud]").val());
         formData.append('fecha_solicitud', $("input[name=fecha_solicitud]").val());
-        formData.append('registro', $("input[name=num_registro]").val());
+        formData.append('registro', $("input[name=registro]").val());
         formData.append('fecha_registro', $("input[name=fecha_registro]").val());
-        formData.append('certificado', $("input[name=num_certificado]").val());
+        formData.append('certificado', $("input[name=certificado]").val());
         formData.append('fecha_certificado', $("input[name=fecha_certificado]").val());
         formData.append('fecha_vencimiento', $("input[name=fecha_vencimiento]").val());
         formData.append('signo_archivo', $('input[name=signo_archivo]')[0].files[0]);
@@ -996,6 +1069,9 @@
         formData.append('clase_niza_id', localStorage.getItem("clase_niza"));
         formData.append('prioridad_id', localStorage.getItem("prioridad"));
         formData.append("publicacion_id", localStorage.getItem("publicacion"));
+        formData.append("eventos_id", localStorage.getItem("eventos"));
+        formData.append("tareas_id", localStorage.getItem("tareas"));
+
         $.ajax({
             url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
             method: 'POST',
@@ -1003,7 +1079,20 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                //location.replace('<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
+                
+                const obj = JSON.parse(response);
+                if (obj.code == 201) {
+                    alert_float('danger', 'Se han encontrado errores en la Solicitud!');
+                    jQuery.each(obj.error, function(item, val) {
+                        $('.' + item + '_error').html(val);
+                    });
+                }else if (obj.code == 500){
+                    alert_float('danger', obj.error);
+                }else{
+                    alert_float('success', 'Solicitud guardada con éxito!');
+                    location.replace('<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
+                }
+                
             },
             fail: function(request) {
                 <?php if (ENVIRONMENT != 'production') { ?>
@@ -1014,14 +1103,6 @@
             }
         });
     });
-
-
-
-
-
-
-
-
 
 
 
@@ -1043,7 +1124,6 @@
         });
 
         $(".next-step").click(function(e) {
-
             var $active = $('.wizard .nav-tabs li.active');
             $active.next().removeClass('disabled');
             nextTab($active);
@@ -1073,13 +1153,13 @@
     // });
 
 
-    function nextTab(elem) {
+    /* function nextTab(elem) {
         $(elem).next().find('a[data-toggle="tab"]').click();
     }
 
     function prevTab(elem) {
         $(elem).prev().find('a[data-toggle="tab"]').click();
-    }
+    } */
     //---------------------
     function nextTab(elem) {
         $(elem).next().find('a[data-toggle="tab"]').click();
@@ -1122,22 +1202,30 @@
      */
     $(document).on('click', '#claseNizaFrmSubmit', function(e) {
         e.preventDefault();
-        var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
-        var data = {
-            'clase_id': $("select[name=clase_niza]").val(),
-            'clase_descripcion': $("input[name=clase_niza_descripcion]").val(),
-            'marcas_id': $("input[name=id]").val(),
-            "acciones": "<a id='" + (claseNiza.length) + "' class='btn btn-sm btn-danger borrarClase'>Eliminar</a>",
-        }
+        if ($("select[name=clase_niza]").val() && $("input[name=clase_niza_descripcion]").val()) {
+            var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
+            var data = {
+                'clase_id': $("select[name=clase_niza]").val(),
+                'descripcion': $("input[name=clase_niza_descripcion]").val(),
+                'marcas_id': $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (claseNiza.length) + "' class='btn btn-danger col-mrg borrarClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
 
-        claseNiza.push(data);
-        try {
-            localStorage.setItem("clase_niza", JSON.stringify(claseNiza));
-            $("#claseNizaFrm")[0].reset();
-            $("#claseNizaModal").modal('hide');
-            TablaClases();
-        } catch (error) {
-            alert(error);
+            claseNiza.push(data);
+            try {
+                localStorage.setItem("clase_niza", JSON.stringify(claseNiza));
+                $("#claseNizaFrm")[0].reset();
+                $('select[name=clase_niza]').prop('selectedIndex', 0);
+                $('select[name=clase_niza]').selectpicker('refresh'); 
+                $("#claseNizaModal").modal('hide');
+                alert_float('success', 'Registro guardado exitosamente');
+                TablaClases();
+            } catch (error) {
+                alert(error);
+            }
+            
+        }else{
+            alert_float('danger', 'Debe seleccionar la Clase');
         }
 
 
@@ -1184,21 +1272,39 @@
     function TablaClases() {
         var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
         $('#claseTbl').DataTable({
-            destroy: true,
-            data: claseNiza,
-            columns: [{
-                    data: 'clase_id'
-                },
-                {
-                    data: 'clase_descripcion'
-                },
-                {
-                    data: 'acciones'
-                }
-            ],
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-            }
+            },
+            data: claseNiza,
+            destroy: true,
+            dataSrc: '',
+            columnDefs: [
+                { width: '10%', targets: 0 },
+                { width: '80%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [{
+                    data: 'clase_id',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'descripcion',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                }
+            ]
         });
         /*$.ajax({
             url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/' . $id); ?>",
@@ -1239,17 +1345,40 @@
             data: table,
             destroy: true,
             dataSrc: '',
-            columns: [{
-                    data: 'fecha_prioridad'
+            columnDefs: [
+                { width: '15%', targets: 0 },
+                { width: '55%', targets: 1 },
+                { width: '15%', targets: 2 },
+                { width: '15%', targets: 3 }
+            ],
+            columns: [
+                {
+                    data: 'fecha_prioridad',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
                 },
                 {
-                    data: 'pais_prioridad'
+                    data: 'pais_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
                 },
                 {
-                    data: 'nro_prioridad'
+                    data: 'numero_prioridad',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
                 },
                 {
-                    data: 'acciones'
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
                 },
             ],
             width: "100%"
@@ -1289,19 +1418,40 @@
 <script>
     $("#prioridadfrmsubmit").on('click', function(e) {
         e.preventDefault();
-        prioridad = JSON.parse(localStorage.getItem('prioridad'));
-        data = {
-            'pais_prioridad': $("select[name=pais_prioridad").val(),
-            'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
-            'nro_prioridad': $("input[name=nro_prioridad").val(),
-            'solicitud_id': $("input[name=id]").val(),
-            "acciones": "<a id='" + (prioridad.length) + "' class='btn btn-sm btn-danger borrarPrioridad'>Eliminar</a>",
+        if ($("select[name=pais_prioridad]").val() && $("input[name=fecha_prioridad]").val()
+            && $("input[name=nro_prioridad]").val()) {
+            
+            prioridad = JSON.parse(localStorage.getItem('prioridad'));
+            data = {
+                'pais_id': $("select[name=pais_prioridad]").val(),
+                'pais_name': $("select[name=pais_prioridad] option:selected").text(),
+                'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
+                'numero_prioridad': $("input[name=nro_prioridad").val(),
+                'marcas_id': $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (prioridad.length) + "' class='btn btn-danger col-mrg borrarPrioridad'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+            prioridad.push(data);
+
+            try {
+                localStorage.setItem("prioridad", JSON.stringify(prioridad));
+                $("#prioridadFrm")[0].reset();
+                $('select[name=pais_prioridad]').prop('selectedIndex', 0);
+                $('select[name=pais_prioridad]').selectpicker('refresh'); 
+                $("#prioridadModal").modal('hide');
+                alert_float('success', 'Registro guardado exitosamente');
+                TablaPrioridad();
+            } catch (error) {
+                alert(error);
+            }
+
+
+        }else{
+            alert_float('danger', 'Debe seleccionar los datos para la Prioridad');
         }
-        prioridad.push(data);
-        localStorage.setItem("prioridad", JSON.stringify(prioridad));
-        TablaPrioridad();
-        $("#prioridadModal").modal('hide');
-        alert_float('success', 'Registro guardado exitosamente');
+
+        
+        
+        
         /*$.ajax({
             url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad"); ?>',
             method: 'POST',
@@ -1341,19 +1491,45 @@
     $(document).on('click', "#publicacionfrmsubmit", function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        var publicacion = JSON.parse(localStorage.getItem("publicacion"));
-        var data = {
-            "tipo_publicacion_id": $("select[name=tipo_publicacion]").val(),
-            "boletin_id": $("select[name=boletin_publicacion]").val(),
-            "tomo": $("input[name=tomo_publicacion]").val(),
-            "pagina": $("input[name=pag_publicacion]").val(),
-            "marcas_id": $("input[name=id]").val(),
-            "acciones": "<a id='" + (publicacion.length) + "' class='btn btn-sm btn-danger deletePublicacion'>Eliminar</a>",
+        if ($("input[name=fecha_publicacion]").val() && $("select[name=tipo_publicacion]").val() && $("select[name=boletin_publicacion]").val()
+            && $("input[name=tomo_publicacion]").val() && $("input[name=pag_publicacion]").val()) {
+            
+            var publicacion = JSON.parse(localStorage.getItem("publicacion"));
+            var data = {
+                "fecha": $("input[name=fecha_publicacion]").val(),
+                "tipo_pub_id": $("select[name=tipo_publicacion]").val(),
+                'tipo_pub_name': $("select[name=tipo_publicacion] option:selected").text(),
+                "boletin_id": $("select[name=boletin_publicacion]").val(),
+                'boletin_name': $("select[name=boletin_publicacion] option:selected").text(),
+                "tomo": $("input[name=tomo_publicacion]").val(),
+                "pagina": $("input[name=pag_publicacion]").val(),
+                "marcas_id": $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (publicacion.length) + "' class='btn btn-danger col-mrg deletePublicacion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+            publicacion.push(data);
+
+            try {
+                localStorage.setItem("publicacion", JSON.stringify(publicacion));
+                $("#publicacionFrm")[0].reset();
+                $('select[name=tipo_publicacion]').prop('selectedIndex', 0);
+                $('select[name=tipo_publicacion]').selectpicker('refresh'); 
+                $('select[name=boletin_publicacion]').prop('selectedIndex', 0);
+                $('select[name=boletin_publicacion]').selectpicker('refresh'); 
+                $("#publicacionModal").modal('hide');
+                alert_float('success', 'Registro guardado exitosamente');
+                TablaPublicacion();
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            alert_float('danger', 'Debe seleccionar los datos para la Publicación');
         }
-        publicacion.push(data);
-        localStorage.setItem("publicacion", JSON.stringify(publicacion));
-        alert_float('success', 'Publicacion cargada exitosamente');
-        $("#publicacionModal").modal('hide');
+
+        
+
+        
+        
         /*$.ajax({
             url: "<?php echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/' . $id); ?>",
             method: "POST",
@@ -1363,7 +1539,6 @@
                 $("#publicacionModal").modal('hide');
             }
         });*/
-        TablaPublicacion();
     });
 </script>
 
@@ -1376,21 +1551,57 @@
             },
             data: tabla,
             destroy: true,
-            columns: [{
-                    data: 'tipo_publicacion_id'
+            columnDefs: [
+                { width: '10%', targets: 0 },
+                { width: '30%', targets: 1 },
+                { width: '30%', targets: 2 },
+                { width: '10%', targets: 3 },
+                { width: '10%', targets: 4 },
+                { width: '10%', targets: 5 }
+            ],
+            columns: [
+                {
+                    data: 'fecha',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
                 },
                 {
-                    data: 'boletin_id'
+                    data: 'tipo_pub_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
                 },
                 {
-                    data: 'tomo'
+                    data: 'boletin_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
                 },
                 {
-                    data: 'pagina'
+                    data: 'tomo',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
                 },
                 {
-                    data: 'acciones'
+                    data: 'pagina',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
                 },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                }
             ],
             width: "100%"
         });
@@ -1466,6 +1677,42 @@
     $(document).on('click', '#tareasfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
+        if ($("input[name=fecha_tarea]").val() && $("select[name=project_id]").val() && $("select[name=tipo_tarea]").val()
+            && $("textarea[name=descripcion]").val()) {
+            
+            var tareas = JSON.parse(localStorage.getItem("tareas"));
+            var data = {
+                "fecha": $("input[name=fecha_tarea]").val(),
+                "project_id": $("select[name=project_id]").val(),
+                'project_id_name': $("select[name=project_id] option:selected").text(),
+                "tipo_tareas_id": $("select[name=tipo_tarea]").val(),
+                'tipo_tareas_id_name': $("select[name=tipo_tarea] option:selected").text(),
+                "descripcion": $("textarea[name=descripcion]").val(),
+                "marcas_id": $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tareas.length) + "' class='btn btn-danger col-mrg deleteTarea'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+            tareas.push(data);
+
+            try {
+                localStorage.setItem("tareas", JSON.stringify(tareas));
+                $("#tareasfrm")[0].reset();
+                $('select[name=project_id]').prop('selectedIndex', 0);
+                $('select[name=project_id]').selectpicker('refresh'); 
+                $('select[name=tipo_tarea]').prop('selectedIndex', 0);
+                $('select[name=tipo_tarea]').selectpicker('refresh'); 
+                $("#addTask").modal('hide');
+                alert_float('success', 'Registro guardado exitosamente');
+                TablaTareas();
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            alert_float('danger', 'Debe seleccionar los datos para la Tarea');
+        }
+
+        /* e.preventDefault();
+        e.stopImmediatePropagation();
         var data = {
             "project_id": $("#project_id").val(),
             "tipo_tarea": $("#tipo_tarea").val(),
@@ -1474,7 +1721,7 @@
             "marcas_id": $("input[name=id]").val(),
         }
         $.ajax({
-            url: "<?php echo admin_url('pi/TareasController/addTaskToMarcasAndProject'); ?>",
+            url: "<php echo admin_url('pi/TareasController/addTaskToMarcasAndProject'); ?>",
             method: "POST",
             data: {
                 'csrf_token_name': $("input[name=csrf_token_name]").val(),
@@ -1484,7 +1731,7 @@
                 $("#addTask").modal('hide');
                 alert_float('success', "Tarea asignada exitosamente");
                 $.ajax({
-                    url: "<?php echo admin_url('pi/TareasController/showTareas/' . $id); ?>",
+                    url: "<php echo admin_url('pi/TareasController/showTareas/' . $id); ?>",
                     method: "POST",
                     data: {
                         'csrf_token_name': $("input[name=csrf_token_name]").val()
@@ -1519,9 +1766,80 @@
                     }
                 })
             }
-        })
+        }) */
 
     })
+
+
+    function TablaTareas() {
+        tabla = JSON.parse(localStorage.getItem("tareas"));
+        $("#tareasTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '22%', targets: 0 },
+                { width: '22%', targets: 1 },
+                { width: '24%', targets: 2 },
+                { width: '22%', targets: 3 },
+                { width: '10%', targets: 4 }
+            ],
+            columns: [
+                {
+                    data: 'project_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'tipo_tareas_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'descripcion',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'fecha',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
+    $(document).on('click', '.deleteTarea', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id'));
+        var tareas = JSON.parse(localStorage.getItem("tareas"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            tareas.length == 1 ? tareas = [] : tareas.splice(id, 1);
+            localStorage.setItem("tareas", JSON.stringify(tareas));
+            alert_float('success', 'Tarea borrada exitosamente');
+            TablaTareas();
+        }
+    })
+
+
 </script>
 
 <script>

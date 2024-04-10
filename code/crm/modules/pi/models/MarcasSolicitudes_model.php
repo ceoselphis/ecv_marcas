@@ -178,7 +178,7 @@ class MarcasSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
-    public function findAllTipoPublicacion2()
+    public function findAllTipoPublicacion()
     {
         $this->db->select('*');
         $this->db->from('tbl_tipo_publicacion');
@@ -442,7 +442,31 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function insertSolicitudesClases($params)
     {
-        $query = $this->db->insert('tbl_marcas_clases', $params);
+        $query = $this->db->insert_batch('tbl_marcas_clases', $params);
+        return $query;
+    }
+
+    public function insertPrioridades($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_prioridades', $params);
+        return $query;
+    }
+
+    public function insertPublicaciones($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_publicaciones', $params);
+        return $query;
+    }
+
+    public function insertEventos($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_eventos', $params);
+        return $query;
+    }
+
+    public function insertTareas($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_tareas', $params);
         return $query;
     }
 
@@ -918,7 +942,7 @@ class MarcasSolicitudes_model extends BaseModel
         }
     }
 
-    public function findAllTipoPublicacion()
+    public function findAllTipoPublicacion_OLD()
     {
         $this->db->select('*');
         $this->db->from('tbl_tipo_publicacion');

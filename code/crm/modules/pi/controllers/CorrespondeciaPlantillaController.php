@@ -154,7 +154,7 @@ class CorrespondeciaPlantillaController extends AdminController
                 'errors' => [
                     'required' => 'Debe indicar una Descripción',
                     'min_length' => 'Descripción demasiada corta',
-                    'max_lenght' => 'Descripción demasiada larga'
+                    'max_length' => 'Descripción demasiada larga'
                 ]
             ],
             [
@@ -265,7 +265,7 @@ class CorrespondeciaPlantillaController extends AdminController
     //             'errors' => [
     //                 'required' => 'Debe indicar un nombre para el anexo',
     //                 'min_length' => 'Nombre demasiado corto',
-    //                 'max_lenght' => 'Nombre demasiado largo'
+    //                 'max_length' => 'Nombre demasiado largo'
     //             ]
     //         ],
     //     );

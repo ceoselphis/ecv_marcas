@@ -3656,7 +3656,7 @@
         /* $('#modal-loading').modal('hide');
         
         /* Inicilizamos los Datatables */
-        TablaClases();
+        /* TablaClases();
         TablaPrioridad();
         TablaPublicacion();
         TablaEventos();
@@ -3675,7 +3675,7 @@
         TablaCamNomActuales();
         TablaCamDom();
         TablaCamDomAnteriores();
-        TablaCamDomActuales();
+        TablaCamDomActuales(); */
     });
 
     /* Estructura lista */
@@ -3717,6 +3717,28 @@
         
         /* Cierra el Modal de Carga */
         $('#modal-loading').modal('hide');
+
+        /* Inicilizamos los Datatables */
+        TablaClases();
+        TablaPrioridad();
+        TablaPublicacion();
+        TablaEventos();
+        TablaTareas();
+        TablaCesiones();
+        TablaCesionesAnteriores();
+        TablaCesionesActuales();
+        TablaLicencia();
+        TablaLicenciasAnteriores();
+        TablaLicenciasActuales();
+        TablaFusion();
+        TablaFusionesAnteriores();
+        TablaFusionesActuales();
+        TablaCamNom();
+        TablaCamNomAnteriores();
+        TablaCamNomActuales();
+        TablaCamDom();
+        TablaCamDomAnteriores();
+        TablaCamDomActuales();
 
     });
 

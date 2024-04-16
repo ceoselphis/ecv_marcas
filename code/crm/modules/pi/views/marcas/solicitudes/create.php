@@ -3,15 +3,29 @@ $CI = &get_instance();
 init_head();
 $CI->load->view('marcas/solicitudes/css.php');
 $select = ['' => '']; ?>
+
 <div id="wrapper">
     <div class="content">
+
+        <!-- Loading Modal -->
+        <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-12">
                 <?php echo form_open_multipart('', ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
                 <?php echo form_hidden('id', $id); ?>
                 <?php echo form_hidden('cod_contador', $cod_contador); ?>
                 <div class="panel_s">
-                    <div class="panel-body">
+                    <div class="panel-body" id="principalWizar">
                         <div class="wizard">
                             <div class="wizard-inner">
                                 <div class="connecting-line"></div>
@@ -210,7 +224,8 @@ $select = ['' => '']; ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Id</th>
+                                                                            <th>N°</th>
+                                                                            <th>Clase</th>
                                                                             <th>Descripción</th>
                                                                             <th>Acciones</th>
                                                                         </tr>
@@ -314,6 +329,7 @@ $select = ['' => '']; ?>
                                                                 class="ultimate table table-responsive">
                                                                 <thead>
                                                                     <tr>
+                                                                        <th>N°</th>
                                                                         <th>Fecha</th>
                                                                         <th>Pais</th>
                                                                         <th>Número</th>
@@ -472,9 +488,10 @@ $select = ['' => '']; ?>
                                                                     data-target="#publicacionModal">Añadir
                                                                     publicacion</button>
                                                                 <table id="publicacionTbl"
-                                                                    class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
+                                                                            <th>N°</th>
                                                                             <th>Fecha</th>
                                                                             <th>Tipo de Publicacion</th>
                                                                             <th>Boletin</th>
@@ -520,6 +537,7 @@ $select = ['' => '']; ?>
                                         <table id="eventosTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
+                                                    <th>N°</th>
                                                     <th>Evento</th>
                                                     <th>Comentarios</th>
                                                     <th>Fecha</th>
@@ -556,6 +574,7 @@ $select = ['' => '']; ?>
                                         <table id="tareasTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
+                                                    <th>N°</th>
                                                     <th>Proyecto</th>
                                                     <th>Tipo de Tarea</th>
                                                     <th>Descripción</th>
@@ -599,12 +618,15 @@ $select = ['' => '']; ?>
                                                                 <button type="button" class="btn btn-primary pull-right"
                                                                     id="AddCesionAbrirModal" data-toggle="modal"
                                                                     data-target="#AddCesion">Añadir Cesion</button>
-                                                                <br><br><br>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top: 15px;">
+                                                            <div class="col-md-12 pre-scrollable">
                                                                 <table id="CesionTbl"
-                                                                    class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Nº</th>
+                                                                            <th>N°</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -642,12 +664,15 @@ $select = ['' => '']; ?>
                                                                 <button type="button" class="btn btn-primary pull-right"
                                                                     id="AddLicenciaAbrirModal" data-toggle="modal"
                                                                     data-target="#AddLicencia">Añadir licencia</button>
-                                                                <br><br><br>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top: 15px;">
+                                                            <div class="col-md-12 pre-scrollable">
                                                                 <table id="LicenciaTbl"
-                                                                    class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Nº</th>
+                                                                            <th>N°</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -680,17 +705,22 @@ $select = ['' => '']; ?>
                                                 <div class="collapse" id="fusion">
                                                     <div class="list-box">
                                                         <div class="row">
-                                                            <div class="col-md-12"> <!---->
+                                                            <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right"
                                                                     id="AddFusionAbrirModal" data-toggle="modal"
                                                                     data-target="#AddFusion">Añadir Fusion</button>
-                                                                <br><br><br>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top: 15px;">
+                                                            <div class="col-md-12 pre-scrollable">
                                                                 <table id="FusionTbl"
-                                                                    class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Nº</th>
+                                                                            <th>N°</th>
+                                                                            <th>Cliente</th>
                                                                             <th>Oficina</th>
+                                                                            <th>Staff</th>
                                                                             <th>Estado</th>
                                                                             <th>Nº de Solicitud</th>
                                                                             <th>Fecha de Solicitud</th>
@@ -724,15 +754,20 @@ $select = ['' => '']; ?>
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right"
                                                                     id="AddCambioNombreAbrirModal" data-toggle="modal"
-                                                                    data-target="#AddCambioNombre">Añadir Cambio de
-                                                                    nombre</button>
-                                                                <br><br><br>
-                                                                <table id="CambioNombreTbl"
-                                                                    class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    data-target="#AddCamNom">Añadir Cambio de
+                                                                    Nombre</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top: 15px;">
+                                                            <div class="col-md-12 pre-scrollable">
+                                                                <table id="CamNomTbl"
+                                                                    class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Nº</th>
+                                                                            <th>N°</th>
+                                                                            <th>Cliente</th>
                                                                             <th>Oficina</th>
+                                                                            <th>Staff</th>
                                                                             <th>Estado</th>
                                                                             <th>Nº de Solicitud</th>
                                                                             <th>Fecha de Solicitud</th>
@@ -767,14 +802,18 @@ $select = ['' => '']; ?>
                                                                 <button type="button" id="AddCambioDomicilioAbrirModal"
                                                                     class="btn btn-primary pull-right"
                                                                     data-toggle="modal"
-                                                                    data-target="#AddCambioDomicilio">Añadir cambio de
+                                                                    data-target="#AddCamDom">Añadir cambio de
                                                                     domicilio</button>
-                                                                <br><br><br>
-                                                                <table id="CambioDomicilioTbl"
-                                                                    class="anexo table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top: 15px;">
+                                                            <div class="col-md-12 pre-scrollable">
+                                                                <table id="CamDomTbl"
+                                                                    class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Nº</th>
+                                                                            <th>N°</th>
+                                                                            <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
                                                                             <th>Estado</th>

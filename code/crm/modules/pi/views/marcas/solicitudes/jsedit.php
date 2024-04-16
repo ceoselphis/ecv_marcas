@@ -877,15 +877,16 @@
             $(document).on('click','#addbtnCesionActual',function(e){
                 console.log("Cesion Actual")
                 e.preventDefault();
-                ActualizarCesion();
-                $("#AddCesion").modal('hide');
+                //ActualizarCesion();
+                //$("#AddCesion").modal('hide');
                 $("#CesionActualModal").modal('show');
             });
             // Cambiar de Modal de Añadir Cesion por Añadir Cesion Anterior 
             $(document).on('click','#addbtnCesionAnterior',function(e){
+                console.log("Cesion Anterior")
                 e.preventDefault();
-                ActualizarCesion();
-                $("#AddCesion").modal('hide');
+                //ActualizarCesion();
+                //$("#AddCesion").modal('hide');
                 $("#CesionAnteriorModal").modal('show');
             });
              //--------Cambiar de Editar Licencia a Crear o Editar Licencia Actual y Anterior ---------------

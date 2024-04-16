@@ -470,6 +470,71 @@ class MarcasSolicitudes_model extends BaseModel
         return $query;
     }
 
+    public function insertCesiones($params)
+    {
+        $query = $this->db->insert('tbl_marcas_cesiones', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertCesionesAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_cedentes_cesionarios', $params);
+        return $query;
+    }
+
+    public function insertLicencias($params)
+    {
+        $query = $this->db->insert('tbl_marcas_licencia', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertLicenciasAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_licenciantes', $params);
+        return $query;
+    }
+
+    public function insertFusion($params)
+    {
+        $query = $this->db->insert('tbl_marcas_fusion', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertFusionesAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_fusion_participantes', $params);
+        return $query;
+    }
+
+    public function insertCamNom($params)
+    {
+        $query = $this->db->insert('tbl_marcas_cambio_nombre', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertCamNomAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_cambio_nombre_participantes', $params);
+        return $query;
+    }
+
+    public function insertCamDom($params)
+    {
+        $query = $this->db->insert('tbl_marcas_cambio_domicilio', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertCamDomAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_domicilios', $params);
+        return $query;
+    }
+
     public function updateSolicitudesClases($id, $params)
     {
         $query = $this->db->update_batch('tbl_marcas_clases', $params);

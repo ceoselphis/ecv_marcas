@@ -430,12 +430,15 @@ class MarcasSolicitudesController extends AdminController
             /*Seteamos el arreglo para las clases */
             $claseNiza = json_decode($form['clase_niza_id'], TRUE);
             for ($i = 0; $i < count($claseNiza); ++$i){
+                unset($claseNiza[$i]['idRow']);
+                unset($claseNiza[$i]['clase_id_name']);
                 unset($claseNiza[$i]['acciones']);
             }
 
             /*Seteamos el arreglo para las prioridades */
             $prioridades = json_decode($form['prioridad_id'], TRUE);
             for ($i = 0; $i < count($prioridades); ++$i){
+                unset($prioridades[$i]['idRow']);
                 unset($prioridades[$i]['pais_name']);
                 unset($prioridades[$i]['acciones']);
                 $prioridades[$i]['fecha_prioridad'] = empty($prioridades[$i]['fecha_prioridad']) || '' ? NULL : $this->turn_dates($prioridades[$i]['fecha_prioridad']);
@@ -444,6 +447,7 @@ class MarcasSolicitudesController extends AdminController
             /*Seteamos el arreglo para las publicaciones */
             $publicacion = json_decode($form['publicacion_id'], TRUE);
             for ($i = 0; $i < count($publicacion); ++$i){
+                unset($publicacion[$i]['idRow']);
                 unset($publicacion[$i]['tipo_pub_name']);
                 unset($publicacion[$i]['boletin_name']);
                 unset($publicacion[$i]['acciones']);
@@ -453,18 +457,120 @@ class MarcasSolicitudesController extends AdminController
             /*Seteamos el arreglo para los eventos */
             $eventos = json_decode($form['eventos_id'], TRUE);
             for ($i = 0; $i < count($eventos); ++$i){
+                unset($eventos[$i]['idRow']);
                 unset($eventos[$i]['tipo_evento_name']);
                 unset($eventos[$i]['acciones']);
                 $eventos[$i]['fecha'] = empty($eventos[$i]['fecha']) || '' ? NULL : $this->turn_dates($eventos[$i]['fecha']);
             }
 
-            /*Seteamos el arreglo para las treas */
+            /*Seteamos el arreglo para las tareas */
             $tareas = json_decode($form['tareas_id'], TRUE);
             for ($i = 0; $i < count($tareas); ++$i){
+                unset($tareas[$i]['idRow']);
                 unset($tareas[$i]['project_id_name']);
                 unset($tareas[$i]['tipo_tareas_id_name']);
                 unset($tareas[$i]['acciones']);
                 $tareas[$i]['fecha'] = empty($tareas[$i]['fecha']) || '' ? NULL : $this->turn_dates($tareas[$i]['fecha']);
+            }
+
+            /*Seteamos el arreglo para las Cesiones */
+            $cesiones = json_decode($form['cesiones_id'], TRUE);
+            $cesiones_ant_id = array();
+            $cesiones_act_id = array();
+            for ($i = 0; $i < count($cesiones); ++$i){
+                unset($cesiones[$i]['idRow']);
+                unset($cesiones[$i]['tmp_cesion_id']);
+                unset($cesiones[$i]['client_id_name']);
+                unset($cesiones[$i]['oficina_id_name']);
+                unset($cesiones[$i]['staff_id_name']);
+                unset($cesiones[$i]['estado_id_name']);
+                unset($cesiones[$i]['acciones']);
+                $cesiones_ant_id[$i] = json_decode($cesiones[$i]['cesionesanteriores'], TRUE);
+                unset($cesiones[$i]['cesionesanteriores']);
+                $cesiones_act_id[$i] = json_decode($cesiones[$i]['cesionesactuales'], TRUE);
+                unset($cesiones[$i]['cesionesactuales']);
+                $cesiones[$i]['fecha_solicitud'] = empty($cesiones[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_solicitud']);
+                $cesiones[$i]['fecha_resolucion'] = empty($cesiones[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_resolucion']);
+            }
+
+            /*Seteamos el arreglo para las Licencias */
+            $licencias = json_decode($form['licencias_id'], TRUE);
+            $licencias_ant_id = array();
+            $licencias_act_id = array();
+            for ($i = 0; $i < count($licencias); ++$i){
+                unset($licencias[$i]['idRow']);
+                unset($licencias[$i]['tmp_licencia_id']);
+                unset($licencias[$i]['client_id_name']);
+                unset($licencias[$i]['oficina_id_name']);
+                unset($licencias[$i]['staff_id_name']);
+                unset($licencias[$i]['estado_id_name']);
+                unset($licencias[$i]['acciones']);
+                $licencias_ant_id[$i] = json_decode($licencias[$i]['licenciasanteriores'], TRUE);
+                unset($licencias[$i]['licenciasanteriores']);
+                $licencias_act_id[$i] = json_decode($licencias[$i]['licenciasactuales'], TRUE);
+                unset($licencias[$i]['licenciasactuales']);
+                $licencias[$i]['fecha_solicitud'] = empty($licencias[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($licencias[$i]['fecha_solicitud']);
+                $licencias[$i]['fecha_resolucion'] = empty($licencias[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($licencias[$i]['fecha_resolucion']);
+            }
+
+            /*Seteamos el arreglo para las Fusiones */
+            $fusiones = json_decode($form['fusiones_id'], TRUE);
+            $fusiones_ant_id = array();
+            $fusiones_act_id = array();
+            for ($i = 0; $i < count($fusiones); ++$i){
+                unset($fusiones[$i]['idRow']);
+                unset($fusiones[$i]['tmp_fusion_id']);
+                unset($fusiones[$i]['client_id_name']);
+                unset($fusiones[$i]['oficina_id_name']);
+                unset($fusiones[$i]['staff_id_name']);
+                unset($fusiones[$i]['estado_id_name']);
+                unset($fusiones[$i]['acciones']);
+                $fusiones_ant_id[$i] = json_decode($fusiones[$i]['fusionesanteriores'], TRUE);
+                unset($fusiones[$i]['fusionesanteriores']);
+                $fusiones_act_id[$i] = json_decode($fusiones[$i]['fusionesactuales'], TRUE);
+                unset($fusiones[$i]['fusionesactuales']);
+                $fusiones[$i]['fecha_solicitud'] = empty($fusiones[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($fusiones[$i]['fecha_solicitud']);
+                $fusiones[$i]['fecha_resolucion'] = empty($fusiones[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($fusiones[$i]['fecha_resolucion']);
+            }
+
+            /*Seteamos el arreglo para los Cambios de Nombre */
+            $camnom = json_decode($form['camnom_id'], TRUE);
+            $camnom_ant_id = array();
+            $camnom_act_id = array();
+            for ($i = 0; $i < count($camnom); ++$i){
+                unset($camnom[$i]['idRow']);
+                unset($camnom[$i]['tmp_camnom_id']);
+                unset($camnom[$i]['client_id_name']);
+                unset($camnom[$i]['oficina_id_name']);
+                unset($camnom[$i]['staff_id_name']);
+                unset($camnom[$i]['estado_id_name']);
+                unset($camnom[$i]['acciones']);
+                $camnom_ant_id[$i] = json_decode($camnom[$i]['camnomanteriores'], TRUE);
+                unset($camnom[$i]['camnomanteriores']);
+                $camnom_act_id[$i] = json_decode($camnom[$i]['camnomactuales'], TRUE);
+                unset($camnom[$i]['camnomactuales']);
+                $camnom[$i]['fecha_solicitud'] = empty($camnom[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($camnom[$i]['fecha_solicitud']);
+                $camnom[$i]['fecha_resolucion'] = empty($camnom[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($camnom[$i]['fecha_resolucion']);
+            }
+
+            /*Seteamos el arreglo para los Cambios de Domicilio */
+            $camdom = json_decode($form['camdom_id'], TRUE);
+            $camdom_ant_id = array();
+            $camdom_act_id = array();
+            for ($i = 0; $i < count($camdom); ++$i){
+                unset($camdom[$i]['idRow']);
+                unset($camdom[$i]['tmp_camdom_id']);
+                unset($camdom[$i]['client_id_name']);
+                unset($camdom[$i]['oficina_id_name']);
+                unset($camdom[$i]['staff_id_name']);
+                unset($camdom[$i]['estado_id_name']);
+                unset($camdom[$i]['acciones']);
+                $camdom_ant_id[$i] = json_decode($camdom[$i]['camdomanteriores'], TRUE);
+                unset($camdom[$i]['camdomanteriores']);
+                $camdom_act_id[$i] = json_decode($camdom[$i]['camdomactuales'], TRUE);
+                unset($camdom[$i]['camdomactuales']);
+                $camdom[$i]['fecha_solicitud'] = empty($camdom[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($camdom[$i]['fecha_solicitud']);
+                $camdom[$i]['fecha_resolucion'] = empty($camdom[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($camdom[$i]['fecha_resolucion']);
             }
 
             try {
@@ -489,6 +595,145 @@ class MarcasSolicitudesController extends AdminController
                 }
                 if (!empty($tareas)) {
                     $CI->MarcasSolicitudes_model->insertTareas($tareas);
+                }
+                if (!empty($cesiones)) {
+                    for ($i = 0; $i < count($cesiones); ++$i){
+                        /* INSERTO LA CESION Y RETORNO SU ID*/
+                        $cesion_id = $CI->MarcasSolicitudes_model->insertCesiones($cesiones[$i]);
+
+                        /*Guardamos las cesiones anteriores  */
+                        if (!empty($cesiones_ant_id)) {
+                            for ($j = 0; $j < count($cesiones_ant_id[$i]); ++$j){
+                                unset($cesiones_ant_id[$i][$j]['idRow']);
+                                unset($cesiones_ant_id[$i][$j]['cedente_id_name']);
+                                unset($cesiones_ant_id[$i][$j]['acciones']);
+                                $cesiones_ant_id[$i][$j]['cesion_id'] = $cesion_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertCesionesAntAct($cesiones_ant_id[$i]);
+                        }
+                        /*Guardamos las cesiones actuales  */
+                        if (!empty($cesiones_act_id)) {
+                            for ($j = 0; $j < count($cesiones_act_id[$i]); ++$j){
+                                unset($cesiones_act_id[$i][$j]['idRow']);
+                                unset($cesiones_act_id[$i][$j]['cedente_id_name']);
+                                unset($cesiones_act_id[$i][$j]['acciones']);
+                                $cesiones_act_id[$i][$j]['cesion_id'] = $cesion_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertCesionesAntAct($cesiones_act_id[$i]);
+                        }
+                    }
+                }
+
+                if (!empty($licencias)) {
+                    for ($i = 0; $i < count($licencias); ++$i){
+                        /* INSERTO LA LICENCIA Y RETORNO SU ID*/
+                        $licencia_id = $CI->MarcasSolicitudes_model->insertLicencias($licencias[$i]);
+
+                        /*Guardamos las licencias anteriores  */
+                        if (!empty($licencias_ant_id)) {
+                            for ($j = 0; $j < count($licencias_ant_id[$i]); ++$j){
+                                unset($licencias_ant_id[$i][$j]['idRow']);
+                                unset($licencias_ant_id[$i][$j]['propietario_id_name']);
+                                unset($licencias_ant_id[$i][$j]['acciones']);
+                                $licencias_ant_id[$i][$j]['licencia_id'] = $licencia_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertLicenciasAntAct($licencias_ant_id[$i]);
+                       }
+                       /*Guardamos las licencias actuales  */
+                       if (!empty($licencias_act_id)) {
+                            for ($j = 0; $j < count($licencias_act_id[$i]); ++$j){
+                                unset($licencias_act_id[$i][$j]['idRow']);
+                                unset($licencias_act_id[$i][$j]['propietario_id_name']);
+                                unset($licencias_act_id[$i][$j]['acciones']);
+                                $licencias_act_id[$i][$j]['licencia_id'] = $licencia_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertLicenciasAntAct($licencias_act_id[$i]);
+                       }
+                    }
+                }
+                
+                if (!empty($fusiones)) {
+                    for ($i = 0; $i < count($fusiones); ++$i){
+                        /* INSERTO LA FUSION Y RETORNO SU ID*/
+                        $fusion_id = $CI->MarcasSolicitudes_model->insertFusion($fusiones[$i]);
+
+                        /*Guardamos las fusiones anteriores  */
+                        if (!empty($fusiones_ant_id)) {
+                            for ($j = 0; $j < count($fusiones_ant_id[$i]); ++$j){
+                                unset($fusiones_ant_id[$i][$j]['idRow']);
+                                unset($fusiones_ant_id[$i][$j]['propietario_id_name']);
+                                unset($fusiones_ant_id[$i][$j]['acciones']);
+                                $fusiones_ant_id[$i][$j]['fusion_id'] = $fusion_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertFusionesAntAct($fusiones_ant_id[$i]);
+                       }
+                       /*Guardamos las fusiones actuales  */
+                       if (!empty($fusiones_act_id)) {
+                            for ($j = 0; $j < count($fusiones_act_id[$i]); ++$j){
+                                unset($fusiones_act_id[$i][$j]['idRow']);
+                                unset($fusiones_act_id[$i][$j]['propietario_id_name']);
+                                unset($fusiones_act_id[$i][$j]['acciones']);
+                                $fusiones_act_id[$i][$j]['fusion_id'] = $fusion_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertFusionesAntAct($fusiones_act_id[$i]);
+                       }
+                    }
+                }
+                
+                if (!empty($camnom)) {
+                    for ($i = 0; $i < count($camnom); ++$i){
+                        /* INSERTO EL CAMBIO DE NOMBRE Y RETORNO SU ID*/
+                        $fusion_id = $CI->MarcasSolicitudes_model->insertCamNom($camnom[$i]);
+
+                        /*Guardamos los Cambios de Nombre anteriores  */
+                        if (!empty($camnom_ant_id)) {
+                            for ($j = 0; $j < count($camnom_ant_id[$i]); ++$j){
+                                unset($camnom_ant_id[$i][$j]['idRow']);
+                                unset($camnom_ant_id[$i][$j]['propietario_id_name']);
+                                unset($camnom_ant_id[$i][$j]['acciones']);
+                                $camnom_ant_id[$i][$j]['cambio_nombre_id'] = $fusion_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertCamNomAntAct($camnom_ant_id[$i]);
+                       }
+                       /*Guardamos las Cambios de Nombre actuales  */
+                       if (!empty($camnom_act_id)) {
+                            for ($j = 0; $j < count($camnom_act_id[$i]); ++$j){
+                                unset($camnom_act_id[$i][$j]['idRow']);
+                                unset($camnom_act_id[$i][$j]['propietario_id_name']);
+                                unset($camnom_act_id[$i][$j]['acciones']);
+                                $camnom_act_id[$i][$j]['cambio_nombre_id'] = $fusion_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertCamNomAntAct($camnom_act_id[$i]);
+                       }
+                    }
+                }
+                
+                if (!empty($camdom)) {
+                    for ($i = 0; $i < count($camdom); ++$i){
+                        /* INSERTO EL CAMBIO DE DOMICLIO Y RETORNO SU ID*/
+                        $fusion_id = $CI->MarcasSolicitudes_model->insertCamDom($camdom[$i]);
+
+                        /*Guardamos los Cambios de Domicilio anteriores  */
+                        if (!empty($camdom_ant_id)) {
+                            for ($j = 0; $j < count($camdom_ant_id[$i]); ++$j){
+                                unset($camdom_ant_id[$i][$j]['idRow']);
+                                unset($camdom_ant_id[$i][$j]['propietario_id_name']);
+                                unset($camdom_ant_id[$i][$j]['acciones']);
+                                $camdom_ant_id[$i][$j]['cambio_domicilio_id'] = $fusion_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertCamDomAntAct($camdom_ant_id[$i]);
+                       }
+                       /*Guardamos las Cambios de Domicilio actuales  */
+                       if (!empty($camdom_act_id)) {
+                            for ($j = 0; $j < count($camdom_act_id[$i]); ++$j){
+                                unset($camdom_act_id[$i][$j]['idRow']);
+                                unset($camdom_act_id[$i][$j]['propietario_id_name']);
+                                unset($camdom_act_id[$i][$j]['acciones']);
+                                $camdom_act_id[$i][$j]['cambio_domicilio_id'] = $fusion_id;
+                            }
+                            $CI->MarcasSolicitudes_model->insertCamDomAntAct($camdom_act_id[$i]);
+                       }
+                    }
                 }
 
                 echo json_encode(['code' => 200, 'error' => '']);

@@ -17,11 +17,11 @@
             <?php echo form_label('Clase', 'clase_niza',['id' => 'lblclase_niza']); ?>
             <?php
             $clase_niza_id = $select + $clase_niza_id;
-            echo form_dropdown('clase_niza', $clase_niza_id, '', ['class' => 'form-control']); ?>
+            echo form_dropdown('clase_niza', $clase_niza_id, '', ['class' => 'form-control', 'id' => 'clase_niza']); ?>
           </div>
           <div class="col-md-6">
             <?php echo form_label('Descripcion', 'clase_niza_descripcion',['id' => 'lblclase_niza_descripcion']); ?>
-            <?php echo form_input('clase_niza_descripcion', set_value('descripcion', ''), ['class' => 'form-control']); ?>
+            <?php echo form_input('clase_niza_descripcion', set_value('clase_niza_descripcion', ''), ['class' => 'form-control','id' => 'clase_niza_descripcion']); ?>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
             <?php echo form_label('Pais de la prioridad', 'pais_prioridad',['id' => 'lblpais_prioridad']); ?>
             <?php
             $pais_id = $select + $pais_id;
-            echo form_dropdown('pais_prioridad', $pais_id, '', ['class' => 'form-control']); ?>
+            echo form_dropdown('pais_prioridad', $pais_id, '', ['class' => 'form-control','id' => 'pais_prioridad']); ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Fecha', 'fecha_prioridad',['id' => 'lblfecha_prioridad']); ?>
@@ -112,7 +112,7 @@
             <?php echo form_label('Tipo', 'tipo_publicacion',['id' => 'lbltipo_publicacion']); ?>
             <?php
             $tipo_publicacion = $select + $tipo_publicacion;
-            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control']); ?>
+            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control','id' => 'tipo_publicacion']); ?>
           </div>
         </div>
         <div class="row" style="padding-top:15px;">
@@ -120,15 +120,15 @@
             <?php echo form_label('Boletin', 'boletin_publicacion',['id' => 'lblboletin_publicacion']); ?>
             <?php
             $boletines = $select + $boletines;
-            echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control']); ?>
+            echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control','id' => 'boletin_publicacion']); ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Tomo', 'tomo_publicacion',['id' => 'lbltomo_publicacion']); ?>
-            <?php echo form_input('tomo_publicacion', set_value('tomo_publicacion'), ['class' => 'form-control']); ?>
+            <?php echo form_input('tomo_publicacion', set_value('tomo_publicacion'), ['class' => 'form-control','id' => 'tomo_publicacion']); ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Página', 'pag_publicacion',['id' => 'lblpag_publicacion']); ?>
-            <?php echo form_input('pag_publicacion', set_value('pag_publicacion'), ['class' => 'form-control']); ?>
+            <?php echo form_input('pag_publicacion', set_value('pag_publicacion'), ['class' => 'form-control','id' => 'pag_publicacion']); ?>
           </div>
         </div>
       </div>
@@ -219,7 +219,7 @@
           </div>
           <div class="col-md-4">
             <?php echo form_label('Fecha', 'fecha_tarea',['id' => 'lblfecha_tarea']); ?>
-            <?php echo form_input('fecha_tarea', '', ['class' => 'form-control calendar']); ?>
+            <?php echo form_input('fecha_tarea', '', ['class' => 'form-control calendar','id' => 'fecha_tarea']); ?>
           </div>
         </div>
         <div class="row" style="padding-top:15px;">
@@ -1370,7 +1370,7 @@
 
 
 <!-- Anexo Modal -->
-<div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- <div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'anexoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
@@ -1400,7 +1400,7 @@
     </div>
   </div>
   <?php echo form_close(); ?>
-</div>
+</div> -->
 
 <!-- Añadir Documento Modal Create -->
 <div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -1470,11 +1470,11 @@
           </div>
           <div class="col-md-12">
             <?php echo form_label('Descripcion', 'descripcion_signo'); ?>
-            <?php echo form_textarea('descripcion_signo', '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea('descripcion_signo', '', ['class' => 'form-control','id' => 'descripcion_signo']); ?>
           </div>
           <div class="col-md-12">
             <?php echo form_label('Comentarios', 'comentario_signo'); ?>
-            <?php echo form_input('comentario_signo', '', ['class' => 'form-control']); ?>
+            <?php echo form_input('comentario_signo', '', ['class' => 'form-control','id' => 'comentario_signo']); ?>
           </div>
 
         </div>

@@ -60,9 +60,9 @@
     /***
      * funcion para obtener la descripcion de la clase
      */
-    $(document).on('change', 'select[name=clase_niza]', function(e) {
+    $(document).on('change', '#clase_niza', function(e) {
         e.preventDefault();
-        var clase_niza = $("select[name=clase_niza]").val();
+        var clase_niza = $('#clase_niza').val();
         $.ajax({
             url: "<?php echo admin_url('pi/ClasesController/getDescription'); ?>",
             method: "POST",
@@ -72,7 +72,7 @@
             },
             success: function(response) {
                 res = JSON.parse(response);
-                $("input[name=clase_niza_descripcion]").val(res.data);
+                $('#clase_niza_descripcion').val(res.data);
             }
         });
     });
@@ -82,13 +82,13 @@
      */
     $(document).on('click', '#claseNizaFrmSubmit', function(e) {    
         e.preventDefault();
-        if ($("select[name=clase_niza]").val() && $("input[name=clase_niza_descripcion]").val()) {
+        if ($('#clase_niza').val() && $('#clase_niza_descripcion').val()) {
             var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
             var data = {
                 'idRow': tblClaseDT.rows().count() + 1,
-                'clase_id': $("select[name=clase_niza]").val(),
-                'clase_id_name': $("select[name=clase_niza] option:selected").text(),
-                'descripcion': $("input[name=clase_niza_descripcion]").val(),
+                'clase_id': $('#clase_niza').val(),
+                'clase_id_name': $("#clase_niza option[value=" + $( "#clase_niza").val() + "]").text(),
+                'descripcion': $('#clase_niza_descripcion').val(),
                 'marcas_id': $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblClaseDT.rows().count()) + "' class='btn btn-danger col-mrg borrarClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
@@ -108,8 +108,8 @@
             }
             
         }else{
-            $("#lblclase_niza").css('color', $("select[name=clase_niza]").val() ? color_lbl : 'red');
-            $("#lblclase_niza_descripcion").css('color', $("input[name=clase_niza_descripcion]").val() ? color_lbl : 'red');
+            $("#lblclase_niza").css('color', $('#clase_niza').val() ? color_lbl : 'red');
+            $("#lblclase_niza_descripcion").css('color', $('#clase_niza_descripcion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Clase');
         }
     });
@@ -144,8 +144,8 @@
      */
     function ResetTablaClases() {
         $("#claseNizaFrm")[0].reset();
-        $('select[name=clase_niza]').prop('selectedIndex', 0);
-        $('select[name=clase_niza]').selectpicker('refresh'); 
+        $('#clase_niza').prop('selectedIndex', 0);
+        $('#clase_niza').selectpicker('refresh'); 
         $("#lblclase_niza").css('color', color_lbl);
         $("#lblclase_niza_descripcion").css('color', color_lbl);
     }
@@ -214,16 +214,16 @@
      */
     $("#prioridadfrmsubmit").on('click', function(e) {
         e.preventDefault();
-        if ($("select[name=pais_prioridad]").val() && $("input[name=fecha_prioridad]").val()
-            && $("input[name=nro_prioridad]").val()) {
-            
+        if ($('#pais_prioridad').val() && $('#fecha_prioridad').val()
+            && $('#nro_prioridad').val()) {
+                
             prioridad = JSON.parse(localStorage.getItem('prioridad'));
             data = {
                 'idRow': tblPrioridadDT.rows().count() + 1,
-                'pais_id': $("select[name=pais_prioridad]").val(),
-                'pais_name': $("select[name=pais_prioridad] option:selected").text(),
-                'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
-                'numero_prioridad': $("input[name=nro_prioridad").val(),
+                'pais_id': $('#pais_prioridad').val(),
+                'pais_name': $('#pais_prioridad option[value=' + $('#pais_prioridad').val() + ']').text(),
+                'fecha_prioridad': $('#fecha_prioridad').val(),
+                'numero_prioridad': $('#nro_prioridad').val(),
                 'marcas_id': $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblPrioridadDT.rows().count()) + "' class='btn btn-danger col-mrg borrarPrioridad'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
@@ -241,9 +241,9 @@
                 alert(error);
             }
         }else{
-            $("#lblpais_prioridad").css('color', $("select[name=pais_prioridad]").val() ? color_lbl : 'red');
-            $("#lblfecha_prioridad").css('color', $("input[name=fecha_prioridad]").val() ? color_lbl : 'red');
-            $("#lblnro_prioridad").css('color', $("input[name=nro_prioridad]").val() ? color_lbl : 'red');
+            $("#lblpais_prioridad").css('color', $('#pais_prioridad').val() ? color_lbl : 'red');
+            $("#lblfecha_prioridad").css('color', $('#fecha_prioridad').val() ? color_lbl : 'red');
+            $("#lblnro_prioridad").css('color', $('#nro_prioridad').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Prioridad');
         }
     });
@@ -278,8 +278,8 @@
      */
     function ResetTablaPrioridad() {
         $("#prioridadFrm")[0].reset();
-        $('select[name=pais_prioridad]').prop('selectedIndex', 0);
-        $('select[name=pais_prioridad]').selectpicker('refresh'); 
+        $('#pais_prioridad').prop('selectedIndex', 0);
+        $('#pais_prioridad').selectpicker('refresh'); 
         $("#lblpais_prioridad").css('color', color_lbl);
         $("#lblfecha_prioridad").css('color', color_lbl);
         $("#lblnro_prioridad").css('color', color_lbl);
@@ -359,19 +359,19 @@
     $(document).on('click', "#publicacionfrmsubmit", function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($("input[name=fecha_publicacion]").val() && $("select[name=tipo_publicacion]").val() && $("select[name=boletin_publicacion]").val()
-            && $("input[name=tomo_publicacion]").val() && $("input[name=pag_publicacion]").val()) {
-            
+        if ($('#fecha_publicacion').val() && $('#tipo_publicacion').val() && $('#boletin_publicacion').val()
+            && $('#tomo_publicacion').val() && $('#pag_publicacion').val()) {
+                
             var publicacion = JSON.parse(localStorage.getItem("publicacion"));
             var data = {
                 'idRow': tblPublicacionDT.rows().count() + 1,
-                "fecha": $("input[name=fecha_publicacion]").val(),
-                "tipo_pub_id": $("select[name=tipo_publicacion]").val(),
-                'tipo_pub_name': $("select[name=tipo_publicacion] option:selected").text(),
-                "boletin_id": $("select[name=boletin_publicacion]").val(),
-                'boletin_name': $("select[name=boletin_publicacion] option:selected").text(),
-                "tomo": $("input[name=tomo_publicacion]").val(),
-                "pagina": $("input[name=pag_publicacion]").val(),
+                "fecha": $('#fecha_publicacion').val(),
+                "tipo_pub_id": $('#tipo_publicacion').val(),
+                'tipo_pub_name': $('#tipo_publicacion option[value=' + $('#tipo_publicacion').val() + ']').text(),
+                "boletin_id": $('#boletin_publicacion').val(),
+                'boletin_name': $('#boletin_publicacion option[value=' + $('#boletin_publicacion').val() + ']').text(),
+                "tomo": $('#tomo_publicacion').val(),
+                "pagina": $('#pag_publicacion').val(),
                 "marcas_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblPublicacionDT.rows().count()) + "' class='btn btn-danger col-mrg deletePublicacion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
@@ -389,11 +389,11 @@
                 alert(error);
             }
         }else{
-            $("#lblfecha_publicacion").css('color', $("input[name=fecha_publicacion]").val() ? color_lbl : 'red');
-            $("#lbltipo_publicacion").css('color', $("select[name=tipo_publicacion]").val() ? color_lbl : 'red');
-            $("#lblboletin_publicacion").css('color', $("select[name=boletin_publicacion]").val() ? color_lbl : 'red');
-            $("#lbltomo_publicacion").css('color', $("input[name=tomo_publicacion]").val() ? color_lbl : 'red');
-            $("#lblpag_publicacion").css('color', $("input[name=pag_publicacion]").val() ? color_lbl : 'red');
+            $("#lblfecha_publicacion").css('color', $('#fecha_publicacion').val() ? color_lbl : 'red');
+            $("#lbltipo_publicacion").css('color', $('#tipo_publicacion').val() ? color_lbl : 'red');
+            $("#lblboletin_publicacion").css('color', $('#boletin_publicacion').val() ? color_lbl : 'red');
+            $("#lbltomo_publicacion").css('color', $('#tomo_publicacion').val() ? color_lbl : 'red');
+            $("#lblpag_publicacion").css('color', $('#pag_publicacion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe seleccionar todos los datos para la Añadir la Publicación');
         }
     });
@@ -429,10 +429,10 @@
      */
     function ResetTablaPublicacion() {
         $("#publicacionFrm")[0].reset();
-        $('select[name=tipo_publicacion]').prop('selectedIndex', 0);
-        $('select[name=tipo_publicacion]').selectpicker('refresh'); 
-        $('select[name=boletin_publicacion]').prop('selectedIndex', 0);
-        $('select[name=boletin_publicacion]').selectpicker('refresh'); 
+        $('#tipo_publicacion').prop('selectedIndex', 0);
+        $('#tipo_publicacion').selectpicker('refresh'); 
+        $('#boletin_publicacion').prop('selectedIndex', 0);
+        $('#boletin_publicacion').selectpicker('refresh'); 
         $("#lblfecha_publicacion").css('color', color_lbl);
         $("#lbltipo_publicacion").css('color', color_lbl);
         $("#lblboletin_publicacion").css('color', color_lbl);
@@ -529,15 +529,15 @@
     $(document).on('click', '#eventosfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($("select[name=tipo_evento]").val() && $("input[name=fecha_evento]").val() && $("textarea[name=evento_comentario]").val()) {
+        if ($('#tipo_evento').val() && $('#fecha_evento').val() && $('#evento_comentario').val()) {
             
             var eventos = JSON.parse(localStorage.getItem("eventos"));
             var data = {
                 'idRow': tblEventosDT.rows().count() + 1,
-                "fecha": $("input[name=fecha_evento]").val(),
-                "tipo_evento_id": $("select[name=tipo_evento]").val(),
-                'tipo_evento_name': $("select[name=tipo_evento] option:selected").text(),
-                "comentarios": $("textarea[name=evento_comentario]").val(),
+                "fecha": $('#fecha_evento').val(),
+                "tipo_evento_id": $('#tipo_evento').val(),
+                'tipo_evento_name': $('#tipo_evento option[value=' + $('#tipo_evento').val() + ']').text(),
+                "comentarios": $('#evento_comentario').val(),
                 "marcas_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblEventosDT.rows().count()) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
@@ -556,9 +556,9 @@
             }
 
         }else{
-            $("#lbltipo_evento").css('color', $("select[name=tipo_evento]").val() ? color_lbl : 'red');
-            $("#lblfecha_evento").css('color', $("input[name=fecha_evento]").val() ? color_lbl : 'red');
-            $("#lblevento_comentario").css('color', $("textarea[name=evento_comentario]").val() ? color_lbl : 'red');
+            $("#lbltipo_evento").css('color', $('#tipo_evento').val() ? color_lbl : 'red');
+            $("#lblfecha_evento").css('color', $('#fecha_evento').val() ? color_lbl : 'red');
+            $("#lblevento_comentario").css('color', $('#evento_comentario').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe seleccionar todos los datos para Añadir el Evento');
         }
 
@@ -594,8 +594,8 @@
      */
     function ResetTablaEventos() {
         $("#eventoFrm")[0].reset();
-        $('select[name=tipo_evento]').prop('selectedIndex', 0);
-        $('select[name=tipo_evento]').selectpicker('refresh'); 
+        $('#tipo_evento').prop('selectedIndex', 0);
+        $('#tipo_evento').selectpicker('refresh'); 
         $("#lbltipo_evento").css('color', color_lbl);
         $("#lblfecha_evento").css('color', color_lbl);
         $("#lblevento_comentario").css('color', color_lbl);
@@ -674,18 +674,18 @@
     $(document).on('click', '#tareasfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($("input[name=fecha_tarea]").val() && $("select[name=project_id]").val() && $("select[name=tipo_tarea]").val()
-            && $("textarea[name=descripcion]").val()) {
-            
+        if ($('#fecha_tarea').val() && $('#project_id').val() && $('#tipo_tarea').val()
+            && $('#descripcion').val()) {
+                
             var tareas = JSON.parse(localStorage.getItem("tareas"));
             var data = {
                 'idRow': tblTareasDT.rows().count() + 1,
-                "fecha": $("input[name=fecha_tarea]").val(),
-                "project_id": $("select[name=project_id]").val(),
-                'project_id_name': $("select[name=project_id] option:selected").text(),
-                "tipo_tareas_id": $("select[name=tipo_tarea]").val(),
-                'tipo_tareas_id_name': $("select[name=tipo_tarea] option:selected").text(),
-                "descripcion": $("textarea[name=descripcion]").val(),
+                "fecha": $('#fecha_tarea').val(),
+                "project_id": $('#project_id').val(),
+                'project_id_name': $('#project_id option[value=' + $('#project_id').val() + ']').text(),
+                "tipo_tareas_id": $('#tipo_tarea').val(),
+                'tipo_tareas_id_name': $('#tipo_tarea option[value=' + $('#tipo_tarea').val() + ']').text(),
+                "descripcion": $('#descripcion').val(),
                 "marcas_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblTareasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteTarea'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
@@ -704,10 +704,10 @@
             }
 
         }else{
-            $("#lblfecha_tarea").css('color', $("select[name=fecha_tarea]").val() ? color_lbl : 'red');
-            $("#lblproject_id").css('color', $("input[name=project_id]").val() ? color_lbl : 'red');
-            $("#lbltipo_tarea").css('color', $("select[name=tipo_tarea]").val() ? color_lbl : 'red');
-            $("#lbldescripcion").css('color', $("textarea[name=descripcion]").val() ? color_lbl : 'red');
+            $("#lblfecha_tarea").css('color', $('#fecha_tarea').val() ? color_lbl : 'red');
+            $("#lblproject_id").css('color', $('#project_id').val() ? color_lbl : 'red');
+            $("#lbltipo_tarea").css('color', $('#tipo_tarea').val() ? color_lbl : 'red');
+            $("#lbldescripcion").css('color', $('#descripcion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe seleccionar los datos para para Añadir la Tarea');
         }
     })
@@ -742,10 +742,10 @@
      */
     function ResetTablaTareas() {
         $("#tareasfrm")[0].reset();
-        $('select[name=project_id]').prop('selectedIndex', 0);
-        $('select[name=project_id]').selectpicker('refresh'); 
-        $('select[name=tipo_tarea]').prop('selectedIndex', 0);
-        $('select[name=tipo_tarea]').selectpicker('refresh'); 
+        $('#project_id').prop('selectedIndex', 0);
+        $('#project_id').selectpicker('refresh'); 
+        $('#tipo_tarea').prop('selectedIndex', 0);
+        $('#tipo_tarea').selectpicker('refresh'); 
         $("#lblfecha_tarea").css('color', color_lbl);
         $("#lblproject_id").css('color', color_lbl);
         $("#lbltipo_tarea").css('color', color_lbl);
@@ -832,39 +832,43 @@
     $(document).on('click', '#cesionesfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($("select[name=oficinaCesion]").val() && 
-            $("select[name=estadoCesion]").val() && 
-            $("input[name=nro_solicitudCesion]").val() && 
-            $("input[name=fecha_solicitudCesion]").val() &&
-            $("input[name=nro_resolucionCesion]").val() &&
-            $("input[name=fecha_resolucionCesion]").val() &&
-            $("input[name=referenciaclienteCesion]").val() &&
-            $("textarea[name=comentarioCesion]").val()) 
+        let start = new Date();
+        let end; 
+        console.log('Comienzo = ' + start.getHours() + ":" + start.getMinutes() + ":" + start.getSeconds());
+        if ($('#oficinaCesion').val() && 
+            $('#estadoCesion').val() && 
+            $('#nro_solicitudCesion').val() && 
+            $('#fecha_solicitudCesion').val() &&
+            $('#nro_resolucionCesion').val() &&
+            $('#fecha_resolucionCesion').val() &&
+            $('#referenciaclienteCesion').val() &&
+            $('#comentarioCesion').val()) 
             {
-            
+                
             var cesiones = JSON.parse(localStorage.getItem("cesiones"));
             var data = {
                 'idRow': tblCesionesDT.rows().count() + 1,
                 "tmp_cesion_id": tblCesionesDT.rows().count() + 1,
-                "client_id": $("select[name=clienteCesion]").val(),
-                'client_id_name': $("select[name=clienteCesion] option:selected").text(),
-                "oficina_id": $("select[name=oficinaCesion]").val(),
-                'oficina_id_name': $("select[name=oficinaCesion] option:selected").text(),
-                "staff_id": $("select[name=staffCesion]").val(),
-                'staff_id_name': $("select[name=staffCesion] option:selected").text(),
-                "estado_id": $("select[name=estadoCesion]").val(),
-                'estado_id_name': $("select[name=estadoCesion] option:selected").text(),
-                "solicitud_num": $("input[name=nro_solicitudCesion]").val(),
-                "fecha_solicitud": $("input[name=fecha_solicitudCesion]").val(),
-                "resolucion_num": $("input[name=nro_resolucionCesion]").val(),
-                "fecha_resolucion": $("input[name=fecha_resolucionCesion]").val(),
-                "referencia_cliente": $("input[name=referenciaclienteCesion]").val(),
-                "comentarios": $("textarea[name=comentarioCesion]").val(),
+                "client_id": $('#clienteCesion').val(),
+                'client_id_name': $('#clienteCesion option[value=' + $('#clienteCesion').val() + ']').text(),
+                "oficina_id": $('#oficinaCesion').val(),
+                'oficina_id_name': $('#oficinaCesion option[value=' + $('#oficinaCesion').val() + ']').text(),
+                "staff_id": $('#staffCesion').val(),
+                'staff_id_name': $('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoCesion').val(),
+                'estado_id_name': $('#estadoCesion option[value=' + $('#estadoCesion').val() + ']').text(),
+                "solicitud_num": $('#nro_solicitudCesion').val(),
+                "fecha_solicitud": $('#fecha_solicitudCesion').val(),
+                "resolucion_num": $('#nro_resolucionCesion').val(),
+                "fecha_resolucion": $('#fecha_resolucionCesion').val(),
+                "referencia_cliente": $('#referenciaclienteCesion').val(),
+                "comentarios": $('#comentarioCesion').val(),
                 "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
                 "cesionesactuales": localStorage.getItem("cesionesactuales"),
                 "marcas_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
+            end = new Date(); console.log(`Asignada la Data en ${end.getTime() - start.getTime()} msec`); start = new Date();
             cesiones.push(data);
             console.log('cesiones', cesiones);
             try {
@@ -882,14 +886,14 @@
             }
 
         }else{
-            $("#lbloficinaCesion").css('color', $("select[name=oficinaCesion]").val() ? color_lbl : 'red');
-            $("#lblestadoCesion").css('color', $("select[name=estadoCesion]").val() ? color_lbl : 'red');
-            $("#lblnro_solicitudCesion").css('color', $("input[name=nro_solicitudCesion]").val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudCesion").css('color', $("input[name=fecha_solicitudCesion]").val() ? color_lbl : 'red');
-            $("#lblnro_resolucionCesion").css('color', $("input[name=nro_resolucionCesion]").val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionCesion").css('color', $("input[name=fecha_resolucionCesion]").val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteCesion").css('color', $("input[name=referenciaclienteCesion]").val() ? color_lbl : 'red');
-            $("#lblcomentarioCesion").css('color', $("textarea[name=comentarioCesion]").val() ? color_lbl : 'red');
+            $("#lbloficinaCesion").css('color', $('#oficinaCesion').val() ? color_lbl : 'red');
+            $("#lblestadoCesion").css('color', $('#estadoCesion').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudCesion').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudCesion').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionCesion').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionCesion').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteCesion').val() ? color_lbl : 'red');
+            $("#lblcomentarioCesion").css('color', $('#comentarioCesion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos la Cesión');
         }
     })
@@ -928,16 +932,16 @@
      * funcion que se ejecuta antes de cerrar el Modal
      */
     $('#AddCesion').on('hide.bs.modal', function (e) {
-        if (!($("select[name=clienteCesion]").val() || '') == '' || 
-            !($("select[name=oficinaCesion]").val() || '') == '' || 
-            !($("select[name=staffCesion]").val() || '') == '' || 
-            !($("select[name=estadoCesion]").val() || '') == '' || 
-            !($("input[name=nro_solicitudCesion]").val() || '') == '' || 
-            !($("input[name=fecha_solicitudCesion]").val() || '') == '' ||
-            !($("input[name=nro_resolucionCesion]").val() || '') == '' ||
-            !($("input[name=fecha_resolucionCesion]").val() || '') == '' ||
-            !($("input[name=referenciaclienteCesion]").val() || '') == '' ||
-            !($("textarea[name=comentarioCesion]").val() || '') == '' ||
+        if (!($('#clienteCesion').val() || '') == '' || 
+            !($('#oficinaCesion').val() || '') == '' || 
+            !($('#staffCesion').val() || '') == '' || 
+            !($('#estadoCesion').val() || '') == '' || 
+            !($('#nro_solicitudCesion').val() || '') == '' || 
+            !($('#fecha_solicitudCesion').val() || '') == '' ||
+            !($('#nro_resolucionCesion').val() || '') == '' ||
+            !($('#fecha_resolucionCesion').val() || '') == '' ||
+            !($('#referenciaclienteCesion').val() || '') == '' ||
+            !($('#comentarioCesion').val() || '') == '' ||
             tblCesionesAnteDT.rows().count() > 0 || tblCesionesActDT.rows().count() > 0) 
         {
             if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
@@ -951,14 +955,14 @@
      */
     function ResetTablaCesiones() {
         $("#cesionesfrm")[0].reset();
-        $('select[name=clienteCesion]').prop('selectedIndex', 0);
-        $('select[name=clienteCesion]').selectpicker('refresh'); 
-        $('select[name=oficinaCesion]').prop('selectedIndex', 0);
-        $('select[name=oficinaCesion]').selectpicker('refresh'); 
-        $('select[name=staffCesion]').prop('selectedIndex', 0);
-        $('select[name=staffCesion]').selectpicker('refresh'); 
-        $('select[name=estadoCesion]').prop('selectedIndex', 0);
-        $('select[name=estadoCesion]').selectpicker('refresh'); 
+        $('#clienteCesion').prop('selectedIndex', 0);
+        $('#clienteCesion').selectpicker('refresh'); 
+        $('#oficinaCesion').prop('selectedIndex', 0);
+        $('#oficinaCesion').selectpicker('refresh'); 
+        $('#staffCesion').prop('selectedIndex', 0);
+        $('#staffCesion').selectpicker('refresh'); 
+        $('#estadoCesion').prop('selectedIndex', 0);
+        $('#estadoCesion').selectpicker('refresh'); 
         $("#lbloficinaCesion").css('color', color_lbl);
         $("#lblestadoCesion").css('color', color_lbl);
         $("#lblnro_solicitudCesion").css('color', color_lbl);
@@ -1096,21 +1100,24 @@
     $(document).on('click', '#AñadirCesionAnteriorfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietarioscesionanterior]").val() || []) == '')) 
+        if (!(($('#propietarioscesionanterior').val() || []) == '')) 
         {
             var cesionesanteriores = JSON.parse(localStorage.getItem("cesionesanteriores"));
             rowCount = tblCesionesAnteDT.rows().count();
-            $('select[name=propietarioscesionanterior] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "cedente_id": parseInt($(this).val()),
-                    'cedente_id_name': $(this).text(),
-                    "tipo_cedente": 1,
-                    "cesion_id": tblCesionesDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                cesionesanteriores.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietarioscesionanterior').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioscesionanterior option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "cedente_id": parseInt($(this).val()),
+                        'cedente_id_name': $(this).text(),
+                        "tipo_cedente": 1,
+                        "cesion_id": tblCesionesDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    cesionesanteriores.push(data);
+                    rowCount++;
+                });
             });
             console.log('cesionesanteriores', cesionesanteriores);
             try {
@@ -1169,8 +1176,8 @@
      * funcion que hace reset del Modal de Cesiones Anteriores
      */
     function ResetTablaCesionesAnteriores() {
-        $('select[name=propietarioscesionanterior]').prop('selectedIndex', -1);
-        $('select[name=propietarioscesionanterior]').selectpicker('refresh'); 
+        $('#propietarioscesionanterior').prop('selectedIndex', -1);
+        $('#propietarioscesionanterior').selectpicker('refresh'); 
         $("#lblpropietarioscesionanterior").css('color', color_lbl);
     }
  
@@ -1230,22 +1237,26 @@
     $(document).on('click', '#AñadirCesionActualfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietarioscesionactual]").val() || []) == '')) 
+        if (!(($('#propietarioscesionactual').val() || []) == '')) 
         {
             var cesionesactuales = JSON.parse(localStorage.getItem("cesionesactuales"));
             rowCount = tblCesionesActDT.rows().count();
-            $('select[name=propietarioscesionactual] > option:selected').each(function() {
-                var data = {
-                'idRow': rowCount + 1,
-                "cedente_id": parseInt($(this).val()),
-                'cedente_id_name': $(this).text(),
-                "tipo_cedente": 2,
-                "cesion_id": tblCesionesDT.rows().count() + 1,
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                cesionesactuales.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietarioscesionactual').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioscesionactual option[value=' + value + ']').each(function() {
+                    var data = {
+                    'idRow': rowCount + 1,
+                    "cedente_id": parseInt($(this).val()),
+                    'cedente_id_name': $(this).text(),
+                    "tipo_cedente": 2,
+                    "cesion_id": tblCesionesDT.rows().count() + 1,
+                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    cesionesactuales.push(data);
+                    rowCount++;
+                });
             });
+
             console.log('cesionesactuales', cesionesactuales);
             try {
                 $("#CesionActualModal").modal('hide');
@@ -1303,8 +1314,8 @@
      * funcion que hace reset del Modal de Cesiones Actuales
      */
     function ResetTablaCesionesActuales() {
-        $('select[name=propietarioscesionactual]').prop('selectedIndex', -1);
-        $('select[name=propietarioscesionactual]').selectpicker('refresh'); 
+        $('#propietarioscesionactual').prop('selectedIndex', -1);
+        $('#propietarioscesionactual').selectpicker('refresh'); 
         $("#lblpropietarioscesionactual").css('color', color_lbl);
     }
 
@@ -1364,34 +1375,34 @@
     $(document).on('click', '#licenciasfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($("select[name=oficinaLicencia]").val() && 
-            $("select[name=estadoLicencia]").val() && 
-            $("input[name=nro_solicitudLicencia]").val() && 
-            $("input[name=fecha_solicitudLicencia]").val() &&
-            $("input[name=nro_resolucionLicencia]").val() &&
-            $("input[name=fecha_resolucionLicencia]").val() &&
-            $("input[name=referenciaclienteLicencia]").val() &&
-            $("textarea[name=comentarioLicencia]").val()) 
+        if ($('#oficinaLicencia').val() && 
+            $('#estadoLicencia').val() && 
+            $('#nro_solicitudLicencia').val() && 
+            $('#fecha_solicitudLicencia').val() &&
+            $('#nro_resolucionLicencia').val() &&
+            $('#fecha_resolucionLicencia').val() &&
+            $('#referenciaclienteLicencia').val() &&
+            $('#comentarioLicencia').val()) 
             {
-            
+                
             var licencias = JSON.parse(localStorage.getItem("licencias"));
             var data = {
                 'idRow': tblLicenciasDT.rows().count() + 1,
                 "tmp_licencia_id": tblLicenciasDT.rows().count() + 1,
-                "client_id": $("select[name=clienteLicencia]").val(),
-                'client_id_name': $("select[name=clienteLicencia] option:selected").text(),
-                "oficina_id": $("select[name=oficinaLicencia]").val(),
-                'oficina_id_name': $("select[name=oficinaLicencia] option:selected").text(),
-                "staff_id": $("select[name=staffLicencia]").val(),
-                'staff_id_name': $("select[name=staffLicencia] option:selected").text(),
-                "estado_id": $("select[name=estadoLicencia]").val(),
-                'estado_id_name': $("select[name=estadoLicencia] option:selected").text(),
-                "num_solicitud": $("input[name=nro_solicitudLicencia]").val(),
-                "fecha_solicitud": $("input[name=fecha_solicitudLicencia]").val(),
-                "num_resolucion": $("input[name=nro_resolucionLicencia]").val(),
-                "fecha_resolucion": $("input[name=fecha_resolucionLicencia]").val(),
-                "referencia_cliente": $("input[name=referenciaclienteLicencia]").val(),
-                "comentarios": $("textarea[name=comentarioLicencia]").val(),
+                "client_id": $('#clienteLicencia').val(),
+                'client_id_name': $('#clienteLicencia option[value=' + $('#clienteLicencia').val() + ']').text(),
+                "oficina_id": $('#oficinaLicencia').val(),
+                'oficina_id_name': $('#oficinaLicencia option[value=' + $('#oficinaLicencia').val() + ']').text(),
+                "staff_id": $('#staffLicencia').val(),
+                'staff_id_name': $('#staffLicencia option[value=' + $('#staffLicencia').val() + ']').text(),
+                "estado_id": $('#estadoLicencia').val(),
+                'estado_id_name': $('#estadoLicencia option[value=' + $('#estadoLicencia').val() + ']').text(),
+                "num_solicitud": $('#nro_solicitudLicencia').val(),
+                "fecha_solicitud": $('#fecha_solicitudLicencia').val(),
+                "num_resolucion": $('#nro_resolucionLicencia').val(),
+                "fecha_resolucion": $('#fecha_resolucionLicencia').val(),
+                "referencia_cliente": $('#referenciaclienteLicencia').val(),
+                "comentarios": $('#comentarioLicencia').val(),
                 "licenciasanteriores": localStorage.getItem("licenciasanteriores"),
                 "licenciasactuales": localStorage.getItem("licenciasactuales"),
                 "marcas_id": $("input[name=id]").val(),
@@ -1414,14 +1425,14 @@
             }
 
         }else{
-            $("#lbloficinaLicencia").css('color', $("select[name=oficinaLicencia]").val() ? color_lbl : 'red');
-            $("#lblestadoLicencia").css('color', $("select[name=estadoLicencia]").val() ? color_lbl : 'red');
-            $("#lblnro_solicitudLicencia").css('color', $("input[name=nro_solicitudLicencia]").val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudLicencia").css('color', $("input[name=fecha_solicitudLicencia]").val() ? color_lbl : 'red');
-            $("#lblnro_resolucionLicencia").css('color', $("input[name=nro_resolucionLicencia]").val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionLicencia").css('color', $("input[name=fecha_resolucionLicencia]").val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteLicencia").css('color', $("input[name=referenciaclienteLicencia]").val() ? color_lbl : 'red');
-            $("#lblcomentarioLicencia").css('color', $("textarea[name=comentarioLicencia]").val() ? color_lbl : 'red');
+            $("#lbloficinaLicencia").css('color', $('#oficinaLicencia').val() ? color_lbl : 'red');
+            $("#lblestadoLicencia").css('color', $('#estadoLicencia').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudLicencia").css('color', $('#nro_solicitudLicencia').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudLicencia").css('color', $('#fecha_solicitudLicencia').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionLicencia").css('color', $('#nro_resolucionLicencia').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionLicencia").css('color', $('#fecha_resolucionLicencia').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteLicencia").css('color', $('#referenciaclienteLicencia').val() ? color_lbl : 'red');
+            $("#lblcomentarioLicencia").css('color', $('#comentarioLicencia').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos la Licencia');
         }
     })
@@ -1460,16 +1471,16 @@
      * funcion que se ejecuta antes de cerrar el Modal
      */
     $('#AddLicencia').on('hide.bs.modal', function (e) {
-        if (!($("select[name=clienteLicencia]").val() || '') == '' || 
-            !($("select[name=oficinaLicencia]").val() || '') == '' || 
-            !($("select[name=staffLicencia]").val() || '') == '' || 
-            !($("select[name=estadoLicencia]").val() || '') == '' || 
-            !($("input[name=nro_solicitudLicencia]").val() || '') == '' || 
-            !($("input[name=fecha_solicitudLicencia]").val() || '') == '' ||
-            !($("input[name=nro_resolucionLicencia]").val() || '') == '' ||
-            !($("input[name=fecha_resolucionLicencia]").val() || '') == '' ||
-            !($("input[name=referenciaclienteLicencia]").val() || '') == '' ||
-            !($("textarea[name=comentarioLicencia]").val() || '') == '' ||
+        if (!($('#clienteLicencia').val() || '') == '' || 
+            !($('#oficinaLicencia').val() || '') == '' || 
+            !($('#staffLicencia').val() || '') == '' || 
+            !($('#estadoLicencia').val() || '') == '' || 
+            !($('#nro_solicitudLicencia').val() || '') == '' || 
+            !($('#fecha_solicitudLicencia').val() || '') == '' ||
+            !($('#nro_resolucionLicencia').val() || '') == '' ||
+            !($('#fecha_resolucionLicencia').val() || '') == '' ||
+            !($('#referenciaclienteLicencia').val() || '') == '' ||
+            !($('#comentarioLicencia').val() || '') == '' ||
             tblLicenciasAnteDT.rows().count() > 0 || tblLicenciasActDT.rows().count() > 0) 
         {
             if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
@@ -1483,14 +1494,14 @@
      */
     function ResetTablaLicencias() {
         $("#licenciasfrm")[0].reset();
-        $('select[name=clienteLicencia]').prop('selectedIndex', 0);
-        $('select[name=clienteLicencia]').selectpicker('refresh'); 
-        $('select[name=oficinaLicencia]').prop('selectedIndex', 0);
-        $('select[name=oficinaLicencia]').selectpicker('refresh'); 
-        $('select[name=staffLicencia]').prop('selectedIndex', 0);
-        $('select[name=staffLicencia]').selectpicker('refresh'); 
-        $('select[name=estadoLicencia]').prop('selectedIndex', 0);
-        $('select[name=estadoLicencia]').selectpicker('refresh'); 
+        $('#clienteLicencia').prop('selectedIndex', 0);
+        $('#clienteLicencia').selectpicker('refresh'); 
+        $('#oficinaLicencia').prop('selectedIndex', 0);
+        $('#oficinaLicencia').selectpicker('refresh'); 
+        $('#staffLicencia').prop('selectedIndex', 0);
+        $('#staffLicencia').selectpicker('refresh'); 
+        $('#estadoLicencia').prop('selectedIndex', 0);
+        $('#estadoLicencia').selectpicker('refresh'); 
         $("#lbloficinaLicencia").css('color', color_lbl);
         $("#lblestadoLicencia").css('color', color_lbl);
         $("#lblnro_solicitudLicencia").css('color', color_lbl);
@@ -1628,21 +1639,24 @@
     $(document).on('click', '#AñadirLicenciaAnteriorfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietarioslicenciaanterior]").val() || []) == '')) 
+        if (!(($('#propietarioslicenciaanterior').val() || []) == '')) 
         {
             var licenciasanteriores = JSON.parse(localStorage.getItem("licenciasanteriores"));
             rowCount = tblLicenciasAnteDT.rows().count();
-            $('select[name=propietarioslicenciaanterior] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "propietario_id": parseInt($(this).val()),
-                    'propietario_id_name': $(this).text(),
-                    "tipo_licenciante": 1,
-                    "licencia_id": tblLicenciasDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                licenciasanteriores.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietarioslicenciaanterior').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioslicenciaanterior option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_licenciante": 1,
+                        "licencia_id": tblLicenciasDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    licenciasanteriores.push(data);
+                    rowCount++;
+                });
             });
             console.log('licenciasanteriores', licenciasanteriores);
             try {
@@ -1701,8 +1715,8 @@
      * funcion que hace reset del Modal de Licencias Anteriores
      */
     function ResetTablaLicenciasAnteriores() {
-        $('select[name=propietarioslicenciaanterior]').prop('selectedIndex', 1);
-        $('select[name=propietarioslicenciaanterior]').selectpicker('refresh'); 
+        $('#propietarioslicenciaanterior').prop('selectedIndex', 1);
+        $('#propietarioslicenciaanterior').selectpicker('refresh'); 
         $("#lblpropietarioslicenciaanterior").css('color', color_lbl);
     }
  
@@ -1762,21 +1776,24 @@
     $(document).on('click', '#AñadirLicenciaActualfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietarioslicenciaactual]").val() || []) == '')) 
+        if (!(($('#propietarioslicenciaactual').val() || []) == '')) 
         {
             var licenciasactuales = JSON.parse(localStorage.getItem("licenciasactuales"));
             rowCount = tblLicenciasActDT.rows().count();
-            $('select[name=propietarioslicenciaactual] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "propietario_id": parseInt($(this).val()),
-                    'propietario_id_name': $(this).text(),
-                    "tipo_licenciante": 2,
-                    "licencia_id": tblLicenciasDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                licenciasactuales.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietarioslicenciaactual').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioslicenciaactual option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_licenciante": 2,
+                        "licencia_id": tblLicenciasDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    licenciasactuales.push(data);
+                    rowCount++;
+                });
             });
             console.log('licenciasactuales', licenciasactuales);
             try {
@@ -1835,8 +1852,8 @@
      * funcion que hace reset del Modal de Licencias Actuales
      */
     function ResetTablaLicenciasActuales() {
-        $('select[name=propietarioslicenciaactual]').prop('selectedIndex', -1);
-        $('select[name=propietarioslicenciaactual]').selectpicker('refresh'); 
+        $('#propietarioslicenciaactual').prop('selectedIndex', -1);
+        $('#propietarioslicenciaactual').selectpicker('refresh'); 
         $("#lblpropietarioslicenciaactual").css('color', color_lbl);
     }
 
@@ -1896,34 +1913,34 @@
     $(document).on('click', '#fusionesfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($("select[name=oficinaFusion]").val() && 
-            $("select[name=estadoFusion]").val() && 
-            $("input[name=nro_solicitudFusion]").val() && 
-            $("input[name=fecha_solicitudFusion]").val() &&
-            $("input[name=nro_resolucionFusion]").val() &&
-            $("input[name=fecha_resolucionFusion]").val() &&
-            $("input[name=referenciaclienteFusion]").val() &&
-            $("textarea[name=comentarioFusion]").val()) 
+        if ($('#oficinaFusion').val() && 
+            $('#estadoFusion').val() && 
+            $('#estadoFusion').val() && 
+            $('#fecha_solicitudFusion').val() &&
+            $('#nro_resolucionFusion').val() &&
+            $('#fecha_resolucionFusion').val() &&
+            $('#referenciaclienteFusion').val() &&
+            $('#comentarioFusion').val()) 
             {
-            
+                
             var fusiones = JSON.parse(localStorage.getItem("fusiones"));
             var data = {
                 'idRow': tblFusionesDT.rows().count() + 1,
                 "tmp_fusion_id": tblFusionesDT.rows().count() + 1,
-                "client_id": $("select[name=clienteFusion]").val(),
-                'client_id_name': $("select[name=clienteFusion] option:selected").text(),
-                "oficina_id": $("select[name=oficinaFusion]").val(),
-                'oficina_id_name': $("select[name=oficinaFusion] option:selected").text(),
-                "staff_id": $("select[name=staffFusion]").val(),
-                'staff_id_name': $("select[name=staffFusion] option:selected").text(),
-                "estado_id": $("select[name=estadoFusion]").val(),
-                'estado_id_name': $("select[name=estadoFusion] option:selected").text(),
-                "num_solicitud": $("input[name=nro_solicitudFusion]").val(),
-                "fecha_solicitud": $("input[name=fecha_solicitudFusion]").val(),
-                "num_resolucion": $("input[name=nro_resolucionFusion]").val(),
-                "fecha_resolucion": $("input[name=fecha_resolucionFusion]").val(),
-                "referencia_cliente": $("input[name=referenciaclienteFusion]").val(),
-                "comentarios": $("textarea[name=comentarioFusion]").val(),
+                "client_id": $('#clienteFusion').val(),
+                'client_id_name': $('#clienteFusion option[value=' + $('#clienteFusion').val() + ']').text(),
+                "oficina_id": $('#oficinaFusion').val(),
+                'oficina_id_name': $('#oficinaFusion option[value=' + $('#oficinaFusion').val() + ']').text(),
+                "staff_id": $('#staffFusion').val(),
+                'staff_id_name': $('#staffFusion option[value=' + $('#staffFusion').val() + ']').text(),
+                "estado_id": $('#estadoFusion').val(),
+                'estado_id_name': $('#estadoFusion option[value=' + $('#estadoFusion').val() + ']').text(),
+                "num_solicitud": $('#estadoFusion').val(),
+                "fecha_solicitud": $('#fecha_solicitudFusion').val(),
+                "num_resolucion": $('#nro_resolucionFusion').val(),
+                "fecha_resolucion": $('#fecha_resolucionFusion').val(),
+                "referencia_cliente": $('#referenciaclienteFusion').val(),
+                "comentarios": $('#comentarioFusion').val(),
                 "fusionesanteriores": localStorage.getItem("fusionesanteriores"),
                 "fusionesactuales": localStorage.getItem("fusionesactuales"),
                 "marcas_id": $("input[name=id]").val(),
@@ -1946,14 +1963,14 @@
             }
 
         }else{
-            $("#lbloficinaFusion").css('color', $("select[name=oficinaFusion]").val() ? color_lbl : 'red');
-            $("#lblestadoFusion").css('color', $("select[name=estadoFusion]").val() ? color_lbl : 'red');
-            $("#lblnro_solicitudFusion").css('color', $("input[name=nro_solicitudFusion]").val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudFusion").css('color', $("input[name=fecha_solicitudFusion]").val() ? color_lbl : 'red');
-            $("#lblnro_resolucionFusion").css('color', $("input[name=nro_resolucionFusion]").val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionFusion").css('color', $("input[name=fecha_resolucionFusion]").val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteFusion").css('color', $("input[name=referenciaclienteFusion]").val() ? color_lbl : 'red');
-            $("#lblcomentarioFusion").css('color', $("textarea[name=comentarioFusion]").val() ? color_lbl : 'red');
+            $("#lbloficinaFusion").css('color', $('#oficinaFusion').val() ? color_lbl : 'red');
+            $("#lblestadoFusion").css('color', $('#estadoFusion').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudFusion").css('color', $('#estadoFusion').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudFusion").css('color', $('#fecha_solicitudFusion').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionFusion").css('color', $('#nro_resolucionFusion').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionFusion").css('color', $('#fecha_resolucionFusion').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteFusion").css('color', $('#referenciaclienteFusion').val() ? color_lbl : 'red');
+            $("#lblcomentarioFusion").css('color', $('#comentarioFusion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos la Fusion');
         }
     })
@@ -1992,16 +2009,16 @@
      * funcion que se ejecuta antes de cerrar el Modal
      */
     $('#AddFusion').on('hide.bs.modal', function (e) {
-        if (!($("select[name=clienteFusion]").val() || '') == '' || 
-            !($("select[name=oficinaFusion]").val() || '') == '' || 
-            !($("select[name=staffFusion]").val() || '') == '' || 
-            !($("select[name=estadoFusion]").val() || '') == '' || 
-            !($("input[name=nro_solicitudFusion]").val() || '') == '' || 
-            !($("input[name=fecha_solicitudFusion]").val() || '') == '' ||
-            !($("input[name=nro_resolucionFusion]").val() || '') == '' ||
-            !($("input[name=fecha_resolucionFusion]").val() || '') == '' ||
-            !($("input[name=referenciaclienteFusion]").val() || '') == '' ||
-            !($("textarea[name=comentarioFusion]").val() || '') == '' ||
+        if (!($('#clienteFusion').val() || '') == '' || 
+            !($('#oficinaFusion').val() || '') == '' || 
+            !($('#staffFusion').val() || '') == '' || 
+            !($('#estadoFusion').val() || '') == '' || 
+            !($('#estadoFusion').val() || '') == '' || 
+            !($('#fecha_solicitudFusion').val() || '') == '' ||
+            !($('#nro_resolucionFusion').val() || '') == '' ||
+            !($('#fecha_resolucionFusion').val() || '') == '' ||
+            !($('#referenciaclienteFusion').val() || '') == '' ||
+            !($('#comentarioFusion').val() || '') == '' ||
             tblFusionesAnteDT.rows().count() > 0 || tblFusionesActDT.rows().count() > 0) 
         {
             if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
@@ -2015,14 +2032,14 @@
      */
     function ResetTablaFusiones() {
         $("#fusionesfrm")[0].reset();
-        $('select[name=clienteFusion]').prop('selectedIndex', 0);
-        $('select[name=clienteFusion]').selectpicker('refresh'); 
-        $('select[name=oficinaFusion]').prop('selectedIndex', 0);
-        $('select[name=oficinaFusion]').selectpicker('refresh'); 
-        $('select[name=staffFusion]').prop('selectedIndex', 0);
-        $('select[name=staffFusion]').selectpicker('refresh'); 
-        $('select[name=estadoFusion]').prop('selectedIndex', 0);
-        $('select[name=estadoFusion]').selectpicker('refresh'); 
+        $('#clienteFusion').prop('selectedIndex', 0);
+        $('#clienteFusion').selectpicker('refresh'); 
+        $('#oficinaFusion').prop('selectedIndex', 0);
+        $('#oficinaFusion').selectpicker('refresh'); 
+        $('#staffFusion').prop('selectedIndex', 0);
+        $('#staffFusion').selectpicker('refresh'); 
+        $('#estadoFusion').prop('selectedIndex', 0);
+        $('#estadoFusion').selectpicker('refresh'); 
         $("#lbloficinaFusion").css('color', color_lbl);
         $("#lblestadoFusion").css('color', color_lbl);
         $("#lblnro_solicitudFusion").css('color', color_lbl);
@@ -2160,21 +2177,24 @@
     $(document).on('click', '#AñadirFusionAnteriorfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietariosfusionanterior]").val() || []) == '')) 
+        if (!(($('#propietariosfusionanterior').val() || []) == '')) 
         {
             var fusionesanteriores = JSON.parse(localStorage.getItem("fusionesanteriores"));
             rowCount = tblFusionesAnteDT.rows().count();
-            $('select[name=propietariosfusionanterior] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "propietario_id": parseInt($(this).val()),
-                    'propietario_id_name': $(this).text(),
-                    "tipo_participante": 1,
-                    "fusion_id": tblCesionesDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                fusionesanteriores.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietariosfusionanterior').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietariosfusionanterior option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_participante": 1,
+                        "fusion_id": tblCesionesDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    fusionesanteriores.push(data);
+                    rowCount++;
+                });
             });
             console.log('fusionesanteriores', fusionesanteriores);
             try {
@@ -2233,8 +2253,8 @@
      * funcion que hace reset del Modal de Fusiones Anteriores
      */
     function ResetTablaFusionesAnteriores() {
-        $('select[name=propietariosfusionanterior]').prop('selectedIndex', -1);
-        $('select[name=propietariosfusionanterior]').selectpicker('refresh'); 
+        $('#propietariosfusionanterior').prop('selectedIndex', -1);
+        $('#propietariosfusionanterior').selectpicker('refresh'); 
         $("#lblpropietariosfusionanterior").css('color', color_lbl);
     }
  
@@ -2294,21 +2314,24 @@
     $(document).on('click', '#AñadirFusionActualfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietariosfusionactual]").val() || []) == '')) 
+        if (!(($('#propietariosfusionactual').val() || []) == '')) 
         {
             var fusionesactuales = JSON.parse(localStorage.getItem("fusionesactuales"));
             rowCount = tblFusionesActDT.rows().count();
-            $('select[name=propietariosfusionactual] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "propietario_id": parseInt($(this).val()),
-                    'propietario_id_name': $(this).text(),
-                    "tipo_participante": 2,
-                    "fusion_id": tblFusionesDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                fusionesactuales.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietariosfusionactual').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietariosfusionactual option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_participante": 2,
+                        "fusion_id": tblFusionesDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    fusionesactuales.push(data);
+                    rowCount++;
+                });
             });
             console.log('fusionesactuales', fusionesactuales);
             try {
@@ -2368,8 +2391,8 @@
      * funcion que hace reset del Modal de Fusiones Actuales
      */
     function ResetTablaFusionesActuales() {
-        $('select[name=propietariosfusionactual]').prop('selectedIndex', 1);
-        $('select[name=propietariosfusionactual]').selectpicker('refresh'); 
+        $('#propietariosfusionactual').prop('selectedIndex', 1);
+        $('#propietariosfusionactual').selectpicker('refresh'); 
         $("#lblpropietariosfusionactual").css('color', color_lbl);
     }
 
@@ -2429,34 +2452,34 @@
     $(document).on('click', '#camnomfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($("select[name=oficinaCamNom]").val() && 
-            $("select[name=estadoCamNom]").val() && 
-            $("input[name=nro_solicitudCamNom]").val() && 
-            $("input[name=fecha_solicitudCamNom]").val() &&
-            $("input[name=nro_resolucionCamNom]").val() &&
-            $("input[name=fecha_resolucionCamNom]").val() &&
-            $("input[name=referenciaclienteCamNom]").val() &&
-            $("textarea[name=comentarioCamNom]").val()) 
+        if ($('#oficinaCamNom').val() && 
+            $('#estadoCamNom').val() && 
+            $('#nro_solicitudCamNom').val() && 
+            $('#fecha_solicitudCamNom').val() &&
+            $('#nro_resolucionCamNom').val() &&
+            $('#fecha_resolucionCamNom').val() &&
+            $('#referenciaclienteCamNom').val() &&
+            $('#comentarioCamNom').val()) 
             {
-            
+                
             var camnom = JSON.parse(localStorage.getItem("camnom"));
             var data = {
                 'idRow': tblCamNomDT.rows().count() + 1,
                 "tmp_camnom_id": tblCamNomDT.rows().count() + 1,
-                "client_id": $("select[name=clienteCamNom]").val(),
-                'client_id_name': $("select[name=clienteCamNom] option:selected").text(),
-                "oficina_id": $("select[name=oficinaCamNom]").val(),
-                'oficina_id_name': $("select[name=oficinaCamNom] option:selected").text(),
-                "staff_id": $("select[name=staffCamNom]").val(),
-                'staff_id_name': $("select[name=staffCamNom] option:selected").text(),
-                "estado_id": $("select[name=estadoCamNom]").val(),
-                'estado_id_name': $("select[name=estadoCamNom] option:selected").text(),
-                "num_solicitud": $("input[name=nro_solicitudCamNom]").val(),
-                "fecha_solicitud": $("input[name=fecha_solicitudCamNom]").val(),
-                "num_resolucion": $("input[name=nro_resolucionCamNom]").val(),
-                "fecha_resolucion": $("input[name=fecha_resolucionCamNom]").val(),
-                "referencia_cliente": $("input[name=referenciaclienteCamNom]").val(),
-                "comentarios": $("textarea[name=comentarioCamNom]").val(),
+                "client_id": $('#clienteCamNom').val(),
+                'client_id_name': $('#clienteCamNom option[value=' + $('#clienteCamNom').val() + ']').text(),
+                "oficina_id": $('#oficinaCamNom').val(),
+                'oficina_id_name': $('#oficinaCamNom option[value=' + $('#oficinaCamNom').val() + ']').text(),
+                "staff_id": $('#staffCamNom').val(),
+                'staff_id_name': $('#staffCamNom option[value=' + $('#staffCamNom').val() + ']').text(),
+                "estado_id": $('#estadoCamNom').val(),
+                'estado_id_name': $('#estadoCamNom option[value=' + $('#estadoCamNom').val() + ']').text(),
+                "num_solicitud": $('#nro_solicitudCamNom').val(),
+                "fecha_solicitud": $('#fecha_solicitudCamNom').val(),
+                "num_resolucion": $('#nro_resolucionCamNom').val(),
+                "fecha_resolucion": $('#fecha_resolucionCamNom').val(),
+                "referencia_cliente": $('#referenciaclienteCamNom').val(),
+                "comentarios": $('#comentarioCamNom').val(),
                 "camnomanteriores": localStorage.getItem("camnomanteriores"),
                 "camnomactuales": localStorage.getItem("camnomactuales"),
                 "marcas_id": $("input[name=id]").val(),
@@ -2479,14 +2502,14 @@
             }
 
         }else{
-            $("#lbloficinaCamNom").css('color', $("select[name=oficinaCamNom]").val() ? color_lbl : 'red');
-            $("#lblestadoCamNom").css('color', $("select[name=estadoCamNom]").val() ? color_lbl : 'red');
-            $("#lblnro_solicitudCamNom").css('color', $("input[name=nro_solicitudCamNom]").val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudCamNom").css('color', $("input[name=fecha_solicitudCamNom]").val() ? color_lbl : 'red');
-            $("#lblnro_resolucionCamNom").css('color', $("input[name=nro_resolucionCamNom]").val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionCamNom").css('color', $("input[name=fecha_resolucionCamNom]").val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteCamNom").css('color', $("input[name=referenciaclienteCamNom]").val() ? color_lbl : 'red');
-            $("#lblcomentarioCamNom").css('color', $("textarea[name=comentarioCamNom]").val() ? color_lbl : 'red');
+            $("#lbloficinaCamNom").css('color', $('#oficinaCamNom').val() ? color_lbl : 'red');
+            $("#lblestadoCamNom").css('color', $('#estadoCamNom').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCamNom").css('color', $('#nro_solicitudCamNom').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCamNom").css('color', $('#fecha_solicitudCamNom').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCamNom").css('color', $('#nro_resolucionCamNom').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCamNom").css('color', $('#fecha_resolucionCamNom').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteCamNom").css('color', $('#referenciaclienteCamNom').val() ? color_lbl : 'red');
+            $("#lblcomentarioCamNom").css('color', $('#comentarioCamNom').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre');
         }
     })
@@ -2525,16 +2548,16 @@
      * funcion que se ejecuta antes de cerrar el Modal
      */
     $('#AddCamNom').on('hide.bs.modal', function (e) {
-        if (!($("select[name=clienteCamNom]").val() || '') == '' || 
-            !($("select[name=oficinaCamNom]").val() || '') == '' || 
-            !($("select[name=staffCamNom]").val() || '') == '' || 
-            !($("select[name=estadoCamNom]").val() || '') == '' || 
-            !($("input[name=nro_solicitudCamNom]").val() || '') == '' || 
-            !($("input[name=fecha_solicitudCamNom]").val() || '') == '' ||
-            !($("input[name=nro_resolucionCamNom]").val() || '') == '' ||
-            !($("input[name=fecha_resolucionCamNom]").val() || '') == '' ||
-            !($("input[name=referenciaclienteCamNom]").val() || '') == '' ||
-            !($("textarea[name=comentarioCamNom]").val() || '') == '' ||
+        if (!($('#clienteCamNom').val() || '') == '' || 
+            !($('#oficinaCamNom').val() || '') == '' || 
+            !($('#staffCamNom').val() || '') == '' || 
+            !($('#estadoCamNom').val() || '') == '' || 
+            !($('#nro_solicitudCamNom').val() || '') == '' || 
+            !($('#fecha_solicitudCamNom').val() || '') == '' ||
+            !($('#nro_resolucionCamNom').val() || '') == '' ||
+            !($('#fecha_resolucionCamNom').val() || '') == '' ||
+            !($('#referenciaclienteCamNom').val() || '') == '' ||
+            !($('#comentarioCamNom').val() || '') == '' ||
             tblCamNomAnteDT.rows().count() > 0 || tblCamNomActDT.rows().count() > 0) 
         {
             if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
@@ -2548,14 +2571,14 @@
      */
     function ResetTablaCamNom() {
         $("#camnomfrm")[0].reset();
-        $('select[name=clienteCamNom]').prop('selectedIndex', 0);
-        $('select[name=clienteCamNom]').selectpicker('refresh'); 
-        $('select[name=oficinaCamNom]').prop('selectedIndex', 0);
-        $('select[name=oficinaCamNom]').selectpicker('refresh'); 
-        $('select[name=staffCamNom]').prop('selectedIndex', 0);
-        $('select[name=staffCamNom]').selectpicker('refresh'); 
-        $('select[name=estadoCamNom]').prop('selectedIndex', 0);
-        $('select[name=estadoCamNom]').selectpicker('refresh'); 
+        $('#clienteCamNom').prop('selectedIndex', 0);
+        $('#clienteCamNom').selectpicker('refresh'); 
+        $('#oficinaCamNom').prop('selectedIndex', 0);
+        $('#oficinaCamNom').selectpicker('refresh'); 
+        $('#staffCamNom').prop('selectedIndex', 0);
+        $('#staffCamNom').selectpicker('refresh'); 
+        $('#estadoCamNom').prop('selectedIndex', 0);
+        $('#estadoCamNom').selectpicker('refresh'); 
         $("#lbloficinaCamNom").css('color', color_lbl);
         $("#lblestadoCamNom").css('color', color_lbl);
         $("#lblnro_solicitudCamNom").css('color', color_lbl);
@@ -2693,21 +2716,24 @@
     $(document).on('click', '#AñadirCamNomAnteriorfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietarioscamnomanterior]").val() || []) == '')) 
+        if (!(($('#propietarioscamnomanterior').val() || []) == '')) 
         {
             var camnomanteriores = JSON.parse(localStorage.getItem("camnomanteriores"));
             rowCount = tblCamNomAnteDT.rows().count();
-            $('select[name=propietarioscamnomanterior] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "propietario_id": parseInt($(this).val()),
-                    'propietario_id_name': $(this).text(),
-                    "tipo_nombre": 1,
-                    "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                camnomanteriores.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietarioscamnomanterior').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioscamnomanterior option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_nombre": 1,
+                        "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    camnomanteriores.push(data);
+                    rowCount++;
+                });
             });
             console.log('camnomanteriores', camnomanteriores);
             try {
@@ -2766,8 +2792,8 @@
      * funcion que hace reset del Modal de CamNom Anteriores
      */
     function ResetTablaCamNomAnteriores() {
-        $('select[name=propietarioscamnomanterior]').prop('selectedIndex', -1);
-        $('select[name=propietarioscamnomanterior]').selectpicker('refresh'); 
+        $('#propietarioscamnomanterior').prop('selectedIndex', -1);
+        $('#propietarioscamnomanterior').selectpicker('refresh'); 
         $("#lblpropietarioscamnomanterior").css('color', color_lbl);
     }
  
@@ -2827,21 +2853,24 @@
     $(document).on('click', '#AñadirCamNomActualfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietarioscamnomactual]").val() || []) == '')) 
+        if (!(($('#propietarioscamnomactual').val() || []) == '')) 
         {
             var camnomactuales = JSON.parse(localStorage.getItem("camnomactuales"));
             rowCount = tblCamNomActDT.rows().count();
-            $('select[name=propietarioscamnomactual] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "propietario_id": parseInt($(this).val()),
-                    'propietario_id_name': $(this).text(),
-                    "tipo_nombre": 2,
-                    "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                camnomactuales.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietarioscamnomactual').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioscamnomactual option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_nombre": 2,
+                        "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    camnomactuales.push(data);
+                    rowCount++;
+                });
             });
             console.log('camnomactuales', camnomactuales);
             try {
@@ -2900,8 +2929,8 @@
      * funcion que hace reset del Modal de CamNom Actuales
      */
     function ResetTablaCamNomActuales() {
-        $('select[name=propietarioscamnomactual]').prop('selectedIndex', -1);
-        $('select[name=propietarioscamnomactual]').selectpicker('refresh'); 
+        $('#propietarioscamnomactual').prop('selectedIndex', -1);
+        $('#propietarioscamnomactual').selectpicker('refresh'); 
         $("#lblpropietarioscamnomactual").css('color', color_lbl);
     }
  
@@ -2961,41 +2990,39 @@
     $(document).on('click', '#camdomfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($("select[name=oficinaCamDom]").val() && 
-            $("select[name=estadoCamDom]").val() && 
-            $("input[name=nro_solicitudCamDom]").val() && 
-            $("input[name=fecha_solicitudCamDom]").val() &&
-            $("input[name=nro_resolucionCamDom]").val() &&
-            $("input[name=fecha_resolucionCamDom]").val() &&
-            $("input[name=referenciaclienteCamDom]").val() &&
-            $("textarea[name=comentarioCamDom]").val()) 
+        if ($('#oficinaCamDom').val() && 
+            $('#estadoCamDom').val() && 
+            $('#nro_solicitudCamDom').val() && 
+            $('#fecha_solicitudCamDom').val() &&
+            $('#nro_resolucionCamDom').val() &&
+            $('#fecha_resolucionCamDom').val() &&
+            $('#referenciaclienteCamDom').val() &&
+            $('#comentarioCamDom').val()) 
             {
-            console.log('validado');
+
             var camdom = JSON.parse(localStorage.getItem("camdom"));
-            console.log('leido el localStorage');
             var data = {
                 'idRow': tblCamDomDT.rows().count() + 1,
                 "tmp_camdom_id": tblCamDomDT.rows().count() + 1,
-                "client_id": $("select[name=clienteCamDom]").val(),
-                'client_id_name': $("select[name=clienteCamDom] option:selected").text(),
-                "oficina_id": $("select[name=oficinaCamDom]").val(),
-                'oficina_id_name': $("select[name=oficinaCamDom] option:selected").text(),
-                "staff_id": $("select[name=staffCamDom]").val(),
-                'staff_id_name': $("select[name=staffCamDom] option:selected").text(),
-                "estado_id": $("select[name=estadoCamDom]").val(),
-                'estado_id_name': $("select[name=estadoCamDom] option:selected").text(),
-                "num_solicitud": $("input[name=nro_solicitudCamDom]").val(),
-                "fecha_solicitud": $("input[name=fecha_solicitudCamDom]").val(),
-                "num_resolucion": $("input[name=nro_resolucionCamDom]").val(),
-                "fecha_resolucion": $("input[name=fecha_resolucionCamDom]").val(),
-                "referencia_cliente": $("input[name=referenciaclienteCamDom]").val(),
-                "comentarios": $("textarea[name=comentarioCamDom]").val(),
+                "client_id": $('#clienteCamDom').val(),
+                'client_id_name': $('#clienteCamDom option[value=' + $('#clienteCamDom').val() + ']').text(),
+                "oficina_id": $('#oficinaCamDom').val(),
+                'oficina_id_name': $('#oficinaCamDom option[value=' + $('#oficinaCamDom').val() + ']').text(),
+                "staff_id": $('#staffCamDom').val(),
+                'staff_id_name': $('#staffCamDom option[value=' + $('#staffCamDom').val() + ']').text(),
+                "estado_id": $('#estadoCamDom').val(),
+                'estado_id_name': $('#estadoCamDom option[value=' + $('#estadoCamDom').val() + ']').text(),
+                "num_solicitud": $('#nro_solicitudCamDom').val(),
+                "fecha_solicitud": $('#fecha_solicitudCamDom').val(),
+                "num_resolucion": $('#nro_resolucionCamDom').val(),
+                "fecha_resolucion": $('#fecha_resolucionCamDom').val(),
+                "referencia_cliente": $('#referenciaclienteCamDom').val(),
+                "comentarios": $('#comentarioCamDom').val(),
                 "camdomanteriores": localStorage.getItem("camdomanteriores"),
                 "camdomactuales": localStorage.getItem("camdomactuales"),
                 "marcas_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
-            console.log('agregada la data []');
             camdom.push(data);
             console.log('camdom', camdom);
             try {
@@ -3013,14 +3040,14 @@
             }
 
         }else{
-            $("#lbloficinaCamDom").css('color', $("select[name=oficinaCamDom]").val() ? color_lbl : 'red');
-            $("#lblestadoCamDom").css('color', $("select[name=estadoCamDom]").val() ? color_lbl : 'red');
-            $("#lblnro_solicitudCamDom").css('color', $("input[name=nro_solicitudCamDom]").val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudCamDom").css('color', $("input[name=fecha_solicitudCamDom]").val() ? color_lbl : 'red');
-            $("#lblnro_resolucionCamDom").css('color', $("input[name=nro_resolucionCamDom]").val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionCamDom").css('color', $("input[name=fecha_resolucionCamDom]").val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteCamDom").css('color', $("input[name=referenciaclienteCamDom]").val() ? color_lbl : 'red');
-            $("#lblcomentarioCamDom").css('color', $("textarea[name=comentarioCamDom]").val() ? color_lbl : 'red');
+            $("#lbloficinaCamDom").css('color', $('#oficinaCamDom').val() ? color_lbl : 'red');
+            $("#lblestadoCamDom").css('color', $('#estadoCamDom').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCamDom").css('color', $('#nro_solicitudCamDom').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCamDom").css('color', $('#fecha_solicitudCamDom').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCamDom").css('color', $('#nro_resolucionCamDom').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCamDom").css('color', $('#fecha_resolucionCamDom').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteCamDom").css('color', $('#referenciaclienteCamDom').val() ? color_lbl : 'red');
+            $("#lblcomentarioCamDom").css('color', $('#comentarioCamDom').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos el Cambio de Domicilio');
         }
     })
@@ -3059,16 +3086,16 @@
      * funcion que se ejecuta antes de cerrar el Modal
      */
     $('#AddCamDom').on('hide.bs.modal', function (e) {
-        if (!($("select[name=clienteCamDom]").val() || '') == '' || 
-            !($("select[name=oficinaCamDom]").val() || '') == '' || 
-            !($("select[name=staffCamDom]").val() || '') == '' || 
-            !($("select[name=estadoCamDom]").val() || '') == '' || 
-            !($("input[name=nro_solicitudCamDom]").val() || '') == '' || 
-            !($("input[name=fecha_solicitudCamDom]").val() || '') == '' ||
-            !($("input[name=nro_resolucionCamDom]").val() || '') == '' ||
-            !($("input[name=fecha_resolucionCamDom]").val() || '') == '' ||
-            !($("input[name=referenciaclienteCamDom]").val() || '') == '' ||
-            !($("textarea[name=comentarioCamDom]").val() || '') == '' ||
+        if (!($('#clienteCamDom').val() || '') == '' || 
+            !($('#oficinaCamDom').val() || '') == '' || 
+            !($('#staffCamDom').val() || '') == '' || 
+            !($('#estadoCamDom').val() || '') == '' || 
+            !($('#nro_solicitudCamDom').val() || '') == '' || 
+            !($('#fecha_solicitudCamDom').val() || '') == '' ||
+            !($('#nro_resolucionCamDom').val() || '') == '' ||
+            !($('#fecha_resolucionCamDom').val() || '') == '' ||
+            !($('#referenciaclienteCamDom').val() || '') == '' ||
+            !($('#comentarioCamDom').val() || '') == '' ||
             tblCamDomAnteDT.rows().count() > 0 || tblCamDomActDT.rows().count() > 0) 
         {
             if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
@@ -3082,14 +3109,14 @@
      */
     function ResetTablaCamDom() {
         $("#camdomfrm")[0].reset();
-        $('select[name=clienteCamDom]').prop('selectedIndex', 0);
-        $('select[name=clienteCamDom]').selectpicker('refresh'); 
-        $('select[name=oficinaCamDom]').prop('selectedIndex', 0);
-        $('select[name=oficinaCamDom]').selectpicker('refresh'); 
-        $('select[name=staffCamDom]').prop('selectedIndex', 0);
-        $('select[name=staffCamDom]').selectpicker('refresh'); 
-        $('select[name=estadoCamDom]').prop('selectedIndex', 0);
-        $('select[name=estadoCamDom]').selectpicker('refresh'); 
+        $('#clienteCamDom').prop('selectedIndex', 0);
+        $('#clienteCamDom').selectpicker('refresh'); 
+        $('#oficinaCamDom').prop('selectedIndex', 0);
+        $('#oficinaCamDom').selectpicker('refresh'); 
+        $('#staffCamDom').prop('selectedIndex', 0);
+        $('#staffCamDom').selectpicker('refresh'); 
+        $('#estadoCamDom').prop('selectedIndex', 0);
+        $('#estadoCamDom').selectpicker('refresh'); 
         $("#lbloficinaCamDom").css('color', color_lbl);
         $("#lblestadoCamDom").css('color', color_lbl);
         $("#lblnro_solicitudCamDom").css('color', color_lbl);
@@ -3227,21 +3254,24 @@
     $(document).on('click', '#AñadirCamDomAnteriorfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietarioscamdomanterior]").val() || []) == '')) 
+        if (!(($('#propietarioscamdomanterior').val() || []) == '')) 
         {
             var camdomanteriores = JSON.parse(localStorage.getItem("camdomanteriores"));
             rowCount = tblCamDomAnteDT.rows().count();
-            $('select[name=propietarioscamdomanterior] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "propietario_id": parseInt($(this).val()),
-                    'propietario_id_name': $(this).text(),
-                    "tipo_domicilio": 1,
-                    "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                camdomanteriores.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietarioscamdomanterior').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioscamdomanterior option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_domicilio": 1,
+                        "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    camdomanteriores.push(data);
+                    rowCount++;
+                });
             });
             console.log('camdomanteriores', camdomanteriores);
             try {
@@ -3300,8 +3330,8 @@
      * funcion que hace reset del Modal de CamDom Anteriores
      */
     function ResetTablaCamDomAnteriores() {
-        $('select[name=propietarioscamdomanterior]').prop('selectedIndex', -1);
-        $('select[name=propietarioscamdomanterior]').selectpicker('refresh'); 
+        $('#propietarioscamdomanterior').prop('selectedIndex', -1);
+        $('#propietarioscamdomanterior').selectpicker('refresh'); 
         $("#lblpropietarioscamdomanterior").css('color', color_lbl);
     }
  
@@ -3361,21 +3391,24 @@
     $(document).on('click', '#AñadirCamDomActualfrmsubmit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!(($("select[name=propietarioscamdomactual]").val() || []) == '')) 
+        if (!(($('#propietarioscamdomactual').val() || []) == '')) 
         {
             var camdomactuales = JSON.parse(localStorage.getItem("camdomactuales"));
             rowCount = tblCamDomActDT.rows().count();
-            $('select[name=propietarioscamdomactual] > option:selected').each(function() {
-                var data = {
-                    'idRow': rowCount + 1,
-                    "propietario_id": parseInt($(this).val()),
-                    'propietario_id_name': $(this).text(),
-                    "tipo_domicilio": 2,
-                    "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                }
-                camdomactuales.push(data);
-                rowCount++;
+            const valuesSelect = $('#propietarioscamdomactual').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioscamdomactual option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_domicilio": 2,
+                        "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    }
+                    camdomactuales.push(data);
+                    rowCount++;
+                });
             });
             console.log('camdomactuales', camdomactuales);
             try {
@@ -3434,8 +3467,8 @@
      * funcion que hace reset del Modal de CamDom Actuales
      */
     function ResetTablaCamDomActuales() {
-        $('select[name=propietarioscamdomactual]').prop('selectedIndex', -1);
-        $('select[name=propietarioscamdomactual]').selectpicker('refresh'); 
+        $('#propietarioscamdomactual').prop('selectedIndex', -1);
+        $('#propietarioscamdomactual').selectpicker('refresh'); 
         $("#lblpropietarioscamdomactual").css('color', color_lbl);
     }
  
@@ -3501,40 +3534,40 @@
         var formData = new FormData();
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', $("input[name=id]").val());
-        formData.append('cod_contador', $("input[name=cod_contador]").val());
-        formData.append('tipo_registro_id', $("select[name=tipo_registro_id]").val());
-        formData.append('client_id', $("select[name=client_id]").val());
-        formData.append('oficina_id', $("select[name=oficina_id]").val());
-        formData.append('staff_id', $("select[name=staff_id]").val());
+        formData.append('cod_contador', $('#cod_contador').val());
+        formData.append('tipo_registro_id', $('#tipo_registro_id').val());
+        formData.append('client_id', $('#client_id').val());
+        formData.append('oficina_id', $('#oficina_id').val());
+        formData.append('staff_id', $('#staff_id').val());
         //Pais_id fill
-        pais_id = JSON.stringify($("select[name=pais_id]").val());
+        pais_id = JSON.stringify($('#pais_id').val());
         formData.append('pais_id', pais_id);
         //solicitantes_id fill
-        solicitantes_id = JSON.stringify($("select[name=solicitantes_id]").val());
+        solicitantes_id = JSON.stringify($('#solicitantes_id').val());
         formData.append('solicitantes_id', solicitantes_id);
-        formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
-        formData.append('ref_interna', $("input[name=ref_interna]").val());
-        formData.append('ref_cliente', $('input[name=ref_cliente]').val());
+        formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
+        formData.append('ref_interna', $('#ref_interna').val());
+        formData.append('ref_cliente', $('#ref_cliente').val());
         //formData.append('primer_uso', $('input[name=primer_uso').val());
-        formData.append('prueba_uso', $('input[name=prueba_uso]').val());
-        formData.append('carpeta', $("input[name=carpeta]").val());
-        formData.append('libro', $("input[name=libro]").val());
-        formData.append('tomo', $("input[name=tomo]").val());
-        formData.append('folio', $("input[name=folio]").val());
-        formData.append('comentarios', $("textarea[name=comentarios]").val());
-        formData.append('estado_id', $("select[name=estado_id]").val());
-        formData.append('solicitud', $("input[name=solicitud]").val());
-        formData.append('fecha_solicitud', $("input[name=fecha_solicitud]").val());
-        formData.append('registro', $("input[name=registro]").val());
-        formData.append('fecha_registro', $("input[name=fecha_registro]").val());
-        formData.append('certificado', $("input[name=certificado]").val());
-        formData.append('fecha_certificado', $("input[name=fecha_certificado]").val());
-        formData.append('fecha_vencimiento', $("input[name=fecha_vencimiento]").val());
-        formData.append('signo_archivo', $('input[name=signo_archivo]')[0].files[0]);
-        formData.append('signonom', $("input[name=signonom]").val());
-        formData.append('descripcion_signo', $("textarea[name=descripcion_signo]").val());
-        formData.append('comentario_signo', $("input[name=comentario_signo]").val());
-        formData.append('tipo_signo_id', $('select[name=tipo_signo_id]').val());
+        formData.append('prueba_uso', $('#prueba_uso').val());
+        formData.append('carpeta', $('#carpeta').val());
+        formData.append('libro', $('#libro').val());
+        formData.append('tomo', $('#tomo').val());
+        formData.append('folio', $('#folio').val());
+        formData.append('comentarios', $('#comentarios').val());
+        formData.append('estado_id', $('#estado_id').val());
+        formData.append('solicitud', $('#solicitud').val());
+        formData.append('fecha_solicitud', $('#fecha_solicitud').val());
+        formData.append('registro', $('#registro').val());
+        formData.append('fecha_registro', $('#fecha_registro').val());
+        formData.append('certificado', $('#certificado').val());
+        formData.append('fecha_certificado', $('#fecha_certificado').val());
+        formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
+        formData.append('signo_archivo', $('#signo_archivo')[0].files[0]);
+        formData.append('signonom', $('#signonom').val());
+        formData.append('descripcion_signo', $('#descripcion_signo').val());
+        formData.append('comentario_signo', $('#comentario_signo').val());
+        formData.append('tipo_signo_id', $('#tipo_signo_id').val());
         formData.append('clase_niza_id', localStorage.getItem("clase_niza"));
         formData.append('prioridad_id', localStorage.getItem("prioridad"));
         formData.append("publicacion_id", localStorage.getItem("publicacion"));
@@ -3680,6 +3713,7 @@
 
     /* Estructura lista */
     $(function() {
+        alert($('#cod_contador').val());
         /* CONFIGURA LOS INPUT CALENDAR */
         $(".calendar").datetimepicker({
             maxDate: fecha(),

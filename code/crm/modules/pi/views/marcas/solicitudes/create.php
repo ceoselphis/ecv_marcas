@@ -23,7 +23,12 @@ $select = ['' => '']; ?>
             <div class="col-md-12">
                 <?php echo form_open_multipart('', ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
                 <?php echo form_hidden('id', $id); ?>
-                <?php echo form_hidden('cod_contador', $cod_contador); ?>
+                <?php echo form_input([
+                    'type'  => 'hidden',
+                    'name'  => 'cod_contador',
+                    'id'    => 'cod_contador',
+                    'value' => $cod_contador
+                ]); ?>
                 <div class="panel_s">
                     <div class="panel-body" id="principalWizar">
                         <div class="wizard">
@@ -88,7 +93,7 @@ $select = ['' => '']; ?>
                                                 'tipo_registro_id',
                                                 $tipo_registro,
                                                 set_value('tipo_registro_id'),
-                                                ['class' => 'form-control']
+                                                ['class' => 'form-control','id' => 'tipo_registro_id']
                                             )
                                                 ?>
                                             <div class="text-danger tipo_registro_id_error"></div>
@@ -101,7 +106,7 @@ $select = ['' => '']; ?>
                                                 'client_id',
                                                 $clientes,
                                                 set_value('client_id'),
-                                                ['class' => 'form-control']
+                                                ['class' => 'form-control', 'id'=> 'client_id']
                                             );
                                             ?>
                                             <div class="text-danger client_id_error"></div>
@@ -116,7 +121,7 @@ $select = ['' => '']; ?>
                                                 'oficina_id',
                                                 $oficinas,
                                                 set_value('oficina_id'),
-                                                ['class' => 'form-control']
+                                                ['class' => 'form-control', 'id'=> 'oficina_id']
                                             );
                                             ?>
                                             <div class="text-danger oficina_id_error"></div>
@@ -129,7 +134,7 @@ $select = ['' => '']; ?>
                                                 'staff_id',
                                                 $responsable,
                                                 set_value('staff_id'),
-                                                ['class' => 'form-control']
+                                                ['class' => 'form-control', 'id'=> 'staff_id']
                                             );
                                             ?>
                                             <div class="text-danger staff_id_error"></div>
@@ -276,40 +281,40 @@ $select = ['' => '']; ?>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Referencia interna', 'ref_interna'); ?>
-                                            <?php echo form_input('ref_interna', set_value('ref_interna', "{$cod_contador}"), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('ref_interna', set_value('ref_interna', "{$cod_contador}"), ['class' => 'form-control','id' => 'ref_interna']) ?>
                                             <div class="text-danger ref_interna_error"></div>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Referencia cliente', 'ref_cliente'); ?>
-                                            <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control','id' => 'ref_cliente']) ?>
                                             <div class="text-danger ref_cliente_error"></div>
                                         </div>
                                     </div>
                                     <div class="row" style="padding-top:15px;">
                                         <div class="col-md-4">
                                             <?php echo form_label('Prueba Uso', 'prueba_uso'); ?>
-                                            <?php echo form_input('prueba_uso', set_value('prueba_uso'), ['class' => 'form-control calendar']) ?>
+                                            <?php echo form_input('prueba_uso', set_value('prueba_uso'), ['class' => 'form-control calendar','id' => 'prueba_uso']) ?>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Carpeta', 'carpeta'); ?>
-                                            <?php echo form_input('carpeta', set_value('carpeta'), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('carpeta', set_value('carpeta'), ['class' => 'form-control','id' => 'carpeta']) ?>
                                             <div class="text-danger carpeta_error"></div>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Libro', 'libro'); ?>
-                                            <?php echo form_input('libro', set_value('libro'), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('libro', set_value('libro'), ['class' => 'form-control','id' => 'libro']) ?>
                                             <div class="text-danger libro_error"></div>
                                         </div>
                                     </div>
                                     <div class="row" style="padding-top:15px;">
                                         <div class="col-md-4">
                                             <?php echo form_label('Tomo', 'tomo'); ?>
-                                            <?php echo form_input('tomo', set_value('tomo'), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('tomo', set_value('tomo'), ['class' => 'form-control','id' => 'tomo']) ?>
                                             <div class="text-danger tomo_error"></div>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Folio', 'folio'); ?>
-                                            <?php echo form_input('folio', set_value('folio'), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('folio', set_value('folio'), ['class' => 'form-control','id' => 'folio']) ?>
                                             <div class="text-danger folio_error"></div>
                                         </div>
                                     </div>
@@ -349,7 +354,7 @@ $select = ['' => '']; ?>
                                     <div class="row">
                                         <div class="col-md-12" style="padding-top:15px;">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
-                                            <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control']); ?>
+                                            <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control','id' => 'comentarios']); ?>
                                             <div class="text-danger comentarios_error"></div>
                                         </div>
                                     </div>
@@ -380,7 +385,7 @@ $select = ['' => '']; ?>
                                                 'estado_id',
                                                 $estados_solicitudes,
                                                 set_value('estado_id'),
-                                                ['class' => 'form-control']
+                                                ['class' => 'form-control','id' => 'estado_id']
                                             );
                                             ?>
                                             <div class="text-danger estado_id_error"></div>
@@ -939,9 +944,9 @@ $select = ['' => '']; ?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
-    new DataTable(".ultimate", {
+    /* new DataTable(".ultimate", {
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
         }
-    });
+    }); */
 </script>

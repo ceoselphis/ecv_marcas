@@ -93,7 +93,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Código Expediente -->
-                                        <div class="col-md-4 col-md-offset-0">
+                                        <div class="col-md-4">
                                             <label for="cod_contador">
                                                 <?php echo ('Código Expediente'); ?>
                                             </label>
@@ -119,7 +119,7 @@
                                             </select>
                                         </div>
                                         <!-- Marca -->
-                                        <div class="col-md-4 col-md-offset-0">
+                                        <div class="col-md-4">
                                             <?php echo form_label('Marca'); ?>
                                             <?php
                                             echo form_input([
@@ -135,7 +135,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Clientes -->
-                                        <div class="col-md-4 col-md-offset-0">
+                                        <div class="col-md-4">
                                             <?php echo form_label('Clientes', 'client_id'); ?>
                                             <select class='form-control' name='client_id' id="client_id">
                                                 <option value=''>Seleccione una opcion</option>
@@ -231,7 +231,7 @@
                                             ]); ?>
                                         </div>
                                         <!-- Referencia Interna -->
-                                        <div class="col-md-4 col-md-offset-0">
+                                        <div class="col-md-4">
                                             <?php echo form_label('Referencia Interna'); ?>
                                             <?php
                                             echo form_input([
@@ -277,7 +277,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Fecha Solicitud Desde -->
-                                        <div class="col-md-4 col-md-offset-2">
+                                        <div class="col-md-4">
                                             <?php echo form_label('Solicitud Desde'); ?>
                                             <?php
                                             echo form_input([
@@ -305,7 +305,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Vigencia Desde -->
-                                        <div class="col-md-4 col-md-offset-2">
+                                        <div class="col-md-4">
                                             <?php echo form_label('Vigencia Desde'); ?>
                                             <?php
                                             echo form_input([
@@ -498,7 +498,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Prueba de Uso -->
-                                        <div class="col-md-4 col-md-offset-2">
+                                        <div class="col-md-4">
                                             <?php echo form_label('Prueba de Uso Desde'); ?>
                                             <?php
                                             echo form_input([
@@ -526,7 +526,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Registro -->
-                                        <div class="col-md-4 col-md-offset-2">
+                                        <div class="col-md-4 ">
                                             <?php echo form_label('Registro Desde'); ?>
                                             <?php
                                             echo form_input([

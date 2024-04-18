@@ -7,39 +7,45 @@ $CI->load->view('patente/solicitudes/css.php');
     <div class="content">
         <div class="row">
             <div class="col-md-12">
-                <?php echo form_open_multipart(admin_url('pi/patentes/SolicitudesController/store'),['id' => 'solicitudfrm' , 'name' => 'solicitudfrm']);?>
-                <?php echo form_hidden('id', $id);?>
-                    <div class="panel_s">
-                        <div class="panel-body">
-                            <div class="wizard">
-                                <div class="wizard-inner">
-                                    <div class="connecting-line"></div>
-                                    <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                                        <li role="presentation" class="active">
-                                            <a href="#step1"  data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registro</i></a>
-                                        </li>
-                                        <li role="presentation" >
-                                            <a href="#step2"  data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Solicitud</i></a>
-                                        </li>
-                                        <li role="presentation" >
-                                            <a href="#step3"  data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Extra</i></a>
-                                        </li>
-                                        <li role="presentation" >
-                                            <a href="#step4"  data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Expediente</i></a>
-                                        </li>
-                                        <li role="presentation" >
-                                            <a href="#step5"  data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab">5</span> <i> Eventos</i></a>
-                                        </li>
-                                        <li role="presentation" >
-                                            <a href="#step6"  data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab">6</span> <i> Tareas</i></a>
-                                        </li>
-                                        <li role="presentation" >
-                                            <a href="#step7"  data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Anexos</i></a>
-                                        </li>
-                                        <li role="presentation" >
-                                            <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab" style="background-color:#4BB543; color: white; border-color: white">8</span> <i style="color:#4BB543"> Documentos</i></a>
-                                        </li>
-                                    </ul>
+                <?php echo form_open_multipart(admin_url('pi/patentes/SolicitudesController/store'), ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
+                <?php echo form_hidden('id', $id); ?>
+                <div class="panel_s">
+                    <div class="panel-body">
+                        <div class="wizard">
+                            <div class="wizard-inner">
+                                <div class="connecting-line"></div>
+                                <ul class="nav nav-tabs" role="tablist" style="display:flex">
+                                    <li role="presentation" class="active">
+                                        <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registro</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Solicitud</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Extra</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Expediente</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab">5</span> <i> Comentarios</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step6" data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab">6</span> <i> Eventos</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step7" data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab">7</span> <i> Tareas</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">8</span> <i> Anexos</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step9" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">9</span> <i> Documentos</i></a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#step10" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">10</span> <i> Facturas</i></a>
+                                    </li>
+                                </ul>
                             </div>
 
                             <div class="tab-content" id="main_form">
@@ -69,9 +75,9 @@ $CI->load->view('patente/solicitudes/css.php');
                                 </div>
                                 <!-- Step 2 -->
                                 <div class="tab-pane" role="tabpanel" id="step2">
-                                    
-                                    <div class="col-md-2">
-                                        <?php echo form_label('Paises Designados', 'pais_id');?>
+
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Paises Designados', 'pais_id'); ?>
                                         <?php echo form_dropdown([
                                             'id'       => 'pais_id',
                                             'name'     => 'pais_id',
@@ -81,35 +87,45 @@ $CI->load->view('patente/solicitudes/css.php');
                                             'value' => set_value('pais_id', ''),
                                         ]); ?>
                                     </div>
-                                    <div class="col-md-2">  
-                                        <?php echo form_label('Signo', 'signonom');?>
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Titulo', 'titulo'); ?>
                                         <?php echo form_input([
-                                            'id'    =>   'signonom',
-                                            'name'  =>   'signonom',
+                                            'id'    =>   'titulo',
+                                            'name'  =>   'titulo',
                                             'class' =>   'form-control',
-                                        ]);?>
+                                        ]); ?>
                                     </div>
-                                    <div class="col-md-1" style="padding-left:1%; padding-top:1.75%">
+                                    <!--<div class="col-md-1" style="padding-left:1%; padding-top:1.75%">
                                         <button type="button" class="btn btn-outline" data-toggle="modal" data-target="#signoModal"><i class="fas fa-paperclip"></i> Añadir</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <?php echo form_label('Tipo Signo', 'tipo_signo_id');?>
-                                        <?php echo form_dropdown([
-                                            'id'        => 'tipo_signo_id',
-                                            'name'      => 'tipo_signo_id',
+                                    </div>-->
+                                    <div class="col-md-12">
+                                        <?php echo form_label('Resumen', 'resumen'); ?>
+                                        <?php echo form_textarea([
+                                            'id'        => 'resumen',
+                                            'name'      => 'resumen',
                                             'class'     => 'form-control',
-                                            'options'   =>  $tipos_signo_id,
-                                        ]);?>
+                                        ]); ?>
                                     </div>
                                     <div class="col-md-6">
-                                        <?php echo form_label('Propietarios'); ?>
+                                        <?php echo form_label('Inventores'); ?>
                                         <?php echo form_dropdown([
-                                            'id' => 'propietarios',
-                                            'name' => 'propietarios',
+                                            'id' => 'inventores',
+                                            'name' => 'inventores',
+                                            'options' => $inventores,
+                                            'class' => 'form-control',
+                                            'multiple' => 'multiple',
+                                            'value' => set_value('inventores', ''),
+                                        ]); ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php echo form_label('Solicitantes'); ?>
+                                        <?php echo form_dropdown([
+                                            'id' => 'solicitantes',
+                                            'name' => 'solicitantes',
                                             'options' => $propietarios,
                                             'class' => 'form-control',
                                             'multiple' => 'multiple',
-                                            'value' => set_value('propietarios', ''),
+                                            'value' => set_value('solicitantes', ''),
                                         ]); ?>
                                     </div>
 
@@ -340,6 +356,30 @@ $CI->load->view('patente/solicitudes/css.php');
                                             'value' => set_value('fecha_publicacion_patente'),
                                         ]); ?>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <?php echo form_label("Pago anualidad"); ?>
+                                        <?php echo form_checkbox("is_pago_anualidad", false); ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <?php echo form_label("Anualidad desde"); ?>
+                                        <?php echo form_input([
+                                            'id' => 'anualidad_desde',
+                                            'name' => 'anualidad_desde',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('anualidad_desde'),
+                                        ]); ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <?php echo form_label("Anualidad hasta"); ?>
+                                        <?php echo form_input([
+                                            'id' => 'anualidad_hasta',
+                                            'name' => 'anualidad_hasta',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('anualidad_hasta'),
+                                        ]); ?>
+                                    </div>
+
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
@@ -640,6 +680,35 @@ $CI->load->view('patente/solicitudes/css.php');
                                                         <td>Sin Registros</td>
                                                     </tr>
                                                 <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="default-btn prev-step">Atrás</button></li>
+                                        <li><button type="submit" class="btn btn-success"> Guardar</button></li>
+                                    </ul>
+                                </div>
+                                <!-- Step 10 -->
+                                <div class="tab-pane" role="tabpanel" id="step10">
+                                    <div class="row">
+                                        <a class="btn btn-primary"
+                                            href="<?php echo admin_url("pi/patentes/SolicitudesController/patentesInvoice/" . $id); ?>"><i
+                                                class="fas fa-plus"></i> Añadir nueva factura</a>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#facturaModal"><i class="fas fa-plus"></i> Añadir factura
+                                            existente</button>
+                                    </div>
+                                    <div class="col-md-12" style="padding-top: 1.5%;">
+                                        <table class="ultimate table table-responsive" id="tblInvoices">
+                                            <thead>
+                                                <tr>
+                                                    <th>Factura</th>
+                                                    <th>Fecha</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
                                             </tbody>
                                         </table>
                                     </div>

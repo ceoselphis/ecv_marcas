@@ -16,7 +16,14 @@ class PatentesSolicitudes_model extends BaseModel
 
     public function getTipoSolicitudes()
     {
-        $this->db->select('*');
+        $options = [
+            1 => "PCT",
+            2 => "Diseño Industrial",
+            3 => "Invencion",
+            4 => "Modelo de Utilidad",
+        ];
+        return $options;
+        /*$this->db->select('*');
         $this->db->from('tbl_patentes_tipos');
         $query = $this->db->get();
         $keys = array();
@@ -26,7 +33,7 @@ class PatentesSolicitudes_model extends BaseModel
             array_push($keys, $row['id']);
             array_push($values, $row['nombre']);
         }
-        return array_combine($keys, $values);
+        return array_combine($keys, $values);*/
 
     }
 

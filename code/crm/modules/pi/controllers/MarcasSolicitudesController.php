@@ -48,8 +48,26 @@ class MarcasSolicitudesController extends AdminController
     private function LoadPage(){
         $CI = &get_instance();
         $CI->load->model("MarcasSolicitudes_model");
-        $id = intval($CI->MarcasSolicitudes_model->setCountPK());
-        //$cod_contador = 'M-' + $id;
+        /* Se verifica si se viene de agregar una factura */
+        $factId = null;
+        $invoicesBD = array();
+      if (!is_null($this->session->flashdata('factId'))) {
+            $id = intval($this->session->flashdata('marca_id'));
+            $factId = intval($this->session->flashdata('factId'));
+            /* Busco la factura agregada  */
+            $dataInv = $CI->MarcasSolicitudes_model->getInvoice($factId);
+            $invoicesBD = array(
+                'id_factura' => $factId,
+                'num_factura' => $dataInv[0]['prefix'] . '-' . $dataInv[0]['number'],
+                'date' =>  date_format(new DateTime($dataInv[0]['date']), 'd/m/Y'),
+                'status' => format_invoice_status($dataInv[0]['status'], '', false)
+            );
+            //$CI->load->model('invoices_model');
+            //$statusInv = $CI->invoices_model->get_statuses();
+            //$a = format_invoice_status(1, '', false);
+        }else {
+            $id = intval($CI->MarcasSolicitudes_model->setCountPK());
+        }
         $fields = $CI->MarcasSolicitudes_model->getFillableFields();
         $inputs = array();
         $labels = array();
@@ -92,6 +110,7 @@ class MarcasSolicitudesController extends AdminController
         }
         $cod_contador = 'M-' . ($CI->MarcasSolicitudes_model->CantidadSolicitudes() + 1);
         $labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
+        $invoices = $CI->MarcasSolicitudes_model->findAllInvoices();
         return $CI->load->view('marcas/solicitudes/create', [
             'fields'                => $inputs,
             'labels'                => $labels,
@@ -114,8 +133,10 @@ class MarcasSolicitudesController extends AdminController
             'boletines'             => $CI->MarcasSolicitudes_model->findAllBoletines(),
             'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
             'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
-            'invoices'              => $CI->MarcasSolicitudes_model->findAllInvoices(),
-            'cod_contador'          => $cod_contador
+            'invoices'              => (!empty($invoices)) ? $invoices[0] : '',
+            'invoicesExtra'         => (!empty($invoices)) ? $invoices[1] : '',
+            'cod_contador'          => $cod_contador,
+            'invoicesBD'            => $invoicesBD
         ]);
     }
 
@@ -367,6 +388,7 @@ class MarcasSolicitudesController extends AdminController
             $solicitud['oficina_id'] = $form['oficina_id'];
             $solicitud['staff_id'] = $form['staff_id'];
             $solicitud['signonom'] = $form['signonom'];
+            $solicitud['signo_archivo_desc'] = $form['signo_archivo_desc'];
             $solicitud['tipo_signo_id'] = $form['tipo_signo_id'];
             $solicitud['tipo_solicitud_id'] = $form['tipo_solicitud_id'];
             $solicitud['ref_interna'] = $form['ref_interna'];
@@ -394,24 +416,12 @@ class MarcasSolicitudesController extends AdminController
             }
             if ($file != NULL) {
                 //We fill the data of the         
-                $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
+                $fpath = FCPATH . 'uploads/marcas/signos/' . $form['id'] . '-' . $file['name'];
                 $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
                 move_uploaded_file($file['tmp_name'], $fpath);
                 $solicitud['signo_archivo'] = $path;
             }
 
-            /*Seteamos el valor del signo*/
-            $file = '';
-            if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
-                $file = $_FILES['signo_archivo'];
-            }
-            if ($file != NULL) {
-                //We fill the data of the         
-                $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
-                $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
-                move_uploaded_file($file['tmp_name'], $fpath);
-                $solicitud['signo_archivo'] = $path;
-            }
             /*Seteamos el arreglo para los paises designados*/
             foreach (json_decode($form['pais_id'], TRUE) as $row) {
                 $paisSol[] = [
@@ -573,6 +583,21 @@ class MarcasSolicitudesController extends AdminController
                 $camdom[$i]['fecha_resolucion'] = empty($camdom[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($camdom[$i]['fecha_resolucion']);
             }
 
+            /*Seteamos el arreglo para los Documentos */
+            $documentos = json_decode($form['doc_id'], TRUE);
+
+            /*Seteamos el arreglo para los Documentos */
+            $facturas = json_decode($form['facturas_id'], TRUE);
+            for ($i = 0; $i < count($facturas); ++$i){
+                unset($facturas[$i]['idRow']);
+                unset($facturas[$i]['factNum']);
+                unset($facturas[$i]['factFecha']);
+                unset($facturas[$i]['factEstatus']);
+                unset($facturas[$i]['acciones']);
+                $facturas[$i]['staff_id'] = $_SESSION['staff_user_id'];
+            }
+            
+
             try {
                 $CI->MarcasSolicitudes_model->insert($solicitud);
                 if (!empty($paisSol)) {
@@ -623,7 +648,6 @@ class MarcasSolicitudesController extends AdminController
                         }
                     }
                 }
-
                 if (!empty($licencias)) {
                     for ($i = 0; $i < count($licencias); ++$i){
                         /* INSERTO LA LICENCIA Y RETORNO SU ID*/
@@ -651,7 +675,6 @@ class MarcasSolicitudesController extends AdminController
                        }
                     }
                 }
-                
                 if (!empty($fusiones)) {
                     for ($i = 0; $i < count($fusiones); ++$i){
                         /* INSERTO LA FUSION Y RETORNO SU ID*/
@@ -679,7 +702,6 @@ class MarcasSolicitudesController extends AdminController
                        }
                     }
                 }
-                
                 if (!empty($camnom)) {
                     for ($i = 0; $i < count($camnom); ++$i){
                         /* INSERTO EL CAMBIO DE NOMBRE Y RETORNO SU ID*/
@@ -707,7 +729,6 @@ class MarcasSolicitudesController extends AdminController
                        }
                     }
                 }
-                
                 if (!empty($camdom)) {
                     for ($i = 0; $i < count($camdom); ++$i){
                         /* INSERTO EL CAMBIO DE DOMICLIO Y RETORNO SU ID*/
@@ -734,6 +755,32 @@ class MarcasSolicitudesController extends AdminController
                             $CI->MarcasSolicitudes_model->insertCamDomAntAct($camdom_act_id[$i]);
                        }
                     }
+                }
+                if (!empty($documentos)) {
+                    $file = $_FILES;
+                    if (empty($file)){
+                        $doc_arch ="No tiene"; 
+                    }else{
+                        $doc_arch ="Si tiene"; 
+                        for ($i = 0; $i < count($documentos); ++$i){
+                            $fpath = FCPATH.'uploads/marcas/documentos/' . $form['id'] . '-' . $file['doc_archivo_' . $documentos[$i]['idRow']]['name'];
+                            $path = site_url('uploads/marcas/documentos/' . $form['id'] . '-' . $file['doc_archivo_' . $documentos[$i]['idRow']]['name']);
+                            // Mover el archivo a la carpeta de destino
+                            if (move_uploaded_file($file['doc_archivo_'.$documentos[$i]['idRow']]['tmp_name'], $fpath)) {
+                                //Guardo el documento
+                                unset($documentos[$i]['idRow']);
+                                unset($documentos[$i]['acciones']);
+                                $documentos[$i]['path'] = $path;
+                                $CI->MarcasSolicitudes_model->insertDocumento($documentos[$i]);
+                            } else {
+                                
+                                //throw new Exception('Error al subir el archivo'); 
+                            }
+                    }
+                    }
+                }
+                if (!empty($facturas)) {
+                    $CI->MarcasSolicitudes_model->insertMarcaFactura($facturas);
                 }
 
                 echo json_encode(['code' => 200, 'error' => '']);
@@ -1185,7 +1232,7 @@ class MarcasSolicitudesController extends AdminController
                 $invoice = $CI->MarcasSolicitudes_model->getInvoice($value['facturas_id']);
                 $row = array();
                 $row['factura'] = $invoice[0]['id'];
-                $row['fecha']   = $invoice[0]['datecreated'];
+                $row['fecha']   = $invoice[0]['date'];
                 switch ($invoice[0]['status']) {
                     case '2':
                         $row['estatus'] = '<span class="label label-success  s-status invoice-status-2">Pagada</span>';

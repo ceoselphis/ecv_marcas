@@ -209,7 +209,8 @@ $autoload['model'] = [
     'misc_model',
     'roles_model',
     'clients_model',
-    'tasks_model',
+    'tasks_model'/*,
+    'Invoices_model'*/
 ];
 
 if (file_exists(APPPATH . 'config/my_autoload.php')) {

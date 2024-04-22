@@ -29,6 +29,31 @@ $select = ['' => '']; ?>
                     'id'    => 'cod_contador',
                     'value' => $cod_contador
                 ]); ?>
+                <?php 
+                echo form_input([
+                    'type'  => 'hidden',
+                    'name'  => 'factId',
+                    'id'    => 'factId',
+                    'value' => (!isset($invoicesBD) || empty($invoicesBD)) ? '' : $invoicesBD['id_factura']
+                ]); 
+                echo form_input([
+                    'type'  => 'hidden',
+                    'name'  => 'factNumber',
+                    'id'    => 'factNumber',
+                    'value' => (!isset($invoicesBD) || empty($invoicesBD)) ? '' : $invoicesBD['num_factura']
+                ]); 
+                echo form_input([
+                    'type'  => 'hidden',
+                    'name'  => 'factFecha',
+                    'id'    => 'factFecha',
+                    'value' => (!isset($invoicesBD) || empty($invoicesBD)) ? '' : $invoicesBD['date']
+                ]); 
+                echo form_input([
+                    'type'  => 'hidden',
+                    'name'  => 'factEstatus',
+                    'id'    => 'factEstatus',
+                    'value' => (!isset($invoicesBD) || empty($invoicesBD)) ? '' : $invoicesBD['status']
+                ]); ?>
                 <div class="panel_s">
                     <div class="panel-body" id="principalWizar">
                         <div class="wizard">
@@ -190,6 +215,9 @@ $select = ['' => '']; ?>
                                                 'value' => set_value('signonom')
                                             ]); ?>
                                             <div class="text-danger signonom_error"></div>
+                                            <!-- Para Mostrar el Nombre de Archivo Signo seleccionado -->
+                                            <div class="text-danger" id="SignoFileName"></div>
+                                            <div class="text-danger" id="DescFileName"></div>
                                         </div>
                                         <div class="col-md-2" style="padding-top: 2%; padding-bottom:0%">
                                             <button type="button" class="btn btn-outline" data-toggle="modal"
@@ -865,11 +893,11 @@ $select = ['' => '']; ?>
                                             data-target="#docModal">Añadir Documento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table id="DocTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
-                                                    <th>Archivo</th>
+                                                    <!-- <th>Archivo</th> -->
                                                     <th>Descripcion</th>
                                                     <th>Comentarios</th>
                                                     <th>Documento</th>
@@ -891,19 +919,21 @@ $select = ['' => '']; ?>
                                 <!-- Step 9 -->
                                 <div class="tab-pane" role="tabpanel" id="step9">
                                     <div class="row">
-                                        <a class="btn btn-primary"
+                                        <a class="btn btn-primary newfact pull-right"
                                             href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/" . $id); ?>"><i
                                                 class="fas fa-plus"></i> Añadir nueva factura</a>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                <!-- <a class="btn btn-primary testFact" href="#"><i class="fas fa-plus"></i> Restaurar</a> -->
+                                        <button type="button" class="btn btn-primary pull-right" style="margin-right: 15px;" data-toggle="modal"
                                             data-target="#facturaModal"><i class="fas fa-plus"></i> Añadir factura
                                             existente</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive" id="tblInvoices">
+                                        <table class="ultimate table table-responsive" id="FacturasTbl">
                                             <thead>
                                                 <tr>
+                                                    <th>N°</th>
                                                     <th>Factura</th>
-                                                    <th>Fecha</th>
+                                                    <th>Fecha Factura</th>
                                                     <th>Estado</th>
                                                     <th>Acciones</th>
                                                 </tr>
@@ -930,6 +960,7 @@ $select = ['' => '']; ?>
 
 
 <?php $CI->load->view('marcas/solicitudes/modal.php'); ?>
+<?php $CI->load->view('marcas/solicitudes/base64.php'); ?>
 
 <?php init_tail(); ?>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

@@ -535,6 +535,18 @@ class MarcasSolicitudes_model extends BaseModel
         return $query;
     }
 
+    public function insertDocumento($params)
+    {
+        $query = $this->db->insert('tbl_marcas_solicitudes_documentos', $params);
+        return $query;
+    }
+    
+    public function insertMarcaFactura($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_facturas', $params);
+        return $query;
+    }
+
     public function updateSolicitudesClases($id, $params)
     {
         $query = $this->db->update_batch('tbl_marcas_clases', $params);
@@ -1115,16 +1127,24 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function findAllInvoices()
     {
-        $this->db->select("a.id, CONCAT(a.prefix, '-', a.number) as name");
+        $this->db->select("a.id, CONCAT(a.prefix, '-', a.number) as name, a.date as date, a.status as status");
         $this->db->from("tblinvoices a");
         $query = $this->db->get();
         $keys = array();
         $values = array();
+        $invExtra = array();
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
             array_push($values, $row['name']);
+            $data = array(
+                'id' => $row['id'],
+                'date' => date_format(new DateTime($row['date']), 'd/m/Y'),
+                'status' => format_invoice_status($row['status'], '', false)
+            );
+            array_push($invExtra, $data);
         }
-        return array_combine($keys, $values); 
+        return [array_combine($keys, $values), $invExtra]; 
     }
+    
 }

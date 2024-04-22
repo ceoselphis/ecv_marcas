@@ -1,4 +1,47 @@
 <?php $select = ['' => '']; ?>
+
+
+<!-- Añadir Signo Modal -->
+<div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Signo</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <?php echo form_label('Archivo', 'signo_archivo', ['id' => 'lblsigno_archivo']); ?>
+            <?php echo form_input([
+              'id' => 'signo_archivo',
+              'name' => 'signo_archivo',
+              'type' => 'file',
+              'class' => 'form-control',
+              'accept' => 'application/pdf',
+            ]); ?>
+          </div>
+          <div class="col-md-12">
+            <?php echo form_label('Descripcion', 'descripcion_signo', ['id' => 'lbldescripcion_signo']); ?>
+            <?php echo form_textarea('descripcion_signo', '', ['class' => 'form-control', 'id' => 'descripcion_signo']); ?>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="signofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close(); ?>
+</div>
+
+
+
 <!-- Clase Niza Modal -->
 <div class="modal fade" id="claseNizaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -14,14 +57,14 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6">
-            <?php echo form_label('Clase', 'clase_niza',['id' => 'lblclase_niza']); ?>
+            <?php echo form_label('Clase', 'clase_niza', ['id' => 'lblclase_niza']); ?>
             <?php
             $clase_niza_id = $select + $clase_niza_id;
             echo form_dropdown('clase_niza', $clase_niza_id, '', ['class' => 'form-control', 'id' => 'clase_niza']); ?>
           </div>
           <div class="col-md-6">
-            <?php echo form_label('Descripcion', 'clase_niza_descripcion',['id' => 'lblclase_niza_descripcion']); ?>
-            <?php echo form_input('clase_niza_descripcion', set_value('clase_niza_descripcion', ''), ['class' => 'form-control','id' => 'clase_niza_descripcion']); ?>
+            <?php echo form_label('Descripcion', 'clase_niza_descripcion', ['id' => 'lblclase_niza_descripcion']); ?>
+            <?php echo form_input('clase_niza_descripcion', set_value('clase_niza_descripcion', ''), ['class' => 'form-control', 'id' => 'clase_niza_descripcion']); ?>
           </div>
         </div>
       </div>
@@ -49,13 +92,13 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6">
-            <?php echo form_label('Pais de la prioridad', 'pais_prioridad',['id' => 'lblpais_prioridad']); ?>
+            <?php echo form_label('Pais de la prioridad', 'pais_prioridad', ['id' => 'lblpais_prioridad']); ?>
             <?php
             $pais_id = $select + $pais_id;
-            echo form_dropdown('pais_prioridad', $pais_id, '', ['class' => 'form-control','id' => 'pais_prioridad']); ?>
+            echo form_dropdown('pais_prioridad', $pais_id, '', ['class' => 'form-control', 'id' => 'pais_prioridad']); ?>
           </div>
           <div class="col-md-3">
-            <?php echo form_label('Fecha', 'fecha_prioridad',['id' => 'lblfecha_prioridad']); ?>
+            <?php echo form_label('Fecha', 'fecha_prioridad', ['id' => 'lblfecha_prioridad']); ?>
             <?php echo form_input([
               'id' => 'fecha_prioridad',
               'name' => 'fecha_prioridad',
@@ -64,7 +107,7 @@
             ]); ?>
           </div>
           <div class="col-md-3">
-            <?php echo form_label('Número', 'nro_prioridad',['id' => 'lblnro_prioridad']); ?>
+            <?php echo form_label('Número', 'nro_prioridad', ['id' => 'lblnro_prioridad']); ?>
             <?php echo form_input([
               'id' => 'nro_prioridad',
               'name' => 'nro_prioridad',
@@ -100,7 +143,7 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-3 col-md-offset-3">
-            <?php echo form_label('Fecha', 'fecha_publicacion',['id' => 'lblfecha_publicacion']); ?>
+            <?php echo form_label('Fecha', 'fecha_publicacion', ['id' => 'lblfecha_publicacion']); ?>
             <?php echo form_input([
               'id' => 'fecha_publicacion',
               'name' => 'fecha_publicacion',
@@ -109,26 +152,26 @@
             ]); ?>
           </div>
           <div class="col-md-3">
-            <?php echo form_label('Tipo', 'tipo_publicacion',['id' => 'lbltipo_publicacion']); ?>
+            <?php echo form_label('Tipo', 'tipo_publicacion', ['id' => 'lbltipo_publicacion']); ?>
             <?php
             $tipo_publicacion = $select + $tipo_publicacion;
-            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control','id' => 'tipo_publicacion']); ?>
+            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control', 'id' => 'tipo_publicacion']); ?>
           </div>
         </div>
         <div class="row" style="padding-top:15px;">
           <div class="col-md-3 col-md-offset-1">
-            <?php echo form_label('Boletin', 'boletin_publicacion',['id' => 'lblboletin_publicacion']); ?>
+            <?php echo form_label('Boletin', 'boletin_publicacion', ['id' => 'lblboletin_publicacion']); ?>
             <?php
             $boletines = $select + $boletines;
-            echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control','id' => 'boletin_publicacion']); ?>
+            echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control', 'id' => 'boletin_publicacion']); ?>
           </div>
           <div class="col-md-3">
-            <?php echo form_label('Tomo', 'tomo_publicacion',['id' => 'lbltomo_publicacion']); ?>
-            <?php echo form_input('tomo_publicacion', set_value('tomo_publicacion'), ['class' => 'form-control','id' => 'tomo_publicacion']); ?>
+            <?php echo form_label('Tomo', 'tomo_publicacion', ['id' => 'lbltomo_publicacion']); ?>
+            <?php echo form_input('tomo_publicacion', set_value('tomo_publicacion'), ['class' => 'form-control', 'id' => 'tomo_publicacion']); ?>
           </div>
           <div class="col-md-3">
-            <?php echo form_label('Página', 'pag_publicacion',['id' => 'lblpag_publicacion']); ?>
-            <?php echo form_input('pag_publicacion', set_value('pag_publicacion'), ['class' => 'form-control','id' => 'pag_publicacion']); ?>
+            <?php echo form_label('Página', 'pag_publicacion', ['id' => 'lblpag_publicacion']); ?>
+            <?php echo form_input('pag_publicacion', set_value('pag_publicacion'), ['class' => 'form-control', 'id' => 'pag_publicacion']); ?>
           </div>
         </div>
       </div>
@@ -156,13 +199,13 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-8 col-md-offset-0">
-            <?php echo form_label('Tipo Evento', 'tipo_evento',['id' => 'lbltipo_evento']); ?>
+            <?php echo form_label('Tipo Evento', 'tipo_evento', ['id' => 'lbltipo_evento']); ?>
             <?php
             $tipo_evento = $select + $tipo_evento;
             echo form_dropdown(['name' => 'tipo_evento', 'id' => 'tipo_evento'], $tipo_evento, '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-4">
-            <?php echo form_label('Fecha Evento', 'fecha_evento',['id' => 'lblfecha_evento']); ?>
+            <?php echo form_label('Fecha Evento', 'fecha_evento', ['id' => 'lblfecha_evento']); ?>
             <?php echo form_input([
               'id' => 'fecha_evento',
               'name' => 'fecha_evento',
@@ -173,7 +216,7 @@
         </div>
         <div class="row" style="padding-top:15px;">
           <div class="col-md-12">
-            <?php echo form_label('Comentario', 'evento_comentario',['id' => 'lblevento_comentario']); ?>
+            <?php echo form_label('Comentario', 'evento_comentario', ['id' => 'lblevento_comentario']); ?>
             <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control']); ?>
           </div>
         </div>
@@ -201,8 +244,8 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-4">
-            <?php echo form_label('Proyecto', 'project_id', ['id' => 'lblproject_id','class' => 'form-label']); ?>
-            <?php 
+            <?php echo form_label('Proyecto', 'project_id', ['id' => 'lblproject_id', 'class' => 'form-label']); ?>
+            <?php
             $projects = $select + $projects;
             echo form_dropdown([
               'name' => 'project_id',
@@ -212,19 +255,19 @@
             ]); ?>
           </div>
           <div class="col-md-4">
-            <?php echo form_label('Tipo Tareas', 'tipo_tarea',['id' => 'lbltipo_tarea']); ?>
-            <?php 
+            <?php echo form_label('Tipo Tareas', 'tipo_tarea', ['id' => 'lbltipo_tarea']); ?>
+            <?php
             $tipo_tareas = $select + $tipo_tareas;
             echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'], $tipo_tareas, '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-4">
-            <?php echo form_label('Fecha', 'fecha_tarea',['id' => 'lblfecha_tarea']); ?>
-            <?php echo form_input('fecha_tarea', '', ['class' => 'form-control calendar','id' => 'fecha_tarea']); ?>
+            <?php echo form_label('Fecha', 'fecha_tarea', ['id' => 'lblfecha_tarea']); ?>
+            <?php echo form_input('fecha_tarea', '', ['class' => 'form-control calendar', 'id' => 'fecha_tarea']); ?>
           </div>
         </div>
         <div class="row" style="padding-top:15px;">
           <div class="col-md-12">
-            <?php echo form_label('Descripcion', 'descripcion',['id' => 'lbldescripcion']); ?>
+            <?php echo form_label('Descripcion', 'descripcion', ['id' => 'lbldescripcion']); ?>
             <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control']); ?>
           </div>
         </div>
@@ -274,34 +317,34 @@
               <input type="hidden" id="cesionid">
               <div class="col-md-3">
                 <?php echo form_label('Cliente', 'clienteCesion'); ?>
-                <?php 
+                <?php
                 $clientes = $select + $clientes;
                 echo form_dropdown(['name' => 'clienteCesion', 'id' => 'clienteCesion'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaCesion',['id' => 'lbloficinaCesion']); ?>
-                <?php 
+                <?php echo form_label('Oficina', 'oficinaCesion', ['id' => 'lbloficinaCesion']); ?>
+                <?php
                 $oficinas = $select + $oficinas;
                 echo form_dropdown(['name' => 'oficinaCesion', 'id' => 'oficinaCesion'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Staff', 'staffCesion'); ?>
-                <?php 
+                <?php
                 $responsable = $select + $responsable;
                 echo form_dropdown(['name' => 'staffCesion', 'id' => 'staffCesion'], $responsable, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Estado', 'estadoCesion',['id' => 'lblestadoCesion']); ?>
-                <?php 
+                <?php echo form_label('Estado', 'estadoCesion', ['id' => 'lblestadoCesion']); ?>
+                <?php
                 $estados_solicitudes = $select + $estados_solicitudes;
                 echo form_dropdown(['name' => 'estadoCesion', 'id' => 'estadoCesion'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
-                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCesion',['id' => 'lblnro_solicitudCesion']); ?>
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCesion', ['id' => 'lblnro_solicitudCesion']); ?>
                 <?php echo form_input(['name' => 'nro_solicitudCesion', 'id' => 'nro_solicitudCesion', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
-                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCesion',['id' => 'lblfecha_solicitudCesion']); ?>
+                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCesion', ['id' => 'lblfecha_solicitudCesion']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_solicitudCesion',
                   'name' => 'fecha_solicitudCesion',
@@ -311,11 +354,11 @@
                 ]); ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
-                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCesion',['id' => 'lblnro_resolucionCesion']); ?>
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCesion', ['id' => 'lblnro_resolucionCesion']); ?>
                 <?php echo form_input(['name' => 'nro_resolucionCesion', 'id' => 'nro_resolucionCesion', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
-                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCesion',['id' => 'lblfecha_resolucionCesion']); ?>
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCesion', ['id' => 'lblfecha_resolucionCesion']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_resolucionCesion',
                   'name' => 'fecha_resolucionCesion',
@@ -325,11 +368,11 @@
                 ]); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Referencia Cliente', 'referenciaclienteCesion',['id' => 'lblreferenciaclienteCesion']); ?>
+                <?php echo form_label('Referencia Cliente', 'referenciaclienteCesion', ['id' => 'lblreferenciaclienteCesion']); ?>
                 <?php echo form_input(['name' => 'referenciaclienteCesion', 'id' => 'referenciaclienteCesion'], '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Comentario', 'comentarioCesion',['id' => 'lblcomentarioCesion']); ?>
+                <?php echo form_label('Comentario', 'comentarioCesion', ['id' => 'lblcomentarioCesion']); ?>
                 <?php echo form_textarea(['name' => 'comentarioCesion', 'id' => 'comentarioCesion'], '', ['class' => 'form-control']); ?>
               </div>
             </div><!-- fin step 1 -->
@@ -345,8 +388,7 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnCesionAnterior" class="btn btn-primary pull-right">Añadir
                             Cesion Anterior</button>
-                          <table id="CesionesAnterioresTbl"
-                            class="ultimate table table-responsive">
+                          <table id="CesionesAnterioresTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -373,8 +415,7 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnCesionActual" class="btn btn-primary pull-right">Añadir Cesion
                             Actual</button>
-                          <table id="CesionesActualesTbl"
-                            class="ultimate table table-responsive">
+                          <table id="CesionesActualesTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -405,9 +446,10 @@
 </div>
 
 <!-- Añadir Cesion Anterior Modal -->
-<div class="modal fade" id="CesionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="CesionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Cesion Anterior</h4>
@@ -417,15 +459,17 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietarioscesionanterior',['id' => 'lblpropietarioscesionanterior']);?>
-                <?php 
-                //$solicitantes = $select + $solicitantes;
-                echo form_dropdown(
-                  ['id'=> 'propietarioscesionanterior','name'=> 'propietarioscesionanterior'], 
-                  $solicitantes, '',
-                  ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietarioscesionanterior')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietarioscesionanterior', ['id' => 'lblpropietarioscesionanterior']); ?>
+            <?php
+            //$solicitantes = $select + $solicitantes;
+            echo form_dropdown(
+              ['id' => 'propietarioscesionanterior', 'name' => 'propietarioscesionanterior'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioscesionanterior')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -434,13 +478,14 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Cesion Actual Modal -->
-<div class="modal fade" id="CesionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="CesionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Cesion Actual</h4>
@@ -450,12 +495,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietarioscesionactual',['id' => 'lblpropietarioscesionactual']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietarioscesionactual','name'=> 'propietarioscesionactual'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietarioscesionactual')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietarioscesionactual', ['id' => 'lblpropietarioscesionactual']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietarioscesionactual', 'name' => 'propietarioscesionactual'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioscesionactual')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -464,7 +513,7 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Licencia -->
@@ -506,7 +555,7 @@
                 <?php echo form_dropdown(['name' => 'clienteLicencia', 'id' => 'clienteLicencia'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaLicencia',['id' => 'lbloficinaLicencia']); ?>
+                <?php echo form_label('Oficina', 'oficinaLicencia', ['id' => 'lbloficinaLicencia']); ?>
                 <?php echo form_dropdown(['name' => 'oficinaLicencia', 'id' => 'oficinaLicencia'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
@@ -514,15 +563,15 @@
                 <?php echo form_dropdown(['name' => 'staffLicencia', 'id' => 'staffLicencia'], $responsable, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Estado', 'estadoLicencia',['id' => 'lblestadoLicencia']); ?>
+                <?php echo form_label('Estado', 'estadoLicencia', ['id' => 'lblestadoLicencia']); ?>
                 <?php echo form_dropdown(['name' => 'estadoLicencia', 'id' => 'estadoLicencia'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudLicencia',['id' => 'lblnro_solicitudLicencia']); ?>
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudLicencia', ['id' => 'lblnro_solicitudLicencia']); ?>
                 <?php echo form_input(['name' => 'nro_solicitudLicencia', 'id' => 'nro_solicitudLicencia', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Fecha de Solicitud', 'fecha_solicitudLicencia',['id' => 'lblfecha_solicitudLicencia']); ?>
+                <?php echo form_label('Fecha de Solicitud', 'fecha_solicitudLicencia', ['id' => 'lblfecha_solicitudLicencia']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_solicitudLicencia',
                   'name' => 'fecha_solicitudLicencia',
@@ -532,11 +581,11 @@
                 ]); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionLicencia',['id' => 'lblnro_resolucionLicencia']); ?>
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionLicencia', ['id' => 'lblnro_resolucionLicencia']); ?>
                 <?php echo form_input(['name' => 'nro_resolucionLicencia', 'id' => 'nro_resolucionLicencia', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionLicencia',['id' => 'lblfecha_resolucionLicencia']); ?>
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionLicencia', ['id' => 'lblfecha_resolucionLicencia']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_resolucionLicencia',
                   'name' => 'fecha_resolucionLicencia',
@@ -546,11 +595,11 @@
                 ]); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Referencia Cliente', 'referenciaclienteLicencia',['id' => 'lblreferenciaclienteLicencia']); ?>
+                <?php echo form_label('Referencia Cliente', 'referenciaclienteLicencia', ['id' => 'lblreferenciaclienteLicencia']); ?>
                 <?php echo form_input(['name' => 'referenciaclienteLicencia', 'id' => 'referenciaclienteLicencia'], '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Comentario', 'comentarioLicencia',['id' => 'lblcomentarioLicencia']); ?>
+                <?php echo form_label('Comentario', 'comentarioLicencia', ['id' => 'lblcomentarioLicencia']); ?>
                 <?php echo form_textarea(['name' => 'comentarioLicencia', 'id' => 'comentarioLicencia'], '', ['class' => 'form-control']); ?>
               </div>
             </div> <!--fin step 1-->
@@ -566,11 +615,10 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnLicenciaAnterior" class="btn btn-primary pull-right">Añadir
                             Licencia Anterior</button>
-                          <table id="LicenciasAnterioresTbl"
-                            class="ultimate table table-responsive">
+                          <table id="LicenciasAnterioresTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
-                              <th>Nº</th>
+                                <th>Nº</th>
                                 <th>Propietario</th>
                                 <th>Acciones</th>
                               </tr>
@@ -594,11 +642,10 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnLicenciaActual" class="btn btn-primary pull-right">Añadir
                             Licencia Actual</button>
-                          <table id="LicenciasActualesTbl"
-                            class="ultimate table table-responsive">
+                          <table id="LicenciasActualesTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
-                              <th>Nº</th>
+                                <th>Nº</th>
                                 <th>Propietario</th>
                                 <th>Acciones</th>
                               </tr>
@@ -626,9 +673,10 @@
 </div>
 
 <!-- Añadir Licencia Anterior Modal -->
-<div class="modal fade" id="LicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="LicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Licencia Anterior</h4>
@@ -638,12 +686,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietarioslicenciaanterior',['id' => 'lblpropietarioslicenciaanterior']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietarioslicenciaanterior','name'=> 'propietarioslicenciaanterior'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietarioslicenciaanterior')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietarioslicenciaanterior', ['id' => 'lblpropietarioslicenciaanterior']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietarioslicenciaanterior', 'name' => 'propietarioslicenciaanterior'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioslicenciaanterior')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -652,13 +704,14 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Licencia Actual Modal -->
-<div class="modal fade" id="LicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="LicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Licencia Actual</h4>
@@ -668,12 +721,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietarioslicenciaactual',['id' => 'lblpropietarioslicenciaactual']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietarioslicenciaactual','name'=> 'propietarioslicenciaactual'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietarioslicenciaactual')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietarioslicenciaactual', ['id' => 'lblpropietarioslicenciaactual']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietarioslicenciaactual', 'name' => 'propietarioslicenciaactual'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioslicenciaactual')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -682,7 +739,7 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Fusion -->
@@ -721,30 +778,30 @@
               <input type="hidden" id="fusionid">
               <div class="col-md-3">
                 <?php echo form_label('Cliente', 'clienteFusion'); ?>
-                <?php 
+                <?php
                 $clientes = $select + $clientes;
                 echo form_dropdown(['name' => 'clienteFusion', 'id' => 'clienteFusion'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaFusion',['id' => 'lbloficinaFusion']); ?>
+                <?php echo form_label('Oficina', 'oficinaFusion', ['id' => 'lbloficinaFusion']); ?>
                 <?php echo form_dropdown(['name' => 'oficinaFusion', 'id' => 'oficinaFusion'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Staff', 'staffFusion'); ?>
-                <?php 
+                <?php
                 $responsable = $select + $responsable;
                 echo form_dropdown(['name' => 'staffFusion', 'id' => 'staffFusion'], $responsable, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Estado', 'estadoFusion',['id' => 'lblestadoFusion']); ?>
+                <?php echo form_label('Estado', 'estadoFusion', ['id' => 'lblestadoFusion']); ?>
                 <?php echo form_dropdown(['name' => 'estadoFusion', 'id' => 'estadoFusion'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudFusion',['id' => 'lblnro_solicitudFusion']); ?>
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudFusion', ['id' => 'lblnro_solicitudFusion']); ?>
                 <?php echo form_input(['name' => 'nro_solicitudFusion', 'id' => 'nro_solicitudFusion', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudFusion',['id' => 'lblfecha_solicitudFusion']); ?>
+                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudFusion', ['id' => 'lblfecha_solicitudFusion']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_solicitudFusion',
                   'name' => 'fecha_solicitudFusion',
@@ -754,11 +811,11 @@
                 ]); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionFusion',['id' => 'lblnro_resolucionFusion']); ?>
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionFusion', ['id' => 'lblnro_resolucionFusion']); ?>
                 <?php echo form_input(['name' => 'nro_resolucionFusion', 'id' => 'nro_resolucionFusion', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionFusion',['id' => 'lblfecha_resolucionFusion']); ?>
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionFusion', ['id' => 'lblfecha_resolucionFusion']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_resolucionFusion',
                   'name' => 'fecha_resolucionFusion',
@@ -768,11 +825,11 @@
                 ]); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Referencia Cliente', 'referenciaclienteFusion',['id' => 'lblreferenciaclienteFusion']); ?>
+                <?php echo form_label('Referencia Cliente', 'referenciaclienteFusion', ['id' => 'lblreferenciaclienteFusion']); ?>
                 <?php echo form_input(['name' => 'referenciaclienteFusion', 'id' => 'referenciaclienteFusion'], '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Comentario', 'comentarioFusion',['id' => 'lblcomentarioFusion']); ?>
+                <?php echo form_label('Comentario', 'comentarioFusion', ['id' => 'lblcomentarioFusion']); ?>
                 <?php echo form_textarea(['name' => 'comentarioFusion', 'id' => 'comentarioFusion'], '', ['class' => 'form-control']); ?>
               </div>
             </div><!-- fin step1 -->
@@ -788,8 +845,7 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnFusionAnterior" class="btn btn-primary pull-right">Añadir
                             Fusion Anterior</button>
-                          <table id="FusionesAnterioresTbl"
-                            class="ultimate table table-responsive">
+                          <table id="FusionesAnterioresTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -816,8 +872,7 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnFusionActual" class="btn btn-primary pull-right">Añadir Fusion
                             Actual</button>
-                          <table id="FusionesActualesTbl"
-                            class="ultimate table table-responsive">
+                          <table id="FusionesActualesTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -848,9 +903,10 @@
 </div>
 
 <!-- Añadir Fusion Anterior Modal -->
-<div class="modal fade" id="FusionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="FusionAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Fusión Anterior</h4>
@@ -860,12 +916,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietariosfusionanterior',['id' => 'lblpropietariosfusionanterior']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietariosfusionanterior','name'=> 'propietariosfusionanterior'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietariosfusionanterior')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietariosfusionanterior', ['id' => 'lblpropietariosfusionanterior']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietariosfusionanterior', 'name' => 'propietariosfusionanterior'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietariosfusionanterior')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -874,13 +934,14 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Fusion Actual Modal -->
-<div class="modal fade" id="FusionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="FusionActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Fusión Actual</h4>
@@ -890,12 +951,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietariosfusionactual',['id' => 'lblpropietariosfusionactual']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietariosfusionactual','name'=> 'propietariosfusionactual'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietariosfusionactual')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietariosfusionactual', ['id' => 'lblpropietariosfusionactual']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietariosfusionactual', 'name' => 'propietariosfusionactual'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietariosfusionactual')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -904,7 +969,7 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Cambio de Nombre -->
@@ -943,30 +1008,30 @@
               <input type="hidden" id="camnomid">
               <div class="col-md-3">
                 <?php echo form_label('Cliente', 'clienteCamNom'); ?>
-                <?php 
+                <?php
                 $clientes = $select + $clientes;
                 echo form_dropdown(['name' => 'clienteCamNom', 'id' => 'clienteCamNom'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaCamNom',['id' => 'lbloficinaCamNom']); ?>
+                <?php echo form_label('Oficina', 'oficinaCamNom', ['id' => 'lbloficinaCamNom']); ?>
                 <?php echo form_dropdown(['name' => 'oficinaCamNom', 'id' => 'oficinaCamNom'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Staff', 'staffCamNom'); ?>
-                <?php 
+                <?php
                 $responsable = $select + $responsable;
                 echo form_dropdown(['name' => 'staffCamNom', 'id' => 'staffCamNom'], $responsable, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Estado', 'estadoCamNom',['id' => 'lblestadoCamNom']); ?>
+                <?php echo form_label('Estado', 'estadoCamNom', ['id' => 'lblestadoCamNom']); ?>
                 <?php echo form_dropdown(['name' => 'estadoCamNom', 'id' => 'estadoCamNom'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCamNom',['id' => 'lblnro_solicitudCamNom']); ?>
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCamNom', ['id' => 'lblnro_solicitudCamNom']); ?>
                 <?php echo form_input(['name' => 'nro_solicitudCamNom', 'id' => 'nro_solicitudCamNom', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCamNom',['id' => 'lblfecha_solicitudCamNom']); ?>
+                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCamNom', ['id' => 'lblfecha_solicitudCamNom']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_solicitudCamNom',
                   'name' => 'fecha_solicitudCamNom',
@@ -976,11 +1041,11 @@
                 ]); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCamNom',['id' => 'lblnro_resolucionCamNom']); ?>
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCamNom', ['id' => 'lblnro_resolucionCamNom']); ?>
                 <?php echo form_input(['name' => 'nro_resolucionCamNom', 'id' => 'nro_resolucionCamNom', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCamNom',['id' => 'lblfecha_resolucionCamNom']); ?>
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCamNom', ['id' => 'lblfecha_resolucionCamNom']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_resolucionCamNom',
                   'name' => 'fecha_resolucionCamNom',
@@ -990,11 +1055,11 @@
                 ]); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Referencia Cliente', 'referenciaclienteCamNom',['id' => 'lblreferenciaclienteCamNom']); ?>
+                <?php echo form_label('Referencia Cliente', 'referenciaclienteCamNom', ['id' => 'lblreferenciaclienteCamNom']); ?>
                 <?php echo form_input(['name' => 'referenciaclienteCamNom', 'id' => 'referenciaclienteCamNom'], '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Comentario', 'comentarioCamNom',['id' => 'lblcomentarioCamNom']); ?>
+                <?php echo form_label('Comentario', 'comentarioCamNom', ['id' => 'lblcomentarioCamNom']); ?>
                 <?php echo form_textarea(['name' => 'comentarioCamNom', 'id' => 'comentarioCamNom'], '', ['class' => 'form-control']); ?>
               </div>
             </div> <!-- fin step 1-->
@@ -1008,10 +1073,9 @@
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnCamNomAnterior"
-                            class="btn btn-primary pull-right">Añadir Cambio Nombre Anterior</button>
-                          <table id="CamNomAnterioresTbl"
-                            class="ultimate table table-responsive">
+                          <button type="button" id="addbtnCamNomAnterior" class="btn btn-primary pull-right">Añadir
+                            Cambio Nombre Anterior</button>
+                          <table id="CamNomAnterioresTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1038,8 +1102,7 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnCamNomActual" class="btn btn-primary pull-right">Añadir
                             Cambio Nombre Actual</button>
-                          <table id="CamNomActualesTbl"
-                            class="ultimate table table-responsive">
+                          <table id="CamNomActualesTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1065,14 +1128,15 @@
         <button id="camnomfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
- </div>
- <?php echo form_close(); ?>
+  </div>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Cambio de Nombre Anterior Modal -->
-<div class="modal fade" id="CamNomAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="CamNomAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Cambio de Nombre Anterior</h4>
@@ -1082,12 +1146,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietarioscamnomanterior',['id' => 'lblpropietarioscamnomanterior']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietarioscamnomanterior','name'=> 'propietarioscamnomanterior'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietarioscamnomanterior')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietarioscamnomanterior', ['id' => 'lblpropietarioscamnomanterior']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietarioscamnomanterior', 'name' => 'propietarioscamnomanterior'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioscamnomanterior')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -1096,13 +1164,14 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Cambio de Nombre Actual Modal -->
-<div class="modal fade" id="CamNomActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="CamNomActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Cambio de Nombre Actual</h4>
@@ -1112,12 +1181,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietarioscamnomactual',['id' => 'lblpropietarioscamnomactual']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietarioscamnomactual','name'=> 'propietarioscamnomactual'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietarioscamnomactual ')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietarioscamnomactual', ['id' => 'lblpropietarioscamnomactual']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietarioscamnomactual', 'name' => 'propietarioscamnomactual'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioscamnomactual ')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -1126,7 +1199,7 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Cambio de Domicilio -->
@@ -1165,30 +1238,30 @@
               <input type="hidden" id="camdomid">
               <div class="col-md-3">
                 <?php echo form_label('Cliente', 'clienteCamDom'); ?>
-                <?php 
+                <?php
                 $clientes = $select + $clientes;
                 echo form_dropdown(['name' => 'clienteCamDom', 'id' => 'clienteCamDom'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaCamDom',['id' => 'lbloficinaCamDom']); ?>
+                <?php echo form_label('Oficina', 'oficinaCamDom', ['id' => 'lbloficinaCamDom']); ?>
                 <?php echo form_dropdown(['name' => 'oficinaCamDom', 'id' => 'oficinaCamDom'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Staff', 'staffCamDom'); ?>
-                <?php 
+                <?php
                 $responsable = $select + $responsable;
                 echo form_dropdown(['name' => 'staffCamDom', 'id' => 'staffCamDom'], $responsable, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Estado', 'estadoCamDom',['id' => 'lblestadoCamDom']); ?>
+                <?php echo form_label('Estado', 'estadoCamDom', ['id' => 'lblestadoCamDom']); ?>
                 <?php echo form_dropdown(['name' => 'estadoCamDom', 'id' => 'estadoCamDom'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCamDom',['id' => 'lblnro_solicitudCamDom']); ?>
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCamDom', ['id' => 'lblnro_solicitudCamDom']); ?>
                 <?php echo form_input(['name' => 'nro_solicitudCamDom', 'id' => 'nro_solicitudCamDom', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCamDom',['id' => 'lblfecha_solicitudCamDom']); ?>
+                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCamDom', ['id' => 'lblfecha_solicitudCamDom']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_solicitudCamDom',
                   'name' => 'fecha_solicitudCamDom',
@@ -1198,11 +1271,11 @@
                 ]); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCamDom',['id' => 'lblnro_resolucionCamDom']); ?>
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCamDom', ['id' => 'lblnro_resolucionCamDom']); ?>
                 <?php echo form_input(['name' => 'nro_resolucionCamDom', 'id' => 'nro_resolucionCamDom', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
-                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCamDom',['id' => 'lblfecha_resolucionCamDom']); ?>
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCamDom', ['id' => 'lblfecha_resolucionCamDom']); ?>
                 <?php echo form_input([
                   'id' => 'fecha_resolucionCamDom',
                   'name' => 'fecha_resolucionCamDom',
@@ -1212,11 +1285,11 @@
                 ]); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Referencia Cliente', 'referenciaclienteCamDom',['id' => 'lblreferenciaclienteCamDom']); ?>
+                <?php echo form_label('Referencia Cliente', 'referenciaclienteCamDom', ['id' => 'lblreferenciaclienteCamDom']); ?>
                 <?php echo form_input(['name' => 'referenciaclienteCamDom', 'id' => 'referenciaclienteCamDom'], '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Comentario', 'comentarioCamDom',['id' => 'lblcomentarioCamDom']); ?>
+                <?php echo form_label('Comentario', 'comentarioCamDom', ['id' => 'lblcomentarioCamDom']); ?>
                 <?php echo form_textarea(['name' => 'comentarioCamDom', 'id' => 'comentarioCamDom'], '', ['class' => 'form-control']); ?>
               </div>
             </div> <!-- fin step 1-->
@@ -1230,10 +1303,9 @@
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnCamDomAnterior"
-                            class="btn btn-primary pull-right">Añadir Cambio Domicilio Anterior</button>
-                          <table id="CamDomAnterioresTbl"
-                            class="ultimate table table-responsive">
+                          <button type="button" id="addbtnCamDomAnterior" class="btn btn-primary pull-right">Añadir
+                            Cambio Domicilio Anterior</button>
+                          <table id="CamDomAnterioresTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1260,8 +1332,7 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnCamDomActual" class="btn btn-primary pull-right">Añadir
                             Cambio Domicilio Actual</button>
-                          <table id="CamDomActualesTbl"
-                            class="ultimate table table-responsive">
+                          <table id="CamDomActualesTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
                                 <th>Nº</th>
@@ -1287,14 +1358,15 @@
         <button id="camdomfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
- </div>
- <?php echo form_close(); ?>
+  </div>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Cambio de Domicilio Anterior Modal -->
-<div class="modal fade" id="CamDomAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="CamDomAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Cambio de Domicilio Anterior</h4>
@@ -1304,12 +1376,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietarioscamdomanterior',['id' => 'lblpropietarioscamdomanterior']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietarioscamdomanterior','name'=> 'propietarioscamdomanterior'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietarioscamdomanterior')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietarioscamdomanterior', ['id' => 'lblpropietarioscamdomanterior']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietarioscamdomanterior', 'name' => 'propietarioscamdomanterior'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioscamdomanterior')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -1318,13 +1394,14 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Añadir Cambio de Domicilio Actual Modal -->
-<div class="modal fade" id="CamDomActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="CamDomActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Cambio de Domicilio Actual</h4>
@@ -1334,12 +1411,16 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietarioscamdomactual',['id' => 'lblpropietarioscamdomactual']);?>
-                <?php 
-                echo form_dropdown(['id'=> 'propietarioscamdomactual','name'=> 'propietarioscamdomactual'], $solicitantes, '',
-                ['class' => 'form-control','multiple' => 'multiple','selected' => set_value('propietarioscamdomactual ')]);?>
-            </div>
+          <div class="col-md-12">
+            <?php echo form_label('Propietario', 'propietarioscamdomactual', ['id' => 'lblpropietarioscamdomactual']); ?>
+            <?php
+            echo form_dropdown(
+              ['id' => 'propietarioscamdomactual', 'name' => 'propietarioscamdomactual'],
+              $solicitantes,
+              '',
+              ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioscamdomactual ')]
+            ); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -1348,64 +1429,13 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Anexo Modal -->
-<!-- <div class="modal fade" id="anexoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <?php echo form_open("", ['method' => 'POST', 'id' => 'anexoFrm']); ?>
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Anexo</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <?php echo form_label('Tipo Evento', 'tipo_evento'); ?>
-            <?php echo form_dropdown('tipo_evento', $tipo_evento, '', ['class' => 'form-control']); ?>
-          </div>
-          <div class="col-md-12">
-            <?php echo form_label('Comentario', 'evento_comentario'); ?>
-            <?php echo form_textarea('evento_comentario', '', ['class' => 'form-control']); ?>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="anexofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
-      </div>
-    </div>
-  </div>
   <?php echo form_close(); ?>
-</div> -->
+</div>
 
 <!-- Añadir Documento Modal Create -->
 <div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrm']); ?>
+  <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentosFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1417,80 +1447,42 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <?php echo form_label('Descripcion', 'descripcion_archivo'); ?>
+            <?php echo form_label('Descripcion', 'doc_descripcion', ['id' => 'lbldoc_descripcion']); ?>
             <?php echo form_input(['name' => 'doc_descripcion', 'id' => 'doc_descripcion'], '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-12">
-            <?php echo form_label('Comentarios', 'comentario_archivo'); ?>
-            <?php echo form_textarea(['name' => 'comentario_archivo', 'id' => 'comentario_archivo'], '', ['class' => 'form-control']); ?>
+            <?php echo form_label('Comentarios', 'doc_comentario', ['id' => 'lbldoc_comentario']); ?>
+            <?php echo form_textarea(['name' => 'doc_comentario', 'id' => 'doc_comentario'], '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-12">
-            <?php echo form_label('Archivo', 'doc_archivo'); ?>
+            <?php echo form_label('Archivo', 'doc_archivo', ['id' => 'lbldoc_archivo']); ?>
             <?php echo form_input([
               'id' => 'doc_archivo',
               'name' => 'doc_archivo',
               'type' => 'file',
               'class' => 'form-control',
-              'multiple' => 'multiple',
+              //'multiple' => 'multiple',
+              'accept' => 'application/pdf',
             ]); ?>
           </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="documentofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="documentosfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>
   <?php echo form_close(); ?>
-</div>
-
-<!-- Añadir Signo Modal -->
-<div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Documento</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <?php echo form_label('Archivo', 'signo_archivo'); ?>
-            <?php echo form_input([
-              'id' => 'signo_archivo',
-              'name' => 'signo_archivo',
-              'type' => 'file',
-              'class' => 'form-control',
-            ]); ?>
-          </div>
-          <div class="col-md-12">
-            <?php echo form_label('Descripcion', 'descripcion_signo'); ?>
-            <?php echo form_textarea('descripcion_signo', '', ['class' => 'form-control','id' => 'descripcion_signo']); ?>
-          </div>
-          <div class="col-md-12">
-            <?php echo form_label('Comentarios', 'comentario_signo'); ?>
-            <?php echo form_input('comentario_signo', '', ['class' => 'form-control','id' => 'comentario_signo']); ?>
-          </div>
-
-        </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="signofrmsubmit" type="button" class="btn btn-primary" data-dismiss="modal">Añadir</button>
-      </div>
-    </div>
-  </div>
+  <?php echo form_open_multipart("", ['id' => 'doc_id_Frm', 'class' => 'invisible']); ?>
+  <!-- PARA CREAR LOS TYPE FILES DE LOS DOCUMENTOS A AGREGAR -->
+  <div id="docs_invisible" class="invisible"></div>
   <?php echo form_close(); ?>
 </div>
+
 
 <!-- Añadir factura existente -->
-<div class="modal fade" id="facturaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="facturaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <?php echo form_open('', ['name' => "invoiceMarcaFrm", 'id' => "invoiceMarcaFrm"]); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -1503,20 +1495,16 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <select class="form-control" name="invoiceID">
-              <?php foreach ($invoices as $key => $value) { ?>
-                <option value="<?php echo $key; ?>">
-                  <?php echo $value; ?>
-                </option>
-              <?php } ?>
-            </select>
+            <?php echo form_label('Factura', 'facturaId', ['id' => 'lblfacturaId']); ?>
+            <?php
+            $invoices = $select + $invoices;
+            echo form_dropdown('facturaId', $invoices, '', ['class' => 'form-control', 'id' => 'facturaId']); ?>
           </div>
-
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="invoiceMarcaSubmit" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+        <button id="facturaMarcaSubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>

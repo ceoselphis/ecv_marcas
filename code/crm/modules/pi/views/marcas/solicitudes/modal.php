@@ -22,7 +22,7 @@
               'name' => 'signo_archivo',
               'type' => 'file',
               'class' => 'form-control',
-              'accept' => 'application/pdf',
+              'accept' => 'image/png, image/gif, image/jpeg',
             ]); ?>
           </div>
           <div class="col-md-12">

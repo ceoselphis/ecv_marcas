@@ -76,17 +76,17 @@
      */
     $('#signofrmsubmit').on('click', function(e) {
 
-        if ($('#signo_archivo').val() && $('#descripcion_signo').val() && $('#signo_archivo').get(0).files[0].type == 'application/pdf'){
+        if ($('#signo_archivo').val() && $('#descripcion_signo').val() && $('#signo_archivo').get(0).files[0].type == 'image/png' || $("#signo_archivo").get(0).files[0].type == 'image/gif' || $("#signo_archivo").get(0).files[0].type == 'image/jpeg'){
 
             $('#SignoFileName').html( 'Archivo → (' + $('#signo_archivo').get(0).files[0].name + ')');
             $('#DescFileName').html( 'Descripción → (' + $('#descripcion_signo').val() + ')');
             $("#signoModal").modal('hide');
             $("#lblsigno_archivo").css('color', color_lbl);
             $("#lbldescripcion_signo").css('color', color_lbl);
-        }else if ($('#signo_archivo').val() && $('#signo_archivo').get(0).files[0].type != 'application/pdf'){
+        }else if ($('#signo_archivo').val() && $('#signo_archivo').get(0).files[0].type != 'image/png' || $("#signo_archivo").get(0).files[0].type != 'image/gif' || $("#signo_archivo").get(0).files[0].type != 'image/jpeg'){
             $("#lblsigno_archivo").css('color', 'red');
             $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
-            alert_float('danger', 'Solamente se pueden subir archivos PDF');
+            alert_float('danger', 'Solamente se pueden subir imágenes');
         }else{
             $("#lblsigno_archivo").css('color', $('#signo_archivo').val() ? color_lbl : 'red');
             $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');

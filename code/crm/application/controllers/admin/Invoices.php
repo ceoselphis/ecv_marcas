@@ -317,13 +317,16 @@ class Invoices extends AdminController
 
                 $id = $this->invoices_model->add($invoice_data);
                 if ($id) {
-                    set_alert('success', _l('added_successfully', _l('invoice')));
+                    //set_alert('success', _l('added_successfully', _l('invoice')));
                     /*We add the new invoice in the table */
                     if(!empty($marca_id))
                     {
-                        $this->invoices_model->insertMarcaFactura($marca_id, $id, $_SESSION['staffid']);
+                        $this->session->set_flashdata('marca_id',$marca_id);
+                        $this->session->set_flashdata('factId',$id);
+                        $redUrl = admin_url("pi/MarcasSolicitudesController/create");
+                    }else{
+                        $redUrl = admin_url('invoices/list_invoices/' . $id);
                     }
-                    $redUrl = admin_url('invoices/list_invoices/' . $id);
 
                     if (isset($invoice_data['save_and_record_payment'])) {
                         $this->session->set_userdata('record_payment', true);

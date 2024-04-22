@@ -2,29 +2,6 @@
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
     $('#modal-loading').modal('show');
-    /*Inicializamos el localstorage*/
-    localStorage.setItem("clase_niza", JSON.stringify([]));
-    localStorage.setItem("prioridad", JSON.stringify([]));
-    localStorage.setItem("publicacion", JSON.stringify([]));
-    localStorage.setItem('eventos', JSON.stringify([]));
-    localStorage.setItem('tareas', JSON.stringify([]));
-    localStorage.setItem('cesiones', JSON.stringify([]));
-    localStorage.setItem('cesionesanteriores', JSON.stringify([]));
-    localStorage.setItem('cesionesactuales', JSON.stringify([]));
-    localStorage.setItem('licencias', JSON.stringify([]));
-    localStorage.setItem('licenciasanteriores', JSON.stringify([]));
-    localStorage.setItem('licenciasactuales', JSON.stringify([]));
-    localStorage.setItem('fusiones', JSON.stringify([]));
-    localStorage.setItem('fusionesanteriores', JSON.stringify([]));
-    localStorage.setItem('fusionesactuales', JSON.stringify([]));
-    localStorage.setItem('camnom', JSON.stringify([]));
-    localStorage.setItem('camnomanteriores', JSON.stringify([]));
-    localStorage.setItem('camnomactuales', JSON.stringify([]));
-    localStorage.setItem('camdom', JSON.stringify([]));
-    localStorage.setItem('camdomanteriores', JSON.stringify([]));
-    localStorage.setItem('camdomactuales', JSON.stringify([]));
-    
-    localStorage.setItem('facturas', JSON.stringify([]));
 
     
     /* Declaramos las variables de Datatable para iniciaizarlas*/
@@ -48,9 +25,74 @@
     var tblCamDomDT;
     var tblCamDomAnteDT;
     var tblCamDomActDT;
+    var tblDocumentosDT;
+    var tblFacturasDT;
+
+    var invoicesExtra = <?php echo json_encode($invoicesExtra); ?>;
 
     /* Para cambiar el color de los Label  luego de una error*/
     const color_lbl = 'rgb(71 85 105)';
+
+    /* FUNCION PARA HACER ENCODE DE UN ARCHIVO A BASE64 */
+    function setBase64(file) {
+        return new Promise((resolve,reject)=>{
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+            resolve(reader.result)
+        };
+        reader.onerror = reject
+        })
+    }
+    /* FUNCION PARA HACER DECODE DE UN ARCHIVO A BASE64 */
+    const getBase64 = (base64, type, name) =>
+        fetch(base64)
+            .then(res => res.blob())
+            .then((blob) => {
+                return new File([blob], name, { type })
+            })
+   
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES SIGNO                       ********** */
+    /* ####################################################################### */
+
+    /***
+     * funcion para hacer encode y decode a base64 de archivos
+     */
+    document.querySelector('#signo_archivo').addEventListener('change', async(e)=>{
+        
+        /* console.log('Archivo Original', e.target.files[0]);
+        const data = await setBase64(e.target.files[0])
+        console.log('Archivo Base64', data);
+
+        archivo = await getBase64(data, 'application/pdf', 'Archivo.pdf');
+        console.log('Archivo Base64 Decoded', archivo); */
+
+    })
+
+    /***
+     * funcion para guardar el formulario de la clase
+     */
+    $('#signofrmsubmit').on('click', function(e) {
+
+        if ($('#signo_archivo').val() && $('#descripcion_signo').val() && $('#signo_archivo').get(0).files[0].type == 'application/pdf'){
+
+            $('#SignoFileName').html( 'Archivo → (' + $('#signo_archivo').get(0).files[0].name + ')');
+            $('#DescFileName').html( 'Descripción → (' + $('#descripcion_signo').val() + ')');
+            $("#signoModal").modal('hide');
+            $("#lblsigno_archivo").css('color', color_lbl);
+            $("#lbldescripcion_signo").css('color', color_lbl);
+        }else if ($('#signo_archivo').val() && $('#signo_archivo').get(0).files[0].type != 'application/pdf'){
+            $("#lblsigno_archivo").css('color', 'red');
+            $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
+            alert_float('danger', 'Solamente se pueden subir archivos PDF');
+        }else{
+            $("#lblsigno_archivo").css('color', $('#signo_archivo').val() ? color_lbl : 'red');
+            $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir el Signo');
+        }
+    })
 
 
     /* ####################################################################### */
@@ -60,7 +102,7 @@
     /***
      * funcion para obtener la descripcion de la clase
      */
-    $(document).on('change', '#clase_niza', function(e) {
+    $('#clase_niza').on('change', function(e) {
         e.preventDefault();
         var clase_niza = $('#clase_niza').val();
         $.ajax({
@@ -80,7 +122,7 @@
     /***
      * funcion para guardar el formulario de la clase
      */
-    $(document).on('click', '#claseNizaFrmSubmit', function(e) {    
+    $('#claseNizaFrmSubmit').on('click', function(e) {    
         e.preventDefault();
         if ($('#clase_niza').val() && $('#clase_niza_descripcion').val()) {
             var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
@@ -90,7 +132,7 @@
                 'clase_id_name': $("#clase_niza option[value=" + $( "#clase_niza").val() + "]").text(),
                 'descripcion': $('#clase_niza_descripcion').val(),
                 'marcas_id': $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblClaseDT.rows().count()) + "' class='btn btn-danger col-mrg borrarClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='claseNiza_" + (tblClaseDT.rows().count()) + "' class='btn btn-danger col-mrg deleteClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
 
             claseNiza.push(data);
@@ -117,13 +159,13 @@
     /***
      * funcion para borrar una clase
      */
-    $(document).on('click', '.borrarClase', function(e) {
+    $(document).on('click', '.deleteClase', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             claseNiza.length == 1 ? claseNiza = [] : claseNiza.splice(id, 1);
-            localStorage.setItem("clase_niza", JSON.stringify(UpdtIdRow(claseNiza)));
+            localStorage.setItem("clase_niza", JSON.stringify(UpdtIdRow(claseNiza, 'claseNiza_')));
             console.log('claseNiza', JSON.parse(localStorage.getItem("clase_niza")));
             tblClaseDT.clear();
             tblClaseDT.rows.add(JSON.parse(localStorage.getItem("clase_niza")));
@@ -225,7 +267,7 @@
                 'fecha_prioridad': $('#fecha_prioridad').val(),
                 'numero_prioridad': $('#nro_prioridad').val(),
                 'marcas_id': $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblPrioridadDT.rows().count()) + "' class='btn btn-danger col-mrg borrarPrioridad'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='prioridad_" + (tblPrioridadDT.rows().count()) + "' class='btn btn-danger col-mrg deletePrioridad'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             prioridad.push(data);
             console.log('prioridad', prioridad);
@@ -251,13 +293,13 @@
     /***
      * funcion para borrar una Prioridad
      */
-    $(document).on('click', '.borrarPrioridad', function(e) {
+    $(document).on('click', '.deletePrioridad', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var prioridad = JSON.parse(localStorage.getItem("prioridad"));
         if (confirm("¿Esta seguro de eliminar este registro?")) {
             prioridad.length == 1 ? prioridad = [] : prioridad.splice(id, 1);
-            localStorage.setItem("prioridad", JSON.stringify(UpdtIdRow(prioridad)));
+            localStorage.setItem("prioridad", JSON.stringify(UpdtIdRow(prioridad, 'prioridad_')));
             console.log('prioridad', JSON.parse(localStorage.getItem("prioridad")));
             tblPrioridadDT.clear();
             tblPrioridadDT.rows.add(JSON.parse(localStorage.getItem("prioridad")));
@@ -356,7 +398,7 @@
     /***
      * funcion para guardar el formulario de las Publicaciones
      */
-    $(document).on('click', "#publicacionfrmsubmit", function(e) {
+    $('#publicacionfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if ($('#fecha_publicacion').val() && $('#tipo_publicacion').val() && $('#boletin_publicacion').val()
@@ -373,7 +415,7 @@
                 "tomo": $('#tomo_publicacion').val(),
                 "pagina": $('#pag_publicacion').val(),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblPublicacionDT.rows().count()) + "' class='btn btn-danger col-mrg deletePublicacion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='publicacion_" + (tblPublicacionDT.rows().count()) + "' class='btn btn-danger col-mrg deletePublicacion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             publicacion.push(data);
             console.log('publicacion', publicacion);
@@ -404,11 +446,11 @@
     $(document).on('click', '.deletePublicacion', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var publicacion = JSON.parse(localStorage.getItem("publicacion"));
         if (confirm("¿Desea eliminar este registro?")) {
             publicacion.length == 1 ? publicacion = [] : publicacion.splice(id, 1);
-            localStorage.setItem("publicacion", JSON.stringify(UpdtIdRow(publicacion)));
+            localStorage.setItem("publicacion", JSON.stringify(UpdtIdRow(publicacion, 'publicacion_')));
             console.log('publicacion', JSON.parse(localStorage.getItem("publicacion")));
             tblPublicacionDT.clear();
             tblPublicacionDT.rows.add(JSON.parse(localStorage.getItem("publicacion")));
@@ -526,7 +568,7 @@
     /***
      * funcion para guardar el formulario de los Eventos
      */
-    $(document).on('click', '#eventosfrmsubmit', function(e) {
+    $('#eventosfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if ($('#tipo_evento').val() && $('#fecha_evento').val() && $('#evento_comentario').val()) {
@@ -539,7 +581,7 @@
                 'tipo_evento_name': $('#tipo_evento option[value=' + $('#tipo_evento').val() + ']').text(),
                 "comentarios": $('#evento_comentario').val(),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblEventosDT.rows().count()) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='eventos_" + (tblEventosDT.rows().count()) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             eventos.push(data);
             console.log('eventos', eventos);
@@ -569,11 +611,11 @@
      */
     $(document).on('click', '.deleteEvento', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var eventos = JSON.parse(localStorage.getItem("eventos"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             eventos.length == 1 ? eventos = [] : eventos.splice(id, 1);
-            localStorage.setItem("eventos", JSON.stringify(UpdtIdRow(eventos)));
+            localStorage.setItem("eventos", JSON.stringify(UpdtIdRow(eventos, 'eventos_')));
             console.log('eventos', JSON.parse(localStorage.getItem("eventos")));
             tblEventosDT.clear();
             tblEventosDT.rows.add(JSON.parse(localStorage.getItem("eventos")));
@@ -671,7 +713,7 @@
     /***
      * funcion para guardar el formulario de las Tareas
      */
-    $(document).on('click', '#tareasfrmsubmit', function(e) {
+    $('#tareasfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if ($('#fecha_tarea').val() && $('#project_id').val() && $('#tipo_tarea').val()
@@ -687,7 +729,7 @@
                 'tipo_tareas_id_name': $('#tipo_tarea option[value=' + $('#tipo_tarea').val() + ']').text(),
                 "descripcion": $('#descripcion').val(),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblTareasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteTarea'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='tareas_" + (tblTareasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteTarea'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             tareas.push(data);
             console.log('tareas', tareas);
@@ -717,11 +759,11 @@
      */
     $(document).on('click', '.deleteTarea', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var tareas = JSON.parse(localStorage.getItem("tareas"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             tareas.length == 1 ? tareas = [] : tareas.splice(id, 1);
-            localStorage.setItem("tareas", JSON.stringify(UpdtIdRow(tareas)));
+            localStorage.setItem("tareas", JSON.stringify(UpdtIdRow(tareas, 'tareas_')));
             console.log('tareas', JSON.parse(localStorage.getItem("tareas")));
             tblTareasDT.clear();
             tblTareasDT.rows.add(JSON.parse(localStorage.getItem("tareas")));
@@ -822,6 +864,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES CESION                      ********** */
     /* ####################################################################### */
@@ -829,7 +872,7 @@
     /***
      * funcion para guardar el formulario de las Cesiones
      */
-    $(document).on('click', '#cesionesfrmsubmit', function(e) {
+    $('#cesionesfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         let start = new Date();
@@ -866,7 +909,7 @@
                 "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
                 "cesionesactuales": localStorage.getItem("cesionesactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesiones_" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             end = new Date(); console.log(`Asignada la Data en ${end.getTime() - start.getTime()} msec`); start = new Date();
             cesiones.push(data);
@@ -903,11 +946,11 @@
      */
     $(document).on('click', '.deleteCesion', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var cesiones = JSON.parse(localStorage.getItem("cesiones"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             cesiones.length == 1 ? cesiones = [] : cesiones.splice(id, 1);
-            localStorage.setItem("cesiones", JSON.stringify(UpdtIdRow(cesiones)));
+            localStorage.setItem("cesiones", JSON.stringify(UpdtIdRow(cesiones, 'cesiones_')));
             console.log('cesiones', JSON.parse(localStorage.getItem("cesiones")));
             tblCesionesDT.clear();
             tblCesionesDT.rows.add(JSON.parse(localStorage.getItem("cesiones")));
@@ -1090,6 +1133,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES CESION ANTERIOR             ********** */
     /* ####################################################################### */
@@ -1097,7 +1141,7 @@
     /***
      * funcion para guardar el formulario de las Cesiones Anteriores
      */
-    $(document).on('click', '#AñadirCesionAnteriorfrmsubmit', function(e) {
+    $('#AñadirCesionAnteriorfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioscesionanterior').val() || []) == '')) 
@@ -1113,7 +1157,7 @@
                         'cedente_id_name': $(this).text(),
                         "tipo_cedente": 1,
                         "cesion_id": tblCesionesDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesionesanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     cesionesanteriores.push(data);
                     rowCount++;
@@ -1143,11 +1187,11 @@
      */
     $(document).on('click', '.deleteCesionAnterior', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var cesionesanteriores = JSON.parse(localStorage.getItem("cesionesanteriores"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             cesionesanteriores.length == 1 ? cesionesanteriores = [] : cesionesanteriores.splice(id, 1);
-            localStorage.setItem("cesionesanteriores", JSON.stringify(UpdtIdRow(cesionesanteriores)));
+            localStorage.setItem("cesionesanteriores", JSON.stringify(UpdtIdRow(cesionesanteriores, 'cesionesanteriores_')));
             console.log('cesionesanteriores', JSON.parse(localStorage.getItem("cesionesanteriores")));
             tblCesionesAnteDT.clear();
             tblCesionesAnteDT.rows.add(JSON.parse(localStorage.getItem("cesionesanteriores")));
@@ -1159,7 +1203,7 @@
     /***
      * funcion para abrir el Modal Cesion Anterior
      */
-    $(document).on('click', '#addbtnCesionAnterior', function(e) {
+    $('#addbtnCesionAnterior').on('click', function(e) {
         $("#CesionAnteriorModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -1227,6 +1271,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES CESION ACTUAL               ********** */
     /* ####################################################################### */
@@ -1234,7 +1279,7 @@
     /***
      * funcion para guardar el formulario de las Cesiones Actuales
      */
-    $(document).on('click', '#AñadirCesionActualfrmsubmit', function(e) {
+    $('#AñadirCesionActualfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioscesionactual').val() || []) == '')) 
@@ -1250,7 +1295,7 @@
                     'cedente_id_name': $(this).text(),
                     "tipo_cedente": 2,
                     "cesion_id": tblCesionesDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesionesactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     cesionesactuales.push(data);
                     rowCount++;
@@ -1281,11 +1326,11 @@
      */
     $(document).on('click', '.deleteCesionActual', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var cesionesactuales = JSON.parse(localStorage.getItem("cesionesactuales"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             cesionesactuales.length == 1 ? cesionesactuales = [] : cesionesactuales.splice(id, 1);
-            localStorage.setItem("cesionesactuales", JSON.stringify(UpdtIdRow(cesionesactuales)));
+            localStorage.setItem("cesionesactuales", JSON.stringify(UpdtIdRow(cesionesactuales, 'cesionesactuales_')));
             console.log('cesionesactuales', JSON.parse(localStorage.getItem("cesionesactuales")));
             tblCesionesActDT.clear();
             tblCesionesActDT.rows.add(JSON.parse(localStorage.getItem("cesionesactuales")));
@@ -1297,7 +1342,7 @@
     /***
      * funcion para abrir el Modal Cesion Actual
      */
-    $(document).on('click', '#addbtnCesionActual', function(e) {
+    $('#addbtnCesionActual').on('click', function(e) {
         $("#CesionActualModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -1365,6 +1410,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES LICENCIA                    ********** */
     /* ####################################################################### */
@@ -1372,7 +1418,7 @@
     /***
      * funcion para guardar el formulario de las Licencias
      */
-    $(document).on('click', '#licenciasfrmsubmit', function(e) {
+    $('#licenciasfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if ($('#oficinaLicencia').val() && 
@@ -1406,7 +1452,7 @@
                 "licenciasanteriores": localStorage.getItem("licenciasanteriores"),
                 "licenciasactuales": localStorage.getItem("licenciasactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblLicenciasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteLicencia'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licencias_" + (tblLicenciasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteLicencia'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             licencias.push(data);
             console.log('licencias', licencias);
@@ -1442,11 +1488,11 @@
      */
     $(document).on('click', '.deleteLicencia', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var licencias = JSON.parse(localStorage.getItem("licencias"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             licencias.length == 1 ? licencias = [] : licencias.splice(id, 1);
-            localStorage.setItem("licencias", JSON.stringify(UpdtIdRow(licencias)));
+            localStorage.setItem("licencias", JSON.stringify(UpdtIdRow(licencias, 'licencias_')));
             console.log('licencias', JSON.parse(localStorage.getItem("licencias")));
             tblLicenciasDT.clear();
             tblLicenciasDT.rows.add(JSON.parse(localStorage.getItem("licencias")));
@@ -1629,6 +1675,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES LICENCIA ANTERIOR           ********** */
     /* ####################################################################### */
@@ -1636,7 +1683,7 @@
     /***
      * funcion para guardar el formulario de las Licencias Anteriores
      */
-    $(document).on('click', '#AñadirLicenciaAnteriorfrmsubmit', function(e) {
+    $('#AñadirLicenciaAnteriorfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioslicenciaanterior').val() || []) == '')) 
@@ -1652,7 +1699,7 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_licenciante": 1,
                         "licencia_id": tblLicenciasDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licenciasanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     licenciasanteriores.push(data);
                     rowCount++;
@@ -1682,11 +1729,11 @@
      */
     $(document).on('click', '.deleteLicenciaAnterior', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var licenciasanteriores = JSON.parse(localStorage.getItem("licenciasanteriores"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             licenciasanteriores.length == 1 ? licenciasanteriores = [] : licenciasanteriores.splice(id, 1);
-            localStorage.setItem("licenciasanteriores", JSON.stringify(UpdtIdRow(licenciasanteriores)));
+            localStorage.setItem("licenciasanteriores", JSON.stringify(UpdtIdRow(licenciasanteriores, 'licenciasanteriores_')));
             console.log('licenciasanteriores', JSON.parse(localStorage.getItem("licenciasanteriores")));
             tblLicenciasAnteDT.clear();
             tblLicenciasAnteDT.rows.add(JSON.parse(localStorage.getItem("licenciasanteriores")));
@@ -1698,7 +1745,7 @@
     /***
      * funcion para abrir el Modal Licencia Anterior
      */
-    $(document).on('click', '#addbtnLicenciaAnterior', function(e) {
+    $('#addbtnLicenciaAnterior').on('click', function(e) {
         $("#LicenciaAnteriorModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -1766,6 +1813,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES LICENCIA ACTUAL             ********** */
     /* ####################################################################### */
@@ -1773,7 +1821,7 @@
     /***
      * funcion para guardar el formulario de las Licencias Actuales
      */
-    $(document).on('click', '#AñadirLicenciaActualfrmsubmit', function(e) {
+    $('#AñadirLicenciaActualfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioslicenciaactual').val() || []) == '')) 
@@ -1789,7 +1837,7 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_licenciante": 2,
                         "licencia_id": tblLicenciasDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licenciasactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     licenciasactuales.push(data);
                     rowCount++;
@@ -1819,11 +1867,11 @@
      */
     $(document).on('click', '.deleteLicenciaActual', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var licenciasactuales = JSON.parse(localStorage.getItem("licenciasactuales"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             licenciasactuales.length == 1 ? licenciasactuales = [] : licenciasactuales.splice(id, 1);
-            localStorage.setItem("licenciasactuales", JSON.stringify(UpdtIdRow(licenciasactuales)));
+            localStorage.setItem("licenciasactuales", JSON.stringify(UpdtIdRow(licenciasactuales, 'licenciasactuales_')));
             console.log('licenciasactuales', JSON.parse(localStorage.getItem("licenciasactuales")));
             tblLicenciasActDT.clear();
             tblLicenciasActDT.rows.add(JSON.parse(localStorage.getItem("licenciasactuales")));
@@ -1835,7 +1883,7 @@
     /***
      * funcion para abrir el Modal Licencia Actual
      */
-    $(document).on('click', '#addbtnLicenciaActual', function(e) {
+    $('#addbtnLicenciaActual').on('click', function(e) {
         $("#LicenciaActualModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -1903,6 +1951,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES FUSION                      ********** */
     /* ####################################################################### */
@@ -1910,7 +1959,7 @@
     /***
      * funcion para guardar el formulario de las Fusiones
      */
-    $(document).on('click', '#fusionesfrmsubmit', function(e) {
+    $('#fusionesfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if ($('#oficinaFusion').val() && 
@@ -1944,7 +1993,7 @@
                 "fusionesanteriores": localStorage.getItem("fusionesanteriores"),
                 "fusionesactuales": localStorage.getItem("fusionesactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblFusionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFusion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusiones_" + (tblFusionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFusion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             fusiones.push(data);
             console.log('fusiones', fusiones);
@@ -1980,11 +2029,11 @@
      */
     $(document).on('click', '.deleteFusion', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var fusiones = JSON.parse(localStorage.getItem("fusiones"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             fusiones.length == 1 ? fusiones = [] : fusiones.splice(id, 1);
-            localStorage.setItem("fusiones", JSON.stringify(UpdtIdRow(fusiones)));
+            localStorage.setItem("fusiones", JSON.stringify(UpdtIdRow(fusiones, 'fusiones_')));
             console.log('fusiones', JSON.parse(localStorage.getItem("fusiones")));
             tblFusionesDT.clear();
             tblFusionesDT.rows.add(JSON.parse(localStorage.getItem("fusiones")));
@@ -2167,6 +2216,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES FUSION ANTERIOR             ********** */
     /* ####################################################################### */
@@ -2174,7 +2224,7 @@
     /***
      * funcion para guardar el formulario de las Fusiones Anteriores
      */
-    $(document).on('click', '#AñadirFusionAnteriorfrmsubmit', function(e) {
+    $('#AñadirFusionAnteriorfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietariosfusionanterior').val() || []) == '')) 
@@ -2190,7 +2240,7 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_participante": 1,
                         "fusion_id": tblCesionesDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusionesanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     fusionesanteriores.push(data);
                     rowCount++;
@@ -2220,11 +2270,11 @@
      */
     $(document).on('click', '.deleteFusionAnterior', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var fusionesanteriores = JSON.parse(localStorage.getItem("fusionesanteriores"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             fusionesanteriores.length == 1 ? fusionesanteriores = [] : fusionesanteriores.splice(id, 1);
-            localStorage.setItem("fusionesanteriores", JSON.stringify(UpdtIdRow(fusionesanteriores)));
+            localStorage.setItem("fusionesanteriores", JSON.stringify(UpdtIdRow(fusionesanteriores, 'fusionesanteriores_')));
             console.log('fusionesanteriores', JSON.parse(localStorage.getItem("fusionesanteriores")));
             tblFusionesAnteDT.clear();
             tblFusionesAnteDT.rows.add(JSON.parse(localStorage.getItem("fusionesanteriores")));
@@ -2236,7 +2286,7 @@
     /***
      * funcion para abrir el Modal Fusion Anterior
      */
-    $(document).on('click', '#addbtnFusionAnterior', function(e) {
+    $('#addbtnFusionAnterior').on('click', function(e) {
         $("#FusionAnteriorModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -2304,6 +2354,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES FUSION ACTUAL               ********** */
     /* ####################################################################### */
@@ -2311,7 +2362,7 @@
     /***
      * funcion para guardar el formulario de las fusiones Actuales
      */
-    $(document).on('click', '#AñadirFusionActualfrmsubmit', function(e) {
+    $('#AñadirFusionActualfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietariosfusionactual').val() || []) == '')) 
@@ -2327,7 +2378,7 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_participante": 2,
                         "fusion_id": tblFusionesDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusionesactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     fusionesactuales.push(data);
                     rowCount++;
@@ -2358,11 +2409,11 @@
      */
     $(document).on('click', '.deleteFusionActual', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var fusionesactuales = JSON.parse(localStorage.getItem("fusionesactuales"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             fusionesactuales.length == 1 ? fusionesactuales = [] : fusionesactuales.splice(id, 1);
-            localStorage.setItem("fusionesactuales", JSON.stringify(UpdtIdRow(fusionesactuales)));
+            localStorage.setItem("fusionesactuales", JSON.stringify(UpdtIdRow(fusionesactuales, 'fusionesactuales_')));
             console.log('fusionesactuales', JSON.parse(localStorage.getItem("fusionesactuales")));
             tblFusionesActDT.clear();
             tblFusionesActDT.rows.add(JSON.parse(localStorage.getItem("fusionesactuales")));
@@ -2374,7 +2425,7 @@
     /***
      * funcion para abrir el Modal Fusion Actual
      */
-    $(document).on('click', '#addbtnFusionActual', function(e) {
+    $('#addbtnFusionActual').on('click', function(e) {
         $("#FusionActualModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -2442,6 +2493,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********             FUNCIONES CAMBIO DE NOMBRE            ********** */
     /* ####################################################################### */
@@ -2449,7 +2501,7 @@
     /***
      * funcion para guardar el formulario de los Cambios de Nombre
      */
-    $(document).on('click', '#camnomfrmsubmit', function(e) {
+    $('#camnomfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if ($('#oficinaCamNom').val() && 
@@ -2483,7 +2535,7 @@
                 "camnomanteriores": localStorage.getItem("camnomanteriores"),
                 "camnomactuales": localStorage.getItem("camnomactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblCamNomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamNom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnom_" + (tblCamNomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamNom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             camnom.push(data);
             console.log('camnom', camnom);
@@ -2519,11 +2571,11 @@
      */
     $(document).on('click', '.deleteCamNom', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var camnom = JSON.parse(localStorage.getItem("camnom"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             camnom.length == 1 ? camnom = [] : camnom.splice(id, 1);
-            localStorage.setItem("camnom", JSON.stringify(UpdtIdRow(camnom)));
+            localStorage.setItem("camnom", JSON.stringify(UpdtIdRow(camnom, 'camnom_')));
             console.log('camnom', JSON.parse(localStorage.getItem("camnom")));
             tblCamNomDT.clear();
             tblCamNomDT.rows.add(JSON.parse(localStorage.getItem("camnom")));
@@ -2706,6 +2758,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********       FUNCIONES CAMBIO DE NOMBRE ANTERIOR         ********** */
     /* ####################################################################### */
@@ -2713,7 +2766,7 @@
     /***
      * funcion para guardar el formulario de los Cambios de Nombre Anteriores
      */
-    $(document).on('click', '#AñadirCamNomAnteriorfrmsubmit', function(e) {
+    $('#AñadirCamNomAnteriorfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioscamnomanterior').val() || []) == '')) 
@@ -2729,7 +2782,7 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_nombre": 1,
                         "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnomanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     camnomanteriores.push(data);
                     rowCount++;
@@ -2759,11 +2812,11 @@
      */
     $(document).on('click', '.deleteCamNomAnterior', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var camnomanteriores = JSON.parse(localStorage.getItem("camnomanteriores"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             camnomanteriores.length == 1 ? camnomanteriores = [] : camnomanteriores.splice(id, 1);
-            localStorage.setItem("camnomanteriores", JSON.stringify(UpdtIdRow(camnomanteriores)));
+            localStorage.setItem("camnomanteriores", JSON.stringify(UpdtIdRow(camnomanteriores, 'camnomanteriores_')));
             console.log('camnomanteriores', JSON.parse(localStorage.getItem("camnomanteriores")));
             tblCamNomAnteDT.clear();
             tblCamNomAnteDT.rows.add(JSON.parse(localStorage.getItem("camnomanteriores")));
@@ -2775,7 +2828,7 @@
     /***
      * funcion para abrir el Modal CamNom Anterior
      */
-    $(document).on('click', '#addbtnCamNomAnterior', function(e) {
+    $('#addbtnCamNomAnterior').on('click', function(e) {
         $("#CamNomAnteriorModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -2843,6 +2896,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********       FUNCIONES CAMBIO DE NOMBRE ACTUAL           ********** */
     /* ####################################################################### */
@@ -2850,7 +2904,7 @@
     /***
      * funcion para guardar el formulario de los Cambios de Nombre Actuales
      */
-    $(document).on('click', '#AñadirCamNomActualfrmsubmit', function(e) {
+    $('#AñadirCamNomActualfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioscamnomactual').val() || []) == '')) 
@@ -2866,7 +2920,7 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_nombre": 2,
                         "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnomactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     camnomactuales.push(data);
                     rowCount++;
@@ -2896,11 +2950,11 @@
      */
     $(document).on('click', '.deleteCamNomActual', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var camnomactuales = JSON.parse(localStorage.getItem("camnomactuales"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             camnomactuales.length == 1 ? camnomactuales = [] : camnomactuales.splice(id, 1);
-            localStorage.setItem("camnomactuales", JSON.stringify(UpdtIdRow(camnomactuales)));
+            localStorage.setItem("camnomactuales", JSON.stringify(UpdtIdRow(camnomactuales, 'camnomactuales_')));
             console.log('camnomactuales', JSON.parse(localStorage.getItem("camnomactuales")));
             tblCamNomActDT.clear();
             tblCamNomActDT.rows.add(JSON.parse(localStorage.getItem("camnomactuales")));
@@ -2912,7 +2966,7 @@
     /***
      * funcion para abrir el Modal CamNom Actual
      */
-    $(document).on('click', '#addbtnCamNomActual', function(e) {
+    $('#addbtnCamNomActual').on('click', function(e) {
         $("#CamNomActualModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -2980,6 +3034,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********          FUNCIONES CAMBIO DE DOMICILIO            ********** */
     /* ####################################################################### */
@@ -2987,7 +3042,7 @@
     /***
      * funcion para guardar el formulario de los Cambios de Domicilio
      */
-    $(document).on('click', '#camdomfrmsubmit', function(e) {
+    $('#camdomfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if ($('#oficinaCamDom').val() && 
@@ -3021,7 +3076,7 @@
                 "camdomanteriores": localStorage.getItem("camdomanteriores"),
                 "camdomactuales": localStorage.getItem("camdomactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             camdom.push(data);
             console.log('camdom', camdom);
@@ -3057,11 +3112,11 @@
      */
     $(document).on('click', '.deleteCamDom', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var camdom = JSON.parse(localStorage.getItem("camdom"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             camdom.length == 1 ? camdom = [] : camdom.splice(id, 1);
-            localStorage.setItem("camdom", JSON.stringify(UpdtIdRow(camdom)));
+            localStorage.setItem("camdom", JSON.stringify(UpdtIdRow(camdom, 'camdom_')));
             console.log('camdom', JSON.parse(localStorage.getItem("camdom")));
             tblCamDomDT.clear();
             tblCamDomDT.rows.add(JSON.parse(localStorage.getItem("camdom")));
@@ -3244,6 +3299,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********       FUNCIONES CAMBIO DE DOMICILIO ANTERIOR         ********** */
     /* ####################################################################### */
@@ -3251,7 +3307,7 @@
     /***
      * funcion para guardar el formulario de los Cambios de Domicilio Anteriores
      */
-    $(document).on('click', '#AñadirCamDomAnteriorfrmsubmit', function(e) {
+    $('#AñadirCamDomAnteriorfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioscamdomanterior').val() || []) == '')) 
@@ -3267,7 +3323,7 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_domicilio": 1,
                         "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdomanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     camdomanteriores.push(data);
                     rowCount++;
@@ -3297,11 +3353,11 @@
      */
     $(document).on('click', '.deleteCamDomAnterior', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var camdomanteriores = JSON.parse(localStorage.getItem("camdomanteriores"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             camdomanteriores.length == 1 ? camdomanteriores = [] : camdomanteriores.splice(id, 1);
-            localStorage.setItem("camdomanteriores", JSON.stringify(UpdtIdRow(camdomanteriores)));
+            localStorage.setItem("camdomanteriores", JSON.stringify(UpdtIdRow(camdomanteriores, 'camdomanteriores_')));
             console.log('camdomanteriores', JSON.parse(localStorage.getItem("camdomanteriores")));
             tblCamDomAnteDT.clear();
             tblCamDomAnteDT.rows.add(JSON.parse(localStorage.getItem("camdomanteriores")));
@@ -3313,7 +3369,7 @@
     /***
      * funcion para abrir el Modal CamDom Anterior
      */
-    $(document).on('click', '#addbtnCamDomAnterior', function(e) {
+    $('#addbtnCamDomAnterior').on('click', function(e) {
         $("#CamDomAnteriorModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -3381,6 +3437,7 @@
     }
 
 
+
     /* ####################################################################### */
     /* **********       FUNCIONES CAMBIO DE DOMICILIO ACTUAL           ********** */
     /* ####################################################################### */
@@ -3388,7 +3445,7 @@
     /***
      * funcion para guardar el formulario de los Cambios de Domicilio Actuales
      */
-    $(document).on('click', '#AñadirCamDomActualfrmsubmit', function(e) {
+    $('#AñadirCamDomActualfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioscamdomactual').val() || []) == '')) 
@@ -3404,13 +3461,14 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_domicilio": 2,
                         "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdomactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                     }
                     camdomactuales.push(data);
                     rowCount++;
                 });
             });
             console.log('camdomactuales', camdomactuales);
+
             try {
                 $("#CamDomActualModal").modal('hide');
                 localStorage.setItem("camdomactuales", JSON.stringify(camdomactuales));
@@ -3434,11 +3492,11 @@
      */
     $(document).on('click', '.deleteCamDomActual', function(e) {
         e.preventDefault();
-        var id = parseInt($(this).attr('id'));
+        var id = parseInt($(this).attr('id').split('_')[1]);
         var camdomactuales = JSON.parse(localStorage.getItem("camdomactuales"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
             camdomactuales.length == 1 ? camdomactuales = [] : camdomactuales.splice(id, 1);
-            localStorage.setItem("camdomactuales", JSON.stringify(UpdtIdRow(camdomactuales)));
+            localStorage.setItem("camdomactuales", JSON.stringify(UpdtIdRow(camdomactuales, 'camdomactuales_')));
             console.log('camdomactuales', JSON.parse(localStorage.getItem("camdomactuales")));
             tblCamDomActDT.clear();
             tblCamDomActDT.rows.add(JSON.parse(localStorage.getItem("camdomactuales")));
@@ -3450,7 +3508,7 @@
     /***
      * funcion para abrir el Modal CamDom Actual
      */
-    $(document).on('click', '#addbtnCamDomActual', function(e) {
+    $('#addbtnCamDomActual').on('click', function(e) {
         $("#CamDomActualModal").modal('show');
         //$("#AddCesion").modal('hide');
     })
@@ -3519,9 +3577,343 @@
 
 
 
+    /* ####################################################################### */
+    /* **********             FUNCIONES DOCUMENTOS                  ********** */
+    /* ####################################################################### */
+
+    /***
+     * funcion para guardar el formulario de los documentos
+     */
+    $("#documentosfrmsubmit").on('click', function(e) {
+        e.preventDefault();
+        if ($('#doc_descripcion').val() && $('#doc_comentario').val()
+            && $('#doc_archivo').val() && $('#doc_archivo').get(0).files[0].type == 'application/pdf') {
+                
+            documentos = JSON.parse(localStorage.getItem('documentos'));
+            rowCount = tblDocumentosDT.rows().count();
+            data = {
+                'idRow': rowCount + 1,
+                'descripcion': $('#doc_descripcion').val(),
+                'comentarios': $('#doc_comentario').val(),
+                'path': $('#doc_archivo').get(0).files[0].name,
+                'marcas_id': $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='documentos_" + (rowCount) + "' class='btn btn-danger col-mrg deleteDocumento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+            /* Creamos un elemento input file duplicado del original para el archivo seleccionado */
+            var inputDoc = $('#doc_archivo').clone( true );
+            inputDoc.attr('id', 'doc_archivo_' + (rowCount + 1));
+            $('#docs_invisible').append( inputDoc );
+            
+            documentos.push(data);
+            console.log('documentos', documentos);
+            try {
+                localStorage.setItem("documentos", JSON.stringify(documentos));
+                tblDocumentosDT.clear();
+                tblDocumentosDT.rows.add(JSON.parse(localStorage.getItem("documentos")));
+                tblDocumentosDT.columns.adjust().draw();
+                ResetTablaDocumento();
+                $("#docModal").modal('hide');
+                alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+        }else if ($('#doc_archivo').val() && $('#doc_archivo').get(0).files[0].type != 'application/pdf'){
+            $("#lbldoc_archivo").css('color', 'red');
+            $("#lbldoc_descripcion").css('color', $('#doc_descripcion').val() ? color_lbl : 'red');
+            $("#lbldoc_comentario").css('color', $('#doc_comentario').val() ? color_lbl : 'red');
+            alert_float('danger', 'Solamente se pueden subir archivos PDF');
+        }else{
+            $("#lbldoc_descripcion").css('color', $('#doc_descripcion').val() ? color_lbl : 'red');
+            $("#lbldoc_comentario").css('color', $('#doc_comentario').val() ? color_lbl : 'red');
+            $("#lbldoc_archivo").css('color', $('#doc_archivo').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir el Documento');
+        }
+    });
+
+    /***
+     * funcion para borrar un Documento
+     */
+    $(document).on('click', '.deleteDocumento', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var documentos = JSON.parse(localStorage.getItem("documentos"));
+        if (confirm("¿Esta seguro de eliminar este registro?")) {
+            //elimino el doc hidden
+            $('#doc_archivo_' + documentos[id].idRow).remove();
+            documentos.length == 1 ? documentos = [] : documentos.splice(id, 1);
+            localStorage.setItem("documentos", JSON.stringify(UpdtIdRowDoc(documentos, 'documentos_')));
+            console.log('DIV', $('#docs_invisible'));
+            console.log('documentos', JSON.parse(localStorage.getItem("documentos")));
+            tblDocumentosDT.clear();
+            tblDocumentosDT.rows.add(JSON.parse(localStorage.getItem("documentos")));
+            tblDocumentosDT.columns.adjust().draw();
+            alert_float('success', 'Documento eliminado exitosamente');
+        }
+     });
+
+    /***
+     * funcion que se ejecuta al cerrar el Modal
+     */
+    $('#docModal').on('hidden.bs.modal', function (e) {
+        ResetTablaDocumento();
+    })
+
+    /***
+     * funcion que hace reset del Modal de Documento
+     */
+    function ResetTablaDocumento() {
+        $("#documentosFrm")[0].reset();
+        $("#lbldoc_descripcion").css('color', color_lbl);
+        $("#lbldoc_comentario").css('color', color_lbl);
+        $("#lbldoc_archivo").css('color', color_lbl);
+    }
+
+    /***
+     * funcion que actualiza el IdRow de la tabla Documentos
+     */
+    function UpdtIdRowDoc(tablaDT){
+        jQuery.each(tablaDT, function(index, item) {
+            //cambio el ID del input file hidden con el nuevo ID según el idRow
+            $('#doc_archivo_' + item.idRow).attr('id', 'doc_archivo_' + (index + 1)); 
+            item.acciones = item.acciones.replace("button id='documentos_" + (item.idRow-1) +"'", "button id='documentos_" + index +"'");
+            item.idRow = index + 1;
+        });
+        return tablaDT;
+    }
+
+    /***
+     * funcion que configura el Datatable de las Documento
+     */
+    function TablaDocumento() {
+        table = JSON.parse(localStorage.getItem("documentos"));
+        tblDocumentosDT = 
+        new $("#DocTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: table,
+            destroy: true,
+            dataSrc: '',
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '25%', targets: 1 },
+                { width: '30%', targets: 2 },
+                { width: '30%', targets: 3 },
+                { width: '5%', targets: 4 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'descripcion',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'comentarios',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'path',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                },
+            ],
+            width: "100%"
+        });
+    }
 
 
 
+    /* ####################################################################### */
+    /* **********             FUNCIONES FACTURAS                    ********** */
+    /* ####################################################################### */
+
+    /***
+     * funcion para agregar una nueva factura
+     */
+    $(document).on('click', '.newfact', function(e) {
+
+        if (!confirm('Archivos de Signo y Documentos deberá agregarlos nuevamente. ¿Está seguro que desea continuar?')) {
+                e.preventDefault();
+        }else{
+            /* Guardamos la info de los forms dentro del localStorage */
+            const Formulario = $('#solicitudfrm');
+            const data  = new FormData(Formulario[0]);
+            const formJSON  = Object.fromEntries(data.entries());
+            formJSON.topics = data.getAll("topics");
+            formJSON.pais_id = $('#pais_id').val();
+            formJSON.solicitantes_id = $('#solicitantes_id').val();
+            JSONresults = JSON.stringify(formJSON, null, 2);
+            localStorage.setItem("solicitudfrm", JSONresults);
+            console.log('formLocalstorage', JSON.parse(localStorage.getItem('solicitudfrm')));
+        }
+    })
+
+    /***
+     * funcion para guardar el formulario de Facturas
+     */
+    $("#facturaMarcaSubmit").on('click', function(e) {
+        e.preventDefault();
+        if ($('#facturaId').val()) {
+            var facturas = JSON.parse(localStorage.getItem("facturas"));
+            var factDet = (invoicesExtra) ? invoicesExtra.find( record => record.id === $('#facturaId').val()) : '';
+            console.log('factDet', factDet);
+            factFecha = (factDet) ? factDet.date : '';
+            factStatus = (factDet) ? factDet.status : '';
+            
+            var data = {
+                'idRow': tblFacturasDT.rows().count() + 1,
+                'facturas_id': $('#facturaId').val(),
+                'factNum': $("#facturaId option[value=" + $( "#facturaId").val() + "]").text(),
+                "factFecha": factFecha,
+                'factEstatus': factStatus,
+                'marcas_id': $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='facturas_" + (tblFacturasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFactura'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+
+            facturas.push(data);
+            console.log('facturas', facturas);
+            try {
+                localStorage.setItem("facturas", JSON.stringify(facturas));
+                tblFacturasDT.clear();
+                tblFacturasDT.rows.add(JSON.parse(localStorage.getItem("facturas")));
+                tblFacturasDT.columns.adjust().draw();
+                ResetTablaFacturas();
+                $("#facturaModal").modal('hide');
+                alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+        }else{
+            console.log('Entre al else');
+            $("#lblfacturaId").css('color', $('#facturas').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Factura');
+        }
+    });
+
+    /***
+     * funcion para borrar un Documento
+     */
+    $(document).on('click', '.deleteFactura', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var facturas = JSON.parse(localStorage.getItem("facturas"));
+        if (confirm("¿Esta seguro de eliminar este registro?")) {
+            //elimino el doc hidden
+            $('#doc_archivo_' + facturas[id].idRow).remove();
+            facturas.length == 1 ? facturas = [] : facturas.splice(id, 1);
+            localStorage.setItem("facturas", JSON.stringify(UpdtIdRowDoc(facturas, 'facturas_')));
+            console.log('DIV', $('#docs_invisible'));
+            console.log('facturas', JSON.parse(localStorage.getItem("facturas")));
+            tblFacturasDT.clear();
+            tblFacturasDT.rows.add(JSON.parse(localStorage.getItem("facturas")));
+            tblFacturasDT.columns.adjust().draw();
+            alert_float('success', 'Factura eliminada exitosamente');
+        }
+     });
+
+    /***
+     * funcion que se ejecuta al cerrar el Modal
+     */
+    $('#facturaModal').on('hidden.bs.modal', function (e) {
+        console.log('Entre al hidden');
+        ResetTablaFacturas();
+    })
+
+    /***
+     * funcion que hace reset del Modal de Documento
+     */
+    function ResetTablaFacturas() {
+        console.log('Entre al ResetTablaFacturas');
+        $("#invoiceMarcaFrm")[0].reset();
+        $("#lblfacturaId").css('color', color_lbl);
+    }
+
+    /***
+     * funcion que configura el Datatable de las Facturas
+     */
+    function TablaFacturas() {
+        table = JSON.parse(localStorage.getItem("facturas"));
+        tblFacturasDT = 
+        new $("#FacturasTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: table,
+            destroy: true,
+            dataSrc: '',
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '25%', targets: 1 },
+                { width: '30%', targets: 2 },
+                { width: '30%', targets: 3 },
+                { width: '5%', targets: 4 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'factNum',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'factFecha',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'factEstatus',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-md-12'>" + data + "</div>"
+                    }
+                },
+            ],
+            width: "100%"
+        });
+    }
+
+
+    
 
 
 
@@ -3563,10 +3955,11 @@
         formData.append('certificado', $('#certificado').val());
         formData.append('fecha_certificado', $('#fecha_certificado').val());
         formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
-        formData.append('signo_archivo', $('#signo_archivo')[0].files[0]);
+
+        formData.append('signo_archivo', $('#signo_archivo').val() ? $('#signo_archivo')[0].files[0] : '');
         formData.append('signonom', $('#signonom').val());
-        formData.append('descripcion_signo', $('#descripcion_signo').val());
-        formData.append('comentario_signo', $('#comentario_signo').val());
+        formData.append('signo_archivo_desc', $('#descripcion_signo').val());
+
         formData.append('tipo_signo_id', $('#tipo_signo_id').val());
         formData.append('clase_niza_id', localStorage.getItem("clase_niza"));
         formData.append('prioridad_id', localStorage.getItem("prioridad"));
@@ -3578,6 +3971,14 @@
         formData.append("fusiones_id", localStorage.getItem("fusiones"));
         formData.append("camnom_id", localStorage.getItem("camnom"));
         formData.append("camdom_id", localStorage.getItem("camdom"));
+        formData.append("doc_id", localStorage.getItem("documentos"));
+        /* Se agrega al Form todos los Documentos agregados */
+        var docu = JSON.parse(localStorage.getItem("documentos"));
+        docu.forEach(function(item){
+            formData.append("doc_archivo_" + item.idRow, $("#doc_archivo_" + item.idRow).get(0).files[0]);
+        });
+        formData.append("facturas_id", localStorage.getItem("facturas"));
+        
 
         $.ajax({
             url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
@@ -3612,14 +4013,54 @@
     });
 
     /***
-     * funcion que actualiza el IdRow de cada tabla de Cesiones Actuales
+     * funcion que actualiza el IdRow de cada tabla
      */
-    function UpdtIdRow(tablaDT){
+    function UpdtIdRow(tablaDT, tipoAnexo){
         jQuery.each(tablaDT, function(index, item) {
-            item.acciones = item.acciones.replace("button id='" + (item.idRow-1) +"'", "button id='" + index +"'");
+            item.acciones = item.acciones.replace("button id='" + tipoAnexo + (item.idRow-1) +"'", "button id='" + tipoAnexo + index +"'");
             item.idRow = index + 1;
         });
         return tablaDT;
+    }
+    
+    /***
+     * funcion que restaura el Formulario desde el localstorage
+     */
+    function RestaurarFormulario() {
+        const Form = JSON.parse(localStorage.getItem('solicitudfrm'));
+        SetSelectValue($('#tipo_registro_id'), Form['tipo_registro_id']);
+        SetSelectValue($('#client_id'), Form['client_id']);
+        SetSelectValue($('#oficina_id'), Form['oficina_id']);
+        SetSelectValue($('#staff_id'), Form['staff_id']);
+        SetSelectValue($('#pais_id'), Form['pais_id']);
+        SetSelectValue($('#solicitantes_id'), Form['solicitantes_id']);
+        $('#signonom').val(Form['signonom']);
+        SetSelectValue($('#tipo_signo_id'), Form['tipo_signo_id']);
+        SetSelectValue($('#tipo_solicitud_id'), Form['tipo_solicitud_id']);
+        $('#ref_interna').val(Form['ref_interna']);
+        $('#ref_cliente').val(Form['ref_cliente']);
+        $('#prueba_uso').val(Form['prueba_uso']);
+        $('#carpeta').val(Form['carpeta']);
+        $('#libro').val(Form['libro']);
+        $('#tomo').val(Form['tomo']);
+        $('#folio').val(Form['folio']);
+        $('#comentarios').val(Form['comentarios']);
+        SetSelectValue($('#estado_id'), Form['estado_id']);
+        $('#solicitud').val(Form['solicitud']);
+        $('#fecha_solicitud').val(Form['fecha_solicitud']);
+        $('#registro').val(Form['registro']);
+        $('#fecha_registro').val(Form['fecha_registro']);
+        $('#certificado').val(Form['certificado']);
+        $('#fecha_certificado').val(Form['fecha_certificado']);
+        $('#fecha_vencimiento').val(Form['fecha_vencimiento']);
+    }
+    
+    /***
+     * funcion que restaura el Formulario desde el localstorage
+     */
+    function SetSelectValue(select, valor) {
+        select.val(valor);
+        select.selectpicker('refresh');
     }
 
     /***
@@ -3713,7 +4154,96 @@
 
     /* Estructura lista */
     $(function() {
-        alert($('#cod_contador').val());
+
+        /* Se inicializa el localStorage de Documentos. Se pierde todo si agregan una factura nueva */
+        localStorage.setItem('documentos', JSON.stringify([]));
+        
+        /* Reviso si viene el ID de una factura nueva */
+        if ($('#factNumber').val()) {
+            /* Restauro el formulario completo */
+            RestaurarFormulario();
+
+            /* Inicicio el Datatable de Facturas */
+            TablaFacturas();
+
+            /* Agrego la nueva factura al datatable de Facturas */
+            if (localStorage.getItem("facturas") == null){
+                localStorage.setItem('facturas', JSON.stringify([]));
+            }
+            var facturas = JSON.parse(localStorage.getItem("facturas"));
+            rowCount = tblFacturasDT.rows().count();
+            var data = {
+                'idRow': rowCount + 1,
+                'facturas_id': $('#factId').val(),
+                "factNum": $('#factNumber').val(),
+                "factFecha": $('#factFecha').val(),
+                'factEstatus': $('#factEstatus').val(),
+                "marcas_id": $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='facturas_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFactura'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+            facturas.push(data);
+            localStorage.setItem("facturas", JSON.stringify(facturas));
+            console.log('facturas', facturas);
+            tblFacturasDT.clear();
+            tblFacturasDT.rows.add(JSON.parse(localStorage.getItem("facturas")));
+            tblFacturasDT.columns.adjust().draw();
+
+        }else{
+            /* Elimino del localStorage el Form si está creado*/
+            if (localStorage.getItem("solicitudfrm") != null){
+                localStorage.removeItem('solicitudfrm');
+            }
+
+            /*Inicializamos el localstorage*/
+            localStorage.setItem("clase_niza", JSON.stringify([]));
+            localStorage.setItem("prioridad", JSON.stringify([]));
+            localStorage.setItem("publicacion", JSON.stringify([]));
+            localStorage.setItem('eventos', JSON.stringify([]));
+            localStorage.setItem('tareas', JSON.stringify([]));
+            localStorage.setItem('cesiones', JSON.stringify([]));
+            localStorage.setItem('cesionesanteriores', JSON.stringify([]));
+            localStorage.setItem('cesionesactuales', JSON.stringify([]));
+            localStorage.setItem('licencias', JSON.stringify([]));
+            localStorage.setItem('licenciasanteriores', JSON.stringify([]));
+            localStorage.setItem('licenciasactuales', JSON.stringify([]));
+            localStorage.setItem('fusiones', JSON.stringify([]));
+            localStorage.setItem('fusionesanteriores', JSON.stringify([]));
+            localStorage.setItem('fusionesactuales', JSON.stringify([]));
+            localStorage.setItem('camnom', JSON.stringify([]));
+            localStorage.setItem('camnomanteriores', JSON.stringify([]));
+            localStorage.setItem('camnomactuales', JSON.stringify([]));
+            localStorage.setItem('camdom', JSON.stringify([]));
+            localStorage.setItem('camdomanteriores', JSON.stringify([]));
+            localStorage.setItem('camdomactuales', JSON.stringify([]));
+            localStorage.setItem('facturas', JSON.stringify([]));
+            
+            /* Inicicio el Datatable de Facturas */
+            TablaFacturas();
+        }
+
+        /* Iniciliazamos los Datatables */
+        TablaClases();
+        TablaPrioridad();
+        TablaPublicacion();
+        TablaEventos();
+        TablaTareas();
+        TablaCesiones();
+        TablaCesionesAnteriores();
+        TablaCesionesActuales();
+        TablaLicencia();
+        TablaLicenciasAnteriores();
+        TablaLicenciasActuales();
+        TablaFusion();
+        TablaFusionesAnteriores();
+        TablaFusionesActuales();
+        TablaCamNom();
+        TablaCamNomAnteriores();
+        TablaCamNomActuales();
+        TablaCamDom();
+        TablaCamDomAnteriores();
+        TablaCamDomActuales();
+        TablaDocumento();
+
         /* CONFIGURA LOS INPUT CALENDAR */
         $(".calendar").datetimepicker({
             maxDate: fecha(),
@@ -3751,361 +4281,30 @@
         
         /* Cierra el Modal de Carga */
         $('#modal-loading').modal('hide');
+    });
 
-        /* Inicilizamos los Datatables */
-        TablaClases();
-        TablaPrioridad();
-        TablaPublicacion();
-        TablaEventos();
-        TablaTareas();
-        TablaCesiones();
-        TablaCesionesAnteriores();
-        TablaCesionesActuales();
-        TablaLicencia();
-        TablaLicenciasAnteriores();
-        TablaLicenciasActuales();
-        TablaFusion();
-        TablaFusionesAnteriores();
-        TablaFusionesActuales();
-        TablaCamNom();
-        TablaCamNomAnteriores();
-        TablaCamNomActuales();
-        TablaCamDom();
-        TablaCamDomAnteriores();
-        TablaCamDomActuales();
-
+    $(document).on('click', "#invoiceMarcaSubmit", function() {
+        e.preventDefault()
+        let data = {
+            "invoiceID": $("select[name=invoiceID]").val(),
+            "marcaID": $("input[name=id]").val()
+        }
+        $.ajax({
+            url: "<?php echo admin_url("pi/MarcasSolicitudesController/addInvoice"); ?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                "data": JSON.stringify(data)
+            },
+            success: function(response) {
+                $("facturaModal").modal('hide');
+                alert_float('success', "Factura asignada exitosamente");
+            }
+        })
     });
 
 
 
-
-
-
-
-
-
-
-
-
-
-    // ---------------------------------- Mostrar Anexo -----------------------------------------------
-    // Cambio Domicilio------------------------------------------------------
-    function CambioDomicilio() {
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/"); ?>';
-        let body = ``;
-        $.get(url, function(response) {
-            let listadomicilio = JSON.parse(response);
-            listadomicilio.forEach(item => {
-                eliminar = eliminar + item.id;
-                body += `<tr CamDomid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                   
-                                </tr>
-                            `
-            });
-            $('#body_cambio_domicilio').html(body);
-        })
-    }
-    // Cambio de Nombre
-    function CambioNombre() {
-        let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/CambioNombreController/destroy/"); ?>';
-        let body = ``;
-        $.get(url, function(response) {
-            let listadomicilio = JSON.parse(response);
-            listadomicilio.forEach(item => {
-                eliminar = eliminar + item.id;
-                body += `<tr CamNomid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    
-                                </tr>
-                            `
-            });
-            $('#body_cambio_nombre').html(body);
-        })
-    }
-
-    // Fusion
-    function Fusion() {
-        let url = '<?php echo admin_url("pi/FusionController/showFusion/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/FusionController/destroy/"); ?>';
-        let body = ``;
-        $.get(url, function(response) {
-            let listadomicilio = JSON.parse(response);
-            listadomicilio.forEach(item => {
-                eliminar = eliminar + item.id;
-                body += `<tr Fusionid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                   
-                                </tr>
-                            `
-
-            });
-            $('#body_fusion').html(body);
-        })
-    }
-
-    // Licencia
-    function Licencia() {
-        let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/LicenciaController/destroy/"); ?>';
-        let body = ``;
-        $.get(url, function(response) {
-            let listadomicilio = JSON.parse(response);
-            listadomicilio.forEach(item => {
-                eliminar = eliminar + item.id;
-                body += `<tr Licenciaid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.cliente}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    
-                                </tr>
-                            `
-            });
-            $('#body_licencia').html(body);
-        })
-    }
-    // Cesion
-    function Cesion() {
-        let url = '<?php echo admin_url("pi/CesionController/showCesion/"); ?>';
-        let eliminar = '<?php echo admin_url("pi/CesionController/destroy/"); ?>';
-        let body = ``;
-        $.get(url, function(response) {
-            let listadomicilio = JSON.parse(response);
-            listadomicilio.forEach(item => {
-                eliminar = eliminar + item.id;
-                body += `<tr Cesionid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.cliente}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    
-                                </tr>
-                            `
-
-            });
-            $('#body_cesion').html(body);
-        })
-    }
-
-    // Renovacion
-    $('#renovacion').on('click', function() {
-        let title = `Renovacion`;
-        $('#anexotitulo').html(title);
-        let template = `
-                <tr >
-                    <th>Nº</th>
-                    <th>Cliente</th>
-                    <th>Oficina</th>
-                    <th>Staff</th>
-                    <th>Estado</th>
-                    <th>Nº de Solicitud</th>
-                    <th>Fecha de Solicitud</th>
-                    <th>Nº de Resolucion</th>
-                    <th>Fecha de Resolucion</th>
-                    <th>Referencia Cliente</th>
-                    <th>Comentarios</th>
-                    <th>Acciones</th>
-                </tr>
-            `;
-        $('#anexohead').html(template);
-        $('#anexobody').html(``);
-
-    })
-
-
-
-    //----------------------------------- Funciones de la Informacion que Trae desde la Base de Datos -----------------------------------------------
-    //Modal Edit Documento
-    /* $(document).on('click', '.editdoc', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('docid');
-        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/EditDoc/"); ?>';
-        url = url + id;
-        $.post(url, {
-            id
-        }, function(response) {
-            let doc = JSON.parse(response);
-            $('#Documento_id').val(doc[0]['id']);
-            $('#editdoc_descripcion').val(doc[0]['descripcion']);
-            $('#editcomentario_archivo').val(doc[0]['comentario']);
-            $('#editdoc_archivo').val(doc[0]['path']);
-        })
-    }) */
-
-    //Modal Edit Eventos
-    /* $(document).on('click', '.editeventos', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('eventosid');
-        let url = '<?php echo admin_url("pi/EventosController/EditEventos/"); ?>';
-        url = url + id;
-        $.post(url, {
-            id
-        }, function(response) {
-            let eventos = JSON.parse(response);
-            $('#edittipo_evento').val(eventos[0]['tipo_evento_id']);
-            $('#editevento_comentario').val(eventos[0]['comentarios']);
-            $('#Eventoid').val(eventos[0]['id']);
-        })
-    }) */
-
-    //Modal Edit Cesion
-    /* $(document).on('click', '.EditCesion', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('cesionid');
-        let url = '<?php echo admin_url("pi/CesionController/EditCesion/"); ?>';
-        url = url + id;
-        $.post(url, {
-            id
-        }, function(response) {
-            let cesion = JSON.parse(response);
-            $('#cesionid').val(cesion[0]['id']);
-            $('#editclienteCesion').val(cesion[0]['client_id']);
-            $('#editoficinaCesion').val(cesion[0]['oficina_id']);
-            $('#editstaffCesion').val(cesion[0]['staff_id']);
-            $('#editnro_solicitudCesion').val(cesion[0]['solicitud_num']);
-            $('#editfecha_solicitudCesion').val(cesion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCesion').val(cesion[0]['resolucion_num']);
-            $('#editfecha_resolucionCesion').val(cesion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCesion').val(cesion[0]['referencia_cliente']);
-            $('#editcomentarioCesion').val(cesion[0]['comentarios']);
-
-        })
-    }) */
-
-    //Modal Edit Licencia
-    /* $(document).on('click', '.EditLicencia', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('licenciaid');
-        let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/"); ?>';
-        url = url + id;
-        $.post(url, {
-            id
-        }, function(response) {
-            let licencia = JSON.parse(response);
-            $('#licenciaid').val(licencia[0]['id']);
-            $('#editclientelicencia').val(licencia[0]['client_id']);
-            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
-            $('#editstafflicencia').val(licencia[0]['staff_id']);
-            $('#editestadolicencia').val(licencia[0]['estado_id']);
-            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
-            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
-            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
-            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
-            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
-            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
-
-        })
-    }) */
-
-    //Modal Edit Fusion
-    /* $(document).on('click', '.editFusion', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('fusionid');
-        let url = '<?php echo admin_url("pi/FusionController/EditFusion/"); ?>';
-        url = url + id;
-        $.post(url, {
-            id
-        }, function(response) {
-            let fusion = JSON.parse(response);
-            $('#fusionid').val(fusion[0]['id']);
-            $('#editoficinaFusion').val(fusion[0]['oficina_id']);
-            $('#editestadoFusion').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioFusion').val(fusion[0]['comentarios']);
-
-        })
-    }) */
-
-    //Modal Edit Cambio Nombre
-    /* $(document).on('click', '.editCamNom', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('CamNomid');
-        let url = '<?php echo admin_url("pi/CambioNombreController/EditCambioNombre/"); ?>';
-        url = url + id;
-        $.post(url, {
-            id
-        }, function(response) {
-            let fusion = JSON.parse(response);
-            $('#camnomid').val(fusion[0]['id']);
-            $('#editoficinaCamNom').val(fusion[0]['oficina_id']);
-            $('#editestadoCamNom').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudCamNom').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudCamNom').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCamNom').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionCamNom').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCamNom').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioCamNom').val(fusion[0]['comentarios']);
-
-        })
-    }) */
-    //Modal Edit Cambio de Domicilio
-    /* $(document).on('click', '.editCamDom', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('CamDomid');
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/"); ?>';
-        url = url + id;
-        $.post(url, {
-            id
-        }, function(response) {
-            let fusion = JSON.parse(response);
-            $('#camdomid').val(fusion[0]['id']);
-            $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
-            $('#editestadoCamDom').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
-
-        })
-    }) */
     //----------------------------------- Modal Para Añadir y Editar -----------------------------------------------
 
     //Añadir Documento ---------------------------------------------------------------------------
@@ -4167,558 +4366,4 @@
             alert("No puede agregar un Documento sin registro de la solicitud");
         });
     }); */
-
-    //Añadir Cesion ---------------------------------------------------------------------------
-    /* $(document).on('click', '#AddCesionfrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var cliente = $('#clienteCesion').val();
-        var oficina = $('#oficinaCesion').val();
-        var staff = $('#staffCesion').val();
-        var estado = $('#estadoCesion').val();
-        var nro_solicitud = $('#nro_solicitudCesion').val();
-        var fecha_solicitud = $('#fecha_solicitudCesion').val();
-        var nro_resolucion = $('#nro_resolucionCesion').val();
-        var fecha_resolucion = $('#fecha_resolucionCesion').val();
-        var referenciacliente = $('#referenciaclienteCesion').val();
-        var comentario = $('#comentarioCesion').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('cliente', cliente);
-        formData.append('oficina', oficina);
-        formData.append('staff', staff);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/CesionController/addCesion"); ?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
-            $("#AddCesion").modal('hide');
-            Cesion()
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-    //Editar Cesion ---------------------------------------------------------------------------
-    /* $(document).on('click', '#EditCesionfrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id = $('#cesionid').val();
-        var cliente = $('#editclienteCesion').val();
-        var oficina = $('#editoficinaCesion').val();
-        var staff = $('#editstaffCesion').val();
-        var estado = $('#editestadoCesion').val();
-        var nro_solicitud = $('#editnro_solicitudCesion').val();
-        var fecha_solicitud = $('#editfecha_solicitudCesion').val();
-        var nro_resolucion = $('#editnro_resolucionCesion').val();
-        var fecha_resolucion = $('#editfecha_resolucionCesion').val();
-        var referenciacliente = $('#editreferenciaclienteCesion').val();
-        var comentario = $('#editcomentarioCesion').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('cliente', cliente);
-        formData.append('oficina', oficina);
-        formData.append('staff', staff);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/CesionController/UpdateCesion/"); ?>'
-        url = url + id;
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Actualizado Correctamente");
-            $("#EditCesion").modal('hide');
-            Cesion()
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-    //Añadir Licencia ---------------------------------------------------------------------------
-    /* $(document).on('click', '#addlicenciafrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var cliente = $('#clientelicencia').val();
-        var oficina = $('#oficinalicencia').val();
-        var staff = $('#stafflicencia').val();
-        var estado = $('#estadolicencia').val();
-        var nro_solicitud = $('#nro_solicitudlicencia').val();
-        var fecha_solicitud = $('#fecha_solicitudlicencia').val();
-        var nro_resolucion = $('#nro_resolucionlicencia').val();
-        var fecha_resolucion = $('#fecha_resolucionlicencia').val();
-        var referenciacliente = $('#referenciaclientelicencia').val();
-        var comentario = $('#comentariolicencia').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('cliente', cliente);
-        formData.append('oficina', oficina);
-        formData.append('staff', staff);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/LicenciaController/addLicencia"); ?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
-            $("#AddLicencia").modal('hide');
-            Licencia()
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-    //Editar Licencia ---------------------------------------------------------------------------
-    /* $(document).on('click', '#editlicenciafrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id = $('#licenciaid').val();
-        var cliente = $('#editclientelicencia').val();
-        var oficina = $('#editoficinalicencia').val();
-        var staff = $('#editstafflicencia').val();
-        var estado = $('#editestadolicencia').val();
-        var nro_solicitud = $('#editnro_solicitudlicencia').val();
-        var fecha_solicitud = $('#editfecha_solicitudlicencia').val();
-        var nro_resolucion = $('#editnro_resolucionlicencia').val();
-        var fecha_resolucion = $('#editfecha_resolucionlicencia').val();
-        var referenciacliente = $('#editreferenciaclientelicencia').val();
-        var comentario = $('#editcomentariolicencia').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id', id);
-        formData.append('cliente', cliente);
-        formData.append('oficina', oficina);
-        formData.append('staff', staff);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/LicenciaController/UpdateLicencia/"); ?>'
-        url = url + id;
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Actualizado Correctamente");
-            $("#EditLicencia").modal('hide');
-            Licencia()
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-
-
-    //Añadir Fusion ---------------------------------------------------------------------------
-    /* $(document).on('click', '#addfusionfrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var oficina = $('#oficinaFusion').val();
-        var estado = $('#estadoFusion').val();
-        var nro_solicitud = $('#nro_solicitudFusion').val();
-        var fecha_solicitud = $('#fecha_solicitudFusion').val();
-        var nro_resolucion = $('#nro_resolucionFusion').val();
-        var fecha_resolucion = $('#fecha_resolucionFusion').val();
-        var referenciacliente = $('#referenciaclienteFusion').val();
-        var comentario = $('#comentarioFusion').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('oficina', oficina);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/FusionController/addFusion"); ?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
-            $("#AddFusion").modal('hide');
-            Fusion()
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-    //Editar Fusion ---------------------------------------------------------------------------
-    /* $(document).on('click', '#editfusionfrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id = $('#fusionid').val();
-        var oficina = $('#editoficinaFusion').val();
-        var estado = $('#editestadoFusion').val();
-        var nro_solicitud = $('#editnro_solicitudFusion').val();
-        var fecha_solicitud = $('#editfecha_solicitudFusion').val();
-        var nro_resolucion = $('#editnro_resolucionFusion').val();
-        var fecha_resolucion = $('#editfecha_resolucionFusion').val();
-        var referenciacliente = $('#editreferenciaclienteFusion').val();
-        var comentario = $('#editcomentarioFusion').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id', id);
-        formData.append('oficina', oficina);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/FusionController/UpdateFusion/"); ?>'
-        url = url + id;
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Actualizado Correctamente");
-            $("#EditFusion").modal('hide');
-            Fusion();
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-    //Añadir Cambio de Nombre -----------------------------------------------------------------
-    /* $(document).on('click', '#AddCambioNombrefrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var oficina = $('#oficinaCamNom').val();
-        var estado = $('#estadoCamNom').val();
-        var nro_solicitud = $('#nro_solicitudCamNom').val();
-        var fecha_solicitud = $('#fecha_solicitudCamNom').val();
-        var nro_resolucion = $('#nro_resolucionCamNom').val();
-        var fecha_resolucion = $('#fecha_resolucionCamNom').val();
-        var referenciacliente = $('#referenciaclienteCamNom').val();
-        var comentario = $('#comentarioCamNom').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('oficina', oficina);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/CambioNombreController/addCambioNombre"); ?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
-            $("#AddCambioNombre").modal('hide');
-            CambioNombre();
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-    //Editar Cambio de Nombre -----------------------------------------------------------------
-    /* $(document).on('click', '#EditCambioNombrefrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id = $('#camnomid').val();
-        var oficina = $('#editoficinaCamNom').val();
-        var estado = $('#editestadoCamNom').val();
-        var nro_solicitud = $('#editnro_solicitudCamNom').val();
-        var fecha_solicitud = $('#editfecha_solicitudCamNom').val();
-        var nro_resolucion = $('#editnro_resolucionCamNom').val();
-        var fecha_resolucion = $('#editfecha_resolucionCamNom').val();
-        var referenciacliente = $('#editreferenciaclienteCamNom').val();
-        var comentario = $('#editcomentarioCamNom').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id', id);
-        formData.append('oficina', oficina);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/CambioNombreController/UpdateCambioNombre/"); ?>'
-        url = url + id;
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Actualizado Correctamente");
-            $("#EditCambioNombre").modal('hide');
-            CambioNombre();
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-    //Añadir Cambio Domicilio ----------------------------------------------------------------------
-    /* $(document).on('click', '#AddCambioDomiciliofrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var oficina = $('#oficinaCamDom').val();
-        var staff = $('#staffCamDom').val();
-        var estado = $('#estadoCamDom').val();
-        var nro_solicitud = $('#nro_solicitudCamDom').val();
-        var fecha_solicitud = $('#fecha_solicitudCamDom').val();
-        var nro_resolucion = $('#nro_resolucionCamDom').val();
-        var fecha_resolucion = $('#fecha_resolucionCamDom').val();
-        var referenciacliente = $('#referenciaclienteCamDom').val();
-        var comentario = $('#comentarioCamDom').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('oficina', oficina);
-        formData.append('staff', staff);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilio"); ?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
-            $("#AddCambioDomicilio").modal('hide');
-            CambioDomicilio();
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-    //Editar Cambio Domicilio ----------------------------------------------------------------------
-    /* $(document).on('click', '#EditCambioDomiciliofrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id = $('#camdomid').val();
-        var oficina = $('#editoficinaCamDom').val();
-        var staff = $('#editstaffCamDom').val();
-        var estado = $('#editestadoCamDom').val();
-        var nro_solicitud = $('#editnro_solicitudCamDom').val();
-        var fecha_solicitud = $('#editfecha_solicitudCamDom').val();
-        var nro_resolucion = $('#editnro_resolucionCamDom').val();
-        var fecha_resolucion = $('#editfecha_resolucionCamDom').val();
-        var referenciacliente = $('#editreferenciaclienteCamDom').val();
-        var comentario = $('#editcomentarioCamDom').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id', id);
-        formData.append('oficina', oficina);
-        formData.append('staff', staff);
-        formData.append('estado', estado);
-        formData.append('nro_solicitud', nro_solicitud);
-        formData.append('fecha_solicitud', fecha_solicitud);
-        formData.append('nro_resolucion', nro_resolucion);
-        formData.append('fecha_resolucion', fecha_resolucion);
-        formData.append('referenciacliente', referenciacliente);
-        formData.append('comentario', comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/"); ?>'
-        url = url + id;
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Actualizado Correctamente");
-            $("#EditCambioDomicilio").modal('hide');
-            CambioDomicilio();
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-
-
-    //Editar Evento ---------------------------------------------------------------------------
-    /* $(document).on('click', '#editeventosfrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id = $('#Eventoid').val();
-        var tipo_evento = $('#edittipo_evento').val();
-        var comentarios = $('#editevento_comentario').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('csrf_token_name', csrf_token_name);
-        formData.append('tipo_evento', tipo_evento);
-        formData.append('comentarios', comentarios);
-        formData.append('id', id);
-        let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/"); ?>'
-        url = url + id;
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Actualizado Correctamente");
-            $("#eventoModalEdit").modal('hide');
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-
-</script>
-
-
-<script>
-    /* function mostrar_tarea() {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        $.ajax({
-            url: "<?php admin_url('pi/TareasController/showTareas/' . $id); ?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val()
-            },
-            success: function(response) {
-                res = JSON.parse(response);
-                console.log(res.data);
-                $("#tareas").DataTable({
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                    },
-                    data: res.data,
-                    destroy: true,
-                    dataSrc: '',
-                    columns: [{
-                            data: 'fecha'
-                        },
-                        {
-                            data: 'boletin_id'
-                        },
-                        {
-                            data: 'tomo'
-                        },
-                        {
-                            data: 'pagina'
-                        },
-                        {
-                            data: 'acciones'
-                        },
-                    ],
-                    width: "100%"
-                });
-            }
-        })
-    } */
-</script>
-
-
-<script>
-    /* $(document).on('click', '#tareasfrmeditsubmit', function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        var data = {
-            "project_id": $("#project_id").val(),
-            "tipo_tarea": $("#tipo_tarea").val(),
-            "descripcion": $("#descripcion").val(),
-            "fecha_limite": $("#fecha_limite").val(),
-            "marcas_id": $("input[name=id]").val(),
-        }
-        $.ajax({
-            url: "<?php echo admin_url('pi/TareasController/addTaskToMarcasAndProject'); ?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                "data": JSON.stringify(data),
-            },
-            success: function(response) {
-                $("#addTask").modal('hide');
-                alert_float('success', "Tarea asignada exitosamente");
-                mostrar_tarea();
-            }
-        })
-    }) */
-</script>
-
-<script>
-    $(document).on('click', "#invoiceMarcaSubmit", function() {
-        e.preventDefault()
-        let data = {
-            "invoiceID": $("select[name=invoiceID]").val(),
-            "marcaID": $("input[name=id]").val()
-        }
-        $.ajax({
-            url: "<?php echo admin_url("pi/MarcasSolicitudesController/addInvoice"); ?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                "data": JSON.stringify(data)
-            },
-            success: function(response) {
-                $("facturaModal").modal('hide');
-                alert_float('success', "Factura asignada exitosamente");
-            }
-        })
-    });
-</script>
+    </script>

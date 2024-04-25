@@ -16,8 +16,7 @@
           <div class="col-md-6">
             <?php echo form_label('Clase', 'clase_niza',['id' => 'lblclase_niza']); ?>
             <?php
-            $clase_niza_id = $select + $clase_niza_id;
-            echo form_dropdown('clase_niza', $clase_niza_id, '', ['class' => 'form-control', 'id' => 'clase_niza']); ?>
+            echo form_dropdown('clase_niza', [], '', ['class' => 'form-control', 'id' => 'clase_niza']); ?>
           </div>
           <div class="col-md-6">
             <?php echo form_label('Descripcion', 'clase_niza_descripcion',['id' => 'lblclase_niza_descripcion']); ?>
@@ -111,16 +110,16 @@
           <div class="col-md-3">
             <?php echo form_label('Tipo', 'tipo_publicacion',['id' => 'lbltipo_publicacion']); ?>
             <?php
-            $tipo_publicacion = $select + $tipo_publicacion;
-            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control','id' => 'tipo_publicacion']); ?>
+            
+            echo form_dropdown('tipo_publicacion', [], set_value('tipo_publicacion'), ['class' => 'form-control','id' => 'tipo_publicacion']); ?>
           </div>
         </div>
         <div class="row" style="padding-top:15px;">
           <div class="col-md-3 col-md-offset-1">
             <?php echo form_label('Boletin', 'boletin_publicacion',['id' => 'lblboletin_publicacion']); ?>
             <?php
-            $boletines = $select + $boletines;
-            echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control','id' => 'boletin_publicacion']); ?>
+
+            echo form_dropdown('boletin_publicacion', [], set_value('boletin_publicacion'), ['class' => 'form-control','id' => 'boletin_publicacion']); ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Tomo', 'tomo_publicacion',['id' => 'lbltomo_publicacion']); ?>
@@ -158,8 +157,8 @@
           <div class="col-md-8 col-md-offset-0">
             <?php echo form_label('Tipo Evento', 'tipo_evento',['id' => 'lbltipo_evento']); ?>
             <?php
-            $tipo_evento = $select + $tipo_evento;
-            echo form_dropdown(['name' => 'tipo_evento', 'id' => 'tipo_evento'], $tipo_evento, '', ['class' => 'form-control']); ?>
+            /*$tipo_evento = $select + $tipo_evento;*/
+            echo form_dropdown(['name' => 'tipo_evento', 'id' => 'tipo_evento'], []/*$tipo_evento*/, '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-4">
             <?php echo form_label('Fecha Evento', 'fecha_evento',['id' => 'lblfecha_evento']); ?>
@@ -203,19 +202,19 @@
           <div class="col-md-4">
             <?php echo form_label('Proyecto', 'project_id', ['id' => 'lblproject_id','class' => 'form-label']); ?>
             <?php 
-            $projects = $select + $projects;
+            /*$projects = $select + $projects*/;
             echo form_dropdown([
               'name' => 'project_id',
               'id' => 'project_id',
               'class' => 'form-control',
-              'options' => $projects
+              'options' =>[] /*$projects*/
             ]); ?>
           </div>
           <div class="col-md-4">
             <?php echo form_label('Tipo Tareas', 'tipo_tarea',['id' => 'lbltipo_tarea']); ?>
             <?php 
-            $tipo_tareas = $select + $tipo_tareas;
-            echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'], $tipo_tareas, '', ['class' => 'form-control']); ?>
+            /*$tipo_tareas = $select + $tipo_tareas*/;
+            echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'],[]/*$tipo_tareas*/, '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-4">
             <?php echo form_label('Fecha', 'fecha_tarea',['id' => 'lblfecha_tarea']); ?>
@@ -275,26 +274,26 @@
               <div class="col-md-3">
                 <?php echo form_label('Cliente', 'clienteCesion'); ?>
                 <?php 
-                $clientes = $select + $clientes;
-                echo form_dropdown(['name' => 'clienteCesion', 'id' => 'clienteCesion'], $clientes, '', ['class' => 'form-control']); ?>
+                /*$clientes = $select + $clientes*/;
+                echo form_dropdown(['name' => 'clienteCesion', 'id' => 'clienteCesion'], []/*$clientes*/, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Oficina', 'oficinaCesion',['id' => 'lbloficinaCesion']); ?>
                 <?php 
-                $oficinas = $select + $oficinas;
-                echo form_dropdown(['name' => 'oficinaCesion', 'id' => 'oficinaCesion'], $oficinas, '', ['class' => 'form-control']); ?>
+                /*$oficinas = $select + $oficinas*/;
+                echo form_dropdown(['name' => 'oficinaCesion', 'id' => 'oficinaCesion'], []/*$oficinas*/, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Staff', 'staffCesion'); ?>
                 <?php 
-                $responsable = $select + $responsable;
-                echo form_dropdown(['name' => 'staffCesion', 'id' => 'staffCesion'], $responsable, '', ['class' => 'form-control']); ?>
+                /*$responsable = $select + $responsable;*/
+                echo form_dropdown(['name' => 'staffCesion', 'id' => 'staffCesion'], []/*$responsable*/, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Estado', 'estadoCesion',['id' => 'lblestadoCesion']); ?>
                 <?php 
-                $estados_solicitudes = $select + $estados_solicitudes;
-                echo form_dropdown(['name' => 'estadoCesion', 'id' => 'estadoCesion'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
+                /*$estados_solicitudes = $select + $estados_solicitudes;*/
+                echo form_dropdown(['name' => 'estadoCesion', 'id' => 'estadoCesion'], []/*$estados_solicitudes*/, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCesion',['id' => 'lblnro_solicitudCesion']); ?>

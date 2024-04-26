@@ -34,7 +34,6 @@ class SolicitudesController extends AdminController
             'pais_id'       => $CI->PatentesSolicitudes_model->getAllPaises(),
             "cod_contador"  => "P-{$CI->PatentesSolicitudes_model->last_insert_id()}",
             'solicitantes'  => $CI->PatentesSolicitudes_model->getAllClients(),
-            
         ];
         return $CI->load->view('patente/solicitudes/create', $data);
     }

@@ -573,13 +573,14 @@ class MarcasSolicitudes_model extends BaseModel
         $this->db->where('a.marcas_id = '.$id);
         $query = $this->db->get();
         $keys = array();
-        $values = array();
+        //$values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['marcas_id']);
-            array_push($values, $row['propietario_id']);
+            array_push($keys, $row['propietario_id']);
+            //array_push($values, $row['nombre_propietario']);
         }
-        return array_combine($keys, $values);
+        //return array_combine($keys, $values);
+        return $keys;
     }
 
     public function findPaisesDesignados($id = NULL)

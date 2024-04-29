@@ -18,14 +18,7 @@
          // ---------------------------------- Mostrar Anexo -----------------------------------------------
         // Cambio Domicilio------------------------------------------------------
         
-        Cesion()
-        CambioDomicilio();
-        CambioNombre();
-        Fusion();
-        Licencia();
-        Eventos();
-        Tareas();
-        Documentos();
+        
         
         //Cesion Actual
         function CesionActual(id_cambio){
@@ -321,32 +314,145 @@
         //Cambio Domicilio
         function CambioDomicilio(){
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
-            let body= ``; //data-toggle="modal" data-target="#EditCambioDomicilio"
-                $.get(url, function(data){
-                    let listadomicilio = JSON.parse(data);
-                    listadomicilio.forEach(item => {
-                        body += `<tr CamDomid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_resolucion}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                        <td class="text-center">
-                                            <a class="editCamDom btn btn-light" style= "background-color: white;"  ><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="Cambio-Domicilio-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                </tr>
-                            `
-                        });
-                        $('#body_cambio_domicilio').html(body);     
-                })
+            //let body= ``; //data-toggle="modal" data-target="#EditCambioDomicilio"
+            $.get(url, function(data){
+                let listadomicilio = JSON.parse(data);
+                /* listadomicilio.forEach(item => {
+                    body += `<tr CamDomid = "${item.id}"> 
+                                <td class="text-center">${item.id}</td>
+                                <td class="text-center">${item.oficina}</td>
+                                <td class="text-center">${item.staff}</td>
+                                <td class="text-center">${item.estado}</td>
+                                <td class="text-center">${item.num_solicitud}</td>
+                                <td class="text-center">${item.fecha_solicitud}</td>
+                                <td class="text-center">${item.num_resolucion}</td>
+                                <td class="text-center">${item.fecha_resolucion}</td>
+                                <td class="text-center">${item.referencia_cliente}</td>
+                                <td class="text-center">${item.comentarios}</td>
+                                    <td class="text-center">
+                                        <a class="editCamDom btn btn-light" style= "background-color: white;"  ><i class="fas fa-edit"></i>Editar</a>
+                                        <button class="Cambio-Domicilio-delete btn btn-danger">
+                                        <i class="fas fa-trash"></i>Borrar
+                                        </button>
+                                    </td>
+                            </tr>
+                        `
+                    });
+                    $('#body_cambio_domicilio').html(body); */
+
+                    $("#CambioDomicilioTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: listadomicilio,
+                        destroy: true,
+                        columnDefs: [
+                            { width: '5%', targets: 0 },
+                            { width: '15%', targets: 1 },
+                            { width: '15%', targets: 2 },
+                            { width: '10%', targets: 3 },
+                            { width: '10%', targets: 4 },
+                            { width: '5%', targets: 5 },
+                            { width: '5%', targets: 6 },
+                            { width: '5%', targets: 7 },
+                            { width: '5%', targets: 8 },
+                            { width: '5%', targets: 9 },
+                            { width: '15%', targets: 10 },
+                            { width: '5%', targets: 11 }
+                        ],
+                        columns: [
+                            {
+                                data: 'id',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'oficina',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'staff',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'estado',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'referencia_cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'comentarios',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: '',
+                                render: function (data, type, row)
+                                {
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editCamDom btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="Cambio-Domicilio-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                }
+                            }
+                        ],
+                        width: "100%"
+                    });
+
+
+            })
                 
         }
       
@@ -354,104 +460,443 @@
         function CambioNombre(){
             let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/$id");?>';
             let body= ``;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                        body += `<tr CamNomid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                        <td class="text-center">
-                                            <a class="editCamNom btn btn-light" style= "background-color: white;" ></i>Editar</a>
-                                            <button class="Cambio-Nombre-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                </tr>
-                            `
-                        });
-                        $('#body_cambio_nombre').html(body);     
-                })
+            $.get(url, function(response){
+                let cambioNombre = JSON.parse(response);
+                console.log('cambioNombre', cambioNombre);
+                /* listadomicilio.forEach(item => {
+                    body += `<tr CamNomid = "${item.id}"> 
+                                <td class="text-center">${item.id}</td>
+                                <td class="text-center">${item.oficina}</td>
+                                <td class="text-center">${item.estado}</td>
+                                <td class="text-center">${item.num_solicitud}</td>
+                                <td class="text-center">${item.fecha_solicitud}</td>
+                                <td class="text-center">${item.num_resolucion}</td>
+                                <td class="text-center">${item.fecha_solicitud}</td>
+                                <td class="text-center">${item.referencia_cliente}</td>
+                                <td class="text-center">${item.comentarios}</td>
+                                    <td class="text-center">
+                                        <a class="editCamNom btn btn-light" style= "background-color: white;" ></i>Editar</a>
+                                        <button class="Cambio-Nombre-delete btn btn-danger">
+                                        <i class="fas fa-trash"></i>Borrar
+                                        </button>
+                                    </td>
+                            </tr>
+                        `
+                    });
+                    $('#body_cambio_nombre').html(body);  */    
+            
+                    $("#CambioNombreTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: cambioNombre,
+                        destroy: true,
+                        columnDefs: [
+                            { width: '5%', targets: 0 },
+                            { width: '15%', targets: 1 },
+                            { width: '15%', targets: 2 },
+                            { width: '10%', targets: 3 },
+                            { width: '10%', targets: 4 },
+                            { width: '5%', targets: 5 },
+                            { width: '5%', targets: 6 },
+                            { width: '5%', targets: 7 },
+                            { width: '5%', targets: 8 },
+                            { width: '5%', targets: 9 },
+                            { width: '15%', targets: 10 },
+                            { width: '5%', targets: 11 }
+                        ],
+                        columns: [
+                            {
+                                data: 'id',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'oficina',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'staff',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'estado',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'referencia_cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'comentarios',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: '',
+                                render: function (data, type, row)
+                                {
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editCamNom btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="Cambio-Nombre-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                }
+                            }
+                        ],
+                        width: "100%"
+                    });
+            
+            
+            })
         }
         
        // Fusion
         function Fusion(){
             console.log("Pruebas");
             let url = '<?php echo admin_url("pi/FusionController/showFusion/$id");?>';
-            let body= ``;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                         body += `<tr Fusionid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                        <td class="text-center">
-                                            <a class="editFusion btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
-                                            <button  class="fusion-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                  
-                                </tr>
-                            `
-                         
+            //let body= ``;
+            $.get(url, function(response){
+                let fusion = JSON.parse(response);
+                console.log('fusion', fusion);
+                /* fusion.forEach(item => {
+                        body += `<tr Fusionid = "${item.id}"> 
+                                <td class="text-center">${item.id}</td>
+                                <td class="text-center">${item.oficina}</td>
+                                <td class="text-center">${item.estado}</td>
+                                <td class="text-center">${item.num_solicitud}</td>
+                                <td class="text-center">${item.fecha_solicitud}</td>
+                                <td class="text-center">${item.num_resolucion}</td>
+                                <td class="text-center">${item.fecha_solicitud}</td>
+                                <td class="text-center">${item.referencia_cliente}</td>
+                                <td class="text-center">${item.comentarios}</td>
+                                    <td class="text-center">
+                                        <a class="editFusion btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
+                                        <button  class="fusion-delete btn btn-danger">
+                                        <i class="fas fa-trash"></i>Borrar
+                                        </button>
+                                    </td>
+                                
+                            </tr>
+                        `
+                        
+                });
+                $('#body_fusion').html(body);    */
+
+                $("#FusionTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: fusion,
+                        destroy: true,
+                        columnDefs: [
+                            { width: '5%', targets: 0 },
+                            { width: '15%', targets: 1 },
+                            { width: '15%', targets: 2 },
+                            { width: '10%', targets: 3 },
+                            { width: '10%', targets: 4 },
+                            { width: '5%', targets: 5 },
+                            { width: '5%', targets: 6 },
+                            { width: '5%', targets: 7 },
+                            { width: '5%', targets: 8 },
+                            { width: '5%', targets: 9 },
+                            { width: '15%', targets: 10 },
+                            { width: '5%', targets: 11 }
+                        ],
+                        columns: [
+                            {
+                                data: 'id',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'oficina',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'staff',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'estado',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'referencia_cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'comentarios',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: '',
+                                render: function (data, type, row)
+                                {
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editFusion btn btn-light" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="fusion-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                }
+                            }
+                        ],
+                        width: "100%"
                     });
-                    $('#body_fusion').html(body);   
-                })
+            })
         }
         
          // Licencia
         function Licencia(){
             let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/$id");?>';
             let body= ``;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                         body += `<tr Licenciaid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.cliente}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                        <td class="text-center">
-                                            <a class="EditLicencia btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="licencia-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                    
-                                </tr>
-                            `
-                        });
-                        $('#body_licencia').html(body);     
-                    })
+            $.get(url, function(response){
+                let licencias = JSON.parse(response);
+                /* listadomicilio.forEach(item => {
+                        body += `<tr Licenciaid = "${item.id}"> 
+                                <td class="text-center">${item.id}</td>
+                                <td class="text-center">${item.cliente}</td>
+                                <td class="text-center">${item.oficina}</td>
+                                <td class="text-center">${item.staff}</td>
+                                <td class="text-center">${item.estado}</td>
+                                <td class="text-center">${item.num_solicitud}</td>
+                                <td class="text-center">${item.fecha_solicitud}</td>
+                                <td class="text-center">${item.num_resolucion}</td>
+                                <td class="text-center">${item.fecha_resolucion}</td>
+                                <td class="text-center">${item.referencia_cliente}</td>
+                                <td class="text-center">${item.comentarios}</td>
+                                    <td class="text-center">
+                                        <a class="EditLicencia btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit"></i>Editar</a>
+                                        <button class="licencia-delete btn btn-danger">
+                                        <i class="fas fa-trash"></i>Borrar
+                                        </button>
+                                    </td>
+                                
+                            </tr>
+                        `
+                    });
+                    $('#body_licencia').html(body);      */
+
+                    $("#LicenciaTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        data: licencias,
+                        destroy: true,
+                        columnDefs: [
+                            { width: '5%', targets: 0 },
+                            { width: '15%', targets: 1 },
+                            { width: '15%', targets: 2 },
+                            { width: '10%', targets: 3 },
+                            { width: '10%', targets: 4 },
+                            { width: '5%', targets: 5 },
+                            { width: '5%', targets: 6 },
+                            { width: '5%', targets: 7 },
+                            { width: '5%', targets: 8 },
+                            { width: '5%', targets: 9 },
+                            { width: '15%', targets: 10 },
+                            { width: '5%', targets: 11 }
+                        ],
+                        columns: [
+                            {
+                                data: 'id',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'oficina',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'staff',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'estado',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'referencia_cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'comentarios',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: '',
+                                render: function (data, type, row)
+                                {
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="EditLicencia btn btn-light" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="licencia-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                }
+                            }
+                        ],
+                        width: "100%"
+                    });
+
+                    
+                })
         }
         // Cesion
         function Cesion(){
             let url = '<?php echo admin_url("pi/CesionController/showCesion/$id");?>';
-            let body= ``;
+            //let body= ``;
                 $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
+                    let cesion = JSON.parse(response);
+                    /* cesion.forEach(item => {
                          body += `<tr Cesionid = "${item.id}" > 
                                     <td class="text-center">${item.id}</td>
                                     <td class="text-center">${item.cliente}</td>
@@ -461,7 +906,7 @@
                                     <td class="text-center">${item.num_solicitud}</td>
                                     <td class="text-center">${item.fecha_solicitud}</td>
                                     <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
+                                    <td class="text-center">${item.fecha_resolucion}</td>
                                     <td class="text-center">${item.referencia_cliente}</td>
                                     <td class="text-center">${item.comentarios}</td>
                                         <td class="text-center">
@@ -473,34 +918,204 @@
                                 </tr>
                             `
                     });
-                       $('#body_cesion').html(body);  
-                        
+                       $('#body_cesion').html(body);   */
+                   
+                    $("#CesionTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        autoWidth: false,
+                        data: cesion,
+                        destroy: true,
+                        columnDefs: [
+                            { width: '5%', targets: 0 },
+                            { width: '1%', targets: 1 },
+                            { width: '1%', targets: 2 },
+                            { width: '1%', targets: 3 },
+                            { width: '1%', targets: 4 },
+                            { width: '5%', targets: 5 },
+                            { width: '5%', targets: 6 },
+                            { width: '5%', targets: 7 },
+                            { width: '5%', targets: 8 },
+                            { width: '5%', targets: 9 },
+                            { width: '15%', targets: 10 },
+                            { width: '5%', targets: 11 }
+                        ],
+                        columns: [
+                            {
+                                data: 'id',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'oficina',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'staff',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'estado',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_solicitud',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'num_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha_resolucion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'referencia_cliente',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'comentarios',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: '',
+                                render: function (data, type, row)
+                                {
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="EditCesion btn btn-light" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="cesion-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                }
+                            }
+                        ],
+                        width: "100%"
+                    });                       
+
+                       
                 })
         }
 
         // Eventos
         function Eventos(){
             let url = '<?php echo admin_url("pi/EventosController/showEventos/$id");?>';
-            let body= ``;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    listadomicilio.forEach(item => {
-                        body += `<tr eventosid = "${item.id}" > 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.tipo_evento}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                    <td class="text-center">${item.fecha}</td>
-                                        <td class="text-center">
-                                            <a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="evento-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>  
-                                </tr>
-                            `
-                    });
-                    $('#body_eventos').html(body);   
-                })
+            //let body= ``;
+            $.get(url, function(response){
+                let listadomicilio = JSON.parse(response);
+                console.log('eventos', listadomicilio);
+                /* listadomicilio.forEach(item => {
+                    body += `<tr eventosid = "${item.id}" > 
+                                <td class="text-center">${item.id}</td>
+                                <td class="text-center">${item.tipo_evento}</td>
+                                <td class="text-center">${item.comentarios}</td>
+                                <td class="text-center">${item.fecha}</td>
+                                    <td class="text-center">
+                                        <a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                        <button class="evento-delete btn btn-danger">
+                                        <i class="fas fa-trash"></i>Borrar
+                                        </button>
+                                    </td>  
+                            </tr>
+                        `
+                }); */
+                //$('#body_eventos').html(body);   
+
+                $("#eventosTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: listadomicilio,
+                    destroy: true,
+                    columnDefs: [
+                        { width: '5%', targets: 0 },
+                        { width: '30%', targets: 1 },
+                        { width: '25%', targets: 2 },
+                        { width: '15%', targets: 3 },
+                        { width: '25%', targets: 4 }
+                    ],
+                    columns: [
+                        {
+                            data: 'id',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'tipo_evento',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'comentarios',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: '',
+                            render: function (data, type, row)
+                            {
+                                data = `<a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                <a class="evento-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
+                                return "<div class='col-md-12'>" + data + "</div>"
+                            }
+                        }
+                    ],
+                    width: "100%"
+                });
+            })
         }
 
         // Tareas
@@ -508,27 +1123,84 @@
             let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
             console.log(url);
             let body= ``;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    console.log(listadomicilio);
-                        listadomicilio.forEach(item => {
-                            body += `<tr taskId = "${item.id}">
-                                            <td class="text-center">${item.id}</td>
-                                            <td class="text-center">${item.tipo_tarea}</td>
-                                            <td class="text-center">${item.descripcion}</td>
-                                            <td class="text-center">${item.fecha}</td>
-                                            <td class="text-center">
-                                                <a  class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
-                                                <button class="tarea-delete btn btn-danger">
-                                                <i class="fas fa-trash"></i>Borrar
-                                                </button>
-                                            </td>  
-                                    </tr>
-                                `
-                        });
-                    
-                    $('#body_tareas').html(body);   
-                })
+            $.get(url, function(response){
+                let tareas = JSON.parse(response);
+                /* console.log(tareas);
+                tareas.forEach(item => {
+                        body += `<tr taskId = "${item.id}">
+                                        <td class="text-center">${item.id}</td>
+                                        <td class="text-center">${item.tipo_tarea}</td>
+                                        <td class="text-center">${item.descripcion}</td>
+                                        <td class="text-center">${item.fecha}</td>
+                                        <td class="text-center">
+                                            <a  class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="tarea-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>  
+                                </tr>
+                            `
+                    });
+                
+                $('#body_tareas').html(body);    */
+
+                $("#tareasTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: tareas,
+                    destroy: true,
+                    columnDefs: [
+                        { width: '5%', targets: 0 },
+                        { width: '28%', targets: 1 },
+                        { width: '24%', targets: 2 },
+                        { width: '18%', targets: 3 },
+                        { width: '25%', targets: 4 }
+                    ],
+                    columns: [
+                        {
+                            data: 'id',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'tipo_tarea',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'descripcion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: '',
+                            render: function (data, type, row)
+                            {
+                                data = `<a  class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
+                                <a class="tarea-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
+                                return "<div class='col-md-12'>" + data + "</div>"
+                            }
+                        }
+                    ],
+                    width: "100%"
+                });
+
+            })
         }
         // Documentos
         function Documentos(){
@@ -3248,14 +3920,6 @@
             e.preventDefault();
             $(".calendar").val('');
         })
-        $( function() {
-            $(".calendar").datetimepicker({
-                maxDate: fecha(),
-                weeks: true,
-                format: 'd/m/Y',
-                timepicker:false,
-            });
-        });
 
         
     </script>
@@ -3422,7 +4086,7 @@
             })
         })
 
-        $(document).ready(function(){
+        function TablaPrioridades(){
             $.ajax({
                 url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
                 method: "GET",
@@ -3433,59 +4097,60 @@
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                         },
+                        autoWidth: false,
                         data: table,
                         destroy: true,
                         dataSrc: '',
+                        columnDefs: [
+                            { width: '15%', targets: 0 },
+                            { width: '50%', targets: 1 },
+                            { width: '20%', targets: 2 },
+                            { width: '15%', targets: 3 }
+                        ],
                         columns : [
                             { data: 'fecha_prioridad'},
                             { data: 'nombre'},
                             { data: 'numero'},
                             { data: 'acciones'},
                         ],
+                        columns: [
+                            {
+                                data: 'fecha_prioridad',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'nombre',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'numero',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'acciones',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                        ],
                         width: "100%"
                     });
                 }
             })
-        });
+        };
 
         
 
-
-
-
-
-
-
-
-        // ------------step-wizard-------------
-        $(document).ready(function () {
-            getAllPublicaciones();
-            $('.nav-tabs > li a[title]').tooltip();
-            
-            //Wizard
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-
-                var $target = $(e.target);
-            
-                if ($target.parent().hasClass('disabled')) {
-                    return false;
-                }
-            });
-
-            $(".next-step").click(function (e) {
-
-                var $active = $('.wizard .nav-tabs li.active');
-                $active.next().removeClass('disabled');
-                nextTab($active);
-
-            });
-            $(".prev-step").click(function (e) {
-
-                var $active = $('.wizard .nav-tabs li.active');
-                prevTab($active);
-
-            });
-        });
 
         function nextTab(elem) {
             $(elem).next().find('a[data-toggle="tab"]').click();
@@ -3520,13 +4185,13 @@
                 success: function(response)
                 {
                     alert_float('success', 'Publicacion cargada exitosamente');
-                    getAllPublicaciones();
+                    TablaPublicaciones();
                     $("#publicacionModal").modal('hide');
                 }
             });
         });
 
-        function getAllPublicaciones()
+        function TablaPublicaciones()
         {
             $.ajax({
                 url:"<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
@@ -3539,16 +4204,62 @@
                         language: {
                                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                             },
+                            autoWidth: false,
                             destroy: true,
                             data: table.data,
-                            columns : [
-                                { data: 'fecha'},
-                                { data: 'nombre'},
-                                { data: 'boletin_id'},
-                                { data: 'tomo'},
-                                { data: 'pagina'},
-                                { data: 'acciones'}
-                            ]
+                            columnDefs: [
+                                { width: '15%', targets: 0 },
+                                { width: '25%', targets: 1 },
+                                { width: '25%', targets: 2 },
+                                { width: '2.5%', targets: 3 },
+                                { width: '2.5%', targets: 4 },
+                                { width: '30%', targets: 5 }
+                            ],
+                            columns: [
+                                 {
+                                    data: 'fecha',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-md-12'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'nombre',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'boletin_id',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'tomo',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'pagina',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'acciones',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-md-12'>" + data + "</div>"
+                                    }
+                                }
+                            ],
+                            width: "100%"
                     });
                 }
             });
@@ -3596,7 +4307,7 @@
                 success: function(response)
                 {
                     alert_float('success', 'Publicacion editada exitosamente');
-                    getAllPublicaciones();
+                    TablaPublicaciones();
                     $("#publicacionEditModal").modal('hide');
                 }
             });
@@ -3613,7 +4324,7 @@
                     method: "POST",
                     success: function(response)
                     {
-                        getAllPublicaciones();
+                        TablaPublicaciones();
                     }
                 });
             }            
@@ -3660,18 +4371,43 @@
                 success: function(response){
                     res = JSON.parse(response);
                     data = res.data;
-                    console.log(res);
+                    console.log('clase', data);
                     $('#claseTbl').DataTable( {
+                        autoWidth: false,
                         destroy: true,
                         data: data,
+                        columnDefs: [
+                            { width: '10%', targets: 0 },
+                            { width: '60%', targets: 1 },
+                            { width: '30%', targets: 2 }
+                        ],
                         columns: [
-                            { data: 'clase' },
-                            { data: 'descripcion' },
-                            { data: 'acciones' }
+                            {
+                                data: 'clase',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'descripcion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12 text-left text-break'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'acciones',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            }
                         ],
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                        }
+                        },
+                        width: "100%"
                     } );
                 }
             });
@@ -3773,11 +4509,11 @@
     </script>
 
     <script>
-        $(document).on('ready', function(e){
+        /* $(document).on('ready', function(e){
             e.stopImmediatePropagation();
             TablaClases();
             tablaFacturas();
-        })
+        }) */
     </script>
 
     <script>
@@ -3807,5 +4543,57 @@
     </script>
 
     <script>
-        $("select[name=invoice]").select
+
+    $(function() {
+        $('.nav-tabs > li a[title]').tooltip();
+            
+        //Wizard
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+            var $target = $(e.target);
+        
+            if ($target.parent().hasClass('disabled')) {
+                return false;
+            }
+        });
+
+        $(".next-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            $active.next().removeClass('disabled');
+            nextTab($active);
+
+        });
+        $(".prev-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs li.active');
+            prevTab($active);
+
+        });
+
+        $(".calendar").datetimepicker({
+                maxDate: fecha(),
+                weeks: true,
+                format: 'd/m/Y',
+                timepicker:false,
+        });
+
+        TablaClases();
+        TablaPrioridades();
+        TablaPublicaciones();
+        Eventos();
+        Tareas();
+        Cesion();
+        Licencia();
+        Fusion();
+        CambioNombre();
+        CambioDomicilio();
+        Documentos();
+
+
+    });
+
+
+
+        /* $("select[name=invoice]").select */
     </script>

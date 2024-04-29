@@ -191,6 +191,7 @@ class MarcasDomicilioController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
             'id' => $row['id'],
+            'cliente' => $CI->MarcasDomicilio_model->BuscarClientes($row['client_id']), 
             'oficina' => $CI->MarcasDomicilio_model->BuscarOficina($row['oficina_id']),
             'staff' => $CI->MarcasDomicilio_model->BuscarStaff($row['staff_id']),
             'estado' => $CI->MarcasDomicilio_model->BuscarEstado($row['estado_id']),

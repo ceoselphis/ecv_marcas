@@ -186,8 +186,10 @@ class FusionController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
             'id' => $row['id'],
+            'cliente' => $CI->Fusion_model->BuscarClientes($row['client_id']), 
             'oficina' => $CI->Fusion_model->BuscarOficina($row['oficina_id']),
             'estado' => $CI->Fusion_model->BuscarEstado($row['estado_id']),
+            'staff' => $CI->Fusion_model->BuscarStaff($row['staff_id']),
             'num_solicitud' => $row['num_solicitud'],
             'fecha_solicitud' => $row['fecha_solicitud'],
             'num_resolucion' => $row['num_resolucion'],

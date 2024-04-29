@@ -212,7 +212,8 @@
                 { width: '65%', targets: 2 },
                 { width: '10%', targets: 3 }
             ],
-            columns: [{
+            columns: [
+                {
                     data: 'idRow',
                     render: function (data, type, row)
                     {

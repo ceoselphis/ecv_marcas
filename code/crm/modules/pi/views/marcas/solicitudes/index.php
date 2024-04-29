@@ -25,7 +25,7 @@
                         <div class="_body">
                             <div class="row" style="padding: 2%;">
                                 <div class="col-md-12 pre-scrollable">
-                                    <table class="table" id="tableResult">
+                                    <table class="ultimate table table-responsive" id="tableResult">
                                         <thead style="text-align: justify;">
                                             <tr>
                                                 <td>Código</td>
@@ -736,12 +736,54 @@
                     data: table.data,
                     columns: [
                         { data: 'cod_contador' },
-                        { data: 'tipo' },
-                        { data: 'propietario' },
-                        { data: 'nombre' },
-                        { data: 'clase' },
-                        { data: 'estado' },
-                        { data: 'solicitud' },
+                        { 
+                            data: 'tipo',
+                            render: function (data, type, row)
+                            {
+                                data = data ? data : '';
+                                return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        { 
+                            data: 'propietario',
+                            render: function (data, type, row)
+                            {
+                                data = data ? data : '';
+                                return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        { 
+                            data: 'nombre',
+                            render: function (data, type, row)
+                            {
+                                data = data ? data : '';
+                                return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        { 
+                            data: 'clase',
+                            render: function (data, type, row)
+                            {
+                                data = data ? data : '';
+                                return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        { 
+                            data: 'estado',
+                            render: function (data, type, row)
+                            {
+                                data = data ? data : '';
+                                return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        { 
+                            data: 'solicitud',
+                            render: function (data, type, row)
+                            {
+                                data = data ? data : '';
+                                return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
                         { data: 'fecha_solicitud' },
                         { data: 'registro' },
                         { data: 'certificado' },

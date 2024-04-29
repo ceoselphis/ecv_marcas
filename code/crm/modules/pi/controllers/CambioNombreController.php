@@ -184,8 +184,10 @@ class CambioNombreController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
             'id' => $row['id'],
+            'cliente' => $CI->CambioNombre_model->BuscarClientes($row['client_id']), 
             'oficina' => $CI->CambioNombre_model->BuscarOficina($row['oficina_id']),
             'estado' => $CI->CambioNombre_model->BuscarEstado($row['estado_id']),
+            'staff' => $CI->CambioNombre_model->BuscarStaff($row['staff_id']),
             'num_solicitud' => $row['num_solicitud'],
             'fecha_solicitud' => $row['fecha_solicitud'],
             'num_resolucion' => $row['num_resolucion'],

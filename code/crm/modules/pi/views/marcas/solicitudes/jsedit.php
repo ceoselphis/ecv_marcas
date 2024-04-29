@@ -317,6 +317,7 @@
             //let body= ``; //data-toggle="modal" data-target="#EditCambioDomicilio"
             $.get(url, function(data){
                 let listadomicilio = JSON.parse(data);
+                console.log('CambioDomicilio', listadomicilio);
                 /* listadomicilio.forEach(item => {
                     body += `<tr CamDomid = "${item.id}"> 
                                 <td class="text-center">${item.id}</td>
@@ -344,6 +345,7 @@
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                         },
+                        autoWidth: false,
                         data: listadomicilio,
                         destroy: true,
                         columnDefs: [
@@ -462,7 +464,7 @@
             let body= ``;
             $.get(url, function(response){
                 let cambioNombre = JSON.parse(response);
-                console.log('cambioNombre', cambioNombre);
+                console.log('CambioNombre', cambioNombre);
                 /* listadomicilio.forEach(item => {
                     body += `<tr CamNomid = "${item.id}"> 
                                 <td class="text-center">${item.id}</td>
@@ -489,6 +491,7 @@
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                         },
+                        autoWidth: false,
                         data: cambioNombre,
                         destroy: true,
                         columnDefs: [
@@ -607,7 +610,7 @@
             //let body= ``;
             $.get(url, function(response){
                 let fusion = JSON.parse(response);
-                console.log('fusion', fusion);
+                console.log('Fusion', fusion);
                 /* fusion.forEach(item => {
                         body += `<tr Fusionid = "${item.id}"> 
                                 <td class="text-center">${item.id}</td>
@@ -636,6 +639,7 @@
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                         },
+                        autoWidth: false,
                         data: fusion,
                         destroy: true,
                         columnDefs: [
@@ -751,6 +755,7 @@
             let body= ``;
             $.get(url, function(response){
                 let licencias = JSON.parse(response);
+                console.log('Licencia', licencias);
                 /* listadomicilio.forEach(item => {
                         body += `<tr Licenciaid = "${item.id}"> 
                                 <td class="text-center">${item.id}</td>
@@ -780,6 +785,7 @@
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                         },
+                        autoWidth: false,
                         data: licencias,
                         destroy: true,
                         columnDefs: [
@@ -896,6 +902,7 @@
             //let body= ``;
                 $.get(url, function(response){
                     let cesion = JSON.parse(response);
+                    console.log('Cesion', cesion);
                     /* cesion.forEach(item => {
                          body += `<tr Cesionid = "${item.id}" > 
                                     <td class="text-center">${item.id}</td>
@@ -1041,8 +1048,8 @@
             let url = '<?php echo admin_url("pi/EventosController/showEventos/$id");?>';
             //let body= ``;
             $.get(url, function(response){
-                let listadomicilio = JSON.parse(response);
-                console.log('eventos', listadomicilio);
+                let eventos = JSON.parse(response);
+                console.log('Eventos', eventos);
                 /* listadomicilio.forEach(item => {
                     body += `<tr eventosid = "${item.id}" > 
                                 <td class="text-center">${item.id}</td>
@@ -1065,7 +1072,7 @@
                         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                     },
                     autoWidth: false,
-                    data: listadomicilio,
+                    data: eventos,
                     destroy: true,
                     columnDefs: [
                         { width: '5%', targets: 0 },
@@ -1125,8 +1132,8 @@
             let body= ``;
             $.get(url, function(response){
                 let tareas = JSON.parse(response);
-                /* console.log(tareas);
-                tareas.forEach(item => {
+                console.log('Tareas', tareas);
+                /* tareas.forEach(item => {
                         body += `<tr taskId = "${item.id}">
                                         <td class="text-center">${item.id}</td>
                                         <td class="text-center">${item.tipo_tarea}</td>
@@ -1205,34 +1212,98 @@
         // Documentos
         function Documentos(){
             let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/showDocumentos/$id");?>';
-            let body= ``;
-            let archivo = `<?php echo site_url('uploads/marcas/documentos/');?>`;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                        listadomicilio.forEach(item => {
-                            let 
-                            archivofinal= archivo + item.path;
-                            body += `  <tr docid = "${item.id}">
-                                            <td class="text-center">${item.id}</td>
-                                            <td class="text-center">${item.marcas_id}</td>
-                                            <td class="text-center">${item.descripcion}</td>
-                                            <td class="text-center">${item.comentario}</td>
-                                            <td class="text-center">
-                                            <a href="${archivofinal}" target="_blank"> 
-                                            ${item.path}
-                                            </a> 
-                                            </td>
-                                            <td class="text-center">
-                                                <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                                <button class="documentos-delete btn btn-danger">
-                                                <i class="fas fa-trash"></i>Borrar
-                                                </button>
-                                            </td>  
-                                    </tr>
-                                `
-                        });
-                    $('#body_documentos').html(body);   
-                })
+            //let body= ``;
+            //let archivo = `<?php echo site_url('uploads/marcas/documentos/');?>`;
+            $.get(url, function(response){
+                let documentos = JSON.parse(response);
+                console.log('Documentos', documentos);
+                    /* listadomicilio.forEach(item => {
+                        let 
+                        archivofinal= archivo + item.path;
+                        body += `  <tr docid = "${item.id}">
+                                        <td class="text-center">${item.id}</td>
+                                        <td class="text-center">${item.marcas_id}</td>
+                                        <td class="text-center">${item.descripcion}</td>
+                                        <td class="text-center">${item.comentario}</td>
+                                        <td class="text-center">
+                                        <a href="${archivofinal}" target="_blank"> 
+                                        ${item.path}
+                                        </a> 
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="documentos-delete btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>  
+                                </tr>
+                            `
+                    });
+                $('#body_documentos').html(body); */
+
+                $("#DocumentosTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        autoWidth: false,
+                        data: documentos,
+                        destroy: true,
+                        columnDefs: [
+                            { width: '5%', targets: 0 },
+                            { width: '25%', targets: 1 },
+                            { width: '25%', targets: 2 },
+                            { width: '25%', targets: 3 },
+                            { width: '15%', targets: 4 }
+                        ],
+                        columns: [
+                            {
+                                data: 'id',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='row'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'descripcion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='row text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'comentario',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='row text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'path',
+                                render: function (data, type, row)
+                                {
+                                    //pathArr = data.split("/");
+                                    //archivo = pathArr[pathArr.length-1];
+                                    //data =`<a href="${data}" target="_blank">${archivo}</a>`;
+                                    data =`<a href="${data}" target="_blank">Ver Documento</a>`;
+                                    return "<div class='row'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: '',
+                                render: function (data, type, row)
+                                {
+                                    data = `<div class='col-md-6' style="padding: 0;"><a class="editdoc btn btn-light" data-toggle="modal" data-target="#docModalEdit" style="padding: 0;"><i class="fas fa-edit" style="margin: 0;"></i>Editar</a></div>
+                                    <div class='col-md-6' style="padding: 0;"><a class="documentos-delete btn btn-light" style= "background-color: white;padding: 0;"><i class="fas fa-trash" style="margin: 0;"></i>Borrar</a></div>`;
+                                    return "<div  class='row text-nowrap'>" + data + "</div>"
+
+                                }
+                            }
+                        ],
+                        width: "100%"
+                    });
+
+
+            })
         }
         // Renovacion
         $('#renovacion').on('click',function(){
@@ -4032,6 +4103,7 @@
                             language: {
                                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                             },
+                            autoWidth: false,
                             data: table,
                             destroy: true,
                             dataSrc: '',
@@ -4093,6 +4165,7 @@
                 success: function(response)
                 {
                     table = JSON.parse(response);
+                    console.log('Prioridades', table);
                     $("#prioridadTbl").DataTable({
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
@@ -4199,7 +4272,7 @@
                 success: function(response)
                 {
                     table = JSON.parse(response);
-                    console.log(table.data);
+                    console.log('Publicaciones', table.data);
                     $("#publicacionTbl").DataTable({
                         language: {
                                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
@@ -4371,7 +4444,7 @@
                 success: function(response){
                     res = JSON.parse(response);
                     data = res.data;
-                    console.log('clase', data);
+                    console.log('Clases', data);
                     $('#claseTbl').DataTable( {
                         autoWidth: false,
                         destroy: true,
@@ -4512,31 +4585,65 @@
         /* $(document).on('ready', function(e){
             e.stopImmediatePropagation();
             TablaClases();
-            tablaFacturas();
+            TablaFacturas();
         }) */
     </script>
 
     <script>
-        function tablaFacturas()
+        function TablaFacturas()
         {
             $.ajax({
                 url:"<?php echo admin_url("pi/MarcasSolicitudesController/getInvoicesByMarca/{$id}");?>",
                 method:"GET",
                 success: function(response){
+                    console.log('Facturas response', response);
                     res = JSON.parse(response);
+                    console.log('Facturas', res.data);
                     $('#tblInvoices').DataTable( {
+                        autoWidth: false,
                         destroy: true,
                         data: res.data,
-                        columns: [
-                            { data: 'factura' },
-                            { data: 'fecha' },
-                            { data: 'estatus'},
-                            { data: 'acciones' }
+                        columnDefs: [
+                            { width: '15%', targets: 0 },
+                            { width: '30%', targets: 1 },
+                            { width: '30%', targets: 2 },
+                            { width: '25%', targets: 3 }
                         ],
+                        columns: [
+                            {
+                                data: 'factura',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'fecha',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'estatus',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'acciones',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-md-12'>" + data + "</div>"
+                                }
+                            },
+                        ],
+                        width: "100%",
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
                         }
-                    } );
+                    });
                 }
             })
         }
@@ -4589,7 +4696,7 @@
         CambioNombre();
         CambioDomicilio();
         Documentos();
-
+        TablaFacturas();
 
     });
 

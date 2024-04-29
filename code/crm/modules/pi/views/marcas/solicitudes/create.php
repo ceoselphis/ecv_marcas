@@ -897,7 +897,6 @@ $select = ['' => '']; ?>
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
-                                                    <!-- <th>Archivo</th> -->
                                                     <th>Descripcion</th>
                                                     <th>Comentarios</th>
                                                     <th>Documento</th>

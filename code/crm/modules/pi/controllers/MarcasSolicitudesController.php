@@ -60,7 +60,7 @@ class MarcasSolicitudesController extends AdminController
                 'id_factura' => $factId,
                 'num_factura' => $dataInv[0]['prefix'] . '-' . $dataInv[0]['number'],
                 'date' =>  date_format(new DateTime($dataInv[0]['date']), 'd/m/Y'),
-                'status' => format_invoice_status($dataInv[0]['status'], '', false)
+                'status' => format_invoice_status($dataInv[0]['status'], '', true)
             );
             //$CI->load->model('invoices_model');
             //$statusInv = $CI->invoices_model->get_statuses();
@@ -1233,7 +1233,8 @@ class MarcasSolicitudesController extends AdminController
                 $row = array();
                 $row['factura'] = $invoice[0]['id'];
                 $row['fecha']   = $invoice[0]['date'];
-                switch ($invoice[0]['status']) {
+                $row['estatus'] = format_invoice_status($invoice[0]['status'], '', true);
+                /* switch ($invoice[0]['status']) {
                     case '2':
                         $row['estatus'] = '<span class="label label-success  s-status invoice-status-2">Pagada</span>';
                         break;
@@ -1243,8 +1244,16 @@ class MarcasSolicitudesController extends AdminController
                     default:
 
                         break;
-                }
-                $row['acciones'] = '<a href="'.admin_url("invoices/invoice/".$invoice[0]['id']).'" class="btn btn-primary"><i class="fas fa-edit"></i> Editar </a>';
+                } */
+                $acciones = "<div class='col-md-6' style='padding: 0;'>";
+                $acciones .= "<a href= '".admin_url("invoices/invoice/".$invoice[0]['id'])."'class='btn btn-light' style='padding: 0;'>";
+                $acciones .= "<i class='fas fa-edit' style='margin: 0;'></i>Editar</a></div>";
+                $acciones .= "<div class='col-md-6' style='padding: 0;'>";
+                $acciones .= "<a class='factura-delete btn btn-light' style= 'background-color: white;padding: 0;'>";
+                $acciones .= "<i class='fas fa-trash' style='margin: 0;'></i>Borrar</a></div>";
+                
+                $row['acciones'] = $acciones;
+                //$row['acciones'] = '<a href="'.admin_url("invoices/invoice/".$invoice[0]['id']).'" class="btn btn-primary"><i class="fas fa-edit"></i> Editar </a>';
                 $response[] = $row;
             }
             echo json_encode(['status' => 200, "data" => $response]);

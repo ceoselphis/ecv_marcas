@@ -742,11 +742,10 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             data-target="#docModal">Añadir Documento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table id="DocumentosTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
-                                                    <th>Archivo</th>
                                                     <th>Descripcion</th>
                                                     <th>Comentarios</th>
                                                     <th>Documento</th>
@@ -766,10 +765,10 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 <!-- Step 9 -->
                                 <div class="tab-pane" role="tabpanel" id="step9">
                                     <div class="row">
-                                        <a class="btn btn-primary"
+                                        <a class="btn btn-primary pull-right"
                                             href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/" . $id); ?>"><i
                                                 class="fas fa-plus"></i> Añadir nueva factura</a>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        <button type="button" class="btn btn-primary pull-right" style="margin-right: 15px;" data-toggle="modal"
                                             data-target="#facturaModal"><i class="fas fa-plus"></i> Añadir factura
                                             existente</button>
                                     </div>

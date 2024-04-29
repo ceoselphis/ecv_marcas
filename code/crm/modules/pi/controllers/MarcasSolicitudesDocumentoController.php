@@ -65,7 +65,7 @@ class MarcasSolicitudesDocumentoController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
-                'marcas_id' => $CI->MarcasSolicitudesDocumento_model->BuscarSolicitudesMarcas($row['marcas_id']),
+                //'marcas_id' => $CI->MarcasSolicitudesDocumento_model->BuscarSolicitudesMarcas($row['marcas_id']),
                 'descripcion' => $row['descripcion'],
                 'comentario' => $row['comentarios'],
                 'path' => $row['path'],

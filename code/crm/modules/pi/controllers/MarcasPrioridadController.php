@@ -256,14 +256,20 @@ class MarcasPrioridadController extends AdminController
         $CI->load->model("MarcasPrioridad_model");
         $data = $CI->MarcasPrioridad_model->findAllPrioridadByMarcas($marcas_id);
         $response = array();
+        $acciones = "<div class='col-md-6' style='padding-left: 0px;'>";
+        $acciones .= "<a id='#id#'class='editarPrioridad btn btn-light link-style' style= 'background-color: white;padding-top: 0px;'><i class='fas fa-edit' style='top: 5px;position: unset;'></i>Editar</a></div>";
+        $acciones .= "<div class='col-md-6' style='padding-left: 10px;'>";
+        $acciones .= "<a id='#id#' class='deletePrioridad btn btn-light link-style' style='background-color: white;padding-top: 0px;'><i class='fas fa-trash' style='top: 5px;position: unset;'></i>Borrar</a></div>";
         foreach($data as $row)
         {
+            $auxAcc = $acciones;
             $response[] = [
                 'id' => $row['id'],
                 'fecha_prioridad' => $this->flip_dates($row['fecha_prioridad']),
                 'nombre' => $row['nombre'],
                 'numero' => $row['numero_prioridad'],
-                'acciones' => '<button id="'.$row['id'].'" class="btn btn-danger borrarPrioridad"><i class="fas fa-trash"></i> Borrar</button>',
+                'acciones' => str_replace('#id#', $row['id'], $auxAcc)
+                //'acciones' => '<button id="'.$row['id'].'" class="btn btn-danger borrarPrioridad"><i class="fas fa-trash"></i> Borrar</button>',
             ];
         }
         echo json_encode($response);

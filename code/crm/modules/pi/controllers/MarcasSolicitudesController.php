@@ -1202,13 +1202,19 @@ class MarcasSolicitudesController extends AdminController
         $CI->load->library('form_validation');
         $query = $CI->MarcasSolicitudes_model->getMarcasClases($marcas_id);
         $result = array();
+        $acciones = "<div class='col-md-6' style='padding-left: 0px;'>";
+        $acciones .= "<a id='#idclase#'class='editarClase btn btn-light link-style' style= 'background-color: white;padding-top: 0px;'><i class='fas fa-edit' style='top: 5px;position: unset;'></i>Editar</a></div>";
+        $acciones .= "<div class='col-md-6' style='padding-left: 10px;'>";
+        $acciones .= "<a id='#idclase#' class='borrarClase btn btn-light link-style' style='background-color: white;padding-top: 0px;'><i class='fas fa-trash' style='top: 5px;position: unset;'></i>Borrar</a></div>";
+
         if (!empty($query)) {
             foreach ($query as $row) {
-
+                $auxAcc = $acciones;
                 $result[] = [
+                    'id'            => $row['id'],
                     'clase'         => $row['nombre'],
                     'descripcion'   => $row['descripcion'],
-                    'acciones' => '<button type="button" class="btn btn-primary editarClase" id="' . $row['id'] . '"><i class="fas fa-edit"></i> Editar</button> <button type="button" class="btn btn-danger borrarClase" id="' . $row['id'] . '"><i class="fas fa-trash"></i> Borrar</button>',
+                    'acciones' => str_replace('#idclase#', $row['id'], $auxAcc)
                 ];
             }
         }
@@ -1232,19 +1238,8 @@ class MarcasSolicitudesController extends AdminController
                 $invoice = $CI->MarcasSolicitudes_model->getInvoice($value['facturas_id']);
                 $row = array();
                 $row['factura'] = $invoice[0]['id'];
-                $row['fecha']   = $invoice[0]['date'];
+                $row['fecha']   = date('d/m/Y', strtotime($invoice[0]['date']));
                 $row['estatus'] = format_invoice_status($invoice[0]['status'], '', true);
-                /* switch ($invoice[0]['status']) {
-                    case '2':
-                        $row['estatus'] = '<span class="label label-success  s-status invoice-status-2">Pagada</span>';
-                        break;
-                    case '6':
-                        $row['estatus'] = '<span class="label label-default  s-status invoice-status-6">Borrador</span>';
-                        break;
-                    default:
-
-                        break;
-                } */
                 $acciones = "<div class='col-md-6' style='padding: 0;'>";
                 $acciones .= "<a href= '".admin_url("invoices/invoice/".$invoice[0]['id'])."'class='btn btn-light' style='padding: 0;'>";
                 $acciones .= "<i class='fas fa-edit' style='margin: 0;'></i>Editar</a></div>";

@@ -439,16 +439,22 @@ class PublicacionesMarcasController extends AdminController
         $result = array();
         if(!empty($query))
         {
+            $acciones = "<div class='col-md-6' style='padding-left: 0px;'>";
+            $acciones .= "<a id='#id#'class='editPublicacion btn btn-light link-style' style= 'background-color: white;padding-top: 0px;'><i class='fas fa-edit' style='top: 5px;position: unset;'></i>Editar</a></div>";
+            $acciones .= "<div class='col-md-6' style='padding-left: 10px;'>";
+            $acciones .= "<a id='#id#' class='deletePublicacion btn btn-light link-style' style='background-color: white;padding-top: 0px;'><i class='fas fa-trash' style='top: 5px;position: unset;'></i>Borrar</a></div>";
             foreach($query as $row)
             {
+                $auxAcc = $acciones;
                 $result[] = [
                     'fecha'         => date('d/m/Y', strtotime($row['fecha'])),
                     'boletin_id'    => $row['boletin_id'],
                     'tomo'          => $row['tomo'],
                     'pagina'        => $row['pagina'],
                     'nombre'        => $row['nombre'],
-                    'acciones'      => '<button class="btn btn-primary editPublicacion" id='.$row['id'].'><i class="fas fa-edit"></i>Editar</button>
-                                        <button type="button" class="btn btn-danger deletePublicacion" id='.$row['id'].'><i class="fas fa-trash"></i>Borrar</button>'
+                    'acciones' => str_replace('#id#', $row['id'], $auxAcc)
+                    //'acciones'      => '<button class="btn btn-primary editPublicacion" id='.$row['id'].'><i class="fas fa-edit"></i>Editar</button>
+                                        //<button type="button" class="btn btn-danger deletePublicacion" id='.$row['id'].'><i class="fas fa-trash"></i>Borrar</button>'
                 ];
             }
             echo json_encode(['code' => 200, 'message' => 'Consulta realizada exitosamente', 'data' => $result]);

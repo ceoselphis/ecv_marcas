@@ -70,7 +70,7 @@ class TareasController extends AdminController
                 'id' => $row['id'],
                 'tipo_tarea' => $CI->Tareas_Model->BuscarTipoTareas($row['tipo_tareas_id']),
                 'descripcion' => $row['descripcion'],
-                'fecha' => $row['fecha'], 
+                'fecha' => date('d/m/Y', strtotime($row['fecha'])), 
             );
         }
         echo json_encode($data);
@@ -83,6 +83,7 @@ class TareasController extends AdminController
        // echo json_encode($data);
         if (!empty($data)){
             $insert = array(
+                            'project_id' => $data['project_id'],
                             'tipo_tareas_id' => $data['tipo_tarea'],
                             'marcas_id' => $data['id_marcas'],
                             'descripcion' => $data['descripcion'],

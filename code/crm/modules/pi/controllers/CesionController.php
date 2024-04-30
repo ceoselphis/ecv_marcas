@@ -198,9 +198,9 @@ class CesionController extends AdminController
             'estado' => $CI->Cesion_model->BuscarEstado($row['estado_id']),
             'staff' => $CI->Cesion_model->BuscarStaff($row['staff_id']),
             'num_solicitud' => $row['solicitud_num'],
-            'fecha_solicitud' => $row['fecha_solicitud'],
+            'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
             'num_resolucion' => $row['resolucion_num'],
-            'fecha_resolucion' => $row['fecha_resolucion'],
+            'fecha_resolucion' => date('d/m/Y', strtotime($row['fecha_resolucion'])),
             'referencia_cliente' => $row['referencia_cliente'],
             'comentarios' => $row['comentarios'],
             );

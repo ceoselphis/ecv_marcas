@@ -1141,7 +1141,7 @@ class MarcasSolicitudes_model extends BaseModel
             $data = array(
                 'id' => $row['id'],
                 'date' => date_format(new DateTime($row['date']), 'd/m/Y'),
-                'status' => format_invoice_status($row['status'], '', false)
+                'status' => format_invoice_status($row['status'], '', true)
             );
             array_push($invExtra, $data);
         }

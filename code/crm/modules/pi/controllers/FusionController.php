@@ -191,9 +191,9 @@ class FusionController extends AdminController
             'estado' => $CI->Fusion_model->BuscarEstado($row['estado_id']),
             'staff' => $CI->Fusion_model->BuscarStaff($row['staff_id']),
             'num_solicitud' => $row['num_solicitud'],
-            'fecha_solicitud' => $row['fecha_solicitud'],
+            'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
             'num_resolucion' => $row['num_resolucion'],
-            'fecha_resolucion' => $row['fecha_resolucion'],
+            'fecha_resolucion' => date('d/m/Y', strtotime($row['fecha_resolucion'])),
             'referencia_cliente' => $row['referencia_cliente'],
             'comentarios' => $row['comentarios'],
             );

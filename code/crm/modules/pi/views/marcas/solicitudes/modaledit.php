@@ -1,3 +1,5 @@
+<?php $select = ['' => '']; ?>
+
 <!-- Clase Niza Modal -->
 <div class="modal fade" id="claseNizaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaFrm']);?>
@@ -12,7 +14,9 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-6">
-                <?php echo form_label('Clase', 'clase_niza');?>
+                <?php 
+                $clase_niza_id = $select + $clase_niza_id;
+                echo form_label('Clase', 'clase_niza');?>
                 <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-6">
@@ -78,7 +82,9 @@
         <div class="row">
             <div class="col-md-6">
                 <?php echo form_label('Pais de la prioridad', 'pais_prioridad');?>
-                <?php echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
+                <?php 
+                $pais_id = $select + $pais_id;
+                echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Fecha', 'fecha_prioridad');?>
@@ -140,6 +146,7 @@
   </div>
   <?php echo form_close();?>
 </div>
+
 <!-- Añadir Tareas Modal -->
 <div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
@@ -155,7 +162,9 @@
         <div class="row">
             <div class="col-md-4">
               <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']);?>
-              <?php echo form_dropdown([
+              <?php 
+              $projects = $select + $projects;
+              echo form_dropdown([
                 'name' => 'project_id',
                 'id' => 'project_id',
                 'class' => 'form-control',
@@ -165,7 +174,9 @@
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
-                <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
+                <?php 
+                $tipo_tareas = $select + $tipo_tareas;
+                echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12" style="margin-top: 15px;">
                 <?php echo form_label('Descripcion', 'descripcion');?>
@@ -197,10 +208,10 @@
         <div class="row">
             <input type="hidden" id="Tareaid">
             <div class="col-md-4">
-              <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']);?>
+              <?php echo form_label('Proyecto', 'editproject_id', ['class' => 'form-label']);?>
               <?php echo form_dropdown([
-                'name' => 'project_id',
-                'id' => 'project_id',
+                'name' => 'editproject_id',
+                'id' => 'editproject_id',
                 'class' => 'form-control',
                 'selected' => set_value('project_id', $values['projects']), 
                 'options' => $projects
@@ -241,11 +252,15 @@
         <div class="row">
             <div class="col-md-3">
                 <?php echo form_label('Tipo', 'tipo_publicacion');?>
-                <?php echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'),['class' => 'form-control']);?>
+                <?php 
+                $tipo_publicacion = $select + $tipo_publicacion;
+                echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'),['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Boletin', 'boletin_publicacion');?>
-                <?php echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion') , ['class' => 'form-control']);?>
+                <?php 
+                $boletines = $select + $boletines;
+                echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion') , ['class' => 'form-control']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Tomo', 'tomo_publicacion');?>
@@ -322,7 +337,9 @@
         <div class="row">
             <div class="col-md-12">
                 <?php echo form_label('Tipo Evento', 'tipo_evento');?>
-                <?php echo form_dropdown(['name'=>'tipo_evento','id'=>'tipo_evento'], $tipo_evento, '',['class' => 'form-control']);?>
+                <?php 
+                $tipo_evento = $select + $tipo_evento;
+                echo form_dropdown(['name'=>'tipo_evento','id'=>'tipo_evento'], $tipo_evento, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentario', 'evento_comentario');?>

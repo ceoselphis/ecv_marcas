@@ -3,7 +3,14 @@ $CI = &get_instance();
 init_head();
 $CI->load->view('marcas/solicitudes/css.php');
 $select = ['' => '']; ?>
-
+<style>
+    .link-style {
+        color: red !important;
+    }
+    .link-style:hover {
+        color: #333 !important;
+    }
+</style>
 <div id="wrapper">
     <div class="content">
 
@@ -917,6 +924,13 @@ $select = ['' => '']; ?>
                                 </div>
                                 <!-- Step 9 -->
                                 <div class="tab-pane" role="tabpanel" id="step9">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>
+                                                <?php echo form_label("N° Expediente Solicitud: {$cod_contador}"); ?>
+                                            </h4>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <a class="btn btn-primary newfact pull-right"
                                             href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/" . $id); ?>"><i

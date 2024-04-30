@@ -2,6 +2,15 @@
 $CI = &get_instance();
 init_head();
 $CI->load->view('marcas/solicitudes/css.php'); ?>
+<style>
+    .link-style {
+        color: rgb(37 99 235/var(--tw-text-opacity)) !important;
+    }
+    .link-style:hover {
+        color: #333 !important;
+    }
+</style>
+
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -125,13 +134,12 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         ]); ?>
                                         <!-- Para Mostrar el Nombre de Archivo Signo seleccionado -->
                                         <?php
-                                        $filename = explode("/", $values['signo_archivo']);
                                         ?>
                                         <div class="text-danger" id="SignoFileName">
-                                            <?php echo $filename[count($filename) - 1]; ?>
+                                            <?php echo "Archivo → (<a href='" . $values['signo_archivo'] . "' target='_blank'>Ver Archivo</a>)"; ?>
                                         </div>
                                         <div class="text-danger" id="DescFileName">
-                                            <?php echo $values['signo_archivo_desc']; ?>
+                                            <?php echo "Descripción → (" . $values['signo_archivo_desc']. ")"; ?>
                                         </div>
                                     </div>
                                     <div class="col-md-2" style="padding-top: 2%; padding-bottom:0%">
@@ -456,7 +464,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary pull-right" data-toggle="modal"
+                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
                                             data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
@@ -764,6 +772,12 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                 </div>
                                 <!-- Step 9 -->
                                 <div class="tab-pane" role="tabpanel" id="step9">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' . $values['cod_contador']; ?></strong>
+                                            </h4>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <a class="btn btn-primary pull-right"
                                             href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/" . $id); ?>"><i

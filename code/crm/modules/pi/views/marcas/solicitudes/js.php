@@ -132,7 +132,8 @@
                 'clase_id_name': $("#clase_niza option[value=" + $( "#clase_niza").val() + "]").text(),
                 'descripcion': $('#clase_niza_descripcion').val(),
                 'marcas_id': $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='claseNiza_" + (tblClaseDT.rows().count()) + "' class='btn btn-danger col-mrg deleteClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='claseNiza_" + (tblClaseDT.rows().count()) + "' class='btn btn-danger col-mrg deleteClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="claseNiza_' + (tblClaseDT.rows().count()) + '" class="deleteClase btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
 
             claseNiza.push(data);
@@ -217,28 +218,28 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'clase_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'descripcion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-break'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-break'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -268,7 +269,8 @@
                 'fecha_prioridad': $('#fecha_prioridad').val(),
                 'numero_prioridad': $('#nro_prioridad').val(),
                 'marcas_id': $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='prioridad_" + (tblPrioridadDT.rows().count()) + "' class='btn btn-danger col-mrg deletePrioridad'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='prioridad_" + (tblPrioridadDT.rows().count()) + "' class='btn btn-danger col-mrg deletePrioridad'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="prioridad_' + (tblPrioridadDT.rows().count()) + '" class="deletePrioridad btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             prioridad.push(data);
             console.log('prioridad', prioridad);
@@ -354,35 +356,35 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_prioridad',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'pais_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'numero_prioridad',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 },
             ],
@@ -416,7 +418,8 @@
                 "tomo": $('#tomo_publicacion').val(),
                 "pagina": $('#pag_publicacion').val(),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='publicacion_" + (tblPublicacionDT.rows().count()) + "' class='btn btn-danger col-mrg deletePublicacion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='publicacion_" + (tblPublicacionDT.rows().count()) + "' class='btn btn-danger col-mrg deletePublicacion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="publicacion_' + (tblPublicacionDT.rows().count()) + '" class="deletePublicacion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             publicacion.push(data);
             console.log('publicacion', publicacion);
@@ -510,49 +513,49 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'tipo_pub_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'boletin_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'tomo',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'pagina',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -582,7 +585,8 @@
                 'tipo_evento_name': $('#tipo_evento option[value=' + $('#tipo_evento').val() + ']').text(),
                 "comentarios": $('#evento_comentario').val(),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='eventos_" + (tblEventosDT.rows().count()) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='eventos_" + (tblEventosDT.rows().count()) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="eventos_' + (tblEventosDT.rows().count()) + '" class="deleteEvento btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             eventos.push(data);
             console.log('eventos', eventos);
@@ -669,35 +673,35 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'tipo_evento_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'comentarios',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -730,7 +734,8 @@
                 'tipo_tareas_id_name': $('#tipo_tarea option[value=' + $('#tipo_tarea').val() + ']').text(),
                 "descripcion": $('#descripcion').val(),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='tareas_" + (tblTareasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteTarea'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='tareas_" + (tblTareasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteTarea'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="tareas_' + (tblTareasDT.rows().count()) + '" class="deleteTarea btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             tareas.push(data);
             console.log('tareas', tareas);
@@ -821,42 +826,42 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'project_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'tipo_tareas_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'descripcion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -910,7 +915,8 @@
                 "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
                 "cesionesactuales": localStorage.getItem("cesionesactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesiones_" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesiones_" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="cesiones_' + (tblCesionesDT.rows().count()) + '" class="deleteCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             end = new Date(); console.log(`Asignada la Data en ${end.getTime() - start.getTime()} msec`); start = new Date();
             cesiones.push(data);
@@ -1048,84 +1054,84 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'client_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'oficina_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'staff_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'estado_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'solicitud_num',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'resolucion_num',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'referencia_cliente',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'comentarios',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -1158,7 +1164,8 @@
                         'cedente_id_name': $(this).text(),
                         "tipo_cedente": 1,
                         "cesion_id": tblCesionesDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesionesanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesionesanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="cesionesanteriores_' + (rowCount) + '" class="deleteCesionAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     cesionesanteriores.push(data);
                     rowCount++;
@@ -1249,21 +1256,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'cedente_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -1296,7 +1303,8 @@
                     'cedente_id_name': $(this).text(),
                     "tipo_cedente": 2,
                     "cesion_id": tblCesionesDT.rows().count() + 1,
-                    'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesionesactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesionesactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCesionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    'acciones': '<div class="col-md-6"><a id="cesionesactuales_' + (rowCount) + '" class="deleteCesionActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     cesionesactuales.push(data);
                     rowCount++;
@@ -1388,21 +1396,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'cedente_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -1453,7 +1461,8 @@
                 "licenciasanteriores": localStorage.getItem("licenciasanteriores"),
                 "licenciasactuales": localStorage.getItem("licenciasactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licencias_" + (tblLicenciasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteLicencia'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licencias_" + (tblLicenciasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteLicencia'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="licencias_' + (tblLicenciasDT.rows().count()) + '" class="deleteLicencia btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             licencias.push(data);
             console.log('licencias', licencias);
@@ -1590,84 +1599,84 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'client_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'oficina_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'staff_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'estado_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'num_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'num_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'referencia_cliente',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'comentarios',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -1700,7 +1709,8 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_licenciante": 1,
                         "licencia_id": tblLicenciasDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licenciasanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licenciasanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="licenciasanteriores_' + (rowCount) + '" class="deleteLicenciaAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     licenciasanteriores.push(data);
                     rowCount++;
@@ -1791,21 +1801,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'propietario_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -1838,7 +1848,8 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_licenciante": 2,
                         "licencia_id": tblLicenciasDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licenciasactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licenciasactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteLicenciaActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="licenciasactuales_' + (rowCount) + '" class="deleteLicenciaActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     licenciasactuales.push(data);
                     rowCount++;
@@ -1929,21 +1940,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'propietario_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -1994,7 +2005,8 @@
                 "fusionesanteriores": localStorage.getItem("fusionesanteriores"),
                 "fusionesactuales": localStorage.getItem("fusionesactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusiones_" + (tblFusionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFusion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusiones_" + (tblFusionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFusion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="fusiones_' + (tblFusionesDT.rows().count()) + '" class="deleteFusion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             fusiones.push(data);
             console.log('fusiones', fusiones);
@@ -2131,84 +2143,84 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'client_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'oficina_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'staff_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'estado_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'num_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'num_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'referencia_cliente',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'comentarios',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -2241,7 +2253,8 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_participante": 1,
                         "fusion_id": tblCesionesDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusionesanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusionesanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="fusionesanteriores_' + (rowCount) + '" class="deleteFusionAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     fusionesanteriores.push(data);
                     rowCount++;
@@ -2332,21 +2345,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'propietario_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -2379,7 +2392,8 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_participante": 2,
                         "fusion_id": tblFusionesDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusionesactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusionesactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFusionActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="fusionesactuales_' + (rowCount) + '" class="deleteFusionActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     fusionesactuales.push(data);
                     rowCount++;
@@ -2471,21 +2485,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'propietario_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -2536,7 +2550,8 @@
                 "camnomanteriores": localStorage.getItem("camnomanteriores"),
                 "camnomactuales": localStorage.getItem("camnomactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnom_" + (tblCamNomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamNom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnom_" + (tblCamNomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamNom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="camnom_' + (tblCamNomDT.rows().count()) + '" class="deleteCamNom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             camnom.push(data);
             console.log('camnom', camnom);
@@ -2673,84 +2688,84 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'client_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'oficina_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'staff_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'estado_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'num_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'num_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'referencia_cliente',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'comentarios',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -2783,7 +2798,8 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_nombre": 1,
                         "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnomanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnomanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="camnomanteriores_' + (rowCount) + '" class="deleteCamNomAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     camnomanteriores.push(data);
                     rowCount++;
@@ -2874,21 +2890,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'propietario_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -2921,7 +2937,8 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_nombre": 2,
                         "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnomactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnomactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="camnomactuales_' + (rowCount) + '" class="deleteCamNomActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     camnomactuales.push(data);
                     rowCount++;
@@ -3012,21 +3029,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'propietario_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -3077,7 +3094,8 @@
                 "camdomanteriores": localStorage.getItem("camdomanteriores"),
                 "camdomactuales": localStorage.getItem("camdomactuales"),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="camdom_' + (tblCamDomDT.rows().count()) + '" class="deleteCamDom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             camdom.push(data);
             console.log('camdom', camdom);
@@ -3214,84 +3232,84 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'client_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'oficina_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'staff_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'estado_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'num_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_solicitud',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'num_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'fecha_resolucion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'referencia_cliente',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'comentarios',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -3324,7 +3342,8 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_domicilio": 1,
                         "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdomanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdomanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="camdomanteriores_' + (rowCount) + '" class="deleteCamDomAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     camdomanteriores.push(data);
                     rowCount++;
@@ -3415,21 +3434,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'propietario_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -3462,7 +3481,8 @@
                         'propietario_id_name': $(this).text(),
                         "tipo_domicilio": 2,
                         "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
-                        'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdomactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdomactuales_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamDomActual'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        'acciones': '<div class="col-md-6"><a id="camdomactuales_' + (rowCount) + '" class="deleteCamDomActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     camdomactuales.push(data);
                     rowCount++;
@@ -3554,21 +3574,21 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'propietario_id_name',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 }
             ],
@@ -3598,7 +3618,8 @@
                 'comentarios': $('#doc_comentario').val(),
                 'path': $('#doc_archivo').get(0).files[0].name,
                 'marcas_id': $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='documentos_" + (rowCount) + "' class='btn btn-danger col-mrg deleteDocumento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='documentos_" + (rowCount) + "' class='btn btn-danger col-mrg deleteDocumento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="documentos_' + (rowCount) + '" class="deleteDocumento btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             /* Creamos un elemento input file duplicado del original para el archivo seleccionado */
             var inputDoc = $('#doc_archivo').clone( true );
@@ -3676,7 +3697,7 @@
         jQuery.each(tablaDT, function(index, item) {
             //cambio el ID del input file hidden con el nuevo ID según el idRow
             $('#doc_archivo_' + item.idRow).attr('id', 'doc_archivo_' + (index + 1)); 
-            item.acciones = item.acciones.replace("button id='documentos_" + (item.idRow-1) +"'", "button id='documentos_" + index +"'");
+            item.acciones = item.acciones.replace('documentos_' + (item.idRow-1), 'documentos_' + index);
             item.idRow = index + 1;
         });
         return tablaDT;
@@ -3708,35 +3729,35 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'descripcion',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'comentarios',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'path',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 },
             ],
@@ -3790,7 +3811,8 @@
                 "factFecha": factFecha,
                 'factEstatus': factStatus,
                 'marcas_id': $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='facturas_" + (tblFacturasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFactura'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='facturas_" + (tblFacturasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFactura'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="facturas_' + (tblFacturasDT.rows().count()) + '" class="deleteFactura btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
 
             facturas.push(data);
@@ -3807,8 +3829,7 @@
                 alert(error);
             }
         }else{
-            console.log('Entre al else');
-            $("#lblfacturaId").css('color', $('#facturas').val() ? color_lbl : 'red');
+            $("#lblfacturaId").css('color', 'red');
             alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Factura');
         }
     });
@@ -3838,7 +3859,6 @@
      * funcion que se ejecuta al cerrar el Modal
      */
     $('#facturaModal').on('hidden.bs.modal', function (e) {
-        console.log('Entre al hidden');
         ResetTablaFacturas();
     })
 
@@ -3846,7 +3866,9 @@
      * funcion que hace reset del Modal de Documento
      */
     function ResetTablaFacturas() {
-        console.log('Entre al ResetTablaFacturas');
+        $('#facturaId').prop('selectedIndex', 0);
+        $('#facturaId').selectpicker('refresh'); 
+        $("#lblfacturaId").css('color', color_lbl);
         $("#invoiceMarcaFrm")[0].reset();
         $("#lblfacturaId").css('color', color_lbl);
     }
@@ -3877,35 +3899,35 @@
                     data: 'idRow',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'factNum',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'factFecha',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'factEstatus',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                        return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
                     data: 'acciones',
                     render: function (data, type, row)
                     {
-                        return "<div class='col-md-12'>" + data + "</div>"
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                     }
                 },
             ],
@@ -4018,7 +4040,7 @@
      */
     function UpdtIdRow(tablaDT, tipoAnexo){
         jQuery.each(tablaDT, function(index, item) {
-            item.acciones = item.acciones.replace("button id='" + tipoAnexo + (item.idRow-1) +"'", "button id='" + tipoAnexo + index +"'");
+            item.acciones = item.acciones.replace(tipoAnexo + (item.idRow-1), tipoAnexo + index);
             item.idRow = index + 1;
         });
         return tablaDT;
@@ -4180,7 +4202,8 @@
                 "factFecha": $('#factFecha').val(),
                 'factEstatus': $('#factEstatus').val(),
                 "marcas_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='facturas_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFactura'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='facturas_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFactura'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                'acciones': '<div class="col-md-6"><a id="facturas_' + (rowCount) + '" class="deleteFactura btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             facturas.push(data);
             localStorage.setItem("facturas", JSON.stringify(facturas));

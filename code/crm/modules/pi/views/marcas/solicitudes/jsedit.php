@@ -367,86 +367,86 @@
                                 data: 'id',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'oficina',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'staff',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'estado',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'referencia_cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'comentarios',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: '',
                                 render: function (data, type, row)
                                 {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editCamDom btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="Cambio-Domicilio-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editCamDom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="Cambio-Domicilio-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                 }
                             }
                         ],
@@ -513,86 +513,86 @@
                                 data: 'id',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'oficina',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'staff',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'estado',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'referencia_cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'comentarios',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: '',
                                 render: function (data, type, row)
                                 {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editCamNom btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="Cambio-Nombre-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editCamNom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="Cambio-Nombre-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                 }
                             }
                         ],
@@ -661,86 +661,86 @@
                                 data: 'id',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'oficina',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'staff',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'estado',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'referencia_cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'comentarios',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: '',
                                 render: function (data, type, row)
                                 {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editFusion btn btn-light" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="fusion-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editFusion btn btn-light link-style" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="fusion-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                 }
                             }
                         ],
@@ -807,86 +807,86 @@
                                 data: 'id',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'oficina',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'staff',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'estado',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'referencia_cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'comentarios',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: '',
                                 render: function (data, type, row)
                                 {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="EditLicencia btn btn-light" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="licencia-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="EditLicencia btn btn-light link-style" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6' style='padding-left: 10px;'><a class="licencia-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                 }
                             }
                         ],
@@ -946,93 +946,93 @@
                             { width: '5%', targets: 8 },
                             { width: '5%', targets: 9 },
                             { width: '15%', targets: 10 },
-                            { width: '5%', targets: 11 }
+                            { width: '30%', targets: 11 }
                         ],
                         columns: [
                             {
                                 data: 'id',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'oficina',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'staff',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'estado',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_solicitud',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'num_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha_resolucion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'referencia_cliente',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'comentarios',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: '',
                                 render: function (data, type, row)
                                 {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="EditCesion btn btn-light" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="cesion-delete btn btn-light" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12 text-nowrap'>" + data + "</div>"
+                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="EditCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                    <div class='col-md-6'><a class="cesion-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                 }
                             }
                         ],
@@ -1086,28 +1086,28 @@
                             data: 'id',
                             render: function (data, type, row)
                             {
-                                return "<div class='col-md-12'>" + data + "</div>"
+                                return "<div class='col-12'>" + data + "</div>"
                             }
                         },
                         {
                             data: 'tipo_evento',
                             render: function (data, type, row)
                             {
-                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                return "<div class='col-12 text-left'>" + data + "</div>"
                             }
                         },
                         {
                             data: 'comentarios',
                             render: function (data, type, row)
                             {
-                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                return "<div class='col-12 text-left'>" + data + "</div>"
                             }
                         },
                         {
                             data: 'fecha',
                             render: function (data, type, row)
                             {
-                                return "<div class='col-md-12'>" + data + "</div>"
+                                return "<div class='col-12'>" + data + "</div>"
                             }
                         },
                         {
@@ -1116,7 +1116,7 @@
                             {
                                 data = `<a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
                                 <a class="evento-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
-                                return "<div class='col-md-12'>" + data + "</div>"
+                                return "<div id='" + row.id + "' class='col-12'>" + data + "</div>"
                             }
                         }
                     ],
@@ -1170,28 +1170,28 @@
                             data: 'id',
                             render: function (data, type, row)
                             {
-                                return "<div class='col-md-12'>" + data + "</div>"
+                                return "<div class='col-12'>" + data + "</div>"
                             }
                         },
                         {
                             data: 'tipo_tarea',
                             render: function (data, type, row)
                             {
-                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                return "<div class='col-12 text-left'>" + data + "</div>"
                             }
                         },
                         {
                             data: 'descripcion',
                             render: function (data, type, row)
                             {
-                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                return "<div class='col-12 text-left'>" + data + "</div>"
                             }
                         },
                         {
                             data: 'fecha',
                             render: function (data, type, row)
                             {
-                                return "<div class='col-md-12'>" + data + "</div>"
+                                return "<div class='col-12'>" + data + "</div>"
                             }
                         },
                         {
@@ -1200,7 +1200,7 @@
                             {
                                 data = `<a  class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
                                 <a class="tarea-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
-                                return "<div class='col-md-12'>" + data + "</div>"
+                                return "<div id='" + row.id + "' class='col-12'>" + data + "</div>"
                             }
                         }
                     ],
@@ -1520,24 +1520,29 @@
 
         //Modal Edit Tareas 
         $(document).on('click','.editTareas',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('taskId');
+            let element = $(this)[0].parentElement;
+            let id = $(element).attr('id');
             let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
             url = url + id;
             $.post(url,{id},function(response){
-            let tareas =JSON.parse(response);
-            $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
-            $('#editdescripcion').val(tareas[0]['descripcion']);
-            $('#Tareaid').val(tareas[0]['id']);
+                let tareas =JSON.parse(response);
+                console.log('tareas', tareas);
+                $('#editproject_id').val(tareas[0]['project_id']);
+                $('#editproject_id').selectpicker('refresh'); 
+                $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
+                $('#edittipo_tarea').selectpicker('refresh'); 
+                $('#editdescripcion').val(tareas[0]['descripcion']);
+                $('#Tareaid').val(tareas[0]['id']);
             })
             
         })
 
         //Modal Edit Eventos
         $(document).on('click','.editeventos',function(){
-            let element = $(this)[0].parentElement.parentElement;
+            console.log('$(this)[0].parentElement', $(this)[0].parentElement);
+            let element = $(this)[0].parentElement;
             console.log(element);
-            let id = $(element).attr('eventosid');
+            let id = $(element).attr('id');
             console.log(id);
             let url = '<?php echo admin_url("pi/EventosController/EditEventos/");?>';
             url = url + id;
@@ -1546,10 +1551,29 @@
             let eventos =JSON.parse(response);
             console.log("Tipo Evento ",eventos[0]['tipo_evento_id']);
             $('#edittipo_evento').val(eventos[0]['tipo_evento_id']);
+            $('#edittipo_evento').selectpicker('refresh'); 
             $('#editevento_comentario').val(eventos[0]['comentarios']);
             $('#Eventoid').val(eventos[0]['id']);
             })
         })
+
+        //Al cerrar el modal
+        $('#eventoModal').on('hidden.bs.modal', function (e) {
+            ResetTablaEventos();
+        })
+
+        /***
+         * funcion que hace reset del Modal de clase
+         */
+        function ResetTablaEventos() {
+            $("#eventoFrm")[0].reset();
+            $('#tipo_evento').prop('selectedIndex', 0);
+            $('#tipo_evento').selectpicker('refresh'); 
+            //$("#lblclase_niza").css('color', color_lbl);
+            //$("#lblclase_niza_descripcion").css('color', color_lbl);
+        }
+
+
 
         var formData = new FormData();
         function fecha(){
@@ -3485,16 +3509,35 @@
             });
         });
 
+        $('#addTask').on('hidden.bs.modal', function (e) {
+            ResetTablaTareas();
+        })
+
+       /***
+         * funcion que hace reset del Modal de clase
+         */
+        function ResetTablaTareas() {
+            $("#tareasfrm")[0].reset();
+            $('#project_id').prop('selectedIndex', 0);
+            $('#project_id').selectpicker('refresh'); 
+            $('#tipo_tarea').prop('selectedIndex', 0);
+            $('#tipo_tarea').selectpicker('refresh'); 
+            //$("#lblclase_niza").css('color', color_lbl);
+            //$("#lblclase_niza_descripcion").css('color', color_lbl);
+        }
+
         //Añadir Tareas ---------------------------------------------------------------------------
         $(document).on('click','#tareasfrmsubmit',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
             const id_marcas = '<?php echo $id?>';
+            var project_id =  $('#project_id').val();
             var tipo_tarea =  $('#tipo_tarea').val();
             var descripcion = $('#descripcion').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('id_marcas' , id_marcas);
+            formData.append('project_id' , project_id);
             formData.append('tipo_tarea' , tipo_tarea);
             formData.append('descripcion', descripcion);
             formData.append('csrf_token_name', csrf_token_name);
@@ -3520,11 +3563,13 @@
             var formData = new FormData();
             var data = getFormData(this);
             var id = $('#Tareaid').val();
+            var project_id =  $('#editproject_id').val();
             var tipo_tarea =  $('#edittipo_tarea').val();
             var descripcion = $('#editdescripcion').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('id',id);
             formData.append('csrf_token_name', csrf_token_name);
+            formData.append('project_id' , project_id);
             formData.append('tipo_tarea' , tipo_tarea);
             formData.append('descripcion', descripcion);
             let url = '<?php echo admin_url("pi/TareasController/UpdateTareas/");?>'
@@ -3815,8 +3860,8 @@
                     processData: false,
                     contentType: false
                 }).then(function(response){
-                alert_float('success', "Eliminado Correctamente");
-                Cesion();
+                    alert_float('success', "Eliminado Correctamente");
+                    Cesion();
                 }).catch(function(response){
                     alert("No se pudo Eliminar Cesion");
                 });
@@ -3838,8 +3883,8 @@
                     processData: false,
                     contentType: false
                 }).then(function(response){
-                alert_float('success', "Eliminado Correctamente");
-                Licencia();
+                    alert_float('success', "Eliminado Correctamente");
+                    Licencia();
                 }).catch(function(response){
                     alert("No se pudo Eliminar Licencia");
                 });
@@ -3862,8 +3907,8 @@
                     processData: false,
                     contentType: false
                 }).then(function(response){
-                alert_float('success', "Eliminado Correctamente");
-                Fusion();
+                    alert_float('success', "Eliminado Correctamente");
+                    Fusion();
                 }).catch(function(response){
                     alert("No se pudo Eliminar Fusion");
                 });
@@ -3885,8 +3930,8 @@
                     processData: false,
                     contentType: false
                 }).then(function(response){
-                alert_float('success', "Eliminado Correctamente");
-                CambioNombre();
+                    alert_float('success', "Eliminado Correctamente");
+                    CambioNombre();
                 }).catch(function(response){
                     alert("No se pudo Eliminar Cambio Nombre");
                 });
@@ -3909,8 +3954,8 @@
                     processData: false,
                     contentType: false
                 }).then(function(response){
-                alert_float('success', "Eliminado Correctamente");
-                CambioDomicilio();
+                    alert_float('success', "Eliminado Correctamente");
+                    CambioDomicilio();
                 }).catch(function(response){
                     alert("No se pudo Eliminar Cambio Domicilio");
                 });
@@ -3919,8 +3964,8 @@
           //Eliminar Eventos
           $(document).on('click','.evento-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('eventosid');
+                let element = $(this)[0].parentElement;
+                let id = $(element).attr('id');
                 console.log(id);
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
                 formData.append('csrf_token_name', csrf_token_name);
@@ -3943,8 +3988,8 @@
          //Eliminar Tareas
          $(document).on('click','.tarea-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('taskId');
+                let element = $(this)[0].parentElement;
+                let id = $(element).attr('id');
                 var csrf_token_name = $("input[name=csrf_token_name]").val();
                 formData.append('csrf_token_name', csrf_token_name);
                 let url = '<?php echo admin_url("pi/TareasController/destroy/");?>';
@@ -4098,33 +4143,35 @@
                     method: "GET",
                     success: function(response)
                     {
-                        table = JSON.parse(response);
-                        $("#prioridadTbl").DataTable({
-                            language: {
-                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                            },
-                            autoWidth: false,
-                            data: table,
-                            destroy: true,
-                            dataSrc: '',
-                            columns : [
-                                { data: 'fecha_prioridad'},
-                                { data: 'nombre'},
-                                { data: 'numero'},
-                                { data: 'acciones'},
-                            ],
-                            width: "100%"
-                        });
+                        $("#prioridadFrm")[0].reset();
+                        $('#pais_id').prop('selectedIndex', 0);
+                        $('#pais_id').selectpicker('refresh'); 
+                        $("#prioridadModal").modal('hide');
+                        TablaPrioridades();
                     }
                 });
-                $("#prioridadfrmsubmit")[0].reset();
-                $("#prioridadModal").modal('hide');
             });
         });
 
-        $(".deletePrioridad").on('click', function(e){
+        $(document).on('click', '.deletePrioridad', function(e){
             e.preventDefault();
-            id = $(this).attr('id');
+            var id = $(this).attr('id');
+            if(confirm('¿Esta seguro de eliminar este registro?'))
+            {
+                $.ajax({
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/destroy/');?>"+id,
+                method: "POST",
+                success: function(response)
+                {
+                    alert_float('success', 'Prioridad borrada exitosamente');
+                    TablaPrioridades();
+                }
+            });
+        }
+
+
+
+            /* id = $(this).attr('id');
             $.ajax(
             {
                 url: "<?php echo admin_url("pi/MarcasPrioridadController/destroy/{$id}");?>",
@@ -4155,7 +4202,8 @@
                         }
                     })        
                 }
-            })
+            }) */
+
         })
 
         function TablaPrioridades(){
@@ -4176,9 +4224,9 @@
                         dataSrc: '',
                         columnDefs: [
                             { width: '15%', targets: 0 },
-                            { width: '50%', targets: 1 },
+                            { width: '40%', targets: 1 },
                             { width: '20%', targets: 2 },
-                            { width: '15%', targets: 3 }
+                            { width: '25%', targets: 3 }
                         ],
                         columns : [
                             { data: 'fecha_prioridad'},
@@ -4191,28 +4239,28 @@
                                 data: 'fecha_prioridad',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'nombre',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'numero',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'acciones',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                 }
                             },
                         ],
@@ -4293,42 +4341,42 @@
                                     data: 'fecha',
                                     render: function (data, type, row)
                                     {
-                                        return "<div class='col-md-12'>" + data + "</div>"
+                                        return "<div class='col-12'>" + data + "</div>"
                                     }
                                 },
                                 {
                                     data: 'nombre',
                                     render: function (data, type, row)
                                     {
-                                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                        return "<div class='col-12 text-left'>" + data + "</div>"
                                     }
                                 },
                                 {
                                     data: 'boletin_id',
                                     render: function (data, type, row)
                                     {
-                                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                        return "<div class='col-12 text-left'>" + data + "</div>"
                                     }
                                 },
                                 {
                                     data: 'tomo',
                                     render: function (data, type, row)
                                     {
-                                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                        return "<div class='col-12 text-left'>" + data + "</div>"
                                     }
                                 },
                                 {
                                     data: 'pagina',
                                     render: function (data, type, row)
                                     {
-                                        return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                        return "<div class='col-12 text-left'>" + data + "</div>"
                                     }
                                 },
                                 {
                                     data: 'acciones',
                                     render: function (data, type, row)
                                     {
-                                        return "<div class='col-md-12'>" + data + "</div>"
+                                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                     }
                                 }
                             ],
@@ -4353,12 +4401,14 @@
                     data = JSON.parse(response);
                     $("input[name=pub_id_edit]").val(data.id);
                     $("select[name=tipo_publicacion_edit]").val(data.tipo_pub_id);
+                    $('select[name=tipo_publicacion_edit]').selectpicker('refresh'); 
                     $("select[name=boletin_publicacion_edit]").val(data.boletin_id);
+                    $('select[name=boletin_publicacion_edit]').selectpicker('refresh'); 
                     $("input[name=tomo_publicacion_edit]").val(data.tomo);
                     $("input[name=pag_publicacion_edit]").val(data.pagina);
+                    $("#publicacionEditModal").modal('show');
                 }
             });
-            $("#publicacionEditModal").modal('show');
         });
 
         $(document).on('click', '#publicacionfrmsubmitEdit', function(e)
@@ -4397,6 +4447,7 @@
                     method: "POST",
                     success: function(response)
                     {
+                        alert_float('success', 'Publicación borrada exitosamente');
                         TablaPublicaciones();
                     }
                 });
@@ -4451,29 +4502,29 @@
                         data: data,
                         columnDefs: [
                             { width: '10%', targets: 0 },
-                            { width: '60%', targets: 1 },
-                            { width: '30%', targets: 2 }
+                            { width: '70%', targets: 1 },
+                            { width: '20%', targets: 2 }
                         ],
                         columns: [
                             {
                                 data: 'clase',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'descripcion',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12 text-left text-break'>" + data + "</div>"
+                                    return "<div class='col-12 text-left text-break'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'acciones',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                 }
                             }
                         ],
@@ -4488,6 +4539,22 @@
     </script>
 
     <script>
+
+    $('#claseNizaModal').on('hidden.bs.modal', function (e) {
+        ResetTablaClases();
+    })
+
+    /***
+     * funcion que hace reset del Modal de clase
+     */
+    function ResetTablaClases() {
+        $("#claseNizaFrm")[0].reset();
+        $('#clase_niza').prop('selectedIndex', 0);
+        $('#clase_niza').selectpicker('refresh'); 
+        //$("#lblclase_niza").css('color', color_lbl);
+        //$("#lblclase_niza_descripcion").css('color', color_lbl);
+    }
+
         /***
          * funcion para obtener la descripcion de la clase
          * 
@@ -4511,6 +4578,30 @@
                 }
             });
         });
+        /***
+         * funcion para obtener la descripcion de la clase
+         * 
+         * 
+         */
+        $(document).on('change', 'select[name=clase_niza]', function(e)
+        {
+            e.preventDefault();
+            var clase_niza = $("select[name=clase_niza]").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'clase_id': clase_niza
+                },
+                success: function(response)
+                {
+                    res = JSON.parse(response);
+                    $("input[name=clase_niza_descripcion]").val(res.data);
+                }
+            });
+        });
+        
     </script>
 
     <script>
@@ -4528,12 +4619,15 @@
                 success: function(response)
                 {
                     res = JSON.parse(response);
+                    console.log('res.data.clase_id', res.data.clase_id);
                     $("input[name=marcas_clase_id").val(res.data.id);
-                    $("select[name=clase_niza_edit]").val(res.data.clase_id);
+                    //$("select[name=clase_niza_edit] select").val(res.data.clase_id).change();
+                    $('select[name=clase_niza_edit] option[value="'+res.data.clase_id+'"]').prop('selected', true); 
+                    $('select[name=clase_niza_edit]').selectpicker('refresh'); 
                     $("input[name=clase_niza_descripcion_edit]").val(res.data.descripcion);
+                    $("#claseNizaEditModal").modal('show');
                 }
             });
-            $("#claseNizaEditModal").modal('show');
         })
     </script>
     <script>
@@ -4554,9 +4648,9 @@
                 {
                     $("#claseNizaEditModal").modal('hide');
                     alert_float('success', 'Clase editada exitosamente');
+                    TablaClases();
                 }
             });
-            TablaClases();
         });
     </script>
 
@@ -4573,20 +4667,12 @@
                 success: function(response)
                 {
                     alert_float('success', 'Clase borrada exitosamente');
+                    TablaClases();
                 }
             });
-            TablaClases();
             }
             
         })
-    </script>
-
-    <script>
-        /* $(document).on('ready', function(e){
-            e.stopImmediatePropagation();
-            TablaClases();
-            TablaFacturas();
-        }) */
     </script>
 
     <script>
@@ -4596,7 +4682,6 @@
                 url:"<?php echo admin_url("pi/MarcasSolicitudesController/getInvoicesByMarca/{$id}");?>",
                 method:"GET",
                 success: function(response){
-                    console.log('Facturas response', response);
                     res = JSON.parse(response);
                     console.log('Facturas', res.data);
                     $('#tblInvoices').DataTable( {
@@ -4614,28 +4699,28 @@
                                 data: 'factura',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'fecha',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'estatus',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'acciones',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-md-12'>" + data + "</div>"
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
                                 }
                             },
                         ],

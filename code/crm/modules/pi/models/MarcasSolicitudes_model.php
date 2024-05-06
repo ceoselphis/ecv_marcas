@@ -1056,7 +1056,7 @@ class MarcasSolicitudes_model extends BaseModel
 
     public function getMarcasClases($id = null)
     {
-        $this->db->select('a.id, b.nombre, a.descripcion');
+        $this->db->select('a.id, b.nombre, a.descripcion, a.clase_id');
         $this->db->from('tbl_marcas_clases a ');
         $this->db->join('tbl_marcas_clase_niza b', 'a.clase_id = b.clase_niza_id');
         $this->db->where("marcas_id = '{$id}'");

@@ -177,6 +177,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                             <th>Clase</th>
                                                                             <th>Descripcion</th>
                                                                             <th>Acciones</th>
+                                                                            <th></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -830,13 +831,13 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
 <?php init_tail(); ?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
-<script>
+<!-- <script>
     new DataTable(".ultimate", {
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
         }
     });
-</script>
+</script> -->
 <!-- <script>
     new DataTable(".anexo", {
         language: {

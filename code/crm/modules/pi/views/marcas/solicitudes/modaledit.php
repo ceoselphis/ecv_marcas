@@ -16,12 +16,12 @@
             <div class="col-md-6">
                 <?php 
                 $clase_niza_id = $select + $clase_niza_id;
-                echo form_label('Clase', 'clase_niza');?>
-                <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control']);?>
+                echo form_label('Clase', 'clase_niza', ['id' => 'lblclase_niza']);?>
+                <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control', 'id' => 'clase_niza']);?>
             </div>
             <div class="col-md-6">
-                <?php echo form_label('Descripcion', 'clase_niza_descripcion');?>
-                <?php echo form_input('clase_niza_descripcion',set_value('descripcion', ''),['class' => 'form-control']);?>
+                <?php echo form_label('Descripcion', 'clase_niza_descripcion', ['id' => 'lblclase_niza_descripcion']);?>
+                <?php echo form_input('clase_niza_descripcion',set_value('descripcion', ''),['class' => 'form-control', 'id' => 'clase_niza_descripcion']);?>
             </div>
         </div>
       </div>
@@ -49,12 +49,12 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-6">
-                <?php echo form_label('Clase', 'clase_niza_edit');?>
-                <?php echo form_dropdown('clase_niza_edit', $clase_niza_id, set_value('clase_niza_edit', ''),['class' => 'form-control']);?>
+                <?php echo form_label('Clase', 'clase_niza_edit', ['id' => 'lblclase_niza_edit']);?>
+                <?php echo form_dropdown('clase_niza_edit', $clase_niza_id, set_value('clase_niza_edit', ''),['class' => 'form-control', 'id' => 'clase_niza_edit']);?>
             </div>
             <div class="col-md-6">
-                <?php echo form_label('Descripcion', 'clase_niza_descripcion_edit');?>
-                <?php echo form_input('clase_niza_descripcion_edit',set_value('clase_niza_descripcion_edit', ''),['class' => 'form-control']);?>
+                <?php echo form_label('Descripcion', 'clase_niza_descripcion_edit', ['id' => 'lblclase_niza_descripcion_edit']);?>
+                <?php echo form_input('clase_niza_descripcion_edit',set_value('clase_niza_descripcion_edit', ''),['class' => 'form-control', 'id' => 'clase_niza_descripcion_edit']);?>
             </div>
         </div>
       </div>

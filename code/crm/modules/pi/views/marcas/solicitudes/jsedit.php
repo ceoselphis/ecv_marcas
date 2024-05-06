@@ -1,6 +1,261 @@
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+    /* Declaramos las variables de Datatable para iniciaizarlas*/
+    var tblClaseDT;
+
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES CLASE                       ********** */
+    /* ####################################################################### */
+
+    /***
+     * funcion para guardar el formulario de la clase
+     */
+    $(document).on('click', '#claseNizaFrmSubmit', function(e)
+    {
+        e.preventDefault();
+        if ($('#clase_niza').val() && $('#clase_niza_descripcion').val()) {
+            var clase_id = $("select[name=clase_niza]").val();
+            var clase_descripcion = $("input[name=clase_niza_descripcion]").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasSolicitudesController/insertClases')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'clase_id' : clase_id,
+                    'clase_descripcion': clase_descripcion,
+                    'marcas_id' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#claseNizaFrm")[0].reset();
+                    $("#claseNizaModal").modal('hide');
+                    TablaClases();
+                }
+            });
+        }else{
+            $("#lblclase_niza").css('color', $('#clase_niza').val() ? color_lbl : 'red');
+            $("#lblclase_niza_descripcion").css('color', $('#clase_niza_descripcion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Clase');
+        }
+    });
+
+    /***
+     * funcion que se ejecuta al cerrar el Modal
+     */
+    $('#claseNizaModal').on('hidden.bs.modal', function (e) {
+        ResetTablaClases();
+    });
+
+    /***
+     * Genera la tabla de Clases
+     */
+    function TablaClases()
+    {
+        $.ajax({
+            url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/'.$id);?>",
+            method: "GET",
+            success: function(response){
+                res = JSON.parse(response);
+                data = res.data;
+                console.log('Clases', data);
+                tblClaseDT = $('#claseTbl').DataTable( {
+                    autoWidth: false,
+                    destroy: true,
+                    data: data,
+                    columnDefs: [
+                        { width: '10%', targets: 0 },
+                        { width: '70%', targets: 1 },
+                        { width: '20%', targets: 2 }
+                    ],
+                    columns: [
+                        {
+                            data: 'clase',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'descripcion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-break'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'acciones',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'id',
+                            visible: false
+                        }
+                    ],
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                    },
+                    width: "100%"
+                } );
+            }
+        });
+    }
+
+    /***
+     * funcion que hace reset del Modal de clase
+     */
+    function ResetTablaClases() {
+        $("#claseNizaFrm")[0].reset();
+        $('#clase_niza').val('').trigger('change');
+        $("#lblclase_niza").css('color', color_lbl);
+        $("#lblclase_niza_descripcion").css('color', color_lbl);
+    };
+
+    /***
+     * funcion para obtener la descripcion de la clase al editar
+     */
+    $(document).on('change', 'select[name=clase_niza_edit]', function(e)
+    {
+        e.preventDefault();
+        console.log('Entre en el change');
+        var clase_niza = $("select[name=clase_niza_edit]").val();
+        $.ajax({
+            url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'clase_id': clase_niza
+            },
+            success: function(response)
+            {
+                res = JSON.parse(response);
+                $("input[name=clase_niza_descripcion_edit]").val(res.data);
+            }
+        });
+    });
+    
+    /***
+     * funcion para obtener la descripcion de la clase
+     */
+    $(document).on('change', 'select[name=clase_niza]', function(e)
+    {
+        e.preventDefault();
+        var clase_niza = $("select[name=clase_niza]").val();
+        $.ajax({
+            url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'clase_id': clase_niza
+            },
+            success: function(response)
+            {
+                res = JSON.parse(response);
+                $("input[name=clase_niza_descripcion]").val(res.data);
+            }
+        });
+    });
+    
+    
+    //**Función para Buscar una Fila dentro de un Datatable Segun Columna y su valor */
+    function FindRowDTbyColumn(DT, column, value) {
+        return DT
+            .row( function ( idx, data, node ) {
+                    return data[column] === value ?
+                        true : false;
+                })
+            .data();
+    }
+
+    /***
+     * funcion para buscar la clase a editar
+     */
+    $(document).on('click', '.editarClase', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            var row = FindRowDTbyColumn(tblClaseDT, 'id', id);
+            console.log('row', row);
+
+            $("#clase_niza_edit option").each(function() {
+                if($(this).text() == row.clase) {
+                    $(this).attr('selected', true);
+                }else{
+                    $(this).attr('selected', false);
+                }
+            });
+            $('#clase_niza_edit').selectpicker('refresh'); 
+            $('#clase_niza_descripcion_edit').val(row.descripcion); 
+            $("#claseNizaEditModal").modal('show');
+    })
+    
+    /***
+     * funcion para editar la clase
+     */
+    $(document).on('click', '#claseNizaEditFrmSubmit', function(e)
+    {
+        e.preventDefault();
+        if ($('#clase_niza_edit').val() && $('#clase_niza_descripcion_edit').val()) {
+            var data = {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'clase_niza'     : $("select[name=clase_niza_edit]").val(),
+                'descripcion'    : $("input[name=clase_niza_descripcion_edit]").val(),
+                'id'             : $("input[name=marcas_clase_id]").val(),
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasClasesController/update/');?>",
+                method: "POST",
+                data: data,
+                success: function(response)
+                {
+                    $("#claseNizaEditModal").modal('hide');
+                    alert_float('success', 'Clase editada exitosamente');
+                    TablaClases();
+                }
+            });
+        }else{
+            $("#lblclase_niza_edit").css('color', $('#clase_niza_edit').val() ? color_lbl : 'red');
+            $("#lblclase_niza_descripcion_edit").css('color', $('#clase_niza_descripcion_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Editar la Clase');
+        }
+    });
+    
+    /***
+     * funcion para borrar la clase
+     */
+    $(document).on('click', '.borrarClase', function(e)
+    {
+        e.preventDefault();
+        var id = $(this).attr('id');
+        if(confirm('¿Esta seguro de eliminar este registro?'))
+        {
+            $.ajax({
+            url: "<?php echo admin_url('pi/MarcasClasesController/delete/');?>"+id,
+            method: "POST",
+            success: function(response)
+            {
+                alert_float('success', 'Clase borrada exitosamente');
+                TablaClases();
+            }
+        });
+        }
+        
+    })
+
+
+
+
+</script>
+
     <script>
+        /* Para cambiar el color de los Label  luego de un error*/
+        const color_lbl = 'rgb(71 85 105)';
+
         function getFormData(){
                 var config = {};
                 $('input').each(function () {
@@ -1043,6 +1298,17 @@
                 })
         }
 
+    /***
+     * funcion que hace reset del Modal de Eventos
+     */
+    function ResetTablaEventos() {
+        $("#eventoFrm")[0].reset();
+        $('#tipo_evento').prop('selectedIndex', 0);
+        $('#tipo_evento').selectpicker('refresh'); 
+        //$("#lblclase_niza").css('color', color_lbl);
+        //$("#lblclase_niza_descripcion").css('color', color_lbl);
+    }
+
         // Eventos
         function Eventos(){
             let url = '<?php echo admin_url("pi/EventosController/showEventos/$id");?>';
@@ -1125,7 +1391,21 @@
             })
         }
 
-        // Tareas
+
+    /***
+     * funcion que hace reset del Modal de Tareas
+     */
+    function ResetTablaTareas() {
+        $("#tareasfrm")[0].reset();
+        $('#project_id').prop('selectedIndex', 0);
+        $('#project_id').selectpicker('refresh'); 
+        $('#tipo_tarea').prop('selectedIndex', 0);
+        $('#tipo_tarea').selectpicker('refresh'); 
+        //$("#lblclase_niza").css('color', color_lbl);
+        //$("#lblclase_niza_descripcion").css('color', color_lbl);
+    }
+
+    // Tareas
         function Tareas(){
             let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
             console.log(url);
@@ -1562,16 +1842,6 @@
             ResetTablaEventos();
         })
 
-        /***
-         * funcion que hace reset del Modal de clase
-         */
-        function ResetTablaEventos() {
-            $("#eventoFrm")[0].reset();
-            $('#tipo_evento').prop('selectedIndex', 0);
-            $('#tipo_evento').selectpicker('refresh'); 
-            //$("#lblclase_niza").css('color', color_lbl);
-            //$("#lblclase_niza_descripcion").css('color', color_lbl);
-        }
 
 
 
@@ -3513,19 +3783,7 @@
             ResetTablaTareas();
         })
 
-       /***
-         * funcion que hace reset del Modal de clase
-         */
-        function ResetTablaTareas() {
-            $("#tareasfrm")[0].reset();
-            $('#project_id').prop('selectedIndex', 0);
-            $('#project_id').selectpicker('refresh'); 
-            $('#tipo_tarea').prop('selectedIndex', 0);
-            $('#tipo_tarea').selectpicker('refresh'); 
-            //$("#lblclase_niza").css('color', color_lbl);
-            //$("#lblclase_niza_descripcion").css('color', color_lbl);
-        }
-
+ 
         //Añadir Tareas ---------------------------------------------------------------------------
         $(document).on('click','#tareasfrmsubmit',function(e){
             e.preventDefault();
@@ -4456,223 +4714,16 @@
     </script>
 
     <script>
-        /***
-         * funcion para guardar el formulario de la clase
-         * 
-         * 
-         */
-        $(document).on('click', '#claseNizaFrmSubmit', function(e)
-        {
-            e.preventDefault();
-            var clase_id = $("select[name=clase_niza]").val();
-            var clase_descripcion = $("input[name=clase_niza_descripcion]").val();
-            $.ajax({
-                url: "<?php echo admin_url('pi/MarcasSolicitudesController/insertClases')?>",
-                method: "POST",
-                data: {
-                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                    'clase_id' : clase_id,
-                    'clase_descripcion': clase_descripcion,
-                    'marcas_id' : "<?php echo $id;?>"
-                },
-                success: function(response)
-                {
-                    $("#claseNizaFrm")[0].reset();
-                    $("#claseNizaModal").modal('hide');
-                    TablaClases();
-                }
-            });
-        });
     </script>
 
     <script>
-        ///TablaClases();
-        function TablaClases()
-        {
-            $.ajax({
-                url: "<?php echo admin_url('pi/MarcasSolicitudesController/getClasesMarcas/'.$id);?>",
-                method: "GET",
-                success: function(response){
-                    res = JSON.parse(response);
-                    data = res.data;
-                    console.log('Clases', data);
-                    $('#claseTbl').DataTable( {
-                        autoWidth: false,
-                        destroy: true,
-                        data: data,
-                        columnDefs: [
-                            { width: '10%', targets: 0 },
-                            { width: '70%', targets: 1 },
-                            { width: '20%', targets: 2 }
-                        ],
-                        columns: [
-                            {
-                                data: 'clase',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'descripcion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-break'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'acciones',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            }
-                        ],
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                        },
-                        width: "100%"
-                    } );
-                }
-            });
-        }
-    </script>
+     </script>
 
     <script>
-
-    $('#claseNizaModal').on('hidden.bs.modal', function (e) {
-        ResetTablaClases();
-    })
-
-    /***
-     * funcion que hace reset del Modal de clase
-     */
-    function ResetTablaClases() {
-        $("#claseNizaFrm")[0].reset();
-        $('#clase_niza').prop('selectedIndex', 0);
-        $('#clase_niza').selectpicker('refresh'); 
-        //$("#lblclase_niza").css('color', color_lbl);
-        //$("#lblclase_niza_descripcion").css('color', color_lbl);
-    }
-
-        /***
-         * funcion para obtener la descripcion de la clase
-         * 
-         * 
-         */
-        $(document).on('change', 'select[name=clase_niza_edit]', function(e)
-        {
-            e.preventDefault();
-            var clase_niza = $("select[name=clase_niza_edit]").val();
-            $.ajax({
-                url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
-                method: "POST",
-                data: {
-                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                    'clase_id': clase_niza
-                },
-                success: function(response)
-                {
-                    res = JSON.parse(response);
-                    $("input[name=clase_niza_descripcion_edit]").val(res.data);
-                }
-            });
-        });
-        /***
-         * funcion para obtener la descripcion de la clase
-         * 
-         * 
-         */
-        $(document).on('change', 'select[name=clase_niza]', function(e)
-        {
-            e.preventDefault();
-            var clase_niza = $("select[name=clase_niza]").val();
-            $.ajax({
-                url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
-                method: "POST",
-                data: {
-                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                    'clase_id': clase_niza
-                },
-                success: function(response)
-                {
-                    res = JSON.parse(response);
-                    $("input[name=clase_niza_descripcion]").val(res.data);
-                }
-            });
-        });
         
     </script>
 
     <script>
-        $(document).on('click', '.editarClase', function(e)
-        {
-            e.preventDefault();
-            var id = $(this).attr('id');
-            $.ajax({
-                url: "<?php echo admin_url('pi/MarcasClasesController/getClaseByMarcas');?>",
-                method: "POST",
-                data: {
-                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                    'id': id
-                },
-                success: function(response)
-                {
-                    res = JSON.parse(response);
-                    console.log('res.data.clase_id', res.data.clase_id);
-                    $("input[name=marcas_clase_id").val(res.data.id);
-                    //$("select[name=clase_niza_edit] select").val(res.data.clase_id).change();
-                    $('select[name=clase_niza_edit] option[value="'+res.data.clase_id+'"]').prop('selected', true); 
-                    $('select[name=clase_niza_edit]').selectpicker('refresh'); 
-                    $("input[name=clase_niza_descripcion_edit]").val(res.data.descripcion);
-                    $("#claseNizaEditModal").modal('show');
-                }
-            });
-        })
-    </script>
-    <script>
-        $(document).on('click', '#claseNizaEditFrmSubmit', function(e)
-        {
-            e.preventDefault();
-            var data = {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                'clase_niza'     : $("select[name=clase_niza_edit]").val(),
-                'descripcion'    : $("input[name=clase_niza_descripcion_edit]").val(),
-                'id'             : $("input[name=marcas_clase_id]").val(),
-            }
-            $.ajax({
-                url: "<?php echo admin_url('pi/MarcasClasesController/update/');?>",
-                method: "POST",
-                data: data,
-                success: function(response)
-                {
-                    $("#claseNizaEditModal").modal('hide');
-                    alert_float('success', 'Clase editada exitosamente');
-                    TablaClases();
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).on('click', '.borrarClase', function(e)
-        {
-            e.preventDefault();
-            var id = $(this).attr('id');
-            if(confirm('¿Esta seguro de eliminar este registro?'))
-            {
-                $.ajax({
-                url: "<?php echo admin_url('pi/MarcasClasesController/delete/');?>"+id,
-                method: "POST",
-                success: function(response)
-                {
-                    alert_float('success', 'Clase borrada exitosamente');
-                    TablaClases();
-                }
-            });
-            }
-            
-        })
     </script>
 
     <script>

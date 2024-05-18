@@ -4143,6 +4143,16 @@
         $(elem).prev().find('a[data-toggle="tab"]').click();
     }
 
+    //**Función para Input sólo numéricos */
+    $(".numberOnly").keypress(function (e) {
+        //e.preventDefault();
+        var key = e.charCode || e.keyCode || 0;
+        return (
+            key == 8 || 
+            key == 127 ||
+            (key >= 48 && key <= 57));
+    })
+
 
     /***
      * AL TERMINAR DE CARGAR LA PÁGINA = $( document ).ready(function() {

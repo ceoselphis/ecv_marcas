@@ -136,7 +136,13 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         <?php
                                         ?>
                                         <div class="text-danger" id="SignoFileName">
-                                            <?php echo "Archivo → (<a href='" . $values['signo_archivo'] . "' target='_blank'>Ver Archivo</a>)"; ?>
+                                            <?php 
+                                            $file = '';
+                                            if ($values['signo_archivo']) {
+                                                $str_file = explode('/', $values['signo_archivo']);
+                                                $file = $str_file[count($str_file) - 1];
+                                            }
+                                            echo "Archivo → (<a href='" . $values['signo_archivo'] . "' target='_blank'>" . $file . "</a>)"; ?>
                                         </div>
                                         <div class="text-danger" id="DescFileName">
                                             <?php echo "Descripción → (" . $values['signo_archivo_desc']. ")"; ?>
@@ -144,7 +150,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                     </div>
                                     <div class="col-md-2" style="padding-top: 2%; padding-bottom:0%">
                                         <button type="button" class="btn btn-outline" data-toggle="modal"
-                                            data-target="#signoModal"><i class="fas fa-paperclip"></i> Añadir</button>
+                                            data-target="#signoModalEdit"><i class="fas fa-paperclip"></i> Editar</button>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo form_label('Tipo Signo', 'tipo_signo_id'); ?>
@@ -472,7 +478,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         <table id="tareasTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
-                                                    <th>Id</th>
+                                                    <th>Proyecto</th>
                                                     <th>Tipo de Tarea</th>
                                                     <th>Comentarios</th>
                                                     <th>Fecha</th>

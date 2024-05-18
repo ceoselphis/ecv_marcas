@@ -81,24 +81,18 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-6">
-                <?php echo form_label('Pais de la prioridad', 'pais_prioridad');?>
+                <?php echo form_label('Pais de la prioridad', 'pais_prioridad', ['id' => 'lblpais_prioridad']);?>
                 <?php 
                 $pais_id = $select + $pais_id;
-                echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
+                echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control', 'id' => 'pais_prioridad']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Fecha', 'fecha_prioridad');?>
-                <?php echo form_input([
-                                            'id' => 'fecha_prioridad',
-                                            'name' => 'fecha_prioridad',
-                                            'class' => 'form-control calendar',
-                                            'placeholder' => 'Fecha Prioridad'
-                                        ]);?>
-                <?php //echo form_input('fecha_prioridad', '', ['class' => 'form-control calendar']);?>
+                <?php echo form_label('Fecha', 'fecha_prioridad', ['id' => 'lblfecha_prioridad']);?>
+                <?php echo form_input('fecha_prioridad', '', ['class' => 'form-control calendar', 'id' => 'fecha_prioridad']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Número', 'nro_prioridad');?>
-                <?php echo form_input('nro_prioridad','',['class' => 'form-control']);?>
+                <?php echo form_label('Número', 'nro_prioridad', ['id' => 'lblnro_prioridad']);?>
+                <?php echo form_input('nro_prioridad','',['class' => 'form-control numberOnly', 'id' => 'nro_prioridad']);?>
             </div>
         </div>
       </div>
@@ -112,8 +106,9 @@
 </div>
 
 <!-- Editar Prioridad Modal -->
-<div class="modal fade" id="EditprioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadFrm']);?>
+<div class="modal fade" id="prioridadEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadEditFrm']);?>
+    <input name="prioridad_edit_id" type="hidden">
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -125,111 +120,22 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-6">
-                <?php echo form_label('Pais de la prioridad', 'pais_prioridad');?>
-                <?php echo form_dropdown('pais_prioridad', $pais_id, '',['class' => 'form-control']);?>
+                <?php echo form_label('Pais de la prioridad', 'pais_prioridad_edit', ['id' => 'lblpais_prioridad_edit']);?>
+                <?php echo form_dropdown('pais_prioridad_edit', $pais_id, '',['class' => 'form-control', 'id' => 'pais_prioridad_edit']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Fecha', 'fecha_prioridad');?>
-                <?php echo form_input('fecha_prioridad', '', ['class' => 'form-control calendar']);?>
+                <?php echo form_label('Fecha', 'fecha_prioridad_edit', ['id' => 'lblfecha_prioridad_edit']);?>
+                <?php echo form_input('fecha_prioridad_edit', '', ['class' => 'form-control calendar', 'id' => 'fecha_prioridad_edit']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Número', 'nro_prioridad');?>
-                <?php echo form_input('nro_prioridad','',['class' => 'form-control']);?>
+                <?php echo form_label('Número', 'nro_prioridad_edit', ['id' => 'lblnro_prioridad_edit']);?>
+                <?php echo form_input('nro_prioridad_edit','',['class' => 'form-control numberOnly', 'id' => 'nro_prioridad_edit']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="prioridadfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
-      </div>
-    </div>
-  </div>
-  <?php echo form_close();?>
-</div>
-
-<!-- Añadir Tareas Modal -->
-<div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Tareas</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-            <div class="col-md-4">
-              <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']);?>
-              <?php 
-              $projects = $select + $projects;
-              echo form_dropdown([
-                'name' => 'project_id',
-                'id' => 'project_id',
-                'class' => 'form-control',
-                'selected' => set_value('project_id', $values['projects']), 
-                'options' => $projects
-              ]);?>
-            </div>
-            <div class="col-md-4">
-                <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
-                <?php 
-                $tipo_tareas = $select + $tipo_tareas;
-                echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-12" style="margin-top: 15px;">
-                <?php echo form_label('Descripcion', 'descripcion');?>
-                <?php echo form_textarea(['name'=>'descripcion','id'=>'descripcion'],'',['class' => 'form-control']);?>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="tareasfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
-      </div>
-    </div>
-  </div>
-  <?php echo form_close();?>
-</div>
-
-<!-- Editar Tareas Modal  -->
-<div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Editar Tareas</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-            <input type="hidden" id="Tareaid">
-            <div class="col-md-4">
-              <?php echo form_label('Proyecto', 'editproject_id', ['class' => 'form-label']);?>
-              <?php echo form_dropdown([
-                'name' => 'editproject_id',
-                'id' => 'editproject_id',
-                'class' => 'form-control',
-                'selected' => set_value('project_id', $values['projects']), 
-                'options' => $projects
-              ]);?>
-            </div>
-            <div class="col-md-8">
-                <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
-                <?php echo form_dropdown(['name'=>'edittipo_tarea','id'=>'edittipo_tarea','class' => 'form-control'], $tipo_tareas  );?>
-            </div>
-            <div class="col-md-12" style="margin-top: 15px;">
-                <?php echo form_label('Descripcion', 'descripcion');?>
-                <?php echo form_textarea(['name'=>'editdescripcion','id'=>'editdescripcion'],'',['class' => 'form-control']);?>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer" style="padding-top: 1.5%;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="tareaseditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+        <button id="prioridadEditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -250,25 +156,36 @@
       </div>
       <div class="modal-body">
         <div class="row">
+          <div class="col-md-3 col-md-offset-3">
+            <?php echo form_label('Fecha', 'fecha_publicacion', ['id' => 'lblfecha_publicacion']); ?>
+            <?php echo form_input([
+              'id' => 'fecha_publicacion',
+              'name' => 'fecha_publicacion',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Publicación'
+            ]); ?>
+          </div>
             <div class="col-md-3">
-                <?php echo form_label('Tipo', 'tipo_publicacion');?>
+                <?php echo form_label('Tipo', 'tipo_publicacion', ['id' => 'lbltipo_publicacion']);?>
                 <?php 
                 $tipo_publicacion = $select + $tipo_publicacion;
-                echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'),['class' => 'form-control']);?>
+                echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'),['class' => 'form-control','id' => 'tipo_publicacion']);?>
             </div>
-            <div class="col-md-3">
-                <?php echo form_label('Boletin', 'boletin_publicacion');?>
+        </div>
+        <div class="row" style="padding-top:15px;">
+            <div class="col-md-3 col-md-offset-1">
+                <?php echo form_label('Boletin', 'boletin_publicacion', ['id' => 'lblboletin_publicacion']);?>
                 <?php 
                 $boletines = $select + $boletines;
-                echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion') , ['class' => 'form-control']);?>
+                echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion') , ['class' => 'form-control','id' => 'boletin_publicacion']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Tomo', 'tomo_publicacion');?>
-                <?php echo form_input('tomo_publicacion',set_value('tomo_publicacion'),['class' => 'form-control']);?>
+                <?php echo form_label('Tomo', 'tomo_publicacion', ['id' => 'lbltomo_publicacion']);?>
+                <?php echo form_input('tomo_publicacion',set_value('tomo_publicacion'),['class' => 'form-control','id' => 'tomo_publicacion']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Página', 'pag_publicacion');?>
-                <?php echo form_input('pag_publicacion',set_value('pag_publicacion'),['class' => 'form-control']);?>
+                <?php echo form_label('Página', 'pag_publicacion', ['id' => 'lblpag_publicacion']);?>
+                <?php echo form_input('pag_publicacion',set_value('pag_publicacion'),['class' => 'form-control','id' => 'pag_publicacion']);?>
             </div>
         </div>
       </div>
@@ -283,7 +200,7 @@
 
 <!-- Editar Publicacion Modal -->
 <div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionEditFrm']);?>
     <?php echo form_hidden('pub_id_edit', set_value('pub_id_edit'));?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -295,21 +212,32 @@
       </div>
       <div class="modal-body">
         <div class="row">
+          <div class="col-md-3 col-md-offset-3">
+            <?php echo form_label('Fecha', 'fecha_publicacion_edit', ['id' => 'lblfecha_publicacion_edit']); ?>
+            <?php echo form_input([
+              'id' => 'fecha_publicacion_edit',
+              'name' => 'fecha_publicacion_edit',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Publicación'
+            ]); ?>
+          </div>
             <div class="col-md-3">
-                <?php echo form_label('Tipo', 'tipo_publicacion_edit');?>
-                <?php echo form_dropdown('tipo_publicacion_edit', $tipo_publicacion, set_value('tipo_publicacion_edit'),['class' => 'form-control']);?>
+                <?php echo form_label('Tipo', 'tipo_publicacion_edit', ['id' => 'lbltipo_publicacion_edit']);?>
+                <?php echo form_dropdown('tipo_publicacion_edit', $tipo_publicacion, set_value('tipo_publicacion_edit'),['class' => 'form-control','id' => 'tipo_publicacion_edit']);?>
+            </div>
+        </div>
+        <div class="row" style="padding-top:15px;">
+            <div class="col-md-3 col-md-offset-1">
+                <?php echo form_label('Boletin', 'boletin_publicacion_edit', ['id' => 'lblboletin_publicacion_edit']);?>
+                <?php echo form_dropdown('boletin_publicacion_edit', $boletines, set_value('boletin_publicacion_edit') , ['class' => 'form-control','id' => 'boletin_publicacion_edit']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Boletin', 'boletin_publicacion_edit');?>
-                <?php echo form_dropdown('boletin_publicacion_edit', $boletines, set_value('boletin_publicacion_edit') , ['class' => 'form-control']);?>
+                <?php echo form_label('Tomo', 'tomo_publicacion_edit', ['id' => 'lbltomo_publicacion_edit']);?>
+                <?php echo form_input('tomo_publicacion_edit',set_value('tomo_publicacion_edit'),['class' => 'form-control','id' => 'tomo_publicacion_edit']);?>
             </div>
             <div class="col-md-3">
-                <?php echo form_label('Tomo', 'tomo_publicacion_edit');?>
-                <?php echo form_input('tomo_publicacion_edit',set_value('tomo_publicacion_edit'),['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-3">
-                <?php echo form_label('Página', 'pag_publicacion_edit');?>
-                <?php echo form_input('pag_publicacion_edit',set_value('pag_publicacion_edit'),['class' => 'form-control']);?>
+                <?php echo form_label('Página', 'pag_publicacion_edit', ['id' => 'lblpag_publicacion_edit']);?>
+                <?php echo form_input('pag_publicacion_edit',set_value('pag_publicacion_edit'),['class' => 'form-control','id' => 'pag_publicacion_edit']);?>
             </div>
         </div>
       </div>
@@ -323,9 +251,10 @@
 </div>
 
 <!-- Añadir Evento Modal -->
-<div class="modal fade" id="eventoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="eventoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Añadir Evento</h4>
@@ -335,16 +264,27 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <?php echo form_label('Tipo Evento', 'tipo_evento');?>
-                <?php 
-                $tipo_evento = $select + $tipo_evento;
-                echo form_dropdown(['name'=>'tipo_evento','id'=>'tipo_evento'], $tipo_evento, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-12">
-                <?php echo form_label('Comentario', 'evento_comentario');?>
-                <?php echo form_textarea(['name'=>'evento_comentario','id'=>'evento_comentario'],'',['class' => 'form-control']);?>
-            </div>
+          <div class="col-md-8 col-md-offset-0">
+            <?php echo form_label('Tipo Evento', 'tipo_evento', ['id' => 'lbltipo_evento']); ?>
+            <?php
+            $tipo_evento = $select + $tipo_evento;
+            echo form_dropdown(['name' => 'tipo_evento', 'id' => 'tipo_evento'], $tipo_evento, '', ['class' => 'form-control']); ?>
+          </div>
+          <div class="col-md-4">
+            <?php echo form_label('Fecha Evento', 'fecha_evento', ['id' => 'lblfecha_evento']); ?>
+            <?php echo form_input([
+              'id' => 'fecha_evento',
+              'name' => 'fecha_evento',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Evento'
+            ]); ?>
+          </div>
+        </div>
+        <div class="row" style="padding-top:15px;">
+          <div class="col-md-12">
+            <?php echo form_label('Comentario', 'evento_comentario', ['id' => 'lblevento_comentario']); ?>
+            <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control']); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -353,13 +293,15 @@
       </div>
     </div>
   </div>
-  <?php echo form_close();?>
+  <?php echo form_close(); ?>
 </div>
 
 <!-- Editar Evento Modal Edit -->
-<div class="modal fade" id="eventoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']);?>
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="eventoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoEditFrm']); ?>
+  <?php echo form_hidden('even_id_edit', set_value('even_id_edit'));?>
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Editar Evento</h4>
@@ -369,20 +311,129 @@
       </div>
       <div class="modal-body">
         <div class="row">
-        <input type="hidden" id="Eventoid">
-            <div class="col-md-12">
-                <?php echo form_label('Tipo Evento', 'tipo_evento');?>
-                <?php echo form_dropdown(['name'=>'edittipo_evento','id'=>'edittipo_evento'], $tipo_evento, '',['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-12">
-                <?php echo form_label('Comentario', 'evento_comentario');?>
-                <?php echo form_textarea(['name'=>'editevento_comentario','id'=>'editevento_comentario'],'',['class' => 'form-control']);?>
-            </div>
+          <div class="col-md-8 col-md-offset-0">
+            <?php echo form_label('Tipo Evento', 'tipo_evento_edit', ['id' => 'lbltipo_evento_edit']); ?>
+            <?php
+            $tipo_evento = $select + $tipo_evento;
+            echo form_dropdown(['name' => 'tipo_evento_edit', 'id' => 'tipo_evento_edit'], $tipo_evento, '', ['class' => 'form-control']); ?>
+          </div>
+          <div class="col-md-4">
+            <?php echo form_label('Fecha Evento', 'fecha_evento_edit', ['id' => 'lblfecha_evento_edit']); ?>
+            <?php echo form_input([
+              'id' => 'fecha_evento_edit',
+              'name' => 'fecha_evento_edit',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Evento'
+            ]); ?>
+          </div>
+        </div>
+        <div class="row" style="padding-top:15px;">
+          <div class="col-md-12">
+            <?php echo form_label('Comentario', 'evento_comentario_edit', ['id' => 'lblevento_comentario_edit']); ?>
+            <?php echo form_textarea(['name' => 'evento_comentario_edit', 'id' => 'evento_comentario_edit'], '', ['class' => 'form-control']); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="editeventosfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close(); ?>
+</div>
+
+<!-- Añadir Tareas Modal -->
+<div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Tareas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-4">
+              <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label', 'id' => 'lblproject_id']);?>
+              <?php 
+              $projects = $select + $projects;
+              echo form_dropdown([
+                'name' => 'project_id',
+                'id' => 'project_id',
+                'class' => 'form-control',
+                'selected' => set_value('project_id', $values['projects']), 
+                'options' => $projects
+              ]);?>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_label('Tipo Tareas', 'tipo_tarea', ['class' => 'form-label', 'id' => 'lbltipo_tarea']);?>
+                <?php 
+                $tipo_tareas = $select + $tipo_tareas;
+                echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-4">
+              <?php echo form_label('Fecha', 'fecha_tarea', ['id' => 'lblfecha_tarea']); ?>
+              <?php echo form_input('fecha_tarea', '', ['class' => 'form-control calendar', 'id' => 'fecha_tarea']); ?>
+            </div>
+            <div class="col-md-12" style="margin-top: 15px;">
+                <?php echo form_label('Descripcion', 'descripcion', ['id' => 'lbldescripcion']);?>
+                <?php echo form_textarea(['name'=>'descripcion','id'=>'descripcion'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="tareasfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Editar Tareas Modal  -->
+<div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasEditfrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Tareas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <input type="hidden" id="Tareaid">
+            <div class="col-md-4">
+              <?php echo form_label('Proyecto', 'project_id_edit', ['class' => 'form-label', 'id' => 'lblproject_id_edit']);?>
+              <?php echo form_dropdown([
+                'name' => 'project_id_edit',
+                'id' => 'project_id_edit',
+                'class' => 'form-control',
+                'selected' => set_value('project_id', $values['projects']), 
+                'options' => $projects
+              ]);?>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_label('Tipo Tareas', 'tipo_tarea_edit', ['class' => 'form-label', 'id' => 'lbltipo_tarea_edit']);?>
+                <?php echo form_dropdown(['name'=>'tipo_tarea_edit','id'=>'tipo_tarea_edit','class' => 'form-control'], $tipo_tareas  );?>
+            </div>
+            <div class="col-md-4">
+              <?php echo form_label('Fecha', 'fecha_tarea_edit', ['id' => 'lblfecha_tarea_edit']); ?>
+              <?php echo form_input('fecha_tarea_edit', '', ['class' => 'form-control calendar', 'id' => 'fecha_tarea_edit']); ?>
+            </div>
+            <div class="col-md-12" style="margin-top: 15px;">
+                <?php echo form_label('Descripcion', 'descripcion_edit', ['class' => 'form-label', 'id' => 'lbldescripcion_edit']);?>
+                <?php echo form_textarea(['name'=>'descripcion_edit','id'=>'descripcion_edit'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="tareaseditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -2006,21 +2057,21 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-                <?php echo form_label('Archivo', 'signo_archivo');?>
+                <?php echo form_label('Archivo', 'signo_archivoAdd');?>
                 <?php echo form_input([
-                    'id' => 'signo_archivo',
-                    'name' => 'signo_archivo',
+                    'id' => 'signo_archivoAdd',
+                    'name' => 'signo_archivoAdd',
                     'type' => 'file',
                     'class' => 'form-control',
                 ]);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Descripcion', 'descripcion_signo');?>
-                <?php echo form_textarea('descripcion_signo','', ['class' => 'form-control']);?>
+                <?php echo form_textarea('descripcion_signoAdd','', ['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentarios', 'comentario_signo');?>
-                <?php echo form_input('comentario_signo','',['class' => 'form-control']);?>
+                <?php echo form_input('comentario_signoAdd','',['class' => 'form-control']);?>
             </div>
             
         </div>
@@ -2034,8 +2085,14 @@
   <?php echo form_close();?>
 </div>
 <!-- Editar Signo Modal -->
-<div class="modal fade" id="signoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
+<div class="modal fade" id="signoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrmEdit']);?>
+    <?php echo form_input([
+            'name' => 'signo_archivo_orig', 
+            'type'=>'hidden', 
+            'id' =>'signo_archivo_orig',
+            'value' => $values['signo_archivo']
+          ]);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -2047,34 +2104,43 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-                <?php echo form_label('Archivo', 'signo_archivo');?>
+                <?php echo form_label('Archivo', 'signo_archivo', ['id' => 'lblsigno_archivo']);?>
                 <?php echo form_input([
                     'id' => 'signo_archivo',
                     'name' => 'signo_archivo',
                     'type' => 'file',
                     'class' => 'form-control',
+                    'accept' => 'image/png, image/gif, image/jpeg',
+                ]);?>
+            </div>
+            <div class="invisible">
+            <?php echo form_input([
+                    'id' => 'signo_archivo_hidde',
+                    'name' => 'signo_archivo_hidde',
+                    'type' => 'file',
+                    'class' => 'form-control',
                 ]);?>
             </div>
             <div class="col-md-12">
-                <?php echo form_label('Descripcion', 'descripcion_signo');?>
-                <?php echo form_textarea('descripcion_signo', '' , ['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-12">
-                <?php echo form_label('Comentarios', 'comentario_signo');?>
-                <?php echo form_input('comentario_signo','',['class' => 'form-control']);?>
+                <?php echo form_label('Descripcion', 'descripcion_signo', ['id' => 'lbldescripcion_signo']);?>
+                <?php echo form_textarea(
+                    'descripcion_signo', 
+                    $values['signo_archivo_desc'] , 
+                    ['class' => 'form-control', 
+                    'id' => 'descripcion_signo']);?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8">
             <?php if(isset($values['signo_archivo'])) { ?>
-                <img class="img-responsive" src="<?php echo $values['signo_archivo'];?>" alt="<?php echo $values['signonom'];?>">
+                <img id="img_signo_archivo" class="img-responsive" src="<?php echo $values['signo_archivo'];?>" alt="<?php echo $values['signonom'];?>">
             <?php } ?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="signofrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
+        <button id="signoEditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>

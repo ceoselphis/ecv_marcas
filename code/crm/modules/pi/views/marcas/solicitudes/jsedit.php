@@ -4,15 +4,74 @@
 <script>
     /* Declaramos las variables de Datatable para iniciaizarlas*/
     var tblClaseDT;
+    var tblPrioridadDT;
+    var tblPublicacionDT;
+    var tblEventonDT;
+    var tblTareaDT;
+
+
+   
+    //**Función para Buscar una Fila dentro de un Datatable Segun Columna y su valor */
+    function FindRowDTbyColumn(DT, column, value) {
+        return DT
+            .row( function ( idx, data, node ) {
+                    return data[column] === value ?
+                        true : false;
+                })
+            .data();
+    }
+
+    //**Función para Input sólo numéricos */
+    $(".numberOnly").keypress(function (e) {
+        //e.preventDefault();
+        var key = e.charCode || e.keyCode || 0;
+        return (
+            key == 8 || 
+            key == 127 ||
+            (key >= 48 && key <= 57));
+    })
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES SIGNO                       ********** */
+    /* ####################################################################### */
+    
+    /**funcion para editar el signo*/
+    $(document).on('click', '#signoEditfrmsubmit', function(e)
+    {
+        e.preventDefault();
+
+
+        if (($('#signo_archivo').val() && $('#descripcion_signo').val())
+            || (!$('#signo_archivo').val() && $('#signo_archivo_orig').val() && $('#descripcion_signo').val())) {
+            $("#lblsigno_archivo").css('color', color_lbl);
+            $("#lbldescripcion_signo").css('color', color_lbl);
+            $("#signoModalEdit").modal('hide');
+        }else{
+            $("#lblsigno_archivo").css('color', $('#signo_archivo').val() || (!$('#signo_archivo').val() && $('#signo_archivo_orig').val()) ? color_lbl : 'red');
+            $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Editar el Signo');
+        }
+    });
+
+    $( "#signo_archivo" ).on( "change", function() {
+        const input = document.getElementById('signo_archivo');
+        const file = input.files;
+        if (file) {
+            const fileReader = new FileReader();
+            const preview = document.getElementById('img_signo_archivo');
+            fileReader.onload = function (event) {
+                preview.setAttribute('src', event.target.result);
+            }
+            fileReader.readAsDataURL(file[0]);
+        }
+    });
 
 
     /* ####################################################################### */
     /* **********             FUNCIONES CLASE                       ********** */
     /* ####################################################################### */
 
-    /***
-     * funcion para guardar el formulario de la clase
-     */
+    /***funcion para guardar el formulario de la clase*/
     $(document).on('click', '#claseNizaFrmSubmit', function(e)
     {
         e.preventDefault();
@@ -30,8 +89,8 @@
                 },
                 success: function(response)
                 {
-                    $("#claseNizaFrm")[0].reset();
                     $("#claseNizaModal").modal('hide');
+                    alert_float('success', 'Clase agregada exitosamente');
                     TablaClases();
                 }
             });
@@ -41,17 +100,140 @@
             alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Clase');
         }
     });
+    
+    /**** funcion para editar la clase*/
+    $(document).on('click', '#claseNizaEditFrmSubmit', function(e)
+    {
+        e.preventDefault();
+        if ($('#clase_niza_edit').val() && $('#clase_niza_descripcion_edit').val()) {
+            var data = {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'clase_niza'     : $("select[name=clase_niza_edit]").val(),
+                'descripcion'    : $("input[name=clase_niza_descripcion_edit]").val(),
+                'id'             : $("input[name=marcas_clase_id]").val(),
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasClasesController/update/');?>",
+                method: "POST",
+                data: data,
+                success: function(response)
+                {
+                    $("#claseNizaEditModal").modal('hide');
+                    alert_float('success', 'Clase editada exitosamente');
+                    TablaClases();
+                }
+            });
+        }else{
+            $("#lblclase_niza_edit").css('color', $('#clase_niza_edit').val() ? color_lbl : 'red');
+            $("#lblclase_niza_descripcion_edit").css('color', $('#clase_niza_descripcion_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Editar la Clase');
+        }
+    });
 
-    /***
-     * funcion que se ejecuta al cerrar el Modal
-     */
+    /**** funcion que se ejecuta al cerrar el Modal*/
     $('#claseNizaModal').on('hidden.bs.modal', function (e) {
         ResetTablaClases();
     });
 
-    /***
-     * Genera la tabla de Clases
-     */
+    /**** funcion que se ejecuta al cerrar el Modal*/
+    $('#claseNizaEditModal').on('hidden.bs.modal', function (e) {
+        ResetTablaClasesEdit();
+    });
+
+    /**** funcion para obtener la descripcion de la clase al editar*/
+    $(document).on('change', 'select[name=clase_niza_edit]', function(e)
+    {
+        e.preventDefault();
+        console.log('Entre en el change');
+        var clase_niza = $("select[name=clase_niza_edit]").val();
+        $.ajax({
+            url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'clase_id': clase_niza
+            },
+            success: function(response)
+            {
+                res = JSON.parse(response);
+                $("input[name=clase_niza_descripcion_edit]").val(res.data);
+            }
+        });
+    });
+    
+    /**** funcion para obtener la descripcion de la clase*/
+    $(document).on('change', 'select[name=clase_niza]', function(e)
+    {
+        e.preventDefault();
+        var clase_niza = $("select[name=clase_niza]").val();
+        $.ajax({
+            url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'clase_id': clase_niza
+            },
+            success: function(response)
+            {
+                res = JSON.parse(response);
+                $("input[name=clase_niza_descripcion]").val(res.data);
+            }
+        });
+    });
+    
+     /**** funcion para buscar la clase a editar*/
+    $(document).on('click', '.editarClase', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            var row = FindRowDTbyColumn(tblClaseDT, 'id', id);
+            console.log('row', row);
+            $("#clase_niza_edit").val(row.clase_id);
+            $('#clase_niza_edit').selectpicker('refresh'); 
+            $('#clase_niza_descripcion_edit').val(row.descripcion); 
+            $("input[name=marcas_clase_id]").val(row.id)
+            $("#claseNizaEditModal").modal('show');
+    })
+    
+    /**** funcion para borrar la clase*/
+    $(document).on('click', '.borrarClase', function(e)
+    {
+        e.preventDefault();
+        var id = $(this).attr('id');
+        if(confirm('¿Esta seguro de eliminar este registro?'))
+        {
+            $.ajax({
+            url: "<?php echo admin_url('pi/MarcasClasesController/delete/');?>"+id,
+            method: "POST",
+            success: function(response)
+            {
+                alert_float('success', 'Clase borrada exitosamente');
+                TablaClases();
+            }
+        });
+        }
+        
+    })
+
+    /**** funcion que hace reset del Modal de clase*/
+    function ResetTablaClases() {
+        $("#claseNizaFrm")[0].reset();
+        $("#clase_niza").val('');
+        $('#clase_niza').selectpicker('refresh'); 
+        $("#lblclase_niza").css('color', color_lbl);
+        $("#lblclase_niza_descripcion").css('color', color_lbl);
+    };
+
+    /**** funcion que hace reset del Modal de clase*/
+    function ResetTablaClasesEdit() {
+        $("#claseNizaEditFrm")[0].reset();
+        $("#clase_niza_edit").val('');
+        $('#clase_niza_edit').selectpicker('refresh'); 
+        $("#lblclase_niza_edit").css('color', color_lbl);
+        $("#lblclase_niza_descripcion_edit").css('color', color_lbl);
+    };
+
+    /**** Genera la tabla de Clases*/
     function TablaClases()
     {
         $.ajax({
@@ -95,6 +277,10 @@
                         {
                             data: 'id',
                             visible: false
+                        },
+                        {
+                            data: 'clase_id',
+                            visible: false
                         }
                     ],
                     language: {
@@ -106,149 +292,906 @@
         });
     }
 
-    /***
-     * funcion que hace reset del Modal de clase
-     */
-    function ResetTablaClases() {
-        $("#claseNizaFrm")[0].reset();
-        $('#clase_niza').val('').trigger('change');
-        $("#lblclase_niza").css('color', color_lbl);
-        $("#lblclase_niza_descripcion").css('color', color_lbl);
-    };
 
-    /***
-     * funcion para obtener la descripcion de la clase al editar
-     */
-    $(document).on('change', 'select[name=clase_niza_edit]', function(e)
+    /* ####################################################################### */
+    /* **********             FUNCIONES PRIORIDAD                   ********** */
+    /* ####################################################################### */
+
+    /**** funcion para guardar el formulario de la prioridad*/
+    $(document).on('click', '#prioridadfrmsubmit', function(e)
     {
         e.preventDefault();
-        console.log('Entre en el change');
-        var clase_niza = $("select[name=clase_niza_edit]").val();
-        $.ajax({
-            url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                'clase_id': clase_niza
-            },
-            success: function(response)
-            {
-                res = JSON.parse(response);
-                $("input[name=clase_niza_descripcion_edit]").val(res.data);
-            }
-        });
-    });
-    
-    /***
-     * funcion para obtener la descripcion de la clase
-     */
-    $(document).on('change', 'select[name=clase_niza]', function(e)
-    {
-        e.preventDefault();
-        var clase_niza = $("select[name=clase_niza]").val();
-        $.ajax({
-            url: "<?php echo admin_url('pi/ClasesController/getDescription');?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                'clase_id': clase_niza
-            },
-            success: function(response)
-            {
-                res = JSON.parse(response);
-                $("input[name=clase_niza_descripcion]").val(res.data);
-            }
-        });
-    });
-    
-    
-    //**Función para Buscar una Fila dentro de un Datatable Segun Columna y su valor */
-    function FindRowDTbyColumn(DT, column, value) {
-        return DT
-            .row( function ( idx, data, node ) {
-                    return data[column] === value ?
-                        true : false;
-                })
-            .data();
-    }
-
-    /***
-     * funcion para buscar la clase a editar
-     */
-    $(document).on('click', '.editarClase', function(e)
+        if ($('#pais_prioridad').val() && $('#fecha_prioridad').val()
+            && $('#nro_prioridad').val()) 
         {
-            e.preventDefault();
-            var id = $(this).attr('id');
-            var row = FindRowDTbyColumn(tblClaseDT, 'id', id);
-            console.log('row', row);
-
-            $("#clase_niza_edit option").each(function() {
-                if($(this).text() == row.clase) {
-                    $(this).attr('selected', true);
-                }else{
-                    $(this).attr('selected', false);
+            var pais_prioridad = $("#pais_prioridad").val();
+            var numero_prioridad = $("#nro_prioridad").val();
+            var fecha_prioridad = $("#fecha_prioridad").val();
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/addPrioridad')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'pais_prioridad' : pais_prioridad,
+                    'numero_prioridad': numero_prioridad,
+                    'fecha_prioridad': fecha_prioridad,
+                    'marcas_id' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#prioridadModal").modal('hide');
+                    alert_float('success', 'Prioridad agregada exitosamente');
+                    TablaPrioridades();
                 }
             });
-            $('#clase_niza_edit').selectpicker('refresh'); 
-            $('#clase_niza_descripcion_edit').val(row.descripcion); 
-            $("#claseNizaEditModal").modal('show');
-    })
-    
-    /***
-     * funcion para editar la clase
-     */
-    $(document).on('click', '#claseNizaEditFrmSubmit', function(e)
-    {
+        }else{
+            $("#lblpais_prioridad").css('color', $('#pais_prioridad').val() ? color_lbl : 'red');
+            $("#lblfecha_prioridad").css('color', $('#fecha_prioridad').val() ? color_lbl : 'red');
+            $("#lblnro_prioridad").css('color', $('#nro_prioridad').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Prioridad');
+        }
+    });
+
+    /**** funcion para editar la prioridad*/
+    $("#prioridadEditfrmsubmit").on('click', function(e){
         e.preventDefault();
-        if ($('#clase_niza_edit').val() && $('#clase_niza_descripcion_edit').val()) {
-            var data = {
-                'csrf_token_name': $("input[name=csrf_token_name]").val(),
-                'clase_niza'     : $("select[name=clase_niza_edit]").val(),
-                'descripcion'    : $("input[name=clase_niza_descripcion_edit]").val(),
-                'id'             : $("input[name=marcas_clase_id]").val(),
+        if ($('#pais_prioridad_edit').val() && $('#fecha_prioridad_edit').val()
+            && $('#nro_prioridad_edit').val()) 
+        {
+            data = {
+                'pais_id' : $("#pais_prioridad_edit").val(),
+                'fecha_prioridad': $("#fecha_prioridad_edit").val(),
+                'numero_prioridad'  : $("#nro_prioridad_edit").val(),
+                'id'   : $("input[name=prioridad_edit_id").val(),
             }
+
             $.ajax({
-                url: "<?php echo admin_url('pi/MarcasClasesController/update/');?>",
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/update/');?>",
                 method: "POST",
                 data: data,
                 success: function(response)
                 {
-                    $("#claseNizaEditModal").modal('hide');
-                    alert_float('success', 'Clase editada exitosamente');
-                    TablaClases();
+                    $("#prioridadEditModal").modal('hide');
+                    alert_float('success', 'Prioridad editada exitosamente');
+                    TablaPrioridades();
                 }
             });
+
         }else{
-            $("#lblclase_niza_edit").css('color', $('#clase_niza_edit').val() ? color_lbl : 'red');
-            $("#lblclase_niza_descripcion_edit").css('color', $('#clase_niza_descripcion_edit').val() ? color_lbl : 'red');
-            alert_float('danger', 'Debe seleccionar todos los datos para Editar la Clase');
+            $("#lblpais_prioridad_edit").css('color', $('#pais_prioridad_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_prioridad_edit").css('color', $('#fecha_prioridad_edit').val() ? color_lbl : 'red');
+            $("#lblnro_prioridad_edit").css('color', $('#nro_prioridad_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Editar la Prioridad');
         }
     });
+
+    /**** funcion que se ejecuta al cerrar el Modal*/
+    $('#prioridadEditModal').on('hidden.bs.modal', function (e) {
+        ResetTablaPrioridadesEdit();
+    });
+
+    /**** funcion que se ejecuta al cerrar el Modal*/
+    $('#prioridadModal').on('hidden.bs.modal', function (e) {
+        ResetTablaPrioridades();
+    });
     
-    /***
-     * funcion para borrar la clase
-     */
-    $(document).on('click', '.borrarClase', function(e)
-    {
+    /**** funcion para borrar la Prioridad*/
+    $(document).on('click', '.deletePrioridad', function(e){
         e.preventDefault();
         var id = $(this).attr('id');
         if(confirm('¿Esta seguro de eliminar este registro?'))
         {
             $.ajax({
-            url: "<?php echo admin_url('pi/MarcasClasesController/delete/');?>"+id,
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/destroy/');?>"+id,
+                method: "POST",
+                success: function(response)
+                {
+                    alert_float('success', 'Prioridad borrada exitosamente');
+                    TablaPrioridades();
+                }
+            });
+        }
+    })
+
+    /**** funcion para buscar la prioridad a editar*/
+    $(document).on('click', '.editarPrioridad', function(e)
+        {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            var row = FindRowDTbyColumn(tblPrioridadDT, 'id', id);
+            console.log('row', row);
+            
+            $("#pais_prioridad_edit").val(row.idpais);
+            $('#pais_prioridad_edit').selectpicker('refresh');
+            $("#fecha_prioridad_edit").val(row.fecha_prioridad);
+            $("#nro_prioridad_edit").val(row.numero)
+            $("input[name=prioridad_edit_id]").val(row.id)
+            $("#prioridadEditModal").modal('show');
+    })
+
+    /**** funcion que hace reset del Modal de Prioridad*/
+    function ResetTablaPrioridadesEdit() {
+        $("#prioridadEditFrm")[0].reset();
+        $('#pais_prioridad_edit').val('').trigger('change');
+        $("#lblpais_prioridad_edit").css('color', color_lbl);
+        $("#lblfecha_prioridad_edit").css('color', color_lbl);
+        $("#lblnro_prioridad_edit").css('color', color_lbl);
+    };
+
+    /**** funcion que hace reset del Modal de Prioridad*/
+    function ResetTablaPrioridades() {
+        $("#prioridadEditFrm")[0].reset();
+        $('#pais_prioridad').val('').trigger('change');
+        $("#lblpais_prioridad").css('color', color_lbl);
+        $("#lblfecha_prioridad").css('color', color_lbl);
+        $("#lblnro_prioridad").css('color', color_lbl);
+    };
+
+    /**** Genera la tabla de Prioridades*/
+    function TablaPrioridades(){
+            $.ajax({
+                url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
+                method: "GET",
+                success: function(response)
+                {
+                    table = JSON.parse(response);
+                    console.log('Prioridades', table);
+                    tblPrioridadDT = $("#prioridadTbl").DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        autoWidth: false,
+                        data: table,
+                        destroy: true,
+                        dataSrc: '',
+                        columnDefs: [
+                            { width: '15%', targets: 0 },
+                            { width: '40%', targets: 1 },
+                            { width: '20%', targets: 2 },
+                            { width: '25%', targets: 3 }
+                        ],
+                        columns : [
+                            { data: 'fecha_prioridad'},
+                            { data: 'nombre'},
+                            { data: 'numero'},
+                            { data: 'acciones'},
+                        ],
+                        columns: [
+                            {
+                                data: 'fecha_prioridad',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'nombre',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'numero',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'acciones',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                                }
+                            },
+                            {
+                            data: 'idpais',
+                            visible: false
+                            },
+                            {
+                            data: 'id',
+                            visible: false
+                            }
+                        ],
+                        width: "100%"
+                    });
+                }
+            })
+        };
+
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES PUBLICACIONES               ********** */
+    /* ####################################################################### */
+
+    /**** funcion para guardar el formulario de la publicacion*/
+    $(document).on('click',"#publicacionfrmsubmit" , function(e)
+        {
+            e.preventDefault();
+            if ($('#fecha_publicacion').val() && $('#tipo_publicacion').val() && $('#boletin_publicacion').val()
+            && $('#tomo_publicacion').val() && $('#pag_publicacion').val())
+            {
+                var data = {
+                    'csrf_token_name'    : $("input[name=csrf_token_name]").val(),
+                    'tipo_publicacion'   : $("#tipo_publicacion").val(),
+                    'boletin_publicacion': $("#boletin_publicacion").val(),
+                    'tomo_publicacion'   : $("#tomo_publicacion").val(),
+                    'pag_publicacion'    : $("#pag_publicacion").val(),
+                }
+                $.ajax({
+                    url: "<?php echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/'.$id);?>",
+                    method: 'POST',
+                    data: data,
+                    success: function(response)
+                    {
+                        $("#publicacionModal").modal('hide');
+                        alert_float('success', 'Publicación agregada exitosamente');
+                        TablaPublicaciones();
+                    }
+                });
+            }else{
+                $("#lblfecha_publicacion").css('color', $('#fecha_publicacion').val() ? color_lbl : 'red');
+                $("#lbltipo_publicacion").css('color', $('#tipo_publicacion').val() ? color_lbl : 'red');
+                $("#lblboletin_publicacion").css('color', $('#boletin_publicacion').val() ? color_lbl : 'red');
+                $("#lbltomo_publicacion").css('color', $('#tomo_publicacion').val() ? color_lbl : 'red');
+                $("#lblpag_publicacion").css('color', $('#pag_publicacion').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Publicación');
+            }
+       });
+
+    /**** funcion para editar la publicacion*/
+    $(document).on('click', '#publicacionfrmsubmitEdit', function(e)
+    {
+        e.preventDefault();
+        if ($('#fecha_publicacion_edit').val() && $('#tipo_publicacion_edit').val() && $('#boletin_publicacion_edit').val()
+            && $('#tomo_publicacion_edit').val() && $('#pag_publicacion_edit').val())
+        {
+            var data = {
+                'csrf_token_name'   : $("input[name=csrf_token_name]").val(),
+                'tipo_pub_id'       : $("select[name=tipo_publicacion_edit]").val(),
+                'boletin_id'        : $("select[name=boletin_publicacion_edit]").val(),
+                'tomo'              : $("input[name=tomo_publicacion_edit]").val(),
+                'pagina'            : $("input[name=pag_publicacion_edit]").val(),
+                'marcas_id'         : $("input[name=id]").val(),
+                'id'                : $("input[name=pub_id_edit]").val()
+            }
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/updatePublicacionByMarca/');?>",
+                method: 'POST',
+                data: data,
+                success: function(response)
+                {
+                    alert_float('success', 'Publicacion editada exitosamente');
+                    TablaPublicaciones();
+                    $("#publicacionEditModal").modal('hide');
+                }
+            });
+        }else{
+                $("#lblfecha_publicacion_edit").css('color', $('#fecha_publicacion_edit').val() ? color_lbl : 'red');
+                $("#lbltipo_publicacion_edit").css('color', $('#tipo_publicacion_edit').val() ? color_lbl : 'red');
+                $("#lblboletin_publicacion_edit").css('color', $('#boletin_publicacion_edit').val() ? color_lbl : 'red');
+                $("#lbltomo_publicacion_edit").css('color', $('#tomo_publicacion_edit').val() ? color_lbl : 'red');
+                $("#lblpag_publicacion_edit").css('color', $('#pag_publicacion_edit').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Publicación');
+        }
+    });
+
+    /**** funcion que se ejecuta al cerrar el Modal*/
+    $('#publicacionEditModal').on('hidden.bs.modal', function (e) {
+        ResetTablaPublicacionesEdit();
+    });
+
+    /**** funcion que se ejecuta al cerrar el Modal*/
+    $('#publicacionModal').on('hidden.bs.modal', function (e) {
+        ResetTablaPublicaciones();
+    });
+
+    /**** funcion para buscar la publicacion a editar*/
+    $(document).on('click', '.editPublicacion', function(e)
+    {
+            e.preventDefault();
+            var id = $(this).attr('id');
+            var row = FindRowDTbyColumn(tblPublicacionDT, 'id', id);
+            console.log('row', row);
+            
+            $("#fecha_publicacion_edit").val(row.fecha);
+            $('#tipo_publicacion_edit').val(row.id_pub).trigger('change');
+            $('#boletin_publicacion_edit').val(row.boletin_id).trigger('change');
+            $("#tomo_publicacion_edit").val(row.tomo);
+            $("#pag_publicacion_edit").val(row.pagina)
+            $("input[name=pub_id_edit]").val(row.id)
+            $("#publicacionEditModal").modal('show');
+    });
+
+    /**** funcion para borrar la Publicacion*/
+    $(document).on('click', '.deletePublicacion', function(e)
+    {
+        e.preventDefault();
+        var id = $(this).attr('id');
+        if(confirm("¿Esta seguro de eliminar este registro?"))
+        {
+            $.ajax({
+                url: "<?php echo admin_url('pi/PublicacionesMarcasController/deletePublicacionByMarca/');?>"+id,
+                method: "POST",
+                success: function(response)
+                {
+                    alert_float('success', 'Publicación borrada exitosamente');
+                    TablaPublicaciones();
+                }
+            });
+        }            
+    });
+
+    /**** funcion que hace reset del Modal de Publicacion*/
+    function ResetTablaPublicacionesEdit() {
+        $("#publicacionEditFrm")[0].reset();
+        $('#tipo_publicacion_edit').val('').trigger('change');
+        $('#boletin_publicacion_edit').val('').trigger('change');
+        $("#lblfecha_publicacion_edit").css('color', color_lbl);
+        $("#lbltipo_publicacion_edit").css('color', color_lbl);
+        $("#lblboletin_publicacion_edit").css('color', color_lbl);
+        $("#lbltomo_publicacion_edit").css('color', color_lbl);
+        $("#lblpag_publicacion_edit").css('color', color_lbl);
+    };
+
+    /**** funcion que hace reset del Modal de Publicacion*/
+    function ResetTablaPublicaciones() {
+        $("#publicacionFrm")[0].reset();
+        $('#tipo_publicacion').val('').trigger('change');
+        $('#boletin_publicacion').val('').trigger('change');
+        $("#lblfecha_publicacion").css('color', color_lbl);
+        $("#lbltipo_publicacion").css('color', color_lbl);
+        $("#lblboletin_publicacion").css('color', color_lbl);
+        $("#lbltomo_publicacion").css('color', color_lbl);
+        $("#lblpag_publicacion").css('color', color_lbl);
+    };
+
+    /**** Genera la tabla de Publicaciones*/
+    function TablaPublicaciones()
+    {
+        $.ajax({
+            url:"<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
             method: "POST",
             success: function(response)
             {
-                alert_float('success', 'Clase borrada exitosamente');
-                TablaClases();
+                table = JSON.parse(response);
+                console.log('Publicaciones', table.data);
+                tblPublicacionDT = $("#publicacionTbl").DataTable({
+                    language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        autoWidth: false,
+                        destroy: true,
+                        data: table.data,
+                        columnDefs: [
+                            { width: '15%', targets: 0 },
+                            { width: '25%', targets: 1 },
+                            { width: '25%', targets: 2 },
+                            { width: '2.5%', targets: 3 },
+                            { width: '2.5%', targets: 4 },
+                            { width: '30%', targets: 5 }
+                        ],
+                        columns: [
+                                {
+                                data: 'fecha',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'nombre',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'descripcion',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'tomo',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'pagina',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12 text-left'>" + data + "</div>"
+                                }
+                            },
+                            {
+                                data: 'acciones',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                                }
+                            },
+                            {
+                            data: 'id',
+                            visible: false
+                            },
+                            {
+                            data: 'boletin_id',
+                            visible: false
+                            }
+                        ],
+                        width: "100%"
+                });
             }
         });
+    }
+
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES EVENTOS               ********** */
+    /* ####################################################################### */
+
+
+    //Añadir Evento ---------------------------------------------------------------------------
+    $(document).on('click','#eventosfrmsubmit',function(e){
+        e.preventDefault();
+
+        if ($('#tipo_evento').val() && $('#fecha_evento').val() && $('#evento_comentario').val())
+        {
+            $.ajax({
+                url: "<?php echo admin_url('pi/EventosController/addEvento')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'tipo_evento' : $('#tipo_evento').val(),
+                    'comentarios': $('#evento_comentario').val(),
+                    'fecha': $('#fecha_evento').val(),
+                    'id_marcas' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#eventoModal").modal('hide');
+                    alert_float('success', 'Evento agregado exitosamente');
+                    TablaEventos();
+                }
+            });
+        }else{
+            $("#lbltipo_evento").css('color', $('#tipo_evento').val() ? color_lbl : 'red');
+            $("#lblfecha_evento").css('color', $('#fecha_evento').val() ? color_lbl : 'red');
+            $("#lblevento_comentario").css('color', $('#evento_comentario').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir el Evento');
         }
-        
+
+    });
+
+    //Editar Evento ---------------------------------------------------------------------------
+    $(document).on('click','#editeventosfrmsubmit',function(e){
+        e.preventDefault();
+
+        if ($('#tipo_evento_edit').val() && $('#fecha_evento_edit').val() && $('#evento_comentario_edit').val())
+        {
+            $.ajax({
+                url: "<?php echo admin_url('pi/EventosController/UpdateMarcasEventos/')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'tipo_evento' : $('#tipo_evento_edit').val(),
+                    'comentarios': $('#evento_comentario_edit').val(),
+                    'fecha': $('#fecha_evento_edit').val(),
+                    'id': $("input[name=even_id_edit]").val(),
+                    'id_marcas' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#eventoModalEdit").modal('hide');
+                    alert_float('success', 'Evento editado exitosamente');
+                    TablaEventos();
+                }
+            });
+        }else{
+            $("#lbltipo_evento_edit").css('color', $('#tipo_evento_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_evento_edit").css('color', $('#fecha_evento_edit').val() ? color_lbl : 'red');
+            $("#lblevento_comentario_edit").css('color', $('#evento_comentario_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Editar el Evento');
+        }
+
+
+        /* var formData = new FormData();
+        var data = getFormData(this);
+        var id = $('#Eventoid').val();
+        var tipo_evento =  $('#edittipo_evento').val();
+        var comentarios = $('#editevento_comentario').val();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id', id); 
+        formData.append('tipo_evento' , tipo_evento);
+        formData.append('comentarios', comentarios);
+        formData.append('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/");?>';
+        url = url+id;
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            alert_float('success', "Actualizado Correctamente");
+            $("#eventoModalEdit").modal('hide');
+            TablaEventos();
+        }).catch(function(response){
+            alert("No se pudo Editar Evento");
+        }); */
+    });
+
+    //Al cerrar el modal
+    $('#eventoModal').on('hidden.bs.modal', function (e) {
+        ResetTablaEventos();
     })
 
+    //Al cerrar el modal
+    $('#eventoModalEdit').on('hidden.bs.modal', function (e) {
+        ResetTablaEventosEdit();
+    })
+
+    //Eliminar Eventos
+    $(document).on('click','.evento-delete',function(){
+    if (confirm("Quieres eliminar este registro?")){
+        let id = $(this).attr('id');
+        console.log(id);
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/EventosController/destroy/");?>';
+        url= url+id;
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            alert_float('success', "Eliminado Correctamente");
+            TablaEventos();
+        }).catch(function(response){
+            alert("No se pudo Eliminar Eventos");
+        });
+    }
+});
+
+    //Modal Edit Eventos
+    $(document).on('click','.editeventos',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblEventonDT, 'id', id);
+        console.log('row', row);
+        
+        $('#tipo_evento_edit').val(row.tipo_evento_id).trigger('change');
+        $("#fecha_evento_edit").val(row.fecha);
+        $("#evento_comentario_edit").val(row.comentarios);
+        $("input[name=even_id_edit]").val(row.id);
+        $("#eventoModalEdit").modal('show'); 
+    })
+
+    /***
+     * funcion que hace reset del Modal de Eventos
+     */
+    function ResetTablaEventos() {
+        $("#eventoFrm")[0].reset();
+        $('#tipo_evento').val('').trigger('change');
+        $("#lbltipo_evento").css('color', color_lbl);
+        $("#lblfecha_evento").css('color', color_lbl);
+        $("#lblevento_comentario").css('color', color_lbl);
+    }
+
+    /***
+     * funcion que hace reset del Modal de Eventos
+     */
+    function ResetTablaEventosEdit() {
+        $("#eventoEditFrm")[0].reset();
+        $('#tipo_evento_edit').val('').trigger('change');
+        $("#lbltipo_evento_edit").css('color', color_lbl);
+        $("#lblfecha_evento_edit").css('color', color_lbl);
+        $("#lblevento_comentario_edit").css('color', color_lbl);
+    }
+
+    // Eventos
+    function TablaEventos(){
+        let url = '<?php echo admin_url("pi/EventosController/showEventos/$id");?>';
+        //let body= ``;
+        $.get(url, function(response){
+            let eventos = JSON.parse(response);
+            console.log('Eventos', eventos);
+            tblEventonDT = $("#eventosTbl").DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                autoWidth: false,
+                data: eventos,
+                destroy: true,
+                columnDefs: [
+                    { width: '5%', targets: 0 },
+                    { width: '30%', targets: 1 },
+                    { width: '25%', targets: 2 },
+                    { width: '15%', targets: 3 },
+                    { width: '25%', targets: 4 }
+                ],
+                columns: [
+                    {
+                        data: 'id',
+                        visible: false,
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'tipo_evento',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'comentarios',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: '',
+                        render: function (data, type, row)
+                        {
+                            data = `<a id="${row.id}" class="editeventos btn btn-light" style= "background-color: white; "><i class="fas fa-edit"></i>Editar</a>
+                            <a id="${row.id}" class="evento-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
+                            return "<div class='col-12'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'tipo_evento_id',
+                        visible: false
+                    }
+                ],
+                width: "100%"
+            });
+        })
+    }
 
 
+    /* ####################################################################### */
+    /* **********             FUNCIONES TAREAS                      ********** */
+    /* ####################################################################### */
+    
+
+    //Añadir Tareas ---------------------------------------------------------------------------
+    $(document).on('click','#tareasfrmsubmit',function(e){
+        e.preventDefault();
+
+        if ($('#fecha_tarea').val() && $('#project_id').val() && $('#tipo_tarea').val()
+            && $('#descripcion').val()) {
+            $.ajax({
+                url: "<?php echo admin_url('pi/TareasController/addTareas')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'project_id' : $('#project_id').val(),
+                    'tipo_tarea': $('#tipo_tarea').val(),
+                    'fecha': $('#fecha_evento').val(),
+                    'descripcion': $('#descripcion').val(),
+                    'id_marcas' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#addTask").modal('hide');
+                    alert_float('success', 'Tarea agregada exitosamente');
+                    TablaTareas();
+                }
+            });
+        }else{
+            $("#lblfecha_tarea").css('color', $('#fecha_tarea').val() ? color_lbl : 'red');
+            $("#lblproject_id").css('color', $('#project_id').val() ? color_lbl : 'red');
+            $("#lbltipo_tarea").css('color', $('#tipo_tarea').val() ? color_lbl : 'red');
+            $("#lbldescripcion").css('color', $('#descripcion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar los datos para para Añadir la Tarea');
+        }
+    });
+
+    //Editar Tareas ---------------------------------------------------------------------------
+    $(document).on('click','#tareaseditfrmsubmit',function(e){
+        e.preventDefault();
+
+        if ($('#fecha_tarea_edit').val() && $('#project_id_edit').val() && $('#tipo_tarea_edit').val()
+            && $('#descripcion_edit').val()) {
+            $.ajax({
+                url: "<?php echo admin_url('pi/TareasController/UpdateMarcasTareas/')?>",
+                method: "POST",
+                data: {
+                    'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                    'project_id' : $('#project_id_edit').val(),
+                    'tipo_tarea': $('#tipo_tarea_edit').val(),
+                    'fecha': $('#fecha_tarea_edit').val(),
+                    'descripcion': $('#descripcion_edit').val(),
+                    'id': $('#Tareaid').val(),
+                    'id_marcas' : "<?php echo $id;?>"
+                },
+                success: function(response)
+                {
+                    $("#EditTask").modal('hide');
+                    alert_float('success', 'Tarea editada exitosamente');
+                    TablaTareas();
+                }
+            });
+        }else{
+            $("#lblfecha_tarea_edit").css('color', $('#fecha_tarea_edit').val() ? color_lbl : 'red');
+            $("#lblproject_id_edit").css('color', $('#project_id_edit').val() ? color_lbl : 'red');
+            $("#lbltipo_tarea_edit").css('color', $('#tipo_tarea_edit').val() ? color_lbl : 'red');
+            $("#lbldescripcion_edit").css('color', $('#descripcion_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar los datos para para Editar la Tarea');
+        }
+
+    });
+
+    //Al cerrar el modal
+    $('#addTask').on('hidden.bs.modal', function (e) {
+            ResetTablaTareas();
+    })
+
+    //Al cerrar el modal
+    $('#EditTask').on('hidden.bs.modal', function (e) {
+        ResetTablaTareasEdit();
+    })
+
+    //Eliminar Tareas
+    $(document).on('click','.tarea-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            let element = $(this)[0].parentElement;
+            let id = $(element).attr('id');
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TareasController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaTareas();
+            }).catch(function(response){
+                alert("No se pudo Eliminar Tareas");
+            });
+        }
+    });
+        
+    //Modal Edit Tareas 
+    $(document).on('click','.editTareas',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblTareaDT, 'id', id);
+        console.log('row', row);
+        
+        $('#project_id_edit').val(row.project_id).trigger('change');
+        $('#tipo_tarea_edit').val(row.tipo_tareas_id).trigger('change');
+        $("#fecha_tarea_edit").val(row.fecha);
+        $("#descripcion_edit").val(row.descripcion);
+        $("#Tareaid").val(row.id);
+        $("#EditTask").modal('show'); 
+    })
+
+    /***funcion que hace reset del Modal de Tareas*/
+    function ResetTablaTareas() {
+        $("#tareasfrm")[0].reset();
+        $('#project_id').val('').trigger('change');
+        $('#tipo_tarea').val('').trigger('change');
+        $("#lblfecha_tarea").css('color', color_lbl);
+        $("#lblproject_id").css('color', color_lbl);
+        $("#lbltipo_tarea").css('color', color_lbl);
+        $("#lbldescripcion").css('color', color_lbl);
+    }
+
+    /***funcion que hace reset del Modal de Tareas*/
+    function ResetTablaTareasEdit() {
+        $("#tareasEditfrm")[0].reset();
+        $('#project_id_edit').val('').trigger('change');
+        $('#tipo_tarea_edit').val('').trigger('change');
+        $("#lblfecha_tarea_edit").css('color', color_lbl);
+        $("#lblproject_id_edit").css('color', color_lbl);
+        $("#lbltipo_tarea_edit").css('color', color_lbl);
+        $("#lbldescripcion_edit").css('color', color_lbl);
+    }
+
+    // Tareas
+    function TablaTareas(){
+        let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
+        console.log(url);
+        let body= ``;
+        $.get(url, function(response){
+            let tareas = JSON.parse(response);
+            console.log('Tareas', tareas);
+            tblTareaDT = $("#tareasTbl").DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                autoWidth: false,
+                data: tareas,
+                destroy: true,
+                columnDefs: [
+                    { width: '20%', targets: 0 },
+                    { width: '20%', targets: 1 },
+                    { width: '20%', targets: 2 },
+                    { width: '15%', targets: 3 },
+                    { width: '25%', targets: 4 }
+                ],
+                columns: [
+                    {
+                        data: 'project_name',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'tipo_tarea',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'descripcion',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: '',
+                        render: function (data, type, row)
+                        {
+                            data = `<a id="${row.id}" class="editTareas btn btn-light"><i class="fas fa-edit"></i>Editar</a>
+                            <a id="${row.id}" class="tarea-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
+                            return "<div class='col-12'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'tipo_tareas_id',
+                        visible: false
+                    },
+                    {
+                        data: 'project_id',
+                        visible: false
+                    },
+                    {
+                        data: 'id',
+                        visible: false
+                    }
+                ],
+                width: "100%"
+            });
+
+        })
+    }
+
+    
 
 </script>
 
@@ -1298,197 +2241,8 @@
                 })
         }
 
-    /***
-     * funcion que hace reset del Modal de Eventos
-     */
-    function ResetTablaEventos() {
-        $("#eventoFrm")[0].reset();
-        $('#tipo_evento').prop('selectedIndex', 0);
-        $('#tipo_evento').selectpicker('refresh'); 
-        //$("#lblclase_niza").css('color', color_lbl);
-        //$("#lblclase_niza_descripcion").css('color', color_lbl);
-    }
-
-        // Eventos
-        function Eventos(){
-            let url = '<?php echo admin_url("pi/EventosController/showEventos/$id");?>';
-            //let body= ``;
-            $.get(url, function(response){
-                let eventos = JSON.parse(response);
-                console.log('Eventos', eventos);
-                /* listadomicilio.forEach(item => {
-                    body += `<tr eventosid = "${item.id}" > 
-                                <td class="text-center">${item.id}</td>
-                                <td class="text-center">${item.tipo_evento}</td>
-                                <td class="text-center">${item.comentarios}</td>
-                                <td class="text-center">${item.fecha}</td>
-                                    <td class="text-center">
-                                        <a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                        <button class="evento-delete btn btn-danger">
-                                        <i class="fas fa-trash"></i>Borrar
-                                        </button>
-                                    </td>  
-                            </tr>
-                        `
-                }); */
-                //$('#body_eventos').html(body);   
-
-                $("#eventosTbl").DataTable({
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                    },
-                    autoWidth: false,
-                    data: eventos,
-                    destroy: true,
-                    columnDefs: [
-                        { width: '5%', targets: 0 },
-                        { width: '30%', targets: 1 },
-                        { width: '25%', targets: 2 },
-                        { width: '15%', targets: 3 },
-                        { width: '25%', targets: 4 }
-                    ],
-                    columns: [
-                        {
-                            data: 'id',
-                            render: function (data, type, row)
-                            {
-                                return "<div class='col-12'>" + data + "</div>"
-                            }
-                        },
-                        {
-                            data: 'tipo_evento',
-                            render: function (data, type, row)
-                            {
-                                return "<div class='col-12 text-left'>" + data + "</div>"
-                            }
-                        },
-                        {
-                            data: 'comentarios',
-                            render: function (data, type, row)
-                            {
-                                return "<div class='col-12 text-left'>" + data + "</div>"
-                            }
-                        },
-                        {
-                            data: 'fecha',
-                            render: function (data, type, row)
-                            {
-                                return "<div class='col-12'>" + data + "</div>"
-                            }
-                        },
-                        {
-                            data: '',
-                            render: function (data, type, row)
-                            {
-                                data = `<a class="editeventos btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#eventoModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                <a class="evento-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
-                                return "<div id='" + row.id + "' class='col-12'>" + data + "</div>"
-                            }
-                        }
-                    ],
-                    width: "100%"
-                });
-            })
-        }
 
 
-    /***
-     * funcion que hace reset del Modal de Tareas
-     */
-    function ResetTablaTareas() {
-        $("#tareasfrm")[0].reset();
-        $('#project_id').prop('selectedIndex', 0);
-        $('#project_id').selectpicker('refresh'); 
-        $('#tipo_tarea').prop('selectedIndex', 0);
-        $('#tipo_tarea').selectpicker('refresh'); 
-        //$("#lblclase_niza").css('color', color_lbl);
-        //$("#lblclase_niza_descripcion").css('color', color_lbl);
-    }
-
-    // Tareas
-        function Tareas(){
-            let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
-            console.log(url);
-            let body= ``;
-            $.get(url, function(response){
-                let tareas = JSON.parse(response);
-                console.log('Tareas', tareas);
-                /* tareas.forEach(item => {
-                        body += `<tr taskId = "${item.id}">
-                                        <td class="text-center">${item.id}</td>
-                                        <td class="text-center">${item.tipo_tarea}</td>
-                                        <td class="text-center">${item.descripcion}</td>
-                                        <td class="text-center">${item.fecha}</td>
-                                        <td class="text-center">
-                                            <a  class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="tarea-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>  
-                                </tr>
-                            `
-                    });
-                
-                $('#body_tareas').html(body);    */
-
-                $("#tareasTbl").DataTable({
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                    },
-                    autoWidth: false,
-                    data: tareas,
-                    destroy: true,
-                    columnDefs: [
-                        { width: '5%', targets: 0 },
-                        { width: '28%', targets: 1 },
-                        { width: '24%', targets: 2 },
-                        { width: '18%', targets: 3 },
-                        { width: '25%', targets: 4 }
-                    ],
-                    columns: [
-                        {
-                            data: 'id',
-                            render: function (data, type, row)
-                            {
-                                return "<div class='col-12'>" + data + "</div>"
-                            }
-                        },
-                        {
-                            data: 'tipo_tarea',
-                            render: function (data, type, row)
-                            {
-                                return "<div class='col-12 text-left'>" + data + "</div>"
-                            }
-                        },
-                        {
-                            data: 'descripcion',
-                            render: function (data, type, row)
-                            {
-                                return "<div class='col-12 text-left'>" + data + "</div>"
-                            }
-                        },
-                        {
-                            data: 'fecha',
-                            render: function (data, type, row)
-                            {
-                                return "<div class='col-12'>" + data + "</div>"
-                            }
-                        },
-                        {
-                            data: '',
-                            render: function (data, type, row)
-                            {
-                                data = `<a  class="editTareas btn btn-light"  data-toggle="modal" data-target="#EditTask"><i class="fas fa-edit"></i>Editar</a>
-                                <a class="tarea-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
-                                return "<div id='" + row.id + "' class='col-12'>" + data + "</div>"
-                            }
-                        }
-                    ],
-                    width: "100%"
-                });
-
-            })
-        }
         // Documentos
         function Documentos(){
             let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/showDocumentos/$id");?>';
@@ -1798,49 +2552,6 @@
             })
         });
 
-        //Modal Edit Tareas 
-        $(document).on('click','.editTareas',function(){
-            let element = $(this)[0].parentElement;
-            let id = $(element).attr('id');
-            let url = '<?php echo admin_url("pi/TareasController/EditTareas/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-                let tareas =JSON.parse(response);
-                console.log('tareas', tareas);
-                $('#editproject_id').val(tareas[0]['project_id']);
-                $('#editproject_id').selectpicker('refresh'); 
-                $('#edittipo_tarea').val(tareas[0]['tipo_tareas_id']);
-                $('#edittipo_tarea').selectpicker('refresh'); 
-                $('#editdescripcion').val(tareas[0]['descripcion']);
-                $('#Tareaid').val(tareas[0]['id']);
-            })
-            
-        })
-
-        //Modal Edit Eventos
-        $(document).on('click','.editeventos',function(){
-            console.log('$(this)[0].parentElement', $(this)[0].parentElement);
-            let element = $(this)[0].parentElement;
-            console.log(element);
-            let id = $(element).attr('id');
-            console.log(id);
-            let url = '<?php echo admin_url("pi/EventosController/EditEventos/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            console.log(response);
-            let eventos =JSON.parse(response);
-            console.log("Tipo Evento ",eventos[0]['tipo_evento_id']);
-            $('#edittipo_evento').val(eventos[0]['tipo_evento_id']);
-            $('#edittipo_evento').selectpicker('refresh'); 
-            $('#editevento_comentario').val(eventos[0]['comentarios']);
-            $('#Eventoid').val(eventos[0]['id']);
-            })
-        })
-
-        //Al cerrar el modal
-        $('#eventoModal').on('hidden.bs.modal', function (e) {
-            ResetTablaEventos();
-        })
 
 
 
@@ -3719,133 +4430,6 @@
                 alert("No se pudo Editar Documento");
             });
         });
-
-        //Añadir Evento ---------------------------------------------------------------------------
-        $(document).on('click','#eventosfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var tipo_evento =  $('#tipo_evento').val();
-            var evento_comentario = $('#evento_comentario').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('tipo_evento' , tipo_evento);
-            formData.append('evento_comentario', evento_comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/EventosController/addEvento");?>';
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#eventoModal").modal('hide');
-                Eventos();
-            }).catch(function(response){
-                alert("No se pudo Añadir Evento");
-            });
-        });
-
-        //Editar Evento ---------------------------------------------------------------------------
-        $(document).on('click','#editeventosfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Eventoid').val();
-            var tipo_evento =  $('#edittipo_evento').val();
-            var comentarios = $('#editevento_comentario').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id', id); 
-            formData.append('tipo_evento' , tipo_evento);
-            formData.append('comentarios', comentarios);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/EventosController/UpdateEventos/");?>';
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#eventoModalEdit").modal('hide');
-                Eventos();
-            }).catch(function(response){
-                alert("No se pudo Editar Evento");
-            });
-        });
-
-        $('#addTask').on('hidden.bs.modal', function (e) {
-            ResetTablaTareas();
-        })
-
- 
-        //Añadir Tareas ---------------------------------------------------------------------------
-        $(document).on('click','#tareasfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var project_id =  $('#project_id').val();
-            var tipo_tarea =  $('#tipo_tarea').val();
-            var descripcion = $('#descripcion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas' , id_marcas);
-            formData.append('project_id' , project_id);
-            formData.append('tipo_tarea' , tipo_tarea);
-            formData.append('descripcion', descripcion);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TareasController/addTareas");?>';
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#addTask").modal('hide');
-                Tareas();
-            }).catch(function(response){
-                alert("No se pudo Añadir Tareas");
-            });
-        });
-
-        //Editar Tareas ---------------------------------------------------------------------------
-        $(document).on('click','#tareaseditfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Tareaid').val();
-            var project_id =  $('#editproject_id').val();
-            var tipo_tarea =  $('#edittipo_tarea').val();
-            var descripcion = $('#editdescripcion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id',id);
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('project_id' , project_id);
-            formData.append('tipo_tarea' , tipo_tarea);
-            formData.append('descripcion', descripcion);
-            let url = '<?php echo admin_url("pi/TareasController/UpdateTareas/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditTask").modal('hide');
-                Tareas();
-            }).catch(function(response){
-                alert("No se pudo Editar Tareas");
-            });
-        });
         // ------------------------------------------- Eliminar Registros ----------------------------------------------------------------------------------------------------------
           //Eliminar Fusion Anterior
           $(document).on('click','.Fusion-Anterior-delete',function(){
@@ -4219,53 +4803,6 @@
                 });
            }
         });
-          //Eliminar Eventos
-          $(document).on('click','.evento-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement;
-                let id = $(element).attr('id');
-                console.log(id);
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/EventosController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    Eventos();
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Eventos");
-                });
-           }
-        });
-         //Eliminar Tareas
-         $(document).on('click','.tarea-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement;
-                let id = $(element).attr('id');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/TareasController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    Tareas();
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Tareas");
-                });
-           }
-        });
          //Eliminar Documentos
          $(document).on('click','.documentos-delete',function(){
             if (confirm("Quieres eliminar este registro?")){
@@ -4382,152 +4919,6 @@
         });
 
 
-        $("#prioridadfrmsubmit").on('click', function(e){
-            e.preventDefault();
-            console.log("Entre a Prioridad")
-            data = {
-                'pais_prioridad' : $("select[name=pais_prioridad").val(),
-                'fecha_prioridad': $("input[name=fecha_prioridad]").val(),
-                'nro_prioridad'  : $("input[name=nro_prioridad").val(),
-                'solicitud_id'   : $("input[name=id").val(),
-            }
-            $.ajax({
-                url: '<?php echo admin_url("pi/MarcasPrioridadController/addPrioridad");?>',
-                method: 'POST',
-                data : data,
-            }).then(function(response){
-                $.ajax({
-                    url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
-                    method: "GET",
-                    success: function(response)
-                    {
-                        $("#prioridadFrm")[0].reset();
-                        $('#pais_id').prop('selectedIndex', 0);
-                        $('#pais_id').selectpicker('refresh'); 
-                        $("#prioridadModal").modal('hide');
-                        TablaPrioridades();
-                    }
-                });
-            });
-        });
-
-        $(document).on('click', '.deletePrioridad', function(e){
-            e.preventDefault();
-            var id = $(this).attr('id');
-            if(confirm('¿Esta seguro de eliminar este registro?'))
-            {
-                $.ajax({
-                url: "<?php echo admin_url('pi/MarcasPrioridadController/destroy/');?>"+id,
-                method: "POST",
-                success: function(response)
-                {
-                    alert_float('success', 'Prioridad borrada exitosamente');
-                    TablaPrioridades();
-                }
-            });
-        }
-
-
-
-            /* id = $(this).attr('id');
-            $.ajax(
-            {
-                url: "<?php echo admin_url("pi/MarcasPrioridadController/destroy/{$id}");?>",
-                method: 'POST',
-                success: function(response)
-                {
-                    $.ajax({
-                        url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
-                        method: "GET",
-                        success: function(response)
-                        {
-                            table = JSON.parse(response);
-                            $("#prioridadTbl").DataTable({
-                                language: {
-                                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                                },
-                                data: table,
-                                destroy: true,
-                                dataSrc: '',
-                                columns : [
-                                    { data: 'fecha_prioridad'},
-                                    { data: 'nombre'},
-                                    { data: 'numero'},
-                                    { data: 'acciones'},
-                                ],
-                                width: "100%"
-                            });
-                        }
-                    })        
-                }
-            }) */
-
-        })
-
-        function TablaPrioridades(){
-            $.ajax({
-                url: "<?php echo admin_url('pi/MarcasPrioridadController/getAllPrioridades/'.$id);?>",
-                method: "GET",
-                success: function(response)
-                {
-                    table = JSON.parse(response);
-                    console.log('Prioridades', table);
-                    $("#prioridadTbl").DataTable({
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                        },
-                        autoWidth: false,
-                        data: table,
-                        destroy: true,
-                        dataSrc: '',
-                        columnDefs: [
-                            { width: '15%', targets: 0 },
-                            { width: '40%', targets: 1 },
-                            { width: '20%', targets: 2 },
-                            { width: '25%', targets: 3 }
-                        ],
-                        columns : [
-                            { data: 'fecha_prioridad'},
-                            { data: 'nombre'},
-                            { data: 'numero'},
-                            { data: 'acciones'},
-                        ],
-                        columns: [
-                            {
-                                data: 'fecha_prioridad',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'nombre',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'numero',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'acciones',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            },
-                        ],
-                        width: "100%"
-                    });
-                }
-            })
-        };
-
         
 
 
@@ -4547,170 +4938,10 @@
     </script>
 
     <script>
-        $(document).on('click',"#publicacionfrmsubmit" , function(e)
-        {
-            e.preventDefault();
-            var data = {
-                'csrf_token_name'    : $("input[name=csrf_token_name]").val(),
-                'tipo_publicacion'   : $("select[name=tipo_publicacion]").val(),
-                'boletin_publicacion': $("select[name=boletin_publicacion]").val(),
-                'tomo_publicacion'   : $("input[name=tomo_publicacion]").val(),
-                'pag_publicacion'    : $("input[name=pag_publicacion]").val(),
-            }
-            $.ajax({
-                url: "<?php echo admin_url('pi/PublicacionesMarcasController/addPublicacionMarcas/'.$id);?>",
-                method: 'POST',
-                data: data,
-                success: function(response)
-                {
-                    alert_float('success', 'Publicacion cargada exitosamente');
-                    TablaPublicaciones();
-                    $("#publicacionModal").modal('hide');
-                }
-            });
-        });
-
-        function TablaPublicaciones()
-        {
-            $.ajax({
-                url:"<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
-                method: "POST",
-                success: function(response)
-                {
-                    table = JSON.parse(response);
-                    console.log('Publicaciones', table.data);
-                    $("#publicacionTbl").DataTable({
-                        language: {
-                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                            },
-                            autoWidth: false,
-                            destroy: true,
-                            data: table.data,
-                            columnDefs: [
-                                { width: '15%', targets: 0 },
-                                { width: '25%', targets: 1 },
-                                { width: '25%', targets: 2 },
-                                { width: '2.5%', targets: 3 },
-                                { width: '2.5%', targets: 4 },
-                                { width: '30%', targets: 5 }
-                            ],
-                            columns: [
-                                 {
-                                    data: 'fecha',
-                                    render: function (data, type, row)
-                                    {
-                                        return "<div class='col-12'>" + data + "</div>"
-                                    }
-                                },
-                                {
-                                    data: 'nombre',
-                                    render: function (data, type, row)
-                                    {
-                                        return "<div class='col-12 text-left'>" + data + "</div>"
-                                    }
-                                },
-                                {
-                                    data: 'boletin_id',
-                                    render: function (data, type, row)
-                                    {
-                                        return "<div class='col-12 text-left'>" + data + "</div>"
-                                    }
-                                },
-                                {
-                                    data: 'tomo',
-                                    render: function (data, type, row)
-                                    {
-                                        return "<div class='col-12 text-left'>" + data + "</div>"
-                                    }
-                                },
-                                {
-                                    data: 'pagina',
-                                    render: function (data, type, row)
-                                    {
-                                        return "<div class='col-12 text-left'>" + data + "</div>"
-                                    }
-                                },
-                                {
-                                    data: 'acciones',
-                                    render: function (data, type, row)
-                                    {
-                                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                    }
-                                }
-                            ],
-                            width: "100%"
-                    });
-                }
-            });
-        }
     </script>
     
 
     <script>
-        $(document).on('click', '.editPublicacion', function(e)
-        {
-            e.preventDefault();
-            var id = $(this).attr('id');
-            $.ajax({
-                url: "<?php echo admin_url('pi/PublicacionesMarcasController/show/');?>"+id,
-                method: "POST",
-                success:function(response)
-                {
-                    data = JSON.parse(response);
-                    $("input[name=pub_id_edit]").val(data.id);
-                    $("select[name=tipo_publicacion_edit]").val(data.tipo_pub_id);
-                    $('select[name=tipo_publicacion_edit]').selectpicker('refresh'); 
-                    $("select[name=boletin_publicacion_edit]").val(data.boletin_id);
-                    $('select[name=boletin_publicacion_edit]').selectpicker('refresh'); 
-                    $("input[name=tomo_publicacion_edit]").val(data.tomo);
-                    $("input[name=pag_publicacion_edit]").val(data.pagina);
-                    $("#publicacionEditModal").modal('show');
-                }
-            });
-        });
-
-        $(document).on('click', '#publicacionfrmsubmitEdit', function(e)
-        {
-            e.preventDefault();
-            var data = {
-                'csrf_token_name'   : $("input[name=csrf_token_name]").val(),
-                'tipo_pub_id'       : $("select[name=tipo_publicacion_edit]").val(),
-                'boletin_id'        : $("select[name=boletin_publicacion_edit]").val(),
-                'tomo'              : $("input[name=tomo_publicacion_edit]").val(),
-                'pagina'            : $("input[name=pag_publicacion_edit]").val(),
-                'marcas_id'         : $("input[name=id]").val(),
-                'id'                : $("input[name=pub_id_edit]").val()
-            }
-            $.ajax({
-                url: "<?php echo admin_url('pi/PublicacionesMarcasController/updatePublicacionByMarca/');?>",
-                method: 'POST',
-                data: data,
-                success: function(response)
-                {
-                    alert_float('success', 'Publicacion editada exitosamente');
-                    TablaPublicaciones();
-                    $("#publicacionEditModal").modal('hide');
-                }
-            });
-        });
-
-        $(document).on('click', '.deletePublicacion', function(e)
-        {
-            e.preventDefault();
-            var id = $(this).attr('id');
-            if(confirm("¿Esta seguro de eliminar este registro?"))
-            {
-                $.ajax({
-                    url: "<?php echo admin_url('pi/PublicacionesMarcasController/deletePublicacionByMarca/');?>"+id,
-                    method: "POST",
-                    success: function(response)
-                    {
-                        alert_float('success', 'Publicación borrada exitosamente');
-                        TablaPublicaciones();
-                    }
-                });
-            }            
-        });
     </script>
 
     <script>
@@ -4824,8 +5055,8 @@
         TablaClases();
         TablaPrioridades();
         TablaPublicaciones();
-        Eventos();
-        Tareas();
+        TablaEventos();
+        TablaTareas();
         Cesion();
         Licencia();
         Fusion();

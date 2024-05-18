@@ -47,8 +47,9 @@ class Tareas_Model extends BaseModel
     }
 
     public function findAllTareasMarcas($id = NULL){
-        $this->db->select('*');
-        $this->db->from('tbl_marcas_tareas');
+        $this->db->select('a.id, a.tipo_tareas_id, a.fecha, a.descripcion, a.project_id, b.name');
+        $this->db->from('tbl_marcas_tareas a');
+        $this->db->join('tblprojects b', 'a.project_id = b.id');
         $this->db->where('marcas_id = '.$id);
         $query = $this->db->get();
         $values = $query->result_array();

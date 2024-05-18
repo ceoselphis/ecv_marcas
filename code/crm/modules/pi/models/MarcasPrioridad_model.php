@@ -16,7 +16,7 @@ class MarcasPrioridad_model extends BaseModel
 
     public function findAllPrioridadByMarcas($id = null)
     {
-        $this->db->select('a.id, b.nombre, a.fecha_prioridad, a.numero_prioridad');
+        $this->db->select('a.id, b.nombre, a.fecha_prioridad, a.numero_prioridad, b.id idpais');
         $this->db->from($this->tableName.' a');
         $this->db->join('tbl_paises b', 'a.pais_id = b.id');
         $this->db->where('a.marcas_id = '.$id);

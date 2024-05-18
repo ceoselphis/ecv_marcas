@@ -452,9 +452,10 @@ class PublicacionesMarcasController extends AdminController
                     'tomo'          => $row['tomo'],
                     'pagina'        => $row['pagina'],
                     'nombre'        => $row['nombre'],
+                    'id'            => $row['id'],
+                    'id_pub'        => $row['id_pub'],
+                    'descripcion'   => $row['descripcion'],
                     'acciones' => str_replace('#id#', $row['id'], $auxAcc)
-                    //'acciones'      => '<button class="btn btn-primary editPublicacion" id='.$row['id'].'><i class="fas fa-edit"></i>Editar</button>
-                                        //<button type="button" class="btn btn-danger deletePublicacion" id='.$row['id'].'><i class="fas fa-trash"></i>Borrar</button>'
                 ];
             }
             echo json_encode(['code' => 200, 'message' => 'Consulta realizada exitosamente', 'data' => $result]);

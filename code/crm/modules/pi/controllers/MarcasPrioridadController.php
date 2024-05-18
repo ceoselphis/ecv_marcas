@@ -177,39 +177,21 @@ class MarcasPrioridadController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("MarcasPrioridad_model");
-        $CI->load->helper('url');
         $data = $CI->input->post();
-        //We validate the data
-        $CI->load->helper(['url','form']);
-        $CI->load->library('form_validation');
-        //we validate the data
-        //we set the rules
-        $config = array(
-            [
-                'field' => 'nombre_anexo',
-                'label' => 'Nombre del Anexo',
-                'rules' => 'trim|required|min_length[3]|max_length[60]',
-                'errors' => [
-                    'required' => 'Debe indicar un nombre para el anexo',
-                    'min_length' => 'Nombre demasiado corto',
-                    'max_lenght' => 'Nombre demasiado largo'
-                ]
-            ],
-        );
-        $CI->form_validation->set_rules($config);
-        if($CI->form_validation->run() == FALSE)
+        $dataset = [
+            'pais_id' => $data['pais_id'],
+            'fecha_prioridad' => $this->turn_dates($data['fecha_prioridad']),
+            'numero_prioridad' => $data['numero_prioridad'],
+        ];
+        $query = $CI->MarcasPrioridad_model->update($data['id'], $dataset);
+        if($query)
         {
-            $this->edit($id);
+            echo json_encode(['code' => '200', 'status' => 'success']);
         }
-        else
-        {
-            //We prepare the data 
-            $query = $CI->MarcasPrioridad_model->update($id, $data);
-            if (isset($query))
-            {
-                return redirect('pi/anexoscontroller/');
-            }
+        else{
+            echo json_encode(['code' => '500', 'status' => 'error']);
         }
+
     }
 
     /**
@@ -234,12 +216,11 @@ class MarcasPrioridadController extends AdminController
         $CI = &get_instance();
         $data = $CI->input->post();
         $CI->load->model("MarcasPrioridad_model");
-        $wDate = explode('/', $data['fecha_prioridad']);
         $insert = array(
             'pais_id' => $data['pais_prioridad'],
-            'numero_prioridad' => $data['nro_prioridad'],
-            'fecha_prioridad' => "{$wDate[2]}-{$wDate[1]}-{$wDate[0]}",
-            'marcas_id'    => $data['solicitud_id']
+            'numero_prioridad' => $data['numero_prioridad'],
+            'fecha_prioridad' => $this->turn_dates($data['fecha_prioridad']),
+            'marcas_id'    => $data['marcas_id']
         );
         try
         {
@@ -268,8 +249,8 @@ class MarcasPrioridadController extends AdminController
                 'fecha_prioridad' => $this->flip_dates($row['fecha_prioridad']),
                 'nombre' => $row['nombre'],
                 'numero' => $row['numero_prioridad'],
-                'acciones' => str_replace('#id#', $row['id'], $auxAcc)
-                //'acciones' => '<button id="'.$row['id'].'" class="btn btn-danger borrarPrioridad"><i class="fas fa-trash"></i> Borrar</button>',
+                'acciones' => str_replace('#id#', $row['id'], $auxAcc),
+                'idpais' => $row['idpais']
             ];
         }
         echo json_encode($response);
@@ -302,6 +283,20 @@ class MarcasPrioridadController extends AdminController
         }
         else{
             return '';
+        }
+    }
+    public function turn_dates($date)
+    {
+        if ($date != '') {
+            try {
+                $wdate = explode('/', $date);
+                $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                return $cdate;
+            } catch (Exception $e) {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        } else {
+            return NULL;
         }
     }
 

@@ -111,9 +111,8 @@
             <?php echo form_input([
               'id' => 'nro_prioridad',
               'name' => 'nro_prioridad',
-              'class' => 'form-control',
-              'placeholder' => 'Número Prioridad',
-              'type' => 'number'
+              'class' => 'form-control numberOnly',
+              'placeholder' => 'Número Prioridad'
             ]); ?>
           </div>
         </div>

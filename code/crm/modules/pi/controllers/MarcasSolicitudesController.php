@@ -1214,6 +1214,7 @@ class MarcasSolicitudesController extends AdminController
                     'id'            => $row['id'],
                     'clase'         => $row['nombre'],
                     'descripcion'   => $row['descripcion'],
+                    'clase_id'   => $row['clase_id'],
                     'acciones' => str_replace('#idclase#', $row['id'], $auxAcc)
                 ];
             }

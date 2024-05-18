@@ -38,6 +38,7 @@ class EventosController extends AdminController
                 'id' => $row['id'],
                 'tipo_evento' => $CI->Eventos_model->findTipoEvento($row['tipo_evento_id']),
                 'comentarios' => $row['comentarios'],
+                'tipo_evento_id' => $row['tipo_evento_id'],
                 'fecha' => date('d/m/Y', strtotime($row['fecha'])),
             );
         }
@@ -56,8 +57,8 @@ class EventosController extends AdminController
             $insert = array(
                             'tipo_evento_id' => $data['tipo_evento'],
                             'marcas_id' => $data['id_marcas'],
-                            'comentarios' => $data['evento_comentario'],
-                            'fecha' => date('Y-m-d'),
+                            'comentarios' => $data['comentarios'],
+                            'fecha' =>  $data['fecha'],
                     );
 
             $CI->load->model("Eventos_model");
@@ -94,17 +95,36 @@ class EventosController extends AdminController
             $insert = array(
                             'tipo_evento_id' => $data['tipo_evento'],
                             'comentarios' => $data['comentarios'],
-                            'fecha' => date('Y-m-d'),
+                            'fecha' => $this->turn_dates($data['fecha'])
                     );
-                   
-
-                    $query = $CI->Eventos_model->update($id, $insert);
-                    if (isset($query))
-                    {
-                        echo "Actualizado Correctamente";
-                    }
+            $query = $CI->Eventos_model->update($id, $insert);
+            if (isset($query))
+            {
+                echo "Actualizado Correctamente";
+            }
         }  
     }
+
+    public function UpdateMarcasEventos(){
+        $CI = &get_instance();
+        $CI->load->model("Eventos_model");
+        $data = $CI->input->post();
+        
+        if (!empty($data)){
+            $insert = array(
+                            'tipo_evento_id' => $data['tipo_evento'],
+                            'comentarios' => $data['comentarios'],
+                            'fecha' => $this->turn_dates($data['fecha'])
+                    );
+            $query = $CI->Eventos_model->update($data['id'], $insert);
+            if (isset($query))
+            {
+                echo "Actualizado Correctamente";
+            }
+        }  
+    }
+
+
     public function create()
     {
         $CI = &get_instance();
@@ -245,7 +265,21 @@ class EventosController extends AdminController
          }else {
              echo "No se ha podido Eliminar";
          }
-         
-         
      }
+     public function turn_dates($date)
+     {
+         if ($date != '') {
+             try {
+                 $wdate = explode('/', $date);
+                 $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                 return $cdate;
+             } catch (Exception $e) {
+                 echo 'Caught exception: ',  $e->getMessage(), "\n";
+             }
+         } else {
+             return NULL;
+         }
+     }
+ 
+
 }

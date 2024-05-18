@@ -129,9 +129,10 @@ class PublicacionesMarcas_model extends BaseModel
 
     public function findAllByMarcas($id = NULL)
     {
-        $this->db->select('a.id, a.fecha, b.nombre, a.boletin_id, a.tomo, a.pagina');
+        $this->db->select('a.id, a.fecha, b.nombre, a.boletin_id, a.tomo, a.pagina, b.id id_pub, c.descripcion');
         $this->db->from('tbl_marcas_publicaciones a');
         $this->db->join('tbl_tipo_publicacion b', 'a.tipo_pub_id = b.id');
+        $this->db->join('tbl_boletines c', 'a.boletin_id = c.id');
         $this->db->where('a.marcas_id', $id);
         $query = $this->db->get();
         return $query->result_array();

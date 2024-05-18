@@ -64,12 +64,14 @@ class TareasController extends AdminController
         $CI->load->model("Tareas_Model");
         $marcas = $CI->Tareas_Model->findAllTareasMarcas($id);
         $data = array();
-        /*`INSERT INTO `tbl_marcas_tareas`(`id`, `tipo_tareas_id`, `marcas_id`, `fecha`, `descripcion`) */
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
                 'tipo_tarea' => $CI->Tareas_Model->BuscarTipoTareas($row['tipo_tareas_id']),
                 'descripcion' => $row['descripcion'],
+                'tipo_tareas_id' => $row['tipo_tareas_id'],
+                'project_id' => $row['project_id'],
+                'project_name' => $row['name'],
                 'fecha' => date('d/m/Y', strtotime($row['fecha'])), 
             );
         }
@@ -144,6 +146,27 @@ class TareasController extends AdminController
                     }
         }            
      }
+     
+     public function UpdateMarcasTareas(){
+        $CI = &get_instance();
+        $CI->load->model("Tareas_Model");
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $insert = array(
+                            'tipo_tareas_id' => $data['tipo_tarea'],
+                            'descripcion' => $data['descripcion'],
+                            'fecha' => $this->turn_dates($data['fecha']),
+                            'project_id' => $data['project_id'],
+                            'task_id' => $data['task_id'],
+                    );
+                    $query = $CI->Tareas_Model->update($data['id'], $insert);
+                    if (isset($query))
+                    {
+                        echo "Insertado Correctamente";
+                    }
+        }            
+     }
+
     public function store()
     {
         $CI = &get_instance();

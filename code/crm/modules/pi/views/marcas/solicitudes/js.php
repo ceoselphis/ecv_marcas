@@ -883,7 +883,6 @@
         e.stopImmediatePropagation();
         let start = new Date();
         let end; 
-        console.log('Comienzo = ' + start.getHours() + ":" + start.getMinutes() + ":" + start.getSeconds());
         if ($('#oficinaCesion').val() && 
             $('#estadoCesion').val() && 
             $('#nro_solicitudCesion').val() && 

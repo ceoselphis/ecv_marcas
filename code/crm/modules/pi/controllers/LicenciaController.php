@@ -35,6 +35,10 @@ class LicenciaController extends AdminController
             'fecha_resolucion' => date('d/m/Y', strtotime($row['fecha_resolucion'])),
             'referencia_cliente' => $row['referencia_cliente'],
             'comentarios' => $row['comentarios'],
+            'client_id' => $row['client_id'],
+            'oficina_id' => $row['oficina_id'],
+            'staff_id' => $row['staff_id'],
+            'estado_id' => $row['estado_id'],
             );
         }
         echo json_encode($data);

@@ -8,8 +8,11 @@
     var tblPublicacionDT;
     var tblEventonDT;
     var tblTareaDT;
+    var tblCesionDT;
+    var tblLicenciaDT;
 
-
+    /* Para cambiar el color de los Label  luego de un error*/
+    const color_lbl = 'rgb(71 85 105)';
    
     //**Función para Buscar una Fila dentro de un Datatable Segun Columna y su valor */
     function FindRowDTbyColumn(DT, column, value) {
@@ -1054,8 +1057,7 @@
     //Eliminar Tareas
     $(document).on('click','.tarea-delete',function(){
         if (confirm("Quieres eliminar este registro?")){
-            let element = $(this)[0].parentElement;
-            let id = $(element).attr('id');
+            let id = $(this).attr('id');
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('csrf_token_name', csrf_token_name);
             let url = '<?php echo admin_url("pi/TareasController/destroy/");?>';
@@ -1116,7 +1118,6 @@
     function TablaTareas(){
         let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
         console.log(url);
-        let body= ``;
         $.get(url, function(response){
             let tareas = JSON.parse(response);
             console.log('Tareas', tareas);
@@ -1191,13 +1192,769 @@
         })
     }
 
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES CESION                      ********** */
+    /* ####################################################################### */
+ 
+    //Añadir Cesion ---------------------------------------------------------------------------
+    $(document).on('click','#AddCesionfrmsubmit',function(e){
+        e.preventDefault();
+
+        if ($('#oficinaCesion').val() && 
+            $('#estadoCesion').val() && 
+            $('#nro_solicitudCesion').val() && 
+            $('#fecha_solicitudCesion').val() &&
+            $('#nro_resolucionCesion').val() &&
+            $('#fecha_resolucionCesion').val() &&
+            $('#referenciaclienteCesion').val() &&
+            $('#comentarioCesion').val()) 
+            {
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            var cliente =  $('#clienteCesion').val();
+            var oficina = $('#oficinaCesion').val();
+            var staff =  $('#staffCesion').val();
+            var estado =  $('#estadoCesion').val();
+            var nro_solicitud =  $('#nro_solicitudCesion').val();
+            var fecha_solicitud = $('#fecha_solicitudCesion').val();
+            var nro_resolucion =  $('#nro_resolucionCesion').val();
+            var fecha_resolucion = $('#fecha_resolucionCesion').val();
+            var referenciacliente =  $('#referenciaclienteCesion').val();
+            var comentario =  $('#comentarioCesion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/CesionController/addCesion");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddCesion").modal('hide');
+                TablaCesion()
+            }).catch(function(response){
+                alert("No se pudo Añadir Cesion");
+            });
+
+        }else{
+            $("#lbloficinaCesion").css('color', $('#oficinaCesion').val() ? color_lbl : 'red');
+            $("#lblestadoCesion").css('color', $('#estadoCesion').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudCesion').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudCesion').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionCesion').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionCesion').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteCesion').val() ? color_lbl : 'red');
+            $("#lblcomentarioCesion").css('color', $('#comentarioCesion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos para Añadir la Cesión');
+        }
+
+
+    });
+     
+    //Editar Cesion ---------------------------------------------------------------------------
+    $(document).on('click','#EditCesionfrmsubmit',function(e){
+        e.preventDefault();
+
+        if ($('#oficinaCesion_edit').val() && 
+            $('#estadoCesion_edit').val() && 
+            $('#nro_solicitudCesion_edit').val() && 
+            $('#fecha_solicitudCesion_edit').val() &&
+            $('#nro_resolucionCesion_edit').val() &&
+            $('#fecha_resolucionCesion_edit').val() &&
+            $('#referenciaclienteCesion_edit').val() &&
+            $('#comentarioCesion_edit').val()) 
+            {
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#cesionid').val();
+            var cliente =  $('#clienteCesion_edit').val();
+            var oficina = $('#oficinaCesion_edit').val();
+            var staff =  $('#staffCesion_edit').val();
+            var estado =  $('#estadoCesion_edit').val();
+            var nro_solicitud =  $('#nro_solicitudCesion_edit').val();
+            var fecha_solicitud = $('#fecha_solicitudCesion_edit').val();
+            var nro_resolucion =  $('#nro_resolucionCesion_edit').val();
+            var fecha_resolucion = $('#fecha_resolucionCesion_edit').val();
+            var referenciacliente =  $('#referenciaclienteCesion_edit').val();
+            var comentario =  $('#comentarioCesion_edit').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/CesionController/UpdateCesion/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditCesion").modal('hide');
+                TablaCesion()
+            }).catch(function(response){
+                alert("No se pudo Editar Cesion");
+            });
+        }else{
+            $("#lbloficinaCesion_edit").css('color', $('#oficinaCesion_edit').val() ? color_lbl : 'red');
+            $("#lblestadoCesion_edit").css('color', $('#estadoCesion_edit').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCesion_edit").css('color', $('#nro_solicitudCesion_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCesion_edit").css('color', $('#fecha_solicitudCesion_edit').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCesion_edit").css('color', $('#nro_resolucionCesion_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCesion_edit").css('color', $('#fecha_resolucionCesion_edit').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteCesion_edit").css('color', $('#referenciaclienteCesion_edit').val() ? color_lbl : 'red');
+            $("#lblcomentarioCesion_edit").css('color', $('#comentarioCesion_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos para Editar la Cesión');
+        }
+
+    });
+
+    //Al cerrar el modal
+    $('#AddCesion').on('hidden.bs.modal', function (e) {
+        ResetTablaCesiones();
+    })
+
+    //Al cerrar el modal
+    $('#EditCesion').on('hidden.bs.modal', function (e) {
+        ResetTablaCesionesEdit();
+    })
+
+    //Eliminar Cesion
+    $(document).on('click','.cesion-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            let id = $(this).attr('id');
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/CesionController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaCesion();
+            }).catch(function(response){
+                alert("No se pudo Eliminar Cesion");
+            });
+        }
+    });
+
+    //Modal Edit Cesion 
+    $(document).on('click','.EditCesion',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblCesionDT, 'id', id);
+        console.log('row', row);
+        
+        $('#clienteCesion_edit').val(row.client_id).trigger('change');
+        $('#oficinaCesion_edit').val(row.oficina_id).trigger('change');
+        $('#staffCesion_edit').val(row.staff_id).trigger('change');
+        $('#estadoCesion_edit').val(row.estado_id).trigger('change');
+        $("#nro_solicitudCesion_edit").val(row.num_solicitud);
+        $("#fecha_solicitudCesion_edit").val(row.fecha_solicitud);
+        $("#nro_resolucionCesion_edit").val(row.num_resolucion);
+        $("#fecha_resolucionCesion_edit").val(row.fecha_resolucion);
+        $("#referenciaclienteCesion_edit").val(row.referencia_cliente);
+        $("#comentarioCesion_edit").val(row.comentarios);
+        $("#cesionid").val(row.id);
+        $("#EditCesion").modal('show'); 
+    })
+
+    /***funcion que hace reset del Modal de Cesiones*/
+    function ResetTablaCesiones() {
+        $("#cesionesfrm")[0].reset();
+        $('#clienteCesion').val('').trigger('change');
+        $('#oficinaCesion').val('').trigger('change');
+        $('#staffCesion').val('').trigger('change');
+        $('#estadoCesion').val('').trigger('change');
+        $("#lbloficinaCesion").css('color', color_lbl);
+        $("#lblestadoCesion").css('color', color_lbl);
+        $("#lblnro_solicitudCesion").css('color', color_lbl);
+        $("#lblfecha_solicitudCesion").css('color', color_lbl);
+        $("#lblnro_resolucionCesion").css('color', color_lbl);
+        $("#lblfecha_resolucionCesion").css('color', color_lbl);
+        $("#lblreferenciaclienteCesion").css('color', color_lbl);
+        $("#lblcomentarioCesion").css('color', color_lbl);
+    }
+
+    /***funcion que hace reset del Modal de Cesiones*/
+    function ResetTablaCesionesEdit() {
+        $("#cesionesEditfrm")[0].reset();
+        $('#clienteCesion_edit').val('').trigger('change');
+        $('#oficinaCesion_edit').val('').trigger('change');
+        $('#staffCesion_edit').val('').trigger('change');
+        $('#estadoCesion_edit').val('').trigger('change');
+        $("#lbloficinaCesion_edit").css('color', color_lbl);
+        $("#lblestadoCesion_edit").css('color', color_lbl);
+        $("#lblnro_solicitudCesion_edit").css('color', color_lbl);
+        $("#lblfecha_solicitudCesion_edit").css('color', color_lbl);
+        $("#lblnro_resolucionCesion_edit").css('color', color_lbl);
+        $("#lblfecha_resolucionCesion_edit").css('color', color_lbl);
+        $("#lblreferenciaclienteCesion_edit").css('color', color_lbl);
+        $("#lblcomentarioCesion_edit").css('color', color_lbl);
+    }
+   
+    // Cesion
+    function TablaCesion(){
+        let url = '<?php echo admin_url("pi/CesionController/showCesion/$id");?>';
+        $.get(url, function(response){
+            let cesion = JSON.parse(response);
+            console.log('Cesion', cesion);
+            tblCesionDT = $("#CesionTbl").DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                autoWidth: false,
+                data: cesion,
+                destroy: true,
+                columnDefs: [
+                    { width: '5%', targets: 0 },
+                    { width: '1%', targets: 1 },
+                    { width: '1%', targets: 2 },
+                    { width: '1%', targets: 3 },
+                    { width: '1%', targets: 4 },
+                    { width: '5%', targets: 5 },
+                    { width: '5%', targets: 6 },
+                    { width: '5%', targets: 7 },
+                    { width: '5%', targets: 8 },
+                    { width: '5%', targets: 9 },
+                    { width: '15%', targets: 10 },
+                    { width: '30%', targets: 11 }
+                ],
+                columns: [
+                    {
+                        data: 'cliente',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'oficina',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'staff',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'estado',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'num_solicitud',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha_solicitud',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'num_resolucion',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha_resolucion',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'referencia_cliente',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'comentarios',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: '',
+                        render: function (data, type, row)
+                        {
+                            data = `<div class='col-md-6' style='padding-left: 0px;'><a id="${row.id}" class="EditCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                            <div class='col-md-6'><a id="${row.id}" class="cesion-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                            return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'id',
+                        visible:false
+                    },
+                    {
+                        data: 'client_id',
+                        visible:false
+                    },
+                    {
+                        data: 'oficina_id',
+                        visible:false
+                    },
+                    {
+                        data: 'staff_id',
+                        visible:false
+                    },
+                    {
+                        data: 'estado_id',
+                        visible:false
+                    }
+                ],
+                width: "100%"
+            });                       
+
+                
+        })
+    }
+
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES LICENCIA                    ********** */
+    /* ####################################################################### */
+       
     
+    //Añadir Licencia ---------------------------------------------------------------------------
+    $(document).on('click','#addlicenciafrmsubmit',function(e){
+        e.preventDefault();
+        if ($('#oficinaLicencia').val() && 
+            $('#estadoLicencia').val() && 
+            $('#nro_solicitudLicencia').val() && 
+            $('#fecha_solicitudLicencia').val() &&
+            $('#nro_resolucionLicencia').val() &&
+            $('#fecha_resolucionLicencia').val() &&
+            $('#referenciaclienteLicencia').val() &&
+            $('#comentarioLicencia').val()) 
+            {
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            var cliente =  $('#clienteLicencia').val();
+            var oficina = $('#oficinaLicencia').val();
+            var staff =  $('#staffLicencia').val();
+            var estado =  $('#estadoLicencia').val();
+            var nro_solicitud =  $('#nro_solicitudLicencia').val();
+            var fecha_solicitud = $('#fecha_solicitudLicencia').val();
+            var nro_resolucion =  $('#nro_resolucionLicencia').val();
+            var fecha_resolucion = $('#fecha_resolucionLicencia').val();
+            var referenciacliente =  $('#referenciaclienteLicencia').val();
+            var comentario =  $('#comentarioLicencia').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/LicenciaController/addLicencia");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddLicencia").modal('hide');
+                TablaLicencia()
+            }).catch(function(response){
+                alert("No se pudo Añadir Licencia");
+            });
+        }else{
+            $("#lbloficinaLicencia").css('color', $('#oficinaLicencia').val() ? color_lbl : 'red');
+            $("#lblestadoLicencia").css('color', $('#estadoLicencia').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudLicencia").css('color', $('#nro_solicitudLicencia').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudLicencia").css('color', $('#fecha_solicitudLicencia').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionLicencia").css('color', $('#nro_resolucionLicencia').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionLicencia").css('color', $('#fecha_resolucionLicencia').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteLicencia").css('color', $('#referenciaclienteLicencia').val() ? color_lbl : 'red');
+            $("#lblcomentarioLicencia").css('color', $('#comentarioLicencia').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos para Añadir la Licencia');
+        }
+    });
+    
+    //Editar Licencia
+    $(document).on('click','#editlicenciafrmsubmit',function(e){
+        e.preventDefault();
+
+        if ($('#oficinaLicencia_edit').val() && 
+            $('#estadoLicencia_edit').val() && 
+            $('#nro_solicitudLicencia_edit').val() && 
+            $('#fecha_solicitudLicencia_edit').val() &&
+            $('#nro_resolucionLicencia_edit').val() &&
+            $('#fecha_resolucionLicencia_edit').val() &&
+            $('#referenciaclienteLicencia_edit').val() &&
+            $('#comentarioLicencia_edit').val()) 
+            {
+
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#licenciaid').val();
+            var cliente =  $('#clienteLicencia_edit').val();
+            var oficina = $('#oficinaLicencia_edit').val();
+            var staff =  $('#staffLicencia_edit').val();
+            var estado =  $('#estadoLicencia_edit').val();
+            var nro_solicitud =  $('#nro_solicitudLicencia_edit').val();
+            var fecha_solicitud = $('#fecha_solicitudLicencia_edit').val();
+            var nro_resolucion =  $('#nro_resolucionLicencia_edit').val();
+            var fecha_resolucion = $('#fecha_resolucionLicencia_edit').val();
+            var referenciacliente =  $('#referenciaclienteLicencia_edit').val();
+            var comentario =  $('#comentarioLicencia_edit').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/LicenciaController/UpdateLicencia/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditLicencia").modal('hide');
+                TablaLicencia()
+            }).catch(function(response){
+                alert("No se pudo Editar Licencia");
+            });
+        }else{
+            $("#lbloficinaLicencia_edit").css('color', $('#oficinaLicencia_edit').val() ? color_lbl : 'red');
+            $("#lblestadoLicencia_edit").css('color', $('#estadoLicencia_edit').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudLicencia_edit").css('color', $('#nro_solicitudLicencia_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudLicencia_edit").css('color', $('#fecha_solicitudLicencia_edit').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionLicencia_edit").css('color', $('#nro_resolucionLicencia_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionLicencia_edit").css('color', $('#fecha_resolucionLicencia_edit').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteLicencia_edit").css('color', $('#referenciaclienteLicencia_edit').val() ? color_lbl : 'red');
+            $("#lblcomentarioLicencia_edit").css('color', $('#comentarioLicencia_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos para Editar la Licencia');
+        }
+    });
+
+    //Al cerrar el modal
+    $('#AddLicencia').on('hidden.bs.modal', function (e) {
+        ResetTablaLicencia();
+    })
+
+    //Al cerrar el modal
+    $('#EditLicencia').on('hidden.bs.modal', function (e) {
+        ResetTablaLicenciaEdit();
+    })
+
+    //Eliminar Licencia
+    $(document).on('click','.licencia-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            let id = $(this).attr('id');
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/LicenciaController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaLicencia();
+            }).catch(function(response){
+                alert("No se pudo Eliminar Licencia");
+            });
+        }
+    });
+
+    //Modal Edit Licencia
+    $(document).on('click','.EditLicencia',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblLicenciaDT, 'id', id);
+        console.log('row', row);
+        
+        $('#clienteLicencia_edit').val(row.client_id).trigger('change');
+        $('#oficinaLicencia_edit').val(row.oficina_id).trigger('change');
+        $('#staffLicencia_edit').val(row.staff_id).trigger('change');
+        $('#estadoLicencia_edit').val(row.estado_id).trigger('change');
+        $("#nro_solicitudLicencia_edit").val(row.num_solicitud);
+        $("#fecha_solicitudLicencia_edit").val(row.fecha_solicitud);
+        $("#nro_resolucionLicencia_edit").val(row.num_resolucion);
+        $("#fecha_resolucionLicencia_edit").val(row.fecha_resolucion);
+        $("#referenciaclienteLicencia_edit").val(row.referencia_cliente);
+        $("#comentarioLicencia_edit").val(row.comentarios);
+        $("#licenciaid").val(row.id);
+        $("#EditLicencia").modal('show'); 
+    })
+
+    /***funcion que hace reset del Modal de Licencia*/
+    function ResetTablaLicencia() {
+        $("#licenciafrm")[0].reset();
+        $('#clienteLicencia').val('').trigger('change');
+        $('#oficinaLicencia').val('').trigger('change');
+        $('#staffLicencia').val('').trigger('change');
+        $('#estadoLicencia').val('').trigger('change');
+        $("#lbloficinaLicencia").css('color', color_lbl);
+        $("#lblestadoLicencia").css('color', color_lbl);
+        $("#lblnro_solicitudLicencia").css('color', color_lbl);
+        $("#lblfecha_solicitudLicencia").css('color', color_lbl);
+        $("#lblnro_resolucionLicencia").css('color', color_lbl);
+        $("#lblfecha_resolucionLicencia").css('color', color_lbl);
+        $("#lblreferenciaclienteLicencia").css('color', color_lbl);
+        $("#lblcomentarioLicencia").css('color', color_lbl);
+    }
+
+    /***funcion que hace reset del Modal de Licencia*/
+    function ResetTablaLicenciaEdit() {
+        $("#licenciaEditfrm")[0].reset();
+        $('#clienteLicencia_edit').val('').trigger('change');
+        $('#oficinaLicencia_edit').val('').trigger('change');
+        $('#staffLicencia_edit').val('').trigger('change');
+        $('#estadoLicencia_edit').val('').trigger('change');
+        $("#lbloficinaLicencia_edit").css('color', color_lbl);
+        $("#lblestadoLicencia_edit").css('color', color_lbl);
+        $("#lblnro_solicitudLicencia_edit").css('color', color_lbl);
+        $("#lblfecha_solicitudLicencia_edit").css('color', color_lbl);
+        $("#lblnro_resolucionLicencia_edit").css('color', color_lbl);
+        $("#lblfecha_resolucionLicencia_edit").css('color', color_lbl);
+        $("#lblreferenciaclienteLicencia_edit").css('color', color_lbl);
+        $("#lblcomentarioLicencia_edit").css('color', color_lbl);
+    }
+    
+    // Licencia
+    function TablaLicencia(){
+    let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/$id");?>';
+    $.get(url, function(response){
+        let licencias = JSON.parse(response);
+        console.log('Licencia', licencias);
+        tblLicenciaDT = $("#LicenciaTbl").DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                autoWidth: false,
+                data: licencias,
+                destroy: true,
+                columnDefs: [
+                    { width: '5%', targets: 0 },
+                    { width: '15%', targets: 1 },
+                    { width: '15%', targets: 2 },
+                    { width: '10%', targets: 3 },
+                    { width: '10%', targets: 4 },
+                    { width: '5%', targets: 5 },
+                    { width: '5%', targets: 6 },
+                    { width: '5%', targets: 7 },
+                    { width: '5%', targets: 8 },
+                    { width: '5%', targets: 9 },
+                    { width: '15%', targets: 10 },
+                    { width: '5%', targets: 11 }
+                ],
+                columns: [
+                     {
+                        data: 'cliente',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'oficina',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'staff',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'estado',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'num_solicitud',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha_solicitud',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'num_resolucion',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha_resolucion',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'referencia_cliente',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'comentarios',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: '',
+                        render: function (data, type, row)
+                        {
+                            data = `<div class='col-md-6' style='padding-left: 0px;'><a id="${row.id}" class="EditLicencia btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                            <div class='col-md-6' style='padding-left: 10px;'><a id="${row.id}" class="licencia-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                            return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'id',
+                        visible:false
+                    },
+                    {
+                        data: 'client_id',
+                        visible:false
+                    },
+                    {
+                        data: 'oficina_id',
+                        visible:false
+                    },
+                    {
+                        data: 'staff_id',
+                        visible:false
+                    },
+                    {
+                        data: 'estado_id',
+                        visible:false
+                    }
+                ],
+                width: "100%"
+            });
+
+            
+        })
+    }
+
+
+
+
+    //NOOO  Añadir Licencia Cuando Abre el Modal
+    $(document).on('click','#AddLicenciaAbrirModal',function(e){
+        /* e.preventDefault();
+        var formData = new FormData();
+        var data = getFormData(this);
+        const id_marcas = '<?php echo $id?>';
+        const csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_marcas',id_marcas);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_marcas',id_marcas);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/LicenciaController/addLicenciaShowModal");?>';
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log("response ",response);
+            $('#licenciaid').val(response);
+            LicenciaActual(response);
+            LicenciaAnterior(response);
+
+        }).catch(function(response){
+            alert("No se pudo Añadir Licencia");
+        }); */
+    });
+
+
 
 </script>
 
     <script>
-        /* Para cambiar el color de los Label  luego de un error*/
-        const color_lbl = 'rgb(71 85 105)';
 
         function getFormData(){
                 var config = {};
@@ -1217,65 +1974,7 @@
         // Cambio Domicilio------------------------------------------------------
         
         
-        
-        //Cesion Actual
-        function CesionActual(id_cambio){
-            let url = '<?php echo admin_url("pi/TipoCesionController/showCesionActual/");?>';
-            url = url+id_cambio;
-            console.log(url);
-            let body= ``;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    console.log(listadomicilio);
-                    listadomicilio.forEach(item => {
-                        body += `<tr CesionActualid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.cesion}</td>
-                                    <td class="text-center">${item.tipo}</td>
-                                    <td class="text-center">${item.propietario}</td>
-                                        <td class="text-center">
-                                            <a class=" btn btn-light" id ="EditbtnCesionActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="Cesion-Actual-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                </tr>
-                            `
-                        });
-                        $('#body_Cesion_actual').html(body);   
-                        $('#body_add_Cesion_actual').html(body);   
-                })
-        }
 
-        // Cesion Anterior
-        function CesionAnterior(id_cambio){
-            let url = '<?php echo admin_url("pi/TipoCesionController/showCesionAnterior/");?>';
-            url = url+id_cambio;
-            console.log(url);
-            let body= ``;
-                $.get(url, function(response){
-                    let listadomicilio = JSON.parse(response);
-                    console.log(listadomicilio);
-                    listadomicilio.forEach(item => {
-                        body += `<tr CesionAnteriorid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.cesion}</td>
-                                    <td class="text-center">${item.tipo}</td>
-                                    <td class="text-center">${item.propietario}</td>
-                                        <td class="text-center">
-                                            <a class="btn btn-light" style= "background-color: white;" 
-                                            id ="EditbtnCesionAnterior" ><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="Cesion-Anterior-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                </tr>
-                            `
-                        });
-                        $('#body_Cesion_anterior').html(body);  
-                        $('#body_add_Cesion_anterior').html(body);    
-                })
-        }
         //Licencia Actual
         function LicenciaActual(id_cambio){
             let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaActual/");?>';
@@ -1946,301 +2645,7 @@
                     });
             })
         }
-        
-         // Licencia
-        function Licencia(){
-            let url = '<?php echo admin_url("pi/LicenciaController/showLicencia/$id");?>';
-            let body= ``;
-            $.get(url, function(response){
-                let licencias = JSON.parse(response);
-                console.log('Licencia', licencias);
-                /* listadomicilio.forEach(item => {
-                        body += `<tr Licenciaid = "${item.id}"> 
-                                <td class="text-center">${item.id}</td>
-                                <td class="text-center">${item.cliente}</td>
-                                <td class="text-center">${item.oficina}</td>
-                                <td class="text-center">${item.staff}</td>
-                                <td class="text-center">${item.estado}</td>
-                                <td class="text-center">${item.num_solicitud}</td>
-                                <td class="text-center">${item.fecha_solicitud}</td>
-                                <td class="text-center">${item.num_resolucion}</td>
-                                <td class="text-center">${item.fecha_resolucion}</td>
-                                <td class="text-center">${item.referencia_cliente}</td>
-                                <td class="text-center">${item.comentarios}</td>
-                                    <td class="text-center">
-                                        <a class="EditLicencia btn btn-light" style= "background-color: white; "  data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit"></i>Editar</a>
-                                        <button class="licencia-delete btn btn-danger">
-                                        <i class="fas fa-trash"></i>Borrar
-                                        </button>
-                                    </td>
-                                
-                            </tr>
-                        `
-                    });
-                    $('#body_licencia').html(body);      */
-
-                    $("#LicenciaTbl").DataTable({
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                        },
-                        autoWidth: false,
-                        data: licencias,
-                        destroy: true,
-                        columnDefs: [
-                            { width: '5%', targets: 0 },
-                            { width: '15%', targets: 1 },
-                            { width: '15%', targets: 2 },
-                            { width: '10%', targets: 3 },
-                            { width: '10%', targets: 4 },
-                            { width: '5%', targets: 5 },
-                            { width: '5%', targets: 6 },
-                            { width: '5%', targets: 7 },
-                            { width: '5%', targets: 8 },
-                            { width: '5%', targets: 9 },
-                            { width: '15%', targets: 10 },
-                            { width: '5%', targets: 11 }
-                        ],
-                        columns: [
-                            {
-                                data: 'id',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'oficina',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'staff',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'estado',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'referencia_cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'comentarios',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: '',
-                                render: function (data, type, row)
-                                {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="EditLicencia btn btn-light link-style" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditLicencia"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="licencia-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            }
-                        ],
-                        width: "100%"
-                    });
-
-                    
-                })
-        }
-        // Cesion
-        function Cesion(){
-            let url = '<?php echo admin_url("pi/CesionController/showCesion/$id");?>';
-            //let body= ``;
-                $.get(url, function(response){
-                    let cesion = JSON.parse(response);
-                    console.log('Cesion', cesion);
-                    /* cesion.forEach(item => {
-                         body += `<tr Cesionid = "${item.id}" > 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.cliente}</td>
-                                    <td class="text-center">${item.oficina}</td>
-                                    <td class="text-center">${item.staff}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.num_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.num_resolucion}</td>
-                                    <td class="text-center">${item.fecha_resolucion}</td>
-                                    <td class="text-center">${item.referencia_cliente}</td>
-                                    <td class="text-center">${item.comentarios}</td>
-                                        <td class="text-center">
-                                            <a class="EditCesion btn btn-light" style= "background-color: white; " data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="cesion-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                </tr>
-                            `
-                    });
-                       $('#body_cesion').html(body);   */
-                   
-                    $("#CesionTbl").DataTable({
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                        },
-                        autoWidth: false,
-                        data: cesion,
-                        destroy: true,
-                        columnDefs: [
-                            { width: '5%', targets: 0 },
-                            { width: '1%', targets: 1 },
-                            { width: '1%', targets: 2 },
-                            { width: '1%', targets: 3 },
-                            { width: '1%', targets: 4 },
-                            { width: '5%', targets: 5 },
-                            { width: '5%', targets: 6 },
-                            { width: '5%', targets: 7 },
-                            { width: '5%', targets: 8 },
-                            { width: '5%', targets: 9 },
-                            { width: '15%', targets: 10 },
-                            { width: '30%', targets: 11 }
-                        ],
-                        columns: [
-                            {
-                                data: 'id',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'oficina',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'staff',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'estado',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'referencia_cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'comentarios',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: '',
-                                render: function (data, type, row)
-                                {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="EditCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditCesion"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6'><a class="cesion-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            }
-                        ],
-                        width: "100%"
-                    });                       
-
-                       
-                })
-        }
-
+ 
 
 
         // Documentos
@@ -2393,64 +2798,7 @@
             //     })
         })
 
-         //----------------------------------- Funciones que trae la Informacion de la Base de Datos -----------------------------------------------
-         function MostrarCesion(id){
-            let url = '<?php echo admin_url("pi/CesionController/EditCesion/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let cesion =JSON.parse(response);
-            $('#cesionid').val(cesion[0]['id']);
-            $('#editclienteCesion').val(cesion[0]['client_id']);
-            $('#editoficinaCesion').val(cesion[0]['oficina_id']);
-            $('#editstaffCesion').val(cesion[0]['staff_id']);
-            $('#editnro_solicitudCesion').val(cesion[0]['solicitud_num']);
-            $('#editfecha_solicitudCesion').val(cesion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCesion').val(cesion[0]['resolucion_num']);
-            $('#editfecha_resolucionCesion').val(cesion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCesion').val(cesion[0]['referencia_cliente']);
-            $('#editcomentarioCesion').val(cesion[0]['comentarios']);
-            
-            })
-            CesionActual(id);
-            CesionAnterior(id);
-         }
-
-         //Modal Edit Cesion 
-        $(document).on('click','.EditCesion',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('cesionid');
-            MostrarCesion(id);
-            
-        })
-
-         function MostrarLicencia(id){
-            let url = '<?php echo admin_url("pi/LicenciaController/EditLicencia/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let licencia =JSON.parse(response);
-            $('#licenciaid').val(licencia[0]['id']);
-            $('#editclientelicencia').val(licencia[0]['client_id']);
-            $('#editoficinalicencia').val(licencia[0]['oficina_id']);
-            $('#editstafflicencia').val(licencia[0]['staff_id']);
-            $('#editestadolicencia').val(licencia[0]['estado_id']);
-            $('#editnro_solicitudlicencia').val(licencia[0]['num_solicitud']);
-            $('#editfecha_solicitudlicencia').val(licencia[0]['fecha_solicitud']);
-            $('#editnro_resolucionlicencia').val(licencia[0]['num_resolucion']);
-            $('#editfecha_resolucionlicencia').val(licencia[0]['fecha_resolucion']);
-            $('#editreferenciaclientelicencia').val(licencia[0]['referencia_cliente']);
-            $('#editcomentariolicencia').val(licencia[0]['comentarios']);
-            
-            })
-            LicenciaActual(id);
-            LicenciaAnterior(id);
-        }
-
-           //Modal Edit Licencia
-           $(document).on('click','.EditLicencia',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('licenciaid');
-            MostrarLicencia(id);
-        })
+ 
 
         function MostrarFusion(id){
             let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
@@ -2584,58 +2932,6 @@
             $(document).on('click','#Alertacambio_domicilioanterior',function(e){
                 e.preventDefault();
                 alert_float('danger', "Primero guarde antes de entrar aqui");
-            });
-
-             //--------Cambiar de Editar Cesion a Crear o Editar Cesion Actual y Anterior ---------------
-            // Cambiar de Modal de Editar Cesion por Editar Cesion Actual 
-            $(document).on('click','#EditbtnCesionActual',function(e){
-                e.preventDefault();
-                console.log("Cesion Actual");
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CesionActualid');
-                $('#CesionActual_id').val(id);
-                $("#EditCesion").modal('hide');
-                $("#EditCesionActualModal").modal('show');
-
-            });
-            // Cambiar de Modal de Editar Cesion por Editar Licencia Anterior 
-            $(document).on('click','#EditbtnCesionAnterior',function(e){
-                e.preventDefault();
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CesionAnteriorid');
-                $('#CesionAnterior_id').val(id);
-                $("#EditCesion").modal('hide');
-                $("#EditarCesionAnteriorModal").modal('show');
-            });
-            // Cambiar de Modal de Editar Cesion por Añadir Cesion Actual 
-            $(document).on('click','#btnCesionActual',function(e){
-                console.log("Cesion Actual")
-                e.preventDefault();
-                $("#EditCesion").modal('hide');
-                $("#CesionActualModal").modal('show');
-            });
-            // Cambiar de Modal de Editar Cesion por Añadir Cesion Anterior 
-            $(document).on('click','#btnCesionAnterior',function(e){
-                e.preventDefault();
-                $("#EditCesion").modal('hide');
-                $("#CesionAnteriorModal").modal('show');
-            });
-
-            // Cambiar de Modal de Añadir Cesion por Añadir Cesion Actual 
-            $(document).on('click','#addbtnCesionActual',function(e){
-                console.log("Cesion Actual")
-                e.preventDefault();
-                //ActualizarCesion();
-                //$("#AddCesion").modal('hide');
-                $("#CesionActualModal").modal('show');
-            });
-            // Cambiar de Modal de Añadir Cesion por Añadir Cesion Anterior 
-            $(document).on('click','#addbtnCesionAnterior',function(e){
-                console.log("Cesion Anterior")
-                e.preventDefault();
-                //ActualizarCesion();
-                //$("#AddCesion").modal('hide');
-                $("#CesionAnteriorModal").modal('show');
             });
              //--------Cambiar de Editar Licencia a Crear o Editar Licencia Actual y Anterior ---------------
             // Cambiar de Modal de Editar Licencia por Editar Licencia Actual 
@@ -2830,134 +3126,6 @@
                 $("#AddCambioNombre").modal('hide');
                 $("#CambioNombreAnteriorModal").modal('show');
             });
-           //  --------------------------------Añadir y Editar los siguientes Modulos---------------------------------------------
-             //Añadir Cesion Anterior  ---------------------------------------------------------------------------
-             $(document).on('click','#AñadirCesionAnteriorfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id_cambio = $('#cesionid').val();
-            var propietarios =  $('#propietarioscesionanterior').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_cambio',id_cambio);
-            formData.append('propietarios',propietarios);
-            formData.append('csrf_token_name', csrf_token_name);
-            console.log('id_cambio',id_cambio);
-            console.log('propietarios',propietarios);
-            console.log('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                console.log(response);
-                 alert_float('success', "Insertado Correctamente");
-                 $("#CesionAnteriorModal").modal('hide');
-                 $("#EditCesion").modal('show');
-                 MostrarCesion(id_cambio);
-                 CesionAnterior(id_cambio);
-            }).catch(function(response){
-                alert("No se pudo Añadir Cesion Anterior");
-            });
-        });
-          //Editar Cesion Anterior  ---------------------------------------------------------------------------
-          $(document).on('click','#EditarCesionAnteriorfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#CesionAnterior_id').val();
-            console.log("id de Cesion anterior", id );
-            var id_cambio = $('#cesionid').val();
-            var propietarios =  $('#Editarpropietarioscesionanterior').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('propietarios',propietarios);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCesionController/UpdateTipoCesion/");?>';
-            url = url+id;
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                console.log(response);
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditarCesionAnteriorModal").modal('hide');
-                $("#EditCesion").modal('show');
-                CesionAnterior(id_cambio);
-            }).catch(function(response){
-                alert("No se pudo Editar Cesion Anterior");
-            });
-        });
-        //Añadir Cesion Actual  ---------------------------------------------------------------------------
-        $(document).on('click','#AñadirCesionActualfrmsubmit',function(e){
-            e.preventDefault();
-            console.log("Añadir Cesion Actual");
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id_cambio = $('#cesionid').val();
-            var propietarios =  $('#propietarioscesionactual').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_cambio',id_cambio);
-            formData.append('propietarios',propietarios);
-            formData.append('csrf_token_name', csrf_token_name);
-            console.log('id_cambio',id_cambio);
-            console.log('propietarios',propietarios);
-            console.log('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCesionController/addCesionActual");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                console.log(response);
-                alert_float('success', "Insertado Correctamente");
-                $("#CesionActualModal").modal('hide');
-                $("#EditCesion").modal('show');
-                MostrarCesion(id_cambio);
-                CesionActual(id_cambio);
-            }).catch(function(response){
-                alert("No se pudo Añadir Cesion Actual");
-            });
-        });
-         //Editar Cesion Actual  ---------------------------------------------------------------------------
-         $(document).on('click','#EditarCesionActualfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#CesionActual_id').val();
-            console.log("id =",id );
-            var id_cambio = $('#cesionid').val();
-            var propietarios =  $('#Editpropietarioscesionactual').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('propietarios',propietarios);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/TipoCesionController/UpdateTipoCesion/");?>';
-            url = url+id;
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                console.log(response);
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditCesionActualModal").modal('hide');
-                $("#EditCesion").modal('show');
-                CesionActual(id_cambio);
-            }).catch(function(response){
-                alert("No se pudo Editar Cesion Actual");
-            });
-        });
             //Añadir Licencia Anterior  ---------------------------------------------------------------------------
             $(document).on('click','#AñadirLicenciaAnteriorfrmsubmit',function(e){
             e.preventDefault();
@@ -3458,373 +3626,6 @@
                 alert("No se pudo Editar Cambio de Domiclio Actual ");
             });
         });
-        //Añadir Cesion ---------------------------------------------------------------------------
-        $(document).on('click','#AddCesionfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var cliente =  $('#clienteCesion').val();
-            var oficina = $('#oficinaCesion').val();
-            var staff =  $('#staffCesion').val();
-            var estado =  $('#estadoCesion').val();
-            var nro_solicitud =  $('#nro_solicitudCesion').val();
-            var fecha_solicitud = $('#fecha_solicitudCesion').val();
-            var nro_resolucion =  $('#nro_resolucionCesion').val();
-            var fecha_resolucion = $('#fecha_resolucionCesion').val();
-            var referenciacliente =  $('#referenciaclienteCesion').val();
-            var comentario =  $('#comentarioCesion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('cliente',cliente);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/CesionController/addCesion");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#AddCesion").modal('hide');
-                Cesion()
-            }).catch(function(response){
-                alert("No se pudo Añadir Cesion");
-            });
-        });
-
-         //Añadir Cesion Cuando Abre el Modal
-         $(document).on('click','#AddCesionAbrirModal',function(e){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
-                const id_marcas = '<?php echo $id?>';
-                const csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('id_marcas',id_marcas);
-                formData.append('csrf_token_name', csrf_token_name);
-                console.log('id_marcas',id_marcas);
-                console.log('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/CesionController/addCesionShowModal");?>';
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    console.log("response ",response);
-                    $('#cesionid').val(response);
-                    CesionActual(response);
-                    CesionAnterior(response);
-
-                }).catch(function(response){
-                    alert("No se pudo Añadir Cesion");
-                });
-                
-
-        });
-        function LimpiarCesion(){
-            var cliente =  $('#clienteCesion').val("");
-            var oficina = $('#oficinaCesion').val("");
-            var staff =  $('#staffCesion').val("");
-            var estado =  $('#estadoCesion').val("");
-            var nro_solicitud =  $('#nro_solicitudCesion').val("");
-            var fecha_solicitud = $('#fecha_solicitudCesion').val("");
-            var nro_resolucion =  $('#nro_resolucionCesion').val("");
-            var fecha_resolucion = $('#fecha_resolucionCesion').val("");
-            var referenciacliente =  $('#referenciaclienteCesion').val("");
-            var comentario =  $('#comentarioCesion').val("");
-        }
-        function ActualizarCesion(){
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#cesionid').val();
-            //const id_marcas = '<?php echo $id?>';
-            var cliente =  $('#clienteCesion').val();
-            var oficina = $('#oficinaCesion').val();
-            var staff =  $('#staffCesion').val();
-            var estado =  $('#estadoCesion').val();
-            var nro_solicitud =  $('#nro_solicitudCesion').val();
-            var fecha_solicitud = $('#fecha_solicitudCesion').val();
-            var nro_resolucion =  $('#nro_resolucionCesion').val();
-            var fecha_resolucion = $('#fecha_resolucionCesion').val();
-            var referenciacliente =  $('#referenciaclienteCesion').val();
-            var comentario =  $('#comentarioCesion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            //formData.append('id_marcas',id_marcas);
-            formData.append('cliente',cliente);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/CesionController/UpdateCesion/");?>';
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#AddCesion").modal('hide');
-                Cesion()
-            }).catch(function(response){
-                alert("No se pudo Actualizar Cesion");
-            });
-        }
-        //Editar Licencia Cuando Abre el Modal---------------------------------------------------------------------------
-        $(document).on('click','#EditcesionAbrirModalfrmsubmit',function(e){
-            e.preventDefault();
-            ActualizarCesion();
-            LimpiarCesion();
-        });
-        //Editar Cesion ---------------------------------------------------------------------------
-        $(document).on('click','#EditCesionfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#cesionid').val();
-            var cliente =  $('#editclienteCesion').val();
-            var oficina = $('#editoficinaCesion').val();
-            var staff =  $('#editstaffCesion').val();
-            var estado =  $('#editestadoCesion').val();
-            var nro_solicitud =  $('#editnro_solicitudCesion').val();
-            var fecha_solicitud = $('#editfecha_solicitudCesion').val();
-            var nro_resolucion =  $('#editnro_resolucionCesion').val();
-            var fecha_resolucion = $('#editfecha_resolucionCesion').val();
-            var referenciacliente =  $('#editreferenciaclienteCesion').val();
-            var comentario =  $('#editcomentarioCesion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('cliente',cliente);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/CesionController/UpdateCesion/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditCesion").modal('hide');
-                Cesion()
-            }).catch(function(response){
-                alert("No se pudo Editar Cesion");
-            });
-        });
-        //Añadir Licencia Cuando Abre el Modal
-        $(document).on('click','#AddLicenciaAbrirModal',function(e){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
-                const id_marcas = '<?php echo $id?>';
-                const csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('id_marcas',id_marcas);
-                formData.append('csrf_token_name', csrf_token_name);
-                console.log('id_marcas',id_marcas);
-                console.log('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/LicenciaController/addLicenciaShowModal");?>';
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    console.log("response ",response);
-                    $('#licenciaid').val(response);
-                    LicenciaActual(response);
-                    LicenciaAnterior(response);
-
-                }).catch(function(response){
-                    alert("No se pudo Añadir Licencia");
-                });
-                
-
-        });
-        function LimpiarLicencia(){
-            var cliente =  $('#clientelicencia').val("");
-            var oficina = $('#oficinalicencia').val("");
-            var staff =  $('#stafflicencia').val("");
-            var estado =  $('#estadolicencia').val();
-            var nro_solicitud =  $('#nro_solicitudlicencia').val("");
-            var fecha_solicitud = $('#fecha_solicitudlicencia').val("");
-            var nro_resolucion =  $('#nro_resolucionlicencia').val("");
-            var fecha_resolucion = $('#fecha_resolucionlicencia').val("");
-            var referenciacliente =  $('#referenciaclientelicencia').val("");
-            var comentario =  $('#comentariolicencia').val("");
-        }
-        function ActualizarLicencia(){
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#licenciaid').val();
-            //const id_marcas = '<?php //echo $id?>';
-            var cliente =  $('#clientelicencia').val();
-            var oficina = $('#oficinalicencia').val();
-            var staff =  $('#stafflicencia').val();
-            var estado =  $('#estadolicencia').val();
-            var nro_solicitud =  $('#nro_solicitudlicencia').val();
-            var fecha_solicitud = $('#fecha_solicitudlicencia').val();
-            var nro_resolucion =  $('#nro_resolucionlicencia').val();
-            var fecha_resolucion = $('#fecha_resolucionlicencia').val();
-            var referenciacliente =  $('#referenciaclientelicencia').val();
-            var comentario =  $('#comentariolicencia').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            //formData.append('id_marcas',id_marcas);
-            formData.append('cliente',cliente);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/LicenciaController/UpdateLicencia/");?>'
-            url = url+id;
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                console.log(response);
-                alert_float('success', "Actualizado Correctamente");
-                $("#AddLicencia").modal('hide');
-                Licencia();
-            }).catch(function(response){
-                alert("No se pudo ActualizarLicencia");
-            });
-        }
-
-          //Editar Licencia Cuando Abre el Modal---------------------------------------------------------------------------
-        $(document).on('click','#EditlicenciaAbrirModalfrmsubmit',function(e){
-            e.preventDefault();
-            ActualizarLicencia();
-            LimpiarLicencia();
-        });
-         //Añadir Licencia ---------------------------------------------------------------------------
-         $(document).on('click','#addlicenciafrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var cliente =  $('#clientelicencia').val();
-            var oficina = $('#oficinalicencia').val();
-            var staff =  $('#stafflicencia').val();
-            var estado =  $('#estadolicencia').val();
-            var nro_solicitud =  $('#nro_solicitudlicencia').val();
-            var fecha_solicitud = $('#fecha_solicitudlicencia').val();
-            var nro_resolucion =  $('#nro_resolucionlicencia').val();
-            var fecha_resolucion = $('#fecha_resolucionlicencia').val();
-            var referenciacliente =  $('#referenciaclientelicencia').val();
-            var comentario =  $('#comentariolicencia').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('cliente',cliente);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/LicenciaController/addLicencia");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#AddLicencia").modal('hide');
-                Licencia()
-            }).catch(function(response){
-                alert("No se pudo Añadir Licencia");
-            });
-        });
-
-        //Editar Licencia ---------------------------------------------------------------------------
-         $(document).on('click','#editlicenciafrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#licenciaid').val();
-            var cliente =  $('#editclientelicencia').val();
-            var oficina = $('#editoficinalicencia').val();
-            var staff =  $('#editstafflicencia').val();
-            var estado =  $('#editestadolicencia').val();
-            var nro_solicitud =  $('#editnro_solicitudlicencia').val();
-            var fecha_solicitud = $('#editfecha_solicitudlicencia').val();
-            var nro_resolucion =  $('#editnro_resolucionlicencia').val();
-            var fecha_resolucion = $('#editfecha_resolucionlicencia').val();
-            var referenciacliente =  $('#editreferenciaclientelicencia').val();
-            var comentario =  $('#editcomentariolicencia').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id',id);
-            formData.append('cliente',cliente);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/LicenciaController/UpdateLicencia/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditLicencia").modal('hide');
-                Licencia()
-            }).catch(function(response){
-                alert("No se pudo Editar Licencia");
-            });
-        });
-
         //Añadir Fusion Cuando Abre el Modal
         $(document).on('click','#AddFusionAbrirModal',function(e){
                 e.preventDefault();
@@ -4531,56 +4332,6 @@
                 });
             }
         });
-        //Eliminar Cesion Anterior
-        $(document).on('click','.Cesion-Anterior-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CesionAnteriorid');
-                let id_cambio = $('#cesionid').val();
-                console.log(id);
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/TipoCesionController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    CesionAnterior(id_cambio);
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Cesion Anterior");
-                });
-            }
-        });
-        //Eliminar Cesion Actual
-        $(document).on('click','.Cesion-Actual-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CesionActualid');
-                let id_cambio = $('#cesionid').val();
-                console.log(id);
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/TipoCesionController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    CesionActual(id_cambio);
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Cesion Actual");
-                });
-            }
-        });
 
         //Eliminar Nombre Anterior
         $(document).on('click','.Cambio-Nombre-Anterior-delete',function(){
@@ -4685,52 +4436,6 @@
                     alert("No se pudo Eliminar Domicilio Actual");
                 });
             }
-        });
-        //Eliminar Cesion
-        $(document).on('click','.cesion-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('Cesionid');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/CesionController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    Cesion();
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Cesion");
-                });
-            }
-        });
-         //Eliminar Licencia
-         $(document).on('click','.licencia-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('Licenciaid');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/LicenciaController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    Licencia();
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Licencia");
-                });
-           }
         });
          //Eliminar Fusion
          $(document).on('click','.fusion-delete',function(){
@@ -5018,6 +4723,396 @@
 
     <script>
 
+
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES CESION ACTUAL               ********** */
+    /* ####################################################################### */
+
+
+    // Cambiar de Modal de Editar Cesion por Editar Cesion Actual 
+    $(document).on('click','#EditbtnCesionActual',function(e){
+        e.preventDefault();
+        console.log("Cesion Actual");
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('CesionActualid');
+        $('#CesionActual_id').val(id);
+        $("#EditCesion").modal('hide');
+        $("#EditCesionActualModal").modal('show');
+
+    });
+    
+    // Cambiar de Modal de Editar Cesion por Añadir Cesion Actual 
+    $(document).on('click','#btnCesionActual',function(e){
+        console.log("Cesion Actual")
+        e.preventDefault();
+        $("#EditCesion").modal('hide');
+        $("#CesionActualModal").modal('show');
+    });
+
+    // Cambiar de Modal de Añadir Cesion por Añadir Cesion Actual 
+    $(document).on('click','#addbtnCesionActual',function(e){
+        console.log("Cesion Actual")
+        e.preventDefault();
+        //ActualizarCesion();
+        //$("#AddCesion").modal('hide');
+        $("#CesionActualModal").modal('show');
+    });
+
+    //Añadir Cesion Actual  ---------------------------------------------------------------------------
+    $(document).on('click','#AñadirCesionActualfrmsubmit',function(e){
+        e.preventDefault();
+        console.log("Añadir Cesion Actual");
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#cesionid').val();
+        var propietarios =  $('#propietarioscesionactual').val();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionActual");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+            alert_float('success', "Insertado Correctamente");
+            $("#CesionActualModal").modal('hide');
+            $("#EditCesion").modal('show');
+            MostrarCesion(id_cambio);
+            TablaCesionActual(id_cambio);
+        }).catch(function(response){
+            alert("No se pudo Añadir Cesion Actual");
+        });
+    });
+    
+    //Editar Cesion Actual  ---------------------------------------------------------------------------
+    $(document).on('click','#EditarCesionActualfrmsubmit',function(e){
+    e.preventDefault();
+    var formData = new FormData();
+    var data = getFormData(this);
+    var id = $('#CesionActual_id').val();
+    console.log("id =",id );
+    var id_cambio = $('#cesionid').val();
+    var propietarios =  $('#Editpropietarioscesionactual').val();
+    var csrf_token_name = $("input[name=csrf_token_name]").val();
+    formData.append('propietarios',propietarios);
+    formData.append('csrf_token_name', csrf_token_name);
+    let url = '<?php echo admin_url("pi/TipoCesionController/UpdateTipoCesion/");?>';
+    url = url+id;
+    console.log(url);
+    $.ajax({
+        url,
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+    }).then(function(response){
+        console.log(response);
+        alert_float('success', "Actualizado Correctamente");
+        $("#EditCesionActualModal").modal('hide');
+        $("#EditCesion").modal('show');
+        TablaCesionActual(id_cambio);
+    }).catch(function(response){
+        alert("No se pudo Editar Cesion Actual");
+    });
+});
+
+    //Eliminar Cesion Actual
+    $(document).on('click','.Cesion-Actual-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('CesionActualid');
+            let id_cambio = $('#cesionid').val();
+            console.log(id);
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoCesionController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaCesionActual(id_cambio);
+            }).catch(function(response){
+                alert("No se pudo Eliminar Cesion Actual");
+            });
+        }
+    });
+        
+    //Cesion Actual
+    function TablaCesionActual(id_cambio){
+        let url = '<?php echo admin_url("pi/TipoCesionController/showCesionActual/");?>';
+        url = url+id_cambio;
+        console.log(url);
+        let body= ``;
+            $.get(url, function(response){
+                let listadomicilio = JSON.parse(response);
+                console.log(listadomicilio);
+                listadomicilio.forEach(item => {
+                    body += `<tr CesionActualid = "${item.id}"> 
+                                <td class="text-center">${item.id}</td>
+                                <td class="text-center">${item.cesion}</td>
+                                <td class="text-center">${item.tipo}</td>
+                                <td class="text-center">${item.propietario}</td>
+                                    <td class="text-center">
+                                        <a class=" btn btn-light" id ="EditbtnCesionActual" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                        <button class="Cesion-Actual-delete btn btn-danger">
+                                        <i class="fas fa-trash"></i>Borrar
+                                        </button>
+                                    </td>
+                            </tr>
+                        `
+                    });
+                    $('#body_Cesion_actual').html(body);   
+                    $('#body_add_Cesion_actual').html(body);   
+            })
+        
+        /* let url = '<?php echo admin_url("pi/TareasController/showTareas/$id");?>';
+        console.log(url);
+        $.get(url, function(response){
+            let tareas = JSON.parse(response);
+            console.log('Tareas', tareas);
+            tblTareaDT = $("#tareasTbl").DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                autoWidth: false,
+                data: tareas,
+                destroy: true,
+                columnDefs: [
+                    { width: '20%', targets: 0 },
+                    { width: '20%', targets: 1 },
+                    { width: '20%', targets: 2 },
+                    { width: '15%', targets: 3 },
+                    { width: '25%', targets: 4 }
+                ],
+                columns: [
+                    {
+                        data: 'project_name',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'tipo_tarea',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'descripcion',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: '',
+                        render: function (data, type, row)
+                        {
+                            data = `<a id="${row.id}" class="editTareas btn btn-light"><i class="fas fa-edit"></i>Editar</a>
+                            <a id="${row.id}" class="tarea-delete btn btn-light" style= "background-color: white; "><i class="fas fa-trash"></i>Borrar</a>`;
+                            return "<div class='col-12'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'tipo_tareas_id',
+                        visible: false
+                    },
+                    {
+                        data: 'project_id',
+                        visible: false
+                    },
+                    {
+                        data: 'id',
+                        visible: false
+                    }
+                ],
+                width: "100%"
+            });
+
+        }) */
+
+
+        
+    }
+
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES CESION ANTERIOR             ********** */
+    /* ####################################################################### */
+
+
+    // Cesion Anterior
+    function CesionAnterior(id_cambio){
+        let url = '<?php echo admin_url("pi/TipoCesionController/showCesionAnterior/");?>';
+        url = url+id_cambio;
+        console.log(url);
+        let body= ``;
+            $.get(url, function(response){
+                let listadomicilio = JSON.parse(response);
+                console.log(listadomicilio);
+                listadomicilio.forEach(item => {
+                    body += `<tr CesionAnteriorid = "${item.id}"> 
+                                <td class="text-center">${item.id}</td>
+                                <td class="text-center">${item.cesion}</td>
+                                <td class="text-center">${item.tipo}</td>
+                                <td class="text-center">${item.propietario}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-light" style= "background-color: white;" 
+                                        id ="EditbtnCesionAnterior" ><i class="fas fa-edit"></i>Editar</a>
+                                        <button class="Cesion-Anterior-delete btn btn-danger">
+                                        <i class="fas fa-trash"></i>Borrar
+                                        </button>
+                                    </td>
+                            </tr>
+                        `
+                    });
+                    $('#body_Cesion_anterior').html(body);  
+                    $('#body_add_Cesion_anterior').html(body);    
+            })
+    }
+
+    // Cambiar de Modal de Editar Cesion por Editar Licencia Anterior 
+    $(document).on('click','#EditbtnCesionAnterior',function(e){
+        e.preventDefault();
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('CesionAnteriorid');
+        $('#CesionAnterior_id').val(id);
+        $("#EditCesion").modal('hide');
+        $("#EditarCesionAnteriorModal").modal('show');
+    });
+    
+    // Cambiar de Modal de Editar Cesion por Añadir Cesion Anterior 
+    $(document).on('click','#btnCesionAnterior',function(e){
+        e.preventDefault();
+        $("#EditCesion").modal('hide');
+        $("#CesionAnteriorModal").modal('show');
+    });
+
+    // Cambiar de Modal de Añadir Cesion por Añadir Cesion Anterior 
+    $(document).on('click','#addbtnCesionAnterior',function(e){
+        console.log("Cesion Anterior")
+        e.preventDefault();
+        //ActualizarCesion();
+        //$("#AddCesion").modal('hide');
+        $("#CesionAnteriorModal").modal('show');
+    });
+
+    //  --------------------------------Añadir y Editar los siguientes Modulos---------------------------------------------
+        //Añadir Cesion Anterior  ---------------------------------------------------------------------------
+    $(document).on('click','#AñadirCesionAnteriorfrmsubmit',function(e){
+    e.preventDefault();
+    var formData = new FormData();
+    var data = getFormData(this);
+    var id_cambio = $('#cesionid').val();
+    var propietarios =  $('#propietarioscesionanterior').val();
+    var csrf_token_name = $("input[name=csrf_token_name]").val();
+    formData.append('id_cambio',id_cambio);
+    formData.append('propietarios',propietarios);
+    formData.append('csrf_token_name', csrf_token_name);
+    console.log('id_cambio',id_cambio);
+    console.log('propietarios',propietarios);
+    console.log('csrf_token_name', csrf_token_name);
+    let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
+    $.ajax({
+        url,
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+    }).then(function(response){
+        console.log(response);
+            alert_float('success', "Insertado Correctamente");
+            $("#CesionAnteriorModal").modal('hide');
+            $("#EditCesion").modal('show');
+            MostrarCesion(id_cambio);
+            CesionAnterior(id_cambio);
+    }).catch(function(response){
+        alert("No se pudo Añadir Cesion Anterior");
+    });
+});
+    
+    //Editar Cesion Anterior  ---------------------------------------------------------------------------
+    $(document).on('click','#EditarCesionAnteriorfrmsubmit',function(e){
+    e.preventDefault();
+    var formData = new FormData();
+    var data = getFormData(this);
+    var id = $('#CesionAnterior_id').val();
+    console.log("id de Cesion anterior", id );
+    var id_cambio = $('#cesionid').val();
+    var propietarios =  $('#Editarpropietarioscesionanterior').val();
+    var csrf_token_name = $("input[name=csrf_token_name]").val();
+    formData.append('propietarios',propietarios);
+    formData.append('csrf_token_name', csrf_token_name);
+    let url = '<?php echo admin_url("pi/TipoCesionController/UpdateTipoCesion/");?>';
+    url = url+id;
+    console.log(url);
+    $.ajax({
+        url,
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+    }).then(function(response){
+        console.log(response);
+        alert_float('success', "Actualizado Correctamente");
+        $("#EditarCesionAnteriorModal").modal('hide');
+        $("#EditCesion").modal('show');
+        CesionAnterior(id_cambio);
+    }).catch(function(response){
+        alert("No se pudo Editar Cesion Anterior");
+    });
+});
+
+    //Eliminar Cesion Anterior
+    $(document).on('click','.Cesion-Anterior-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('CesionAnteriorid');
+            let id_cambio = $('#cesionid').val();
+            console.log(id);
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/TipoCesionController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                CesionAnterior(id_cambio);
+            }).catch(function(response){
+                alert("No se pudo Eliminar Cesion Anterior");
+            });
+        }
+    });
+
+
     $(function() {
         $('.nav-tabs > li a[title]').tooltip();
             
@@ -5057,8 +5152,8 @@
         TablaPublicaciones();
         TablaEventos();
         TablaTareas();
-        Cesion();
-        Licencia();
+        TablaCesion();
+        TablaLicencia();
         Fusion();
         CambioNombre();
         CambioDomicilio();

@@ -4335,68 +4335,11 @@
             }
         })
     });
+    </script>
 
-
-
-    //----------------------------------- Modal Para Añadir y Editar -----------------------------------------------
-
-    //Añadir Documento ---------------------------------------------------------------------------
-    /* $(document).on('click', '#documentofrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var description = $('#doc_descripcion').val();
-        var comentario_archivo = $('#comentario_archivo').val();
-        var doc_archivo = $('#doc_archivo')[0].files[0];
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('csrf_token_name', csrf_token_name);
-        formData.append('doc_descripcion', description);
-        formData.append('comentario_archivo', comentario_archivo);
-        formData.append('doc_archivo', doc_archivo);
-        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento"); ?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
-            $("#docModal").modal('hide');
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
-
-
-    //Editar Documento ---------------------------------------------------------------------------
-    /* $(document).on('click', '#documentoeditfrmsubmit', function(e) {
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id = $('#Documento_id').val();
-        var description = $('#editdoc_descripcion').val();
-        var comentario_archivo = $('#editcomentario_archivo').val();
-        var doc_archivo = $('#editdoc_archivo')[0].files[0];
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id', id);
-        formData.append('doc_descripcion', description);
-        formData.append('comentario_archivo', comentario_archivo);
-        formData.append('doc_archivo', doc_archivo);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/UpdateDocumento/"); ?>'
-        url = url + id;
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response) {
-            alert_float('success', "Actualizado Correctamente");
-            $("#docModalEdit").modal('hide');
-        }).catch(function(response) {
-            alert("No puede agregar un Documento sin registro de la solicitud");
-        });
-    }); */
+    <script>
+      $(document).ready(function(){
+        $(window).off('beforeunload');
+      });
+      
     </script>

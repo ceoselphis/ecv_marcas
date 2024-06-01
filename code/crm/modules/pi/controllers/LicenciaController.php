@@ -25,10 +25,10 @@ class LicenciaController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
             'id' => $row['id'],
-            'cliente' => $CI->Licencia_model->BuscarClientes($row['client_id']),   
+            'cliente' => $row['client_id'] ? $CI->Licencia_model->BuscarClientes($row['client_id']) : '',   
             'oficina' => $CI->Licencia_model->BuscarOficina($row['oficina_id']),
             'estado' => $CI->Licencia_model->BuscarEstado($row['estado_id']),
-            'staff' => $CI->Licencia_model->BuscarStaff($row['staff_id']),
+            'staff' => $row['staff_id'] ? $CI->Licencia_model->BuscarStaff($row['staff_id']) : '',
             'num_solicitud' => $row['num_solicitud'],
             'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
             'num_resolucion' => $row['num_resolucion'],

@@ -10,6 +10,7 @@
     var tblTareaDT;
     var tblCesionDT;
     var tblLicenciaDT;
+    var tblFusionDT;
 
     /* Para cambiar el color de los Label  luego de un error*/
     const color_lbl = 'rgb(71 85 105)';
@@ -1919,20 +1920,112 @@
     }
 
 
+    /* ####################################################################### */
+    /* **********             FUNCIONES FUSION                      ********** */
+    /* ####################################################################### */
 
 
-    //NOOO  Añadir Licencia Cuando Abre el Modal
-    $(document).on('click','#AddLicenciaAbrirModal',function(e){
-        /* e.preventDefault();
+    //Añadir Fusion ---------------------------------------------------------------------------
+    $(document).on('click','#addfusionfrmsubmit',function(e){
+        e.preventDefault();
+        if ($('#oficinaFusion').val() && 
+            $('#estadoFusion').val() && 
+            $('#estadoFusion').val() && 
+            $('#fecha_solicitudFusion').val() &&
+            $('#nro_resolucionFusion').val() &&
+            $('#fecha_resolucionFusion').val() &&
+            $('#referenciaclienteFusion').val() &&
+            $('#comentarioFusion').val()) 
+            {
+
+            
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            var cliente =  $('#clienteFusion').val();
+            var oficina = $('#oficinaFusion').val();
+            var staff =  $('#staffFusion').val();
+            var estado =  $('#estadoFusion').val();
+            var nro_solicitud =  $('#nro_solicitudFusion').val();
+            var fecha_solicitud = $('#fecha_solicitudFusion').val();
+            var nro_resolucion =  $('#nro_resolucionFusion').val();
+            var fecha_resolucion = $('#fecha_resolucionFusion').val();
+            var referenciacliente =  $('#referenciaclienteFusion').val();
+            var comentario =  $('#comentarioFusion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/FusionController/addFusion");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddFusion").modal('hide');
+                TablaFusion()
+            }).catch(function(response){
+                alert("No se pudo Añadir Fusion");
+            });
+        }else{
+            $("#lbloficinaFusion").css('color', $('#oficinaFusion').val() ? color_lbl : 'red');
+            $("#lblestadoFusion").css('color', $('#estadoFusion').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudFusion").css('color', $('#nro_solicitudFusion').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudFusion").css('color', $('#fecha_solicitudFusion').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionFusion").css('color', $('#nro_resolucionFusion').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionFusion").css('color', $('#fecha_resolucionFusion').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteFusion").css('color', $('#referenciaclienteFusion').val() ? color_lbl : 'red');
+            $("#lblcomentarioFusion").css('color', $('#comentarioFusion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Fusion');
+        }
+    });
+
+    //Editar Fusion Cuando Abre el Modal---------------------------------------------------------------------------
+    $(document).on('click','#EditfusionAbrirModalfrmsubmit',function(e){
+    e.preventDefault();
+    ActualizarFusion();
+    LimpiarFusion();
+});
+
+    //Editar Fusion ---------------------------------------------------------------------------
+    $(document).on('click','#editfusionfrmsubmit',function(e){
+        e.preventDefault();
         var formData = new FormData();
         var data = getFormData(this);
-        const id_marcas = '<?php echo $id?>';
-        const csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id_marcas',id_marcas);
+        var id = $('#fusionid').val();
+        var oficina = $('#editoficinaFusion').val();
+        var estado =  $('#editestadoFusion').val();
+        var nro_solicitud =  $('#editnro_solicitudFusion').val();
+        var fecha_solicitud = $('#editfecha_solicitudFusion').val();
+        var nro_resolucion =  $('#editnro_resolucionFusion').val();
+        var fecha_resolucion = $('#editfecha_resolucionFusion').val();
+        var referenciacliente =  $('#editreferenciaclienteFusion').val();
+        var comentario =  $('#editcomentarioFusion').val();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id',id);
+        formData.append('oficina',oficina);
+        formData.append('estado',estado );
+        formData.append('nro_solicitud',nro_solicitud );
+        formData.append('fecha_solicitud',fecha_solicitud);
+        formData.append('nro_resolucion',nro_resolucion );
+        formData.append('fecha_resolucion',fecha_resolucion);
+        formData.append('referenciacliente',referenciacliente );
+        formData.append('comentario',comentario);
         formData.append('csrf_token_name', csrf_token_name);
-        console.log('id_marcas',id_marcas);
-        console.log('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/LicenciaController/addLicenciaShowModal");?>';
+        let url = '<?php  echo admin_url("pi/FusionController/UpdateFusion/");?>'
+        url = url+id;
         $.ajax({
             url,
             method: 'POST',
@@ -1940,16 +2033,237 @@
             processData: false,
             contentType: false
         }).then(function(response){
-            console.log("response ",response);
-            $('#licenciaid').val(response);
-            LicenciaActual(response);
-            LicenciaAnterior(response);
-
+            alert_float('success', "Actualizado Correctamente");
+            $("#EditFusion").modal('hide');
+            TablaFusion();
         }).catch(function(response){
-            alert("No se pudo Añadir Licencia");
-        }); */
+            alert("No se pudo Editar Fusion");
+        });
+        
     });
 
+    //Al cerrar el modal
+    $('#AddFusion').on('hidden.bs.modal', function (e) {
+        ResetTablaFusion();
+    })
+
+    //Al cerrar el modal
+    $('#EditFusion').on('hidden.bs.modal', function (e) {
+        ResetTablaFusionEdit();
+    })
+
+    //Eliminar Fusion
+    $(document).on('click','.fusion-delete',function(){
+        console.log("Eliminar Fusion");
+        if (confirm("Quieres eliminar este registro?")){
+            let id = $(this).attr('id');
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/FusionController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaFusion();
+            }).catch(function(response){
+                alert("No se pudo Eliminar Fusion");
+            });
+        }
+    });
+
+    //Modal Edit Fusion
+    $(document).on('click','.editFusion',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblFusionDT, 'id', id);
+        console.log('row', row);
+        
+        $('#clienteFusion_edit').val(row.client_id).trigger('change');
+        $('#oficinaFusion_edit').val(row.oficina_id).trigger('change');
+        $('#staffFusion_edit').val(row.staff_id).trigger('change');
+        $('#estadoFusion_edit').val(row.estado_id).trigger('change');
+        $("#nro_solicitudFusion_edit").val(row.num_solicitud);
+        $("#fecha_solicitudFusion_edit").val(row.fecha_solicitud);
+        $("#nro_resolucionFusion_edit").val(row.num_resolucion);
+        $("#fecha_resolucionFusion_edit").val(row.fecha_resolucion);
+        $("#referenciaclienteFusion_edit").val(row.referencia_cliente);
+        $("#comentarioFusion_edit").val(row.comentarios);
+        $("#fusionid").val(row.id);
+        $("#EditFusion").modal('show'); 
+    })
+
+    /***funcion que hace reset del Modal de Fusion*/
+    function ResetTablaFusion() {
+        $("#fusionFrm")[0].reset();
+        $('#clienteFusion').val('').trigger('change');
+        $('#oficinaFusion').val('').trigger('change');
+        $('#staffFusion').val('').trigger('change');
+        $('#estadoFusion').val('').trigger('change');
+        $("#lbloficinaFusion").css('color', color_lbl);
+        $("#lblestadoFusion").css('color', color_lbl);
+        $("#lblnro_solicitudFusion").css('color', color_lbl);
+        $("#lblfecha_solicitudFusion").css('color', color_lbl);
+        $("#lblnro_resolucionFusion").css('color', color_lbl);
+        $("#lblfecha_resolucionFusion").css('color', color_lbl);
+        $("#lblreferenciaclienteFusion").css('color', color_lbl);
+        $("#lblcomentarioFusion").css('color', color_lbl);
+    }
+
+    /***funcion que hace reset del Modal de Fusion*/
+    function ResetTablaFusionEdit() {
+        $("#fusionEditfrm")[0].reset();
+        $('#clienteFusion_edit').val('').trigger('change');
+        $('#oficinaFusion_edit').val('').trigger('change');
+        $('#staffFusion_edit').val('').trigger('change');
+        $('#estadoFusion_edit').val('').trigger('change');
+        $("#lbloficinaFusion_edit").css('color', color_lbl);
+        $("#lblestadoFusion_edit").css('color', color_lbl);
+        $("#lblnro_solicitudFusion_edit").css('color', color_lbl);
+        $("#lblfecha_solicitudFusion_edit").css('color', color_lbl);
+        $("#lblnro_resolucionFusion_edit").css('color', color_lbl);
+        $("#lblfecha_resolucionFusion_edit").css('color', color_lbl);
+        $("#lblreferenciaclienteFusion_edit").css('color', color_lbl);
+        $("#lblcomentarioFusion_edit").css('color', color_lbl);
+    }
+    
+    // Fusion
+    function TablaFusion(){
+        console.log("Pruebas");
+        let url = '<?php echo admin_url("pi/FusionController/showFusion/$id");?>';
+        $.get(url, function(response){
+            let fusion = JSON.parse(response);
+            console.log('Fusion', fusion);
+            tblFusionDT = $("#FusionTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: fusion,
+                    destroy: true,
+                    columnDefs: [
+                        { width: '5%', targets: 0 },
+                        { width: '15%', targets: 1 },
+                        { width: '15%', targets: 2 },
+                        { width: '10%', targets: 3 },
+                        { width: '10%', targets: 4 },
+                        { width: '5%', targets: 5 },
+                        { width: '5%', targets: 6 },
+                        { width: '5%', targets: 7 },
+                        { width: '5%', targets: 8 },
+                        { width: '5%', targets: 9 },
+                        { width: '15%', targets: 10 },
+                        { width: '5%', targets: 11 }
+                    ],
+                    columns: [
+                        {
+                            data: 'cliente',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'oficina',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'staff',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'estado',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'num_solicitud',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_solicitud',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'num_resolucion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_resolucion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'referencia_cliente',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'comentarios',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: '',
+                            render: function (data, type, row)
+                            {
+                                data = `<div class='col-md-6' style='padding-left: 0px;'><a id="${row.id}" class="editFusion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                <div class='col-md-6' style='padding-left: 10px;'><a id="${row.id}" class="fusion-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'id',
+                            visible:false
+                        },
+                        {
+                            data: 'client_id',
+                            visible:false
+                        },
+                        {
+                            data: 'oficina_id',
+                            visible:false
+                        },
+                        {
+                            data: 'staff_id',
+                            visible:false
+                        },
+                        {
+                            data: 'estado_id',
+                            visible:false
+                        }
+                    ],
+                    width: "100%"
+                });
+        })
+    }
 
 
 </script>
@@ -2499,153 +2813,7 @@
             
             })
         }
-        
-       // Fusion
-        function Fusion(){
-            console.log("Pruebas");
-            let url = '<?php echo admin_url("pi/FusionController/showFusion/$id");?>';
-            //let body= ``;
-            $.get(url, function(response){
-                let fusion = JSON.parse(response);
-                console.log('Fusion', fusion);
-                /* fusion.forEach(item => {
-                        body += `<tr Fusionid = "${item.id}"> 
-                                <td class="text-center">${item.id}</td>
-                                <td class="text-center">${item.oficina}</td>
-                                <td class="text-center">${item.estado}</td>
-                                <td class="text-center">${item.num_solicitud}</td>
-                                <td class="text-center">${item.fecha_solicitud}</td>
-                                <td class="text-center">${item.num_resolucion}</td>
-                                <td class="text-center">${item.fecha_solicitud}</td>
-                                <td class="text-center">${item.referencia_cliente}</td>
-                                <td class="text-center">${item.comentarios}</td>
-                                    <td class="text-center">
-                                        <a class="editFusion btn btn-light" style= "background-color: white;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit"></i>Editar</a>
-                                        <button  class="fusion-delete btn btn-danger">
-                                        <i class="fas fa-trash"></i>Borrar
-                                        </button>
-                                    </td>
-                                
-                            </tr>
-                        `
-                        
-                });
-                $('#body_fusion').html(body);    */
-
-                $("#FusionTbl").DataTable({
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                        },
-                        autoWidth: false,
-                        data: fusion,
-                        destroy: true,
-                        columnDefs: [
-                            { width: '5%', targets: 0 },
-                            { width: '15%', targets: 1 },
-                            { width: '15%', targets: 2 },
-                            { width: '10%', targets: 3 },
-                            { width: '10%', targets: 4 },
-                            { width: '5%', targets: 5 },
-                            { width: '5%', targets: 6 },
-                            { width: '5%', targets: 7 },
-                            { width: '5%', targets: 8 },
-                            { width: '5%', targets: 9 },
-                            { width: '15%', targets: 10 },
-                            { width: '5%', targets: 11 }
-                        ],
-                        columns: [
-                            {
-                                data: 'id',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'oficina',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'staff',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'estado',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'referencia_cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'comentarios',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: '',
-                                render: function (data, type, row)
-                                {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editFusion btn btn-light link-style" style= "background-color: white;padding-top: 0px;" data-toggle="modal" data-target="#EditFusion"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="fusion-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            }
-                        ],
-                        width: "100%"
-                    });
-            })
-        }
- 
+  
 
 
         // Documentos
@@ -2799,31 +2967,6 @@
         })
 
  
-
-        function MostrarFusion(id){
-            let url = '<?php echo admin_url("pi/FusionController/EditFusion/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-                let fusion =JSON.parse(response);
-                $('#fusionid').val(fusion[0]['id']); 
-                $('#editoficinaFusion').val(fusion[0]['oficina_id']);
-                $('#editestadoFusion').val(fusion[0]['estado_id']);
-                $('#editnro_solicitudFusion').val(fusion[0]['num_solicitud']);
-                $('#editfecha_solicitudFusion').val(fusion[0]['fecha_solicitud']);
-                $('#editnro_resolucionFusion').val(fusion[0]['num_resolucion']);
-                $('#editfecha_resolucionFusion').val(fusion[0]['fecha_resolucion']);
-                $('#editreferenciaclienteFusion').val(fusion[0]['referencia_cliente']);
-                $('#editcomentarioFusion').val(fusion[0]['comentarios']);
-            })
-            FusionActual(id);
-            FusionAnterior(id);
-        }
-            //Modal Edit Fusion
-        $(document).on('click','.editFusion',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('fusionid');
-            MostrarFusion(id);
-        })
 
         function MostrarCambioNombre(id){
             let url = '<?php  echo admin_url("pi/CambioNombreController/EditCambioNombre/");?>';
@@ -3626,178 +3769,6 @@
                 alert("No se pudo Editar Cambio de Domiclio Actual ");
             });
         });
-        //Añadir Fusion Cuando Abre el Modal
-        $(document).on('click','#AddFusionAbrirModal',function(e){
-                e.preventDefault();
-                var formData = new FormData();
-                var data = getFormData(this);
-                const id_marcas = '<?php echo $id?>';
-                const csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('id_marcas',id_marcas);
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/FusionController/addFusionShowModal");?>';
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    $('#fusionid').val(response);
-                    FusionActual(response);
-                    FusionAnterior(response);
-
-                }).catch(function(response){
-                    alert("No se pudo Añadir Fusion");
-                });
-                
-
-        });
-
-        function LimpiarFusion(){
-            $('#oficinaFusion').val("");
-            $('#estadoFusion').val("");
-            $('#nro_solicitudFusion').val("");
-            $('#fecha_solicitudFusion').val("");
-            $('#nro_resolucionFusion').val("");
-            $('#fecha_resolucionFusion').val("");
-            $('#referenciaclienteFusion').val("");
-            $('#comentarioFusion').val("");
-        }
-
-        function ActualizarFusion(){
-            var formData = new FormData();
-            var data = getFormData(this);
-            //const id_marcas = '<?php //echo $id?>';
-            var id = $('#fusionid').val();
-            var oficina = $('#oficinaFusion').val();
-            var estado =  $('#estadoFusion').val();
-            var nro_solicitud =  $('#nro_solicitudFusion').val();
-            var fecha_solicitud = $('#fecha_solicitudFusion').val();
-            var nro_resolucion =  $('#nro_resolucionFusion').val();
-            var fecha_resolucion = $('#fecha_resolucionFusion').val();
-            var referenciacliente =  $('#referenciaclienteFusion').val();
-            var comentario =  $('#comentarioFusion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            //formData.append('id_marcas',id_marcas);
-            formData.append('oficina',oficina);
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php  echo admin_url("pi/FusionController/UpdateFusion/");?>'
-            url = url+id;
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#AddFusion").modal('hide');
-                Fusion();
-            }).catch(function(response){
-                alert("No se pudo Actualizar Fusion");
-            });
-        }
-
-          //Editar Fusion Cuando Abre el Modal---------------------------------------------------------------------------
-          $(document).on('click','#EditfusionAbrirModalfrmsubmit',function(e){
-            e.preventDefault();
-            ActualizarFusion();
-            LimpiarFusion();
-        });
-
-
-        //Añadir Fusion ---------------------------------------------------------------------------
-        $(document).on('click','#addfusionfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var oficina = $('#oficinaFusion').val();
-            var estado =  $('#estadoFusion').val();
-            var nro_solicitud =  $('#nro_solicitudFusion').val();
-            var fecha_solicitud = $('#fecha_solicitudFusion').val();
-            var nro_resolucion =  $('#nro_resolucionFusion').val();
-            var fecha_resolucion = $('#fecha_resolucionFusion').val();
-            var referenciacliente =  $('#referenciaclienteFusion').val();
-            var comentario =  $('#comentarioFusion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('oficina',oficina);
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php  echo admin_url("pi/FusionController/addFusion");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#AddFusion").modal('hide');
-                Fusion()
-            }).catch(function(response){
-                alert("No se pudo Añadir Fusion");
-            });
-        });
-
-        //Editar Fusion ---------------------------------------------------------------------------
-        $(document).on('click','#editfusionfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#fusionid').val();
-            var oficina = $('#editoficinaFusion').val();
-            var estado =  $('#editestadoFusion').val();
-            var nro_solicitud =  $('#editnro_solicitudFusion').val();
-            var fecha_solicitud = $('#editfecha_solicitudFusion').val();
-            var nro_resolucion =  $('#editnro_resolucionFusion').val();
-            var fecha_resolucion = $('#editfecha_resolucionFusion').val();
-            var referenciacliente =  $('#editreferenciaclienteFusion').val();
-            var comentario =  $('#editcomentarioFusion').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id',id);
-            formData.append('oficina',oficina);
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php  echo admin_url("pi/FusionController/UpdateFusion/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditFusion").modal('hide');
-                Fusion();
-            }).catch(function(response){
-                alert("No se pudo Editar Fusion");
-            });
-            
-        });
         
         //Añadir Cambio de Nombre Cuando Abre el Modal
         $(document).on('click','#AddCambioNombreAbrirModal',function(e){
@@ -4436,30 +4407,6 @@
                     alert("No se pudo Eliminar Domicilio Actual");
                 });
             }
-        });
-         //Eliminar Fusion
-         $(document).on('click','.fusion-delete',function(){
-            console.log("Eliminar Fusion");
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('Fusionid');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/FusionController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    Fusion();
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Fusion");
-                });
-           }
         });
         //Eliminar Cambio Nombre
         $(document).on('click','.Cambio-Nombre-delete',function(){
@@ -5154,7 +5101,7 @@
         TablaTareas();
         TablaCesion();
         TablaLicencia();
-        Fusion();
+        TablaFusion();
         CambioNombre();
         CambioDomicilio();
         Documentos();

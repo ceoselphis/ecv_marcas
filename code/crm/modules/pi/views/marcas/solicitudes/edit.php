@@ -615,7 +615,6 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Nº</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>

@@ -193,10 +193,10 @@ class CesionController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
             'id' => $row['id'],
-            'cliente' => $CI->Cesion_model->BuscarClientes($row['client_id']),   
+            'cliente' => $row['client_id'] ? $CI->Cesion_model->BuscarClientes($row['client_id']) : '',   
             'oficina' => $CI->Cesion_model->BuscarOficina($row['oficina_id']),
             'estado' => $CI->Cesion_model->BuscarEstado($row['estado_id']),
-            'staff' => $CI->Cesion_model->BuscarStaff($row['staff_id']),
+            'staff' => $row['staff_id'] ? $CI->Cesion_model->BuscarStaff($row['staff_id']) : '',
             'num_solicitud' => $row['solicitud_num'],
             'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
             'num_resolucion' => $row['resolucion_num'],

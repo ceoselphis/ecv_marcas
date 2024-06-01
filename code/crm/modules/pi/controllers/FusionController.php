@@ -115,11 +115,11 @@ class FusionController extends AdminController
     public function addFusion(){
         $CI = &get_instance();
         $data = $CI->input->post();
-        //echo json_encode($data);
         if (!empty($data)){
-            /*`tbl_marcas_fusion`(`id`, `marcas_id`, `oficina_id`, `num_solicitud`, `fecha_solicitud`, `estado_id`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
             $insert = array(
+                            'client_id' => $data['cliente'],
                             'oficina_id' => $data['oficina'],
+                            'staff_id' => $data['staff'],
                             'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
                             'num_solicitud' => $data['nro_solicitud'],
@@ -186,16 +186,20 @@ class FusionController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
             'id' => $row['id'],
-            'cliente' => $CI->Fusion_model->BuscarClientes($row['client_id']), 
+            'cliente' => $row['client_id'] ? $CI->Fusion_model->BuscarClientes($row['client_id']) : '', 
             'oficina' => $CI->Fusion_model->BuscarOficina($row['oficina_id']),
             'estado' => $CI->Fusion_model->BuscarEstado($row['estado_id']),
-            'staff' => $CI->Fusion_model->BuscarStaff($row['staff_id']),
+            'staff' => $row['staff_id'] ? $CI->Fusion_model->BuscarStaff($row['staff_id']) : '',
             'num_solicitud' => $row['num_solicitud'],
             'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
             'num_resolucion' => $row['num_resolucion'],
             'fecha_resolucion' => date('d/m/Y', strtotime($row['fecha_resolucion'])),
             'referencia_cliente' => $row['referencia_cliente'],
             'comentarios' => $row['comentarios'],
+            'client_id' => $row['client_id'],
+            'oficina_id' => $row['oficina_id'],
+            'staff_id' => $row['staff_id'],
+            'estado_id' => $row['estado_id'],
             );
         }
         echo json_encode($data);

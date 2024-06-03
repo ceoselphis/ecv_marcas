@@ -11,6 +11,9 @@
     var tblCesionDT;
     var tblLicenciaDT;
     var tblFusionDT;
+    var tblCamNomDT;
+    var tblCamDomDT;
+    var tblDocomentoDT;
 
     /* Para cambiar el color de los Label  luego de un error*/
     const color_lbl = 'rgb(71 85 105)';
@@ -1937,8 +1940,6 @@
             $('#referenciaclienteFusion').val() &&
             $('#comentarioFusion').val()) 
             {
-
-            
             var formData = new FormData();
             var data = getFormData(this);
             const id_marcas = '<?php echo $id?>';
@@ -1954,9 +1955,9 @@
             var comentario =  $('#comentarioFusion').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('id_marcas',id_marcas);
-            formData.append('cliente',cliente);
+            formData.append('cliente', cliente);
             formData.append('oficina',oficina);
-            formData.append('staff',staff );
+            formData.append('staff', staff);
             formData.append('estado',estado );
             formData.append('nro_solicitud',nro_solicitud );
             formData.append('fecha_solicitud',fecha_solicitud);
@@ -1991,55 +1992,73 @@
             alert_float('danger', 'Debe introducir todos los datos la Fusion');
         }
     });
-
-    //Editar Fusion Cuando Abre el Modal---------------------------------------------------------------------------
-    $(document).on('click','#EditfusionAbrirModalfrmsubmit',function(e){
-    e.preventDefault();
-    ActualizarFusion();
-    LimpiarFusion();
-});
-
-    //Editar Fusion ---------------------------------------------------------------------------
+    
+    //Editar Fusion
     $(document).on('click','#editfusionfrmsubmit',function(e){
         e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id = $('#fusionid').val();
-        var oficina = $('#editoficinaFusion').val();
-        var estado =  $('#editestadoFusion').val();
-        var nro_solicitud =  $('#editnro_solicitudFusion').val();
-        var fecha_solicitud = $('#editfecha_solicitudFusion').val();
-        var nro_resolucion =  $('#editnro_resolucionFusion').val();
-        var fecha_resolucion = $('#editfecha_resolucionFusion').val();
-        var referenciacliente =  $('#editreferenciaclienteFusion').val();
-        var comentario =  $('#editcomentarioFusion').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id',id);
-        formData.append('oficina',oficina);
-        formData.append('estado',estado );
-        formData.append('nro_solicitud',nro_solicitud );
-        formData.append('fecha_solicitud',fecha_solicitud);
-        formData.append('nro_resolucion',nro_resolucion );
-        formData.append('fecha_resolucion',fecha_resolucion);
-        formData.append('referenciacliente',referenciacliente );
-        formData.append('comentario',comentario);
-        formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php  echo admin_url("pi/FusionController/UpdateFusion/");?>'
-        url = url+id;
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response){
-            alert_float('success', "Actualizado Correctamente");
-            $("#EditFusion").modal('hide');
-            TablaFusion();
-        }).catch(function(response){
-            alert("No se pudo Editar Fusion");
-        });
-        
+
+        if ($('#oficinaFusion_edit').val() && 
+            $('#estadoFusion_edit').val() && 
+            $('#nro_solicitudFusion_edit').val() && 
+            $('#fecha_solicitudFusion_edit').val() &&
+            $('#nro_resolucionFusion_edit').val() &&
+            $('#fecha_resolucionFusion_edit').val() &&
+            $('#referenciaclienteFusion_edit').val() &&
+            $('#comentarioFusion_edit').val()) 
+            {
+
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#fusionid').val();
+            var cliente =  $('#clienteFusion_edit').val();
+            var oficina = $('#oficinaFusion_edit').val();
+            var staff =  $('#staffFusion_edit').val();
+            var estado =  $('#estadoFusion_edit').val();
+            var nro_solicitud =  $('#nro_solicitudFusion_edit').val();
+            var fecha_solicitud = $('#fecha_solicitudFusion_edit').val();
+            var nro_resolucion =  $('#nro_resolucionFusion_edit').val();
+            var fecha_resolucion = $('#fecha_resolucionFusion_edit').val();
+            var referenciacliente =  $('#referenciaclienteFusion_edit').val();
+            var comentario =  $('#comentarioFusion_edit').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/FusionController/UpdateFusion/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditFusion").modal('hide');
+                TablaFusion();
+            }).catch(function(response){
+                alert("No se pudo Editar la Fusion");
+            });
+        }else{
+            $("#lbloficinaFusion_edit").css('color', $('#oficinaFusion_edit').val() ? color_lbl : 'red');
+            $("#lblestadoFusion_edit").css('color', $('#estadoFusion_edit').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudFusion_edit").css('color', $('#nro_solicitudFusion_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudFusion_edit").css('color', $('#fecha_solicitudFusion_edit').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionFusion_edit").css('color', $('#nro_resolucionFusion_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionFusion_edit").css('color', $('#fecha_resolucionFusion_edit').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteFusion_edit").css('color', $('#referenciaclienteFusion_edit').val() ? color_lbl : 'red');
+            $("#lblcomentarioFusion_edit").css('color', $('#comentarioFusion_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos para Editar la Fusion');
+        }
     });
 
     //Al cerrar el modal
@@ -2266,6 +2285,961 @@
     }
 
 
+    /* ####################################################################### */
+    /* **********             FUNCIONES CAMBIO DE NOMBRE            ********** */
+    /* ####################################################################### */
+
+
+    //Añadir Cambio de Nombre -----------------------------------------------------------------
+    $(document).on('click','#AddCambioNombrefrmsubmit',function(e){
+        e.preventDefault();
+        if ($('#oficinaCamNom').val() && 
+            $('#estadoCamNom').val() && 
+            $('#estadoCamNom').val() && 
+            $('#fecha_solicitudCamNom').val() &&
+            $('#nro_resolucionCamNom').val() &&
+            $('#fecha_resolucionCamNom').val() &&
+            $('#referenciaclienteCamNom').val() &&
+            $('#comentarioCamNom').val()) 
+            {
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            var cliente =  $('#clienteCamNom').val();
+            var oficina = $('#oficinaCamNom').val();
+            var staff =  $('#staffCamNom').val();
+            var estado =  $('#estadoCamNom').val();
+            var nro_solicitud =  $('#nro_solicitudCamNom').val();
+            var fecha_solicitud = $('#fecha_solicitudCamNom').val();
+            var nro_resolucion =  $('#nro_resolucionCamNom').val();
+            var fecha_resolucion = $('#fecha_resolucionCamNom').val();
+            var referenciacliente =  $('#referenciaclienteCamNom').val();
+            var comentario =  $('#comentarioCamNom').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('cliente', cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff', staff);
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/CambioNombreController/addCambioNombre");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddCambioNombre").modal('hide');
+                TablaCambioNombre();
+            }).catch(function(response){
+                alert("No se pudo Añadir Cambio de Nombre");
+            });
+        }else{
+                $("#lbloficinaCamNom").css('color', $('#oficinaCamNom').val() ? color_lbl : 'red');
+                $("#lblestadoCamNom").css('color', $('#estadoCamNom').val() ? color_lbl : 'red');
+                $("#lblnro_solicitudCamNom").css('color', $('#nro_solicitudCamNom').val() ? color_lbl : 'red');
+                $("#lblfecha_solicitudCamNom").css('color', $('#fecha_solicitudCamNom').val() ? color_lbl : 'red');
+                $("#lblnro_resolucionCamNom").css('color', $('#nro_resolucionCamNom').val() ? color_lbl : 'red');
+                $("#lblfecha_resolucionCamNom").css('color', $('#fecha_resolucionCamNom').val() ? color_lbl : 'red');
+                $("#lblreferenciaclienteCamNom").css('color', $('#referenciaclienteCamNom').val() ? color_lbl : 'red');
+                $("#lblcomentarioCamNom").css('color', $('#comentarioCamNom').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre');
+        }
+    }); 
+
+    //Editar Cambio de Nombre -----------------------------------------------------------------
+    $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
+        e.preventDefault();
+        if ($('#oficinaCamNom_edit').val() && 
+            $('#estadoCamNom_edit').val() && 
+            $('#nro_solicitudCamNom_edit').val() && 
+            $('#fecha_solicitudCamNom_edit').val() &&
+            $('#nro_resolucionCamNom_edit').val() &&
+            $('#fecha_resolucionCamNom_edit').val() &&
+            $('#referenciaclienteCamNom_edit').val() &&
+            $('#comentarioCamNom_edit').val()) 
+            {
+
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#camnomid').val();
+            var cliente =  $('#clienteCamNom_edit').val();
+            var oficina = $('#oficinaCamNom_edit').val();
+            var staff =  $('#staffCamNom_edit').val();
+            var estado =  $('#estadoCamNom_edit').val();
+            var nro_solicitud =  $('#nro_solicitudCamNom_edit').val();
+            var fecha_solicitud = $('#fecha_solicitudCamNom_edit').val();
+            var nro_resolucion =  $('#nro_resolucionCamNom_edit').val();
+            var fecha_resolucion = $('#fecha_resolucionCamNom_edit').val();
+            var referenciacliente =  $('#referenciaclienteCamNom_edit').val();
+            var comentario =  $('#comentarioCamNom_edit').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php  echo admin_url("pi/CambioNombreController/UpdateCambioNombre/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditCambioNombre").modal('hide');
+                TablaCambioNombre();
+            }).catch(function(response){
+                alert("No se pudo Editar Cambio de Nombre");
+            });
+        }else{
+            $("#lbloficinaCamNom_edit").css('color', $('#oficinaCamNom_edit').val() ? color_lbl : 'red');
+            $("#lblestadoCamNom_edit").css('color', $('#estadoCamNom_edit').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCamNom_edit").css('color', $('#nro_solicitudCamNom_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCamNom_edit").css('color', $('#fecha_solicitudCamNom_edit').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCamNom_edit").css('color', $('#nro_resolucionCamNom_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCamNom_edit").css('color', $('#fecha_resolucionCamNom_edit').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteCamNom_edit").css('color', $('#referenciaclienteCamNom_edit').val() ? color_lbl : 'red');
+            $("#lblcomentarioCamNom_edit").css('color', $('#comentarioCamNom_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos para Editar el Cambio de Nombre');
+        }
+    
+    }); 
+
+    //Al cerrar el modal
+    $('#AddCambioNombre').on('hidden.bs.modal', function (e) {
+        ResetTablaCambioNombre();
+    })
+
+    //Al cerrar el modal
+    $('#EditCambioNombre').on('hidden.bs.modal', function (e) {
+        ResetTablaCambioNombreEdit();
+    })
+        
+    //Eliminar Cambio Nombre
+    $(document).on('click','.Cambio-Nombre-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            let id = $(this).attr('id');
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/CambioNombreController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaCambioNombre();
+            }).catch(function(response){
+                alert("No se pudo Eliminar Cambio Nombre");
+            });
+        }
+    });
+
+    //Modal Edit Cambio Nombre
+    $(document).on('click','.editCamNom',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblCamNomDT, 'id', id);
+        console.log('row', row);
+        
+        $('#clienteCamNom_edit').val(row.client_id).trigger('change');
+        $('#oficinaCamNom_edit').val(row.oficina_id).trigger('change');
+        $('#staffCamNom_edit').val(row.staff_id).trigger('change');
+        $('#estadoCamNom_edit').val(row.estado_id).trigger('change');
+        $("#nro_solicitudCamNom_edit").val(row.num_solicitud);
+        $("#fecha_solicitudCamNom_edit").val(row.fecha_solicitud);
+        $("#nro_resolucionCamNom_edit").val(row.num_resolucion);
+        $("#fecha_resolucionCamNom_edit").val(row.fecha_resolucion);
+        $("#referenciaclienteCamNom_edit").val(row.referencia_cliente);
+        $("#comentarioCamNom_edit").val(row.comentarios);
+        $("#camnomid").val(row.id);
+        $("#EditCambioNombre").modal('show'); 
+    })
+ 
+    /***funcion que hace reset del Modal de Cambio de Nombre*/
+    function ResetTablaCambioNombre() {
+        $("#camnomFrm")[0].reset();
+        $('#clienteCamNom').val('').trigger('change');
+        $('#oficinaCamNom').val('').trigger('change');
+        $('#staffCamNom').val('').trigger('change');
+        $('#estadoCamNom').val('').trigger('change');
+        $("#lbloficinaCamNom").css('color', color_lbl);
+        $("#lblestadoCamNom").css('color', color_lbl);
+        $("#lblnro_solicitudCamNom").css('color', color_lbl);
+        $("#lblfecha_solicitudCamNom").css('color', color_lbl);
+        $("#lblnro_resolucionCamNom").css('color', color_lbl);
+        $("#lblfecha_resolucionCamNom").css('color', color_lbl);
+        $("#lblreferenciaclienteCamNom").css('color', color_lbl);
+        $("#lblcomentarioCamNom").css('color', color_lbl);
+    }
+
+    /***funcion que hace reset del Modal de Cambio de Nombre*/
+    function ResetTablaCambioNombreEdit() {
+        $("#camnomEditFrm")[0].reset();
+        $('#clienteCamNom_edit').val('').trigger('change');
+        $('#oficinaCamNom_edit').val('').trigger('change');
+        $('#staffCamNom_edit').val('').trigger('change');
+        $('#estadoCamNom_edit').val('').trigger('change');
+        $("#lbloficinaCamNom_edit").css('color', color_lbl);
+        $("#lblestadoCamNom_edit").css('color', color_lbl);
+        $("#lblnro_solicitudCamNom_edit").css('color', color_lbl);
+        $("#lblfecha_solicitudCamNom_edit").css('color', color_lbl);
+        $("#lblnro_resolucionCamNom_edit").css('color', color_lbl);
+        $("#lblfecha_resolucionCamNom_edit").css('color', color_lbl);
+        $("#lblreferenciaclienteCamNom_edit").css('color', color_lbl);
+        $("#lblcomentarioCamNom_edit").css('color', color_lbl);
+    }
+    
+    // Cambio de Nombre
+    function TablaCambioNombre(){
+        let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/$id");?>';
+        $.get(url, function(response){
+            let cambioNombre = JSON.parse(response);
+            console.log('CambioNombre', cambioNombre);
+            tblCamNomDT = $("#CambioNombreTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: cambioNombre,
+                    destroy: true,
+                    columnDefs: [
+                        { width: '5%', targets: 0 },
+                        { width: '15%', targets: 1 },
+                        { width: '15%', targets: 2 },
+                        { width: '10%', targets: 3 },
+                        { width: '10%', targets: 4 },
+                        { width: '5%', targets: 5 },
+                        { width: '5%', targets: 6 },
+                        { width: '5%', targets: 7 },
+                        { width: '5%', targets: 8 },
+                        { width: '5%', targets: 9 },
+                        { width: '15%', targets: 10 },
+                        { width: '5%', targets: 11 }
+                    ],
+                    columns: [
+                        {
+                            data: 'cliente',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'oficina',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'staff',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'estado',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'num_solicitud',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_solicitud',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'num_resolucion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_resolucion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'referencia_cliente',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'comentarios',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: '',
+                            render: function (data, type, row)
+                            {
+                                data = `<div class='col-md-6' style='padding-left: 0px;'><a id="${row.id}" class="editCamNom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                <div class='col-md-6' style='padding-left: 10px;'><a id="${row.id}" class="Cambio-Nombre-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'id',
+                            visible:false
+                        },
+                        {
+                            data: 'client_id',
+                            visible:false
+                        },
+                        {
+                            data: 'oficina_id',
+                            visible:false
+                        },
+                        {
+                            data: 'staff_id',
+                            visible:false
+                        },
+                        {
+                            data: 'estado_id',
+                            visible:false
+                        }
+                    ],
+                    width: "100%"
+                });
+        
+        
+        })
+    }
+
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES CAMBIO DE DOMICILIO         ********** */
+    /* ####################################################################### */
+
+
+    //Añadir Cambio Domicilio ----------------------------------------------------------------------
+    $(document).on('click','#AddCambioDomiciliofrmsubmit',function(e){
+        e.preventDefault();
+        if ($('#oficinaCamDom').val() && 
+            $('#estadoCamDom').val() && 
+            $('#estadoCamDom').val() && 
+            $('#fecha_solicitudCamDom').val() &&
+            $('#nro_resolucionCamDom').val() &&
+            $('#fecha_resolucionCamDom').val() &&
+            $('#referenciaclienteCamDom').val() &&
+            $('#comentarioCamDom').val()) 
+            {
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            var cliente =  $('#clienteCamDom').val();
+            var oficina = $('#oficinaCamDom').val();
+            var staff =  $('#staffCamDom').val();
+            var estado =  $('#estadoCamDom').val();
+            var nro_solicitud =  $('#nro_solicitudCamDom').val();
+            var fecha_solicitud = $('#fecha_solicitudCamDom').val();
+            var nro_resolucion =  $('#nro_resolucionCamDom').val();
+            var fecha_resolucion = $('#fecha_resolucionCamDom').val();
+            var referenciacliente =  $('#referenciaclienteCamDom').val();
+            var comentario =  $('#comentarioCamDom').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilio");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Insertado Correctamente");
+                $("#AddCambioDomicilio").modal('hide');
+                TablaCambioDomicilio();
+            }).catch(function(response){
+                alert("No se pudo Añadir Cambio Domicilio");
+            });
+        }else{
+            $("#lbloficinaCamDom").css('color', $('#oficinaCamDom').val() ? color_lbl : 'red');
+            $("#lblestadoCamDom").css('color', $('#estadoCamDom').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCamDom").css('color', $('#nro_solicitudCamDom').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCamDom").css('color', $('#fecha_solicitudCamDom').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCamDom").css('color', $('#nro_resolucionCamDom').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCamDom").css('color', $('#fecha_resolucionCamDom').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteCamDom").css('color', $('#referenciaclienteCamDom').val() ? color_lbl : 'red');
+            $("#lblcomentarioCamDom").css('color', $('#comentarioCamDom').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos el Cambio de Domicilio');
+        }
+    });
+
+    //Editar Cambio Domicilio ----------------------------------------------------------------------
+    $(document).on('click','#EditCambioDomiciliofrmsubmit',function(e){
+        e.preventDefault();
+        if ($('#oficinaCamDom_edit').val() && 
+            $('#estadoCamDom_edit').val() && 
+            $('#nro_solicitudCamDom_edit').val() && 
+            $('#fecha_solicitudCamDom_edit').val() &&
+            $('#nro_resolucionCamDom_edit').val() &&
+            $('#fecha_resolucionCamDom_edit').val() &&
+            $('#referenciaclienteCamDom_edit').val() &&
+            $('#comentarioCamDom_edit').val()) 
+            {
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#camdomid').val();
+            var cliente =  $('#clienteCamDom_edit').val();
+            var oficina = $('#oficinaCamDom_edit').val();
+            var staff =  $('#staffCamDom_edit').val();
+            var estado =  $('#estadoCamDom_edit').val();
+            var nro_solicitud =  $('#nro_solicitudCamDom_edit').val();
+            var fecha_solicitud = $('#fecha_solicitudCamDom_edit').val();
+            var nro_resolucion =  $('#nro_resolucionCamDom_edit').val();
+            var fecha_resolucion = $('#fecha_resolucionCamDom_edit').val();
+            var referenciacliente =  $('#referenciaclienteCamDom_edit').val();
+            var comentario =  $('#comentarioCamDom_edit').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id',id);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditCambioDomicilio").modal('hide');
+                TablaCambioDomicilio();
+            }).catch(function(response){
+                alert("No se pudo Editar Cambio Domicilio");
+            });
+        }else{
+            $("#lbloficinaCamDom_edit").css('color', $('#oficinaCamDom_edit').val() ? color_lbl : 'red');
+            $("#lblestadoCamDom_edit").css('color', $('#estadoCamDom_edit').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCamDom_edit").css('color', $('#nro_solicitudCamDom_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCamDom_edit").css('color', $('#fecha_solicitudCamDom_edit').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCamDom_edit").css('color', $('#nro_resolucionCamDom_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCamDom_edit").css('color', $('#fecha_resolucionCamDom_edit').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteCamDom_edit").css('color', $('#referenciaclienteCamDom_edit').val() ? color_lbl : 'red');
+            $("#lblcomentarioCamDom_edit").css('color', $('#comentarioCamDom_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos para Editar el Cambio de Domicilio');
+        }
+    });
+
+    //Al cerrar el modal
+    $('#AddCambioDomicilio').on('hidden.bs.modal', function (e) {
+        ResetTablaCambioDomicilio();
+    })
+
+    //Al cerrar el modal
+    $('#EditCambioDomicilio').on('hidden.bs.modal', function (e) {
+        ResetTablaCambioDomicilioEdit();
+    })
+
+    //Eliminar Cambio Domicilio
+    $(document).on('click','.Cambio-Domicilio-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            let id = $(this).attr('id');
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaCambioDomicilio();
+            }).catch(function(response){
+                alert("No se pudo Eliminar Cambio Domicilio");
+            });
+        }
+    });
+
+    //Modal Edit Cambio de Domicilio
+    $(document).on('click','.editCamDom',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblCamDomDT, 'id', id);
+        console.log('row', row);
+        
+        $('#clienteCamDom_edit').val(row.client_id).trigger('change');
+        $('#oficinaCamDom_edit').val(row.oficina_id).trigger('change');
+        $('#staffCamDom_edit').val(row.staff_id).trigger('change');
+        $('#estadoCamDom_edit').val(row.estado_id).trigger('change');
+        $("#nro_solicitudCamDom_edit").val(row.num_solicitud);
+        $("#fecha_solicitudCamDom_edit").val(row.fecha_solicitud);
+        $("#nro_resolucionCamDom_edit").val(row.num_resolucion);
+        $("#fecha_resolucionCamDom_edit").val(row.fecha_resolucion);
+        $("#referenciaclienteCamDom_edit").val(row.referencia_cliente);
+        $("#comentarioCamDom_edit").val(row.comentarios);
+        $("#camdomid").val(row.id);
+        $("#EditCambioDomicilio").modal('show'); 
+    });
+
+    /***funcion que hace reset del Modal de Cambio de Domicilio*/
+    function ResetTablaCambioDomicilio() {
+        $("#camdomFrm")[0].reset();
+        $('#clienteCamDom').val('').trigger('change');
+        $('#oficinaCamDom').val('').trigger('change');
+        $('#staffCamDom').val('').trigger('change');
+        $('#estadoCamDom').val('').trigger('change');
+        $("#lbloficinaCamDom").css('color', color_lbl);
+        $("#lblestadoCamDom").css('color', color_lbl);
+        $("#lblnro_solicitudCamDom").css('color', color_lbl);
+        $("#lblfecha_solicitudCamDom").css('color', color_lbl);
+        $("#lblnro_resolucionCamDom").css('color', color_lbl);
+        $("#lblfecha_resolucionCamDom").css('color', color_lbl);
+        $("#lblreferenciaclienteCamDom").css('color', color_lbl);
+        $("#lblcomentarioCamDom").css('color', color_lbl);
+    }
+
+    /***funcion que hace reset del Modal de Cambio de Domicilio*/
+    function ResetTablaCambioDomicilioEdit() {
+        $("#camdomEditFrm")[0].reset();
+        $('#clienteCamDom_edit').val('').trigger('change');
+        $('#oficinaCamDom_edit').val('').trigger('change');
+        $('#staffCamDom_edit').val('').trigger('change');
+        $('#estadoCamDom_edit').val('').trigger('change');
+        $("#lbloficinaCamDom_edit").css('color', color_lbl);
+        $("#lblestadoCamDom_edit").css('color', color_lbl);
+        $("#lblnro_solicitudCamDom_edit").css('color', color_lbl);
+        $("#lblfecha_solicitudCamDom_edit").css('color', color_lbl);
+        $("#lblnro_resolucionCamDom_edit").css('color', color_lbl);
+        $("#lblfecha_resolucionCamDom_edit").css('color', color_lbl);
+        $("#lblreferenciaclienteCamDom_edit").css('color', color_lbl);
+        $("#lblcomentarioCamDom_edit").css('color', color_lbl);
+    }
+
+    //Cambio Domicilio
+    function TablaCambioDomicilio(){
+        let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
+        $.get(url, function(data){
+            let listadomicilio = JSON.parse(data);
+            console.log('CambioDomicilio', listadomicilio);
+            tblCamDomDT = $("#CambioDomicilioTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: listadomicilio,
+                    destroy: true,
+                    columnDefs: [
+                        { width: '5%', targets: 0 },
+                        { width: '15%', targets: 1 },
+                        { width: '15%', targets: 2 },
+                        { width: '10%', targets: 3 },
+                        { width: '10%', targets: 4 },
+                        { width: '5%', targets: 5 },
+                        { width: '5%', targets: 6 },
+                        { width: '5%', targets: 7 },
+                        { width: '5%', targets: 8 },
+                        { width: '5%', targets: 9 },
+                        { width: '15%', targets: 10 },
+                        { width: '5%', targets: 11 }
+                    ],
+                    columns: [
+                        {
+                            data: 'cliente',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'oficina',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'staff',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'estado',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'num_solicitud',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_solicitud',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'num_resolucion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_resolucion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'referencia_cliente',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'comentarios',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: '',
+                            render: function (data, type, row)
+                            {
+                                data = `<div class='col-md-6' style='padding-left: 0px;'><a id="${row.id}" class="editCamDom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                                <div class='col-md-6' style='padding-left: 10px;'><a id="${row.id}" class="Cambio-Domicilio-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                                return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'id',
+                            visible:false
+                        },
+                        {
+                            data: 'client_id',
+                            visible:false
+                        },
+                        {
+                            data: 'oficina_id',
+                            visible:false
+                        },
+                        {
+                            data: 'staff_id',
+                            visible:false
+                        },
+                        {
+                            data: 'estado_id',
+                            visible:false
+                        }
+                    ],
+                    width: "100%"
+                });
+
+
+        })
+            
+    }
+
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES DOCUMENTOS                  ********** */
+    /* ####################################################################### */
+
+
+    //Añadir Documento ---------------------------------------------------------------------------
+    $(document).on('click','#documentofrmsubmit',function(e){
+        e.preventDefault();
+        if ($('#doc_descripcion').val() && $('#doc_comentario').val()
+            && $('#doc_archivo').val() && $('#doc_archivo').get(0).files[0].type == 'application/pdf') {
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            var description =  $('#doc_descripcion').val();
+            var comentario_archivo = $('#doc_comentario').val();
+            var doc_archivo = $('#doc_archivo')[0].files[0];
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('id_marcas',id_marcas);
+            formData.append('doc_descripcion' , description);
+            formData.append('comentario_archivo', comentario_archivo);
+            formData.append('doc_archivo', doc_archivo);
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>';
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                $("#docModal").modal('hide');
+                TablaDocumentos();
+            }).catch(function(response){
+                alert("Error al Subir el Archvio ",response.name);
+            });
+        }else if ($('#doc_archivo').val() && $('#doc_archivo').get(0).files[0].type != 'application/pdf'){
+            $("#lbldoc_archivo").css('color', 'red');
+            $("#lbldoc_descripcion").css('color', $('#doc_descripcion').val() ? color_lbl : 'red');
+            $("#lbldoc_comentario").css('color', $('#doc_comentario').val() ? color_lbl : 'red');
+            alert_float('danger', 'Solamente se pueden subir archivos PDF');
+        }else{
+            $("#lbldoc_descripcion").css('color', $('#doc_descripcion').val() ? color_lbl : 'red');
+            $("#lbldoc_comentario").css('color', $('#doc_comentario').val() ? color_lbl : 'red');
+            $("#lbldoc_archivo").css('color', $('#doc_archivo').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir el Documento');
+        }
+           
+    });
+
+    //Editar Documento ---------------------------------------------------------------------------
+    $(document).on('click','#documentoeditfrmsubmit',function(e){
+        e.preventDefault();
+        if ($('#doc_descripcion_edit').val() && $('#doc_comentario_edit').val()
+            && $('#doc_archivo_edit').val() && $('#doc_archivo_edit').get(0).files[0].type == 'application/pdf') {
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#Documento_id').val();
+            var description =  $('#doc_descripcion_edit').val();
+            var comentario_archivo = $('#doc_comentario_edit').val();
+            var doc_archivo = $('#doc_comentario_edit')[0].files[0];
+            var csrf_token_name = $("input[name=csrf_token_name]").val();   
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('id',id);
+            formData.append('doc_descripcion' , description);
+            formData.append('comentario_archivo', comentario_archivo);
+            formData.append('doc_archivo', doc_archivo);
+            console.log("id ",id);
+            console.log("descripcion ",description);
+            console.log("Comentario archivo ",comentario_archivo);
+            console.log("Documento Archivo ",doc_archivo );
+            console.log("csrf_token_name", csrf_token_name); 
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/UpdateDocumento/");?>'
+            url = url+id;
+            console.log(url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){ 
+                console.log(response);
+                alert_float('success', "Actualizado Correctamente");
+                $("#docModalEdit").modal('hide');
+                TablaDocumentos();
+            }).catch(function(response){
+                alert("No se pudo Editar Documento");
+            });
+        }else if ($('#doc_archivo_edit').val() && $('#doc_archivo_edit').get(0).files[0].type != 'application/pdf'){
+            $("#lbldoc_archivo_edit").css('color', 'red');
+            $("#lbldoc_descripcion_edit").css('color', $('#doc_descripcion_edit').val() ? color_lbl : 'red');
+            $("#lbldoc_comentario_edit").css('color', $('#doc_comentario_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Solamente se pueden subir archivos PDF');
+        }else{
+            $("#lbldoc_descripcion_edit").css('color', $('#doc_descripcion_edit').val() ? color_lbl : 'red');
+            $("#lbldoc_comentario_edit").css('color', $('#doc_comentario_edit').val() ? color_lbl : 'red');
+            $("#lbldoc_archivo_edit").css('color', $('#doc_archivo_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir el Documento');
+        }
+
+    });
+
+    /**** funcion que se ejecuta al cerrar el Modal*/
+    $('#docModal').on('hidden.bs.modal', function (e) {
+        ResetTablaDocumento();
+    });
+
+    /**** funcion que se ejecuta al cerrar el Modal*/
+    $('#docModalEdit').on('hidden.bs.modal', function (e) {
+        ResetTablaDocumentoEdit();
+    });
+
+    //Eliminar Documentos
+    $(document).on('click','.documentos-delete',function(){
+    if (confirm("Quieres eliminar este registro?")){
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('docid');
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/");?>';
+        url= url+id;
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            alert_float('success', "Eliminado Correctamente");
+            TablaDocumentos();
+        }).catch(function(response){
+            alert("No se pudo Eliminar Documentos");
+        });
+    }
+});
+
+    //Modal Edit Documento
+    $(document).on('click','.editdoc',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblDocomentoDT, 'id', id);
+        console.log('row', row);
+        
+        $("#doc_descripcion_edit").val(row.descripcion);
+        $("#doc_comentario_edit").val(row.comentario);
+        $("#Documento_id").val(row.id);
+        $("#docModalEdit").modal('show'); 
+    });
+
+    /***funcion que hace reset del Modal de Cambio de Domicilio*/
+    function ResetTablaDocumento() {
+        $("#documentoFrm")[0].reset();
+        $("#lbldoc_descripcion").css('color', color_lbl);
+        $("#lbldoc_comentario").css('color', color_lbl);
+        $("#lbldoc_archivo").css('color', color_lbl);
+    }
+
+    /***funcion que hace reset del Modal de Cambio de Domicilio*/
+    function ResetTablaDocumentoEdit() {
+        $("#documentoFrmedit")[0].reset();
+        $("#lbldoc_descripcion_edit").css('color', color_lbl);
+        $("#lbldoc_comentario_edit").css('color', color_lbl);
+        $("#doc_comentario_edit").css('color', color_lbl);
+    }
+
+    // Documentos
+    function TablaDocumentos(){
+        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/showDocumentos/$id");?>';
+        $.get(url, function(response){
+            let documentos = JSON.parse(response);
+            console.log('Documentos', documentos);
+             tblDocomentoDT = $("#DocumentosTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: documentos,
+                    destroy: true,
+                    columnDefs: [
+                        { width: '5%', targets: 0 },
+                        { width: '25%', targets: 1 },
+                        { width: '25%', targets: 2 },
+                        { width: '25%', targets: 3 },
+                        { width: '15%', targets: 4 }
+                    ],
+                    columns: [
+                         {
+                            data: 'descripcion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='row text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'comentario',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='row text-left'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'path',
+                            render: function (data, type, row)
+                            {
+                                data =`<a href="${data}" target="_blank">Ver Documento</a>`;
+                                return "<div class='row'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: '',
+                            render: function (data, type, row)
+                            {
+                                data = `<div class='col-md-6' style="padding: 0;"><a id="${row.id}" class="editdoc btn btn-light" style="padding: 0;"><i class="fas fa-edit" style="margin: 0;"></i>Editar</a></div>
+                                <div class='col-md-6' style="padding: 0;"><a id="${row.id}" class="documentos-delete btn btn-light" style= "background-color: white;padding: 0;"><i class="fas fa-trash" style="margin: 0;"></i>Borrar</a></div>`;
+                                return "<div  class='row text-nowrap'>" + data + "</div>"
+
+                            }
+                        },
+                        {
+                            data: 'id',
+                            visible:false
+                        }
+                    ],
+                    width: "100%"
+                });
+
+
+        })
+    }
+
+
+
 </script>
 
     <script>
@@ -2284,6 +3258,10 @@
     </script>
 
     <script>
+
+
+
+
          // ---------------------------------- Mostrar Anexo -----------------------------------------------
         // Cambio Domicilio------------------------------------------------------
         
@@ -2521,397 +3499,9 @@
                         $('#body_add_cambio_nombre_anterior').html(body);  
                 })
         }
-
-        //Cambio Domicilio
-        function CambioDomicilio(){
-            let url = '<?php echo admin_url("pi/MarcasDomicilioController/showCambioDomicilio/$id");?>';
-            //let body= ``; //data-toggle="modal" data-target="#EditCambioDomicilio"
-            $.get(url, function(data){
-                let listadomicilio = JSON.parse(data);
-                console.log('CambioDomicilio', listadomicilio);
-                /* listadomicilio.forEach(item => {
-                    body += `<tr CamDomid = "${item.id}"> 
-                                <td class="text-center">${item.id}</td>
-                                <td class="text-center">${item.oficina}</td>
-                                <td class="text-center">${item.staff}</td>
-                                <td class="text-center">${item.estado}</td>
-                                <td class="text-center">${item.num_solicitud}</td>
-                                <td class="text-center">${item.fecha_solicitud}</td>
-                                <td class="text-center">${item.num_resolucion}</td>
-                                <td class="text-center">${item.fecha_resolucion}</td>
-                                <td class="text-center">${item.referencia_cliente}</td>
-                                <td class="text-center">${item.comentarios}</td>
-                                    <td class="text-center">
-                                        <a class="editCamDom btn btn-light" style= "background-color: white;"  ><i class="fas fa-edit"></i>Editar</a>
-                                        <button class="Cambio-Domicilio-delete btn btn-danger">
-                                        <i class="fas fa-trash"></i>Borrar
-                                        </button>
-                                    </td>
-                            </tr>
-                        `
-                    });
-                    $('#body_cambio_domicilio').html(body); */
-
-                    $("#CambioDomicilioTbl").DataTable({
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                        },
-                        autoWidth: false,
-                        data: listadomicilio,
-                        destroy: true,
-                        columnDefs: [
-                            { width: '5%', targets: 0 },
-                            { width: '15%', targets: 1 },
-                            { width: '15%', targets: 2 },
-                            { width: '10%', targets: 3 },
-                            { width: '10%', targets: 4 },
-                            { width: '5%', targets: 5 },
-                            { width: '5%', targets: 6 },
-                            { width: '5%', targets: 7 },
-                            { width: '5%', targets: 8 },
-                            { width: '5%', targets: 9 },
-                            { width: '15%', targets: 10 },
-                            { width: '5%', targets: 11 }
-                        ],
-                        columns: [
-                            {
-                                data: 'id',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'oficina',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'staff',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'estado',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'referencia_cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'comentarios',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: '',
-                                render: function (data, type, row)
-                                {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editCamDom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="Cambio-Domicilio-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            }
-                        ],
-                        width: "100%"
-                    });
-
-
-            })
-                
-        }
-      
-        // Cambio de Nombre
-        function CambioNombre(){
-            let url = '<?php echo admin_url("pi/CambioNombreController/showCambioNombre/$id");?>';
-            let body= ``;
-            $.get(url, function(response){
-                let cambioNombre = JSON.parse(response);
-                console.log('CambioNombre', cambioNombre);
-                /* listadomicilio.forEach(item => {
-                    body += `<tr CamNomid = "${item.id}"> 
-                                <td class="text-center">${item.id}</td>
-                                <td class="text-center">${item.oficina}</td>
-                                <td class="text-center">${item.estado}</td>
-                                <td class="text-center">${item.num_solicitud}</td>
-                                <td class="text-center">${item.fecha_solicitud}</td>
-                                <td class="text-center">${item.num_resolucion}</td>
-                                <td class="text-center">${item.fecha_solicitud}</td>
-                                <td class="text-center">${item.referencia_cliente}</td>
-                                <td class="text-center">${item.comentarios}</td>
-                                    <td class="text-center">
-                                        <a class="editCamNom btn btn-light" style= "background-color: white;" ></i>Editar</a>
-                                        <button class="Cambio-Nombre-delete btn btn-danger">
-                                        <i class="fas fa-trash"></i>Borrar
-                                        </button>
-                                    </td>
-                            </tr>
-                        `
-                    });
-                    $('#body_cambio_nombre').html(body);  */    
-            
-                    $("#CambioNombreTbl").DataTable({
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                        },
-                        autoWidth: false,
-                        data: cambioNombre,
-                        destroy: true,
-                        columnDefs: [
-                            { width: '5%', targets: 0 },
-                            { width: '15%', targets: 1 },
-                            { width: '15%', targets: 2 },
-                            { width: '10%', targets: 3 },
-                            { width: '10%', targets: 4 },
-                            { width: '5%', targets: 5 },
-                            { width: '5%', targets: 6 },
-                            { width: '5%', targets: 7 },
-                            { width: '5%', targets: 8 },
-                            { width: '5%', targets: 9 },
-                            { width: '15%', targets: 10 },
-                            { width: '5%', targets: 11 }
-                        ],
-                        columns: [
-                            {
-                                data: 'id',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'oficina',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'staff',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'estado',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_solicitud',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'num_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha_resolucion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'referencia_cliente',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'comentarios',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: '',
-                                render: function (data, type, row)
-                                {
-                                    data = `<div class='col-md-6' style='padding-left: 0px;'><a class="editCamNom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
-                                    <div class='col-md-6' style='padding-left: 10px;'><a class="Cambio-Nombre-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            }
-                        ],
-                        width: "100%"
-                    });
-            
-            
-            })
-        }
   
 
 
-        // Documentos
-        function Documentos(){
-            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/showDocumentos/$id");?>';
-            //let body= ``;
-            //let archivo = `<?php echo site_url('uploads/marcas/documentos/');?>`;
-            $.get(url, function(response){
-                let documentos = JSON.parse(response);
-                console.log('Documentos', documentos);
-                    /* listadomicilio.forEach(item => {
-                        let 
-                        archivofinal= archivo + item.path;
-                        body += `  <tr docid = "${item.id}">
-                                        <td class="text-center">${item.id}</td>
-                                        <td class="text-center">${item.marcas_id}</td>
-                                        <td class="text-center">${item.descripcion}</td>
-                                        <td class="text-center">${item.comentario}</td>
-                                        <td class="text-center">
-                                        <a href="${archivofinal}" target="_blank"> 
-                                        ${item.path}
-                                        </a> 
-                                        </td>
-                                        <td class="text-center">
-                                            <a class="editdoc btn btn-light"  data-toggle="modal" data-target="#docModalEdit"><i class="fas fa-edit"></i>Editar</a>
-                                            <button class="documentos-delete btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>  
-                                </tr>
-                            `
-                    });
-                $('#body_documentos').html(body); */
-
-                $("#DocumentosTbl").DataTable({
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                        },
-                        autoWidth: false,
-                        data: documentos,
-                        destroy: true,
-                        columnDefs: [
-                            { width: '5%', targets: 0 },
-                            { width: '25%', targets: 1 },
-                            { width: '25%', targets: 2 },
-                            { width: '25%', targets: 3 },
-                            { width: '15%', targets: 4 }
-                        ],
-                        columns: [
-                            {
-                                data: 'id',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='row'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'descripcion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='row text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'comentario',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='row text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'path',
-                                render: function (data, type, row)
-                                {
-                                    //pathArr = data.split("/");
-                                    //archivo = pathArr[pathArr.length-1];
-                                    //data =`<a href="${data}" target="_blank">${archivo}</a>`;
-                                    data =`<a href="${data}" target="_blank">Ver Documento</a>`;
-                                    return "<div class='row'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: '',
-                                render: function (data, type, row)
-                                {
-                                    data = `<div class='col-md-6' style="padding: 0;"><a class="editdoc btn btn-light" data-toggle="modal" data-target="#docModalEdit" style="padding: 0;"><i class="fas fa-edit" style="margin: 0;"></i>Editar</a></div>
-                                    <div class='col-md-6' style="padding: 0;"><a class="documentos-delete btn btn-light" style= "background-color: white;padding: 0;"><i class="fas fa-trash" style="margin: 0;"></i>Borrar</a></div>`;
-                                    return "<div  class='row text-nowrap'>" + data + "</div>"
-
-                                }
-                            }
-                        ],
-                        width: "100%"
-                    });
-
-
-            })
-        }
         // Renovacion
         $('#renovacion').on('click',function(){
             let title = `Renovacion`;
@@ -2968,80 +3558,6 @@
 
  
 
-        function MostrarCambioNombre(id){
-            let url = '<?php  echo admin_url("pi/CambioNombreController/EditCambioNombre/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-                let fusion =JSON.parse(response);
-                console.log(fusion[0])
-                $('#camnomid').val(fusion[0]['id']); 
-                $('#editoficinaCamNom').val(fusion[0]['oficina_id']);
-                $('#editestadoCamNom').val(fusion[0]['estado_id']);
-                $('#editnro_solicitudCamNom').val(fusion[0]['num_solicitud']);
-                $('#editfecha_solicitudCamNom').val(fusion[0]['fecha_solicitud']);
-                $('#editnro_resolucionCamNom').val(fusion[0]['num_resolucion']);
-                $('#editfecha_resolucionCamNom').val(fusion[0]['fecha_resolucion']);
-                $('#editreferenciaclienteCamNom').val(fusion[0]['referencia_cliente']);
-                $('#editcomentarioCamNom').val(fusion[0]['comentarios']);
-            });
-            $("#EditCambioNombre").modal('show'); 
-                CambioNombreActual(id);
-                CambioNombreAnterior(id);
-        }
-
-        //Modal Edit Cambio Nombre
-        $(document).on('click','.editCamNom',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('CamNomid');
-            MostrarCambioNombre(id);
-        })
-
-        function MostrarCambioDomicilio(id) {
-            let url = '<?php  echo admin_url("pi/MarcasDomicilioController/EditCambioDomicilio/");?>';
-            url = url + id;
-            $.post(url,{id},function(response){
-            let fusion =JSON.parse(response);
-            $('#camdomid').val(fusion[0]['id']); 
-            $('#editoficinaCamDom').val(fusion[0]['oficina_id']);
-            $('#editestadoCamDom').val(fusion[0]['estado_id']);
-            $('#editnro_solicitudCamDom').val(fusion[0]['num_solicitud']);
-            $('#editfecha_solicitudCamDom').val(fusion[0]['fecha_solicitud']);
-            $('#editnro_resolucionCamDom').val(fusion[0]['num_resolucion']);
-            $('#editfecha_resolucionCamDom').val(fusion[0]['fecha_resolucion']);
-            $('#editreferenciaclienteCamDom').val(fusion[0]['referencia_cliente']);
-            $('#editcomentarioCamDom').val(fusion[0]['comentarios']);
-            })
-        $("#EditCambioDomicilio").modal('show');
-        CambioDomicilioActual(id);
-        CambioDomicilioAnterior(id);
-        }
-
-        //Modal Edit Cambio de Domicilio
-        $(document).on('click','.editCamDom',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('CamDomid');
-            MostrarCambioDomicilio(id);
-        });
-
-        //Modal Edit Documento
-        $(document).on('click','.editdoc',function(){
-            let element = $(this)[0].parentElement.parentElement;
-            console.log(element);
-            let id = $(element).attr('docid');
-            console.log(id);
-            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/EditDoc/");?>';
-            url = url + id;
-            console.log(url);
-            $.post(url,{id},function(response){
-                console.log(response);
-                let doc =JSON.parse(response);
-                console.log("id ",doc[0]['id']);
-                $('#Documento_id').val(doc[0]['id']);
-                $('#editdoc_descripcion').val(doc[0]['descripcion']);
-                $('#editcomentario_archivo').val(doc[0]['comentarios']);
-                //$('#editdoc_archivo').val(doc[0]['path']);
-            })
-        });
 
 
 
@@ -3769,439 +4285,7 @@
                 alert("No se pudo Editar Cambio de Domiclio Actual ");
             });
         });
-        
-        //Añadir Cambio de Nombre Cuando Abre el Modal
-        $(document).on('click','#AddCambioNombreAbrirModal',function(e){
-            e.preventDefault();
-            console.log("LLegue a Cambio de Nombre modal")
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            const csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('csrf_token_name', csrf_token_name);
-            console.log('id_marcas',id_marcas);
-                console.log('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/CambioNombreController/addCambioNombreShowModal");?>';
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    console.log("response ",response);
-                    $('#camnomid').val(response);
-                    CambioNombreActual(response);
-                    CambioNombreAnterior(response);
 
-                }).catch(function(response){
-                    alert("No se pudo Añadir Cambio de Nombre");
-                });
-                
-                
-        });
-
-        function ActualizarCambioNombre() {
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#camnomid').val();
-            const id_marcas = '<?php echo $id?>';
-            var oficina = $('#oficinaCamNom').val();
-            var estado =  $('#estadoCamNom').val();
-            var nro_solicitud =  $('#nro_solicitudCamNom').val();
-            var fecha_solicitud = $('#fecha_solicitudCamNom').val();
-            var nro_resolucion =  $('#nro_resolucionCamNom').val();
-            var fecha_resolucion = $('#fecha_resolucionCamNom').val();
-            var referenciacliente =  $('#referenciaclienteCamNom').val();
-            var comentario =  $('#comentarioCamNom').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('oficina',oficina);
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php  echo admin_url("pi/CambioNombreController/UpdateCambioNombre/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#AddCambioNombre").modal('hide');
-                CambioNombre();
-            }).catch(function(response){
-                alert("No se pudo Editar Cambio de Nombre");
-            });
-        }
-
-        function LimpiarCambioNombre(){
-            $('#oficinaCamNom').val("");
-            $('#estadoCamNom').val("");
-            $('#nro_solicitudCamNom').val("");
-            $('#fecha_solicitudCamNom').val("");
-            $('#nro_resolucionCamNom').val("");
-            $('#fecha_resolucionCamNom').val("");
-            $('#referenciaclienteCamNom').val("");
-            $('#comentarioCamNom').val("");
-        }
-        
-        //Editar Cambio Nombre Cuando Abre el Modal---------------------------------------------------------------------------
-        $(document).on('click','#EditCambioNombreAbrirModalfrmsubmit',function(e){
-            e.preventDefault();
-            ActualizarCambioNombre();
-            LimpiarCambioNombre();
-        });
-
-
-        //Añadir Cambio de Nombre -----------------------------------------------------------------
-        $(document).on('click','#AddCambioNombrefrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var oficina = $('#oficinaCamNom').val();
-            var estado =  $('#estadoCamNom').val();
-            var nro_solicitud =  $('#nro_solicitudCamNom').val();
-            var fecha_solicitud = $('#fecha_solicitudCamNom').val();
-            var nro_resolucion =  $('#nro_resolucionCamNom').val();
-            var fecha_resolucion = $('#fecha_resolucionCamNom').val();
-            var referenciacliente =  $('#referenciaclienteCamNom').val();
-            var comentario =  $('#comentarioCamNom').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('oficina',oficina);
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php  echo admin_url("pi/CambioNombreController/addCambioNombre");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#AddCambioNombre").modal('hide');
-                CambioNombre();
-            }).catch(function(response){
-                alert("No se pudo Añadir Cambio de Nombre");
-            });
-        }); 
-
-
-        //Editar Cambio de Nombre -----------------------------------------------------------------
-        $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#camnomid').val();
-            var oficina = $('#editoficinaCamNom').val();
-            var estado =  $('#editestadoCamNom').val();
-            var nro_solicitud =  $('#editnro_solicitudCamNom').val();
-            var fecha_solicitud = $('#editfecha_solicitudCamNom').val();
-            var nro_resolucion =  $('#editnro_resolucionCamNom').val();
-            var fecha_resolucion = $('#editfecha_resolucionCamNom').val();
-            var referenciacliente =  $('#editreferenciaclienteCamNom').val();
-            var comentario =  $('#editcomentarioCamNom').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id',id);
-            formData.append('oficina',oficina);
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php  echo admin_url("pi/CambioNombreController/UpdateCambioNombre/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditCambioNombre").modal('hide');
-                CambioNombre();
-            }).catch(function(response){
-                alert("No se pudo Editar Cambio de Nombre");
-            });
-        }); 
-
-        //Añadir Cambio de Domicilio Cuando Abre el Modal
-        $(document).on('click','#AddCambioDomicilioAbrirModal',function(e){
-            e.preventDefault();
-            console.log("LLegue a Cambio de Domicilio modal")
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            const csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('csrf_token_name', csrf_token_name);
-            console.log('id_marcas',id_marcas);
-                console.log('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilioShowModal");?>';
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    console.log("response ",response);
-                    $('#camdomid').val(response);
-                    CambioDomicilioActual(response);
-                    CambioDomicilioAnterior(response);
-                }).catch(function(response){
-                    alert("No se pudo Añadir Cambio de Nombre");
-                });
-                
-                
-        });
-
-        function ActualizarCambioDomicilio(){
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#camdomid').val();
-            //const id_marcas = '<?php echo $id?>';
-            var oficina = $('#oficinaCamDom').val();
-            var staff =  $('#staffCamDom').val();
-            var estado =  $('#estadoCamDom').val();
-            var nro_solicitud =  $('#nro_solicitudCamDom').val();
-            var fecha_solicitud = $('#fecha_solicitudCamDom').val();
-            var nro_resolucion =  $('#nro_resolucionCamDom').val();
-            var fecha_resolucion = $('#fecha_resolucionCamDom').val();
-            var referenciacliente =  $('#referenciaclienteCamDom').val();
-            var comentario =  $('#comentarioCamDom').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-           // formData.append('id_marcas',id_marcas);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditCambioDomicilio").modal('hide');
-                CambioDomicilio();
-            }).catch(function(response){
-                alert("No se pudo Editar Cambio Domicilio");
-            });
-        }
-
-        function LimpiarCambioDomicilio(){
-            $('#oficinaCamDom').val("");
-            $('#staffCamDom').val("");
-            $('#estadoCamDom').val("");
-            $('#nro_solicitudCamDom').val("");
-            $('#fecha_solicitudCamDom').val("");
-            $('#nro_resolucionCamDom').val("");
-            $('#fecha_resolucionCamDom').val("");
-            $('#referenciaclienteCamDom').val("");
-            $('#comentarioCamDom').val("");
-        }
-
-         //Editar Cambio Nombre Cuando Abre el Modal---------------------------------------------------------------------------
-         $(document).on('click','#EditCambioDomicilioAbrirModalfrmsubmit',function(e){
-            e.preventDefault();
-            ActualizarCambioDomicilio();
-            LimpiarCambioDomicilio();
-        });
-         //Añadir Cambio Domicilio ----------------------------------------------------------------------
-        $(document).on('click','#AddCambioDomiciliofrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var oficina = $('#oficinaCamDom').val();
-            var staff =  $('#staffCamDom').val();
-            var estado =  $('#estadoCamDom').val();
-            var nro_solicitud =  $('#nro_solicitudCamDom').val();
-            var fecha_solicitud = $('#fecha_solicitudCamDom').val();
-            var nro_resolucion =  $('#nro_resolucionCamDom').val();
-            var fecha_resolucion = $('#fecha_resolucionCamDom').val();
-            var referenciacliente =  $('#referenciaclienteCamDom').val();
-            var comentario =  $('#comentarioCamDom').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id_marcas',id_marcas);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilio");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#AddCambioDomicilio").modal('hide');
-                CambioDomicilio();
-            }).catch(function(response){
-                alert("No se pudo Añadir Cambio Domicilio");
-            });
-            
-        });
-
-        //Editar Cambio Domicilio ----------------------------------------------------------------------
-        $(document).on('click','#EditCambioDomiciliofrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#camdomid').val();
-            var oficina = $('#editoficinaCamDom').val();
-            var staff =  $('#editstaffCamDom').val();
-            var estado =  $('#editestadoCamDom').val();
-            var nro_solicitud =  $('#editnro_solicitudCamDom').val();
-            var fecha_solicitud = $('#editfecha_solicitudCamDom').val();
-            var nro_resolucion =  $('#editnro_resolucionCamDom').val();
-            var fecha_resolucion = $('#editfecha_resolucionCamDom').val();
-            var referenciacliente =  $('#editreferenciaclienteCamDom').val();
-            var comentario =  $('#editcomentarioCamDom').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('id',id);
-            formData.append('oficina',oficina);
-            formData.append('staff',staff );
-            formData.append('estado',estado );
-            formData.append('nro_solicitud',nro_solicitud );
-            formData.append('fecha_solicitud',fecha_solicitud);
-            formData.append('nro_resolucion',nro_resolucion );
-            formData.append('fecha_resolucion',fecha_resolucion);
-            formData.append('referenciacliente',referenciacliente );
-            formData.append('comentario',comentario);
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditCambioDomicilio").modal('hide');
-                CambioDomicilio();
-            }).catch(function(response){
-                alert("No se pudo Editar Cambio Domicilio");
-            });
-            
-        });
-
-        //Añadir Documento ---------------------------------------------------------------------------
-        $(document).on('click','#documentofrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            const id_marcas = '<?php echo $id?>';
-            var description =  $('#doc_descripcion').val();
-            var comentario_archivo = $('#comentario_archivo').val();
-            var doc_archivo = $('#doc_archivo')[0].files[0];
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            if (doc_archivo['type'] != 'application/pdf'){
-                alert("Solamente se pueden subir archivos PDF");
-            }else {
-
-                formData.append('csrf_token_name', csrf_token_name);
-                formData.append('id_marcas',id_marcas);
-                formData.append('doc_descripcion' , description);
-                formData.append('comentario_archivo', comentario_archivo);
-                formData.append('doc_archivo', doc_archivo);
-                let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento");?>';
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    console.log(response);
-                    alert_float('success', "Insertado Correctamente");
-                    $("#docModal").modal('hide');
-                    Documentos();
-                }).catch(function(response){
-                    alert("Error al Subir el Archvio ",response.name);
-                });
-            }
-        });
-
-        //Editar Documento ---------------------------------------------------------------------------
-        $(document).on('click','#documentoeditfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var id = $('#Documento_id').val();
-            var description =  $('#editdoc_descripcion').val();
-            var comentario_archivo = $('#editcomentario_archivo').val();
-            var doc_archivo = $('#editdoc_archivo')[0].files[0];
-            var csrf_token_name = $("input[name=csrf_token_name]").val();   
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('id',id);
-            formData.append('doc_descripcion' , description);
-            formData.append('comentario_archivo', comentario_archivo);
-            formData.append('doc_archivo', doc_archivo);
-            console.log("id ",id);
-            console.log("descripcion ",description);
-            console.log("Comentario archivo ",comentario_archivo);
-            console.log("Documento Archivo ",doc_archivo );
-            console.log("csrf_token_name", csrf_token_name); 
-            let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/UpdateDocumento/");?>'
-            url = url+id;
-            console.log(url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){ 
-                console.log(response);
-                alert_float('success', "Actualizado Correctamente");
-                $("#docModalEdit").modal('hide');
-                Documentos();
-            }).catch(function(response){
-                alert("No se pudo Editar Documento");
-            });
-        });
         // ------------------------------------------- Eliminar Registros ----------------------------------------------------------------------------------------------------------
           //Eliminar Fusion Anterior
           $(document).on('click','.Fusion-Anterior-delete',function(){
@@ -4407,76 +4491,6 @@
                     alert("No se pudo Eliminar Domicilio Actual");
                 });
             }
-        });
-        //Eliminar Cambio Nombre
-        $(document).on('click','.Cambio-Nombre-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CamNomid');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/CambioNombreController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    CambioNombre();
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Cambio Nombre");
-                });
-           }
-        });
-
-        //Eliminar Cambio Domicilio
-        $(document).on('click','.Cambio-Domicilio-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('CamDomid');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/MarcasDomicilioController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    CambioDomicilio();
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Cambio Domicilio");
-                });
-           }
-        });
-         //Eliminar Documentos
-         $(document).on('click','.documentos-delete',function(){
-            if (confirm("Quieres eliminar este registro?")){
-                let element = $(this)[0].parentElement.parentElement;
-                let id = $(element).attr('docid');
-                var csrf_token_name = $("input[name=csrf_token_name]").val();
-                formData.append('csrf_token_name', csrf_token_name);
-                let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/destroy/");?>';
-                url= url+id;
-                $.ajax({
-                    url,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).then(function(response){
-                    alert_float('success', "Eliminado Correctamente");
-                    Documentos();
-                }).catch(function(response){
-                    alert("No se pudo Eliminar Documentos");
-                });
-           }
         });
         //-----------------------------------------------
         $(".calendar").on('keyup', function(e){
@@ -5102,9 +5116,9 @@
         TablaCesion();
         TablaLicencia();
         TablaFusion();
-        CambioNombre();
-        CambioDomicilio();
-        Documentos();
+        TablaCambioNombre();
+        TablaCambioDomicilio();
+        TablaDocumentos();
         TablaFacturas();
 
     });

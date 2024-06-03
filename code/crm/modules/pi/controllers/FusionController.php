@@ -47,7 +47,9 @@ class FusionController extends AdminController
         $data = $CI->input->post();
         if (!empty($data)){
             $insert = array(
+                        'client_id' => $data['cliente'] == '' ? null : $data['cliente'],
                         'oficina_id' => $data['oficina'],
+                        'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                         'estado_id' => $data['estado'],
                         'num_solicitud' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -117,9 +119,9 @@ class FusionController extends AdminController
         $data = $CI->input->post();
         if (!empty($data)){
             $insert = array(
-                            'client_id' => $data['cliente'],
+                            'client_id' => $data['cliente'] == '' ? null : $data['cliente'],
                             'oficina_id' => $data['oficina'],
-                            'staff_id' => $data['staff'],
+                            'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                             'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
                             'num_solicitud' => $data['nro_solicitud'],

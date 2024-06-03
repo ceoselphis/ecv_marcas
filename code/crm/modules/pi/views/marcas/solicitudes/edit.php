@@ -661,7 +661,6 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Nº</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -709,7 +708,6 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Nº</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -750,14 +748,13 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
                                             data-target="#docModal">Añadir Documento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
                                         <table id="DocumentosTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
-                                                    <th>Nº</th>
                                                     <th>Descripcion</th>
                                                     <th>Comentarios</th>
                                                     <th>Documento</th>

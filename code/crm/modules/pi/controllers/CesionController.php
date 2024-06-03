@@ -118,13 +118,11 @@ class CesionController extends AdminController
      public function addCesion(){
         $CI = &get_instance();
         $data = $CI->input->post();
-        //echo json_encode($data);
         if (!empty($data)){
-            /*`tbl_marcas_cesiones`(`id`, `client_id`, `oficina_id`, `marcas_id`, `staff_id`, `estado_id`, `solicitud_num`, `fecha_solicitud`, `resolucion_num`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
             $insert = array(
-                            'client_id' => $data['cliente'],
+                            'client_id' => $data['cliente'] == '' ? null : $data['cliente'],
                             'oficina_id' => $data['oficina'],
-                            'staff_id' => $data['staff'],
+                            'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                             'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
                             'solicitud_num' => $data['nro_solicitud'],
@@ -165,9 +163,9 @@ class CesionController extends AdminController
         $data = $CI->input->post();
         if (!empty($data)){
             $insert = array(
-                        'client_id' => $data['cliente'],
+                        'client_id' => $data['cliente'] == '' ? null : $data['cliente'],
                         'oficina_id' => $data['oficina'],
-                        'staff_id' => $data['staff'],
+                        'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                         'estado_id' => $data['estado'],
                         'solicitud_num' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),

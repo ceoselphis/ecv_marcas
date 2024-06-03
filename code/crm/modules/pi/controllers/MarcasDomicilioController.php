@@ -98,9 +98,10 @@ class MarcasDomicilioController extends AdminController
         $data = $CI->input->post();
         if (!empty($data)){
             $insert = array(
+                        'client_id' => $data['cliente'] == '' ? null : $data['cliente'],
                         'oficina_id' => $data['oficina'],
+                        'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                         'estado_id' => $data['estado'],
-                        'staff_id' => $data['staff'],
                         'num_solicitud' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
                         'num_resolucion' => $data['nro_resolucion'],
@@ -153,12 +154,12 @@ class MarcasDomicilioController extends AdminController
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
-            /*`tbl_marcas_cambio_domicilio`(`id`, `marcas_id`, `oficina_id`, `staff_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
-                $insert = array(
+            $insert = array(
+                        'client_id' => $data['cliente'] == '' ? null : $data['cliente'],
                         'oficina_id' => $data['oficina'],
+                        'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                         'marcas_id' => $data['id_marcas'],
                         'estado_id' => $data['estado'],
-                        'staff_id' => $data['staff'],
                         'num_solicitud' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
                         'num_resolucion' => $data['nro_resolucion'],
@@ -191,16 +192,20 @@ class MarcasDomicilioController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
             'id' => $row['id'],
-            'cliente' => $CI->MarcasDomicilio_model->BuscarClientes($row['client_id']), 
+            'cliente' => $row['client_id'] ? $CI->MarcasDomicilio_model->BuscarClientes($row['client_id']) : '', 
             'oficina' => $CI->MarcasDomicilio_model->BuscarOficina($row['oficina_id']),
-            'staff' => $CI->MarcasDomicilio_model->BuscarStaff($row['staff_id']),
             'estado' => $CI->MarcasDomicilio_model->BuscarEstado($row['estado_id']),
+            'staff' => $row['staff_id'] ? $CI->MarcasDomicilio_model->BuscarStaff($row['staff_id']) : '',
             'num_solicitud' => $row['num_solicitud'],
             'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
             'num_resolucion' => $row['num_resolucion'],
             'fecha_resolucion' => date('d/m/Y', strtotime($row['fecha_resolucion'])),
             'referencia_cliente' => $row['referencia_cliente'],
             'comentarios' => $row['comentarios'],
+            'client_id' => $row['client_id'],
+            'oficina_id' => $row['oficina_id'],
+            'staff_id' => $row['staff_id'],
+            'estado_id' => $row['estado_id'],
             );
         }
         echo json_encode($data);

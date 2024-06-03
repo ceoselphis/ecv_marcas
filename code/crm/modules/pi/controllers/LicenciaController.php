@@ -58,9 +58,9 @@ class LicenciaController extends AdminController
         echo json_encode($data);
         if (!empty($data)){
             $insert = array(
-                        'client_id' => $data['cliente'],
+                        'client_id' => $data['cliente'] == '' ? null : $data['cliente'],
                         'oficina_id' => $data['oficina'],
-                        'staff_id' => $data['staff'],
+                        'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                         'estado_id' => $data['estado'],
                         'num_solicitud' => $data['nro_solicitud'],
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
@@ -147,13 +147,11 @@ class LicenciaController extends AdminController
      public function addLicencia(){
         $CI = &get_instance();
         $data = $CI->input->post();
-        
         if (!empty($data)){
-            /*`tbl_marcas_licencia`(`id`, `marcas_id`, `client_id`, `oficina_id`, `staff_id`, `estado_id`, `num_solicitud`, `fecha_solicitud`, `num_resolucion`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
             $insert = array(
-                            'client_id' => $data['cliente'],
+                            'client_id' => $data['cliente'] == '' ? null : $data['cliente'],
                             'oficina_id' => $data['oficina'],
-                            'staff_id' => $data['staff'],
+                            'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                             'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
                             'num_solicitud' => $data['nro_solicitud'],

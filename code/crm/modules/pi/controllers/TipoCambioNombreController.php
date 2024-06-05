@@ -176,8 +176,6 @@ class TipoCambioNombreController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoCambioNombre_model");
         $marcas = $CI->TipoCambioNombre_model->findAllCambioNombre($id);
-         /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
-        */ 
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_nombre']==1){
@@ -186,6 +184,8 @@ class TipoCambioNombreController extends AdminController
                 'cambio_nombre' => $CI->TipoCambioNombre_model->BuscarCambioNombre($row['cambio_nombre_id']),
                 'tipo_nombre' => 'Anterior',
                 'propietario' => $CI->TipoCambioNombre_model->BuscarPropietarios($row['propietario_id']),
+                'cambio_nombre_id' => $id,
+                'propietario_id' => $row['propietario_id']
                 );
             }
         }
@@ -197,9 +197,6 @@ class TipoCambioNombreController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoCambioNombre_model");
         $marcas = $CI->TipoCambioNombre_model->findAllCambioNombre($id);
-         /*INSERT INTO `tbl_marcas_cambio_nombre_participantes`(`id`, `cambio_nombre_id`, `tipo_nombre`, `propietario_id`)
-        */ 
-        
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_nombre']==2){
@@ -208,6 +205,8 @@ class TipoCambioNombreController extends AdminController
                 'cambio_nombre' => $CI->TipoCambioNombre_model->BuscarCambioNombre($row['cambio_nombre_id']),
                 'tipo_nombre' => 'Actual',
                 'propietario' => $CI->TipoCambioNombre_model->BuscarPropietarios($row['propietario_id']),
+                'cambio_nombre_id' => $id,
+                'propietario_id' => $row['propietario_id']
                 );
             }
         }

@@ -176,7 +176,6 @@ class TipoFusionController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoFusion_model");
         $marcas = $CI->TipoFusion_model->findAllFusion($id);
-        //INSERT INTO `tbl_marcas_fusion_participantes`(`id`, `fusion_id`, `tipo_participante`, `propietario_id`)
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_participante']==1){
@@ -185,6 +184,8 @@ class TipoFusionController extends AdminController
                 'fusion' => $CI->TipoFusion_model->BuscarFusion($row['fusion_id']),
                 'tipo_participante' => 'Anterior',
                 'propietario' => $CI->TipoFusion_model->BuscarPropietarios($row['propietario_id']),
+                'fusion_id' => $id,
+                'propietario_id' => $row['propietario_id']
                 );
             }
         }
@@ -196,7 +197,6 @@ class TipoFusionController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoFusion_model");
         $marcas = $CI->TipoFusion_model->findAllFusion($id);
-        //INSERT INTO `tbl_marcas_fusion_participantes`(`id`, `fusion_id`, `tipo_participante`, `propietario_id`)
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_participante']==2){
@@ -205,6 +205,8 @@ class TipoFusionController extends AdminController
                 'fusion' => $CI->TipoFusion_model->BuscarFusion($row['fusion_id']),
                 'tipo' => 'Actual',
                 'propietario' => $CI->TipoFusion_model->BuscarPropietarios($row['propietario_id']),
+                'fusion_id' => $id,
+                'propietario_id' => $row['propietario_id']
                 );
             }
         }

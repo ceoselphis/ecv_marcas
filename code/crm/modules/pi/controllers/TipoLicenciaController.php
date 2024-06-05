@@ -176,8 +176,6 @@ class TipoLicenciaController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoLicencia_model");
         $marcas = $CI->TipoLicencia_model->findAllLicencia($id);
-       //INSERT INTO `tbl_marcas_licenciantes`(`id`, `licencia_id`, `tipo_licenciante`, `propietario_id`)
-        //echo json_encode($marcas);
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_licenciante']==1){
@@ -186,6 +184,8 @@ class TipoLicenciaController extends AdminController
                 'licencia' => $CI->TipoLicencia_model->BuscarLicencia($row['licencia_id']),
                 'tipo' => 'Anterior',
                 'propietario' => $CI->TipoLicencia_model->BuscarPropietarios($row['propietario_id']),
+                'licencia_id' => $id,
+                'propietario_id' => $row['propietario_id']
                 );
             }
         }
@@ -197,7 +197,6 @@ class TipoLicenciaController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoLicencia_model");
         $marcas = $CI->TipoLicencia_model->findAllLicencia($id);
-        //INSERT INTO `tbl_marcas_licenciantes`(`id`, `licencia_id`, `tipo_licenciante`, `propietario_id`)
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_licenciante']==2){
@@ -206,6 +205,8 @@ class TipoLicenciaController extends AdminController
                 'licencia' => $CI->TipoLicencia_model->BuscarLicencia($row['licencia_id']),
                 'tipo' => 'Actual',
                 'propietario' => $CI->TipoLicencia_model->BuscarPropietarios($row['propietario_id']),
+                'licencia_id' => $id,
+                'propietario_id' => $row['propietario_id']
                 );
             }
         }

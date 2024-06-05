@@ -177,8 +177,6 @@ class TipoCesionController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoCesion_model");
         $marcas = $CI->TipoCesion_model->findAllCesion($id);
-       //INSERT INTO `tbl_marcas_cedentes_cesionarios`(`id`, `cedente_id`, `cesion_id`, `tipo_cedente`)
-        //echo json_encode($marcas);
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_cedente']==1){
@@ -187,6 +185,8 @@ class TipoCesionController extends AdminController
                 'cesion' => $CI->TipoCesion_model->BuscarCesion($row['cesion_id']),
                 'tipo' => 'Anterior',
                 'propietario' => $CI->TipoCesion_model->BuscarPropietarios($row['cedente_id']),
+                'cesion_id' => $id,
+                'cedente_id' => $row['cedente_id']
                 );
             }
         }
@@ -198,7 +198,6 @@ class TipoCesionController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoCesion_model");
         $marcas = $CI->TipoCesion_model->findAllCesion($id);
-        //INSERT INTO `tbl_marcas_cedentes_cesionarios`(`id`, `cedente_id`, `cesion_id`, `tipo_cedente`)
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_cedente']==2){
@@ -207,6 +206,8 @@ class TipoCesionController extends AdminController
                     'cesion' => $CI->TipoCesion_model->BuscarCesion($row['cesion_id']),
                     'tipo' => 'Anterior',
                     'propietario' => $CI->TipoCesion_model->BuscarPropietarios($row['cedente_id']),
+                    'cesion_id' => $id,
+                    'cedente_id' => $row['cedente_id']
                 );
             }
         }

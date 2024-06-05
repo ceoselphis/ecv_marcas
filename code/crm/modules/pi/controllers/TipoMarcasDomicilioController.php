@@ -175,7 +175,6 @@ class TipoMarcasDomicilioController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoMarcasDomicilio_model");
         $marcas = $CI->TipoMarcasDomicilio_model->findAllCambioDomicilio($id);
-        //echo json_encode($marcas);
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_domicilio']==1){
@@ -184,6 +183,8 @@ class TipoMarcasDomicilioController extends AdminController
                 'cambio_domicilio' => $CI->TipoMarcasDomicilio_model->BuscarCambioDomicilio($row['cambio_domicilio_id']),
                 'tipo_domicilio' => 'Anterior',
                 'propietario' => $CI->TipoMarcasDomicilio_model->BuscarPropietarios($row['propietario_id']),
+                'cambio_domicilio_id' => $id,
+                'propietario_id' => $row['propietario_id']
                 );
             }
         }
@@ -195,7 +196,6 @@ class TipoMarcasDomicilioController extends AdminController
         $CI = &get_instance();
         $CI->load->model("TipoMarcasDomicilio_model");
         $marcas = $CI->TipoMarcasDomicilio_model->findAllCambioDomicilio($id);
-        //echo json_encode($marcas);
         $data = array();
         foreach ($marcas as $row){
             if ($row['tipo_domicilio']==2){
@@ -204,6 +204,8 @@ class TipoMarcasDomicilioController extends AdminController
                 'cambio_domicilio' => $CI->TipoMarcasDomicilio_model->BuscarCambioDomicilio($row['cambio_domicilio_id']),
                 'tipo_domicilio' => 'Actual',
                 'propietario' => $CI->TipoMarcasDomicilio_model->BuscarPropietarios($row['propietario_id']),
+                'cambio_domicilio_id' => $id,
+                'propietario_id' => $row['propietario_id']
                 );
             }
         }

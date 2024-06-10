@@ -11,12 +11,18 @@
     var tblCesionDT;
     var tblCesionActDT;
     var tblCesionAntDT;
+    var AddtblCesionAntDT
+    var AddtblCesionActDT
     var tblLicenciaDT;
     var tblLicenciaActDT;
     var tblLicenciaAntDT;
+    var AddtblLicenciaActDT;
+    var AddtblLicenciaAntDT;
     var tblFusionDT;
     var tblFusionActDT;
     var tblFusionAntDT;
+    var AddtblFusionActDT;
+    var AddtblFusionAntDT;
     var tblCamNomDT;
     var tblCamNomActDT;
     var tblCamNomAntDT;
@@ -1260,7 +1266,7 @@
 
 
     });
-     
+
     //Editar Cesion ---------------------------------------------------------------------------
     $(document).on('click','#EditCesionfrmsubmit',function(e){
         e.preventDefault();
@@ -1328,8 +1334,26 @@
 
     });
 
+    //Al abrir el modal de agregar cesion
+    $('#AddCesion').on('shown.bs.modal', function (e) {
+        /*Inicializamos el localstorage*/
+        localStorage.setItem('cesionesanteriores', JSON.stringify([]));
+        localStorage.setItem('cesionesactuales', JSON.stringify([]));
+        $('#propietarioscesionanterior').prop('selectedIndex', -1).trigger('change');
+        $('#propietarioscesionactual').prop('selectedIndex', -1).trigger('change');
+        TablaCesionAnterior_Add();
+        TablaCesionActual_Add();
+    })
+
     //Al cerrar el modal
     $('#AddCesion').on('hidden.bs.modal', function (e) {
+        /*Borramos el localstorage*/
+        localStorage.removeItem('cesionesanteriores');
+        localStorage.removeItem('cesionesactuales');
+        AddtblCesionAntDT.clear();
+        TablaCesionAnterior_Add()
+        AddtblCesionActDT.clear();
+        TablaCesionActual_Add()
         ResetTablaCesiones();
     })
 
@@ -1686,6 +1710,152 @@
     }
 
 
+    /***funcion para guardar el formulario de las Cesiones Anteriores*/
+    $('#AñadirCesionAnteriorfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietarioscesionanterior').val() || []) == '')) 
+        {
+            var cesionesanteriores = JSON.parse(localStorage.getItem("cesionesanteriores"));
+            rowCount = AddtblCesionAntDT.rows().count();
+            const valuesSelect = $('#propietarioscesionanterior').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioscesionanterior option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "cedente_id": parseInt($(this).val()),
+                        'cedente_id_name': $(this).text(),
+                        "tipo_cedente": 1,
+                        "cesion_id": tblCesionDT.rows().count() + 1,
+                        'acciones': '<div class="col-md-6"><a id="cesionesanteriores_' + (rowCount) + '" class="deleteCesionAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    }
+                    cesionesanteriores.push(data);
+                    rowCount++;
+                });
+            });
+            console.log('cesionesanteriores', cesionesanteriores);
+            try {
+                $("#CesionAnteriorModal").modal('hide');
+                localStorage.setItem("cesionesanteriores", JSON.stringify(cesionesanteriores));
+                AddtblCesionAntDT.clear();
+                AddtblCesionAntDT.rows.add(JSON.parse(localStorage.getItem("cesionesanteriores")));
+                AddtblCesionAntDT.columns.adjust().draw();
+                ResetTablaCesionesAnteriores();
+                alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            $("#lblpropietarioscesionanterior").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Cesión Anterior');
+        }
+    })
+
+    //Añadir Cesion Anterior 
+    $(document).on('click','#AñadirCesionAnteriorfrmsubmitOLD',function(e){
+        e.preventDefault();
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#cesionid').val();
+        var propietarios =  $('#propietarioscesionanterior').val();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                $("#CesionAnteriorModal").modal('hide');
+                $("#EditCesion").modal('show');
+                MostrarCesion(id_cambio);
+                CesionAnterior(id_cambio);
+        }).catch(function(response){
+            alert("No se pudo Añadir Cesion Anterior");
+        });
+    });
+ 
+    /**** funcion para borrar una Cesion Anterior*/
+    $(document).on('click', '.deleteCesionAnterior', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var cesionesanteriores = JSON.parse(localStorage.getItem("cesionesanteriores"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            cesionesanteriores.length == 1 ? cesionesanteriores = [] : cesionesanteriores.splice(id, 1);
+            localStorage.setItem("cesionesanteriores", JSON.stringify(UpdtIdRow(cesionesanteriores, 'cesionesanteriores_')));
+            console.log('cesionesanteriores', JSON.parse(localStorage.getItem("cesionesanteriores")));
+            AddtblCesionAntDT.clear();
+            AddtblCesionAntDT.rows.add(JSON.parse(localStorage.getItem("cesionesanteriores")));
+            AddtblCesionAntDT.columns.adjust().draw();
+            alert_float('success', 'Cesión Anterior borrada exitosamente');
+        }
+    })
+
+    /***funcion que se ejecuta al cerrar el Modal Cesion Anterior*/
+    $('#CesionAnteriorModal').on('hidden.bs.modal', function (e) {
+        ResetTablaCesionesAnteriores();
+    })
+ 
+    /***funcion que hace reset del Modal de Cesiones Anteriores*/
+    function ResetTablaCesionesAnteriores() {
+        $('#propietarioscesionanterior').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietarioscesionanterior").css('color', color_lbl);
+    }
+
+    /***funcion que configura el Datatable de las Cesiones Anteriores*/
+    function TablaCesionAnterior_Add() {
+        tabla = JSON.parse(localStorage.getItem("cesionesanteriores"));
+        AddtblCesionAntDT = 
+        new $("#CesionAnteriorTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'cedente_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
+
     /* ####################################################################### */
     /* **********             FUNCIONES CESION ACTUAL               ********** */
     /* ####################################################################### */
@@ -1758,7 +1928,7 @@
             });
         }
     });
-   
+  
     //Cesion Actual
     function TablaCesionActual(id_cambio){
         let url = '<?php echo admin_url("pi/TipoCesionController/showCesionActual/");?>';
@@ -1819,6 +1989,155 @@
 
         
     }
+
+
+    /***funcion para guardar el formulario de las Cesiones Actuales*/
+    $('#AñadirCesionActualfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietarioscesionactual').val() || []) == '')) 
+        {
+            var cesionesactuales = JSON.parse(localStorage.getItem("cesionesactuales"));
+            rowCount = AddtblCesionActDT.rows().count();
+            const valuesSelect = $('#propietarioscesionactual').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioscesionactual option[value=' + value + ']').each(function() {
+                    var data = {
+                    'idRow': rowCount + 1,
+                    "cedente_id": parseInt($(this).val()),
+                    'cedente_id_name': $(this).text(),
+                    "tipo_cedente": 2,
+                    "cesion_id": tblCesionDT.rows().count() + 1,
+                    'acciones': '<div class="col-md-6"><a id="cesionesactuales_' + (rowCount) + '" class="deleteCesionActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    }
+                    cesionesactuales.push(data);
+                    rowCount++;
+                });
+            });
+
+            console.log('cesionesactuales', cesionesactuales);
+            try {
+                $("#CesionActualModal").modal('hide');
+                localStorage.setItem("cesionesactuales", JSON.stringify(cesionesactuales));
+                AddtblCesionActDT.clear();
+                AddtblCesionActDT.rows.add(JSON.parse(localStorage.getItem("cesionesactuales")));
+                AddtblCesionActDT.columns.adjust().draw();
+                ResetTablaCesionesActuales();
+                alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            $("#lblpropietarioscesionactual").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Cesión Actual');
+        }
+    })
+
+    //Añadir Cesion Actual  ---------------------------------------------------------------------------
+    $(document).on('click','#AñadirCesionActualfrmsubmitOLD',function(e){
+        e.preventDefault();
+        console.log("Añadir Cesion Actual");
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#cesionid').val();
+        var propietarios =  $('#propietarioscesionactual').val();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionActual");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+            alert_float('success', "Insertado Correctamente");
+            $("#CesionActualModal").modal('hide');
+            $("#EditCesion").modal('show');
+            MostrarCesion(id_cambio);
+            TablaCesionActual(id_cambio);
+        }).catch(function(response){
+            alert("No se pudo Añadir Cesion Actual");
+        });
+    });
+    
+    /***funcion para borrar una Cesion Actual*/
+    $(document).on('click', '.deleteCesionActual', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var cesionesactuales = JSON.parse(localStorage.getItem("cesionesactuales"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            cesionesactuales.length == 1 ? cesionesactuales = [] : cesionesactuales.splice(id, 1);
+            localStorage.setItem("cesionesactuales", JSON.stringify(UpdtIdRow(cesionesactuales, 'cesionesactuales_')));
+            console.log('cesionesactuales', JSON.parse(localStorage.getItem("cesionesactuales")));
+            AddtblCesionActDT.clear();
+            AddtblCesionActDT.rows.add(JSON.parse(localStorage.getItem("cesionesactuales")));
+            AddtblCesionActDT.columns.adjust().draw();
+            alert_float('success', 'Cesión Actual borrada exitosamente');
+        }
+    })
+
+    /***funcion que se ejecuta al cerrar el Modal Cesion Anterior*/
+    $('#CesionActualModal').on('hidden.bs.modal', function (e) {
+        ResetTablaCesionesActuales();
+    })
+ 
+    /***funcion que hace reset del Modal de Cesiones Actuales*/
+    function ResetTablaCesionesActuales() {
+        $('#propietarioscesionactual').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietarioscesionactual").css('color', color_lbl);
+    }
+
+    /***funcion que configura el Datatable de las Cesiones Actuales*/
+    function TablaCesionActual_Add() {
+        tabla = JSON.parse(localStorage.getItem("cesionesactuales"));
+        AddtblCesionActDT = 
+        new $("#CesionActualTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'cedente_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
 
 
     /* ####################################################################### */
@@ -1959,8 +2278,26 @@
         }
     });
 
+    //Al abrir el modal de agregar cesion
+    $('#AddLicencia').on('shown.bs.modal', function (e) {
+        /*Inicializamos el localstorage*/
+        localStorage.setItem('licenciasanteriores', JSON.stringify([]));
+        localStorage.setItem('licenciasactuales', JSON.stringify([]));
+        $('#propietarioslicenciaanterior').prop('selectedIndex', -1).trigger('change');
+        $('#propietarioslicenciaactual').prop('selectedIndex', -1).trigger('change');
+        TablaLicenciaAnterior_Add();
+        TablaLicenciaActual_Add();
+    })
+
     //Al cerrar el modal
     $('#AddLicencia').on('hidden.bs.modal', function (e) {
+        /*Borramos el localstorage*/
+        localStorage.removeItem('licenciasanteriores');
+        localStorage.removeItem('licenciasactuales');
+        AddtblLicenciaAntDT.clear();
+        TablaLicenciaAnterior_Add()
+        AddtblLicenciaActDT.clear();
+        TablaLicenciaActual_Add()
         ResetTablaLicencia();
     })
 
@@ -2316,6 +2653,119 @@
     }
 
 
+    /***funcion para guardar el formulario de las Licencias Anteriores*/
+    $('#AñadirLicenciaAnteriorfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietarioslicenciaanterior').val() || []) == '')) 
+        {
+            var licenciasanteriores = JSON.parse(localStorage.getItem("licenciasanteriores"));
+            rowCount = AddtblLicenciaAntDT.rows().count();
+            const valuesSelect = $('#propietarioslicenciaanterior').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioslicenciaanterior option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_licenciante": 1,
+                        "licencia_id": tblLicenciaDT.rows().count() + 1,
+                        'acciones': '<div class="col-md-6"><a id="licenciasanteriores_' + (rowCount) + '" class="deleteLicenciaAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    }
+                    licenciasanteriores.push(data);
+                    rowCount++;
+                });
+            });
+            console.log('licenciasanteriores', licenciasanteriores);
+            try {
+                $("#LicenciaAnteriorModal").modal('hide');
+                localStorage.setItem("licenciasanteriores", JSON.stringify(licenciasanteriores));
+                AddtblLicenciaAntDT.clear();
+                AddtblLicenciaAntDT.rows.add(JSON.parse(localStorage.getItem("licenciasanteriores")));
+                AddtblLicenciaAntDT.columns.adjust().draw();
+                ResetTablaLicenciasAnteriores();
+                alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            $("#lblpropietarioslicenciaanterior").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Licencia Anterior');
+        }
+    })
+ 
+    /**** funcion para borrar una Licencia Anterior*/
+    $(document).on('click', '.deleteLicenciaAnterior', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var licenciasanteriores = JSON.parse(localStorage.getItem("licenciasanteriores"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            licenciasanteriores.length == 1 ? licenciasanteriores = [] : licenciasanteriores.splice(id, 1);
+            localStorage.setItem("licenciasanteriores", JSON.stringify(UpdtIdRow(licenciasanteriores, 'licenciasanteriores_')));
+            console.log('licenciasanteriores', JSON.parse(localStorage.getItem("licenciasanteriores")));
+            AddtblLicenciaAntDT.clear();
+            AddtblLicenciaAntDT.rows.add(JSON.parse(localStorage.getItem("licenciasanteriores")));
+            AddtblLicenciaAntDT.columns.adjust().draw();
+            alert_float('success', 'Licencia Anterior borrada exitosamente');
+        }
+    })
+
+    /***funcion que se ejecuta al cerrar el Modal Licencia Anterior*/
+    $('#LicenciaAnteriorModal').on('hidden.bs.modal', function (e) {
+        ResetTablaLicenciasAnteriores();
+    })
+ 
+    /***funcion que hace reset del Modal de Licencias Anteriores*/
+    function ResetTablaLicenciasAnteriores() {
+        $('#propietarioslicenciaanterior').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietarioslicenciaanterior").css('color', color_lbl);
+    }
+
+    /***funcion que configura el Datatable de las licencias Anteriores*/
+    function TablaLicenciaAnterior_Add() {
+        tabla = JSON.parse(localStorage.getItem("licenciasanteriores"));
+        AddtblLicenciaAntDT = 
+        new $("#LicenciaAnteriorTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'propietario_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
+
 
     /* ####################################################################### */
     /* **********             FUNCIONES LICENCIA ACTUAL             ********** */
@@ -2446,6 +2896,119 @@
                 width: "100%"
             }); 
         })
+    }
+
+
+    /***funcion para guardar el formulario de las Licencias Actuales*/
+    $('#AñadirLicenciaActualfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietarioslicenciaactual').val() || []) == '')) 
+        {
+            var licenciasactuales = JSON.parse(localStorage.getItem("licenciasactuales"));
+            rowCount = AddtblLicenciaActDT.rows().count();
+            const valuesSelect = $('#propietarioslicenciaactual').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietarioslicenciaactual option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_licenciante": 1,
+                        "licencia_id": tblLicenciaDT.rows().count() + 1,
+                        'acciones': '<div class="col-md-6"><a id="licenciasactuales_' + (rowCount) + '" class="deleteLicenciaActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    }
+                    licenciasactuales.push(data);
+                    rowCount++;
+                });
+            });
+            console.log('licenciasactuales', licenciasactuales);
+            try {
+                $("#LicenciaActualModal").modal('hide');
+                localStorage.setItem("licenciasactuales", JSON.stringify(licenciasactuales));
+                AddtblLicenciaActDT.clear();
+                AddtblLicenciaActDT.rows.add(JSON.parse(localStorage.getItem("licenciasactuales")));
+                AddtblLicenciaActDT.columns.adjust().draw();
+                ResetTablaLicenciasActuales();
+                alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            $("#lblpropietarioslicenciaactual").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Licencia Anterior');
+        }
+    })
+ 
+    /**** funcion para borrar una Licencia Anterior*/
+    $(document).on('click', '.deleteLicenciaActual', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var licenciasactuales = JSON.parse(localStorage.getItem("licenciasactuales"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            licenciasactuales.length == 1 ? licenciasactuales = [] : licenciasactuales.splice(id, 1);
+            localStorage.setItem("licenciasactuales", JSON.stringify(UpdtIdRow(licenciasactuales, 'licenciasactuales_')));
+            console.log('licenciasactuales', JSON.parse(localStorage.getItem("licenciasactuales")));
+            AddtblLicenciaActDT.clear();
+            AddtblLicenciaActDT.rows.add(JSON.parse(localStorage.getItem("licenciasactuales")));
+            AddtblLicenciaActDT.columns.adjust().draw();
+            alert_float('success', 'Licencia Anterior borrada exitosamente');
+        }
+    })
+
+    /***funcion que se ejecuta al cerrar el Modal Licencia Anterior*/
+    $('#LicenciaActualModal').on('hidden.bs.modal', function (e) {
+        ResetTablaLicenciasActuales();
+    })
+ 
+    /***funcion que hace reset del Modal de Licencias Actuales*/
+    function ResetTablaLicenciasActuales() {
+        $('#propietarioslicenciaactual').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietarioslicenciaactual").css('color', color_lbl);
+    }
+
+    /***funcion que configura el Datatable de las licencias Actuales*/
+    function TablaLicenciaActual_Add() {
+        tabla = JSON.parse(localStorage.getItem("licenciasactuales"));
+        AddtblLicenciaActDT = 
+        new $("#LicenciaActualTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'propietario_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
     }
 
 
@@ -2587,8 +3150,26 @@
         }
     });
 
+    //Al abrir el modal de agregar fusion
+    $('#AddFusion').on('shown.bs.modal', function (e) {
+        /*Inicializamos el localstorage*/
+        localStorage.setItem('fusionesanteriores', JSON.stringify([]));
+        localStorage.setItem('fusionesactuales', JSON.stringify([]));
+        $('#propietariosfusionanterior').prop('selectedIndex', -1).trigger('change');
+        $('#propietariosfusionactual').prop('selectedIndex', -1).trigger('change');
+        TablaFusionesAnterior_Add();
+        TablaFusionesActual_Add();
+    })
+
     //Al cerrar el modal
     $('#AddFusion').on('hidden.bs.modal', function (e) {
+        /*Borramos el localstorage*/
+        localStorage.removeItem('fusionesanteriores');
+        localStorage.removeItem('fusionesanteriores');
+        AddtblFusionAntDT.clear();
+        TablaFusionesAnterior_Add()
+        AddtblFusionActDT.clear();
+        TablaFusionesActual_Add()
         ResetTablaFusion();
     })
 
@@ -2680,7 +3261,6 @@
     
     // Fusion
     function TablaFusion(){
-        console.log("Pruebas");
         let url = '<?php echo admin_url("pi/FusionController/showFusion/$id");?>';
         $.get(url, function(response){
             let fusion = JSON.parse(response);
@@ -2943,6 +3523,119 @@
     }
 
 
+    /***funcion para guardar el formulario de las Fusiones Anteriores*/
+    $('#AñadirFusionAnteriorfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietariosfusionanterior').val() || []) == '')) 
+        {
+            var fusionesanteriores = JSON.parse(localStorage.getItem("fusionesanteriores"));
+            rowCount = AddtblFusionAntDT.rows().count();
+            const valuesSelect = $('#propietariosfusionanterior').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietariosfusionanterior option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_participante": 1,
+                        "fusion_id": tblFusionDT.rows().count() + 1,
+                        'acciones': '<div class="col-md-6"><a id="fusionesanteriores_' + (rowCount) + '" class="deleteFusionAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    }
+                    fusionesanteriores.push(data);
+                    rowCount++;
+                });
+            });
+            console.log('fusionesanteriores', fusionesanteriores);
+            try {
+                $("#FusionAnteriorModal").modal('hide');
+                localStorage.setItem("fusionesanteriores", JSON.stringify(fusionesanteriores));
+                AddtblFusionAntDT.clear();
+                AddtblFusionAntDT.rows.add(JSON.parse(localStorage.getItem("fusionesanteriores")));
+                AddtblFusionAntDT.columns.adjust().draw();
+                ResetTablaFusionesAnteriores();
+                alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            $("#lblpropietariosfusionanterior").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Fusion Anterior');
+        }
+    })
+ 
+    /**** funcion para borrar una Fusion Anterior*/
+    $(document).on('click', '.deleteFusionAnterior', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var fusionesanteriores = JSON.parse(localStorage.getItem("fusionesanteriores"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            fusionesanteriores.length == 1 ? fusionesanteriores = [] : fusionesanteriores.splice(id, 1);
+            localStorage.setItem("fusionesanteriores", JSON.stringify(UpdtIdRow(fusionesanteriores, 'fusionesanteriores_')));
+            console.log('fusionesanteriores', JSON.parse(localStorage.getItem("fusionesanteriores")));
+            AddtblFusionAntDT.clear();
+            AddtblFusionAntDT.rows.add(JSON.parse(localStorage.getItem("fusionesanteriores")));
+            AddtblFusionAntDT.columns.adjust().draw();
+            alert_float('success', 'Fusion Anterior borrada exitosamente');
+        }
+    })
+
+    /**** funcion que se ejecuta al cerrar el Modal Fusion Anterior*/
+    $('#FusionAnteriorModal').on('hidden.bs.modal', function (e) {
+        ResetTablaFusionesAnteriores();
+    })
+ 
+    /**** funcion que hace reset del Modal de Fusiones Anteriores*/
+    function ResetTablaFusionesAnteriores() {
+        $('#propietariosfusionanterior').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietariosfusionanterior").css('color', color_lbl);
+    }
+ 
+    /**** funcion que configura el Datatable de las Fusiones Anteriores*/
+    function TablaFusionesAnterior_Add() {
+        tabla = JSON.parse(localStorage.getItem("fusionesanteriores"));
+        AddtblFusionAntDT = 
+        new $("#FusionAnteriorTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'propietario_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
+
     /* ####################################################################### */
     /* **********             FUNCIONES FUSION ACTUAL               ********** */
     /* ####################################################################### */
@@ -3070,6 +3763,119 @@
                 width: "100%"
             }); 
         })
+    }
+
+
+    /***funcion para guardar el formulario de las Fusiones Anteriores*/
+    $('#AñadirFusionActualfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietariosfusionactual').val() || []) == '')) 
+        {
+            var fusionesactuales = JSON.parse(localStorage.getItem("fusionesactuales"));
+            rowCount = AddtblFusionActDT.rows().count();
+            const valuesSelect = $('#propietariosfusionactual').val().toString().split(',');
+            valuesSelect.forEach(function(value) {
+                $('#propietariosfusionactual option[value=' + value + ']').each(function() {
+                    var data = {
+                        'idRow': rowCount + 1,
+                        "propietario_id": parseInt($(this).val()),
+                        'propietario_id_name': $(this).text(),
+                        "tipo_participante": 1,
+                        "fusion_id": tblFusionDT.rows().count() + 1,
+                        'acciones': '<div class="col-md-6"><a id="fusionesactuales_' + (rowCount) + '" class="deleteFusionActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    }
+                    fusionesactuales.push(data);
+                    rowCount++;
+                });
+            });
+            console.log('fusionesactuales', fusionesactuales);
+            try {
+                $("#FusionActualModal").modal('hide');
+                localStorage.setItem("fusionesactuales", JSON.stringify(fusionesactuales));
+                AddtblFusionActDT.clear();
+                AddtblFusionActDT.rows.add(JSON.parse(localStorage.getItem("fusionesactuales")));
+                AddtblFusionActDT.columns.adjust().draw();
+                ResetTablaFusionesActuales();
+                alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        }else{
+            $("#lblpropietariosfusionactual").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Fusion Actual');
+        }
+    })
+ 
+    /**** funcion para borrar una Fusion Actual*/
+    $(document).on('click', '.deleteFusionActual', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var fusionesactuales = JSON.parse(localStorage.getItem("fusionesactuales"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            fusionesactuales.length == 1 ? fusionesactuales = [] : fusionesactuales.splice(id, 1);
+            localStorage.setItem("fusionesactuales", JSON.stringify(UpdtIdRow(fusionesactuales, 'fusionesactuales_')));
+            console.log('fusionesactuales', JSON.parse(localStorage.getItem("fusionesactuales")));
+            AddtblFusionActDT.clear();
+            AddtblFusionActDT.rows.add(JSON.parse(localStorage.getItem("fusionesactuales")));
+            AddtblFusionActDT.columns.adjust().draw();
+            alert_float('success', 'Fusion Actual borrada exitosamente');
+        }
+    })
+
+    /**** funcion que se ejecuta al cerrar el Modal Fusion Actual*/
+    $('#FusionActualModal').on('hidden.bs.modal', function (e) {
+        ResetTablaFusionesActuales();
+    })
+ 
+    /**** funcion que hace reset del Modal de Fusiones Actuales*/
+    function ResetTablaFusionesActuales() {
+        $('#propietariosfusionactual').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietariosfusionactual").css('color', color_lbl);
+    }
+ 
+    /**** funcion que configura el Datatable de las Fusiones Actuales*/
+    function TablaFusionesActual_Add() {
+        tabla = JSON.parse(localStorage.getItem("fusionesactuales"));
+        AddtblFusionActDT = 
+        new $("#FusionActualTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'propietario_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
     }
 
 
@@ -4773,6 +5579,15 @@
         virtualScroll: 600
     });
 
+    /***funcion que actualiza el IdRow de cada tabla*/
+    function UpdtIdRow(tablaDT, tipoAnexo){
+        jQuery.each(tablaDT, function(index, item) {
+            item.acciones = item.acciones.replace(tipoAnexo + (item.idRow-1), tipoAnexo + index);
+            item.idRow = index + 1;
+        });
+        return tablaDT;
+    }
+
 
         //**Al cargar la pagina */
     $(function() {
@@ -4910,23 +5725,7 @@
                 e.preventDefault();
                 alert_float('danger', "Primero guarde antes de entrar aqui");
             });
-            // Cambiar de Modal de Añadir Licencia por Añadir Licencia Actual 
-            $(document).on('click','#addbtnLicenciaActual',function(e){
-                console.log("Licencia Actual")
-                e.preventDefault();
-                ActualizarLicencia();
-                $("#AddLicencia").modal('hide');
-                $("#LicenciaActualModal").modal('show');
-            });
-            // Cambiar de Modal de Añadir Licencia por Añadir Licencia Anterior 
-            $(document).on('click','#addbtnLicenciaAnterior',function(e){
-                e.preventDefault();
-                ActualizarLicencia();
-                $("#AddLicencia").modal('hide');
-                $("#LicenciaAnteriorModal").modal('show');
-
-            });
-            
+              
             // Cambiar de Modal de Añadir Cambio Domiclio por Añadir Cambio Domicilio Actual 
             $(document).on('click','#addbtnCambioDomicilioActual',function(e){
                 e.preventDefault();
@@ -4957,7 +5756,7 @@
                 $("#CambioNombreAnteriorModal").modal('show');
             });
             //Añadir Licencia Anterior  ---------------------------------------------------------------------------
-            $(document).on('click','#AñadirLicenciaAnteriorfrmsubmit',function(e){
+            $(document).on('click','#AñadirLicenciaAnteriorfrmsubmitOLD',function(e){
                 e.preventDefault();
                 var formData = new FormData();
                 var data = getFormData(this);
@@ -4991,7 +5790,7 @@
 
 
         //Añadir Licencia Actual  ---------------------------------------------------------------------------
-        $(document).on('click','#AñadirLicenciaActualfrmsubmit',function(e){
+        $(document).on('click','#AñadirLicenciaActualfrmsubmitOLD',function(e){
             e.preventDefault();
             console.log("Añadir Licencia Actual");
             var formData = new FormData();
@@ -5224,55 +6023,6 @@
  
     
     // Cambiar de Modal de Editar Cesion por Añadir Cesion Actual 
-    $(document).on('click','#btnCesionActual',function(e){
-        console.log("Cesion Actual")
-        e.preventDefault();
-        $("#EditCesion").modal('hide');
-        $("#CesionActualModal").modal('show');
-    });
-
-    // Cambiar de Modal de Añadir Cesion por Añadir Cesion Actual 
-    $(document).on('click','#addbtnCesionActual',function(e){
-        console.log("Cesion Actual")
-        e.preventDefault();
-        //ActualizarCesion();
-        //$("#AddCesion").modal('hide');
-        $("#CesionActualModal").modal('show');
-    });
-
-    //Añadir Cesion Actual  ---------------------------------------------------------------------------
-    $(document).on('click','#AñadirCesionActualfrmsubmit',function(e){
-        e.preventDefault();
-        console.log("Añadir Cesion Actual");
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id_cambio = $('#cesionid').val();
-        var propietarios =  $('#propietarioscesionactual').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id_cambio',id_cambio);
-        formData.append('propietarios',propietarios);
-        formData.append('csrf_token_name', csrf_token_name);
-        console.log('id_cambio',id_cambio);
-        console.log('propietarios',propietarios);
-        console.log('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionActual");?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response){
-            console.log(response);
-            alert_float('success', "Insertado Correctamente");
-            $("#CesionActualModal").modal('hide');
-            $("#EditCesion").modal('show');
-            MostrarCesion(id_cambio);
-            TablaCesionActual(id_cambio);
-        }).catch(function(response){
-            alert("No se pudo Añadir Cesion Actual");
-        });
-    });
          
 
 
@@ -5281,59 +6031,10 @@
     /* ####################################################################### */
 
 
-    
-    // Cambiar de Modal de Editar Cesion por Añadir Cesion Anterior 
-    $(document).on('click','#btnCesionAnterior',function(e){
-        e.preventDefault();
-        $("#EditCesion").modal('hide');
-        $("#CesionAnteriorModal").modal('show');
-    });
-
-    // Cambiar de Modal de Añadir Cesion por Añadir Cesion Anterior 
-    $(document).on('click','#addbtnCesionAnterior',function(e){
-        console.log("Cesion Anterior")
-        e.preventDefault();
-        //ActualizarCesion();
-        //$("#AddCesion").modal('hide');
-        $("#CesionAnteriorModal").modal('show');
-    });
-
     //  --------------------------------Añadir y Editar los siguientes Modulos---------------------------------------------
-        //Añadir Cesion Anterior  ---------------------------------------------------------------------------
-    $(document).on('click','#AñadirCesionAnteriorfrmsubmit',function(e){
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id_cambio = $('#cesionid').val();
-        var propietarios =  $('#propietarioscesionanterior').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id_cambio',id_cambio);
-        formData.append('propietarios',propietarios);
-        formData.append('csrf_token_name', csrf_token_name);
-        console.log('id_cambio',id_cambio);
-        console.log('propietarios',propietarios);
-        console.log('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response){
-            console.log(response);
-                alert_float('success', "Insertado Correctamente");
-                $("#CesionAnteriorModal").modal('hide');
-                $("#EditCesion").modal('show');
-                MostrarCesion(id_cambio);
-                CesionAnterior(id_cambio);
-        }).catch(function(response){
-            alert("No se pudo Añadir Cesion Anterior");
-        });
-    });
 
     // Cambiar de Modal de Añadir Fusion por Añadir Fusion Actual 
-    $(document).on('click','#addbtnFusionActual',function(e){
+    $(document).on('click','#addbtnFusionActualOLD',function(e){
         console.log("Fusion Actual")
         e.preventDefault();
         ActualizarFusion();
@@ -5342,7 +6043,7 @@
     });
 
     // Cambiar de Modal de Añadir Fusion por Añadir Fusion Anterior 
-    $(document).on('click','#addbtnFusionAnterior',function(e){
+    $(document).on('click','#addbtnFusionAnteriorOLD',function(e){
         e.preventDefault();
         ActualizarFusion();
         $("#AddFusion").modal('hide');

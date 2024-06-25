@@ -164,8 +164,35 @@ class LicenciaController extends AdminController
             
             $CI->load->model("Licencia_model");
                 try{
-                    $query = $CI->Licencia_model->insert($insert);
-                        if (isset($query)){
+                    $id = $CI->Licencia_model->InsertarLicencia($insert);
+                        if (isset($id)){
+                            $propAnt = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAnt']) : array();
+                            $propAct = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAct']) : array();
+                            $insert = array();
+                            if (count($propAnt) > 0) { //tiene cesiones anteriores, entonces agrego
+                                foreach ($propAnt as $p) {
+                                    $arr_propietario = array(
+                                        'licencia_id' => $id,
+                                        'tipo_licenciante' => 1,
+                                        'propietario_id' => $p,
+                                    );
+                                    array_push($insert, $arr_propietario);
+                                }
+                            }
+                            if (count($propAct) > 0) { //tiene cesiones actuales, entonces agrego
+                                foreach ($propAct as $p) {
+                                    $arr_propietario = array(
+                                        'licencia_id' => $id,
+                                        'tipo_licenciante' => 2,
+                                        'propietario_id' => $p,
+                                    );
+                                    array_push($insert, $arr_propietario);
+                                }
+                            }
+                            if (count($insert) > 0) {
+                                $CI->Licencia_model->addLicencias($insert);                             
+                            }
+
                             echo "Insertado Correctamente";
 
                         }else {

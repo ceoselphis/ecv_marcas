@@ -169,8 +169,34 @@ class MarcasDomicilioController extends AdminController
                     ); 
         $CI->load->model("MarcasDomicilio_model");
             try{
-                $query = $CI->MarcasDomicilio_model->insert($insert);
-                    if (isset($query)){
+                $id = $CI->MarcasDomicilio_model->InsertarCamDom($insert);
+                    if (isset($id)){
+                        $propAnt = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAnt']) : array();
+                        $propAct = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAct']) : array();
+                        $insert = array();
+                        if (count($propAnt) > 0) { //tiene cesiones anteriores, entonces agrego
+                            foreach ($propAnt as $p) {
+                                $arr_propietario = array(
+                                    'cambio_domicilio_id' => $id,
+                                    'tipo_domicilio' => 1,
+                                    'propietario_id' => $p,
+                                );
+                                array_push($insert, $arr_propietario);
+                            }
+                        }
+                        if (count($propAct) > 0) { //tiene cesiones actuales, entonces agrego
+                            foreach ($propAct as $p) {
+                                $arr_propietario = array(
+                                    'cambio_domicilio_id' => $id,
+                                    'tipo_domicilio' => 2,
+                                    'propietario_id' => $p,
+                                );
+                                array_push($insert, $arr_propietario);
+                            }
+                        }
+                        if (count($insert) > 0) {
+                            $CI->MarcasDomicilio_model->addCamDom($insert);                             
+                        }
                         echo "Insertado Correctamente";
                     }else {
                         echo "No hemos podido Insertar";

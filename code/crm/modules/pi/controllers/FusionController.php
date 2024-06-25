@@ -134,8 +134,34 @@ class FusionController extends AdminController
             echo "Fusion ",json_encode($insert);
             $CI->load->model("Fusion_model");
                 try{
-                    $query = $CI->Fusion_model->insert($insert);
-                        if (isset($query)){
+                    $id = $CI->Fusion_model->InsertarFusion($insert);
+                        if (isset($id)){
+                            $propAnt = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAnt']) : array();
+                            $propAct = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAct']) : array();
+                            $insert = array();
+                            if (count($propAnt) > 0) { //tiene cesiones anteriores, entonces agrego
+                                foreach ($propAnt as $p) {
+                                    $arr_propietario = array(
+                                        'fusion_id' => $id,
+                                        'tipo_participante' => 1,
+                                        'propietario_id' => $p,
+                                    );
+                                    array_push($insert, $arr_propietario);
+                                }
+                            }
+                            if (count($propAct) > 0) { //tiene cesiones actuales, entonces agrego
+                                foreach ($propAct as $p) {
+                                    $arr_propietario = array(
+                                        'fusion_id' => $id,
+                                        'tipo_participante' => 2,
+                                        'propietario_id' => $p,
+                                    );
+                                    array_push($insert, $arr_propietario);
+                                }
+                            }
+                            if (count($insert) > 0) {
+                                $CI->Fusion_model->addFusiones($insert);                             
+                            }
                             echo "Insertado Correctamente";
 
                         }else {

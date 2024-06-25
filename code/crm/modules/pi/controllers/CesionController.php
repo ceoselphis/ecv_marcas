@@ -135,8 +135,34 @@ class CesionController extends AdminController
 
             $CI->load->model("Cesion_model");
                 try{
-                    $query = $CI->Cesion_model->insert($insert);
-                        if (isset($query)){
+                    $id = $CI->Cesion_model->InsertarCesion($insert);
+                        if (isset($id)){
+                            $propAnt = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAnt']) : array();
+                            $propAct = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAct']) : array();
+                            $insert = array();
+                            if (count($propAnt) > 0) { //tiene cesiones anteriores, entonces agrego
+                                foreach ($propAnt as $p) {
+                                    $arr_propietario = array(
+                                        'cesion_id' => $id,
+                                        'tipo_cedente' => 1,
+                                        'cedente_id' => $p,
+                                    );
+                                    array_push($insert, $arr_propietario);
+                                }
+                            }
+                            if (count($propAct) > 0) { //tiene cesiones actuales, entonces agrego
+                                foreach ($propAct as $p) {
+                                    $arr_propietario = array(
+                                        'cesion_id' => $id,
+                                        'tipo_cedente' => 2,
+                                        'cedente_id' => $p,
+                                    );
+                                    array_push($insert, $arr_propietario);
+                                }
+                            }
+                            if (count($insert) > 0) {
+                                $CI->Cesion_model->addCesiones($insert);                             
+                            }
                             echo "Insertado Correctamente";
 
                         }else {

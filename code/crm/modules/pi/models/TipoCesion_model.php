@@ -62,4 +62,11 @@ class TipoCesion_model extends BaseModel
         $values = $query->result_array();
         return $values; 
     }
+    
+    public function addCesiones($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_cedentes_cesionarios', $params);
+        return $query;
+    }
+
 }

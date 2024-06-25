@@ -115,6 +115,42 @@ class TipoCambioNombreController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+             
+    public function addCamNom(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        if (!empty($data)){
+        
+            $propietarios = explode(',', $data['propietarios']);
+            $insert = array();
+            foreach ($propietarios as $p) {
+                $arr_propietario = array(
+                    'cambio_nombre_id' => $data['id_cambio'],
+                    'tipo_nombre' => $data['tipo_nombre'],
+                    'propietario_id' => $p,
+                );
+                array_push($insert, $arr_propietario);
+            }
+            
+            $CI->load->model("TipoCambioNombre_model");
+            try{
+                $query = $CI->TipoCambioNombre_model->addCamNom($insert);
+                    if (isset($query)){
+                        echo "Insertado Correctamente";
+
+                    }else {
+                        echo "No hemos podido Insertar";
+                    }
+            }catch (Exception $e){
+                return $e->getMessage();
+            }
+        }
+        else {
+            echo "No tiene Data";
+        }
+    }
+
     public function addCambioNombreAnterior(){
         $CI = &get_instance();
         $data = $CI->input->post();

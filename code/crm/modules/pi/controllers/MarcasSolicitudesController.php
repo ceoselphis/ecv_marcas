@@ -848,6 +848,7 @@ class MarcasSolicitudesController extends AdminController
     $values['prueba_uso'] = is_null($values['prueba_uso']) ? '' : $this->flip_dates($values['prueba_uso']);
     $values['primer_uso'] = is_null($values['primer_uso']) ? '' : $this->flip_dates($values['primer_uso']);
     $values['projects'] = $CI->MarcasSolicitudes_model->findProjectByMarca($id);
+    $invoices = $CI->MarcasSolicitudes_model->findAllInvoices();
     return $CI->load->view('marcas/solicitudes/edit', [
       'values'                => $values,
       'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(),
@@ -869,6 +870,7 @@ class MarcasSolicitudesController extends AdminController
       'tareas'                => $data,
       'projects'              => $CI->MarcasSolicitudes_model->findAllProjects(),
       'tipo_publicacion'      => $CI->MarcasSolicitudes_model->findAllTipoPublicacion(),
+      'invoices'              => (!empty($invoices)) ? $invoices[0] : ''
     ]);
   }
 
@@ -1223,10 +1225,14 @@ class MarcasSolicitudesController extends AdminController
     echo json_encode(['code' => 200, 'data' => $result]);
   }
 
-  public function marcasInvoice($marcas_id = null)
+  public function marcasInvoice($marcas_id = null, $edit_marca = null)
   {
     $CI = &get_instance();
-    return is_null($marcas_id) ? null : redirect(admin_url("invoices/invoice?marca_id={$marcas_id}"));
+    if (is_null($edit_marca)){
+      return is_null($marcas_id) ? null : redirect(admin_url("invoices/invoice?marca_id={$marcas_id}"));
+    }else{
+      return is_null($marcas_id) ? null : redirect(admin_url("invoices/invoice?marca_id={$marcas_id}&edit_marca={$edit_marca}"));
+    }
   }
 
   public function getInvoicesByMarca($marcaid = null)
@@ -1246,7 +1252,7 @@ class MarcasSolicitudesController extends AdminController
         $acciones .= "<a href= '" . admin_url("invoices/invoice/" . $invoice[0]['id']) . "'class='btn btn-light' style='padding: 0;'>";
         $acciones .= "<i class='fas fa-edit' style='margin: 0;'></i>Editar</a></div>";
         $acciones .= "<div class='col-md-6' style='padding: 0;'>";
-        $acciones .= "<a class='factura-delete btn btn-light' style= 'background-color: white;padding: 0;'>";
+        $acciones .= "<a id='" . $value['id'] ."' class='factura-delete btn btn-light' style= 'background-color: white;padding: 0;'>";
         $acciones .= "<i class='fas fa-trash' style='margin: 0;'></i>Borrar</a></div>";
 
         $row['acciones'] = $acciones;
@@ -1256,4 +1262,37 @@ class MarcasSolicitudesController extends AdminController
       echo json_encode(['status' => 200, "data" => $response]);
     }
   }
+
+  public function deleteInvoiceMarca(string $id)
+  {
+      $CI = &get_instance();
+      $CI->load->model("MarcasSolicitudes_model");
+      $query = $CI->MarcasSolicitudes_model->deleteInvoiceMarca($id);
+      
+      if (isset($query)){
+          echo "Eliminado Correctamente";
+      }else {
+          echo "No se ha podido Eliminar";
+      }
+  }
+
+  public function insertInvoiceMarca()
+  {
+    $CI = &get_instance();
+    $CI->load->model("MarcasSolicitudes_model");
+    $CI->load->helper(['url', 'form']);
+    $form = $CI->input->post();
+    $params = [
+      'marcas_id' => $form['id_marcas'],
+      'facturas_id'  => $form['facturaId'],
+      'staff_id' => $_SESSION['staff_user_id']
+    ];
+    $query = $CI->MarcasSolicitudes_model->insertMarcasInvoice($params);
+    if ($query) {
+      echo json_encode(['code' => 200, 'message' => 'success']);
+    } else {
+      echo json_encode(['code' => 500, 'message' => 'error']);
+    }
+  }
+
 }

@@ -1147,5 +1147,16 @@ class MarcasSolicitudes_model extends BaseModel
         }
         return [array_combine($keys, $values), $invExtra]; 
     }
-    
+
+    public function deleteInvoiceMarca($id = null)
+    {
+        $this->db->delete('tbl_marcas_facturas', ['id' => $id]);
+        return true;
+    }
+
+    public function insertMarcasInvoice($params)
+    {
+        return $this->db->insert('tbl_marcas_facturas', $params);
+    }
+
 }

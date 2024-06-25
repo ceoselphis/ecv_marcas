@@ -2796,8 +2796,7 @@
                         "propietario_id": parseInt($(this).val()),
                         'propietario_id_name': $(this).text(),
                         "tipo_nombre": 1,
-                        "cambio_nombre_id": tblCamNomDT.rows().count() + 1,
-                        //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnomanteriores_" + (rowCount) + "' class='btn btn-danger col-mrg deleteCamNomAnterior'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                        "camnom_id": tblCamNomDT.rows().count() + 1,
                         'acciones': '<div class="col-md-6"><a id="camnomanteriores_' + (rowCount) + '" class="deleteCamNomAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                     }
                     camnomanteriores.push(data);

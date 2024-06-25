@@ -296,7 +296,9 @@ class Invoices extends AdminController
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
             $marca_id = $invoice_data['marcaid'];
+            $edit_marca = $invoice_data['edit_marca'];
             unset($invoice_data['marcaid']);
+            unset($invoice_data['edit_marca']);
             if ($id == '') {
                 if (!has_permission('invoices', '', 'create')) {
                     access_denied('invoices');
@@ -319,11 +321,15 @@ class Invoices extends AdminController
                 if ($id) {
                     //set_alert('success', _l('added_successfully', _l('invoice')));
                     /*We add the new invoice in the table */
-                    if(!empty($marca_id))
+                    if(!empty($marca_id) && $edit_marca != "true") //nueva marca
                     {
                         $this->session->set_flashdata('marca_id',$marca_id);
                         $this->session->set_flashdata('factId',$id);
                         $redUrl = admin_url("pi/MarcasSolicitudesController/create");
+                    } else if(!empty($marca_id) && $edit_marca == "true") //edit marca
+                    {
+                        $this->invoices_model->insertMarcaFactura($marca_id, $id, $_SESSION['staff_user_id']);
+                        $redUrl = admin_url("pi/MarcasSolicitudesController/edit/" . $marca_id);
                     }else{
                         $redUrl = admin_url('invoices/list_invoices/' . $id);
                     }

@@ -62,4 +62,11 @@ class TipoCambioNombre_model extends BaseModel
         $values = $query->result_array();
         return $values; 
     }
+         
+    public function addCamNom($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_cambio_nombre_participantes', $params);
+        return $query;
+    }
+
 }

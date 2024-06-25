@@ -6,6 +6,7 @@
             <?php
             echo form_open($this->uri->uri_string(), ['id' => 'invoice-form', 'class' => '_transaction_form invoice-form']);
             echo form_hidden("marcaid", key_exists('marca_id', $_GET) ? $_GET['marca_id'] : '');
+            echo form_hidden("edit_marca", key_exists('edit_marca', $_GET) ? $_GET['edit_marca'] : '');
             if (isset($invoice)) {
                 echo form_hidden('isedit');
             }

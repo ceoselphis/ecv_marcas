@@ -115,6 +115,42 @@ class TipoFusionController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+          
+    public function addFusion(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        if (!empty($data)){
+        
+            $propietarios = explode(',', $data['propietarios']);
+            $insert = array();
+            foreach ($propietarios as $p) {
+                $arr_propietario = array(
+                    'fusion_id' => $data['id_cambio'],
+                    'tipo_participante' => $data['tipo_participante'],
+                    'propietario_id' => $p,
+                );
+                array_push($insert, $arr_propietario);
+            }
+            
+            $CI->load->model("TipoFusion_model");
+            try{
+                $query = $CI->TipoFusion_model->addFusiones($insert);
+                    if (isset($query)){
+                        echo "Insertado Correctamente";
+
+                    }else {
+                        echo "No hemos podido Insertar";
+                    }
+            }catch (Exception $e){
+                return $e->getMessage();
+            }
+        }
+        else {
+            echo "No tiene Data";
+        }
+    }
+
     public function addFusionAnterior(){
         $CI = &get_instance();
         $data = $CI->input->post();

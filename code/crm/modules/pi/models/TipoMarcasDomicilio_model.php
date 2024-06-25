@@ -62,4 +62,11 @@ class TipoMarcasDomicilio_model extends BaseModel
         $values = $query->result_array();
         return $values; 
     }
+           
+    public function addCamDom($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_domicilios', $params);
+        return $query;
+    }
+
 }

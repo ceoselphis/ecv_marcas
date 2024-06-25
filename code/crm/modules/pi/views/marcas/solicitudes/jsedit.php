@@ -26,9 +26,13 @@
     var tblCamNomDT;
     var tblCamNomActDT;
     var tblCamNomAntDT;
+    var AddtblCamNomActDT;
+    var AddtblCamNomAntDT;
     var tblCamDomDT;
     var tblCamDomActDT;
     var tblCamDomAntDT;
+    var AddtblCamDomActDT;
+    var AddtblCamDomAntDT;
     var tblDocomentoDT;
 
     /* Para cambiar el color de los Label  luego de un error*/
@@ -1237,6 +1241,12 @@
             formData.append('referenciacliente',referenciacliente );
             formData.append('comentario',comentario);
             formData.append('csrf_token_name', csrf_token_name);
+            //Verifico si existen en el localstorage Anteriores y Actuales
+            var propAnt = getPropietarios(JSON.parse(localStorage.getItem("cesionesanteriores")), 'cedente_id');
+            formData.append('propAnt',propAnt);
+            var propAct = getPropietarios(JSON.parse(localStorage.getItem("cesionesactuales")), 'cedente_id');
+            formData.append('propAct',propAct);
+
             let url = '<?php echo admin_url("pi/CesionController/addCesion");?>'
             $.ajax({
                 url,
@@ -1251,7 +1261,6 @@
             }).catch(function(response){
                 alert("No se pudo Añadir Cesion");
             });
-
         }else{
             $("#lbloficinaCesion").css('color', $('#oficinaCesion').val() ? color_lbl : 'red');
             $("#lblestadoCesion").css('color', $('#estadoCesion').val() ? color_lbl : 'red');
@@ -1266,6 +1275,42 @@
 
 
     });
+
+    //Añadir Cesion  
+    function AgregarCesionAntAct(p_propietarios, tipo_cedente){
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#cesionid').val();
+        var propietarios =  p_propietarios;
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('tipo_cedente',tipo_cedente);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoCesionController/addCesion");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                if (tipo_cedente == 1){
+                    $("#CesionAnteriorModal").modal('hide');
+                    TablaCesionAnterior(id_cambio);
+                }else{
+                    $("#CesionActualModal").modal('hide');
+                    TablaCesionActual(id_cambio);
+                }
+        }).catch(function(response){
+            alert("No se pudo Añadir la Cesion " + tipo_cedente == 1 ? 'Anterior' : 'Actual');
+        });
+    }
 
     //Editar Cesion ---------------------------------------------------------------------------
     $(document).on('click','#EditCesionfrmsubmit',function(e){
@@ -1337,6 +1382,7 @@
     //Al abrir el modal de agregar cesion
     $('#AddCesion').on('shown.bs.modal', function (e) {
         /*Inicializamos el localstorage*/
+        $("#cesionid").val('');
         localStorage.setItem('cesionesanteriores', JSON.stringify([]));
         localStorage.setItem('cesionesactuales', JSON.stringify([]));
         $('#propietarioscesionanterior').prop('selectedIndex', -1).trigger('change');
@@ -1709,81 +1755,50 @@
         })
     }
 
-
     /***funcion para guardar el formulario de las Cesiones Anteriores*/
     $('#AñadirCesionAnteriorfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!(($('#propietarioscesionanterior').val() || []) == '')) 
         {
-            var cesionesanteriores = JSON.parse(localStorage.getItem("cesionesanteriores"));
-            rowCount = AddtblCesionAntDT.rows().count();
-            const valuesSelect = $('#propietarioscesionanterior').val().toString().split(',');
-            valuesSelect.forEach(function(value) {
-                $('#propietarioscesionanterior option[value=' + value + ']').each(function() {
-                    var data = {
-                        'idRow': rowCount + 1,
-                        "cedente_id": parseInt($(this).val()),
-                        'cedente_id_name': $(this).text(),
-                        "tipo_cedente": 1,
-                        "cesion_id": tblCesionDT.rows().count() + 1,
-                        'acciones': '<div class="col-md-6"><a id="cesionesanteriores_' + (rowCount) + '" class="deleteCesionAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-                    }
-                    cesionesanteriores.push(data);
-                    rowCount++;
+            if (!$("#cesionid").val()){
+                var cesionesanteriores = JSON.parse(localStorage.getItem("cesionesanteriores"));
+                rowCount = AddtblCesionAntDT.rows().count();
+                const valuesSelect = $('#propietarioscesionanterior').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietarioscesionanterior option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "cedente_id": parseInt($(this).val()),
+                            'cedente_id_name': $(this).text(),
+                            "tipo_cedente": 1,
+                            "cesion_id": tblCesionDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="cesionesanteriores_' + (rowCount) + '" class="deleteCesionAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        cesionesanteriores.push(data);
+                        rowCount++;
+                    });
                 });
-            });
-            console.log('cesionesanteriores', cesionesanteriores);
-            try {
-                $("#CesionAnteriorModal").modal('hide');
-                localStorage.setItem("cesionesanteriores", JSON.stringify(cesionesanteriores));
-                AddtblCesionAntDT.clear();
-                AddtblCesionAntDT.rows.add(JSON.parse(localStorage.getItem("cesionesanteriores")));
-                AddtblCesionAntDT.columns.adjust().draw();
-                ResetTablaCesionesAnteriores();
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
+                console.log('cesionesanteriores', cesionesanteriores);
+                try {
+                    $("#CesionAnteriorModal").modal('hide');
+                    localStorage.setItem("cesionesanteriores", JSON.stringify(cesionesanteriores));
+                    AddtblCesionAntDT.clear();
+                    AddtblCesionAntDT.rows.add(JSON.parse(localStorage.getItem("cesionesanteriores")));
+                    AddtblCesionAntDT.columns.adjust().draw();
+                    ResetTablaCesionesAnteriores();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+            }else{
+                AgregarCesionAntAct($('#propietarioscesionanterior').val(), 1);
             }
-
         }else{
             $("#lblpropietarioscesionanterior").css('color', 'red');
             alert_float('danger', 'Debe introducir todos los datos la Cesión Anterior');
         }
     })
-
-    //Añadir Cesion Anterior 
-    $(document).on('click','#AñadirCesionAnteriorfrmsubmitOLD',function(e){
-        e.preventDefault();
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id_cambio = $('#cesionid').val();
-        var propietarios =  $('#propietarioscesionanterior').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id_cambio',id_cambio);
-        formData.append('propietarios',propietarios);
-        formData.append('csrf_token_name', csrf_token_name);
-        console.log('id_cambio',id_cambio);
-        console.log('propietarios',propietarios);
-        console.log('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response){
-            console.log(response);
-                alert_float('success', "Insertado Correctamente");
-                $("#CesionAnteriorModal").modal('hide');
-                $("#EditCesion").modal('show');
-                MostrarCesion(id_cambio);
-                CesionAnterior(id_cambio);
-        }).catch(function(response){
-            alert("No se pudo Añadir Cesion Anterior");
-        });
-    });
  
     /**** funcion para borrar una Cesion Anterior*/
     $(document).on('click', '.deleteCesionAnterior', function(e) {
@@ -1805,7 +1820,7 @@
     $('#CesionAnteriorModal').on('hidden.bs.modal', function (e) {
         ResetTablaCesionesAnteriores();
     })
- 
+
     /***funcion que hace reset del Modal de Cesiones Anteriores*/
     function ResetTablaCesionesAnteriores() {
         $('#propietarioscesionanterior').prop('selectedIndex', -1).trigger('change');
@@ -1997,76 +2012,45 @@
         e.stopImmediatePropagation();
         if (!(($('#propietarioscesionactual').val() || []) == '')) 
         {
-            var cesionesactuales = JSON.parse(localStorage.getItem("cesionesactuales"));
-            rowCount = AddtblCesionActDT.rows().count();
-            const valuesSelect = $('#propietarioscesionactual').val().toString().split(',');
-            valuesSelect.forEach(function(value) {
-                $('#propietarioscesionactual option[value=' + value + ']').each(function() {
-                    var data = {
-                    'idRow': rowCount + 1,
-                    "cedente_id": parseInt($(this).val()),
-                    'cedente_id_name': $(this).text(),
-                    "tipo_cedente": 2,
-                    "cesion_id": tblCesionDT.rows().count() + 1,
-                    'acciones': '<div class="col-md-6"><a id="cesionesactuales_' + (rowCount) + '" class="deleteCesionActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-                    }
-                    cesionesactuales.push(data);
-                    rowCount++;
+            if (!$("#cesionid").val()){
+                var cesionesactuales = JSON.parse(localStorage.getItem("cesionesactuales"));
+                rowCount = AddtblCesionActDT.rows().count();
+                const valuesSelect = $('#propietarioscesionactual').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietarioscesionactual option[value=' + value + ']').each(function() {
+                        var data = {
+                        'idRow': rowCount + 1,
+                        "cedente_id": parseInt($(this).val()),
+                        'cedente_id_name': $(this).text(),
+                        "tipo_cedente": 2,
+                        "cesion_id": tblCesionDT.rows().count() + 1,
+                        'acciones': '<div class="col-md-6"><a id="cesionesactuales_' + (rowCount) + '" class="deleteCesionActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        cesionesactuales.push(data);
+                        rowCount++;
+                    });
                 });
-            });
 
-            console.log('cesionesactuales', cesionesactuales);
-            try {
-                $("#CesionActualModal").modal('hide');
-                localStorage.setItem("cesionesactuales", JSON.stringify(cesionesactuales));
-                AddtblCesionActDT.clear();
-                AddtblCesionActDT.rows.add(JSON.parse(localStorage.getItem("cesionesactuales")));
-                AddtblCesionActDT.columns.adjust().draw();
-                ResetTablaCesionesActuales();
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
+                console.log('cesionesactuales', cesionesactuales);
+                try {
+                    $("#CesionActualModal").modal('hide');
+                    localStorage.setItem("cesionesactuales", JSON.stringify(cesionesactuales));
+                    AddtblCesionActDT.clear();
+                    AddtblCesionActDT.rows.add(JSON.parse(localStorage.getItem("cesionesactuales")));
+                    AddtblCesionActDT.columns.adjust().draw();
+                    ResetTablaCesionesActuales();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+            }else{
+                AgregarCesionAntAct($('#propietarioscesionactual').val(), 2);
             }
-
         }else{
             $("#lblpropietarioscesionactual").css('color', 'red');
             alert_float('danger', 'Debe introducir todos los datos la Cesión Actual');
         }
     })
-
-    //Añadir Cesion Actual  ---------------------------------------------------------------------------
-    $(document).on('click','#AñadirCesionActualfrmsubmitOLD',function(e){
-        e.preventDefault();
-        console.log("Añadir Cesion Actual");
-        var formData = new FormData();
-        var data = getFormData(this);
-        var id_cambio = $('#cesionid').val();
-        var propietarios =  $('#propietarioscesionactual').val();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('id_cambio',id_cambio);
-        formData.append('propietarios',propietarios);
-        formData.append('csrf_token_name', csrf_token_name);
-        console.log('id_cambio',id_cambio);
-        console.log('propietarios',propietarios);
-        console.log('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionActual");?>'
-        $.ajax({
-            url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function(response){
-            console.log(response);
-            alert_float('success', "Insertado Correctamente");
-            $("#CesionActualModal").modal('hide');
-            $("#EditCesion").modal('show');
-            MostrarCesion(id_cambio);
-            TablaCesionActual(id_cambio);
-        }).catch(function(response){
-            alert("No se pudo Añadir Cesion Actual");
-        });
-    });
     
     /***funcion para borrar una Cesion Actual*/
     $(document).on('click', '.deleteCesionActual', function(e) {
@@ -2183,6 +2167,12 @@
             formData.append('referenciacliente',referenciacliente );
             formData.append('comentario',comentario);
             formData.append('csrf_token_name', csrf_token_name);
+            //Verifico si existen en el localstorage Anteriores y Actuales
+            var propAnt = getPropietarios(JSON.parse(localStorage.getItem("licenciasanteriores")), 'propietario_id');
+            formData.append('propAnt',propAnt);
+            var propAct = getPropietarios(JSON.parse(localStorage.getItem("licenciasactuales")), 'propietario_id');
+            formData.append('propAct',propAct);
+
             let url = '<?php echo admin_url("pi/LicenciaController/addLicencia");?>'
             $.ajax({
                 url,
@@ -2209,6 +2199,42 @@
             alert_float('danger', 'Debe introducir todos los datos para Añadir la Licencia');
         }
     });
+
+    //Añadir Licencia  
+    function AgregarLicenciaAntAct(p_propietarios, tipo_licenciante){
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#licenciaid').val();
+        var propietarios =  p_propietarios;
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('tipo_licenciante',tipo_licenciante);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoLicenciaController/addLicencia");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                if (tipo_licenciante == 1){
+                    $("#LicenciaAnteriorModal").modal('hide');
+                    TablaLicenciaAnterior(id_cambio);
+                }else{
+                    $("#LicenciaActualModal").modal('hide');
+                    TablaLicenciaActual(id_cambio);
+                }
+        }).catch(function(response){
+            alert("No se pudo Añadir la Licencia " + tipo_licenciante == 1 ? 'Anterior' : 'Actual');
+        });
+    }
     
     //Editar Licencia
     $(document).on('click','#editlicenciafrmsubmit',function(e){
@@ -2281,6 +2307,7 @@
     //Al abrir el modal de agregar cesion
     $('#AddLicencia').on('shown.bs.modal', function (e) {
         /*Inicializamos el localstorage*/
+        $("#licenciaid").val('');
         localStorage.setItem('licenciasanteriores', JSON.stringify([]));
         localStorage.setItem('licenciasactuales', JSON.stringify([]));
         $('#propietarioslicenciaanterior').prop('selectedIndex', -1).trigger('change');
@@ -2659,36 +2686,39 @@
         e.stopImmediatePropagation();
         if (!(($('#propietarioslicenciaanterior').val() || []) == '')) 
         {
-            var licenciasanteriores = JSON.parse(localStorage.getItem("licenciasanteriores"));
-            rowCount = AddtblLicenciaAntDT.rows().count();
-            const valuesSelect = $('#propietarioslicenciaanterior').val().toString().split(',');
-            valuesSelect.forEach(function(value) {
-                $('#propietarioslicenciaanterior option[value=' + value + ']').each(function() {
-                    var data = {
-                        'idRow': rowCount + 1,
-                        "propietario_id": parseInt($(this).val()),
-                        'propietario_id_name': $(this).text(),
-                        "tipo_licenciante": 1,
-                        "licencia_id": tblLicenciaDT.rows().count() + 1,
-                        'acciones': '<div class="col-md-6"><a id="licenciasanteriores_' + (rowCount) + '" class="deleteLicenciaAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-                    }
-                    licenciasanteriores.push(data);
-                    rowCount++;
+            if (!$("#licenciaid").val()) {
+                var licenciasanteriores = JSON.parse(localStorage.getItem("licenciasanteriores"));
+                rowCount = AddtblLicenciaAntDT.rows().count();
+                const valuesSelect = $('#propietarioslicenciaanterior').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietarioslicenciaanterior option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "propietario_id": parseInt($(this).val()),
+                            'propietario_id_name': $(this).text(),
+                            "tipo_licenciante": 1,
+                            "licencia_id": tblLicenciaDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="licenciasanteriores_' + (rowCount) + '" class="deleteLicenciaAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        licenciasanteriores.push(data);
+                        rowCount++;
+                    });
                 });
-            });
-            console.log('licenciasanteriores', licenciasanteriores);
-            try {
-                $("#LicenciaAnteriorModal").modal('hide');
-                localStorage.setItem("licenciasanteriores", JSON.stringify(licenciasanteriores));
-                AddtblLicenciaAntDT.clear();
-                AddtblLicenciaAntDT.rows.add(JSON.parse(localStorage.getItem("licenciasanteriores")));
-                AddtblLicenciaAntDT.columns.adjust().draw();
-                ResetTablaLicenciasAnteriores();
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
+                console.log('licenciasanteriores', licenciasanteriores);
+                try {
+                    $("#LicenciaAnteriorModal").modal('hide');
+                    localStorage.setItem("licenciasanteriores", JSON.stringify(licenciasanteriores));
+                    AddtblLicenciaAntDT.clear();
+                    AddtblLicenciaAntDT.rows.add(JSON.parse(localStorage.getItem("licenciasanteriores")));
+                    AddtblLicenciaAntDT.columns.adjust().draw();
+                    ResetTablaLicenciasAnteriores();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+            }else{
+                AgregarLicenciaAntAct($('#propietarioslicenciaanterior').val(), 1);
             }
-
         }else{
             $("#lblpropietarioslicenciaanterior").css('color', 'red');
             alert_float('danger', 'Debe introducir todos los datos la Licencia Anterior');
@@ -2905,36 +2935,39 @@
         e.stopImmediatePropagation();
         if (!(($('#propietarioslicenciaactual').val() || []) == '')) 
         {
-            var licenciasactuales = JSON.parse(localStorage.getItem("licenciasactuales"));
-            rowCount = AddtblLicenciaActDT.rows().count();
-            const valuesSelect = $('#propietarioslicenciaactual').val().toString().split(',');
-            valuesSelect.forEach(function(value) {
-                $('#propietarioslicenciaactual option[value=' + value + ']').each(function() {
-                    var data = {
-                        'idRow': rowCount + 1,
-                        "propietario_id": parseInt($(this).val()),
-                        'propietario_id_name': $(this).text(),
-                        "tipo_licenciante": 1,
-                        "licencia_id": tblLicenciaDT.rows().count() + 1,
-                        'acciones': '<div class="col-md-6"><a id="licenciasactuales_' + (rowCount) + '" class="deleteLicenciaActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-                    }
-                    licenciasactuales.push(data);
-                    rowCount++;
+            if (!$("#licenciaid").val()){
+                var licenciasactuales = JSON.parse(localStorage.getItem("licenciasactuales"));
+                rowCount = AddtblLicenciaActDT.rows().count();
+                const valuesSelect = $('#propietarioslicenciaactual').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietarioslicenciaactual option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "propietario_id": parseInt($(this).val()),
+                            'propietario_id_name': $(this).text(),
+                            "tipo_licenciante": 1,
+                            "licencia_id": tblLicenciaDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="licenciasactuales_' + (rowCount) + '" class="deleteLicenciaActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        licenciasactuales.push(data);
+                        rowCount++;
+                    });
                 });
-            });
-            console.log('licenciasactuales', licenciasactuales);
-            try {
-                $("#LicenciaActualModal").modal('hide');
-                localStorage.setItem("licenciasactuales", JSON.stringify(licenciasactuales));
-                AddtblLicenciaActDT.clear();
-                AddtblLicenciaActDT.rows.add(JSON.parse(localStorage.getItem("licenciasactuales")));
-                AddtblLicenciaActDT.columns.adjust().draw();
-                ResetTablaLicenciasActuales();
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
+                console.log('licenciasactuales', licenciasactuales);
+                try {
+                    $("#LicenciaActualModal").modal('hide');
+                    localStorage.setItem("licenciasactuales", JSON.stringify(licenciasactuales));
+                    AddtblLicenciaActDT.clear();
+                    AddtblLicenciaActDT.rows.add(JSON.parse(localStorage.getItem("licenciasactuales")));
+                    AddtblLicenciaActDT.columns.adjust().draw();
+                    ResetTablaLicenciasActuales();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+            }else{
+                AgregarLicenciaAntAct($('#propietarioslicenciaactual').val(), 2);
             }
-
         }else{
             $("#lblpropietarioslicenciaactual").css('color', 'red');
             alert_float('danger', 'Debe introducir todos los datos la Licencia Anterior');
@@ -3055,6 +3088,11 @@
             formData.append('referenciacliente',referenciacliente );
             formData.append('comentario',comentario);
             formData.append('csrf_token_name', csrf_token_name);
+            //Verifico si existen en el localstorage Anteriores y Actuales
+            var propAnt = getPropietarios(JSON.parse(localStorage.getItem("fusionesanteriores")), 'propietario_id');
+            formData.append('propAnt',propAnt);
+            var propAct = getPropietarios(JSON.parse(localStorage.getItem("fusionesactuales")), 'propietario_id');
+            formData.append('propAct',propAct);
             let url = '<?php  echo admin_url("pi/FusionController/addFusion");?>'
             $.ajax({
                 url,
@@ -3081,6 +3119,42 @@
             alert_float('danger', 'Debe introducir todos los datos la Fusion');
         }
     });
+
+    //Añadir Fusion  
+    function AgregarFusionAntAct(p_propietarios, tipo_participante){
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#fusionid').val();
+        var propietarios =  p_propietarios;
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('tipo_participante',tipo_participante);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoFusionController/addFusion");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                if (tipo_participante == 1){
+                    $("#FusionAnteriorModal").modal('hide');
+                    TablaFusionAnterior(id_cambio);
+                }else{
+                    $("#FusionActualModal").modal('hide');
+                    TablaFusionActual(id_cambio);
+                }
+        }).catch(function(response){
+            alert("No se pudo Añadir la Fusion " + tipo_participante == 1 ? 'Anterior' : 'Actual');
+        });
+    }
     
     //Editar Fusion
     $(document).on('click','#editfusionfrmsubmit',function(e){
@@ -3153,6 +3227,7 @@
     //Al abrir el modal de agregar fusion
     $('#AddFusion').on('shown.bs.modal', function (e) {
         /*Inicializamos el localstorage*/
+        $("#fusionid").val('');
         localStorage.setItem('fusionesanteriores', JSON.stringify([]));
         localStorage.setItem('fusionesactuales', JSON.stringify([]));
         $('#propietariosfusionanterior').prop('selectedIndex', -1).trigger('change');
@@ -3529,36 +3604,39 @@
         e.stopImmediatePropagation();
         if (!(($('#propietariosfusionanterior').val() || []) == '')) 
         {
-            var fusionesanteriores = JSON.parse(localStorage.getItem("fusionesanteriores"));
-            rowCount = AddtblFusionAntDT.rows().count();
-            const valuesSelect = $('#propietariosfusionanterior').val().toString().split(',');
-            valuesSelect.forEach(function(value) {
-                $('#propietariosfusionanterior option[value=' + value + ']').each(function() {
-                    var data = {
-                        'idRow': rowCount + 1,
-                        "propietario_id": parseInt($(this).val()),
-                        'propietario_id_name': $(this).text(),
-                        "tipo_participante": 1,
-                        "fusion_id": tblFusionDT.rows().count() + 1,
-                        'acciones': '<div class="col-md-6"><a id="fusionesanteriores_' + (rowCount) + '" class="deleteFusionAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-                    }
-                    fusionesanteriores.push(data);
-                    rowCount++;
+            if (!$("#fusionid").val()){
+                var fusionesanteriores = JSON.parse(localStorage.getItem("fusionesanteriores"));
+                rowCount = AddtblFusionAntDT.rows().count();
+                const valuesSelect = $('#propietariosfusionanterior').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietariosfusionanterior option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "propietario_id": parseInt($(this).val()),
+                            'propietario_id_name': $(this).text(),
+                            "tipo_participante": 1,
+                            "fusion_id": tblFusionDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="fusionesanteriores_' + (rowCount) + '" class="deleteFusionAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        fusionesanteriores.push(data);
+                        rowCount++;
+                    });
                 });
-            });
-            console.log('fusionesanteriores', fusionesanteriores);
-            try {
-                $("#FusionAnteriorModal").modal('hide');
-                localStorage.setItem("fusionesanteriores", JSON.stringify(fusionesanteriores));
-                AddtblFusionAntDT.clear();
-                AddtblFusionAntDT.rows.add(JSON.parse(localStorage.getItem("fusionesanteriores")));
-                AddtblFusionAntDT.columns.adjust().draw();
-                ResetTablaFusionesAnteriores();
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
+                console.log('fusionesanteriores', fusionesanteriores);
+                try {
+                    $("#FusionAnteriorModal").modal('hide');
+                    localStorage.setItem("fusionesanteriores", JSON.stringify(fusionesanteriores));
+                    AddtblFusionAntDT.clear();
+                    AddtblFusionAntDT.rows.add(JSON.parse(localStorage.getItem("fusionesanteriores")));
+                    AddtblFusionAntDT.columns.adjust().draw();
+                    ResetTablaFusionesAnteriores();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+            }else{
+                AgregarFusionAntAct($('#propietariosfusionanterior').val(), 1);
             }
-
         }else{
             $("#lblpropietariosfusionanterior").css('color', 'red');
             alert_float('danger', 'Debe introducir todos los datos la Fusion Anterior');
@@ -3772,36 +3850,39 @@
         e.stopImmediatePropagation();
         if (!(($('#propietariosfusionactual').val() || []) == '')) 
         {
-            var fusionesactuales = JSON.parse(localStorage.getItem("fusionesactuales"));
-            rowCount = AddtblFusionActDT.rows().count();
-            const valuesSelect = $('#propietariosfusionactual').val().toString().split(',');
-            valuesSelect.forEach(function(value) {
-                $('#propietariosfusionactual option[value=' + value + ']').each(function() {
-                    var data = {
-                        'idRow': rowCount + 1,
-                        "propietario_id": parseInt($(this).val()),
-                        'propietario_id_name': $(this).text(),
-                        "tipo_participante": 1,
-                        "fusion_id": tblFusionDT.rows().count() + 1,
-                        'acciones': '<div class="col-md-6"><a id="fusionesactuales_' + (rowCount) + '" class="deleteFusionActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-                    }
-                    fusionesactuales.push(data);
-                    rowCount++;
+            if (!$("#fusionid").val()){
+                var fusionesactuales = JSON.parse(localStorage.getItem("fusionesactuales"));
+                rowCount = AddtblFusionActDT.rows().count();
+                const valuesSelect = $('#propietariosfusionactual').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietariosfusionactual option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "propietario_id": parseInt($(this).val()),
+                            'propietario_id_name': $(this).text(),
+                            "tipo_participante": 1,
+                            "fusion_id": tblFusionDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="fusionesactuales_' + (rowCount) + '" class="deleteFusionActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        fusionesactuales.push(data);
+                        rowCount++;
+                    });
                 });
-            });
-            console.log('fusionesactuales', fusionesactuales);
-            try {
-                $("#FusionActualModal").modal('hide');
-                localStorage.setItem("fusionesactuales", JSON.stringify(fusionesactuales));
-                AddtblFusionActDT.clear();
-                AddtblFusionActDT.rows.add(JSON.parse(localStorage.getItem("fusionesactuales")));
-                AddtblFusionActDT.columns.adjust().draw();
-                ResetTablaFusionesActuales();
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
+                console.log('fusionesactuales', fusionesactuales);
+                try {
+                    $("#FusionActualModal").modal('hide');
+                    localStorage.setItem("fusionesactuales", JSON.stringify(fusionesactuales));
+                    AddtblFusionActDT.clear();
+                    AddtblFusionActDT.rows.add(JSON.parse(localStorage.getItem("fusionesactuales")));
+                    AddtblFusionActDT.columns.adjust().draw();
+                    ResetTablaFusionesActuales();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+            }else{
+                AgregarFusionAntAct($('#propietariosfusionactual').val(), 2);
             }
-
         }else{
             $("#lblpropietariosfusionactual").css('color', 'red');
             alert_float('danger', 'Debe introducir todos los datos la Fusion Actual');
@@ -3922,6 +4003,11 @@
             formData.append('referenciacliente',referenciacliente );
             formData.append('comentario',comentario);
             formData.append('csrf_token_name', csrf_token_name);
+            //Verifico si existen en el localstorage Anteriores y Actuales
+            var propAnt = getPropietarios(JSON.parse(localStorage.getItem("camnomanteriores")), 'propietario_id');
+            formData.append('propAnt',propAnt);
+            var propAct = getPropietarios(JSON.parse(localStorage.getItem("camnomactuales")), 'propietario_id');
+            formData.append('propAct',propAct);
             let url = '<?php  echo admin_url("pi/CambioNombreController/addCambioNombre");?>'
             $.ajax({
                 url,
@@ -3948,6 +4034,42 @@
                 alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre');
         }
     }); 
+
+    //Añadir Cambio de Nombre  
+    function AgregarCamNomAntAct(p_propietarios, tipo_nombre){
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#camnomid').val();
+        var propietarios =  p_propietarios;
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('tipo_nombre',tipo_nombre);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoCambioNombreController/addCamNom");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                if (tipo_nombre == 1){
+                    $("#CamNomAnteriorModal").modal('hide');
+                    TablaCambioNombreAnterior(id_cambio);
+                }else{
+                    $("#CamNomActualModal").modal('hide');
+                    TablaCambioNombreActual(id_cambio);
+                }
+        }).catch(function(response){
+            alert("No se pudo Añadir el Cambio de Nombre " + tipo_nombre == 1 ? 'Anterior' : 'Actual');
+        });
+    }
 
     //Editar Cambio de Nombre -----------------------------------------------------------------
     $(document).on('click','#EditCambioNombrefrmsubmit',function(e){
@@ -4016,6 +4138,18 @@
         }
     
     }); 
+
+    //Al abrir el modal de agregar Cambio de Nombre
+    $('#AddCambioNombre').on('shown.bs.modal', function (e) {
+        /*Inicializamos el localstorage*/
+        $("#camnomid").val('');
+        localStorage.setItem('camnomanteriores', JSON.stringify([]));
+        localStorage.setItem('camnomactuales', JSON.stringify([]));
+        $('#propietarioscamnomanterior').prop('selectedIndex', -1).trigger('change');
+        $('#propietarioscamnomactual').prop('selectedIndex', -1).trigger('change');
+        TablaCamNomAnterior_Add();
+        TablaCamNomActual_Add();
+    })
 
     //Al cerrar el modal
     $('#AddCambioNombre').on('hidden.bs.modal', function (e) {
@@ -4374,6 +4508,122 @@
     }
 
 
+    /***funcion para guardar el formulario de las CamNoms Anteriores*/
+    $('#AñadirCamNomAnteriorfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietarioscamnomanterior').val() || []) == '')) 
+        {
+            if (!$("#camnomid").val()) {
+                var camnomanteriores = JSON.parse(localStorage.getItem("camnomanteriores"));
+                rowCount = AddtblCamNomAntDT.rows().count();
+                const valuesSelect = $('#propietarioscamnomanterior').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietarioscamnomanterior option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "propietario_id": parseInt($(this).val()),
+                            'propietario_id_name': $(this).text(),
+                            "tipo_nombre": 1,
+                            "camnom_id": tblCamNomDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="camnomanteriores_' + (rowCount) + '" class="deleteCamNomAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        camnomanteriores.push(data);
+                        rowCount++;
+                    });
+                });
+                console.log('camnomanteriores', camnomanteriores);
+                try {
+                    $("#CamNomAnteriorModal").modal('hide');
+                    localStorage.setItem("camnomanteriores", JSON.stringify(camnomanteriores));
+                    AddtblCamNomAntDT.clear();
+                    AddtblCamNomAntDT.rows.add(JSON.parse(localStorage.getItem("camnomanteriores")));
+                    AddtblCamNomAntDT.columns.adjust().draw();
+                    ResetTablaCamNomsAnteriores();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }                
+            }else{
+                AgregarCamNomAntAct($('#propietarioscamnomanterior').val(), 1);
+            }
+        }else{
+            $("#lblpropietarioscamnomanterior").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre Anterior');
+        }
+    })
+ 
+    /**** funcion para borrar una Cambio de Nombre Anterior*/
+    $(document).on('click', '.deleteCamNomAnterior', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var camnomanteriores = JSON.parse(localStorage.getItem("camnomanteriores"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            camnomanteriores.length == 1 ? camnomanteriores = [] : camnomanteriores.splice(id, 1);
+            localStorage.setItem("camnomanteriores", JSON.stringify(UpdtIdRow(camnomanteriores, 'camnomanteriores_')));
+            console.log('camnomanteriores', JSON.parse(localStorage.getItem("camnomanteriores")));
+            AddtblCamNomAntDT.clear();
+            AddtblCamNomAntDT.rows.add(JSON.parse(localStorage.getItem("camnomanteriores")));
+            AddtblCamNomAntDT.columns.adjust().draw();
+            alert_float('success', 'Cambio de Nombre Anterior borrada exitosamente');
+        }
+    })
+
+    /***funcion que se ejecuta al cerrar el Modal Cambio de Nombre Anterior*/
+    $('#CamNomAnteriorModal').on('hidden.bs.modal', function (e) {
+        ResetTablaCamNomsAnteriores();
+    })
+ 
+    /***funcion que hace reset del Modal de CamNoms Anteriores*/
+    function ResetTablaCamNomsAnteriores() {
+        $('#propietarioscamnomanterior').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietarioscamnomanterior").css('color', color_lbl);
+    }
+
+    /***funcion que configura el Datatable de las camnom Anteriores*/
+    function TablaCamNomAnterior_Add() {
+        tabla = JSON.parse(localStorage.getItem("camnomanteriores"));
+        AddtblCamNomAntDT = 
+        new $("#CamNomAnteriorTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'propietario_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
+
     /* ####################################################################### */
     /* **********             FUNCIONES CAMBIO DE NOMBRE ACTUAL     ********** */
     /* ####################################################################### */
@@ -4506,6 +4756,122 @@
     }
 
 
+    /***funcion para guardar el formulario de las CamNoms Actuales*/
+    $('#AñadirCamNomActualfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietarioscamnomactual').val() || []) == '')) 
+        {
+            if (!$("#camnomid").val()){
+                var camnomactuales = JSON.parse(localStorage.getItem("camnomactuales"));
+                rowCount = AddtblCamNomActDT.rows().count();
+                const valuesSelect = $('#propietarioscamnomactual').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietarioscamnomactual option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "propietario_id": parseInt($(this).val()),
+                            'propietario_id_name': $(this).text(),
+                            "tipo_nombre": 1,
+                            "camnom_id": tblCamNomDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="camnomactuales_' + (rowCount) + '" class="deleteCamNomActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        camnomactuales.push(data);
+                        rowCount++;
+                    });
+                });
+                console.log('camnomactuales', camnomactuales);
+                try {
+                    $("#CamNomActualModal").modal('hide');
+                    localStorage.setItem("camnomactuales", JSON.stringify(camnomactuales));
+                    AddtblCamNomActDT.clear();
+                    AddtblCamNomActDT.rows.add(JSON.parse(localStorage.getItem("camnomactuales")));
+                    AddtblCamNomActDT.columns.adjust().draw();
+                    ResetTablaCamNomsActuales();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+            }else{
+                AgregarCamNomAntAct($('#propietarioscamnomactual').val(), 2);
+            }
+        }else{
+            $("#lblpropietarioscamnomactual").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre Actual');
+        }
+    })
+ 
+    /**** funcion para borrar una Cambio de Nombre Actual*/
+    $(document).on('click', '.deleteCamNomActual', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var camnomactuales = JSON.parse(localStorage.getItem("camnomactuales"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            camnomactuales.length == 1 ? camnomactuales = [] : camnomactuales.splice(id, 1);
+            localStorage.setItem("camnomactuales", JSON.stringify(UpdtIdRow(camnomactuales, 'camnomactuales_')));
+            console.log('camnomactuales', JSON.parse(localStorage.getItem("camnomactuales")));
+            AddtblCamNomActDT.clear();
+            AddtblCamNomActDT.rows.add(JSON.parse(localStorage.getItem("camnomactuales")));
+            AddtblCamNomActDT.columns.adjust().draw();
+            alert_float('success', 'Cambio de Nombre Actual borrada exitosamente');
+        }
+    })
+
+    /***funcion que se ejecuta al cerrar el Modal Cambio de Nombre Actual*/
+    $('#CamNomActualModal').on('hidden.bs.modal', function (e) {
+        ResetTablaCamNomsActuales();
+    })
+ 
+    /***funcion que hace reset del Modal de CamNoms Actuales*/
+    function ResetTablaCamNomsActuales() {
+        $('#propietarioscamnomactual').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietarioscamnomactual").css('color', color_lbl);
+    }
+
+    /***funcion que configura el Datatable de las camnom Actuales*/
+    function TablaCamNomActual_Add() {
+        tabla = JSON.parse(localStorage.getItem("camnomactuales"));
+        AddtblCamNomActDT = 
+        new $("#CamNomActualTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'propietario_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
+
     /* ####################################################################### */
     /* **********             FUNCIONES CAMBIO DE DOMICILIO         ********** */
     /* ####################################################################### */
@@ -4548,6 +4914,12 @@
             formData.append('referenciacliente',referenciacliente );
             formData.append('comentario',comentario);
             formData.append('csrf_token_name', csrf_token_name);
+            //Verifico si existen en el localstorage Anteriores y Actuales
+            var propAnt = getPropietarios(JSON.parse(localStorage.getItem("camdomanteriores")), 'propietario_id');
+            formData.append('propAnt',propAnt);
+            var propAct = getPropietarios(JSON.parse(localStorage.getItem("camdomactuales")), 'propietario_id');
+            formData.append('propAct',propAct);
+
             let url = '<?php echo admin_url("pi/MarcasDomicilioController/addCambioDomicilio");?>'
             $.ajax({
                 url,
@@ -4575,6 +4947,42 @@
         }
     });
 
+    //Añadir Cambio de Domicilio  
+    function AgregarCamDomAntAct(p_propietarios, tipo_domicilio){
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#camdomid').val();
+        var propietarios =  p_propietarios;
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('tipo_domicilio',tipo_domicilio);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/addCamDom"); ?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                if (tipo_domicilio == 1) {
+                    $("#CamDomAnteriorModal").modal('hide');
+                    TablaCambioDomicilioAnterior(id_cambio);
+                } else {
+                    $("#CamDomActualModal").modal('hide');
+                    TablaCambioDomicilioActual(id_cambio);
+                }
+            }).catch(function (response) {
+                alert("No se pudo Añadir el Cambio de Domicilio " + tipo_domicilio == 1 ? 'Anterior' : 'Actual');
+            });
+        }
+
     //Editar Cambio Domicilio ----------------------------------------------------------------------
     $(document).on('click','#EditCambioDomiciliofrmsubmit',function(e){
         e.preventDefault();
@@ -4585,7 +4993,7 @@
             $('#nro_resolucionCamDom_edit').val() &&
             $('#fecha_resolucionCamDom_edit').val() &&
             $('#referenciaclienteCamDom_edit').val() &&
-            $('#comentarioCamDom_edit').val()) 
+            $('#comentarioCamDom_edit').val())
             {
             var formData = new FormData();
             var data = getFormData(this);
@@ -4612,33 +5020,45 @@
             formData.append('referenciacliente',referenciacliente );
             formData.append('comentario',comentario);
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/");?>'
-            url = url+id;
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Actualizado Correctamente");
-                $("#EditCambioDomicilio").modal('hide');
-                TablaCambioDomicilio();
-            }).catch(function(response){
-                alert("No se pudo Editar Cambio Domicilio");
-            });
-        }else{
-            $("#lbloficinaCamDom_edit").css('color', $('#oficinaCamDom_edit').val() ? color_lbl : 'red');
-            $("#lblestadoCamDom_edit").css('color', $('#estadoCamDom_edit').val() ? color_lbl : 'red');
-            $("#lblnro_solicitudCamDom_edit").css('color', $('#nro_solicitudCamDom_edit').val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudCamDom_edit").css('color', $('#fecha_solicitudCamDom_edit').val() ? color_lbl : 'red');
-            $("#lblnro_resolucionCamDom_edit").css('color', $('#nro_resolucionCamDom_edit').val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionCamDom_edit").css('color', $('#fecha_resolucionCamDom_edit').val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteCamDom_edit").css('color', $('#referenciaclienteCamDom_edit').val() ? color_lbl : 'red');
-            $("#lblcomentarioCamDom_edit").css('color', $('#comentarioCamDom_edit').val() ? color_lbl : 'red');
-            alert_float('danger', 'Debe introducir todos los datos para Editar el Cambio de Domicilio');
-        }
-    });
+            let url = '<?php echo admin_url("pi/MarcasDomicilioController/UpdateCambioDomicilio/"); ?>'
+                url = url + id;
+                $.ajax({
+                    url,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).then(function (response) {
+                    alert_float('success', "Actualizado Correctamente");
+                    $("#EditCambioDomicilio").modal('hide');
+                    TablaCambioDomicilio();
+                }).catch(function (response) {
+                    alert("No se pudo Editar Cambio Domicilio");
+                });
+            } else {
+                $("#lbloficinaCamDom_edit").css('color', $('#oficinaCamDom_edit').val() ? color_lbl : 'red');
+                $("#lblestadoCamDom_edit").css('color', $('#estadoCamDom_edit').val() ? color_lbl : 'red');
+                $("#lblnro_solicitudCamDom_edit").css('color', $('#nro_solicitudCamDom_edit').val() ? color_lbl : 'red');
+                $("#lblfecha_solicitudCamDom_edit").css('color', $('#fecha_solicitudCamDom_edit').val() ? color_lbl : 'red');
+                $("#lblnro_resolucionCamDom_edit").css('color', $('#nro_resolucionCamDom_edit').val() ? color_lbl : 'red');
+                $("#lblfecha_resolucionCamDom_edit").css('color', $('#fecha_resolucionCamDom_edit').val() ? color_lbl : 'red');
+                $("#lblreferenciaclienteCamDom_edit").css('color', $('#referenciaclienteCamDom_edit').val() ? color_lbl : 'red');
+                $("#lblcomentarioCamDom_edit").css('color', $('#comentarioCamDom_edit').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe introducir todos los datos para Editar el Cambio de Domicilio');
+            }
+        });
+
+    //Al abrir el modal de agregar Cambio de Nombre
+    $('#AddCambioDomicilio').on('shown.bs.modal', function (e) {
+        /*Inicializamos el localstorage*/
+        $("#camdomid").val('');
+        localStorage.setItem('camdomanteriores', JSON.stringify([]));
+        localStorage.setItem('camdomactuales', JSON.stringify([]));
+        $('#propietarioscamdomanterior').prop('selectedIndex', -1).trigger('change');
+        $('#propietarioscamdomactual').prop('selectedIndex', -1).trigger('change');
+        TablaCamDomAnterior_Add();
+        TablaCamDomActual_Add();
+    })
 
     //Al cerrar el modal
     $('#AddCambioDomicilio').on('hidden.bs.modal', function (e) {
@@ -5001,11 +5421,126 @@
     }
 
 
+    /***funcion para guardar el formulario de las CamDoms Anteriores*/
+    $('#AñadirCamDomAnteriorfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietarioscamdomanterior').val() || []) == '')) 
+        {
+            if (!$("#camdomid").val()) {
+                var camdomanteriores = JSON.parse(localStorage.getItem("camdomanteriores"));
+                rowCount = AddtblCamDomAntDT.rows().count();
+                const valuesSelect = $('#propietarioscamdomanterior').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietarioscamdomanterior option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "propietario_id": parseInt($(this).val()),
+                            'propietario_id_name': $(this).text(),
+                            "tipo_domicilio": 1,
+                            "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="camdomanteriores_' + (rowCount) + '" class="deleteCamDomAnterior btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        camdomanteriores.push(data);
+                        rowCount++;
+                    });
+                });
+                console.log('camdomanteriores', camdomanteriores);
+                try {
+                    $("#CamDomAnteriorModal").modal('hide');
+                    localStorage.setItem("camdomanteriores", JSON.stringify(camdomanteriores));
+                    AddtblCamDomAntDT.clear();
+                    AddtblCamDomAntDT.rows.add(JSON.parse(localStorage.getItem("camdomanteriores")));
+                    AddtblCamDomAntDT.columns.adjust().draw();
+                    ResetTablaCamDomsAnteriores();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }                
+            }else{
+                AgregarCamDomAntAct($('#propietarioscamdomanterior').val(), 1);
+            }
+        }else{
+            $("#lblpropietarioscamdomanterior").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos el Cambio de Domicilio Anterior');
+        }
+    })
+ 
+    /**** funcion para borrar una Cambio de Domicilio Anterior*/
+    $(document).on('click', '.deleteCamDomAnterior', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var camdomanteriores = JSON.parse(localStorage.getItem("camdomanteriores"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            camdomanteriores.length == 1 ? camdomanteriores = [] : camdomanteriores.splice(id, 1);
+            localStorage.setItem("camdomanteriores", JSON.stringify(UpdtIdRow(camdomanteriores, 'camdomanteriores_')));
+            console.log('camdomanteriores', JSON.parse(localStorage.getItem("camdomanteriores")));
+            AddtblCamDomAntDT.clear();
+            AddtblCamDomAntDT.rows.add(JSON.parse(localStorage.getItem("camdomanteriores")));
+            AddtblCamDomAntDT.columns.adjust().draw();
+            alert_float('success', 'Cambio de Domicilio Anterior borrada exitosamente');
+        }
+    })
+
+    /***funcion que se ejecuta al cerrar el Modal Cambio de Domicilio Anterior*/
+    $('#CamDomAnteriorModal').on('hidden.bs.modal', function (e) {
+        ResetTablaCamDomsAnteriores();
+    })
+ 
+    /***funcion que hace reset del Modal de CamDoms Anteriores*/
+    function ResetTablaCamDomsAnteriores() {
+        $('#propietarioscamdomanterior').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietarioscamdomanterior").css('color', color_lbl);
+    }
+
+    /***funcion que configura el Datatable de las camdom Anteriores*/
+    function TablaCamDomAnterior_Add() {
+        tabla = JSON.parse(localStorage.getItem("camdomanteriores"));
+        AddtblCamDomAntDT = 
+        new $("#CamDomAnteriorTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'propietario_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
+
     /* ####################################################################### */
     /* **********             FUNCIONES CAMBIO DE DOMICILIO ACTUAL  ********** */
     /* ####################################################################### */
 
-    
     //Editar Cambio de Domiclio Actual  ---------------------------------------------------------------------------
     $(document).on('click','#EditarCamDomActualfrmsubmit',function(e){
         e.preventDefault();
@@ -5019,25 +5554,25 @@
         var csrf_token_name = $("input[name=csrf_token_name]").val();
         formData.append('propietarios',propietarios);
         formData.append('csrf_token_name', csrf_token_name);
-        let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/UpdateTipoCambioDomicilio/");?>';
-        url = url+id;
+        let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/UpdateTipoCambioDomicilio/"); ?>';
+        url = url + id;
         $.ajax({
             url,
             method: 'POST',
             data: formData,
             processData: false,
             contentType: false
-        }).then(function(response){
+        }).then(function (response) {
             console.log(response);
             alert_float('success', "Actualizado Correctamente");
             $("#EditCambioDomicilioActualModal").modal('hide');
             $("#EditCambioDomicilio").modal('show');
             TablaCambioDomicilioActual(id_cambiodomiclio);
-        }).catch(function(response){
+        }).catch(function (response) {
             alert("No se pudo Editar Cambio de Domiclio Actual ");
         });
     });
-    
+
     // Cambiar de Modal de Editar Cambio Domiclio por Editar Cambio Domicilio Actual 
     $(document).on('click','.EditCamDomAct',function(e){
         e.preventDefault();
@@ -5134,11 +5669,126 @@
     }
 
 
+    /***funcion para guardar el formulario de las CamDoms Actuales*/
+    $('#AñadirCamDomActualfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (!(($('#propietarioscamdomactual').val() || []) == '')) 
+        {
+            if (!$("#camdomid").val()) {
+                var camdomactuales = JSON.parse(localStorage.getItem("camdomactuales"));
+                rowCount = AddtblCamDomActDT.rows().count();
+                const valuesSelect = $('#propietarioscamdomactual').val().toString().split(',');
+                valuesSelect.forEach(function(value) {
+                    $('#propietarioscamdomactual option[value=' + value + ']').each(function() {
+                        var data = {
+                            'idRow': rowCount + 1,
+                            "propietario_id": parseInt($(this).val()),
+                            'propietario_id_name': $(this).text(),
+                            "tipo_domicilio": 1,
+                            "cambio_domicilio_id": tblCamDomDT.rows().count() + 1,
+                            'acciones': '<div class="col-md-6"><a id="camdomactuales_' + (rowCount) + '" class="deleteCamDomActual btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                        }
+                        camdomactuales.push(data);
+                        rowCount++;
+                    });
+                });
+                console.log('camdomactuales', camdomactuales);
+                try {
+                    $("#CamDomActualModal").modal('hide');
+                    localStorage.setItem("camdomactuales", JSON.stringify(camdomactuales));
+                    AddtblCamDomActDT.clear();
+                    AddtblCamDomActDT.rows.add(JSON.parse(localStorage.getItem("camdomactuales")));
+                    AddtblCamDomActDT.columns.adjust().draw();
+                    ResetTablaCamDomsActuales();
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+            }else{
+                AgregarCamDomAntAct($('#propietarioscamdomactual').val(), 2);
+            }
+        }else{
+            $("#lblpropietarioscamdomactual").css('color', 'red');
+            alert_float('danger', 'Debe introducir todos los datos el Cambio de Domicilio Actual');
+        }
+    })
+ 
+    /**** funcion para borrar una Cambio de Domicilio Actual*/
+    $(document).on('click', '.deleteCamDomActual', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var camdomactuales = JSON.parse(localStorage.getItem("camdomactuales"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            camdomactuales.length == 1 ? camdomactuales = [] : camdomactuales.splice(id, 1);
+            localStorage.setItem("camdomactuales", JSON.stringify(UpdtIdRow(camdomactuales, 'camdomactuales_')));
+            console.log('camdomactuales', JSON.parse(localStorage.getItem("camdomactuales")));
+            AddtblCamDomActDT.clear();
+            AddtblCamDomActDT.rows.add(JSON.parse(localStorage.getItem("camdomactuales")));
+            AddtblCamDomActDT.columns.adjust().draw();
+            alert_float('success', 'Cambio de Domicilio Actual borrada exitosamente');
+        }
+    })
+
+    /***funcion que se ejecuta al cerrar el Modal Cambio de Domicilio Actual*/
+    $('#CamDomActualModal').on('hidden.bs.modal', function (e) {
+        ResetTablaCamDomsActuales();
+    })
+ 
+    /***funcion que hace reset del Modal de CamDoms Actuales*/
+    function ResetTablaCamDomsActuales() {
+        $('#propietarioscamdomactual').prop('selectedIndex', -1).trigger('change');
+        $("#lblpropietarioscamdomactual").css('color', color_lbl);
+    }
+    
+    /***funcion que configura el Datatable de las camdom Actuales*/
+    function TablaCamDomActual_Add() {
+        tabla = JSON.parse(localStorage.getItem("camdomactuales"));
+        AddtblCamDomActDT = 
+        new $("#CamDomActualTbl_add").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'propietario_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+    
+    
     /* ####################################################################### */
     /* **********             FUNCIONES DOCUMENTOS                  ********** */
     /* ####################################################################### */
-
-
+    
     //Añadir Documento ---------------------------------------------------------------------------
     $(document).on('click','#documentofrmsubmit',function(e){
         e.preventDefault();
@@ -5268,7 +5918,7 @@
                 alert("No se pudo Eliminar Documentos");
             });
         }
-});
+    });
 
     //Modal Edit Documento
     $(document).on('click','.editdoc',function(e){
@@ -5363,13 +6013,82 @@
 
         })
     }
-
+    
 
     /* ####################################################################### */
     /* **********             FUNCIONES FACTURAS                    ********** */
     /* ####################################################################### */
-    
-    
+ 
+    //Eliminar Facturas
+    $(document).on('click','.factura-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            var id = $(this).attr('id');
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesController/deleteInvoiceMarca/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaFacturas();
+            }).catch(function(response){
+                alert("No se pudo Eliminar la Factura");
+            });
+        }
+    });
+   
+    /***funcion para guardar el formulario de Facturas*/
+    $("#facturaMarcaSubmit").on('click', function(e) {
+        e.preventDefault();
+        if ($('#facturaId').val()) {
+            
+            var formData = new FormData();
+            var data = getFormData(this);
+            const id_marcas = '<?php echo $id?>';
+            var facturaId =  $('#facturaId').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('id_marcas',id_marcas);
+            formData.append('facturaId' , facturaId);
+            let url = '<?php echo admin_url("pi/MarcasSolicitudesController/insertInvoiceMarca");?>';
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                $("#facturaModal").modal('hide');
+                TablaFacturas();
+            }).catch(function(response){
+                alert("Error al guardar la factura ",response.message);
+            });
+        }else{
+            $("#lblfacturaId").css('color', 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Factura');
+        }
+    });
+
+    //***funcion que se ejecuta al cerrar el Modal
+    $('#facturaModal').on('hidden.bs.modal', function (e) {
+        ResetTablaFacturas();
+    })
+
+    //***funcion que hace reset del Modal de Documento
+    function ResetTablaFacturas() {
+        $('#facturaId').prop('selectedIndex', 0);
+        $('#facturaId').selectpicker('refresh'); 
+        $("#lblfacturaId").css('color', color_lbl);
+    }
+
+    //Facturas
     function TablaFacturas()
         {
             $.ajax({
@@ -5426,14 +6145,11 @@
                 }
             })
         }
-
-
-
-
+    
+    
     /* ####################################################################### */
     /* **********             FUNCIONES VARIAS                      ********** */
     /* ####################################################################### */
-
 
     //**Funcion para guardar formulario */
     $("#solicitudfrm").on('submit', function(e){
@@ -5516,6 +6232,15 @@
                         true : false;
                 })
             .data();
+    }
+
+    //**Funcion para obtener los propietarios de las localstorage
+    function getPropietarios(json, property){
+        let propietarios = '';
+        $.each(json,function(index, value){
+            propietarios += (index > 0 ? ',' : '') + value[property];
+        });
+        return propietarios;
     }
 
     //**Función para Input sólo numéricos */
@@ -5645,6 +6370,70 @@
 
 
 
+    $(document).on('click','#AñadirCesionActualfrmsubmit',function(e){
+        e.preventDefault();
+        console.log("Añadir Cesion Actual");
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#cesionid').val();
+        var propietarios =  $('#propietarioscesionactual').val();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionActual");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+            alert_float('success', "Insertado Correctamente");
+            $("#CesionActualModal").modal('hide');
+            $("#EditCesion").modal('show');
+            MostrarCesion(id_cambio);
+            CesionActual(id_cambio);
+        }).catch(function(response){
+            alert("No se pudo Añadir Cesion Actual");
+        });
+    });
+
+    $(document).on('click','#AñadirCesionAnteriorfrmsubmit',function(e){
+        e.preventDefault();
+        var formData = new FormData();
+        var data = getFormData(this);
+        var id_cambio = $('#cesionid').val();
+        var propietarios =  $('#propietarioscesionanterior').val();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('id_cambio',id_cambio);
+        formData.append('propietarios',propietarios);
+        formData.append('csrf_token_name', csrf_token_name);
+        console.log('id_cambio',id_cambio);
+        console.log('propietarios',propietarios);
+        console.log('csrf_token_name', csrf_token_name);
+        let url = '<?php echo admin_url("pi/TipoCesionController/addCesionAnterior");?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response){
+            console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                $("#CesionAnteriorModal").modal('hide');
+                $("#EditCesion").modal('show');
+                MostrarCesion(id_cambio);
+                CesionAnterior(id_cambio);
+        }).catch(function(response){
+            alert("No se pudo Añadir Cesion Anterior");
+        });
+    });
         
 
 
@@ -5708,33 +6497,20 @@
  
 
 
-
-
-
-
  
         //----------------------------------- Modad Para Añadir, Editar y Eliminar -----------------------------------------------
         
             //Alerta Error para cambio de domicilio Actual
-            $(document).on('click','#Alertacambio_domicilioactual',function(e){
-                e.preventDefault();
-                alert_float('danger', "Primero guarde antes de entrar aqui");
-            });
-            //Alerta Error para cambio de domicilio Anterior
-            $(document).on('click','#Alertacambio_domicilioanterior',function(e){
-                e.preventDefault();
-                alert_float('danger', "Primero guarde antes de entrar aqui");
-            });
               
             // Cambiar de Modal de Añadir Cambio Domiclio por Añadir Cambio Domicilio Actual 
-            $(document).on('click','#addbtnCambioDomicilioActual',function(e){
+            $(document).on('click','#addbtnCambioDomicilioActualOLD',function(e){
                 e.preventDefault();
                 ActualizarCambioDomicilio();
                 $("#AddCambioDomicilio").modal('hide');
                 $("#CambioDomicilioActualModal").modal('show');
             });
             // Cambiar de Modal de Añadir Cambio Domiclio por Añadir Cambio Domicilio Anterior 
-            $(document).on('click','#addbtnCambioDomicilioAnterior',function(e){
+            $(document).on('click','#addbtnCambioDomicilioAnteriorOLD',function(e){
                 e.preventDefault();
                 ActualizarCambioDomicilio();
                 $("#AddCambioDomicilio").modal('hide');
@@ -5742,14 +6518,14 @@
             });
 
              // Cambiar de Modal de Añadir Cambio Nombre por Añadir Cambio Nombre Actual 
-             $(document).on('click','#addbtnCambioNombreActual',function(e){
+             $(document).on('click','#addbtnCambioNombreActualOLD',function(e){
                 e.preventDefault();
                 ActualizarCambioNombre();
                 $("#AddCambioNombre").modal('hide');
                 $("#CambioNombreActualModal").modal('show');
             });
             // Cambiar de Modal de Añadir Cambio Nombre por Añadir Cambio Nombre Anterior 
-            $(document).on('click','#addbtnCambioNombreAnterior',function(e){
+            $(document).on('click','#addbtnCambioNombreAnteriorOLD',function(e){
                 e.preventDefault();
                 ActualizarCambioNombre();
                 $("#AddCambioNombre").modal('hide');
@@ -5888,7 +6664,7 @@
             });
         });
             //Añadir Cambio de Nombre Anterior  ---------------------------------------------------------------------------
-        $(document).on('click','#AñadirCamNomAnteriorfrmsubmit',function(e){
+        $(document).on('click','#AñadirCamNomAnteriorfrmsubmitOLD',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -5920,7 +6696,7 @@
             });
         });
         //Añadir Cambio de Nombre Actual  ---------------------------------------------------------------------------
-        $(document).on('click','#AñadirCamNomActualfrmsubmit',function(e){
+        $(document).on('click','#AñadirCamNomActualfrmsubmitOLD',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -5954,7 +6730,7 @@
           
 
              //Añadir Cambio de Domiclio Anterior  ---------------------------------------------------------------------------
-        $(document).on('click','#AñadirCamDomAnteriorfrmsubmit',function(e){
+        $(document).on('click','#AñadirCamDomAnteriorfrmsubmitOLD',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);
@@ -5984,7 +6760,7 @@
         });
 
         //Añadir Cambio de Domiclio Actual  ---------------------------------------------------------------------------
-        $(document).on('click','#AñadirCamDomActualfrmsubmit',function(e){
+        $(document).on('click','#AñadirCamDomActualfrmsubmitOLD',function(e){
             e.preventDefault();
             var formData = new FormData();
             var data = getFormData(this);

@@ -115,6 +115,41 @@ class TipoLicenciaController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+       
+    public function addLicencia(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        if (!empty($data)){
+        
+            $propietarios = explode(',', $data['propietarios']);
+            $insert = array();
+            foreach ($propietarios as $p) {
+                $arr_propietario = array(
+                    'licencia_id' => $data['id_cambio'],
+                    'tipo_licenciante' => $data['tipo_licenciante'],
+                    'propietario_id' => $p,
+                );
+                array_push($insert, $arr_propietario);
+            }
+            
+            $CI->load->model("TipoLicencia_model");
+            try{
+                $query = $CI->TipoLicencia_model->addLicencias($insert);
+                    if (isset($query)){
+                        echo "Insertado Correctamente";
+
+                    }else {
+                        echo "No hemos podido Insertar";
+                    }
+            }catch (Exception $e){
+                return $e->getMessage();
+            }
+        }
+        else {
+            echo "No tiene Data";
+        }
+    }
+
     public function addLicenciaAnterior(){
         $CI = &get_instance();
         $data = $CI->input->post();

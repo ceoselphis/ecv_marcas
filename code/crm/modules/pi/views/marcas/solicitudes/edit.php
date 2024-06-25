@@ -783,8 +783,8 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <a class="btn btn-primary pull-right"
-                                            href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/" . $id); ?>"><i
+                                        <a class="btn btn-primary newfact pull-right"
+                                            href="<?php echo admin_url("pi/MarcasSolicitudesController/marcasInvoice/" . $id . "/true"); ?>"><i
                                                 class="fas fa-plus"></i> Añadir nueva factura</a>
                                         <button type="button" class="btn btn-primary pull-right" style="margin-right: 15px;" data-toggle="modal"
                                             data-target="#facturaModal"><i class="fas fa-plus"></i> Añadir factura

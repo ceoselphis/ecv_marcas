@@ -163,8 +163,34 @@ class CambioNombreController extends AdminController
             
             $CI->load->model("CambioNombre_model");
                 try{
-                    $query = $CI->CambioNombre_model->insert($insert);
-                        if (isset($query)){
+                    $id = $CI->CambioNombre_model->InsertarCamNom($insert);
+                        if (isset($id)){
+                            $propAnt = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAnt']) : array();
+                            $propAct = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAct']) : array();
+                            $insert = array();
+                            if (count($propAnt) > 0) { //tiene cesiones anteriores, entonces agrego
+                                foreach ($propAnt as $p) {
+                                    $arr_propietario = array(
+                                        'cambio_nombre_id' => $id,
+                                        'tipo_nombre' => 1,
+                                        'propietario_id' => $p,
+                                    );
+                                    array_push($insert, $arr_propietario);
+                                }
+                            }
+                            if (count($propAct) > 0) { //tiene cesiones actuales, entonces agrego
+                                foreach ($propAct as $p) {
+                                    $arr_propietario = array(
+                                        'cambio_nombre_id' => $id,
+                                        'tipo_nombre' => 2,
+                                        'propietario_id' => $p,
+                                    );
+                                    array_push($insert, $arr_propietario);
+                                }
+                            }
+                            if (count($insert) > 0) {
+                                $CI->CambioNombre_model->addCamNom($insert);                             
+                            }
                             echo "Insertado Correctamente";
 
                         }else {

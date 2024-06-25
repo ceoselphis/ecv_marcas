@@ -794,7 +794,8 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id="btnCesionAnterior" class="btn btn-primary pull-right" >Añadir Cesion Anterior</button>
+                                                    <button type="button" id="btnCesionAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CesionAnteriorModal">Añadir Cesion Anterior</button>
                                                     <table id="CesionAnteriorTbl_edit" class="ultimate table table-responsive">
                                                         <thead>
                                                             <tr>
@@ -819,7 +820,8 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id = "btnCesionActual" class="btn btn-primary pull-right"  >Añadir Cesion Actual</button>
+                                                    <button type="button" id = "btnCesionActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CesionActualModal">Añadir Cesion Actual</button>
                                                     <table id="CesionActualTbl_edit" class="ultimate table table-responsive">
                                                         <thead>
                                                                 <tr>
@@ -1210,7 +1212,8 @@
                             <div class="list-box">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right" >Añadir Licencia Anterior</button>
+                                        <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                        data-target="#LicenciaAnteriorModal">Añadir Licencia Anterior</button>
                                           <table id="LicenciaAnteriorTbl_edit" class="ultimate table table-responsive">
                                                 <thead>
                                                         <tr>
@@ -1235,7 +1238,8 @@
                             <div class="list-box">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="button" id = "btnLicenciaActual" class="btn btn-primary pull-right">Añadir Licencia Actual</button>
+                                        <button type="button" id = "btnLicenciaActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                        data-target="#LicenciaActualModal">Añadir Licencia Actual</button>
                                           <table id="LicenciaActualTbl_edit" class="ultimate table table-responsive">
                                                 <thead>
                                                         <tr>
@@ -1401,10 +1405,10 @@
                             <div class="connecting-line"></div>
                             <ul class="nav nav-tabs" role="tablist" style="display:flex">
                                 <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
-                                    <a href="#addfusionstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
+                                    <a href="#addfusionstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Fusion</i></a>
                                 </li>
                                 <li role="presentation" >
-                                    <a href="#addfusionstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
+                                    <a href="#addfusionstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Fusion Anterior y Actual</i></a>
                                 </li>
                             </ul>
                         </div>
@@ -1625,7 +1629,8 @@
                                     <div class="list-box">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <button type="button" id="btnFusionAnterior" class="btn btn-primary pull-right" >Añadir Fusion Anterior</button>
+                                                <button type="button" id="btnFusionAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                data-target="#FusionAnteriorModal">Añadir Fusion Anterior</button>
                                                 <table id="FusionAnteriorTbl_edit" class="ultimate table table-responsive">
                                                     <thead>
                                                             <tr>
@@ -1650,7 +1655,8 @@
                                     <div class="list-box">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <button type="button" id = "btnFusionActual" class="btn btn-primary pull-right"  >Añadir Fusion Actual</button>
+                                                <button type="button" id = "btnFusionActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                data-target="#FusionActualModal">Añadir Fusion Actual</button>
                                                 <table id="FusionActualTbl_edit" class="ultimate table table-responsive">
                                                     <thead>
                                                         <tr>
@@ -1888,13 +1894,12 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id="addbtnCambioNombreAnterior" class="btn btn-primary pull-right" >Añadir Cambio Nombre Anterior</button>
-                                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                    <button type="button" id="addbtnCambioNombreAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamNomAnteriorModal">Añadir Cambio Nombre Anterior</button>
+                                                    <table id="CamNomAnteriorTbl_add" class="ultimate table table-responsive">
                                                     <thead>
                                                             <tr>
                                                                 <th>Nº</th>
-                                                                <th>Cambio de Nombre</th>
-                                                                <th>Tipo de Nombre</th>
                                                                 <th>Propietario</th>
                                                                 <th>Acciones</th>
                                                             </tr>
@@ -1915,13 +1920,12 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id = "addbtnCambioNombreActual" class="btn btn-primary pull-right"  >Añadir Cambio Nombre Actual</button>
-                                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                    <button type="button" id = "addbtnCambioNombreActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamNomActualModal">Añadir Cambio Nombre Actual</button>
+                                                    <table id="CamNomActualTbl_add" class="ultimate table table-responsive">
                                                         <thead>
                                                             <tr>
                                                                 <th>Nº</th>
-                                                                <th>Cambio de Nombre</th>
-                                                                <th>Tipo de Nombre</th>
                                                                 <th>Propietario</th>
                                                                 <th>Acciones</th>
                                                             </tr>
@@ -2040,7 +2044,8 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id="btnCambioNombreAnterior" class="btn btn-primary pull-right" >Añadir Cambio Nombre Anterior</button>
+                                                    <button type="button" id="btnCambioNombreAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamNomAnteriorModal">Añadir Cambio Nombre Anterior</button>
                                                     <table id="CamNomAnteriorTbl_edit" class="ultimate table table-responsive">
                                                         <thead>
                                                             <tr>
@@ -2065,7 +2070,8 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id = "btnCambioNombreActual" class="btn btn-primary pull-right"  >Añadir Cambio Nombre Actual</button>
+                                                    <button type="button" id = "btnCambioNombreActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamNomActualModal">Añadir Cambio Nombre Actual</button>
                                                     <table id="CamNomActualTbl_edit" class="ultimate table table-responsive">
                                                         <thead>
                                                             <tr>
@@ -2097,7 +2103,7 @@
 </div>
 
 <!-- Añadir Cambio Nombre Actual Modal -->
-<div class="modal fade" id="CambioNombreActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CamNomActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2111,8 +2117,8 @@
         <div class="row">
 
             <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietario');?>
-                <?php echo form_dropdown(['id'=> 'propietarioscamnomactual','name'=> 'propietarioscamnomactual'], $solicitantes, '',['class' => 'form-control']);?>
+                <?php echo form_label('Propietario', 'propietarioscamnomactual',['id' => 'lblpropietarioscamnomactual']);?>
+                <?php echo form_dropdown(['id'=> 'propietarioscamnomactual','name'=> 'propietarioscamnomactual', 'multiple' => 'multiple'], $solicitantes, '',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
@@ -2155,7 +2161,7 @@
 </div>
 
 <!-- Añadir Cambio Nombre Anterior Modal -->
-<div class="modal fade" id="CambioNombreAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CamNomAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2169,8 +2175,8 @@
         <div class="row">
 
             <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietario');?>
-                <?php echo form_dropdown(['id'=> 'propietarioscamnomanterior','name'=> 'propietarioscamnomanterior'], $solicitantes, '',['class' => 'form-control']);?>
+                <?php echo form_label('Propietario', 'propietarioscamnomanterior',['id' => 'lblpropietarioscamnomanterior']);?>
+                <?php echo form_dropdown(['id'=> 'propietarioscamnomanterior','name'=> 'propietarioscamnomanterior', 'multiple' => 'multiple'], $solicitantes, '',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
@@ -2303,13 +2309,12 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id="addbtnCambioDomicilioAnterior" class="btn btn-primary pull-right" >Añadir Cambio Domicilio Anterior</button>
-                                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                    <button type="button" id="addbtnCambioDomicilioAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamDomAnteriorModal">Añadir Cambio Domicilio Anterior</button>
+                                                    <table id="CamDomAnteriorTbl_add" class="ultimate table table-responsive">
                                                         <thead>
                                                             <tr>
                                                                 <th>Nº</th>
-                                                                <th>Cambio de Domicilio</th>
-                                                                <th>Tipo de Domicilio</th>
                                                                 <th>Propietario</th>
                                                                 <th>Acciones</th>
                                                             </tr>
@@ -2330,13 +2335,12 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id = "addbtnCambioDomicilioActual" class="btn btn-primary pull-right"  >Añadir Cambio Domicilio Actual</button>
-                                                    <table id="licenciaTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                    <button type="button" id = "addbtnCambioDomicilioActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamDomActualModal">Añadir Cambio Domicilio Actual</button>
+                                                    <table id="CamDomActualTbl_add" class="ultimate table table-responsive">
                                                         <thead>
                                                             <tr>
                                                                 <th>Nº</th>
-                                                                <th>Cambio de Domicilio</th>
-                                                                <th>Tipo de Domicilio</th>
                                                                 <th>Propietario</th>
                                                                 <th>Acciones</th>
                                                             </tr>
@@ -2455,7 +2459,8 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id="btnCambioDomicilioAnterior" class="btn btn-primary pull-right" >Añadir Cambio Domicilio Anterior</button>
+                                                    <button type="button" id="btnCambioDomicilioAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamDomAnteriorModal">Añadir Cambio Domicilio Anterior</button>
                                                     <table id="CamDomAnteriorTbl_edit" class="ultimate table table-responsive">
                                                         <thead>
                                                             <tr>
@@ -2480,7 +2485,8 @@
                                         <div class="list-box">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="button" id = "btnCambioDomicilioActual" class="btn btn-primary pull-right"  >Añadir Cambio Domicilio Actual</button>
+                                                    <button type="button" id = "btnCambioDomicilioActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamDomActualModal">Añadir Cambio Domicilio Actual</button>
                                                     <table id="CamDomActualTbl_edit" class="ultimate table table-responsive">
                                                         <thead>
                                                             <tr>
@@ -2512,7 +2518,7 @@
 </div>
 
 <!-- Añadir Cambio Domicilio Actual Modal -->
-<div class="modal fade" id="CambioDomicilioActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CamDomActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2526,8 +2532,8 @@
         <div class="row">
 
             <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietario');?>
-                <?php echo form_dropdown(['id'=> 'propietarioscamdomactual','name'=> 'propietarioscamdomactual'], $solicitantes, '',['class' => 'form-control']);?>
+                <?php echo form_label('Propietario', 'propietarioscamdomactual',['id' => 'lblpropietarioscamdomactual']);?>
+                <?php echo form_dropdown(['id'=> 'propietarioscamdomactual','name'=> 'propietarioscamdomactual', 'multiple' => 'multiple'], $solicitantes, '',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
@@ -2570,7 +2576,7 @@
 </div>
 
 <!-- Añadir Cambio Domicilio Anterior Modal -->
-<div class="modal fade" id="CambioDomicilioAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CamDomAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -2584,8 +2590,8 @@
         <div class="row">
 
             <div class="col-md-12">
-                <?php echo form_label('Propietario', 'propietario');?>
-                <?php echo form_dropdown(['id'=> 'propietarioscamdomanterior','name'=> 'propietarioscamdomanterior'], $solicitantes, '',['class' => 'form-control']);?>
+                <?php echo form_label('Propietario', 'propietarioscamdomanterior',['id' => 'lblpropietarioscamdomanterior']);?>
+                <?php echo form_dropdown(['id'=> 'propietarioscamdomanterior','name'=> 'propietarioscamdomanterior', 'multiple' => 'multiple'], $solicitantes, '',['class' => 'form-control']);?>
             </div>
         </div>
       </div>
@@ -2728,13 +2734,17 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <select name="invoice" class="form-control">
-            </select>
+          <div class="col-md-12">
+            <?php echo form_label('Factura', 'facturaId', ['id' => 'lblfacturaId']); ?>
+            <?php
+            $invoices = $select + $invoices;
+            echo form_dropdown('facturaId', $invoices, '', ['class' => 'form-control', 'id' => 'facturaId']); ?>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="EditarCesionAnteriorfrmsubmit" type="button" class="btn btn-primary"  data-dismiss="modal">Editar</button>
+        <button id="facturaMarcaSubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>

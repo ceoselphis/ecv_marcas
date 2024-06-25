@@ -79,4 +79,18 @@ class Licencia_model extends BaseModel
         $values = $query->result_array();
         return $values[0]['cantidad']; 
     }
+
+    public function InsertarLicencia($data){
+        $this->db->insert('tbl_marcas_licencia', $data);
+        $insert_id = $this->db->insert_id();
+        return  $insert_id;
+    }
+
+         
+    public function addLicencias($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_licenciantes', $params);
+        return $query;
+    }
+
 }

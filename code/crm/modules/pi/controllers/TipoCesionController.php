@@ -115,6 +115,42 @@ class TipoCesionController extends AdminController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+    
+    public function addCesion(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        if (!empty($data)){
+        
+            $propietarios = explode(',', $data['propietarios']);
+            $insert = array();
+            foreach ($propietarios as $p) {
+                $arr_propietario = array(
+                    'cesion_id' => $data['id_cambio'],
+                    'tipo_cedente' => $data['tipo_cedente'],
+                    'cedente_id' => $p,
+                );
+                array_push($insert, $arr_propietario);
+            }
+            
+            $CI->load->model("TipoCesion_model");
+            try{
+                $query = $CI->TipoCesion_model->addCesiones($insert);
+                    if (isset($query)){
+                        echo "Insertado Correctamente";
+
+                    }else {
+                        echo "No hemos podido Insertar";
+                    }
+            }catch (Exception $e){
+                return $e->getMessage();
+            }
+        }
+        else {
+            echo "No tiene Data";
+        }
+    }
+
     public function addCesionAnterior(){
         $CI = &get_instance();
         $data = $CI->input->post();

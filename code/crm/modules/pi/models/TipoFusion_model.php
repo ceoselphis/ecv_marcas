@@ -62,4 +62,11 @@ class TipoFusion_model extends BaseModel
         $values = $query->result_array();
         return $values; 
     }
+         
+    public function addFusiones($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_fusion_participantes', $params);
+        return $query;
+    }
+
 }

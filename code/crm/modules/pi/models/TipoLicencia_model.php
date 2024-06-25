@@ -62,4 +62,11 @@ class TipoLicencia_model extends BaseModel
         $values = $query->result_array();
         return $values; 
     }
+       
+    public function addLicencias($params)
+    {
+        $query = $this->db->insert_batch('tbl_marcas_licenciantes', $params);
+        return $query;
+    }
+
 }

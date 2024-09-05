@@ -1,0 +1,5 @@
+{
+    "php.validate.executablePath": "C:\\laragon\\bin\\php\\php-7.4.33\\php.exe",
+    "php.validate.enable": false,
+    "php.version": "8.1"
+}

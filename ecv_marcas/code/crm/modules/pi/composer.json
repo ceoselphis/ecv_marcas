@@ -1,0 +1,8 @@
+{
+    "require": {
+        "league/html-to-markdown": "^5.1",
+        "michelf/php-markdown": "^2.0",
+        "dompdf/dompdf": "^3.0",
+        "fpdf/fpdf": "^1.86"
+    }
+}

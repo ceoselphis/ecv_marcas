@@ -74,10 +74,11 @@ function pi_menu_item_collapsible()
         'name'     => 'SPI Configuracion', // The name if the item
         'position' => 11, // The menu position
         'icon'     => 'fa-sharp fa-solid fa-gear', // Font awesome icon
+        'href'     => admin_url("pi/SettingsController"),
     ]);
     
     //Clases
-    $CI->app_menu->add_sidebar_children_item('52', [
+    /*$CI->app_menu->add_sidebar_children_item('52', [
         'slug'     => 'configuracion-clases', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Clase Niza', // The name if the item
         'href'     => admin_url('pi/ClasesController'), // URL of the item
@@ -132,7 +133,7 @@ function pi_menu_item_collapsible()
         'href'     => admin_url('pi/TiposSignosController'), // URL of the item
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
-    ]);
+    ]);*/
 
     // Publicaciones de Marcas
     /*$CI->app_menu->add_sidebar_children_item('52', [

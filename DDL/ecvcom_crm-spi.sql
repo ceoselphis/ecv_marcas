@@ -6517,7 +6517,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (13, 'smtp_email_charset', 'utf-8', 1),
 (14, 'default_timezone', 'America/Caracas', 1),
 (15, 'clients_default_theme', 'perfex', 1),
-(16, 'company_logo', '07365a2613dcede2a350da2457cb2301.jpg', 1),
+(16, 'company_logo', 'ECV_LOGO.jpg', 1),
 (17, 'tables_pagination_limit', '25', 1),
 (18, 'main_domain', 'www.ecv.com.ve', 1),
 (19, 'allow_registration', '0', 1),

@@ -4,36 +4,17 @@
     <div class="panel_s">
         <div class="panel-body">
             <div class="row">
-                <?php echo form_open();?>
-                    <div class="col-md-4">
-
-                        <div class="form-group">
-                            <label class="form-label">Marcas</label>
-                            <input id="cont_marcas" name="cont_marcas" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">Patentes</label>
-                            <input id="cont_patentes" name="cont_patentes" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">Derecho de Autor</label>
-                            <input id="cont_autor" name="cont_autor" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">Acciones a Terceros</label>
-                            <input id="cont_act_ter" name="cont_act_ter" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit">Guardar</button>
-                    </div>
-                <?php echo form_close();?>
+                <div class="col-md-12">
+                    <table id="tableResult" class="ultimate table table-responsive display">
+                        <thead style="text-align: justify;">
+                            <tr>
+                                <td>Nº</td>
+                                <td>Nombre</td>
+                                <td>Acciones</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -47,9 +28,25 @@
 
 
 <script>
-
-    
-
+    $(document).ready(function() {
+        $.ajax({
+            url: "<?php echo admin_url("pi/SettingsController/getTablePublicaciones"); ?>", 
+            method: "get",
+            dataType: "json",
+            success: function(response) {
+                new $('#tableResult').DataTable({
+                    data: response.data,
+                    destroy: true,
+                    dataSrc: '',
+                    columns: [
+                        { data: 'num' },
+                        { data: 'nombre' },
+                        { data: 'acciones' }
+                    ]
+                });
+            },
+        });
+    });
 </script>
 
 

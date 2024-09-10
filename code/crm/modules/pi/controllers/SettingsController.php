@@ -24,7 +24,9 @@ class SettingsController extends AdminController
         switch($item)
         {
             case 'contadores':
-                return $base . $CI->load->view('settings/contadores/index');
+                $query = $CI->db->query("SELECT materia, contador FROM tbl_contador_galena")->result_array();
+
+                return $base . $CI->load->view('settings/contadores/index', ["marcas" => $query[0], "patentes" => $query[1], "autor" => $query[2], "acciones_terceros" => $query[3]]);
                 break;
             case 'clases':
                 return $base . $CI->load->view('settings/clases/index');
@@ -33,6 +35,47 @@ class SettingsController extends AdminController
                 $base . $CI->load->view('settings/publicaciones/index');
                 break;
         }
+    }
+
+
+    /**
+     * Salva los contadores
+     * 
+     * 
+     */
+    public function saveOrUpdateContadores()
+    {
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        $CI->db->query(
+            "
+            UPDATE tbl_contador_galena
+            SET contador = {$data['marcas']}
+            WHERE materia = 'Marcas';
+            "
+        );
+        $CI->db->query(
+            "
+            UPDATE tbl_contador_galena
+            SET contador = {$data['patentes']}
+            WHERE materia = 'Patentes';
+            "
+        );
+        $CI->db->query(
+            "
+            UPDATE tbl_contador_galena
+            SET contador = {$data['derecho_autor']}
+            WHERE materia = 'Derecho de Autor';
+            "
+        );
+        $CI->db->query(
+            "
+            UPDATE tbl_contador_galena
+            SET contador = {$data['acc_terceros']}
+            WHERE materia = 'Acciones a Terceros';
+            "
+        );
+        echo json_encode(["code" => '200', "message" => 'ok']);
     }
 
     /**

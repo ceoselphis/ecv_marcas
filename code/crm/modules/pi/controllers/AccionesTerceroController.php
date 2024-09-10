@@ -31,6 +31,25 @@ class AccionesTerceroController extends AdminController
         return $CI->load->view('acciones_terceros/index', ['marcas' => $data]);
     }
 
+    public function ShowIndex(){
+        $CI = &get_instance();
+        $CI->load->model("AccionesContraTerceros_model");
+        $data = [
+            'tipo_solicitud' => $CI->AccionesContraTerceros_model->getTipoSolicitudes(),
+            'clientes'       => $CI->AccionesContraTerceros_model->getAllClients(),
+            'oficinas'       => $CI->AccionesContraTerceros_model->getAllOficinas(),
+            'responsable'    => $CI->AccionesContraTerceros_model->getAllStaff(),
+            'marcas'         => $CI->AccionesContraTerceros_model->getAllMarcas(),
+            'clase_niza'     => $CI->AccionesContraTerceros_model->getAllClases(),
+            'paises'         => $CI->AccionesContraTerceros_model->getAllPaises(),
+            'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
+            'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
+            'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
+            'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
+        ];
+        echo json_encode($data);
+    }
+
     public function getAcciones()
     {
         $CI = &get_instance();
@@ -72,6 +91,8 @@ class AccionesTerceroController extends AdminController
             echo json_encode(['code' => 404, 'message' => 'not found', 'data' => $table]);
         }
     }
+
+    
 
     /**
      * Shows the form to create a new item

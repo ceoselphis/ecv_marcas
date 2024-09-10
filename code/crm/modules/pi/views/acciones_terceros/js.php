@@ -1,9 +1,18 @@
+<script>
+     $("#eventosfrmsubmit").on('click', function(e) {
+        console.log("Click Eventos "):
+
+     })
+</script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
     $("#pais_id option[value=226]");
 </script>
+
 <script>
+    
+
     function fecha() {
         var hoy = new Date();
         var dd = hoy.getDate();

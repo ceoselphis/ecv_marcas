@@ -1,12 +1,25 @@
 <script>
         id = '<?php echo $cod_id ?>';
         Eventos('31804')
-      
-        
+        $(document).on('click','#eventosfrmsubmit',function(e){
+            console.log("Click Evento");
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var tipo_evento =  $('#tipo_evento').val();
+            var evento_comentario = $('#evento_comentario').val();
+            var acc_ter_id = id;
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('tipo_evento' , tipo_evento);
+            formData.append('evento_comentario', evento_comentario);
+            console.log("tipo_evento ",tipo_evento,"evento_comentario ",evento_comentario," Acciones Tercero ID ",acc_ter_id);
+        })
+       
         // ---------------------------------- Mostrar Anexo -----------------------------------------------
         //Licencia Actual
         function Eventos(id_cambio){
-            let url = '<?php echo admin_url("pi/EventosController/showEventos/");?>';
+            let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/showEventos/");?>';
             url = url+id_cambio;
             console.log(url);
             let body= ``;
@@ -35,11 +48,11 @@
                                 </tr>
                             `
                         });
-                        $('#body_eventos').html(body);     
+                    $('#body_eventos').html(body);     
                 })
         }
         // Licencia Anterior
-        function LicenciaAnterior(id_cambio){
+        function Tareas(id_cambio){
             let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaAnterior/");?>';
             url = url+id_cambio;
             console.log(url);
@@ -1087,30 +1100,30 @@
         });
 
         //Añadir Evento ---------------------------------------------------------------------------
-        $(document).on('click','#eventosfrmsubmit',function(e){
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var tipo_evento =  $('#tipo_evento').val();
-            var evento_comentario = $('#evento_comentario').val();
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_evento' , tipo_evento);
-            formData.append('evento_comentario', evento_comentario);
-            let url = '<?php echo admin_url("pi/EventosController/addEvento");?>'
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function(response){
-                alert_float('success', "Insertado Correctamente");
-                $("#eventoModal").modal('hide');
-            }).catch(function(response){
-                alert("No puede agregar un Documento sin registro de la solicitud");
-            });
-        });
+        // $(document).on('click','#eventosfrmsubmit',function(e){
+        //     e.preventDefault();
+        //     var formData = new FormData();
+        //     var data = getFormData(this);
+        //     var tipo_evento =  $('#tipo_evento').val();
+        //     var evento_comentario = $('#evento_comentario').val();
+        //     var csrf_token_name = $("input[name=csrf_token_name]").val();
+        //     formData.append('csrf_token_name', csrf_token_name);
+        //     formData.append('tipo_evento' , tipo_evento);
+        //     formData.append('evento_comentario', evento_comentario);
+        //     let url = '<?php echo admin_url("pi/EventosController/addEvento");?>'
+        //     $.ajax({
+        //         url,
+        //         method: 'POST',
+        //         data: formData,
+        //         processData: false,
+        //         contentType: false
+        //     }).then(function(response){
+        //         alert_float('success', "Insertado Correctamente");
+        //         $("#eventoModal").modal('hide');
+        //     }).catch(function(response){
+        //         alert("No puede agregar un Documento sin registro de la solicitud");
+        //     });
+        // });
 
         //Editar Evento ---------------------------------------------------------------------------
         $(document).on('click','#editeventosfrmsubmit',function(e){

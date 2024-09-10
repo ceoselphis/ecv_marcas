@@ -306,7 +306,7 @@ init_head(); ?>
             data: data,
             success: function (response)
             {
-                
+                console.log(response);
             }
         })
     });

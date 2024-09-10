@@ -30,8 +30,8 @@ class AccionesTercerosEventosController extends AdminController
     public function showEventos(string $id = null){
         $CI = &get_instance();
         $CI->load->model("AccionesTercerosEventos_model");
-        //$marcas = $CI->AccionesTercerosEventos_model->findEventosAccionesTerceros($id);
-        $marcas = $CI->AccionesTercerosEventos_model->findAll();
+        $marcas = $CI->AccionesTercerosEventos_model->findEventosAccionesTerceros($id);
+       // $marcas = $CI->AccionesTercerosEventos_model->findAll();
         $data = array();
         /*`tbl_marcas_eventos`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
         foreach ($marcas as $row){
@@ -50,32 +50,56 @@ class AccionesTercerosEventosController extends AdminController
      * Shows the form to create a new item
      */
 
+    public function findEvento(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("AccionesTercerosEventos_model");
+        $marcas = $CI->AccionesTercerosEventos_model->find($id);
+       // $marcas = $CI->AccionesTercerosEventos_model->findAll();
+        $data = array();
+        /*`tbl_marcas_eventos`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
+        // foreach ($marcas as $row){
+        //     $data[] = array(
+        //         'id' => $row['id'],
+        //         'tipo_evento' => $CI->AccionesTercerosEventos_model->findTipoEvento($row['tipo_evento_id']),
+        //         'comentarios' => $row['comentarios'],
+        //         'tipo_evento_id' => $row['tipo_evento_id'],
+        //         'fecha' => date('d/m/Y', strtotime($row['fecha'])),
+        //     );
+        // }
+        echo json_encode(['mensaje' => $marcas]);
+    }
+
      public function addEvento(){
         $CI = &get_instance();
         $data = $CI->input->post();
+        $fecha_hoy = date("Y-m-d");
+        //echo $fecha_hoy;
+        
         if (!empty($data)){
             $insert = array(
                             'tipo_evento_id' => $data['tipo_evento'],
-                            'marcas_id' => $data['id_marcas'],
-                            'comentarios' => $data['comentarios'],
-                            'fecha' =>  $data['fecha'],
+                            'acciones_terceros_id' => $data['acc_ter_id'],
+                            'comentarios' => $data['evento_comentario'],
+                            'fecha' =>  $fecha_hoy,
                     );
 
             $CI->load->model("AccionesTercerosEventos_model");
                 try{
                     $query = $CI->AccionesTercerosEventos_model->insert($insert);
                         if (isset($query)){
-                            echo "Insertado Correctamente";
+                            echo json_encode([ 'mensaje'=>'Evento registrado con éxito', 'status'=>true]);
 
                         }else {
-                            echo "No hemos podido Insertar";
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Evento', 'status'=>false]);
+                            
                         }
                 }catch (Exception $e){
                     return $e->getMessage();
                 }
         }
         else {
-            echo "No tiene Data";
+            echo json_encode([ 'mensaje'=>'No hay evento', 'status'=>false]);
+
         }
      }
 

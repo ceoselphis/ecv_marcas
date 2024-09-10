@@ -1,23 +1,8 @@
 <script>
+        console.log("Llegue a Eventos ");
         id = '<?php echo $cod_id ?>';
-        Eventos('31804')
-        $(document).on('click','#eventosfrmsubmit',function(e){
-            console.log("Click Evento");
-            e.preventDefault();
-            var formData = new FormData();
-            var data = getFormData(this);
-            var tipo_evento =  $('#tipo_evento').val();
-            var evento_comentario = $('#evento_comentario').val();
-            var acc_ter_id = id;
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            formData.append('tipo_evento' , tipo_evento);
-            formData.append('evento_comentario', evento_comentario);
-            console.log("tipo_evento ",tipo_evento,"evento_comentario ",evento_comentario," Acciones Tercero ID ",acc_ter_id);
-        })
-       
-        // ---------------------------------- Mostrar Anexo -----------------------------------------------
-        //Licencia Actual
+        Eventos(id)
+
         function Eventos(id_cambio){
             let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/showEventos/");?>';
             url = url+id_cambio;
@@ -51,6 +36,60 @@
                     $('#body_eventos').html(body);     
                 })
         }
+
+        $(document).on('click','#EditbtnEvento',function(e){
+            console.log(" LLegar a Modal Editar Eventos ");
+            let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/findEvento/");?>';
+            let eventoid= $(this).attr('Eventoid');
+            console.log('Evento id' , eventoid);
+            url = url + id;
+            console.log(url);
+            $.get(url, function(response){
+                let lista = JSON.parse(response);
+                console.log(response);
+            });
+            //$("#eventoModalEdit").modal('show');
+        })
+
+        $(document).on('click','#eventosfrmsubmit',function(e){
+            console.log("Click Evento");
+            e.preventDefault();
+            var formData = new FormData();
+            var data = getFormData(this);
+            var tipo_evento =  $('#tipo_evento').val();
+            var evento_comentario = $('#evento_comentario').val();
+            var acc_ter_id = id;
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('tipo_evento' , tipo_evento);
+            formData.append('evento_comentario', evento_comentario);
+            formData.append('acc_ter_id',acc_ter_id);
+            console.log("tipo_evento ",tipo_evento,"evento_comentario ",evento_comentario," Acciones Tercero ID ",acc_ter_id);
+            let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/addEvento");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                Eventos(id);
+                console.log(response);
+                alert_float('success', "Insertado Correctamente");
+                $("#eventoModal").modal('hide');
+            }).catch(function(response){
+                console.log(response);
+                alert("No puede agregar el Evento sin registro");
+            });
+        })
+
+        $(document).on('click','#eventosfrmsubmitEdit',function(e){
+            console.log(" LLegar a Editar Eventos ");
+        })
+       
+        // ---------------------------------- Mostrar Anexo -----------------------------------------------
+        //Licencia Actual
+       
         // Licencia Anterior
         function Tareas(id_cambio){
             let url = '<?php echo admin_url("pi/TipoLicenciaController/showLicenciaAnterior/");?>';

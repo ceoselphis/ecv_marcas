@@ -194,6 +194,9 @@ class AccionesTerceroController extends AdminController
             'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
             'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
             'values' => $values[0],
+            'tipo_evento' => $CI->AccionesContraTerceros_model->getAllTipoEvento(),
+            'cod_contador' => 'M-' . ($id),
+            'cod_id' => $id
         ];
         return $CI->load->view('acciones_terceros/edit', $data);
     }

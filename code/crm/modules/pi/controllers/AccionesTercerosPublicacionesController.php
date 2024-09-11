@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AccionesTercerosEventosController extends AdminController
+class AccionesTercerosPublicacionesController extends AdminController
 {
-    protected $models = ['AccionesTercerosEventos_model'];
+    protected $models = ['AccionesTercerosPublicaciones_model'];
 
     public function __construct()
     {
@@ -13,33 +13,34 @@ class AccionesTercerosEventosController extends AdminController
     public function index()
     {
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
+        $CI->load->model("AccionesTercerosPublicaciones_model");
         $data = array();
-        foreach($CI->AccionesTercerosEventos_model->findAll() as $row)
+        foreach($CI->AccionesTercerosPublicaciones_model->findAll() as $row)
         {
             $data[] = [
                 'eve_id' => $row['id'],
-                'tipo_eve_id' => $CI->AccionesTercerosEventos_model->findTipoEvento($row['tipo_evento_id'])[0]['nombre'],
+                'tipo_eve_id' => $CI->AccionesTercerosPublicaciones_model->findTipoEvento($row['tipo_evento_id'])[0]['nombre'],
                 'created_at' => $row['created_at'],
-                'staff_id' => $CI->AccionesTercerosEventos_model->getStaff($row['staff_id'])[0]['firstname'].' '.$CI->AccionesTercerosEventos_model->getStaff($row['staff_id'])[0]['lastname']
+                'staff_id' => $CI->AccionesTercerosPublicaciones_model->getStaff($row['staff_id'])[0]['firstname'].' '.$CI->AccionesTercerosPublicaciones_model->getStaff($row['staff_id'])[0]['lastname']
             ];
         }
-        return $CI->load->view('eventos/index', ["eventos" => $data]);
+        return $CI->load->view('Publicaciones/index', ["Publicaciones" => $data]);
     }
 
-    public function showEventos(string $id = null){
+    public function showPublicaciones(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
-        $marcas = $CI->AccionesTercerosEventos_model->findEventosAccionesTerceros($id);
-       // $marcas = $CI->AccionesTercerosEventos_model->findAll();
+        $CI->load->model("AccionesTercerosPublicaciones_model");
+        $marcas = $CI->AccionesTercerosPublicaciones_model->findPublicacionesAccionesTerceros($id);
+       
         $data = array();
-        /*`tbl_marcas_eventos`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
+        /*`tbl_marcas_Publicaciones`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
-                'tipo_evento' => $CI->AccionesTercerosEventos_model->findTipoEvento($row['tipo_evento_id']),
-                'comentarios' => $row['comentarios'],
-                'tipo_evento_id' => $row['tipo_evento_id'],
+                'tipo_publicacion' => $CI->AccionesTercerosPublicaciones_model->findTipoPublicacion($row['tipo_pub_id']),
+                'boletin' => $CI->AccionesTercerosPublicaciones_model->findBolentines($row['boletin_id']),
+                'tomo' => $row['tomo'],
+                'pagina' => $row['pagina'],
                 'fecha' => date('d/m/Y', strtotime($row['fecha'])),
             );
         }
@@ -52,15 +53,15 @@ class AccionesTercerosEventosController extends AdminController
 
     public function findEvento(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
-        $marcas = $CI->AccionesTercerosEventos_model->find($id);
-       // $marcas = $CI->AccionesTercerosEventos_model->findAll();
+        $CI->load->model("AccionesTercerosPublicaciones_model");
+        $marcas = $CI->AccionesTercerosPublicaciones_model->find($id);
+       // $marcas = $CI->AccionesTercerosPublicaciones_model->findAll();
         $data = array();
-        /*`tbl_marcas_eventos`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
+        /*`tbl_marcas_Publicaciones`(`id`, `tipo_evento_id`, `marcas_id`, `comentarios`, `fecha`) */
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
-                'tipo_evento' => $CI->AccionesTercerosEventos_model->findTipoEvento($row['tipo_evento_id']),
+                'tipo_evento' => $CI->AccionesTercerosPublicaciones_model->findTipoEvento($row['tipo_evento_id']),
                 'comentarios' => $row['comentarios'],
                 'tipo_evento_id' => $row['tipo_evento_id'],
                 'fecha' => date('d/m/Y', strtotime($row['fecha'])),
@@ -69,7 +70,7 @@ class AccionesTercerosEventosController extends AdminController
         echo json_encode($data);
     }
 
-     public function addEvento(){
+     public function addPublicacion(){
         $CI = &get_instance();
         $data = $CI->input->post();
         $fecha_hoy = date("Y-m-d");
@@ -77,15 +78,17 @@ class AccionesTercerosEventosController extends AdminController
         
         if (!empty($data)){
             $insert = array(
-                            'tipo_evento_id' => $data['tipo_evento'],
+                            'tipo_pub_id' => $data['tipo_publicacion'],
                             'acciones_terceros_id' => $data['acc_ter_id'],
-                            'comentarios' => $data['evento_comentario'],
+                            'boletin_id' => $data['boletin_publicacion'],
+                            'tomo' => $data['tomo'],
+                            'boletin_id' => $data['pagina'],
                             'fecha' =>  $fecha_hoy,
                     );
 
-            $CI->load->model("AccionesTercerosEventos_model");
+            $CI->load->model("AccionesTercerosPublicaciones_model");
                 try{
-                    $query = $CI->AccionesTercerosEventos_model->insert($insert);
+                    $query = $CI->AccionesTercerosPublicaciones_model->insert($insert);
                         if (isset($query)){
                             echo json_encode([ 'mensaje'=>'Evento registrado con éxito', 'status'=>true]);
 
@@ -103,18 +106,18 @@ class AccionesTercerosEventosController extends AdminController
         }
      }
 
-     public function EditEventos(string $id = null){
+     public function EditPublicaciones(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
-        $query =$CI->AccionesTercerosEventos_model->find($id);
+        $CI->load->model("AccionesTercerosPublicaciones_model");
+        $query =$CI->AccionesTercerosPublicaciones_model->find($id);
         echo json_encode($query);   
      }
 
      
 
-     public function UpdateEventos(string $id = null){
+     public function UpdatePublicaciones(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
+        $CI->load->model("AccionesTercerosPublicaciones_model");
         $data = $CI->input->post();
         $fecha_hoy = date("Y-m-d");
         
@@ -124,7 +127,7 @@ class AccionesTercerosEventosController extends AdminController
                             'comentarios' => $data['evento_comentario'],
                             'fecha' => $fecha_hoy
                     );
-            $query = $CI->AccionesTercerosEventos_model->update($id, $insert);
+            $query = $CI->AccionesTercerosPublicaciones_model->update($id, $insert);
             if (isset($query))
             {
                 echo json_encode(['mensaje' => 'Evento Actualizado Correctamente ','status'=>true]);
@@ -137,9 +140,9 @@ class AccionesTercerosEventosController extends AdminController
         } 
     }
 
-    public function UpdateMarcasEventos(){
+    public function UpdateMarcasPublicaciones(){
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
+        $CI->load->model("AccionesTercerosPublicaciones_model");
         $data = $CI->input->post();
         
         if (!empty($data)){
@@ -148,7 +151,7 @@ class AccionesTercerosEventosController extends AdminController
                             'comentarios' => $data['comentarios'],
                             'fecha' => $this->turn_dates($data['fecha'])
                     );
-            $query = $CI->AccionesTercerosEventos_model->update($data['id'], $insert);
+            $query = $CI->AccionesTercerosPublicaciones_model->update($data['id'], $insert);
             if (isset($query))
             {
                 echo "Actualizado Correctamente";
@@ -160,9 +163,9 @@ class AccionesTercerosEventosController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
-        $fields = $CI->AccionesTercerosEventos_model->getFillableFields();
-        $select = $CI->AccionesTercerosEventos_model->getAllTipoEvento();
+        $CI->load->model("AccionesTercerosPublicaciones_model");
+        $fields = $CI->AccionesTercerosPublicaciones_model->getFillableFields();
+        $select = $CI->AccionesTercerosPublicaciones_model->getAllTipoEvento();
         $labels = array();
         foreach($fields as $field)
         {
@@ -185,7 +188,7 @@ class AccionesTercerosEventosController extends AdminController
             }
         }
         $labels = ['Id', 'Tipo de evento'];
-        return $CI->load->view('eventos/create', ['fields' => $fields, 'labels' => $labels, 'select' => $select]);
+        return $CI->load->view('Publicaciones/create', ['fields' => $fields, 'labels' => $labels, 'select' => $select]);
     }
 
     /**
@@ -195,17 +198,17 @@ class AccionesTercerosEventosController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
+        $CI->load->model("AccionesTercerosPublicaciones_model");
         $CI->load->helper('url');
         // get the data
         $data = $CI->input->post();
         //we validate the data
         //TODO
         //we sent the data to the model
-        $query = $CI->AccionesTercerosEventos_model->insert($data);
+        $query = $CI->AccionesTercerosPublicaciones_model->insert($data);
         if(isset($query))
         {
-            return redirect(admin_url('pi/eventoscontroller/'));
+            return redirect(admin_url('pi/Publicacionescontroller/'));
         }
     }
 
@@ -216,8 +219,8 @@ class AccionesTercerosEventosController extends AdminController
     public function show(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
-        $query = $CI->AccionesTercerosEventos_model->find($id);
+        $CI->load->model("AccionesTercerosPublicaciones_model");
+        $query = $CI->AccionesTercerosPublicaciones_model->find($id);
         if(isset($query))
         {
             $table = '<table class="table"><thead><tr>';
@@ -245,18 +248,18 @@ class AccionesTercerosEventosController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
+        $CI->load->model("AccionesTercerosPublicaciones_model");
         $CI->load->helper('url');
-        $query = $CI->AccionesTercerosEventos_model->find($id);
-        $select = $CI->AccionesTercerosEventos_model->getAllTipoEvento();
+        $query = $CI->AccionesTercerosPublicaciones_model->find($id);
+        $select = $CI->AccionesTercerosPublicaciones_model->getAllTipoEvento();
         if(isset($query))
         {
             $labels = array('Id', 'Tipo de Evento', 'Comentario');
             
-            return $CI->load->view('eventos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'tipo_evento' => $select]);
+            return $CI->load->view('Publicaciones/edit', ['labels' => $labels, 'values' => $query, 'id' => $id, 'tipo_evento' => $select]);
         }
         else{
-            return redirect('pi/eventoscontroller/');
+            return redirect('pi/Publicacionescontroller/');
         }
     }
 
@@ -268,14 +271,14 @@ class AccionesTercerosEventosController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
+        $CI->load->model("AccionesTercerosPublicaciones_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         $data['fecha'] = date('Y-m-d');
         //We validate the data
         //TODO
         //We prepare the data 
-        $query = $CI->AccionesTercerosEventos_model->update($id, $data);
+        $query = $CI->AccionesTercerosPublicaciones_model->update($id, $data);
         if (isset($query))
         {
             return redirect('pi/MarcasSolicitudesController/create');
@@ -289,9 +292,9 @@ class AccionesTercerosEventosController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("AccionesTercerosEventos_model");
+        $CI->load->model("AccionesTercerosPublicaciones_model");
         $CI->load->helper('url');
-        $query = $CI->AccionesTercerosEventos_model->delete($id);
+        $query = $CI->AccionesTercerosPublicaciones_model->delete($id);
         if (isset($query)){
 
             echo json_encode(['mensaje' => 'Evento Eliminado Correctamente ','status'=>true]);

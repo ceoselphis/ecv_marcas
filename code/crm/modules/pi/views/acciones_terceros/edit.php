@@ -403,13 +403,17 @@ $select = ['' => '']; ?>
                                                                     <table id="publicacionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>Fecha</th>
+                                                                                <th>id</th>
+                                                                                <th>Tipo de  publicacion</th>
                                                                                 <th>Boletin</th>
                                                                                 <th>Tomo</th>
                                                                                 <th>Pagina</th>
+                                                                                <th>Fecha</th>
                                                                                 <th>Acciones</th>
                                                                             </tr>
                                                                         </thead>
+                                                                        <tbody id="body_publicaciones">
+                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>

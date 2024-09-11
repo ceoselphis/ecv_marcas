@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Publicacion</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Editar Publicacion</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -31,7 +31,7 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="publicacionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="publicacionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -44,13 +44,16 @@
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Evento</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Editar Evento</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="row">
+            <div style="display: none;">
+                <input type="text" class ='form-control' id="id_modal_eventoEdit" >      
+            </div>
             <div class="col-md-12">
                 <?php echo form_label('Tipo Evento', 'tipo_evento');?>
                 <?php echo form_dropdown(['name'=>'tipo_evento','id'=>'tipo_eventoEdit'], $tipo_evento, '',['class' => 'form-control']);?>
@@ -76,7 +79,7 @@
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Documento</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Editar Documento</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -105,7 +108,7 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="documentofrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="documentofrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>

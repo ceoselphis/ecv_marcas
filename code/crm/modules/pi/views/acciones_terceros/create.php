@@ -408,13 +408,18 @@ $select = ['' => '']; ?>
                                                                     <table id="publicacionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>Fecha</th>
+                                                                                <th>id</th>
+                                                                                <th>Tipo de  publicacion</th>
                                                                                 <th>Boletin</th>
                                                                                 <th>Tomo</th>
                                                                                 <th>Pagina</th>
+                                                                                <th>Fecha</th>
                                                                                 <th>Acciones</th>
                                                                             </tr>
                                                                         </thead>
+                                                                        <tbody id="body_publicaciones">
+
+                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
@@ -478,7 +483,7 @@ $select = ['' => '']; ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
+                                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tareas</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 1.5%;">
                                             <table class="table table-responsive" id="tareas">

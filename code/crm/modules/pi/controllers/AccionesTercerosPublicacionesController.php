@@ -51,7 +51,7 @@ class AccionesTercerosPublicacionesController extends AdminController
      * Shows the form to create a new item
      */
 
-    public function findEvento(string $id = null){
+    public function findPublicacion(string $id = null){
         $CI = &get_instance();
         $CI->load->model("AccionesTercerosPublicaciones_model");
         $marcas = $CI->AccionesTercerosPublicaciones_model->find($id);
@@ -61,9 +61,10 @@ class AccionesTercerosPublicacionesController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
-                'tipo_evento' => $CI->AccionesTercerosPublicaciones_model->findTipoEvento($row['tipo_evento_id']),
-                'comentarios' => $row['comentarios'],
-                'tipo_evento_id' => $row['tipo_evento_id'],
+                'tipo_publicacion' => $CI->AccionesTercerosPublicaciones_model->findTipoPublicacion($row['tipo_pub_id']),
+                'boletin' => $CI->AccionesTercerosPublicaciones_model->findBolentines($row['boletin_id']),
+                'tomo' => $row['tomo'],
+                'pagina' => $row['pagina'],
                 'fecha' => date('d/m/Y', strtotime($row['fecha'])),
             );
         }
@@ -120,12 +121,15 @@ class AccionesTercerosPublicacionesController extends AdminController
         $CI->load->model("AccionesTercerosPublicaciones_model");
         $data = $CI->input->post();
         $fecha_hoy = date("Y-m-d");
-        
+        echo json_encode($data);
+
         if (!empty($data)){
             $insert = array(
-                            'tipo_evento_id' => $data['tipo_evento'],
-                            'comentarios' => $data['evento_comentario'],
-                            'fecha' => $fecha_hoy
+                    'tipo_pub_id' => $data['tipo_publicacion'],
+                    'boletin_id' => $data['boletin_publicacion'],
+                    'tomo' => $data['tomo'],
+                    'boletin_id' => $data['pagina'],
+                    'fecha' =>  $fecha_hoy,
                     );
             $query = $CI->AccionesTercerosPublicaciones_model->update($id, $insert);
             if (isset($query))
@@ -297,9 +301,9 @@ class AccionesTercerosPublicacionesController extends AdminController
         $query = $CI->AccionesTercerosPublicaciones_model->delete($id);
         if (isset($query)){
 
-            echo json_encode(['mensaje' => 'Evento Eliminado Correctamente ','status'=>true]);
+            echo json_encode(['mensaje' => 'Publicacion Eliminado Correctamente ','status'=>true]);
         }else {
-            echo json_encode(['mensaje' => 'No se ha podido Eliminar el Evento ','status'=>false]);
+            echo json_encode(['mensaje' => 'No se ha podido Eliminar el Publicacion ','status'=>false]);
         }
     }
      public function turn_dates($date)

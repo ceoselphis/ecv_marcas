@@ -11,27 +11,30 @@
       </div>
       <div class="modal-body">
         <div class="row">
+            <div style="display: none;">
+                <input type="text" class ='form-control' id="id_modal_publicacionEdit" >      
+            </div>
             <div class="col-md-3">
                 <?php echo form_label('Tipo Publicacion', 'tipo_publicacion');?>
-                <?php echo form_dropdown('tipo_publicacion', $tipo_publicaciones, '',['class' => 'form-control']);?>
+                <?php echo form_dropdown('tipo_publicacion', $tipo_publicaciones, '',['class' => 'form-control','id'=>'tipo_publicacionEdit']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Boletin', 'boletin_publicacion');?>
-                <?php echo form_dropdown('boletin_publicacion', $boletines , set_value('boletin_publicacion') , ['class' => 'form-control']);?>
+                <?php echo form_dropdown('boletin_publicacion', $boletines , set_value('boletin_publicacion') , ['class' => 'form-control','id'=>'boletin_publicacionEdit']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Tomo', 'tomo_publicacion');?>
-                <?php echo form_input('tomo_publicacion',set_value("tomo_publicacion", ''),['class' => 'form-control']);?>
+                <?php echo form_input('tomo_publicacion',set_value("tomo_publicacion", ''),['class' => 'form-control','id'=>'tomo_publicacionEdit']);?>
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Página', 'pag_publicacion');?>
-                <?php echo form_input('pag_publicacion',set_value('tomo_publicacion', ''),['class' => 'form-control']);?>
+                <?php echo form_input('pag_publicacion',set_value('tomo_publicacion', ''),['class' => 'form-control','id'=>'pag_publicacionEdit']);?>
             </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="publicacionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+        <button id="publicacionfrmsubmitEdit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -109,6 +112,51 @@
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="documentofrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
+<!-- Tarea Modal -->
+<div class="modal fade" id="tareaModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'tareaFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Tarea</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div style="display: none;">
+              <input type="text" class ='form-control' id="id_modal_tareaEdit" >      
+            </div>
+            <div class="col-md-12">
+                <?php echo form_label('Tipo Tarea', 'tipo_tarea');?>
+                <?php echo form_dropdown(['name'=>'tipo_tareaEdit','id'=>'tipo_tareaEdit'], $tipo_tarea, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="padding-top:15px;">
+              <?php echo form_label('Fecha', 'tarea_fecha'); ?>
+              <?php echo form_input([
+                  'id'       => 'tarea_fechaEdit',
+                  'name'     => 'tarea_fechaEdit',
+                  'class'    => 'form-control calendar',
+                  'value'    => set_value('tarea_fecha', '', TRUE),
+              ]); ?>
+            </div>
+            <div class="col-md-12" style="padding-top:15px;">
+              <?php echo form_label('Descripcion', 'descripcionEdit', ['id' => 'lbltareadescripcionEdit']); ?>
+              <?php echo form_textarea(['name' => 'tarea_descripcionEdit', 'id' => 'tarea_descripcionEdit'], '', ['class' => 'form-control']); ?>
+            </div>
+            
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="tareasfrmsubmitEdit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>

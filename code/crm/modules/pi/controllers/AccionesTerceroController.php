@@ -115,6 +115,7 @@ class AccionesTerceroController extends AdminController
             'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
             'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
             'tipo_evento' => $CI->AccionesContraTerceros_model->getAllTipoEvento(),
+            'tipo_tarea' => $CI->AccionesContraTerceros_model->getAllTiposTareas(),
             'cod_contador' => 'M-' . ($CI->AccionesContraTerceros_model->CantidadSolicitudes() + 1),
             'cod_id' => $CI->AccionesContraTerceros_model->CantidadSolicitudes() + 1
         ];
@@ -193,8 +194,9 @@ class AccionesTerceroController extends AdminController
             'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
             'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
             'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
-            'values' => $values[0],
             'tipo_evento' => $CI->AccionesContraTerceros_model->getAllTipoEvento(),
+            'tipo_tarea' => $CI->AccionesContraTerceros_model->getAllTiposTareas(),
+            'values' => $values[0],
             'cod_contador' => 'M-' . ($id),
             'cod_id' => $id
         ];

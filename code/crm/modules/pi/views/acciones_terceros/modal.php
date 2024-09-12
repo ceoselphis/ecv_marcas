@@ -112,46 +112,37 @@
   <?php echo form_close();?>
 </div>
 
-<!-- Añadir Tareas Modal -->
-<div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasfrm']); ?>
-  <div class="modal-dialog modal-lg" role="document">
+<!-- Tarea Modal -->
+<div class="modal fade" id="tareaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'tareaFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Tareas</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Tarea</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-4">
-            <?php echo form_label('Proyecto', 'project_id', ['id' => 'lblproject_id', 'class' => 'form-label']); ?>
-            <?php
-            $projects = $select + $projects;
-            echo form_dropdown([
-              'name' => 'project_id',
-              'id' => 'project_id',
-              'class' => 'form-control',
-              'options' => $projects
-            ]); ?>
-          </div>
-          <div class="col-md-4">
-            <?php echo form_label('Tipo Tareas', 'tipo_tarea', ['id' => 'lbltipo_tarea']); ?>
-            <?php
-            $tipo_tareas = $select + $tipo_tareas;
-            echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'], $tipo_tareas, '', ['class' => 'form-control']); ?>
-          </div>
-          <div class="col-md-4">
-            <?php echo form_label('Fecha', 'fecha_tarea', ['id' => 'lblfecha_tarea']); ?>
-            <?php echo form_input('fecha_tarea', '', ['class' => 'form-control calendar', 'id' => 'fecha_tarea']); ?>
-          </div>
-        </div>
-        <div class="row" style="padding-top:15px;">
-          <div class="col-md-12">
-            <?php echo form_label('Descripcion', 'descripcion', ['id' => 'lbldescripcion']); ?>
-            <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control']); ?>
-          </div>
+            <div class="col-md-12">
+                <?php echo form_label('Tipo Tarea', 'tipo_tarea');?>
+                <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tarea, '',['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="padding-top:15px;">
+              <?php echo form_label('Fecha', 'tarea_fecha'); ?>
+              <?php echo form_input([
+                  'id'       => 'tarea_fecha',
+                  'name'     => 'tarea_fecha',
+                  'class'    => 'form-control calendar',
+                  'value'    => set_value('tarea_fecha', '', TRUE),
+              ]); ?>
+            </div>
+            <div class="col-md-12" style="padding-top:15px;">
+              <?php echo form_label('Descripcion', 'descripcion', ['id' => 'lbltareadescripcion']); ?>
+              <?php echo form_textarea(['name' => 'tarea_descripcion', 'id' => 'tarea_descripcion'], '', ['class' => 'form-control']); ?>
+            </div>
+            
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
@@ -160,5 +151,7 @@
       </div>
     </div>
   </div>
-  <?php echo form_close(); ?>
+  <?php echo form_close();?>
 </div>
+
+

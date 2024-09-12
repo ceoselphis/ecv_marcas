@@ -483,7 +483,7 @@ $select = ['' => '']; ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tareas</button>
+                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#tareaModal">Añadir Tarea</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 1.5%;">
                                             <table class="table table-responsive" id="tareas">
@@ -496,7 +496,7 @@ $select = ['' => '']; ?>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="body_tareas">
                                                 </tbody>
                                             </table>
                                         </div>

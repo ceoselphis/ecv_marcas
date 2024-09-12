@@ -5,7 +5,8 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
-                    <table id="tableResult" class="ultimate table table-responsive display">
+                    <a href="<?php echo admin_url("pi/TipoPublicacionesController/create");?>" class="btn btn-primary pull-right">Añadir Tipo de Publicacion</a>
+                    <table id="tableResult" class="ultimate table table-responsive">
                         <thead style="text-align: justify;">
                             <tr>
                                 <td>Nº</td>
@@ -13,6 +14,21 @@
                                 <td>Acciones</td>
                             </tr>
                         </thead>
+                        <tbody>
+                            <?php foreach($table as $key => $value){?> 
+                                <tr>
+                                    <td>
+                                        <?php echo $value['num'];?>
+                                    </td>
+                                    <td>
+                                        <?php echo $value['nombre'];?>
+                                    </td>
+                                    <td>
+                                        <?php echo $value['acciones'];?>
+                                    </td>
+                                </tr>
+                            <?}?>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -25,29 +41,6 @@
 </div>
 
 <?php init_tail(); ?>
-
-
-<script>
-    $(document).ready(function() {
-        $.ajax({
-            url: "<?php echo admin_url("pi/SettingsController/getTablePublicaciones"); ?>", 
-            method: "get",
-            dataType: "json",
-            success: function(response) {
-                new $('#tableResult').DataTable({
-                    data: response.data,
-                    destroy: true,
-                    dataSrc: '',
-                    columns: [
-                        { data: 'num' },
-                        { data: 'nombre' },
-                        { data: 'acciones' }
-                    ]
-                });
-            },
-        });
-    });
-</script>
 
 
 </body>

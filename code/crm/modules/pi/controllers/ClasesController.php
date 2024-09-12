@@ -121,7 +121,7 @@ class ClasesController extends AdminController
             $query = $CI->Clases_model->insert($data);
             if(isset($query))
             {
-                return redirect(admin_url('pi/clasescontroller/'));
+                return redirect(admin_url('pi/SettingsController/menu?group=clases'));
             }
         }
         
@@ -177,7 +177,7 @@ class ClasesController extends AdminController
             return $CI->load->view('clases/edit', ['labels' => $labels, 'values' => $values, 'id' => $id, 'fields' => $fields]);
         }
         else{
-            return redirect('pi/clasescontroller/');
+            return redirect('pi/SettingsController/menu?group=clases');
         }
     }
 
@@ -227,7 +227,7 @@ class ClasesController extends AdminController
                 return $CI->load->view('clases/edit', ['labels' => $labels, 'values' => $values, 'id' => $id, 'fields' => $fields]);
             }
             else{
-                return redirect('pi/clasescontroller/');
+                return redirect('pi/SettingsController/menu?group=clases');
             }
         }
         else
@@ -236,7 +236,7 @@ class ClasesController extends AdminController
             $query = $CI->Clases_model->update($id, $data);
             if (isset($query))
             {
-                return redirect('pi/clasescontroller/');
+                return redirect('pi/SettingsController/menu?group=clases');
             }
         }
         
@@ -252,7 +252,7 @@ class ClasesController extends AdminController
         $CI->load->model("Clases_model");
         $CI->load->helper('url');
         $query = $CI->Clases_model->delete($id);
-        return redirect('pi/clasescontroller/');
+        return redirect('pi/SettingsController/menu?group=clases');
         
         
     }

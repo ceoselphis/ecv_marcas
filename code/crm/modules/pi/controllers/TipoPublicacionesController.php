@@ -113,7 +113,7 @@ class TipoPublicacionesController extends AdminController
             $query = $CI->TiposPublicaciones_model->insert($data);
             if(isset($query))
             {
-                return redirect(admin_url('pi/tipopublicacionescontroller/'));
+                return redirect(admin_url('pi/SettingsController/menu?group=publicaciones'));
             }
         }
         
@@ -144,7 +144,7 @@ class TipoPublicacionesController extends AdminController
             return $CI->load->view('tipopublicaciones/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{
-            return redirect('pi/tipopublicacionescontroller/');
+            return redirect('pi/SettingsController/menu?group=publicaciones');
         }
     }
 
@@ -187,7 +187,7 @@ class TipoPublicacionesController extends AdminController
             $query = $CI->TiposPublicaciones_model->update($id, $data);
             if (isset($query))
             {
-                return redirect('pi/tipopublicacionescontroller/');
+                return redirect('pi/SettingsController/menu?group=publicaciones');
             }
         }
     }
@@ -202,7 +202,7 @@ class TipoPublicacionesController extends AdminController
         $CI->load->model("TiposPublicaciones_model");
         $CI->load->helper('url');
         $query = $CI->TiposPublicaciones_model->delete($id);
-        return redirect('pi/tipopublicacionescontroller/');
+        return redirect('pi/SettingsController/menu?group=publicaciones');
         
         
     }

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class SettingsController extends AdminController
 {
@@ -8,7 +8,7 @@ class SettingsController extends AdminController
     {
         parent::__construct();
     }
-      
+
     public function index()
     {
         $CI = &get_instance();
@@ -21,18 +21,39 @@ class SettingsController extends AdminController
         $CI = &get_instance();
         $item = $CI->input->get('group');
         $base = $CI->load->view("settings/base.php");
-        switch($item)
-        {
+        $response = array();
+        switch ($item) {
             case 'contadores':
                 $query = $CI->db->query("SELECT materia, contador FROM tbl_contador_galena")->result_array();
 
                 return $base . $CI->load->view('settings/contadores/index', ["marcas" => $query[0], "patentes" => $query[1], "autor" => $query[2], "acciones_terceros" => $query[3]]);
                 break;
             case 'clases':
-                return $base . $CI->load->view('settings/clases/index');
+                $query = $CI->db->query("SELECT * FROM tbl_marcas_clase_niza")->result_array();
+                if(!empty($query))
+                {
+                    foreach($query as $key => $value)
+                    {
+                        $response[] = array(
+                            "num" => $value["clase_niza_id"], 
+                            "nombre" => $value["nombre"], 
+                            "descripcion" => $value["descripcion"],
+                            "acciones" => 
+                            "<a href='".admin_url("pi/ClasesController/edit/")."{$value['clase_niza_id']}'  class='btn btn-sm btn-primary'>Editar</a> <a class='btn btn-sm btn-danger' href='".admin_url("pi/ClasesController/destroy/")."{$value['clase_niza_id']}' onclick='confirm(\"¿Desea eliminar el archivo?\");' >Borrar</a>"
+                        );
+                    }
+                }
+                return $base . $CI->load->view('settings/clases/index', ["table" => $response]);
                 break;
             case 'publicaciones':
-                $base . $CI->load->view('settings/publicaciones/index');
+                $query = $CI->db->query("SELECT * FROM tbl_tipo_publicacion")->result_array();
+                
+                if (!empty($query)) {
+                    foreach ($query as $key => $value) {
+                        $response[] = array("num" => $value['id'], "nombre" => $value['nombre'], "acciones" => "<a href='".admin_url("pi/TipoPublicacionesController/edit/")."{$value['id']}'  class='btn btn-sm btn-primary'>Editar</a> <a class='btn btn-sm btn-danger' href='".admin_url("pi/TipoPublicacionesController/destroy/")."{$value['id']}' onclick='confirm(\"¿Desea eliminar el archivo?\");' >Borrar</a>");
+                    }
+                }
+                $base . $CI->load->view('settings/publicaciones/index', ["table" => $response]);
                 break;
         }
     }
@@ -77,29 +98,4 @@ class SettingsController extends AdminController
         );
         echo json_encode(["code" => '200', "message" => 'ok']);
     }
-
-    /**
-     * Carga la tabla de publicaciones en segundo plano
-     * 
-     * 
-     */
-
-     public function getTablePublicaciones()
-     {
-        $CI = &get_instance();
-        $query = $CI->db->query("SELECT * FROM tbl_tipo_publicacion")->result_array();
-        $response = array();
-        if(!empty($query))
-        {
-            foreach($query as $key => $value)
-            {
-                $response[] = ["num" => $value['id'], "nombre" => $value['nombre'], "acciones" => "<button id='{$value['id']}'  class='btn btn-edit btn-sm btn-primary' data-toggle='modal' data-target='#edit-modal'>Editar</button> <button class='btn btn-sm btn-danger' onclick=deleteTipoPublicacion({$value['id']})>Borrar</button>"];
-            }
-        }
-        echo json_encode(["data" => $response]);
-        
-
-     }
-
-
 }

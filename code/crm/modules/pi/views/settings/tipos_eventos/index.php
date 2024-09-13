@@ -5,7 +5,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="<?php echo admin_url("pi/ClasesController/create");?>" class="btn btn-primary pull-right">Añadir Clase</a>
+                    <a href="<?php echo admin_url("pi/TiposEventosController/create");?>" class="btn btn-primary pull-right">Añadir Tipo de Evento</a>
                     <table id="tableResult" class="ultimate table table-responsive">
                         <thead style="text-align: justify;">
                             <tr>
@@ -22,9 +22,6 @@
                                     </td>
                                     <td>
                                         <?php echo $value['nombre'];?>
-                                    </td>
-                                    <td>
-                                        <?php echo $value['descripcion'];?>
                                     </td>
                                     <td>
                                         <?php echo $value['acciones'];?>

@@ -33,17 +33,9 @@ function pi_menu_item_collapsible()
      //Menu de configuracion 2
     $CI->app_menu->add_sidebar_menu_item('51', [
         'slug'     => 'config-2', // Required ID/slug UNIQUE for the child menu
-        'name'     => 'SPI Configuracion 2', // The name if the item
+        'name'     => 'Correspondencia', // The name if the item
         'position' => 11, // The menu position
-        'icon'     => 'fa-sharp fa-solid fa-gear', // Font awesome icon
-    ]);
-
-    //Propietarios
-    $CI->app_menu->add_sidebar_children_item('51', [
-        'slug'   => 'propietarios-admin',
-        'name'  => 'Administrador de Propietarios',
-        'href'  => admin_url('pi/PropietariosController'),
-        'position' => 11,
+        'icon'     => 'fa-sharp fa-solid fa-envelope', // Font awesome icon
     ]);
     //Correspondecia Usuario
     $CI->app_menu->add_sidebar_children_item('51', [
@@ -59,15 +51,6 @@ function pi_menu_item_collapsible()
         'href'  => admin_url('pi/CorrespondeciaPlantillaController'),
         'position' => 11,
     ]);
-    //Administrador de Tareas
-    $CI->app_menu->add_sidebar_children_item('51',[
-        'slug'   => 'tareas-admin',
-        'name'  => 'Administrador de Tareas',
-        'href'  => admin_url('pi/TareasAdminController'),
-        'position' => 11,
-    ]);
-
-
      //Menu de configuracion
     $CI->app_menu->add_sidebar_menu_item('52', [
         'slug'     => 'configuracion', // Required ID/slug UNIQUE for the child menu

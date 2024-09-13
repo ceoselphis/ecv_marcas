@@ -5,12 +5,13 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="<?php echo admin_url("pi/ClasesController/create");?>" class="btn btn-primary pull-right">Añadir Clase</a>
+                    <a href="<?php echo admin_url("pi/PropietariosController/create");?>" class="btn btn-primary pull-right">Añadir Propietario</a>
                     <table id="tableResult" class="ultimate table table-responsive">
                         <thead style="text-align: justify;">
                             <tr>
                                 <td>Nº</td>
                                 <td>Nombre</td>
+                                <td>Representante Legal</td>
                                 <td>Acciones</td>
                             </tr>
                         </thead>
@@ -24,7 +25,7 @@
                                         <?php echo $value['nombre'];?>
                                     </td>
                                     <td>
-                                        <?php echo $value['descripcion'];?>
+                                        <?php echo $value["representante_legal"];?>
                                     </td>
                                     <td>
                                         <?php echo $value['acciones'];?>

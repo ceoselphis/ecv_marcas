@@ -26,7 +26,7 @@
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
                             <button class="btn btn-gray" type="reset" >Limpiar</button>
-                            <a href="<?php echo admin_url('pi/TareasAdminController/');?>" class="btn btn-success">Volver atrás</a>
+                            <a href="<?php echo admin_url('pi/SettingsController/menu?group=tareas');?>" class="btn btn-success">Volver atrás</a>
                         </div>
                         
                     </div>

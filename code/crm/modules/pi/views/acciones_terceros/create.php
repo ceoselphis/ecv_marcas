@@ -518,20 +518,20 @@ $select = ['' => '']; ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Documentos</button>
+                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#documentoModal">Añadir Documentos</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 1.5%;">
                                             <table class="table table-responsive" id="tareas">
                                                 <thead>
                                                     <tr>
                                                         <th>Nro</th>
-                                                        <th>Tipo de Tarea</th>
                                                         <th>Descripcion</th>
-                                                        <th>Fecha</th>
+                                                        <th>Comentarios</th>
+                                                        <th>Archivos</th>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="body_documentos">
                                                 </tbody>
                                             </table>
                                         </div>

@@ -71,7 +71,7 @@
 </div>
 
 <!-- Documento Modal Create -->
-<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="documentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -83,6 +83,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
+          
             <div class="col-md-12">
                 <?php echo form_label('Descripcion', 'descripcion_archivo');?>
                 <?php echo form_input(['name'=>'doc_descripcion','id'=>'doc_descripcion'],'', ['class' => 'form-control']);?>

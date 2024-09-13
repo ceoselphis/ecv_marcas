@@ -69,7 +69,7 @@ class AccionesTercerosEventosController extends AdminController
         echo json_encode($data);
     }
 
-     public function addEvento(){
+    public function addEvento(){
         $CI = &get_instance();
         $data = $CI->input->post();
         $fecha_hoy = date("Y-m-d");

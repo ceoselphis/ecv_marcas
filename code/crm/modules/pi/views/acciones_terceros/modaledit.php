@@ -1,4 +1,4 @@
-<!-- Publicacion Modal -->
+<!--Editar Modal Publicacion  -->
 <div class="modal fade" id="publicacionModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -41,7 +41,7 @@
   <?php echo form_close();?>
 </div>
 
-<!-- Evento Modal -->
+<!-- Editar Modal Evento -->
 <div class="modal fade" id="eventoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
@@ -76,8 +76,8 @@
   <?php echo form_close();?>
 </div>
 
-<!-- Documento Modal Create -->
-<div class="modal fade" id="docModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Editar Modal Documento  -->
+<div class="modal fade" id="documentoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open_multipart("", ['method' => 'POST', 'id' => 'documentoFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -89,19 +89,22 @@
       </div>
       <div class="modal-body">
         <div class="row">
+            <div style="display: none;">
+                <input type="text" class ='form-control' id="id_modal_documentoEdit" >      
+            </div>
             <div class="col-md-12">
                 <?php echo form_label('Descripcion', 'descripcion_archivo');?>
-                <?php echo form_input(['name'=>'doc_descripcion','id'=>'doc_descripcion'],'', ['class' => 'form-control']);?>
+                <?php echo form_input(['name'=>'doc_descripcionEdit','id'=>'doc_descripcionEdit'],'', ['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentarios', 'comentario_archivo');?>
-                <?php echo form_textarea(['name'=>'comentario_archivo', 'id'=>'comentario_archivo'],'',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'comentario_archivoEdit', 'id'=>'comentario_archivoEdit'],'',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Archivo', 'doc_archivo');?>
                 <?php echo form_input([
-                    'id' => 'doc_archivo',
-                    'name' => 'doc_archivo',
+                    'id' => 'doc_archivoEdit',
+                    'name' => 'doc_archivoEdit',
                     'type' => 'file',
                     'class' => 'form-control',
                     'multiple' => 'multiple',
@@ -111,14 +114,14 @@
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button id="documentofrmsubmit" type="button" class="btn btn-primary">Editar</button>
+        <button id="documentofrmsubmitEdit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
   <?php echo form_close();?>
 </div>
 
-<!-- Tarea Modal -->
+<!-- Editar Modal Tarea -->
 <div class="modal fade" id="tareaModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'tareaFrm']);?>
     <div class="modal-dialog modal-lg" role="document">

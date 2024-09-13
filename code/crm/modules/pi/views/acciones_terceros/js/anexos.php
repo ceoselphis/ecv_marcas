@@ -4,6 +4,8 @@
     Eventos(id);
     Publicaciones(id);
     Tareas(id);
+    Documentos(id);
+
     //-------------------------- Lista de datos --------------------------------
 
     //Mostrar Publicaciones
@@ -105,6 +107,42 @@
                             `
             });
             $('#body_tareas').html(body);
+        })
+    }
+
+    //Mostrar Eventos
+    function Documentos(id_cambio) {
+        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/showDocumentos/");?>';
+        url = url + id_cambio;
+        console.log(url);
+        let body = ``;
+        $.get(url, function (response) {
+            let lista = JSON.parse(response);
+            console.log('Lista Documentos ',lista);
+            if (lista.length === 0) {
+                $('#body_documentos').html(`
+                        <tr colspan="3">
+                            <td>Sin Registros</td>
+                        </tr>`);
+            }
+            lista.forEach(item => {
+                body += `<tr Documentoid = "${item.id}"> 
+                                    <td class="text-center">${item.id}</td>
+                                    <td class="text-center">${item.descripcion}</td>
+                                    <td class="text-center">${item.comentarios}</td>
+                                    <td class="text-center">
+                                    <a href="${item.archivo}" target="_blank">Ver Archivo</a>
+                                    </td>
+                                        <td class="text-center">
+                                            <a class=" btn btn-light" id ="EditbtnDocumento" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button id="Documento-delete" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+            });
+            $('#body_documentos').html(body);
         })
     }
 
@@ -216,6 +254,39 @@
         });
     });
 
+    // Añadir Documento 
+     $(document).on('click', '#documentofrmsubmit', function(e) {
+        e.preventDefault();
+        var formData = new FormData();
+        var acc_ter_id = id;
+        var descripcion = $('#doc_descripcion').val();
+        var comentario_archivo = $('#comentario_archivo').val();
+        var doc_archivo = $('#doc_archivo')[0].files[0];
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        formData.append('acc_ter_id', acc_ter_id);
+        formData.append('doc_descripcion', descripcion);
+        formData.append('comentario_archivo', comentario_archivo);
+        formData.append('doc_archivo', doc_archivo);
+        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/addDocumentos"); ?>';
+        console.log(' descripcion ',descripcion,' comentario_archivo ',comentario_archivo, ' doc_archivo ',doc_archivo);
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(response) {
+            Documentos(id);
+            console.log(response);
+            alert_float('success', "Insertado Correctamente");
+            $("#documentoModal").modal('hide');
+        }).catch(function(response) {
+            console.log(response);
+            alert("No puede agregar un Documento sin registro de la solicitud");
+        });
+    }); 
+
 
 
     //------------------------------------------------------------------------------
@@ -275,6 +346,25 @@
             $('#id_modal_tareaEdit').val(tareasid);
         });
         $("#tareaModalEdit").modal('show');
+    });
+
+    //Accion para Abrir Modal para Editar Documento
+    $(document).on('click', '#EditbtnDocumento', function (e) {
+        console.log(" LLegar a Modal Editar Documento ");
+        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/findDocumentos/");?>';
+        let element = $(this)[0].parentElement.parentElement;
+        let docid = $(element).attr('Documentoid');
+        console.log('Tareas id', docid);
+        url = url + docid;
+        console.log(url);
+        $.get(url, function (response) {
+            let lista = JSON.parse(response);
+            console.log('lista tareas ',lista);
+            $('#doc_descripcionEdit').val(lista[0].descripcion);
+            $('#comentario_archivoEdit').val(lista[0].comentarios);  
+            $('#id_modal_documentoEdit').val(docid);
+        });
+        $("#documentoModalEdit").modal('show');
     });
 
     //-------------------------------------------------------------------------------
@@ -382,6 +472,43 @@
             alert("No puede agregar el Evento sin registro");
         });
     });
+
+     //Editar Documentos
+    $(document).on('click', '#documentofrmsubmitEdit', function (e) {
+        e.preventDefault();
+        console.log("Click Editar Tareas");
+        var formData = new FormData(); 
+        var acc_ter_id = id;
+        const id_documento = $('#id_modal_documentoEdit').val();
+        var descripcion = $('#doc_descripcionEdit').val();
+        var comentario_archivo = $('#comentario_archivoEdit').val();
+        var doc_archivo = $('#doc_archivoEdit')[0].files[0];
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        formData.append('acc_ter_id', acc_ter_id);
+        formData.append('doc_descripcion', descripcion);
+        formData.append('comentario_archivo', comentario_archivo);
+        formData.append('doc_archivo', doc_archivo);
+        console.log("id Documento ",id_documento);
+        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/UpdateDocumentos/");?>'
+        url = url + id_documento;
+        console.log("ul ", url);
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function (response) {
+            Documentos(id);
+            console.log(response);
+            alert_float('success', "Insertado Correctamente");
+            $("#documentoModalEdit").modal('hide');
+        }).catch(function (response) {
+            console.log(response);
+            alert("No puede agregar el Evento sin registro");
+        });
+    });
     //-----------------------------------------------------------------------------------
     // ----------------------------- Accion para Eliminar Datos -------------------------
     //Eliminar Evento
@@ -470,6 +597,34 @@
                 alert_float('success', "Tarea Eliminado Correctamente");
             }).catch(function (response) {
                 alert("No se pudo Eliminar la Tarea");
+            });
+        }
+    });
+
+    //Eliminar Documento
+    $(document).on('click', '#Documento-delete', function (e) {
+        e.preventDefault();
+        if (confirm("Quieres eliminar este registro?")) {
+            var formData = new FormData();
+            let element = $(this)[0].parentElement.parentElement;
+            let documentoid = $(element).attr('Documentoid');
+            console.log(documentoid)
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/destroy/");?>';
+            url = url + documentoid;
+            console.log("url ", url);
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                Documentos(id);
+                alert_float('success', "Documento Eliminado Correctamente");
+            }).catch(function (response) {
+                alert("No se pudo Eliminar el Documento");
             });
         }
     });

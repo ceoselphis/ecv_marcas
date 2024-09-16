@@ -33,6 +33,14 @@ class AccionesContraTerceros_model extends BaseModel
         ];
     }
 
+    public function CantidadSolicitudes(){
+        $this->db->select('max(id) as cantidad');
+        $this->db->from('tbl_acciones_terceros');
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values[0]['cantidad']; 
+    }
+
     public function getAllClients()
     {
         $this->db->select('userid, company');
@@ -195,6 +203,21 @@ class AccionesContraTerceros_model extends BaseModel
         return array_combine($keys, $values); 
     }
 
+    public function getAllTiposTareas()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_tareas');
+        $query = $this->db->get();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values); 
+    }
+
     public function findDenominacionBase($id = null)
     {
         $this->db->select('*');
@@ -221,6 +244,8 @@ class AccionesContraTerceros_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    
 
     public function findMarca($id = null)
     {

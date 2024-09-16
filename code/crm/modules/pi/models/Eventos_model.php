@@ -14,6 +14,8 @@ class Eventos_model extends BaseModel
         parent::__construct();
     }
 
+
+
     public function getAllMaterias()
     {
         $query = $this->db->get('tbl_materias');
@@ -74,6 +76,14 @@ class Eventos_model extends BaseModel
         $this->db->select('*');
         $this->db->from('tbl_marcas_eventos');
         $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
+
+    public function findAll(){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_eventos');
         $query = $this->db->get();
         $values = $query->result_array();
         return $values; 

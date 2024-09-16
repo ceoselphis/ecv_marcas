@@ -18,8 +18,8 @@ class EventosController extends AdminController
         foreach($CI->Eventos_model->findAll() as $row)
         {
             $data[] = [
-                'eve_id' => $row['eve_id'],
-                'tipo_eve_id' => $CI->Eventos_model->findTipoEvento($row['tipo_eve_id'])[0]['nombre'],
+                'eve_id' => $row['id'],
+                'tipo_eve_id' => $CI->Eventos_model->findTipoEvento($row['tipo_evento_id'])[0]['nombre'],
                 'created_at' => $row['created_at'],
                 'staff_id' => $CI->Eventos_model->getStaff($row['staff_id'])[0]['firstname'].' '.$CI->Eventos_model->getStaff($row['staff_id'])[0]['lastname']
             ];

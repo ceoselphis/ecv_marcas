@@ -31,6 +31,68 @@ class AccionesTerceroController extends AdminController
         return $CI->load->view('acciones_terceros/index', ['marcas' => $data]);
     }
 
+    public function ShowAccionesTerceros()
+    {
+        $CI = &get_instance();
+        $CI->load->model("AccionesContraTerceros_model");
+        $query = $CI->AccionesContraTerceros_model->findAll();
+        $table = array();
+        if (!empty($query)) {
+            foreach ($query as $row) {
+              
+                $table[] = [
+                    'codigo'            => $row['id'],
+                    'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['tipo_solicitud_id']],
+                    'demandante'        => $CI->AccionesContraTerceros_model->findCliente($row['client_id'])[0]['company'],
+                    'demandado'         => $row['propietario'],
+                    'objeto'            => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['signonom'],
+                    'nro_solicitud'     => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['registro'],
+                    'fecha_solicitud'   => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                    'estado'            => $CI->AccionesContraTerceros_model->findEstatus($row['estado_id'])[0]['descripcion'],
+                    'pais'              => $CI->AccionesContraTerceros_model->findPais($row['pais_id'])[0]['nombre'],
+                    
+                ];
+            }
+            echo json_encode(['code' => 200, 'message' => 'success', 'data' => $table]);
+        }
+        else
+        {
+            $table[] = [
+                'codigo'            => '',
+                'tipo'              => '',
+                'demandante'        => '',
+                'demandado'         => '',
+                'objeto'            =>'',
+                'nro_solicitud'     => '',
+                'fecha_solicitud'   => '',
+                'estado'            => '',
+                'pais'              => '',
+                'acciones'          => ''
+            ];
+            echo json_encode(['code' => 404, 'message' => 'not found', 'data' => $table]);
+        }
+       // echo json_encode($data);
+    }
+
+    public function ShowIndex(){
+        $CI = &get_instance();
+        $CI->load->model("AccionesContraTerceros_model");
+        $data = [
+            'tipo_solicitud' => $CI->AccionesContraTerceros_model->getTipoSolicitudes(),
+            'clientes'       => $CI->AccionesContraTerceros_model->getAllClients(),
+            'oficinas'       => $CI->AccionesContraTerceros_model->getAllOficinas(),
+            'responsable'    => $CI->AccionesContraTerceros_model->getAllStaff(),
+            'marcas'         => $CI->AccionesContraTerceros_model->getAllMarcas(),
+            'clase_niza'     => $CI->AccionesContraTerceros_model->getAllClases(),
+            'paises'         => $CI->AccionesContraTerceros_model->getAllPaises(),
+            'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
+            'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
+            'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
+            'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
+        ];
+        echo json_encode($data);
+    }
+
     public function getAcciones()
     {
         $CI = &get_instance();
@@ -73,6 +135,8 @@ class AccionesTerceroController extends AdminController
         }
     }
 
+    
+
     /**
      * Shows the form to create a new item
      */
@@ -93,8 +157,13 @@ class AccionesTerceroController extends AdminController
             'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
             'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
             'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
+            'tipo_evento' => $CI->AccionesContraTerceros_model->getAllTipoEvento(),
+            'tipo_tarea' => $CI->AccionesContraTerceros_model->getAllTiposTareas(),
+            'cod_contador' => 'M-' . ($CI->AccionesContraTerceros_model->CantidadSolicitudes() + 1),
+            'cod_id' => $CI->AccionesContraTerceros_model->CantidadSolicitudes() + 1
         ];
 
+       
 
         return $CI->load->view('acciones_terceros/create', $data);
     }
@@ -130,6 +199,7 @@ class AccionesTerceroController extends AdminController
         $form['fecha_boletin']     = $data['fecha_boletin'];
         $form['estado_id']         = $data['estado_id'];
         $form['comentarios']       = $data['comentarios'];
+        $form['fecha_solicitud'] = $data['fecha_solicitud'];
         try {
             $query = $CI->AccionesContraTerceros_model->insert($form);
             $id = $CI->AccionesContraTerceros_model->last_insert_id();
@@ -168,7 +238,11 @@ class AccionesTerceroController extends AdminController
             'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
             'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
             'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
+            'tipo_evento' => $CI->AccionesContraTerceros_model->getAllTipoEvento(),
+            'tipo_tarea' => $CI->AccionesContraTerceros_model->getAllTiposTareas(),
             'values' => $values[0],
+            'cod_contador' => 'M-' . ($id),
+            'cod_id' => $id
         ];
         return $CI->load->view('acciones_terceros/edit', $data);
     }

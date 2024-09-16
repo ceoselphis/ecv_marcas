@@ -3,7 +3,9 @@
 <script>
     $("#pais_id option[value=226]");
 </script>
+
 <script>
+    
     function fecha() {
         var hoy = new Date();
         var dd = hoy.getDate();

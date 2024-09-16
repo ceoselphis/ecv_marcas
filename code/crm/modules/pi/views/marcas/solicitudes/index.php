@@ -727,6 +727,7 @@
                 data: JSON.stringify(params),
             },
             success: function (response) {
+                console.log("Respuesta ",response);
                 table = JSON.parse(response);
                 $("#tableResult").DataTable({
                     language: {

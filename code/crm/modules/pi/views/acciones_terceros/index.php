@@ -31,41 +31,8 @@ init_head(); ?>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php if (!empty($acciones)) { ?>
-                                        <?php foreach ($acciones as $row) { ?>
-                                            <tr>
-                                                <td><?php echo $row['id']; ?></td>
-                                                <td><?php echo $row['tipo_solicitud']; ?></td>
-                                                <td><?php echo $row['cliente']; ?></td>
-                                                <td><?php echo $row['propietario']; ?></td>
-                                                <td><?php echo $row['marca']; ?></td>
-                                                <td><?php echo $row['nro_solicitud']; ?></td>
-                                                <td><?php echo $row['fecha_solicitud']; ?></td>
-                                                <td><?php echo $row['marca']; ?></td>
-                                                <form method="DELETE" action="<?php echo admin_url("pi/AccionesTerceroController/destroy/{$row['tip_ax_id']}"); ?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
-                                                    <td>
-                                                        <a class="btn btn-light" href="<?php echo admin_url("pi/AccionesTerceroController/edit/{$row['tip_ax_id']}"); ?>"><i class="fas fa-edit"></i>Editar</a>
-                                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
-                                                    </td>
-                                                </form>
-                                            </tr>
-                                        <?php } ?>
-                                    <?php } else {
-                                    ?>
-                                        <tr colspan="9">
-                                            <td>Sin Registros</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    <?php } ?>
+                                <tbody id="body_accionesterceros" >
+                                   
                                 </tbody>
                             </table>
                         </div>
@@ -188,47 +155,91 @@ init_head(); ?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
-    new DataTable("#tableResult", {
-        destroy: true,
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        },
-        ajax: {
-            url: '<?php echo admin_url('pi/AccionesTerceroController/getAcciones'); ?>',
-            dataSrc: 'data'
-        },
-        columns: [{
-                data: 'codigo'
-            },
-            {
-                data: 'tipo'
-            },
-            {
-                data: 'demandante'
-            },
-            {
-                data: 'demandado'
-            },
-            {
-                data: 'objeto'
-            },
-            {
-                data: 'nro_solicitud'
-            },
-            {
-                data: 'fecha_solicitud'
-            },
-            {
-                data: 'estado'
-            },
-            {
-                data: 'pais'
-            },
-            {
-                data: 'acciones'
+
+    AccionesTerceros()
+       // Mostrar Todo Acciones a Terceros
+    function AccionesTerceros() {
+        let url = '<?php echo admin_url("pi/AccionesTerceroController/ShowAccionesTerceros");?>';
+        console.log(url);
+        let body = ``;
+        $.get(url, function (response) {
+           
+            let lista = JSON.parse(response).data;
+            console.log("Acciones a Terceros ",lista);
+
+            if (lista.length === 0) {
+                $('#body_accionesterceros').html(`
+                        <tr colspan="3">
+                            <td>Sin Registros</td>
+                        </tr>`);
             }
-        ]
-    });
+            lista.forEach(item => {
+                url = "<?php echo admin_url("pi/AccionesTerceroController/edit/"); ?>";
+                url = url + item.codigo;
+                body += `<tr AccionesTercerosid = "${item.id}"> 
+                                    <td class="text-center">${item.codigo}</td>
+                                    <td class="text-center">${item.tipo}</td>
+                                    <td class="text-center">${item.demandante}</td>
+                                    <td class="text-center">${item.demandado}</td>
+                                    <td class="text-center">${item.objeto}</td>
+                                    <td class="text-center">${item.nro_solicitud}</td>
+                                    <td class="text-center">${item.fecha_solicitud}</td>
+                                    <td class="text-center">${item.estado}</td>
+                                    <td class="text-center">${item.pais}</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-light" href="${url}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button id="AccionesTerceros-delete" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>Borrar
+                                            </button>
+                                        </td>
+                                </tr>
+                            `
+            });
+            $('#body_accionesterceros').html(body);
+        })
+    }
+
+    // new DataTable("#tableResult", {
+    //     destroy: true,
+    //     language: {
+    //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+    //     },
+    //     ajax: {
+    //         url: '<?php echo admin_url('pi/AccionesTerceroController/ShowAccionesTerceros'); ?>',
+    //         dataSrc: 'data'
+    //     },
+    //     columns: [{
+    //             data: 'codigo'
+    //         },
+    //         {
+    //             data: 'tipo'
+    //         },
+    //         {
+    //             data: 'demandante'
+    //         },
+    //         {
+    //             data: 'demandado'
+    //         },
+    //         {
+    //             data: 'objeto'
+    //         },
+    //         {
+    //             data: 'nro_solicitud'
+    //         },
+    //         {
+    //             data: 'fecha_solicitud'
+    //         },
+    //         {
+    //             data: 'estado'
+    //         },
+    //         {
+    //             data: 'pais'
+    //         },
+    //         {
+    //             data: 'acciones'
+    //         }
+    //     ]
+    // });
 
 
     function fecha() {
@@ -316,3 +327,42 @@ init_head(); ?>
 </body>
 
 </html>
+
+
+ <!-- 
+ <?php //if (!empty($acciones)) { ?>
+                                        <?php //foreach ($acciones as $row) { ?>
+                                            <tr>
+                                                <td><?php //echo $row['id']; ?></td>
+                                                <td><?php //echo $row['tipo_solicitud']; ?></td>
+                                                <td><?php //echo $row['cliente']; ?></td>
+                                                <td><?php //echo $row['propietario']; ?></td>
+                                                <td><?php //echo $row['marca']; ?></td>
+                                                <td><?php //echo $row['nro_solicitud']; ?></td>
+                                                <td><?php //echo $row['fecha_solicitud']; ?></td>
+                                                <td><?php //echo $row['marca']; ?></td>
+                                                <form method="DELETE" action="<?php //echo admin_url("pi/AccionesTerceroController/destroy/{$row['tip_ax_id']}"); ?>" onsubmit="confirm('¿Esta seguro de eliminar este registro?')">
+                                                    <td>
+                                                        <a class="btn btn-light" href="<?php //echo admin_url("pi/AccionesTerceroController/edit/{$row['tip_ax_id']}"); ?>"><i class="fas fa-edit"></i>Editar</a>
+                                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Borrar</button>
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                        <?php //} ?>
+                                    <?php //} else {
+                                    ?>
+                                        <tr colspan="9">
+                                            <td>Sin Registros</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php //} ?>
+
+-->

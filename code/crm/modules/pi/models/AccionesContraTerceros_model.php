@@ -245,6 +245,8 @@ class AccionesContraTerceros_model extends BaseModel
         return $query->result_array();
     }
 
+    
+
     public function findMarca($id = null)
     {
         $this->db->select('*');

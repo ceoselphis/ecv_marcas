@@ -200,7 +200,7 @@
         formData.append('boletin_publicacion', boletin_publicacion);
         formData.append('tomo', tomo);
         formData.append('pagina', pagina);
-        console.log("tipo_publicacion ", tipo_publicacion, " boletin_publicacion ", boletin_publicacion," tomo ", tomo, ' pagina ',pagina);
+        console.log( " acc_ter_id " ,acc_ter_id, " tipo_publicacion ", tipo_publicacion, " boletin_publicacion ", boletin_publicacion," tomo ", tomo, ' pagina ',pagina);
         let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/addPublicacion");?>'
         $.ajax({
             url,

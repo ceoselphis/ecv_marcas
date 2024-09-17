@@ -83,10 +83,10 @@ class AccionesTercerosPublicacionesController extends AdminController
                             'acciones_terceros_id' => $data['acc_ter_id'],
                             'boletin_id' => $data['boletin_publicacion'],
                             'tomo' => $data['tomo'],
-                            'boletin_id' => $data['pagina'],
+                            'pagina' => $data['pagina'],
                             'fecha' =>  $fecha_hoy,
                     );
-
+           
             $CI->load->model("AccionesTercerosPublicaciones_model");
                 try{
                     $query = $CI->AccionesTercerosPublicaciones_model->insert($insert);
@@ -102,7 +102,7 @@ class AccionesTercerosPublicacionesController extends AdminController
                 }
         }
         else {
-            echo json_encode([ 'mensaje'=>'No hay evento', 'status'=>false]);
+            echo json_encode([ 'mensaje'=>'No hay Publicaciones', 'status'=>false]);
 
         }
      }
@@ -128,7 +128,7 @@ class AccionesTercerosPublicacionesController extends AdminController
                     'tipo_pub_id' => $data['tipo_publicacion'],
                     'boletin_id' => $data['boletin_publicacion'],
                     'tomo' => $data['tomo'],
-                    'boletin_id' => $data['pagina'],
+                    'pagina' => $data['pagina'],
                     'fecha' =>  $fecha_hoy,
                     );
             $query = $CI->AccionesTercerosPublicaciones_model->update($id, $insert);

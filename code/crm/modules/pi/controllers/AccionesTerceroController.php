@@ -199,7 +199,7 @@ class AccionesTerceroController extends AdminController
         $form['fecha_boletin']     = $data['fecha_boletin'];
         $form['estado_id']         = $data['estado_id'];
         $form['comentarios']       = $data['comentarios'];
-        $form['fecha_solicitud'] = $data['fecha_solicitud'];
+        //$form['fecha_solicitud'] = $data['fecha_solicitud'];
         try {
             $query = $CI->AccionesContraTerceros_model->insert($form);
             $id = $CI->AccionesContraTerceros_model->last_insert_id();

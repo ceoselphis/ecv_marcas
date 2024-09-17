@@ -1120,20 +1120,22 @@ class MarcasSolicitudesController extends AdminController
     $result = array();
     $query = array();
     $url = admin_url('pi/MarcasSolicitudesController/edit/');
+    //echo json_encode($form);
     foreach ($form as $key => $value) {
       if ($value === '') {
         unset($form[$key]);
       }
     }
     if (empty($form)) {
-      $query = $CI->MarcasSolicitudes_model->findAll();
+      $query = $CI->MarcasSolicitudes_model->getAll();
+   //   echo json_encode($query);
       if (!empty($query)) {
         foreach ($query as $row) {
           $result[] =  [
             'cod_contador' => $row['cod_contador'],
             'tipo' =>  $row['tipo_registro'],
             'propietario' => $row['nombre_propietario'],
-            'nombre' => $row['signonom'],
+            'nombre' => $row['marca'],
             'clase' =>  $row['clase_niza'],
             'estado' => $row['estado_expediente'],
             'solicitud' => $row['solicitud'],

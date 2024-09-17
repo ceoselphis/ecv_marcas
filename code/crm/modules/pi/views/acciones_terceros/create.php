@@ -539,6 +539,7 @@ $select = ['' => '']; ?>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
+                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
                                     </ul>
                                 </div>
                             </div>

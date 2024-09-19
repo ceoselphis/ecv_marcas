@@ -81,19 +81,19 @@ $select = ['' => '']; ?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Cliente', 'client_id'); ?>
-                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id'), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id'), ['class' => 'form-control','id' => 'client_id']); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Oficina', 'oficina_id') ?>
-                                            <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id'), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id'), ['class' => 'form-control','id' => 'oficina_id']); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Responsable', 'staff_id'); ?>
-                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id'), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id'), ['class' => 'form-control','id' => 'staff_id']); ?>
                                         </div>
                                     </div>
                                     <ul class="list-inline pull-right">
-                                        <li><button type="button" class="btn btn-primary next-step">Siguiente</button></li>
+                                        <li><button type="button" id="ValidadorInicio" class="btn btn-primary next-step">Siguiente</button></li>
                                     </ul>
                                 </div>
                                 <!-- Step 2 -->
@@ -221,7 +221,7 @@ $select = ['' => '']; ?>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
-                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
+                                        <li><button type="button" id="ValidadorMarcaBase" class="default-btn btn-primary next-step">Siguiente</button></li>
                                     </ul>
 
 
@@ -369,7 +369,7 @@ $select = ['' => '']; ?>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
-                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
+                                        <li><button type="button" id="ValidarMarcaOpuesta" class="default-btn btn-primary next-step">Siguiente</button></li>
                                     </ul>
                                 </div>
                                 <!-- Step 4 -->
@@ -385,7 +385,7 @@ $select = ['' => '']; ?>
 
                                         <div class="col-md-12">
                                             <?php echo form_label('Estado de Solicitud', 'estado_id'); ?>
-                                            <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', ''), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', ''), ['class' => 'form-control', 'id'=>'estado_id']); ?>
                                         </div>
                                         <div class="col-md-12">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
@@ -432,7 +432,7 @@ $select = ['' => '']; ?>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
-                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
+                                        <li><button type="button" id="ValidarExpediente" class="default-btn btn-primary next-step">Siguiente</button></li>
                                     </ul>
                                 </div>
                                 <!-- Step 5 -->
@@ -556,6 +556,7 @@ $select = ['' => '']; ?>
 
 <?php $CI->load->view('acciones_terceros/js.php');?>
 <?php $CI->load->view('acciones_terceros/js/anexos.php');?>
+<?php $CI->load->view('acciones_terceros/js/script.php');?>
 </body>
 
 </html>

@@ -29,7 +29,7 @@ init_head(); ?>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table" id="tableResult">
+                        <table class="table" id="tableResult">
                                 <thead>
                                     <tr>
                                         <th>Codigo</th>
@@ -44,9 +44,7 @@ init_head(); ?>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="body_accionesterceros">
-
-                                </tbody>
+                               
                             </table>
                         </div>
                     </div>
@@ -115,11 +113,11 @@ init_head(); ?>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Solicitud', 'solicitud'); ?>
-                                            <?php echo form_input('solicitud', set_value('solicitud'), ['class' => 'form-control']); ?>
+                                            <?php echo form_input('marca_num_solicitud', set_value('marca_num_solicitud'), ['class' => 'form-control','id'=>'marca_num_solicitud']); ?>
                                         </div>
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Registro', 'nro_registro'); ?>
-                                            <?php echo form_input('nro_registro', set_value('nro_registro'), ['class' => 'form-control']); ?>
+                                            <?php echo form_input('nro_registro', set_value('nro_registro'), ['class' => 'form-control','id'=>'marca_num_solicitud']); ?>
                                         </div>
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Propietario', 'propietario_id'); ?>
@@ -147,13 +145,13 @@ init_head(); ?>
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <div class="col-md-4">
-                                            <?php echo form_label('Marca', 'denominacion_opuesta'); ?>
-                                            <?php echo form_input('denominacion_opuesta', set_value('denominacion_opuesta'), ['class' => 'form-control']); ?>
+                                            <?php echo form_label('Marca', 'marca_opuesta_nombre'); ?>
+                                            <?php echo form_input('marca_opuesta_nombre', set_value('marca_opuesta_nombre'), ['class' => 'form-control','id'=> 'marca_opuesta_nombre']); ?>
                                         </div>
                                         
                                         <div class="col-md-4">
-                                            <?php echo form_label('Clases', 'clase_niza_opuesta'); ?>
-                                            <select class='form-control' name='clase_niza_opuesta' id="clase_niza_opuesta">
+                                            <?php echo form_label('Clases', 'marca_opuesta_clase_niza'); ?>
+                                            <select class='form-control' name='marca_opuesta_clase_niza' id="marca_opuesta_clase_niza">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['clase_niza'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -162,13 +160,13 @@ init_head(); ?>
                                         </div>
 
                                         <div class="col-md-4">
-                                            <?php echo form_label('Solicitud', 'solicitud_opuesta'); ?>
-                                            <?php echo form_input('solicitud_opuesta', set_value('solicitud_opuesta'), ['class' => 'form-control']); ?>
+                                            <?php echo form_label('Solicitud', 'marca_opuesta_solicitud'); ?>
+                                            <?php echo form_input('marca_opuesta_solicitud', set_value('marca_opuesta_solicitud'), ['class' => 'form-control','id'=>'marca_opuesta_solicitud']); ?>
                                         </div>
 
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Registro', 'registro_opuesta'); ?>
-                                            <?php echo form_input('registro_opuesta', set_value('registro_opuesta'), ['class' => 'form-control']); ?>
+                                            <?php echo form_input('registro_opuesta', set_value('registro_opuesta'), ['class' => 'form-control','id'=>'registro_opuesta']); ?>
                                         </div>
 
                                         <!-- Fecha Solicitud Desde -->
@@ -396,7 +394,7 @@ init_head(); ?>
                     <!--Denominacion-->
                     <div class="col-md-4">
                         <?php echo form_label('Marca', 'denominacion'); ?>
-                        <select class='form-control' name='denominacion' id="denominacion">
+                        <select class='form-control' name='marca_id' id="marca_id">
                             <option value=''>Seleccione una opcion</option>
                             <?php foreach ($marcas['marcas'] as $key => $value) { ?>
                             <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -416,7 +414,7 @@ init_head(); ?>
                     </div>
                     <div class="col-md-4">
                         <?php echo form_label('Clases', 'clase_niza'); ?>
-                        <select class='form-control' name='clase_niza' id="clase_niza">
+                        <select class='form-control' name='marca_clase_niza_id' id="marca_clase_niza_id">
                             <option value=''>Seleccione una opcion</option>
                             <?php foreach ($marcas['clase_niza'] as $key => $value) { ?>
                             <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -434,11 +432,11 @@ init_head(); ?>
                     </div>
                     <div class="col-md-4">
                         <?php echo form_label('Registro', 'nro_registro'); ?>
-                        <?php echo form_input('nro_registro', set_value('nro_registro'), ['class' => 'form-control']); ?>
+                        <?php echo form_input('marca_num_registro', set_value('marca_num_registro'), ['class' => 'form-control','id'=>'marca_num_registro']); ?>
                     </div>
                     <div class="col-md-4">
                         <?php echo form_label('Propietario', 'propietario_id'); ?>
-                        <select class='form-control' name='propietario_id' id='propietario_id'>
+                        <select class='form-control' name='marca_propietario_id' id='marca_propietario_id'>
                             <option value=''>Seleccione una opcion</option>
                             <?php foreach ($marcas['propietarios'] as $key => $value) { ?>
                             <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -447,7 +445,7 @@ init_head(); ?>
                     </div>
                     <div class="col-md-4">
                         <?php echo form_label('Pais', 'pais_marca'); ?>
-                        <select name="pais_marca" id="pais_marca" class='form-control'>
+                        <select name="marca_pais_id" id="marca_pais_id" class='form-control'>
                             <option value=''>Seleccione una opcion</option>
                             <?php foreach ($marcas['paises'] as $key => $value) { ?>
                             <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -478,247 +476,159 @@ init_head(); ?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
-    AccionesTerceros()
-    // Mostrar Todo Acciones a Terceros
-    function AccionesTerceros() {
-        let url = '<?php echo admin_url("pi/AccionesTerceroController/ShowAccionesTerceros");?>';
-        console.log(url);
-        let body = ``;
-        $.get(url, function (response) {
-
-            let lista = JSON.parse(response).data;
-            console.log("Acciones a Terceros ", lista);
-
-            if (lista.length === 0) {
-                $('#body_accionesterceros').html(`
-                        <tr colspan="3">
-                            <td>Sin Registros</td>
-                        </tr>`);
-            }
-            lista.forEach(item => {
-                url = "<?php echo admin_url("
-                pi / AccionesTerceroController / edit / "); ?>";
-                url = url + item.codigo;
-                body += `<tr AccionesTercerosid = "${item.id}"> 
-                                    <td class="text-center">${item.codigo}</td>
-                                    <td class="text-center">${item.tipo}</td>
-                                    <td class="text-center">${item.demandante}</td>
-                                    <td class="text-center">${item.demandado}</td>
-                                    <td class="text-center">${item.objeto}</td>
-                                    <td class="text-center">${item.nro_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.pais}</td>
-                                        <td class="text-center">
-                                            <a class="btn btn-light" href="${url}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
-                                            <button id="AccionesTerceros-delete" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                </tr>
-                            `
-            });
-            $('#body_accionesterceros').html(body);
-        })
-    }
-
-    /*
-      
-                        <select class='form-control' name='denominacion' id="denominacion">
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['marcas'] as $key => $value) { ?>
-                                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                 
-                        <select class='form-control' name='tipo_solicitud' id="tipo_solicitud">
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['tipo_solicitud'] as $key => $value) { ?>
-                                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                   
-                        <select class='form-control' name='clase_niza' id="clase_niza">
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['clase_niza'] as $key => $value) { ?>
-                                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                   
-                        <select class='form-control' name='propietario_id' id='propietario_id'>
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['propietarios'] as $key => $value) { ?>
-                                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                  
-                        <?php echo form_input('nro_registro', set_value('nro_registro'), ['class' => 'form-control']); ?>
-
-                    
-                        <select name="pais_marca" id="pais_marca" class='form-control'>
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['paises'] as $key => $value) { ?>
-                                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-
-                   
-                        <?php echo form_input('marca_opuesta', set_value('marca_opuesta'), ['class' => 'form-control']); ?>
-                    
-
-                 
-                        <select class='form-control' name='clase_niza_opuesta' id="clase_niza_opuesta">
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['clase_niza'] as $key => $value) { ?>
-                                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                   
-                        <?php echo form_input('registro_opuesta', set_value('registro_opuesta'), ['class' => 'form-control']); ?>
-                    
-                        <?php echo form_input('solicitud_opuesta', set_value('solicitud_opuesta'), ['class' => 'form-control']); ?>
-                  
-                        <?php echo form_input('solicitud_desde', set_value('solicitud_desde'), ['class' => 'form-control calendar']); ?>
-                  
-                        <?php echo form_input('solicitud_hasta', set_value('solicitud_hasta'), ['class' => 'form-control calendar']); ?>
-                    
-    */
     $("#filterSubmit").on('click', function (event) {
         event.preventDefault();
+        
         var params = {
-            'denominacion': $("select[name=denominacion]").val(),
-            'tipo_solicitud': $("select[name=tipo_solicitud]").val(),
-            'clase_niza': $("select[name=clase_niza]").val(),
-            'propietario_id': $("select[name=propietario_id]").val(),
-            'nro_registro': $("input[name=nro_registro]").val(),
-            'pais_marca': $("select[name=pais_marca]").val(),
-            'marca_opuesta': $("input[name=marca_opuesta]").val(),
-            'clase_niza_opuesta': $("select[name=clase_niza_opuesta]").val(),
-            'registro_opuesta': $("input[name=registro_opuesta]").val(),
-            'solicitud_opuesta': $("input[name=solicitud_opuesta]").val(),
-            'solicitud_desde': $("input[name=solicitud_desde]").val(),
-            'solicitud_hasta': $("input[name=solicitud_hasta]").val(),
+
+            'marca_id': $("#marca_id").val(),
+            'marca_clase_niza_id': $("#marca_clase_niza_id").val(),
+            'marca_num_solicitud': $("#marca_num_solicitud").val(),
+            'marca_num_registro': $("#marca_num_registro").val(),
+            'marca_propietario_id': $("#marca_propietario_id").val(),
+            'marca_pais_id': $("#marca_pais_id").val(),
+            'marca_opuesta_nombre': $("#marca_opuesta_nombre").val(),
+            'marca_opuesta_clase_niza': $("#marca_opuesta_clase_niza").val(),
+            'marca_opuesta_solicitud': $("#marca_opuesta_solicitud").val(),
+            'registro_opuesta': $("#registro_opuesta").val(),
+            'soli_desde': $("#soli_desde").val(),
+            'soli_hasta': $("#soli_hasta").val(),
+            'propietario_opuesta': $("#propietario_opuesta").val(),
+            'pais_marca_opuesta': $("#pais_marca_opuesta").val(),
+            'tip_sol_id': $("#tip_sol_id").val(),
+            'codigo_expediente': $("#codigo_expediente").val(),
+            'ref_interna': $("#ref_interna").val(),
+            'expediente_id': $("#expediente_id").val(),
+            'boletin_id': $("#boletin_id").val(),
+            'publicaciones_id': $("#publicaciones_id").val(),
+            'evento_id': $("#evento_id").val(),
+            'clientes_id': $("#clientes_id").val(),
+            'pais_cliente_id': $("#pais_cliente_id").val(),
+            'contacto': $("#contacto").val(),
+            'ref_cliente': $("#ref_cliente").val(),
+            
+
         };
-        console.log(" Parametros ", params);
-        // $.ajax({
-        //     url: "<?php echo admin_url('pi/AccionesTerceroController/ShowAccionesTerceros') ?>",
-        //     method: "POST",
-        //     data: {
-        //         "csrf_token_name": $("input[name=csrf_token_name]").val(),
-        //         data: JSON.stringify(params),
-        //     },
-        //     success: function (response) {
-        //         console.log("Respuesta ",response);
-        //         table = JSON.parse(response);
-        //         $("#tableResult").DataTable({
-        //             language: {
-        //                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        //             },
-        //             destroy: true,
-        //             data: table.data,
-        //             columns: [
-        //                 { data: 'cod_contador' },
-        //                 { 
-        //                     data: 'tipo',
-        //                     render: function (data, type, row)
-        //                     {
-        //                         data = data ? data : '';
-        //                         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-        //                     }
-        //                 },
-        //                 { 
-        //                     data: 'propietario',
-        //                     render: function (data, type, row)
-        //                     {
-        //                         data = data ? data : '';
-        //                         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-        //                     }
-        //                 },
-        //                 { 
-        //                     data: 'nombre',
-        //                     render: function (data, type, row)
-        //                     {
-        //                         data = data ? data : '';
-        //                         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-        //                     }
-        //                 },
-        //                 { 
-        //                     data: 'clase',
-        //                     render: function (data, type, row)
-        //                     {
-        //                         data = data ? data : '';
-        //                         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-        //                     }
-        //                 },
-        //                 { 
-        //                     data: 'estado',
-        //                     render: function (data, type, row)
-        //                     {
-        //                         data = data ? data : '';
-        //                         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-        //                     }
-        //                 },
-        //                 { 
-        //                     data: 'solicitud',
-        //                     render: function (data, type, row)
-        //                     {
-        //                         data = data ? data : '';
-        //                         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-        //                     }
-        //                 },
-        //                 { data: 'fecha_solicitud' },
-        //                 { data: 'registro' },
-        //                 { data: 'certificado' },
-        //                 { data: 'vigencia' },
-        //                 { data: 'pais' },
-        //                 { data: 'acciones' },
-        //             ]
-        //         });
-        //     }
-        // })
+        console.log("Parametros ",params);
+        $.ajax({
+            url: "<?php echo admin_url('pi/AccionesTerceroController/filterSearch') ?>",
+            method: "POST",
+            data: {
+                "csrf_token_name": $("input[name=csrf_token_name]").val(),
+                data: JSON.stringify(params),
+            },
+            success: function (response) {
+                console.log("Respuesta ",response);
+                table = JSON.parse(response);
+                // $("#tableResult").DataTable({
+                //     language: {
+                //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                //     },
+                //     destroy: true,
+                //     data: table.data,
+                //     columns: [
+                //         { data: 'cod_contador' },
+                //         { 
+                //             data: 'tipo',
+                //             render: function (data, type, row)
+                //             {
+                //                 data = data ? data : '';
+                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                //             }
+                //         },
+                //         { 
+                //             data: 'propietario',
+                //             render: function (data, type, row)
+                //             {
+                //                 data = data ? data : '';
+                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                //             }
+                //         },
+                //         { 
+                //             data: 'nombre',
+                //             render: function (data, type, row)
+                //             {
+                //                 data = data ? data : '';
+                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                //             }
+                //         },
+                //         { 
+                //             data: 'clase',
+                //             render: function (data, type, row)
+                //             {
+                //                 data = data ? data : '';
+                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                //             }
+                //         },
+                //         { 
+                //             data: 'estado',
+                //             render: function (data, type, row)
+                //             {
+                //                 data = data ? data : '';
+                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                //             }
+                //         },
+                //         { 
+                //             data: 'solicitud',
+                //             render: function (data, type, row)
+                //             {
+                //                 data = data ? data : '';
+                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                //             }
+                //         },
+                //         { data: 'fecha_solicitud' },
+                //         { data: 'registro' },
+                //         { data: 'certificado' },
+                //         { data: 'vigencia' },
+                //         { data: 'pais' },
+                //         { data: 'acciones' },
+                //     ]
+                // });
+            }
+        })
     })
 
-    // new DataTable("#tableResult", {
-    //     destroy: true,
-    //     language: {
-    //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-    //     },
-    //     ajax: {
-    //         url: '<?php echo admin_url('pi/AccionesTerceroController/ShowAccionesTerceros'); ?>',
-    //         dataSrc: 'data'
-    //     },
-    //     columns: [{
-    //             data: 'codigo'
-    //         },
-    //         {
-    //             data: 'tipo'
-    //         },
-    //         {
-    //             data: 'demandante'
-    //         },
-    //         {
-    //             data: 'demandado'
-    //         },
-    //         {
-    //             data: 'objeto'
-    //         },
-    //         {
-    //             data: 'nro_solicitud'
-    //         },
-    //         {
-    //             data: 'fecha_solicitud'
-    //         },
-    //         {
-    //             data: 'estado'
-    //         },
-    //         {
-    //             data: 'pais'
-    //         },
-    //         {
-    //             data: 'acciones'
-    //         }
-    //     ]
-    // });
+    new DataTable("#tableResult", {
+        destroy: true,
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        },
+        ajax: {
+            url: '<?php echo admin_url('pi/AccionesTerceroController/getAcciones'); ?>',
+            dataSrc: 'data'
+        },
+        columns: [{
+                data: 'codigo'
+            },
+            {
+                data: 'tipo'
+            },
+            {
+                data: 'demandante'
+            },
+            {
+                data: 'demandado'
+            },
+            {
+                data: 'objeto'
+            },
+            {
+                data: 'nro_solicitud'
+            },
+            {
+                data: 'fecha_solicitud'
+            },
+            {
+                data: 'estado'
+            },
+            {
+                data: 'pais'
+            },
+            {
+                data: 'acciones'
+            }
+        ]
+    });
 
 
     function fecha() {
@@ -748,11 +658,11 @@ init_head(); ?>
         }
     }
 
-    $(".calendar").on('keyup', function (e) {
+    $(".calendar").on('keyup', function(e) {
         e.preventDefault();
         $(".calendar").val('');
     })
-    $(function () {
+    $(function() {
         $(".calendar").datetimepicker({
             maxDate: fecha(),
             weeks: true,
@@ -772,250 +682,34 @@ init_head(); ?>
 </script>
 
 <script>
-    $("#filter").on('submit', function (e) {
+    $("#filter").on('submit', function(e){
         e.preventDefault();
-        var data = {
-            'denominacion': $("select[name=denominacion]").val(),
-            'solicitud': $("input[name=solicitud]").val(),
-            'clase_niza': $("select[name=clase_niza]").val(),
-            'propietario': $("select[name=propietario_id]").val(),
-            'nro_registro': $("input[name=nro_registro]").val(),
-            'pais_marca': $("select[name=pais_marca]").val(),
-            'marca_opuesta': $("input[name=marca_opuesta]").val(),
-            'clase_niza_opuesta': $("select[name=clase_niza_opuesta]").val(),
-            'registro_opuesta': $("input[name=registro_opuesta]").val(),
-            'solicitud_opuesta': $("input[name=solicitud_opuesta]").val(),
-            'solicitud_desde': $("input[name=solicitud_desde]").val(),
-            'solicitud_hasta': $("input[name=solicitud_hasta]").val(),
-            'csrf_token_name': $("input[name=csrf_token_name]").val()
-        }
+        // var data = {
+        //     'denominacion'          : $("select[name=denominacion]").val(),
+        //     'solicitud'             : $("input[name=solicitud]").val(),
+        //     'clase_niza'            : $("select[name=clase_niza]").val(),
+        //     'propietario'           : $("select[name=propietario_id]").val(),
+        //     'nro_registro'          : $("input[name=nro_registro]").val(),
+        //     'pais_marca'            : $("select[name=pais_marca]").val(),
+        //     'marca_opuesta'         : $("input[name=marca_opuesta]").val(),
+        //     'clase_niza_opuesta'    : $("select[name=clase_niza_opuesta]").val(),
+        //     'registro_opuesta'      : $("input[name=registro_opuesta]").val(),
+        //     'solicitud_opuesta'     : $("input[name=solicitud_opuesta]").val(),
+        //     'solicitud_desde'       : $("input[name=solicitud_desde]").val(),
+        //     'solicitud_hasta'       : $("input[name=solicitud_hasta]").val(),
+        //     'csrf_token_name'       : $("input[name=csrf_token_name]").val()
+        // }
 
-        // $.ajax({
-        //     url: < ? php echo admin_url('pi/AccionesTerceroController/search'); ? > ,
-        //     method : "POST",
-        //     data: data,
-        //     success: function (response) {
-        //         console.log(response);
-        //     }
-        // })
-    });
-</script>
-
-
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
-<script>
-    function getFormData() {
-        var config = {};
-        $('input').each(function () {
-            config[this.name] = this.value;
-        });
-        $("select").each(function () {
-            config[this.name] = this.value;
-        });
-        return config;
-    }
-</script>
-
-
-
-
-
-<script>
-    $("select").selectpicker({
-        liveSearch: true,
-        virtualScroll: 600
-    });
-    $("select[multiple=multiple]").selectpicker({
-        liveSearch: true,
-        virtualScroll: 600
-    });
-
-    $("#limpiar").on('click', function (event) {
-        // recorrer todos los campos
-        $(':input', '#filter').each(function() {
-            var type = this.type;
-            var tag = this.tagName.toLowerCase();
-            //limpiar los valores de los campos
-            if (type == 'text' || type == 'password' || tag == 'textarea')
-                this.value = '';
-            // los checkboxes y radios, le quitamos el checked
-            else if (type == 'checkbox' || type == 'radio')
-                this.checked = false;
-            // los select quedan con indice -
-            else if (tag == 'select'){
-                this.selectedIndex = 0;
-                $('select').selectpicker('refresh'); 
+        $.ajax({
+            url: <?php echo admin_url('pi/AccionesTerceroController/search');?>,
+            method: "POST",
+            data: data,
+            success: function (response)
+            {
+                console.log(response);
             }
-        });
+        })
     });
-
-
-    // $("#filterSubmit").on('click', function (event) {
-    //     event.preventDefault();
-    //     /* var params = {
-    //         'i.id': $("select[name=pais_id]").val(),
-    //         's.boletin_id': $("select[name=boletin_id]").val(),
-    //         'a.client_id': $("select[name=client_id]").val(),
-    //         'a.oficina_id': $("select[name=oficina_id]").val(),
-    //         'a.staff_id': $("select[name=staff_id]").val(),
-    //         'a.tipo_solicitud_id': $("select[name=tip_sol_id]").val(),
-    //         'a.estado_id': $("select[name=est_sol_id]").val(),
-    //         'a.tipo_signo_id': $("select[name=tip_signo_id]").val(),
-    //         'f.clase_niza_id': $("select[name=clase_niza_id]").val(),
-    //         'a.tipo_registro_id': $("select[name=tip_reg_id]").val(),
-    //         'm.tipo_evento_id': $("select[name=tip_eve_id]").val()
-    //     }; */
-    //     var params = {
-    //         'cod_contador': $("input[name=cod_contador]").val(),
-    //         'id_pais_solicitud': $("select[name=paisSol_id]").val(),
-    //         'marca': $("input[name=marca]").val(),
-    //         'id_cliente': $("select[name=client_id]").val(),
-    //         'id_pais_cliente': $("select[name=paisCli_id]").val(),
-    //         'id_contacto': $("select[name=contacto_id]").val(),
-    //         'id_propietario': $("select[name=propietario_id]").val(),
-    //         'id_pais_propietario': $("select[name=paisProp_id]").val(),
-    //         'clase_niza_id': $("select[name=clase_niza_id]").val(),
-    //         'ref_cliente': $("input[name=refCliente]").val(),
-    //         'ref_interna': $("input[name=refInterna]").val(),
-    //         'num_solicitud': $("input[name=num_solicitud]").val(),
-    //         'num_registro': $("input[name=num_registro]").val(),
-    //         'fecha_solicitud_desde': $("input[name=soli_desde]").val(),
-    //         'fecha_solicitud_hasta': $("input[name=soli_hasta]").val(),
-    //         'fecha_vencimiento_desde': $("input[name=vigencia_desde]").val(),
-    //         'fecha_vencimiento_hasta': $("input[name=vigencia_hasta]").val(),
-    //         'id_estado_solicitud': $("select[name=est_sol_id]").val(),
-    //         'id_boletin': $("select[name=boletin_id]").val(),
-    //         'id_tipo_publicacion': $("select[name=tipo_publicacion_id]").val(),
-    //         'id_tipo_evento': $("select[name=tip_eve_id]").val(),
-    //         'fecha_evento_desde': $("input[name=evento_desde]").val(),
-    //         'fecha_evento_hasta': $("input[name=evento_hasta]").val(),
-    //         'id_solicitud': $("select[name=tip_sol_id]").val(),
-    //         'oficina_id': $("select[name=oficina_id]").val(),
-    //         'id_responsable': $("select[name=responsable_id]").val(),
-    //         'id_tipo_signo': $("select[name=tip_signo_id]").val(),
-    //         'id_tipo_registro': $("select[name=tip_reg_id]").val(),
-    //         'descripcion_niza': $("input[name=cobertura]").val(),
-    //         'prueba_uso_desde': $("input[name=prueba_uso_desde]").val(),
-    //         'prueba_uso_hasta': $("input[name=prueba_uso_hasta]").val(),
-    //         'fecha_registro_desde': $("input[name=registro_desde]").val(),
-    //         'fecha_registro_hasta': $("input[name=registro_hasta]").val()
-
-    //     };
-    //     $.ajax({
-    //         url: "<?php echo admin_url('pi/MarcasSolicitudesController/filterSearch') ?>",
-    //         method: "POST",
-    //         data: {
-    //             "csrf_token_name": $("input[name=csrf_token_name]").val(),
-    //             data: JSON.stringify(params),
-    //         },
-    //         success: function (response) {
-    //             console.log("Respuesta ",response);
-    //             table = JSON.parse(response);
-    //             $("#tableResult").DataTable({
-    //                 language: {
-    //                     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-    //                 },
-    //                 destroy: true,
-    //                 data: table.data,
-    //                 columns: [
-    //                     { data: 'cod_contador' },
-    //                     { 
-    //                         data: 'tipo',
-    //                         render: function (data, type, row)
-    //                         {
-    //                             data = data ? data : '';
-    //                             return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-    //                         }
-    //                     },
-    //                     { 
-    //                         data: 'propietario',
-    //                         render: function (data, type, row)
-    //                         {
-    //                             data = data ? data : '';
-    //                             return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-    //                         }
-    //                     },
-    //                     { 
-    //                         data: 'nombre',
-    //                         render: function (data, type, row)
-    //                         {
-    //                             data = data ? data : '';
-    //                             return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-    //                         }
-    //                     },
-    //                     { 
-    //                         data: 'clase',
-    //                         render: function (data, type, row)
-    //                         {
-    //                             data = data ? data : '';
-    //                             return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-    //                         }
-    //                     },
-    //                     { 
-    //                         data: 'estado',
-    //                         render: function (data, type, row)
-    //                         {
-    //                             data = data ? data : '';
-    //                             return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-    //                         }
-    //                     },
-    //                     { 
-    //                         data: 'solicitud',
-    //                         render: function (data, type, row)
-    //                         {
-    //                             data = data ? data : '';
-    //                             return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-    //                         }
-    //                     },
-    //                     { data: 'fecha_solicitud' },
-    //                     { data: 'registro' },
-    //                     { data: 'certificado' },
-    //                     { data: 'vigencia' },
-    //                     { data: 'pais' },
-    //                     { data: 'acciones' },
-    //                 ]
-    //             });
-    //         }
-    //     })
-    // })
-
-
-    //-----------------------------------------------
-
-    var formData = new FormData();
-    function fecha() {
-        var hoy = new Date();
-        var dd = hoy.getDate();
-        var mm = hoy.getMonth() + 1;
-        var yy = hoy.getFullYear();
-        var fecha = '';
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        else if (mm < 10) {
-            mm = '0' + mm;
-        }
-        fecha = dd + "/" + mm + "/" + yy;
-        return fecha;
-    }
-
-    $(".calendar").on('keyup', function (e) {
-        e.preventDefault();
-        $(".calendar").val('');
-    })
-
-    $(function () {
-        $(".calendar").datetimepicker({
-            //maxDate: fecha(),
-            weeks: true,
-            format: 'd/m/Y',
-            timepicker: false,
-        });
-    });
-
-
-
 </script>
 
 </body>

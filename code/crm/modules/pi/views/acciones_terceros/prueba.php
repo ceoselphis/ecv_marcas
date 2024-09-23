@@ -1,0 +1,32 @@
+/*
+    marca_id,
+    marca_nombre,
+    marca_clase_niza_id,
+    marca_nombre_niza,
+    marca_num_solicitud,
+    marca_num_registro,
+    marca_id_propietario,
+    marca_id_pais_solicitud,
+    marca_opuesta_id,
+    marca_opuesta_tipo_solicitud_id,
+    marca_opuesta_client_id,
+    marca_opuesta_estado_id,
+    marca_opuesta_pais_id,
+    marca_opuesta_marca_opuesta,
+    marca_opuesta_clase_niza,
+    marca_opuesta_solicitud_nro,
+    marca_opuesta_registro_nro,
+    marca_opuesta_fecha_solicitud,
+    marca_opuesta_fecha_registro,
+    marca_opuesta_propietario,
+    marca_opuesta_pais,
+    marca_tipo_solicitud,
+    marca_nombre_solictud,
+    marca_ref_interna,
+    marca_estado_solicitud,
+    marca_boletin_id,
+    marca_nombre_contacto,
+    marca_ref_cliente
+    
+    */
+                                  

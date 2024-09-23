@@ -33,8 +33,41 @@ class AccionesContraTerceros_model extends BaseModel
         ];
     }
 
+    
+
     public function searchWhere2($params): array{
-        $this->db->select('id, tipo_solicitud, nombre_solicitud, cliente_id, nombre_cliente, nombre_niza as clase_niza, nombre_solictud as estado_expediente, nombre_pais_solicitud as pais_nom, num_solicitud as solicitud, fecha_solicitud, num_registro as registro, certificado, fecha_vencimiento');
+        $this->db->select(
+        '
+        	marca_id,
+            marca_nombre,
+            marca_clase_niza_id,
+            marca_nombre_niza,
+            marca_num_solicitud,
+            marca_num_registro,
+            marca_id_propietario,
+            marca_id_pais_solicitud,
+            marca_opuesta_id,
+            marca_opuesta_tipo_solicitud_id,
+            marca_opuesta_client_id,
+            marca_opuesta_estado_id,
+            marca_opuesta_pais_id,
+            marca_opuesta_marca_opuesta,
+            marca_opuesta_clase_niza,
+            marca_opuesta_solicitud_nro,
+            marca_opuesta_registro_nro,
+            marca_opuesta_fecha_solicitud,
+            marca_opuesta_fecha_registro,
+            marca_opuesta_propietario,
+            marca_opuesta_pais,
+            marca_tipo_solicitud,
+            marca_nombre_solictud,
+            marca_ref_interna,
+            marca_estado_solicitud,
+            marca_boletin_id,
+            marca_nombre_contacto,
+            marca_ref_cliente
+        '
+        );
         $this->db->distinct();
         $this->db->from('tblview_acciones_terceros');
         /*
@@ -54,13 +87,15 @@ class AccionesContraTerceros_model extends BaseModel
         foreach($params as $key => $value)
         {
             switch ($key) {
-                case 'cod_contador':
-                case 'marca':
+                case 'solicitud':
+                case 'nro_registro':
+                case 'denominacion_opuesta':
+                case 'solicitud_opuesta':
+                case 'registro_opuesta':
+                case 'propietario_opuesta':
+                case 'codigo_expediente':
+                case 'contacto':
                 case 'ref_cliente':
-                case 'ref_interna':
-                case 'num_solicitud':
-                case 'num_registro':
-                case 'descripcion_niza':
                     $this->db->like($key,$value);
                     break;
                 case 'fecha_solicitud_desde':
@@ -73,46 +108,7 @@ class AccionesContraTerceros_model extends BaseModel
                     $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
                     $this->db->where('fecha_solicitud <=', $data);
                     break;
-                case 'fecha_vencimiento_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_vencimiento >=', $data);
-                    break;
-                case 'fecha_vencimiento_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_vencimiento <=', $data);
-                    break;
-                case 'fecha_evento_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_evento >=', $data);
-                    break;
-                case 'fecha_evento_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_evento <=', $data);
-                    break;
-                case 'prueba_uso_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('prueba_uso >=', $data);
-                    break;
-                case 'prueba_uso_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('prueba_uso <=', $data);
-                    break;
-                case 'fecha_registro_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_registro >=', $data);
-                    break;
-                case 'fecha_registro_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_registro <=', $data);
-                    break;
+                    
                 default:
                     $this->db->where($key, $value);
             }
@@ -177,6 +173,10 @@ class AccionesContraTerceros_model extends BaseModel
             array_push($values, $row['firstname'].' '.$row['lastname']);
         }
         return array_combine($keys, $values);
+    }
+
+    public function getAll(){
+        
     }
 
     public function getAllExpediente()

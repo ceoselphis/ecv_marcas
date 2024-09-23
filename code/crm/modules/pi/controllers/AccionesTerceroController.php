@@ -96,6 +96,70 @@ class AccionesTerceroController extends AdminController
         echo json_encode($data['expediente']);
     }
 
+    public function filterSearch(){
+        $CI = &get_instance();
+        $CI->load->model('AccionesContraTerceros_model');
+        $form = json_decode($CI->input->post('data'), TRUE);
+        $result = array();
+        $query = array();
+        $url = admin_url('pi/AccionesTerceroController/edit/');
+        //echo json_encode($form);
+        foreach ($form as $key => $value) {
+            if ($value === '') {
+                unset($form[$key]);
+            }
+        }
+        if (empty($form)) {
+            $query = $CI->AccionesContraTerceros_model->findAll();
+            //   echo json_encode($query);
+            if (!empty($query)) {
+                foreach ($query as $row) {
+                    $href = admin_url('pi/AccionesTerceroController/edit/').$row['id'];
+                    $table[] = [
+                        'codigo'            => $row['id'],
+                        'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['tipo_solicitud_id']],
+                        'demandante'        => $CI->AccionesContraTerceros_model->findCliente($row['client_id'])[0]['company'],
+                        'demandado'         => $row['propietario'],
+                        'objeto'            => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['signonom'],
+                        'nro_solicitud'     => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['registro'],
+                        'fecha_solicitud'   => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                        'estado'            => $CI->AccionesContraTerceros_model->findEstatus($row['estado_id'])[0]['descripcion'],
+                        'pais'              => $CI->AccionesContraTerceros_model->findPais($row['pais_id'])[0]['nombre'],
+                        'acciones'          => '<a class="btn btn-primary" href="'.$href.'"><i class="fas fa-edit"></i> Editar</a>'
+                    ];
+                }
+                echo json_encode(['code' => 200, 'message' => 'success', 'data' => $table]);
+            } else {
+                echo json_encode(['code' => 404, 'message' => 'not found']);
+            }
+        } else {
+           // echo json_encode(['code' => 404, 'message' => 'no hay parametros']);
+           // $query = $CI->MarcasSolicitudes_model->searchWhere($form);
+            $query = $CI->AccionesContraTerceros_model->searchWhere2($form);
+            if (!empty($query)) {
+                foreach ($query as $row) {
+                    $href = admin_url('pi/AccionesTerceroController/edit/').$row['id'];
+                    $result[] = [
+                        'codigo'            => $row['id'],
+                        'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['tipo_solicitud_id']],
+                        'demandante'        => $CI->AccionesContraTerceros_model->findCliente($row['client_id'])[0]['company'],
+                        'demandado'         => $row['propietario'],
+                        'objeto'            => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['signonom'],
+                        'nro_solicitud'     => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['registro'],
+                        'fecha_solicitud'   => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                        'estado'            => $CI->AccionesContraTerceros_model->findEstatus($row['estado_id'])[0]['descripcion'],
+                        'pais'              => $CI->AccionesContraTerceros_model->findPais($row['pais_id'])[0]['nombre'],
+                        'acciones'          => '<a class="btn btn-primary" href="'.$href.'"><i class="fas fa-edit"></i> Editar</a>'
+                    ];
+                }
+                echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);
+            } else {
+                echo json_encode(['code' => 404, 'message' => 'not found']);
+            }
+        }
+    }
+
+
     public function getAcciones()
     {
         $CI = &get_instance();

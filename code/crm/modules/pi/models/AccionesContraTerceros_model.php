@@ -35,95 +35,54 @@ class AccionesContraTerceros_model extends BaseModel
 
     
 
-    public function searchWhere2($params): array{
-        $this->db->select(
-        '
-        	marca_id,
-            marca_nombre,
-            marca_clase_niza_id,
-            marca_nombre_niza,
-            marca_num_solicitud,
-            marca_num_registro,
-            marca_id_propietario,
-            marca_id_pais_solicitud,
-            marca_opuesta_id,
-            marca_opuesta_tipo_solicitud_id,
-            marca_opuesta_client_id,
-            marca_opuesta_estado_id,
-            marca_opuesta_pais_id,
-            marca_opuesta_marca_opuesta,
-            marca_opuesta_clase_niza,
-            marca_opuesta_solicitud_nro,
-            marca_opuesta_registro_nro,
-            marca_opuesta_fecha_solicitud,
-            marca_opuesta_fecha_registro,
-            marca_opuesta_propietario,
-            marca_opuesta_pais,
-            marca_tipo_solicitud,
-            marca_nombre_solictud,
-            marca_ref_interna,
-            marca_estado_solicitud,
-            marca_boletin_id,
-            marca_nombre_contacto,
-            marca_ref_cliente
-        '
-        );
-        $this->db->distinct();
+    public function searchWhere2($params){
+        $this->db->select('*');
         $this->db->from('tblview_acciones_terceros');
-        /*
-          <td class="text-center">${item.codigo}</td>
-                                    <td class="text-center">${item.tipo}</td>
-                                    <td class="text-center">${item.demandante}</td>
-                                    <td class="text-center">${item.demandado}</td>
-                                    <td class="text-center">${item.objeto}</td>
-                                    <td class="text-center">${item.nro_solicitud}</td>
-                                    <td class="text-center">${item.fecha_solicitud}</td>
-                                    <td class="text-center">${item.estado}</td>
-                                    <td class="text-center">${item.pais}</td>
-
-
-  
-        */
         foreach($params as $key => $value)
         {
             switch ($key) {
-                case 'solicitud':
-                case 'nro_registro':
-                case 'denominacion_opuesta':
-                case 'solicitud_opuesta':
-                case 'registro_opuesta':
-                case 'propietario_opuesta':
-                case 'codigo_expediente':
-                case 'contacto':
-                case 'ref_cliente':
+                case 'marca_num_solicitud':
+                case 'marca_num_registro':
+                case 'marca_opuesta_nombre':
+                case 'marca_opuesta_solicitud':
+                case 'marca_opuesta_registro':
+                case 'marca_opuesta_propietario':
+                case 'marca_codigo_expediente':
+                case 'marca_contacto':
+                case 'marca_ref_cliente':
                     $this->db->like($key,$value);
-                    break;
-                case 'fecha_solicitud_desde':
+                break;
+                case  'marca_id' :
+                case  'marca_clase_niza_id' :
+                case  'marca_propietario_id' :
+                case  'marca_opuesta_clase_niza' :
+                case  'marca_opuesta_pais' :
+                case  'marca_tipo_solicitud' :
+                case  'marca_tipo_expediente' :
+                case  'marca_boletin' :
+                case  'marca_publicacion' : 
+                case  'marca_tipo_evento' :
+                case  'marca_cliente' :
+                case  'marca_pais_cliente' :
+                    $this->db->where($key.' = '.$value);
+                break;
+                case 'marca_opuesta_fecha_solicitud':
                     $wdate = '' ? '' : explode('/', $value);
                     $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_solicitud >=', $data);
-                    break;
-                case 'fecha_solicitud_hasta':
+                    $this->db->where('marca_opuesta_fecha_solicitud >=', $data);
+                break;
+                case 'marca_opuesta_fecha_registro':
                     $wdate = '' ? '' : explode('/', $value);
                     $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_solicitud <=', $data);
-                    break;
-                    
+                    $this->db->where('marca_opuesta_fecha_registro <=', $data);
+                break;
                 default:
                     $this->db->where($key, $value);
             }
         }
-        //$this->db->order_by("id", 'ASC');
-        $result = $this->db->get();
-        if($result->num_rows() > 0)
-        {
-            return $result->result_array();
-        }
-        else
-        {
-            return [];
-        }
-
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
     }
 
     public function CantidadSolicitudes(){

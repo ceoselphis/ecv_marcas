@@ -90,7 +90,7 @@ init_head(); ?>
                                     <div class="row ">
                                         <div class="col-md-4">
                                             <?php echo form_label('Marca', 'denominacion'); ?>
-                                            <select class='form-control' name='denominacion' id="denominacion">
+                                            <select class='form-control' name='marca_id' id="marca_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['marcas'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -104,7 +104,7 @@ init_head(); ?>
                                         </div>-->
                                         <div class="col-md-4">
                                             <?php echo form_label('Clases', 'clase_niza'); ?>
-                                            <select class='form-control' name='clase_niza' id="clase_niza">
+                                            <select class='form-control' name='marca_clase_niza_id' id="marca_clase_niza_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['clase_niza'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -117,11 +117,11 @@ init_head(); ?>
                                         </div>
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Registro', 'nro_registro'); ?>
-                                            <?php echo form_input('nro_registro', set_value('nro_registro'), ['class' => 'form-control','id'=>'marca_num_solicitud']); ?>
+                                            <?php echo form_input('marca_num_registro', set_value('marca_num_registro'), ['class' => 'form-control','id'=>'marca_num_registro']); ?>
                                         </div>
                                         <div class="col-md-4" style="padding-top: 10px;">
-                                            <?php echo form_label('Propietario', 'propietario_id'); ?>
-                                            <select class='form-control' name='propietario_id' id='propietario_id'>
+                                            <?php echo form_label('Propietario', 'marca_propietario_id'); ?>
+                                            <select class='form-control' name='marca_propietario_id' id='marca_propietario_id'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['propietarios'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -130,7 +130,7 @@ init_head(); ?>
                                         </div>
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Pais', 'pais_marca'); ?>
-                                            <select name="pais_marca" id="pais_marca" class='form-control'>
+                                            <select name="marca_pais_id" id="marca_pais_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['paises'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -165,8 +165,8 @@ init_head(); ?>
                                         </div>
 
                                         <div class="col-md-4" style="padding-top: 10px;">
-                                            <?php echo form_label('Registro', 'registro_opuesta'); ?>
-                                            <?php echo form_input('registro_opuesta', set_value('registro_opuesta'), ['class' => 'form-control','id'=>'registro_opuesta']); ?>
+                                            <?php echo form_label('Registro', 'marca_opuesta_registro'); ?>
+                                            <?php echo form_input('marca_opuesta_registro', set_value('marca_opuesta_registro'), ['class' => 'form-control','id'=>'marca_opuesta_registro']); ?>
                                         </div>
 
                                         <!-- Fecha Solicitud Desde -->
@@ -174,10 +174,10 @@ init_head(); ?>
                                             <?php echo form_label('Solicitud Desde'); ?>
                                             <?php
                                             echo form_input([
-                                                'id' => 'soli_desde',
-                                                'name' => 'soli_desde',
+                                                'id' => 'marca_opuesta_fecha_solicitud',
+                                                'name' => 'marca_opuesta_fecha_solicitud',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('soli_desde', ''),
+                                                'value' => set_value('marca_opuesta_fecha_solicitud', ''),
                                                 'placeholder' => 'Solicitud Desde'
                                             ]); ?>
                                         </div>
@@ -186,10 +186,10 @@ init_head(); ?>
                                             <?php echo form_label('Solicitud Hasta'); ?>
                                             <?php
                                             echo form_input([
-                                                'id' => 'soli_hasta',
-                                                'name' => 'soli_hasta',
+                                                'id' => 'marca_opuesta_fecha_registro',
+                                                'name' => 'marca_opuesta_fecha_registro',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('soli_hasta', ''),
+                                                'value' => set_value('marca_opuesta_fecha_registro', ''),
                                                 'placeholder' => 'Solicitud Hasta'
                                             ]); ?>
                                         </div>
@@ -199,17 +199,17 @@ init_head(); ?>
                                             <?php echo form_label('Propietario'); ?>
                                             <?php
                                             echo form_input([
-                                                'id' => 'propietario_opuesta',
-                                                'name' => 'propietario_opuesta',
+                                                'id' => 'marca_opuesta_propietario',
+                                                'name' => 'marca_opuesta_propietario',
                                                 'class' => 'form-control',
-                                                'value' => set_value('propietario_opuesta', ''),
+                                                'value' => set_value('marca_opuesta_propietario', ''),
                                                 'placeholder' => 'Nombre del Propietario'
                                             ]); ?>
                                         </div>
 
                                         <div class="col-md-4" style="padding-top: 10px;">
-                                            <?php echo form_label('Pais', 'pais_marca_opuesta'); ?>
-                                            <select name="pais_marca_opuesta" id="pais_marca_opuesta" class='form-control'>
+                                            <?php echo form_label('Pais', 'marca_opuesta_pais'); ?>
+                                            <select name="marca_opuesta_pais" id="marca_opuesta_pais" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['paises'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -225,7 +225,7 @@ init_head(); ?>
                                         <!-- Tipo de Solicitud -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Tipo de Solicitud', 'tip_sol_id'); ?>
-                                            <select name="tip_sol_id" id="tip_sol_id" class='form-control'>
+                                            <select name="marca_tipo_solicitud" id="marca_tipo_solicitud" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['tipo_solicitud'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
@@ -239,10 +239,10 @@ init_head(); ?>
                                             <?php echo form_label('Codigo'); ?>
                                             <?php
                                             echo form_input([
-                                                'id' => 'codigo_expediente',
-                                                'name' => 'codigo_expediente',
+                                                'id' => 'marca_codigo_expediente',
+                                                'name' => 'marca_codigo_expediente',
                                                 'class' => 'form-control',
-                                                'value' => set_value('codigo_expediente', ''),
+                                                'value' => set_value('marca_codigo_expediente', ''),
                                                 'placeholder' => 'Expediente'
                                             ]); ?>
                                         </div>
@@ -251,17 +251,17 @@ init_head(); ?>
                                             <?php echo form_label('Referencia Interna'); ?>
                                             <?php
                                             echo form_input([
-                                                'id' => 'ref_interna',
-                                                'name' => 'ref_interna',
+                                                'id' => 'marca_ref_interna',
+                                                'name' => 'marca_ref_interna',
                                                 'class' => 'form-control',
-                                                'value' => set_value('ref_interna', ''),
+                                                'value' => set_value('marca_ref_interna', ''),
                                                 'placeholder' => 'Referencia Interna'
                                             ]); ?>
                                         </div>
                                         <!-- Tipo de Expediente -->
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Estado'); ?>
-                                            <select name="expediente_id" id="expediente_id" class='form-control'>
+                                            <select name="marca_tipo_expediente" id="marca_tipo_expediente" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['expediente'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
@@ -274,7 +274,7 @@ init_head(); ?>
                                         <!-- Boletin -->
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Boletin'); ?>
-                                            <select name="boletin_id" id="boletin_id" class='form-control'>
+                                            <select name="marca_boletin" id="marca_boletin" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['boletines'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
@@ -287,7 +287,7 @@ init_head(); ?>
                                         <!-- Tipo de Publicacione -->
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Tipo Publicacion'); ?>
-                                            <select name="publicaciones_id" id="publicaciones_id" class='form-control'>
+                                            <select name="marca_publicacion" id="marca_publicacion" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['tipo_publicaciones'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
@@ -300,7 +300,7 @@ init_head(); ?>
                                         <!-- Tipo de Evento -->
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Tipo de Evento'); ?>
-                                            <select name="evento_id" id="evento_id" class='form-control'>
+                                            <select name="marca_tipo_evento" id="marca_tipo_evento" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['tipo_evento'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
@@ -312,7 +312,7 @@ init_head(); ?>
                                         <!-- Cliente -->
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Cliente'); ?>
-                                            <select name="clientes_id" id="clientes_id" class='form-control'>
+                                            <select name="marca_cliente" id="marca_cliente" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['clientes'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
@@ -324,7 +324,7 @@ init_head(); ?>
                                         <!-- Pais Cliente -->
                                         <div class="col-md-4" style="padding-top: 10px;">
                                             <?php echo form_label('Pais del cliente'); ?>
-                                            <select name="pais_cliente_id" id="pais_cliente_id" class='form-control'>
+                                            <select name="marca_pais_cliente" id="marca_pais_cliente" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['paises'] as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
@@ -338,10 +338,10 @@ init_head(); ?>
                                             <?php echo form_label('Contacto'); ?>
                                             <?php
                                             echo form_input([
-                                                'id' => 'contacto',
-                                                'name' => 'contacto',
+                                                'id' => 'marca_contacto',
+                                                'name' => 'marca_contacto',
                                                 'class' => 'form-control',
-                                                'value' => set_value('contacto', ''),
+                                                'value' => set_value('marca_contacto', ''),
                                                 'placeholder' => 'Nombre y Apellido del Contacto'
                                             ]); ?>
                                         </div>
@@ -351,10 +351,10 @@ init_head(); ?>
                                             <?php echo form_label('Referencia del Cliente'); ?>
                                             <?php
                                             echo form_input([
-                                                'id' => 'ref_cliente',
-                                                'name' => 'ref_cliente',
+                                                'id' => 'marca_ref_cliente',
+                                                'name' => 'marca_ref_cliente',
                                                 'class' => 'form-control',
-                                                'value' => set_value('ref_cliente', ''),
+                                                'value' => set_value('marca_ref_cliente', ''),
                                                 'placeholder' => 'Referencia del Cliente'
                                             ]); ?>
                                         </div>
@@ -378,92 +378,7 @@ init_head(); ?>
 </div>
 
 
-<!-- id="search" -->
-<div class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <?php echo form_open(admin_url('pi/MarcasSolicitudesController/search'), ['method' => 'POST', 'name' => 'filter', 'id' => 'filter']); ?>
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Búsqueda</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <!--Denominacion-->
-                    <div class="col-md-4">
-                        <?php echo form_label('Marca', 'denominacion'); ?>
-                        <select class='form-control' name='marca_id' id="marca_id">
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['marcas'] as $key => $value) { ?>
-                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <?php echo form_label('Solicitud Desde'); ?>
-                        <?php
-                                            echo form_input([
-                                                'id' => 'soli_desde',
-                                                'name' => 'soli_desde',
-                                                'class' => 'form-control calendar',
-                                                'value' => set_value('soli_desde', ''),
-                                                'placeholder' => 'Solicitud Desde'
-                                            ]); ?>
-                    </div>
-                    <div class="col-md-4">
-                        <?php echo form_label('Clases', 'clase_niza'); ?>
-                        <select class='form-control' name='marca_clase_niza_id' id="marca_clase_niza_id">
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['clase_niza'] as $key => $value) { ?>
-                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <?php echo form_label('Solicitud', 'solicitud'); ?>
-                        <select class='form-control' name='tipo_solicitud' id="tipo_solicitud">
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['tipo_solicitud'] as $key => $value) { ?>
-                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <?php echo form_label('Registro', 'nro_registro'); ?>
-                        <?php echo form_input('marca_num_registro', set_value('marca_num_registro'), ['class' => 'form-control','id'=>'marca_num_registro']); ?>
-                    </div>
-                    <div class="col-md-4">
-                        <?php echo form_label('Propietario', 'propietario_id'); ?>
-                        <select class='form-control' name='marca_propietario_id' id='marca_propietario_id'>
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['propietarios'] as $key => $value) { ?>
-                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <?php echo form_label('Pais', 'pais_marca'); ?>
-                        <select name="marca_pais_id" id="marca_pais_id" class='form-control'>
-                            <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas['paises'] as $key => $value) { ?>
-                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                            <?php } ?>
-                        </select>
 
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer" style="padding-top: 1.5%;">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="reset" class="btn btn-gray">Limpiar</button>
-                <button id="filterSubmit" type="button" class="btn btn-primary" data-dismiss="modal">Buscar</button>
-            </div>
-        </div>
-    </div>
-    <?php echo form_close(); ?>
-</div>
 
 <style>
     th,
@@ -490,24 +405,22 @@ init_head(); ?>
             'marca_opuesta_nombre': $("#marca_opuesta_nombre").val(),
             'marca_opuesta_clase_niza': $("#marca_opuesta_clase_niza").val(),
             'marca_opuesta_solicitud': $("#marca_opuesta_solicitud").val(),
-            'registro_opuesta': $("#registro_opuesta").val(),
-            'soli_desde': $("#soli_desde").val(),
-            'soli_hasta': $("#soli_hasta").val(),
-            'propietario_opuesta': $("#propietario_opuesta").val(),
-            'pais_marca_opuesta': $("#pais_marca_opuesta").val(),
-            'tip_sol_id': $("#tip_sol_id").val(),
-            'codigo_expediente': $("#codigo_expediente").val(),
-            'ref_interna': $("#ref_interna").val(),
-            'expediente_id': $("#expediente_id").val(),
-            'boletin_id': $("#boletin_id").val(),
-            'publicaciones_id': $("#publicaciones_id").val(),
-            'evento_id': $("#evento_id").val(),
-            'clientes_id': $("#clientes_id").val(),
-            'pais_cliente_id': $("#pais_cliente_id").val(),
-            'contacto': $("#contacto").val(),
-            'ref_cliente': $("#ref_cliente").val(),
-            
-
+            'marca_opuesta_registro': $("#marca_opuesta_registro").val(),
+            'marca_opuesta_fecha_solicitud': $("#marca_opuesta_fecha_solicitud").val(),
+            'marca_opuesta_fecha_registro': $("#marca_opuesta_fecha_registro").val(),
+            'marca_opuesta_propietario': $("#marca_opuesta_propietario").val(),
+            'marca_opuesta_pais': $("#marca_opuesta_pais").val(),
+            'marca_tipo_solicitud': $("#marca_tipo_solicitud").val(),
+            'marca_codigo_expediente': $("#marca_codigo_expediente").val(),
+            'marca_ref_interna': $("#marca_ref_interna").val(),
+            'marca_tipo_expediente': $("#marca_tipo_expediente").val(),
+            'marca_boletin': $("#marca_boletin").val(),
+            'marca_publicacion': $("#marca_publicacion").val(),
+            'marca_tipo_evento': $("#marca_tipo_evento").val(),
+            'marca_cliente': $("#marca_cliente").val(),
+            'marca_pais_cliente': $("#marca_pais_cliente").val(),
+            'marca_contacto': $("#marca_contacto").val(),
+            'marca_ref_cliente': $("#marca_ref_cliente").val(),
         };
         console.log("Parametros ",params);
         $.ajax({
@@ -520,115 +433,146 @@ init_head(); ?>
             success: function (response) {
                 console.log("Respuesta ",response);
                 table = JSON.parse(response);
-                // $("#tableResult").DataTable({
-                //     language: {
-                //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                //     },
-                //     destroy: true,
-                //     data: table.data,
-                //     columns: [
-                //         { data: 'cod_contador' },
-                //         { 
-                //             data: 'tipo',
-                //             render: function (data, type, row)
-                //             {
-                //                 data = data ? data : '';
-                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                //             }
-                //         },
-                //         { 
-                //             data: 'propietario',
-                //             render: function (data, type, row)
-                //             {
-                //                 data = data ? data : '';
-                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                //             }
-                //         },
-                //         { 
-                //             data: 'nombre',
-                //             render: function (data, type, row)
-                //             {
-                //                 data = data ? data : '';
-                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                //             }
-                //         },
-                //         { 
-                //             data: 'clase',
-                //             render: function (data, type, row)
-                //             {
-                //                 data = data ? data : '';
-                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                //             }
-                //         },
-                //         { 
-                //             data: 'estado',
-                //             render: function (data, type, row)
-                //             {
-                //                 data = data ? data : '';
-                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                //             }
-                //         },
-                //         { 
-                //             data: 'solicitud',
-                //             render: function (data, type, row)
-                //             {
-                //                 data = data ? data : '';
-                //                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                //             }
-                //         },
-                //         { data: 'fecha_solicitud' },
-                //         { data: 'registro' },
-                //         { data: 'certificado' },
-                //         { data: 'vigencia' },
-                //         { data: 'pais' },
-                //         { data: 'acciones' },
-                //     ]
-                // });
+                $("#tableResult").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    destroy: true,
+                    data: table.data,
+                    columns: [
+                        {
+                            data: 'codigo'
+                        },
+                        {
+                            data: 'tipo'
+                        },
+                        {
+                            data: 'demandante'
+                        },
+                        {
+                            data: 'demandado'
+                        },
+                        {
+                            data: 'objeto'
+                        },
+                        {
+                            data: 'nro_solicitud'
+                        },
+                        {
+                            data: 'fecha_solicitud'
+                        },
+                        {
+                            data: 'estado'
+                        },
+                        {
+                            data: 'pais'
+                        },
+                        {
+                            data: 'acciones'
+                        }
+                        // { data: 'cod_contador' },
+                        // { 
+                        //     data: 'tipo',
+                        //     render: function (data, type, row)
+                        //     {
+                        //         data = data ? data : '';
+                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        //     }
+                        // },
+                        // { 
+                        //     data: 'propietario',
+                        //     render: function (data, type, row)
+                        //     {
+                        //         data = data ? data : '';
+                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        //     }
+                        // },
+                        // { 
+                        //     data: 'nombre',
+                        //     render: function (data, type, row)
+                        //     {
+                        //         data = data ? data : '';
+                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        //     }
+                        // },
+                        // { 
+                        //     data: 'clase',
+                        //     render: function (data, type, row)
+                        //     {
+                        //         data = data ? data : '';
+                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        //     }
+                        // },
+                        // { 
+                        //     data: 'estado',
+                        //     render: function (data, type, row)
+                        //     {
+                        //         data = data ? data : '';
+                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        //     }
+                        // },
+                        // { 
+                        //     data: 'solicitud',
+                        //     render: function (data, type, row)
+                        //     {
+                        //         data = data ? data : '';
+                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        //     }
+                        // },
+                        // { data: 'fecha_solicitud' },
+                        // { data: 'registro' },
+                        // { data: 'certificado' },
+                        // { data: 'vigencia' },
+                        // { data: 'pais' },
+                        // { data: 'acciones' },
+                    ]
+                });
             }
         })
     })
 
-    new DataTable("#tableResult", {
-        destroy: true,
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        },
-        ajax: {
-            url: '<?php echo admin_url('pi/AccionesTerceroController/getAcciones'); ?>',
-            dataSrc: 'data'
-        },
-        columns: [{
-                data: 'codigo'
-            },
-            {
-                data: 'tipo'
-            },
-            {
-                data: 'demandante'
-            },
-            {
-                data: 'demandado'
-            },
-            {
-                data: 'objeto'
-            },
-            {
-                data: 'nro_solicitud'
-            },
-            {
-                data: 'fecha_solicitud'
-            },
-            {
-                data: 'estado'
-            },
-            {
-                data: 'pais'
-            },
-            {
-                data: 'acciones'
-            }
-        ]
-    });
+    // new DataTable("#tableResult", {
+    //     destroy: true,
+    //     language: {
+    //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+    //     },
+    //     ajax: {
+    //         url: '<?php echo admin_url('pi/AccionesTerceroController/getAcciones'); ?>',
+    //         dataSrc: 'data'
+    //     },
+    //     columns: [
+    //         {
+    //             data: 'codigo'
+    //         },
+    //         {
+    //             data: 'tipo'
+    //         },
+    //         {
+    //             data: 'demandante'
+    //         },
+    //         {
+    //             data: 'demandado'
+    //         },
+    //         {
+    //             data: 'objeto'
+    //         },
+    //         {
+    //             data: 'nro_solicitud'
+    //         },
+    //         {
+    //             data: 'fecha_solicitud'
+    //         },
+    //         {
+    //             data: 'estado'
+    //         },
+    //         {
+    //             data: 'pais'
+    //         },
+    //         {
+    //             data: 'acciones'
+    //         }
+    //     ]
+    // });
 
 
     function fecha() {

@@ -277,30 +277,31 @@
             },
             success: function (response) {
                 table = JSON.parse(response);
-                $("#tableResult").DataTable({
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                    },
-                    destroy: true,
-                    data: table.data,
-                    columns: [
-                        //{ data: 'id' },
-                        { data: 'codigo' },
-                        { data: 'nombre'/* ,
-                            render: function (data, type, row)
-                            {
-                                return "<div class='text-wrap'>" + data + "</div>"
-                            }  */
-                        },
-                        { data: 'pais' },
-                        { data: 'poder_num' },
-                        { data: 'fecha_creacion' },
-                        { data: 'creado_por' },
-                        { data: 'fecha_modificacion' },
-                        { data: 'modificado_por' },
-                        { data: 'acciones' },
-                    ]
-                });
+                console.log("Respuesta ",response);
+                // $("#tableResult").DataTable({
+                //     language: {
+                //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                //     },
+                //     destroy: true,
+                //     data: table.data,
+                //     columns: [
+                //         //{ data: 'id' },
+                //         { data: 'codigo' },
+                //         { data: 'nombre'/* ,
+                //             render: function (data, type, row)
+                //             {
+                //                 return "<div class='text-wrap'>" + data + "</div>"
+                //             }  */
+                //         },
+                //         { data: 'pais' },
+                //         { data: 'poder_num' },
+                //         { data: 'fecha_creacion' },
+                //         { data: 'creado_por' },
+                //         { data: 'fecha_modificacion' },
+                //         { data: 'modificado_por' },
+                //         { data: 'acciones' },
+                //     ]
+                // });
             }
         })
     })

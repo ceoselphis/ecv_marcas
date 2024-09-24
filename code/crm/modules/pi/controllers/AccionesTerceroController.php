@@ -110,6 +110,7 @@ class AccionesTerceroController extends AdminController
             }
         }
         if (empty($form)) {
+           
             $query = $CI->AccionesContraTerceros_model->findAll();
             //   echo json_encode($query);
             if (!empty($query)) {
@@ -133,22 +134,23 @@ class AccionesTerceroController extends AdminController
                 echo json_encode(['code' => 404, 'message' => 'not found']);
             }
         } else {
-           // echo json_encode(['code' => 404, 'message' => 'no hay parametros']);
-           // $query = $CI->MarcasSolicitudes_model->searchWhere($form);
+            
+            
             $query = $CI->AccionesContraTerceros_model->searchWhere2($form);
+            
             if (!empty($query)) {
                 foreach ($query as $row) {
-                    $href = admin_url('pi/AccionesTerceroController/edit/').$row['id'];
+                    $href = admin_url('pi/AccionesTerceroController/edit/').$row['marca_opuesta_id'];
                     $result[] = [
-                        'codigo'            => $row['id'],
-                        'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['tipo_solicitud_id']],
-                        'demandante'        => $CI->AccionesContraTerceros_model->findCliente($row['client_id'])[0]['company'],
-                        'demandado'         => $row['propietario'],
-                        'objeto'            => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['signonom'],
-                        'nro_solicitud'     => $CI->AccionesContraTerceros_model->findMarca($row['marcas_id'])[0]['registro'],
-                        'fecha_solicitud'   => date('d/m/Y', strtotime($row['fecha_solicitud'])),
-                        'estado'            => $CI->AccionesContraTerceros_model->findEstatus($row['estado_id'])[0]['descripcion'],
-                        'pais'              => $CI->AccionesContraTerceros_model->findPais($row['pais_id'])[0]['nombre'],
+                        'codigo'            => $row['marca_opuesta_id'],
+                        'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['marca_opuesta_tipo_solicitud_id']],
+                        'demandante'        => $CI->AccionesContraTerceros_model->findCliente($row['marca_opuesta_client_id'])[0]['company'],
+                        'demandado'         => $row['marca_opuesta_propietario'],
+                        'objeto'            => $CI->AccionesContraTerceros_model->findMarca($row['marca_id'])[0]['signonom'],
+                        'nro_solicitud'     => $CI->AccionesContraTerceros_model->findMarca($row['marca_id'])[0]['registro'],
+                        'fecha_solicitud'   => date('d/m/Y', strtotime($row['marca_opuesta_fecha_solicitud'])),
+                        'estado'            => $CI->AccionesContraTerceros_model->findEstatus($row['marca_opuesta_estado_id'])[0]['descripcion'],
+                        'pais'              => $CI->AccionesContraTerceros_model->findPais($row['marca_opuesta_pais'])[0]['nombre'],
                         'acciones'          => '<a class="btn btn-primary" href="'.$href.'"><i class="fas fa-edit"></i> Editar</a>'
                     ];
                 }

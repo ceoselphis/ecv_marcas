@@ -58,21 +58,29 @@ class PropietariosController extends AdminController
         if(empty($form))
         {
             $query = $CI->Propietarios_model->findAll();
-            echo json_encode($query);
             if(!empty($query))
             {
                 foreach($query as $row){
-
+                    $ver_url = $url_edit . $row["id"];
                     $result[] = array(
                         /* 'id' => $row['id'], */
-                        'codigo' => $row['id'],
+                        'codigo' => "<a  href='{$ver_url}'>{$row['codigo']}</a>",
                         'nombre' => $row['nombre_propietario'],
                         'pais'   => $CI->Propietarios_model->searchPaises($row['pais_id']),
                         'poder_num' => $CI->Propietarios_model->searchAllPoderes($row['id']),
-                       
+                        'fecha_creacion' => $row['created_at'],
+                        'creado_por' => $row['created_by'],
+                        'fecha_modificacion' => $row['modified_at'],
+                        'modificado_por' => $row['modified_by'],
+                        'acciones' => "<div class=\"row row-group\">
+                        <div class=\"\"><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></div>
+                        <br>
+                        <div class=\"\"><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
+                        <button type='submit' class='btn btn-danger col-mrg'><i class='fas fa-trash'></i>Borrar</button>
+                        </form></div></div>",
                     );
                 }
-                echo json_encode(['code' => 200, 'message' => 'success', 'data' => $query]);   
+                echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);   
             }
             else
             {
@@ -85,9 +93,10 @@ class PropietariosController extends AdminController
             {
                 foreach($query as $row)
                 {
+                    $ver_url = $url_edit . $row["id"];
                     $result[] = [
-                        /* 'id' => $row['id'], */
-                        'codigo' => $row['codigo'],
+                        /* 'id' => <a  href='{$ver_url}'>  */
+                        'codigo' => "<a  href='{$ver_url}'>{$row['codigo']}</a>",
                         'nombre' => $row['nombre_propietario'],
                         'pais'   => $row['nombre'],
                         'poder_num' => $row['numero'],
@@ -96,8 +105,9 @@ class PropietariosController extends AdminController
                         'fecha_modificacion' => $row['modified_at'],
                         'modificado_por' => $row['firstname_modif'].' '.$row['lastname_modif'],
                         'acciones' => "<div class=\"row row-group\">
-                        <div class=\"col-md-6\"><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></div>
-                        <div class=\"col-md-6\"><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
+                        <div class=\"\"><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></div>
+                        <br>
+                        <div class=\"\"><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
                         <button type='submit' class='btn btn-danger col-mrg'><i class='fas fa-trash'></i>Borrar</button>
                         </form></div></div>",
                     ];

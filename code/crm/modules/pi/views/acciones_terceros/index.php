@@ -27,8 +27,12 @@ init_head(); ?>
                                     class="fas fa-filter"></i> </button>
                         </div>
                     </div>
+                    <!--
+                <div class="col-md-12 pre-scrollable">
+                            <table class="table" id="tableResult">
+                -->
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 ">
                         <table class="table" id="tableResult">
                                 <thead>
                                     <tr>
@@ -44,7 +48,8 @@ init_head(); ?>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                               
+                                <tbody >
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -390,6 +395,15 @@ init_head(); ?>
 <?php init_tail(); ?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script>
+    new DataTable("#tableResult", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script>
 <script>
     $("#filterSubmit").on('click', function (event) {
         event.preventDefault();

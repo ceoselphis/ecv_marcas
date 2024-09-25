@@ -9,6 +9,41 @@
     //-------------------------- Lista de datos --------------------------------
 
     //Mostrar Publicaciones
+    // function Publicaciones(id_cambio) {
+    //     let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/showPublicaciones/");?>';
+    //     url = url + id_cambio;
+    //     console.log(url);
+    //     let body = ``;
+    //     $.get(url, function (response) {
+    //         let lista = JSON.parse(response);
+    //         console.log(lista);
+    //         if (lista.length === 0) {
+    //             $('#body_publicaciones').html(`
+    //                     <tr colspan="3">
+    //                         <td>Sin Registros</td>
+    //                     </tr>`);
+    //         }
+    //         lista.forEach(item => {
+    //             body += `<tr Publicacionesid = "${item.id}"> 
+    //                                 <td class="text-center">${item.id}</td>
+    //                                 <td class="text-center">${item.tipo_publicacion}</td>
+    //                                 <td class="text-center">${item.boletin}</td>
+    //                                 <td class="text-center">${item.tomo}</td>
+    //                                 <td class="text-center">${item.pagina}</td>
+    //                                 <td class="text-center">${item.fecha}</td>
+    //                                     <td class="text-center">
+    //                                         <a class="btn btn-light" id ="EditbtnPublicaciones" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+    //                                         <button id="Publicaciones-delete" class="btn btn-danger">
+    //                                         <i class="fas fa-trash"></i>Borrar
+    //                                         </button>
+    //                                     </td>
+    //                             </tr>
+    //                         `
+    //         });
+    //         $('#body_publicaciones').html(body);
+    //     })
+    // }
+    //Mostrar Publicaciones
     function Publicaciones(id_cambio) {
         let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/showPublicaciones/");?>';
         url = url + id_cambio;
@@ -17,30 +52,37 @@
         $.get(url, function (response) {
             let lista = JSON.parse(response);
             console.log(lista);
-            if (lista.length === 0) {
-                $('#body_publicaciones').html(`
-                        <tr colspan="3">
-                            <td>Sin Registros</td>
-                        </tr>`);
-            }
-            lista.forEach(item => {
-                body += `<tr Publicacionesid = "${item.id}"> 
-                                    <td class="text-center">${item.id}</td>
-                                    <td class="text-center">${item.tipo_publicacion}</td>
-                                    <td class="text-center">${item.boletin}</td>
-                                    <td class="text-center">${item.tomo}</td>
-                                    <td class="text-center">${item.pagina}</td>
-                                    <td class="text-center">${item.fecha}</td>
-                                        <td class="text-center">
-                                            <a class="btn btn-light" id ="EditbtnPublicaciones" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
-                                            <button id="Publicaciones-delete" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>Borrar
-                                            </button>
-                                        </td>
-                                </tr>
-                            `
-            });
-            $('#body_publicaciones').html(body);
+            $("#tableResult").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    destroy: true,
+                    data: table.data,
+                    columns: [
+                        {
+                            data: 'codigo'
+                        },
+                        {
+                            data: 'tipo_publicacion'
+                        },
+                        {
+                            data: 'boletin'
+                        },
+                        {
+                            data: 'tomo'
+                        },
+                        {
+                            data: 'pagina'
+                        },
+                        {
+                            data: 'fecha'
+                        },
+                        {
+                            data: 'acciones'
+                        }
+                      
+                    ]
+                });
         })
     }
     //Mostrar Eventos

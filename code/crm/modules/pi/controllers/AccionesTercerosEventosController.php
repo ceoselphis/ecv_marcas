@@ -41,6 +41,9 @@ class AccionesTercerosEventosController extends AdminController
                 'comentarios' => $row['comentarios'],
                 'tipo_evento_id' => $row['tipo_evento_id'],
                 'fecha' => date('d/m/Y', strtotime($row['fecha'])),
+                'acciones' => "<a class=\"btn btn-light\" id =\"EditbtnEvento\" style= \"background-color: white;\" ><i class=\"fas fa-edit\"></i>Editar</a>
+                <button id=\"Evento-delete\" class=\"btn btn-danger\">
+                <i class=\"fas fa-trash\"></i>Borrar</button>"
             );
         }
         echo json_encode($data);

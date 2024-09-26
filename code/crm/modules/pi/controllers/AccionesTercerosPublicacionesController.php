@@ -42,6 +42,12 @@ class AccionesTercerosPublicacionesController extends AdminController
                 'tomo' => $row['tomo'],
                 'pagina' => $row['pagina'],
                 'fecha' => date('d/m/Y', strtotime($row['fecha'])),
+                'acciones' => "<div class=\"row row-group\">                                      
+                <a class=\"btn btn-light\" id ='EditbtnPublicaciones' style= 'background-color: white;' ><i class=\"fas fa-edit\"></i>Editar</a>
+                <button id='Publicaciones-delete' class=\"btn btn-danger\">
+                <i class=\"fas fa-trash\"></i>Borrar
+                </button>                           
+                </div>",
             );
         }
         echo json_encode($data);

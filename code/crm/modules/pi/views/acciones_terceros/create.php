@@ -404,8 +404,10 @@ $select = ['' => '']; ?>
                                                         <div class="list-box">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
-                                                                    <table id="publicacionTbl" class="table table-responsive w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                                    <div style="display: flex; padding-top:20px ; padding-bottom:20px; justify-content: flex-end;">
+                                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
+                                                                    </div>
+                                                                    <table id="publicacionTbl" class="table table-responsive" style="width: 100% !important;">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>id</th>
@@ -450,7 +452,8 @@ $select = ['' => '']; ?>
                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 20px;">
-                                            <table class="table table-responsive">
+                                            <table id="eventoTbl" class="table table-responsive" style="width: 100% !important;" >
+
                                                 <thead>
                                                     <tr>
                                                         <th>Nº</th>
@@ -552,6 +555,7 @@ $select = ['' => '']; ?>
     </div>
 </div>
 <?php $CI->load->view('acciones_terceros/modal.php');?>
+<?php $CI->load->view('acciones_terceros/modaledit.php');?>
 <?php init_tail(); ?>
 
 <?php $CI->load->view('acciones_terceros/js.php');?>

@@ -9,16 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
     integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
-    new DataTable("#publicacionTbl", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
-    new DataTable("#eventoTbl", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
+
 </script>
 <script>
     id = '<?php echo $cod_id ?>';
@@ -33,7 +24,7 @@
     //-------------------------- Lista de datos --------------------------------
 
     function Publicaciones(id_cambio) {
-        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/showPublicaciones/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/showPublicaciones/"); ?>';
         url = url + id_cambio;
         console.log(url);
         let body = ``;
@@ -69,10 +60,10 @@
                         render: function (data, type, row) {
                             return `
                             <td class="text-center">
-                                <a class="btn btn-light edit-btn" data-publicacionid="${row.id}" style="background-color: white;">
+                                <a class="btn btn-light edit-publicacion" data-publicacionid="${row.id}" style="background-color: white;">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                <button class="btn btn-danger deletepublicacion" data-publicacionid="${row.id}">
+                                <button class="btn btn-danger delete-publicacion" data-publicacionid="${row.id}">
                                     <i class="fas fa-trash"></i> Borrar
                                 </button>
                             </td>`;
@@ -82,14 +73,14 @@
             });
 
             // Evento para el botón de Editar
-            $('#publicacionTbl').on('click', '.edit-btn', function (e) {
+            $('#publicacionTbl').on('click', '.edit-publicacion', function (e) {
                 e.preventDefault();
-                let id = $(this).data('publicacionid');
-                console.log("ID para editar: " + id);
+                let pubid = $(this).data('publicacionid');
+                console.log("ID para editar: " + pubid);
                 console.log(" LLegar a Modal Editar Publicaciones ");
                 let url =
-                    '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/findPublicacion/");?>';
-                url = url + id;
+                    '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/findPublicacion/"); ?>';
+                url = url + pubid;
                 console.log(url);
                 $.get(url, function (response) {
                     let lista = JSON.parse(response);
@@ -102,18 +93,18 @@
             });
 
             // Evento para el botón de Editar
-            $('#publicacionTbl').on('click', '.deletepublicacion', function (e) {
+            $('#publicacionTbl').on('click', '.delete-publicacion', function (e) {
                 e.preventDefault();
-                let id = $(this).data('publicacionid');
-                console.log("ID para editar: " + id);
+                let pubid = $(this).data('publicacionid');
+                console.log("ID para editar: " + pubid);
                 console.log("Legue a elimar la publicacion ");
                 if (confirm("Quieres eliminar este registro?")) {
                     var formData = new FormData();
                     var csrf_token_name = $("input[name=csrf_token_name]").val();
                     formData.append('csrf_token_name', csrf_token_name);
                     let url =
-                        '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/destroy/");?>';
-                    url = url + id;
+                        '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/destroy/"); ?>';
+                    url = url + pubid;
                     console.log("url ", url);
                     $.ajax({
                         url,
@@ -132,17 +123,12 @@
         });
     }
 
-    // Función para manejar la edición
-    // function editarPublicacion(id) {
-    //     // Aquí puedes implementar lo que se hará al editar, como mostrar un modal o redirigir a otra página
-    //     alert('Editar publicación con ID: ' + id);
-    // }
 
 
 
     //Mostrar Eventos
     function Eventos(id_cambio) {
-        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/showEventos/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/showEventos/"); ?>';
         url = url + id_cambio;
         console.log(url);
         let body = ``;
@@ -173,8 +159,8 @@
                         render: function (data, type, row) {
                             return `
                             <td class="text-center">
-                            <a class=" btn btn-light" id ="EditbtnEvento" data-publicacionid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
-                            <button id="Evento-delete" class="btn btn-danger">
+                            <a class=" btn btn-light edit-evento"  data-eventoid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                            <button  class="btn btn-danger delete-evento" data-eventoid="${row.id}">
                             <i class="fas fa-trash"></i>Borrar</button>
                             </td>`;
                         }
@@ -183,11 +169,49 @@
             });
 
             // Evento para el botón de Editar
-            $('#eventoTbl').on('click', '.edit-btn', function () {
-                let id = $(this).data('publicacionid');
+            $('#eventoTbl').on('click', '.edit-evento', function (e) {
+                e.preventDefault();
+                let eventoid = $(this).data('eventoid');
+                let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/findEvento/"); ?>';
+                console.log('Evento id', eventoid);
+                url = url + eventoid;
+                console.log(url);
+                $.get(url, function (response) {
+                    let lista = JSON.parse(response);
+                    console.log(lista);
+                    $('#evento_comentarioEdit').val(lista[0].comentarios);
+                    $('#id_modal_eventoEdit').val(eventoid);
+                });
+                $("#eventoModalEdit").modal('show');
+
+            });
+
+            // Evento para el botón de Editar
+            $('#publicacionTbl').on('click', '.delete-evento', function (e) {
+                e.preventDefault();
+                let eventoid = $(this).data('publicacionid');
                 console.log("ID para editar: " + id);
-                // Aquí puedes llamar a otra función para manejar la edición, por ejemplo:
-                editarPublicacion(id);
+                console.log("Legue a elimar la eliminar ");
+                if (confirm("Quieres eliminar este registro?")) {
+                    var formData = new FormData();
+                    var csrf_token_name = $("input[name=csrf_token_name]").val();
+                    formData.append('csrf_token_name', csrf_token_name);
+                    let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/destroy/"); ?>';
+                    url = url + eventoid;
+                    console.log("url ", url);
+                    $.ajax({
+                        url,
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    }).then(function (response) {
+                        Eventos(id);
+                        alert_float('success', "Evento Elimando Correctamente");
+                    }).catch(function (response) {
+                        alert("No se pudo Eliminar el Evento");
+                    });
+                }
             });
 
         })
@@ -195,7 +219,7 @@
 
     //Mostrar Tareas
     function Tareas(id_cambio) {
-        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/showTareas/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/showTareas/"); ?>';
         url = url + id_cambio;
         console.log(url);
         let body = ``;
@@ -225,8 +249,8 @@
                         render: function (data, type, row) {
                             return `
                                         <td class="text-center">
-                                            <a class=" btn btn-light" data-tareaid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
-                                            <button data-tareaid="${row.id}" class="btn btn-danger">
+                                            <a class=" btn btn-light edit-tarea" data-tareaid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                                            <button class="btn btn-danger delete-tarea" data-tareaid="${row.id}">
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>
                                         </td>`;
@@ -236,40 +260,58 @@
             });
 
             // Evento para el botón de Editar
-            $('#tareaTbl').on('click', '.edit-btn', function () {
-                let id = $(this).data('tareaid');
-                console.log("ID para editar: " + id);
-                // Aquí puedes llamar a otra función para manejar la edición, por ejemplo:
-                //editarPublicacion(id);
+            $('#tareaTbl').on('click', '.edit-tarea', function () {
+                let tareasid = $(this).data('tareaid');
+                console.log("ID para editar: " + tareasid);
+                console.log(" LLegar a Modal Editar Tareas ");
+                let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/findTareas/"); ?>';
+                url = url + tareasid;
+                console.log(url);
+                $.get(url, function (response) {
+                    let lista = JSON.parse(response);
+                    console.log('lista tareas ', lista);
+                    $('#tarea_fechaEdit').val(lista[0].fecha);
+                    $('#tarea_descripcionEdit').val(lista[0].descripcion);
+                    $('#id_modal_tareaEdit').val(tareasid);
+                });
+                $("#tareaModalEdit").modal('show');
+
             });
-            // if (lista.length === 0) {
-            //     $('#body_tareas').html(`
-            //             <tr colspan="3">
-            //                 <td>Sin Registros</td>
-            //             </tr>`);
-            // }
-            // lista.forEach(item => {
-            //     body += `<tr Tareasid = "${item.id}"> 
-            //                         <td class="text-center">${item.id}</td>
-            //                         <td class="text-center">${item.tipo_tarea}</td>
-            //                         <td class="text-center">${item.descripcion}</td>
-            //                         <td class="text-center">${item.fecha}</td>
-            // <td class="text-center">
-            //     <a class=" btn btn-light" id ="EditbtnTareas" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
-            //     <button id="Tareas-delete" class="btn btn-danger">
-            //     <i class="fas fa-trash"></i>Borrar
-            //     </button>
-            // </td>
-            //                     </tr>
-            //                 `
-            // });
-            // $('#body_tareas').html(body);
+
+            // Evento para el botón de Editar
+            $('#tareaTbl').on('click', '.delete-tarea', function (e) {
+                e.preventDefault();
+                let tareaid = $(this).data('tareaid');
+                console.log("ID para editar: " + tareaid);
+                console.log("Legue a elimar la tarea  ");
+                if (confirm("Quieres eliminar este registro?")) {
+                    var formData = new FormData();
+                    var csrf_token_name = $("input[name=csrf_token_name]").val();
+                    formData.append('csrf_token_name', csrf_token_name);
+                    let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/destroy/"); ?>';
+                    url = url + tareaid;
+                    console.log("url ", url);
+                    $.ajax({
+                        url,
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    }).then(function (response) {
+                        Tareas(id);
+                        alert_float('success', "Tarea Eliminada Correctamente");
+                    }).catch(function (response) {
+                        alert("No se pudo Eliminar la Tarea");
+                    });
+                }
+            });
+
         })
     }
 
     //Mostrar Documentos
     function Documentos(id_cambio) {
-        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/showDocumentos/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/showDocumentos/"); ?>';
         url = url + id_cambio;
         console.log(url);
         let body = ``;
@@ -304,10 +346,10 @@
                         render: function (data, type, row) {
                             return `
                             <td class="text-center">
-                                <a class="btn btn-light edit-btn" data-documentoid="${row.id}" style="background-color: white;">
+                                <a class="btn btn-light edit-documento" data-documentoid="${row.id}" style="background-color: white;">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                <button class="btn btn-danger delete-btn" data-documentoid="${row.id}">
+                                <button class="btn btn-danger delete-documento" data-documentoid="${row.id}">
                                     <i class="fas fa-trash"></i> Borrar
                                 </button>
                             </td>`;
@@ -316,13 +358,52 @@
                 ]
             });
 
-            // Evento para el botón de Editar
-            $('#documentoTbl').on('click', '.edit-btn', function () {
-                let id = $(this).data('documentoid');
-                console.log("ID para editar: " + id);
-                // Aquí puedes llamar a otra función para manejar la edición, por ejemplo:
-                //   editarPublicacion(id);
+            // Evento para Editar el Documento
+            $('#documentoTbl').on('click', '.edit-documento', function () {
+                let docid = $(this).data('documentoid');
+                console.log("ID para editar: " + docid);
+                console.log(" LLegar a Modal Editar Documento ");
+                let url ='<?php echo admin_url("pi/AccionesTerceroDocumentosController/findDocumentos/"); ?>';
+                url = url + docid;
+                console.log(url);
+                $.get(url, function (response) {
+                    let lista = JSON.parse(response);
+                    console.log('lista tareas ', lista);
+                    $('#doc_descripcionEdit').val(lista[0].descripcion);
+                    $('#comentario_archivoEdit').val(lista[0].comentarios);
+                    $('#id_modal_documentoEdit').val(docid);
+                });
+                $("#documentoModalEdit").modal('show');
             });
+
+            // Evento para el botón de Editar
+            $('#documentoTbl').on('click', '.delete-documento', function (e) {
+                e.preventDefault();
+                let tareaid = $(this).data('tareaid');
+                console.log("ID para editar: " + tareaid);
+                console.log("Legue a elimar la tarea  ");
+                if (confirm("Quieres eliminar este registro?")) {
+                    var formData = new FormData();
+                    var csrf_token_name = $("input[name=csrf_token_name]").val();
+                    formData.append('csrf_token_name', csrf_token_name);
+                    let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/destroy/"); ?>';
+                    url = url + tareaid;
+                    console.log("url ", url);
+                    $.ajax({
+                        url,
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    }).then(function (response) {
+                        Tareas(id);
+                        alert_float('success', "Tarea Eliminada Correctamente");
+                    }).catch(function (response) {
+                        alert("No se pudo Eliminar la Tarea");
+                    });
+                }
+            });
+
 
         })
     }
@@ -346,7 +427,7 @@
         formData.append('acc_ter_id', acc_ter_id);
         console.log("tipo_evento ", tipo_evento, "evento_comentario ", evento_comentario,
             " Acciones Tercero ID ", acc_ter_id);
-        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/addEvento");?>'
+        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/addEvento"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -383,7 +464,7 @@
         formData.append('pagina', pagina);
         console.log(" acc_ter_id ", acc_ter_id, " tipo_publicacion ", tipo_publicacion, " boletin_publicacion ",
             boletin_publicacion, " tomo ", tomo, ' pagina ', pagina);
-        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/addPublicacion");?>'
+        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/addPublicacion"); ?>'
         $.ajax({
             url,
             method: 'POST',
@@ -418,7 +499,7 @@
         formData.append('acc_ter_id', acc_ter_id);
         console.log("tipo_tarea ", tipo_tarea, "tarea_descripcion ", tarea_descripcion, " fecha ", tarea_fecha,
             "Acciones Tercero ID ", acc_ter_id);
-        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/addTareas");?>'
+        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/addTareas"); ?>'
         console.log('url ', url)
         $.ajax({
             url,
@@ -479,7 +560,7 @@
     //Accion para Abrir Modal para Editar Evento
     $(document).on('click', '#EditbtnEvento', function (e) {
         console.log(" LLegar a Modal Editar Eventos ");
-        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/findEvento/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/findEvento/"); ?>';
         let element = $(this)[0].parentElement.parentElement;
         let eventoid = $(element).attr('Eventoid');
         console.log('Evento id', eventoid);
@@ -497,7 +578,7 @@
     //Accion para Abrir Modal para Editar Publicaciones
     $(document).on('click', '#EditbtnPublicaciones', function (e) {
         console.log(" LLegar a Modal Editar Publicaciones ");
-        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/findPublicacion/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/findPublicacion/"); ?>';
         let element = $(this)[0].parentElement.parentElement;
         let publicacionid = $(element).attr('Publicacionesid');
         console.log('Evento id', publicacionid);
@@ -516,7 +597,7 @@
     //Accion para Abrir Modal para Editar Tareas
     $(document).on('click', '#EditbtnTareas', function (e) {
         console.log(" LLegar a Modal Editar Tareas ");
-        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/findTareas/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/findTareas/"); ?>';
         let element = $(this)[0].parentElement.parentElement;
         let tareasid = $(element).attr('Tareasid');
         console.log('Tareas id', tareasid);
@@ -535,7 +616,7 @@
     //Accion para Abrir Modal para Editar Documento
     $(document).on('click', '#EditbtnDocumento', function (e) {
         console.log(" LLegar a Modal Editar Documento ");
-        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/findDocumentos/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/findDocumentos/"); ?>';
         let element = $(this)[0].parentElement.parentElement;
         let docid = $(element).attr('Documentoid');
         console.log('Tareas id', docid);
@@ -565,7 +646,7 @@
         formData.append('tipo_evento', tipo_evento);
         formData.append('evento_comentario', evento_comentario);
         console.log("tipo_evento ", tipo_evento, "evento_comentario ", evento_comentario);
-        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/UpdateEventos/");?>'
+        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/UpdateEventos/"); ?>'
         url = url + id_evento;
         console.log("ul ", url);
         $.ajax({
@@ -603,7 +684,7 @@
         formData.append('pagina', pagina);
         console.log("tipo_publicacion ", tipo_publicacion, " boletin_publicacion ", boletin_publicacion,
             " tomo ", tomo, ' pagina ', pagina);
-        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/UpdatePublicaciones/");?>'
+        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/UpdatePublicaciones/"); ?>'
         url = url + id_publicacion;
         console.log('url ', url);
         $.ajax({
@@ -639,7 +720,7 @@
         formData.append('tarea_fecha', tarea_fecha);
         console.log("tipo_tarea ", tipo_tarea, "tarea_descripcion ", tarea_descripcion, " fecha ", tarea_fecha,
             "id tarea ", id_tarea);
-        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/UpdateTareas/");?>'
+        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/UpdateTareas/"); ?>'
         url = url + id_tarea;
         console.log("ul ", url);
         $.ajax({
@@ -676,7 +757,7 @@
         formData.append('comentario_archivo', comentario_archivo);
         formData.append('doc_archivo', doc_archivo);
         console.log("id Documento ", id_documento);
-        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/UpdateDocumentos/");?>'
+        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/UpdateDocumentos/"); ?>'
         url = url + id_documento;
         console.log("ul ", url);
         $.ajax({
@@ -709,7 +790,7 @@
             console.log(eventoid)
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/destroy/");?>';
+            let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/destroy/"); ?>';
             url = url + eventoid;
             console.log("url ", url);
             $.ajax({
@@ -739,7 +820,7 @@
     //         console.log(pubid)
     //         var csrf_token_name = $("input[name=csrf_token_name]").val();
     //         formData.append('csrf_token_name', csrf_token_name);
-    //         let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/destroy/");?>';
+    //         let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/destroy/"); ?>';
     //         url = url + pubid;
     //         console.log("url ", url);
     //         $.ajax({
@@ -769,7 +850,7 @@
             console.log(tareaid)
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/destroy/");?>';
+            let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/destroy/"); ?>';
             url = url + tareaid;
             console.log("url ", url);
             $.ajax({
@@ -797,7 +878,7 @@
             console.log(documentoid)
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/destroy/");?>';
+            let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/destroy/"); ?>';
             url = url + documentoid;
             console.log("url ", url);
             $.ajax({
@@ -819,7 +900,7 @@
     
    // Mostrar Publicaciones
     function Publicaciones(id_cambio) {
-        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/showPublicaciones/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/showPublicaciones/"); ?>';
         url = url + id_cambio;
         console.log(url);
         let body = ``;
@@ -855,7 +936,7 @@
     
     //Mostrar Eventos
     function Eventos(id_cambio) {
-        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/showEventos/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/showEventos/"); ?>';
         url = url + id_cambio;
         console.log(url);
         let body = ``;
@@ -888,7 +969,7 @@
     }
     //Mostrar Tareas
     function Tareas(id_cambio) {
-        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/showTareas/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/showTareas/"); ?>';
         url = url + id_cambio;
         console.log(url);
         let body = ``;
@@ -922,7 +1003,7 @@
 
     //Mostrar Eventos
     function Documentos(id_cambio) {
-        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/showDocumentos/");?>';
+        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/showDocumentos/"); ?>';
         url = url + id_cambio;
         console.log(url);
         let body = ``;

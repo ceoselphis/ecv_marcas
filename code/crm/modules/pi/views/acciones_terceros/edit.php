@@ -402,7 +402,7 @@ $select = ['' => '']; ?>
                                                                     <div style="display: flex; padding-top:20px ; padding-bottom:20px; justify-content: flex-end;">
                                                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicacionModal">Añadir publicacion</button>
                                                                     </div>
-                                                                    <table id="publicacioneditTbl" class="table table-responsive" style="width: 100% !important;">
+                                                                    <table id="publicacionTbl" class="table table-responsive" style="width: 100% !important;">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>id</th>
@@ -446,7 +446,7 @@ $select = ['' => '']; ?>
                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 20px;">
-                                            <table class="table table-responsive" id="eventoeditTbl">
+                                            <table class="table table-responsive" id="eventoTbl" style="width: 100% !important;">
                                                 <thead>
                                                     <tr>
                                                         <th>Nº</th>
@@ -484,7 +484,7 @@ $select = ['' => '']; ?>
                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#tareaModal">Añadir Tarea</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 1.5%;">
-                                            <table class="table table-responsive" id="tareas">
+                                            <table class="table table-responsive" id="tareaTbl" style="width: 100% !important;">
                                                 <thead>
                                                     <tr>
                                                         <th>Nro</th>
@@ -494,7 +494,7 @@ $select = ['' => '']; ?>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="body_tareas">
+                                                <tbody > <!--id="body_tareas"-->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -519,7 +519,7 @@ $select = ['' => '']; ?>
                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#documentoModal">Añadir Documentos</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 1.5%;">
-                                            <table class="table table-responsive" id="tareas">
+                                            <table class="table table-responsive" id="documentoTbl" style="width: 100% !important;">
                                                 <thead>
                                                     <tr>
                                                         <th>Nro</th>
@@ -529,7 +529,7 @@ $select = ['' => '']; ?>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="body_documentos">
+                                                <tbody > <!--id="body_documentos"-->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -552,7 +552,7 @@ $select = ['' => '']; ?>
 <?php $CI->load->view('acciones_terceros/modal.php');?>
 <?php $CI->load->view('acciones_terceros/modaledit.php');?>
 <?php init_tail(); ?>
-<?php $CI->load->view('acciones_terceros/js/anexosedit.php');?>
+<?php $CI->load->view('acciones_terceros/js/anexos.php');?>
 <?php $CI->load->view('acciones_terceros/js.php');?>
 </body>
 

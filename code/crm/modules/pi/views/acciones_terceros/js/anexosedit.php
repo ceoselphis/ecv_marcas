@@ -9,16 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
     integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
-    new DataTable("#publicacionTbl", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
-    new DataTable("#eventoTbl", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
+  
 </script>
 <script>
     id = '<?php echo $cod_id ?>';
@@ -40,7 +31,7 @@
         $.get(url, function (response) {
             let lista = JSON.parse(response);
             console.log(lista);
-            $("#publicacionTbl").DataTable({
+            $("#publicacioneditTbl").DataTable({
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                 },
@@ -69,10 +60,10 @@
                         render: function (data, type, row) {
                             return `
                             <td class="text-center">
-                                <a class="btn btn-light edit-btn" data-publicacionid="${row.id}" style="background-color: white;">
+                                <a class="btn btn-light editpublicacion-btn" data-publicacionid="${row.id}" style="background-color: white;">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                <button class="btn btn-danger deletepublicacion" data-publicacionid="${row.id}">
+                                <button class="btn btn-danger deletepublicacion-btn" data-publicacionid="${row.id}">
                                     <i class="fas fa-trash"></i> Borrar
                                 </button>
                             </td>`;
@@ -82,7 +73,7 @@
             });
 
             // Evento para el botón de Editar
-            $('#publicacionTbl').on('click', '.edit-btn', function (e) {
+            $('#publicacioneditTbl').on('click', '.editpublicacion-btn', function (e) {
                 e.preventDefault();
                 let id = $(this).data('publicacionid');
                 console.log("ID para editar: " + id);
@@ -102,7 +93,7 @@
             });
 
             // Evento para el botón de Editar
-            $('#publicacionTbl').on('click', '.deletepublicacion', function (e) {
+            $('#publicacioneditTbl').on('click', '.deletepublicacion-btn', function (e) {
                 e.preventDefault();
                 let id = $(this).data('publicacionid');
                 console.log("ID para editar: " + id);

@@ -137,7 +137,6 @@ $select = ['' => '']; ?>
                                                 'options' => $paises
                                             ]); ?>
                                         </div>
-    
                                         <div class="col-md-6">
                                             <?php echo form_label('Nº Solicitud', 'nro_solicitud'); ?>
                                             <?php echo form_input([
@@ -489,7 +488,7 @@ $select = ['' => '']; ?>
                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#tareaModal">Añadir Tarea</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 1.5%;">
-                                            <table class="table table-responsive" id="tareas">
+                                            <table class="table table-responsive" id="tareaTbl" style="width: 100% !important;">
                                                 <thead>
                                                     <tr>
                                                         <th>Nro</th>
@@ -499,7 +498,7 @@ $select = ['' => '']; ?>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="body_tareas">
+                                                <tbody > <!--id="body_tareas"-->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -524,7 +523,7 @@ $select = ['' => '']; ?>
                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#documentoModal">Añadir Documentos</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 1.5%;">
-                                            <table class="table table-responsive" id="tareas">
+                                            <table class="table table-responsive" id="documentoTbl" style="width: 100% !important;">
                                                 <thead>
                                                     <tr>
                                                         <th>Nro</th>
@@ -534,7 +533,7 @@ $select = ['' => '']; ?>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="body_documentos">
+                                                <tbody > <!--id="body_documentos"-->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -557,7 +556,6 @@ $select = ['' => '']; ?>
 <?php $CI->load->view('acciones_terceros/modal.php');?>
 <?php $CI->load->view('acciones_terceros/modaledit.php');?>
 <?php init_tail(); ?>
-
 <?php $CI->load->view('acciones_terceros/js.php');?>
 <?php $CI->load->view('acciones_terceros/js/anexos.php');?>
 <?php $CI->load->view('acciones_terceros/js/script.php');?>

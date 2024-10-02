@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-md-3" style="padding-top: 2%;">
                             <button class="btn btn-primary" type="submit" >Guardar</button>
-                            <a href="javascript: history.go(-1)" class="btn btn-success">Volver atrás</a>
+                            <a href="<?php echo admin_url("pi/SettingsController/menu?group=eventos");?>" class="btn btn-success">Volver atrás</a>
                         </div>
                         
                     </div>

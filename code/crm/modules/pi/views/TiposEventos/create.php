@@ -22,7 +22,7 @@
                         <div class="col-2">
                             <br />
                             <button class="btn btn-primary" type="submit" >Guardar</button>
-                            <a href="<?php echo admin_url('pi/TiposEventosController/');?>" class="btn btn-success">Volver atras</a>
+                            <a href="<?php echo admin_url('pi/SettingsController/menu?group=eventos');?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>
                 </div>

@@ -1128,17 +1128,16 @@ class MarcasSolicitudesController extends AdminController
     }
     if (empty($form)) {
       $query = $CI->MarcasSolicitudes_model->getAll();
-   //   echo json_encode($query);
+      //$query = $CI->MarcasSolicitudes_model->findAll();
       if (!empty($query)) {
         foreach ($query as $row) {
           $result[] =  [
             'cod_contador' => $row['cod_contador'],
-            'tipo' =>  $row['tipo_registro'],
+            'tipo' => $row['tipo_registro'],
             'propietario' => $row['nombre_propietario'],
             'nombre' => $row['marca'],
-            'clase' =>  $row['clase_niza'],
-            'estado' => $row['estado_expediente'],
-            'solicitud' => $row['solicitud'],
+            'clase' => $row['clase_niza'],
+            'estado' => $row['solicitud'],
             'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
             'registro' => $row['registro'],
             'certificado' => $row['certificado'],

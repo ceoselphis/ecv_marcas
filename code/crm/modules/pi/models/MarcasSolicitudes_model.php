@@ -20,6 +20,22 @@ class MarcasSolicitudes_model extends BaseModel
         return $this->countPK;
     }
 
+    public function getMarcasByCliente($id = NULL){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes as tbl_mar');
+        if($id) $this->db->where('tbl_mar.cliente_id = ', $id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['signonom']);
+        }
+        return array_combine($keys, $values);
+       // return $this->db->get()->result_array();
+    }
+
     public function setCountPK()
     {
         $query = $this->db->query("SELECT id FROM {$this->tableName} ORDER by id DESC LIMIT 1");

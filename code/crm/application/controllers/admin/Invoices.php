@@ -4,6 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Invoices extends AdminController
 {
+    public $cliente;
+
     public function __construct()
     {
         parent::__construct();
@@ -290,6 +292,34 @@ class Invoices extends AdminController
         echo json_encode($expense);
     }
 
+    public function search_client() {
+        $CI = &get_instance();
+        $clienteid = $CI->input->post('clientid'); // Obtener solo el clientid
+    
+        // Verifica si el valor de clientid no está vacío
+        if (!empty($clienteid)) {
+            $this->load->model('taxes_model');
+            $cliente = $this->taxes_model->getMarcasByCliente($clienteid);
+            
+            echo json_encode($cliente); // Enviar datos al frontend
+            if (!empty($cliente)) {
+                echo json_encode(['message' => 'tiene data ']);
+            } else {
+                echo json_encode(['message' => 'no tiene data']);
+            }
+        } else {
+            echo json_encode(['message' => 'no se proporcionó un clientid válido']);
+        }
+    }
+    
+
+    public function prueba(){
+        $this->load->model('taxes_model');
+        $marca = $this->taxes_model->getMarcasByCliente(371);
+        echo json_encode($marca);
+    }
+
+
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {   
@@ -398,8 +428,16 @@ class Invoices extends AdminController
             'expenses_only !=' => 1,
         ]);
 
+        
         $this->load->model('taxes_model');
         $data['taxes'] = $this->taxes_model->get();
+        if (!empty($this->cliente)){
+            $data['marcas'] = $this->cliente;
+        }else {
+
+            $data['marcas']      = $this->taxes_model->getMarcasByCliente('');
+        }
+
         $this->load->model('invoice_items_model');
 
         $data['ajaxItems'] = false;
@@ -419,6 +457,8 @@ class Invoices extends AdminController
         $data['staff']     = $this->staff_model->get('', ['active' => 1]);
         $data['title']     = $title;
         $data['bodyclass'] = 'invoice';
+        //$this->load->model('MarcasSolicitudes_model');
+
         $this->load->view('admin/invoices/invoice', $data);
     }
 

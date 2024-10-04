@@ -26,6 +26,27 @@ class Taxes_model extends App_Model
         return $this->db->get(db_prefix() . 'taxes')->result_array();
     }
 
+    public function getMarcasByCliente($id){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes as tbl_mar');
+        if(!empty($id)) {
+            $this->db->where('tbl_mar.client_id', $id); // Quitar el espacio y el igual
+        }
+        $query = $this->db->get();
+        
+        // $keys = array();
+        // $values = array();
+        
+        // foreach($query->result_array() as $row) {
+        //     array_push($keys, $row['id']);
+        //     array_push($values, $row['signonom']);
+        // }
+        
+        // return array_combine($keys, $values);
+        return $query->result_array();
+    }
+    
+
     /**
      * Add new tax
      * @param array $data tax data

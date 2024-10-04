@@ -31,9 +31,9 @@ init_head(); ?>
                 <div class="col-md-12 pre-scrollable">
                             <table class="table" id="tableResult">
                 -->
-                    <div class="row">
-                        <div class="col-md-12 ">
-                        <table class="table" id="tableResult">
+                    <div class="row" style="padding: 2%;">
+                        <div class="col-md-12 pre-scrollable" style="min-height: 300px !important;">
+                            <table class="ultimate table table-responsive" id="tableResult">
                                 <thead>
                                     <tr>
                                         <th>Codigo</th>

@@ -28,15 +28,61 @@
 </div>
 <?php init_tail(); ?>
 <script>
-$(function() {
-    validate_invoice_form();
-    // Init accountacy currency symbol
-    init_currency();
-    // Project ajax search
-    init_ajax_project_search_by_customer_id();
-    // Maybe items ajax search
-    init_ajax_search('items', '#item_select.ajax-search', undefined, admin_url + 'items/search');
+    $(function () {
+        validate_invoice_form();
+        // Init accountacy currency symbol
+        init_currency();
+        // Project ajax search
+        init_ajax_project_search_by_customer_id();
+        // Maybe items ajax search
+        init_ajax_search('items', '#item_select.ajax-search', undefined, admin_url + 'items/search');
+    });
+
+    $('#clientid').on('change', function (e) {
+        e.preventDefault();
+        var valor = $(this).val();
+        console.log("Valor del Cliente ", valor);
+
+        var formData = new FormData();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        formData.append('clientid', valor);
+
+        let url = '<?php echo admin_url("invoices/search_client"); ?>';
+        console.log(url);
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function (response) {
+            try {
+                console.log(response)
+                // Quitar todas las opciones actuales
+                $('#mySelect').empty();
+
+// Añadir las nuevas opciones al select
+nuevasOpciones.forEach(function(opcion) {
+    $('#mySelect').append(new Option(opcion.text, opcion.value));
 });
+                // Si la respuesta es un JSON string, lo convertimos en objeto
+                //let data = JSON.parse(response);
+                //console.log("Respuesta ", data);
+                // if (data.message) {
+                //     //console.log(data.message);
+                // } else {
+                //     // Manejar la data que viene en el array combinado
+                //     console.log("Datos obtenidos: ", data);
+                // }
+            } catch (e) {
+                console.error("Error al procesar la respuesta: ", e);
+            }
+        }).catch(function (response) {
+            console.log("Error ", response);
+        });
+    });
 </script>
 </body>
 

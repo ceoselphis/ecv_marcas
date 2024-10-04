@@ -172,7 +172,8 @@
             $('#eventoTbl').on('click', '.edit-evento', function (e) {
                 e.preventDefault();
                 let eventoid = $(this).data('eventoid');
-                let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/findEvento/"); ?>';
+                let url =
+                    '<?php echo admin_url("pi/AccionesTercerosEventosController/findEvento/"); ?>';
                 console.log('Evento id', eventoid);
                 url = url + eventoid;
                 console.log(url);
@@ -196,7 +197,8 @@
                     var formData = new FormData();
                     var csrf_token_name = $("input[name=csrf_token_name]").val();
                     formData.append('csrf_token_name', csrf_token_name);
-                    let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/destroy/"); ?>';
+                    let url =
+                        '<?php echo admin_url("pi/AccionesTercerosEventosController/destroy/"); ?>';
                     url = url + eventoid;
                     console.log("url ", url);
                     $.ajax({
@@ -337,7 +339,7 @@
                         data: null,
                         render: function (data, type, row) {
                             return `
-                                <a href="${item.archivo}" target="_blank">Ver Archivo</a>`;
+                                <a href="${row.archivo}" target="_blank">Ver Archivo</a>`;
                         }
                     },
 
@@ -363,7 +365,8 @@
                 let docid = $(this).data('documentoid');
                 console.log("ID para editar: " + docid);
                 console.log(" LLegar a Modal Editar Documento ");
-                let url ='<?php echo admin_url("pi/AccionesTerceroDocumentosController/findDocumentos/"); ?>';
+                let url =
+                    '<?php echo admin_url("pi/AccionesTerceroDocumentosController/findDocumentos/"); ?>';
                 url = url + docid;
                 console.log(url);
                 $.get(url, function (response) {
@@ -376,18 +379,19 @@
                 $("#documentoModalEdit").modal('show');
             });
 
-            // Evento para el botón de Editar
+            // Eliminar Documento
             $('#documentoTbl').on('click', '.delete-documento', function (e) {
                 e.preventDefault();
-                let tareaid = $(this).data('tareaid');
-                console.log("ID para editar: " + tareaid);
+                let documentoid = $(this).data('documentoid');
+                console.log("ID para editar: " + documentoid);
                 console.log("Legue a elimar la tarea  ");
                 if (confirm("Quieres eliminar este registro?")) {
                     var formData = new FormData();
                     var csrf_token_name = $("input[name=csrf_token_name]").val();
                     formData.append('csrf_token_name', csrf_token_name);
-                    let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/destroy/"); ?>';
-                    url = url + tareaid;
+                    let url =
+                        '<?php echo admin_url("pi/AccionesTerceroDocumentosController/destroy/"); ?>';
+                    url = url + documentoid;
                     console.log("url ", url);
                     $.ajax({
                         url,
@@ -396,10 +400,10 @@
                         processData: false,
                         contentType: false
                     }).then(function (response) {
-                        Tareas(id);
-                        alert_float('success', "Tarea Eliminada Correctamente");
+                        Documentos(id);
+                        alert_float('success', "Documento Eliminado Correctamente");
                     }).catch(function (response) {
-                        alert("No se pudo Eliminar la Tarea");
+                        alert("No se pudo Eliminar el Documento");
                     });
                 }
             });

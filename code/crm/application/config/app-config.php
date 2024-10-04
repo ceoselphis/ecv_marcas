@@ -17,8 +17,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
-//define('APP_BASE_URL', 'http://localhost:8080/');
-define('APP_BASE_URL', 'http://localhost/ecv_marcas/code/crm/');
+define('APP_BASE_URL', 'http://localhost:8080/');
+//define('APP_BASE_URL', 'http://localhost/ecv_marcas/code/crm/');
 
 /*
 * --------------------------------------------------------------------------
@@ -39,7 +39,7 @@ define('APP_ENC_KEY', '648d6b984152c7fe4ac4fe8270bf2ec3');
  * Database Credentials
  * The hostname of your database server
  */
-define('APP_DB_HOSTNAME', 'localhost');
+define('APP_DB_HOSTNAME', '172.17.0.3');
 /**
  * The username used to connect to the database
  */
@@ -47,11 +47,11 @@ define('APP_DB_USERNAME', 'root');
 /**
  * The password used to connect to the database
  */
-define('APP_DB_PASSWORD', '');
+define('APP_DB_PASSWORD', 'admin123456');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'ecvcom_crm-spi');
+define('APP_DB_NAME', 'ecvcom_spi');
 
 /**
  * @since  2.3.0

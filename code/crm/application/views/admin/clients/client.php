@@ -31,7 +31,7 @@
                 <h4 class="tw-text-lg tw-font-semibold tw-text-neutral-800 tw-mt-0">
                     <div class="tw-space-x-3 tw-flex tw-items-center">
                         <span class="tw-truncate">
-                            #<?php echo $client->userid . ' ' . $title; ?>
+                            <?php echo $client->code . ' ' ?>
                         </span>
                         <?php if (has_permission('customers', '', 'delete') || is_admin()) { ?>
                         <div class="btn-group">
@@ -63,7 +63,7 @@
                     </div>
                     <?php if (isset($client) && $client->leadid != null) { ?>
                     <small class="tw-block">
-                        <b><?php echo _l('customer_from_lead', _l('lead')); ?></b>
+                        <b><?php /*echo _l('customer_from_lead', _l('lead'));*/ echo $client->company; ?></b>
                         <a href="<?php echo admin_url('leads/index/' . $client->leadid); ?>"
                             onclick="init_lead(<?php echo $client->leadid; ?>); return false;">
                             - <?php echo _l('view'); ?>

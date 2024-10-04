@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+include FCPATH . 'modules/pi/libraries/TableReport.php';
+
+
+
 class MarcasSolicitudesController extends AdminController
 {
   protected $models = ['MarcasSolicitudes_model'];

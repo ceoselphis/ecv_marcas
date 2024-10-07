@@ -38,49 +38,62 @@
         init_ajax_search('items', '#item_select.ajax-search', undefined, admin_url + 'items/search');
     });
 
+
+
     $('#clientid').on('change', function (e) {
+        e.preventDefault(); // Evitar la acción predeterminada
+        var valor = $(this).val(); // Obtener el valor seleccionado del cliente
+
+        if (valor === "") {
+            console.log("La variable está vacía o es falso.");
+        } 
+        else {
+            console.log("Valor del Cliente: ", valor);
+
+            // Construir la URL con el valor del cliente
+            let url = '<?php echo admin_url("invoices/search_client/"); ?>' + valor;
+            console.log(url);
+
+            // Hacer una solicitud GET al servidor
+            $.get(url, function (response) {
+                // Parsear la respuesta JSON
+                let lista = JSON.parse(response);
+                console.log("Lista obtenida del servidor: ", lista);
+
+                // Seleccionar el elemento <select> por su id "marcas"
+                var selectElement = $("#marcas");
+
+                // Eliminar todas las opciones actuales del select
+                selectElement.empty();
+                console.log('Opciones eliminadas.');
+
+                // Añadir la opción por defecto
+                selectElement.append('<option value="">Seleccione una opción</option>');
+
+                // Recorrer la lista con $.each()
+                $.each(lista, function (key, value) {
+                    selectElement.append('<option value="' + key + '">' + value + '</option>');
+                });
+                console.log('Opciones añadidas al select.');
+
+                // Si estás utilizando el plugin selectpicker (Bootstrap), refrescar el select
+                selectElement.selectpicker('refresh');
+                console.log("El selectpicker ha sido refrescado.");
+            });
+        }
+    });
+
+
+    $('#marcas').on('change', function (e) {
         e.preventDefault();
         var valor = $(this).val();
-        console.log("Valor del Cliente ", valor);
-
-        var formData = new FormData();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('csrf_token_name', csrf_token_name);
-        formData.append('clientid', valor);
-
-        let url = '<?php echo admin_url("invoices/search_client"); ?>';
+        console.log("Valor de la marca ", valor);
+        let url = '<?php echo admin_url("invoices/get_marca/"); ?>';
+        url = url + valor;
         console.log(url);
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function (response) {
-            try {
-                console.log(response)
-                // Quitar todas las opciones actuales
-                $('#mySelect').empty();
-
-// Añadir las nuevas opciones al select
-nuevasOpciones.forEach(function(opcion) {
-    $('#mySelect').append(new Option(opcion.text, opcion.value));
-});
-                // Si la respuesta es un JSON string, lo convertimos en objeto
-                //let data = JSON.parse(response);
-                //console.log("Respuesta ", data);
-                // if (data.message) {
-                //     //console.log(data.message);
-                // } else {
-                //     // Manejar la data que viene en el array combinado
-                //     console.log("Datos obtenidos: ", data);
-                // }
-            } catch (e) {
-                console.error("Error al procesar la respuesta: ", e);
-            }
-        }).catch(function (response) {
-            console.log("Error ", response);
+        $.get(url, function (response) {
+            let lista = JSON.parse(response);
+            console.log(lista);
         });
     });
 </script>

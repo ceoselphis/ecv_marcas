@@ -26,26 +26,73 @@ class Taxes_model extends App_Model
         return $this->db->get(db_prefix() . 'taxes')->result_array();
     }
 
-    public function getMarcasByCliente($id){
+    // public function getMarcasByCliente($id)
+    // {
+    //     $this->db->select('*');
+    //     $this->db->from('tbl_marcas_solicitudes as tbl_mar');
+    //     if (!empty($id)) {
+    //         $this->db->where('tbl_mar.client_id', $id); // Quitar el espacio y el igual
+    //     }
+    //     $query = $this->db->get();
+    //     $data = array();
+    //     foreach ($query->result_array() as $row) {
+    //         $lista  = [
+    //             'id' => $row['id'],
+    //             'nombre' => $row['signonom']
+    //         ];
+    //         array_push($data, $lista);
+    //     }
+    //     return $data;
+    // }
+
+    public function getMarcasByCliente($id)
+    {
         $this->db->select('*');
         $this->db->from('tbl_marcas_solicitudes as tbl_mar');
-        if(!empty($id)) {
+        if (!empty($id)) {
             $this->db->where('tbl_mar.client_id', $id); // Quitar el espacio y el igual
         }
         $query = $this->db->get();
-        
-        // $keys = array();
-        // $values = array();
-        
-        // foreach($query->result_array() as $row) {
-        //     array_push($keys, $row['id']);
-        //     array_push($values, $row['signonom']);
-        // }
-        
-        // return array_combine($keys, $values);
-        return $query->result_array();
+        $keys = array('');
+        $values = array('');
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['signonom']);
+        }
+        return array_combine($keys, $values); 
     }
-    
+
+    public function getMarcas()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes as tbl_mar');
+        $query = $this->db->get();
+        $keys = array('');
+        $values = array('Seleccione una opcion');
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['signonom']);
+        }
+        return array_combine($keys, $values); 
+    }
+
+    public function validateMarcas($id){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes as tbl_mar');
+        if (!empty($id)) {
+            $this->db->where('tbl_mar.id', $id); // Quitar el espacio y el igual
+        }
+        $query = $this->db->get();
+        $resultado = $query->result_array();
+        if (!empty($resultado)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 
     /**
      * Add new tax
@@ -150,7 +197,7 @@ class Taxes_model extends App_Model
             || is_reference_in_table('tax2', db_prefix() . 'expenses', $id)
             || is_reference_in_table('tax_id', db_prefix() . 'subscriptions', $id)
             || is_reference_in_table('tax_id_2', db_prefix() . 'subscriptions', $id)
-            ) {
+        ) {
             return [
                 'referenced' => true,
             ];

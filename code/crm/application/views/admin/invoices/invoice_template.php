@@ -635,16 +635,8 @@
                         ?>
                         </td>
                         <td>
-                            
-                           <!-- <div id="marcas">
+                
 
-                            </div>-->
-                            <!--
-                            <select name="marcas" id="marcas" class='ajax-search form-control display-block tax main-tax' data-live-search="true" data-width="100%"  >
-                            <option value=''>Seleccione una opcion</option>
-                            </select>-->
-
-                            
                             <select name="marcas" id="marcas" class='ajax-search selectpicker display-block tax main-tax' data-live-search="true" data-width="100%"  >
                             <option value=''>Seleccione una opcion</option>
                             <?php foreach ($marcas as $key => $value) { ?>

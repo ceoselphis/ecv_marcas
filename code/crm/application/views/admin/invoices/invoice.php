@@ -46,8 +46,7 @@
 
         if (valor === "") {
             console.log("La variable está vacía o es falso.");
-        } 
-        else {
+        } else {
             console.log("Valor del Cliente: ", valor);
 
             // Construir la URL con el valor del cliente
@@ -83,19 +82,37 @@
         }
     });
 
+    $('#marcas').on('change', function () {
+        console.log('cambio en marca ');
+        var valor = $(this).val(); // Obtener el valor de la opción seleccionada
+        if (valor === "") {
+            console.log("No se seleccionó ninguna marca.");
+        } else {
+            console.log("Marca seleccionada: " + valor);
+            let url = '<?php echo admin_url("invoices/get_marca/"); ?>';
+            url = url + valor;
+            console.log(url);
+            $.get(url, function (response) {
+                let lista = JSON.parse(response);
+                console.log(lista);
+            });
+        }
 
-    $('#marcas').on('change', function (e) {
-        e.preventDefault();
-        var valor = $(this).val();
-        console.log("Valor de la marca ", valor);
-        let url = '<?php echo admin_url("invoices/get_marca/"); ?>';
-        url = url + valor;
-        console.log(url);
-        $.get(url, function (response) {
-            let lista = JSON.parse(response);
-            console.log(lista);
-        });
     });
+
+    // $('#marcas').on('change', function (e) {
+    //    // e.preventDefault();
+    //     var valor = $(this).val();
+    //     console.log("llegue a marcas ");
+    //     console.log("Valor de la marca ", valor);
+    //     let url = '<?php echo admin_url("invoices/get_marca/"); ?>';
+    //     url = url + valor;
+    //     console.log(url);
+    //     // $.get(url, function (response) {
+    //     //     let lista = JSON.parse(response);
+    //     //     console.log(lista);
+    //     // });
+    // });
 </script>
 </body>
 

@@ -313,8 +313,9 @@ class Invoices extends AdminController
             $this->load->model('taxes_model');
             $marca = $this->taxes_model->validateMarcas($id);
             if($marca) {
-                $this->marca_id = $id;
-                echo json_encode(['code' => 200, 'message' => 'ID de marca Gurdado']);
+                $this->session->set_userdata('marca_id', $id);
+
+                echo json_encode(['code' => 200, 'message' => 'ID de marca Gurdado','marca_id' => $id]);
             }else {
                 echo json_encode(['code' => 500, 'message' => 'ID no Guardado']);
             }
@@ -322,14 +323,13 @@ class Invoices extends AdminController
         }
     }
     
-
+    
 
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {   
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
-         
             $marca_id = $invoice_data['marcaid'];
             $edit_marca = $invoice_data['edit_marca'];
             unset($invoice_data['marcaid']);
@@ -354,10 +354,11 @@ class Invoices extends AdminController
 
                 $id = $this->invoices_model->add($invoice_data);
                 if ($id) {
+                    $marcas = $this->session->userdata('marca_id');
 
-                    if (!empty($this->marca_id)){
+                    if ($marcas){
                         $insert = array(
-                            'marcas_id' => $this->marca_id,
+                            'marcas_id' => $marcas,
                             'facturas_id' => $id,
                             'staff_id' => $_SESSION['staff_user_id'],
                         );
@@ -366,10 +367,10 @@ class Invoices extends AdminController
                         try{
                             $query = $this->MarcasFacturas_model->insert($insert);
                                 if (isset($query)){
-                                  echo json_encode([ 'mensaje'=>'Evento registrado con éxito', 'status'=>true]);
+                                //  echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'status'=>true]);
         
                                 }else {
-                                   echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Evento', 'status'=>false]);
+                                  // echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);
                                     
                                 }
                         }catch (Exception $e){
@@ -378,7 +379,6 @@ class Invoices extends AdminController
 
                         
                     }
-
                     //set_alert('success', _l('added_successfully', _l('invoice')));
                     /*We add the new invoice in the table */
                     if(!empty($marca_id) && $edit_marca != "true") //nueva marca

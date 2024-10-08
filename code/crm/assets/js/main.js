@@ -7524,6 +7524,7 @@ function get_item_preview_values() {
   response.taxname = $(".main select.tax").selectpicker("val");
   response.rate = $('.main input[name="rate"]').val();
   response.unit = $('.main input[name="unit"]').val();
+  console.log("Respuesta ",response);
   return response;
 }
 

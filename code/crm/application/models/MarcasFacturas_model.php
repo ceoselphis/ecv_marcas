@@ -14,5 +14,6 @@ class MarcasFacturas_model extends BaseModel
         parent::__construct();
     }
 
+   
     
 }

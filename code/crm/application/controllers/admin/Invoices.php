@@ -1,9 +1,13 @@
 <?php
 
+use Dompdf\Positioner\NullPositioner;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Invoices extends AdminController
 {
+    
+    public $marca_id;
     public function __construct()
     {
         parent::__construct();
@@ -290,11 +294,42 @@ class Invoices extends AdminController
         echo json_encode($expense);
     }
 
+    public function search_client($id) {
+        $CI = &get_instance();
+        if (!empty($id)) {
+           
+            $this->load->model('taxes_model');
+            $cliente = $this->taxes_model->getMarcasByCliente($id);
+            
+            echo json_encode($cliente); // Enviar datos al frontend
+        } else {
+            echo json_encode(['message' => 'no se proporcionó un cliente válido']);
+        }
+    }
+
+    public function get_marca($id) {
+        $CI = &get_instance();
+        if (!empty($id)) {
+            $this->load->model('taxes_model');
+            $marca = $this->taxes_model->validateMarcas($id);
+            if($marca) {
+                $this->marca_id = $id;
+                echo json_encode(['code' => 200, 'message' => 'ID de marca Gurdado']);
+            }else {
+                echo json_encode(['code' => 500, 'message' => 'ID no Guardado']);
+            }
+        
+        }
+    }
+    
+
+
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {   
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
+         
             $marca_id = $invoice_data['marcaid'];
             $edit_marca = $invoice_data['edit_marca'];
             unset($invoice_data['marcaid']);
@@ -319,6 +354,31 @@ class Invoices extends AdminController
 
                 $id = $this->invoices_model->add($invoice_data);
                 if ($id) {
+
+                    if (!empty($this->marca_id)){
+                        $insert = array(
+                            'marcas_id' => $this->marca_id,
+                            'facturas_id' => $id,
+                            'staff_id' => $_SESSION['staff_user_id'],
+                        );
+                        
+                        $this->load->model('MarcasFacturas_model');
+                        try{
+                            $query = $this->MarcasFacturas_model->insert($insert);
+                                if (isset($query)){
+                                  echo json_encode([ 'mensaje'=>'Evento registrado con éxito', 'status'=>true]);
+        
+                                }else {
+                                   echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Evento', 'status'=>false]);
+                                    
+                                }
+                        }catch (Exception $e){
+                            return $e->getMessage();
+                        }
+
+                        
+                    }
+
                     //set_alert('success', _l('added_successfully', _l('invoice')));
                     /*We add the new invoice in the table */
                     if(!empty($marca_id) && $edit_marca != "true") //nueva marca
@@ -398,8 +458,12 @@ class Invoices extends AdminController
             'expenses_only !=' => 1,
         ]);
 
+        
         $this->load->model('taxes_model');
         $data['taxes'] = $this->taxes_model->get();
+        $data['marcas']      = $this->taxes_model->getMarcas();
+        
+
         $this->load->model('invoice_items_model');
 
         $data['ajaxItems'] = false;
@@ -419,6 +483,8 @@ class Invoices extends AdminController
         $data['staff']     = $this->staff_model->get('', ['active' => 1]);
         $data['title']     = $title;
         $data['bodyclass'] = 'invoice';
+        //$this->load->model('MarcasSolicitudes_model');
+
         $this->load->view('admin/invoices/invoice', $data);
     }
 

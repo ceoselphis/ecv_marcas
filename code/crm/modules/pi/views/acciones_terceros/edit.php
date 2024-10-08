@@ -256,7 +256,7 @@ $select = ['' => '']; ?>
                                                 'name'      => 'pais_id_opuesta',
                                                 'class'     => 'form-control',
                                                 'options'   => $paises,
-                                                'selected'  => set_value('')
+                                                'selected'  => $values['pais_id']
                                             ]); ?>
                                         </div>
     
@@ -276,7 +276,7 @@ $select = ['' => '']; ?>
                                                 'id'       => 'fecha_solicitud_opuesta',
                                                 'name'     => 'fecha_solicitud_opuesta',
                                                 'class'    => 'form-control calendar',
-                                                'value'    => set_value('fecha_solicitud_opuesta', '', TRUE),
+                                                'value'    => set_value('fecha_solicitud_opuesta', $fecha_solictud, TRUE),
                                             ]); ?>
                                         </div>
     
@@ -296,7 +296,7 @@ $select = ['' => '']; ?>
                                                 'id'       => 'fecha_registro_opuesta',
                                                 'name'     => 'fecha_registro_opuesta',
                                                 'class'    => 'form-control calendar',
-                                                'value'    => set_value('fecha_registro_opuesta', '', TRUE),
+                                                'value'    => set_value('fecha_registro_opuesta', $fecha_registro, TRUE),
                                             ]); ?>
                                         </div>
     
@@ -326,7 +326,8 @@ $select = ['' => '']; ?>
                                                 'id' => 'pais_propietario_opuesta',
                                                 'name' => 'pais_propietario_opuesta',
                                                 'class' => 'form-control',
-                                                'options' => $paises
+                                                'options' => $paises,
+                                                
                                             ]); ?>
                                         </div>
     
@@ -336,6 +337,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'agente',
                                                 'name' => 'agente',
                                                 'class' => 'form-control',
+                                                'value' => $values['agente']
                                             ]); ?>
                                         </div>
     
@@ -355,7 +357,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'fecha_boletin',
                                                 'name' => 'fecha_boletin',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('fecha', ''),
+                                                'value' => set_value('fecha', $fecha_boletin),
                                             ]); ?>
                                         </div>
                                     </div>

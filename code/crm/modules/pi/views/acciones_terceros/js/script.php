@@ -89,24 +89,6 @@
         var agente = $('#agente').val();
         var boletin = $('#boletin').val();
         var fecha_boletin = $('#fecha_boletin').val();
-
-        // Verificar si todas las variables están llenas
-        if ( 
-            marca_opuesta &&
-            clase_niza &&
-            pais_id_opuesta &&
-            nro_solicitud_opuesta &&
-            fecha_solicitud_opuesta &&
-            nro_registro &&
-            fecha_registro_opuesta &&
-            propietario_opuesta &&
-            ciudad_propietario_opuesta &&
-            pais_propietario_opuesta &&
-            agente &&
-            boletin &&
-            fecha_boletin 
-        ) {
-        // Crear objeto JSON con las variables válidas
         informacion_marca_opuesta = {
             marca_opuesta : marca_opuesta,
             clase_niza : clase_niza,
@@ -123,14 +105,32 @@
             fecha_boletin : fecha_boletin
         };
         console.log("Informacion Marca Opuesta:", informacion_marca_opuesta);
-        // Convertir el objeto JSON a una cadena JSON
-        var jsonString = JSON.stringify(informacion_marca_opuesta);
-        // Insertar la cadena JSON en localStorage
-        localStorage.setItem('marca_opuesta_acc_tercero', jsonString);
-        console.log("Datos almacenados en localStorage");
-        } else {
-            alert('Por favor, rellene todos los campos.');
-        }
+        // Verificar si todas las variables están llenas
+        // if ( 
+        //     marca_opuesta &&
+        //     clase_niza &&
+        //     pais_id_opuesta &&
+        //     nro_solicitud_opuesta &&
+        //     fecha_solicitud_opuesta &&
+        //     nro_registro &&
+        //     fecha_registro_opuesta &&
+        //     propietario_opuesta &&
+        //     ciudad_propietario_opuesta &&
+        //     pais_propietario_opuesta &&
+        //     agente &&
+        //     boletin &&
+        //     fecha_boletin 
+        // ) {
+        // // Crear objeto JSON con las variables válidas
+   
+        // // Convertir el objeto JSON a una cadena JSON
+        // var jsonString = JSON.stringify(informacion_marca_opuesta);
+        // // Insertar la cadena JSON en localStorage
+        // localStorage.setItem('marca_opuesta_acc_tercero', jsonString);
+        // console.log("Datos almacenados en localStorage");
+        // } else {
+        //     alert('Por favor, rellene todos los campos.');
+        // }
     });
 
     $(document).on('click', '#ValidarExpediente', function (e) {

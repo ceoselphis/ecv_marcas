@@ -595,7 +595,7 @@
                 </thead>
                 <tbody>
                     <tr class="main">
-                        <td></td>
+                        <td> </td>
                         <td>
                             <textarea name="description" class="form-control" rows="4"
                                 placeholder="<?php echo _l('item_description_placeholder'); ?>"></textarea>
@@ -634,7 +634,24 @@
                         echo $select;
                         ?>
                         </td>
-                        <td></td>
+                        <td>
+                            
+                           <!-- <div id="marcas">
+
+                            </div>-->
+                            <!--
+                            <select name="marcas" id="marcas" class='ajax-search form-control display-block tax main-tax' data-live-search="true" data-width="100%"  >
+                            <option value=''>Seleccione una opcion</option>
+                            </select>-->
+
+                            
+                            <select name="marcas" id="marcas" class='ajax-search selectpicker display-block tax main-tax' data-live-search="true" data-width="100%"  >
+                            <option value=''>Seleccione una opcion</option>
+                            <?php foreach ($marcas as $key => $value) { ?>
+                                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                                <?php } ?>
+                            </select>
+                        </td>
                         <td>
                             <?php
                         $new_item = 'undefined';
@@ -869,3 +886,4 @@
         </ul>
     </div>
 </div>
+

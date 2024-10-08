@@ -80,20 +80,20 @@ class AccionesTerceroController extends AdminController
         $CI = &get_instance();
         $CI->load->model("AccionesContraTerceros_model");
         $data = [
-            // 'tipo_solicitud' => $CI->AccionesContraTerceros_model->getTipoSolicitudes(),
-            // 'clientes'       => $CI->AccionesContraTerceros_model->getAllClients(),
-            // 'oficinas'       => $CI->AccionesContraTerceros_model->getAllOficinas(),
-            // 'responsable'    => $CI->AccionesContraTerceros_model->getAllStaff(),
-            // 'marcas'         => $CI->AccionesContraTerceros_model->getAllMarcas(),
-            // 'clase_niza'     => $CI->AccionesContraTerceros_model->getAllClases(),
-            // 'paises'         => $CI->AccionesContraTerceros_model->getAllPaises(),
-            // 'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
-            // 'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
-            // 'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
-            // 'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
+            'tipo_solicitud' => $CI->AccionesContraTerceros_model->getTipoSolicitudes(),
+            'clientes'       => $CI->AccionesContraTerceros_model->getAllClients(),
+            'oficinas'       => $CI->AccionesContraTerceros_model->getAllOficinas(),
+            'responsable'    => $CI->AccionesContraTerceros_model->getAllStaff(),
+            'marcas'         => $CI->AccionesContraTerceros_model->getAllMarcas(),
+            'clase_niza'     => $CI->AccionesContraTerceros_model->getAllClases(),
+            'paises'         => $CI->AccionesContraTerceros_model->getAllPaises(),
+            'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
+            'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
+            'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
+            'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
             'expediente' => $CI->AccionesContraTerceros_model->getAllExpediente(),
         ];
-        echo json_encode($data['expediente']);
+        echo json_encode($data);
     }
 
     public function filterSearch(){
@@ -117,7 +117,7 @@ class AccionesTerceroController extends AdminController
                 foreach ($query as $row) {
                     $href = admin_url('pi/AccionesTerceroController/edit/').$row['id'];
                     $table[] = [
-                        'codigo'            => $row['id'],
+                        'codigo'            => '<a  href="'.$href.'">'.$row['id'].'</a>',
                         'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['tipo_solicitud_id']],
                         'demandante'        => $CI->AccionesContraTerceros_model->findCliente($row['client_id'])[0]['company'],
                         'demandado'         => $row['propietario'],
@@ -142,7 +142,7 @@ class AccionesTerceroController extends AdminController
                 foreach ($query as $row) {
                     $href = admin_url('pi/AccionesTerceroController/edit/').$row['marca_opuesta_id'];
                     $result[] = [
-                        'codigo'            => $row['marca_opuesta_id'],
+                        'codigo'            => '<a  href="'.$href.'">'.$row['marca_opuesta_id'].'</a>',
                         'tipo'              => $CI->AccionesContraTerceros_model->getTipoSolicitudes()[$row['marca_opuesta_tipo_solicitud_id']],
                         'demandante'        => $CI->AccionesContraTerceros_model->findCliente($row['marca_opuesta_client_id'])[0]['company'],
                         'demandado'         => $row['marca_opuesta_propietario'],
@@ -251,6 +251,9 @@ class AccionesTerceroController extends AdminController
 
         $form = array();
         $data = $CI->input->post();
+        $fecha_solicitud_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
+        $fecha_registro_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
+        $fecha_boletin = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
         $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
         $form['client_id']         = $data['client_id'];
         $form['oficina_id']        = $data['staff_id'];
@@ -260,13 +263,13 @@ class AccionesTerceroController extends AdminController
         $form['clase_niza']        = $data['clase_niza'];
         $form['pais_id']           = $data['pais_id_opuesta'];
         $form['solicitud_nro']     = $data['nro_solicitud_opuesta'];
-        $form['fecha_solicitud']   = $data['fecha_solicitud_opuesta'];
+        $form['fecha_solicitud']   = $fecha_solicitud_opuesta;
         $form['registro_nro']      = $data['nro_registro_opuesta'];
-        $form['fecha_registro']    = $data['fecha_registro_opuesta'];
+        $form['fecha_registro']    = $fecha_registro_opuesta;
         $form['propietario']       = $data['propietario_opuesta'];
         $form['agente']            = $data['agente'];
         $form['boletin_id']        = $data['boletin'];
-        $form['fecha_boletin']     = $data['fecha_boletin'];
+        $form['fecha_boletin']     = $fecha_boletin;
         $form['estado_id']         = $data['estado_id'];
         $form['comentarios']       = $data['comentarios'];
         //$form['fecha_solicitud'] = $data['fecha_solicitud'];
@@ -311,10 +314,43 @@ class AccionesTerceroController extends AdminController
             'tipo_evento' => $CI->AccionesContraTerceros_model->getAllTipoEvento(),
             'tipo_tarea' => $CI->AccionesContraTerceros_model->getAllTiposTareas(),
             'values' => $values[0],
+            'fecha_solictud' =>  date('d/m/Y', strtotime($values[0]['fecha_solicitud'])),
+            'fecha_registro' =>  date('d/m/Y', strtotime($values[0]['fecha_registro'])),
+            'fecha_boletin' =>  date('d/m/Y', strtotime($values[0]['fecha_boletin'])),
+            'registro_nro' => $values[0]['registro_nro'],
             'cod_contador' => 'M-' . ($id),
             'cod_id' => $id
         ];
         return $CI->load->view('acciones_terceros/edit', $data);
+    }
+
+    public function Mostrar(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("AccionesContraTerceros_model");
+        $values = $CI->AccionesContraTerceros_model->find($id);
+        $data = [
+            // // 'tipo_solicitud' => $CI->AccionesContraTerceros_model->getTipoSolicitudes(),
+            // // 'clientes'       => $CI->AccionesContraTerceros_model->getAllClients(),
+            // // 'oficinas'       => $CI->AccionesContraTerceros_model->getAllOficinas(),
+            // // 'responsable'    => $CI->AccionesContraTerceros_model->getAllStaff(),
+            // // 'marcas'         => $CI->AccionesContraTerceros_model->getAllMarcas(),
+            // // 'clase_niza'     => $CI->AccionesContraTerceros_model->getAllClases(),
+            // // 'paises'         => $CI->AccionesContraTerceros_model->getAllPaises(),
+            // // 'propietarios'   => $CI->AccionesContraTerceros_model->getAllPropietarios(),
+            // // 'boletines'      => $CI->AccionesContraTerceros_model->getAllBoletines(),
+            // // 'estados_solicitudes' => $CI->AccionesContraTerceros_model->getAllEstadoExpediente(),
+            // // 'tipo_publicaciones' => $CI->AccionesContraTerceros_model->getAllTiposPublicaciones(),
+            // // 'tipo_evento' => $CI->AccionesContraTerceros_model->getAllTipoEvento(),
+            // // 'tipo_tarea' => $CI->AccionesContraTerceros_model->getAllTiposTareas(),
+            // // 'values' => $values[0],
+            // // 'fecha_solictud' =>  date('d/m/Y', strtotime($values[0]['fecha_solicitud'])),
+            // // 'fecha_registro' =>  date('d/m/Y', strtotime($values[0]['fecha_registro'])),
+            // // 'fecha_boletin' =>  date('d/m/Y', strtotime($values[0]['fecha_boletin'])),
+            'registro_nro' => $values[0]['registro_nro'],
+            'cod_contador' => 'M-' . ($id),
+            'cod_id' => $id
+        ];
+        echo json_encode($values);
     }
 
     /**
@@ -329,6 +365,9 @@ class AccionesTerceroController extends AdminController
         $CI->load->helper('url');
         $form = array();
         $data = $CI->input->post();
+        $fecha_solicitud_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
+        $fecha_registro_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
+        $fecha_boletin = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
         $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
         $form['client_id']         = $data['client_id'];
         $form['oficina_id']        = $data['staff_id'];
@@ -338,13 +377,13 @@ class AccionesTerceroController extends AdminController
         $form['clase_niza']        = $data['clase_niza'];
         $form['pais_id']           = $data['pais_id_opuesta'];
         $form['solicitud_nro']     = $data['nro_solicitud_opuesta'];
-        $form['fecha_solicitud']   = $data['fecha_solicitud_opuesta'];
+        $form['fecha_solicitud']   = $fecha_solicitud_opuesta;
         $form['registro_nro']      = $data['nro_registro_opuesta'];
-        $form['fecha_registro']    = $data['fecha_registro_opuesta'];
+        $form['fecha_registro']    = $fecha_registro_opuesta;
         $form['propietario']       = $data['propietario_opuesta'];
         $form['agente']            = $data['agente'];
         $form['boletin_id']        = $data['boletin'];
-        $form['fecha_boletin']     = $data['fecha_boletin'];
+        $form['fecha_boletin']     = $fecha_boletin;
         $form['estado_id']         = $data['estado_id'];
         $form['comentarios']       = $data['comentarios'];
         try {

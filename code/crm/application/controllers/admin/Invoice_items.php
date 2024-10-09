@@ -46,6 +46,7 @@ class Invoice_items extends AdminController
         if (has_permission('items', '', 'view')) {
             if ($this->input->post()) {
                 $data = $this->input->post();
+                //echo json_encode($data);
                 if ($data['itemid'] == '') {
                     if (!has_permission('items', '', 'create')) {
                         header('HTTP/1.0 400 Bad error');

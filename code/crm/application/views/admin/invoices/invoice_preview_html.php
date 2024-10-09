@@ -101,7 +101,12 @@ if (isset($invoice->scheduled_email) && $invoice->scheduled_email) { ?>
                 </a>
             </h4>
             <address>
-                <?php echo format_organization_info(); ?>
+                <?php if (!empty($informacion_marca)) { 
+                    echo $informacion_marca;
+                } else {
+                    echo format_organization_info();
+                }
+                 ?>
             </address>
             <?php hooks()->do_action('after_left_panel_invoice_preview_template', $invoice); ?>
         </div>

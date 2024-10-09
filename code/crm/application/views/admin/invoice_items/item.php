@@ -19,6 +19,7 @@
                         </div>
                         <?php echo render_input('description', 'invoice_item_add_edit_description'); ?>
                         <?php echo render_textarea('long_description', 'invoice_item_long_description'); ?>
+                        <?php echo render_textarea('english_description','invoice_item_english_description'); ?>
                         <div class="form-group">
                         <label for="rate" class="control-label">
                             <?php echo _l('invoice_item_add_edit_rate_currency', $base_currency->name . ' <small>(' . _l('base_currency_string') . ')</small>'); ?></label>
@@ -98,6 +99,7 @@ function manage_invoice_items(form) {
     var url = form.action;
     $.post(url, data).done(function (response) {
         response = JSON.parse(response);
+        console.log("response ",response);
         if (response.success == true) {
             var item_select = $('#item_select');
             if ($("body").find('.accounting-template').length > 0) {
@@ -141,6 +143,8 @@ function manage_invoice_items(form) {
     });
     return false;
 }
+
+
 function init_item_js() {
      // Add item to preview from the dropdown for invoices estimates
     $("body").on('change', 'select[name="item_select"]', function () {
@@ -159,12 +163,13 @@ function init_item_js() {
         $('input[name="itemid"]').val('');
         $itemModal.find('input').not('input[type="hidden"]').val('');
         $itemModal.find('textarea').val('');
+        $itemModal.find('textarea[name="english_description"]').val('');
         $itemModal.find('select').selectpicker('val', '').selectpicker('refresh');
         $('select[name="tax2"]').selectpicker('val', '').change();
         $('select[name="tax"]').selectpicker('val', '').change();
         $itemModal.find('.add-title').removeClass('hide');
         $itemModal.find('.edit-title').addClass('hide');
-
+        console.log(" itemModal ",$itemModal);
         var id = $(event.relatedTarget).data('id');
         // If id found get the text from the datatable
         if (typeof (id) !== 'undefined') {
@@ -173,8 +178,10 @@ function init_item_js() {
             $('input[name="itemid"]').val(id);
 
             requestGetJSON('invoice_items/get_item_by_id/' + id).done(function (response) {
+                console.log("resonse ", response);
                 $itemModal.find('input[name="description"]').val(response.description);
                 $itemModal.find('textarea[name="long_description"]').val(response.long_description.replace(/(<|<)br\s*\/*(>|>)/g, " "));
+                $itemModal.find('textarea[name="english_description"]').val(response.english_description.replace(/(<|<)br\s*\/*(>|>)/g, " "));
                 $itemModal.find('input[name="rate"]').val(response.rate);
                 $itemModal.find('input[name="unit"]').val(response.unit);
                 $('select[name="tax"]').selectpicker('val', response.taxid).change();

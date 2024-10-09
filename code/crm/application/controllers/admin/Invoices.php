@@ -322,6 +322,45 @@ class Invoices extends AdminController
         
         }
     }
+
+
+
+    public function MostrarMarca($result){
+        if ($result) {
+            $format = get_option('company_info_format');
+            $vat    = '';
+    
+            $format = _info_format_replace('company_name', '<b style="color:black" class="company-name-formatted">' . $result[0]['marca'] . '</b>', $format);
+            $format = _info_format_replace('address', $result[0]['direccion'], $format);
+            $format = _info_format_replace('city', $result[0]['ciudad'], $format);
+            $format = _info_format_replace('state', $result[0]['estado'], $format);
+    
+            $format = _info_format_replace('zip_code', $result[0]['codigo_postal'], $format);
+            //preg_match('/\(([^)]+)\)/', $result[0]['telefono'], $country_code);
+            $format = _info_format_replace('country_code', $result[0]['pais'], $format);
+            $format = _info_format_replace('phone', $result[0]['telefono'], $format);
+            $format = _info_format_replace('vat_number', $vat, $format);
+            $format = _info_format_replace('vat_number_with_label', $vat == '' ? '':_l('company_vat_number') . ': ' . $vat, $format);
+    
+            $custom_company_fields = get_company_custom_fields();
+    
+            foreach ($custom_company_fields as $field) {
+                $format = _info_format_custom_field($field['id'], $field['label'], $field['value'], $format);
+            }
+    
+            $format = _info_format_custom_fields_check($custom_company_fields, $format);
+            $format = _maybe_remove_first_and_last_br_tag($format);
+    
+            // Remove multiple white spaces
+            $format = preg_replace('/\s+/', ' ', $format);
+            $format = trim($format);
+    
+            return hooks()->apply_filters('organization_info_text', $format);
+         
+        } else {
+            return '';
+        }
+    }
     
     
 
@@ -329,7 +368,8 @@ class Invoices extends AdminController
     public function invoice($id = '')
     {   
         if ($this->input->post()) {
-            $invoice_data = $this->input->post();
+            $invoice_data = $this->input->post();     
+            $articulo_id = $invoice_data['newitems'][1]['order'];
             $marca_id = $invoice_data['marcaid'];
             $edit_marca = $invoice_data['edit_marca'];
             unset($invoice_data['marcaid']);
@@ -361,6 +401,7 @@ class Invoices extends AdminController
                             'marcas_id' => $marcas,
                             'facturas_id' => $id,
                             'staff_id' => $_SESSION['staff_user_id'],
+                            'articulo_id' => $articulo_id
                         );
                         
                         $this->load->model('MarcasFacturas_model');
@@ -557,7 +598,8 @@ class Invoices extends AdminController
             $data['send_later'] = true;
             $this->session->unset_userdata('send_later');
         }
-
+        $this->load->model('facturaview_model');
+        $data['informacion_marca'] = $this->MostrarMarca($this->facturaview_model->find($id));
         $this->load->view('admin/invoices/invoice_preview_template', $data);
     }
 

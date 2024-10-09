@@ -1073,6 +1073,7 @@ $lang['acs_contract_types'] = 'Tipos de contratos';
 # Version 1.0.4
 # Invoice items
 $lang['invoice_item_long_description'] = 'Descripción larga';
+$lang['invoice_item_english_description'] = 'Descripción en ingles';
 # Customers
 $lang['clients_list_phone']                = 'Teléfono';
 $lang['client_expenses_tab']               = 'Gastos';

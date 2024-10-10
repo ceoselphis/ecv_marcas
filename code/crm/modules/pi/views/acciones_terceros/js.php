@@ -118,6 +118,18 @@
 </script>
 
 <script>
+
+
+    function CambiarFormatoFecha(fecha){
+        if (fecha != null && fecha != undefined && fecha != ""){
+            let partes = fecha.split("-");
+            let nuevaFecha = partes[2] + "/" + partes[1] + "/" + partes[0];
+            return nuevaFecha;
+        }else {
+            return fecha
+        }
+
+    }
     $("#marcas_id").on('change', function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -135,11 +147,40 @@
                 $("#clase_niza").val(res.data.clase);
                 $("#nro_solicitud").val(res.data[0].solicitud);
                 $("#nro_registro").val(res.data[0].registro);
-                $("#fecha_solicitud").val(res.data[0].fecha_solicitud);
-                $("#fecha_vencimiento").val(res.data[0].fecha_vencimiento);
-                $("#fecha_registro").val(res.data[0].fecha_registro);
+                $("#fecha_solicitud").val(CambiarFormatoFecha(res.data[0].fecha_solicitud));
+                $("#fecha_vencimiento").val(CambiarFormatoFecha(res.data[0].fecha_vencimiento));
+                $("#fecha_registro").val(CambiarFormatoFecha(res.data[0].fecha_registro));
                 $("#propietario_id").val(res.data[0].client_id);
             }
         });
     });
+
+    function Marcas(){
+       // e.preventDefault();
+       // e.stopImmediatePropagation();
+       let marca = $("#marcas_id").val();
+        console.log(marca);
+        $.ajax({
+            url: "<?php echo admin_url('pi/AccionesTerceroController/findDenominacion'); ?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'marcas_id' : $("#marcas_id").val(),
+            },
+            success: function(response)
+            {
+                res = JSON.parse(response);
+                console.log(res);
+                $("#clase_niza").val(res.data.clase);
+                $("#nro_solicitud").val(res.data[0].solicitud);
+                $("#nro_registro").val(res.data[0].registro);
+                $("#fecha_solicitud").val(CambiarFormatoFecha(res.data[0].fecha_solicitud));
+                $("#fecha_vencimiento").val(CambiarFormatoFecha(res.data[0].fecha_vencimiento));
+                $("#fecha_registro").val(CambiarFormatoFecha(res.data[0].fecha_registro));
+                $("#propietario_id").val(res.data[0].client_id);
+            }
+        });
+    }
+
+    Marcas();
 </script>

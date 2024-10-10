@@ -562,79 +562,79 @@
 
     // -------------------------- Accion Para abrir Modal para Editar ---------------
     //Accion para Abrir Modal para Editar Evento
-    $(document).on('click', '#EditbtnEvento', function (e) {
-        console.log(" LLegar a Modal Editar Eventos ");
-        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/findEvento/"); ?>';
-        let element = $(this)[0].parentElement.parentElement;
-        let eventoid = $(element).attr('Eventoid');
-        console.log('Evento id', eventoid);
-        url = url + eventoid;
-        console.log(url);
-        $.get(url, function (response) {
-            let lista = JSON.parse(response);
-            console.log(lista);
-            $('#evento_comentarioEdit').val(lista[0].comentarios);
-            $('#id_modal_eventoEdit').val(eventoid);
-        });
-        $("#eventoModalEdit").modal('show');
-    });
+    // $(document).on('click', '#EditbtnEvento', function (e) {
+    //     console.log(" LLegar a Modal Editar Eventos ");
+    //     let url = '<?php //echo admin_url("pi/AccionesTercerosEventosController/findEvento/"); ?>';
+    //     let element = $(this)[0].parentElement.parentElement;
+    //     let eventoid = $(element).attr('Eventoid');
+    //     console.log('Evento id', eventoid);
+    //     url = url + eventoid;
+    //     console.log(url);
+    //     $.get(url, function (response) {
+    //         let lista = JSON.parse(response);
+    //         console.log(lista);
+    //         $('#evento_comentarioEdit').val(lista[0].comentarios);
+    //         $('#id_modal_eventoEdit').val(eventoid);
+    //     });
+    //     $("#eventoModalEdit").modal('show');
+    // });
 
-    //Accion para Abrir Modal para Editar Publicaciones
-    $(document).on('click', '#EditbtnPublicaciones', function (e) {
-        console.log(" LLegar a Modal Editar Publicaciones ");
-        let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/findPublicacion/"); ?>';
-        let element = $(this)[0].parentElement.parentElement;
-        let publicacionid = $(element).attr('Publicacionesid');
-        console.log('Evento id', publicacionid);
-        url = url + publicacionid;
-        console.log(url);
-        $.get(url, function (response) {
-            let lista = JSON.parse(response);
-            console.log(lista);
-            $('#tomo_publicacionEdit').val(lista[0].tomo);
-            $('#pag_publicacionEdit').val(lista[0].pagina);
-            $('#id_modal_publicacionEdit').val(publicacionid);
-        });
-        $("#publicacionModalEdit").modal('show');
-    });
+    // //Accion para Abrir Modal para Editar Publicaciones
+    // $(document).on('click', '#EditbtnPublicaciones', function (e) {
+    //     console.log(" LLegar a Modal Editar Publicaciones ");
+    //     let url = '<?php echo admin_url("pi/AccionesTercerosPublicacionesController/findPublicacion/"); ?>';
+    //     let element = $(this)[0].parentElement.parentElement;
+    //     let publicacionid = $(element).attr('Publicacionesid');
+    //     console.log('Evento id', publicacionid);
+    //     url = url + publicacionid;
+    //     console.log(url);
+    //     $.get(url, function (response) {
+    //         let lista = JSON.parse(response);
+    //         console.log(lista);
+    //         $('#tomo_publicacionEdit').val(lista[0].tomo);
+    //         $('#pag_publicacionEdit').val(lista[0].pagina);
+    //         $('#id_modal_publicacionEdit').val(publicacionid);
+    //     });
+    //     $("#publicacionModalEdit").modal('show');
+    // });
 
-    //Accion para Abrir Modal para Editar Tareas
-    $(document).on('click', '#EditbtnTareas', function (e) {
-        console.log(" LLegar a Modal Editar Tareas ");
-        let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/findTareas/"); ?>';
-        let element = $(this)[0].parentElement.parentElement;
-        let tareasid = $(element).attr('Tareasid');
-        console.log('Tareas id', tareasid);
-        url = url + tareasid;
-        console.log(url);
-        $.get(url, function (response) {
-            let lista = JSON.parse(response);
-            console.log('lista tareas ', lista);
-            $('#tarea_fechaEdit').val(lista[0].fecha);
-            $('#tarea_descripcionEdit').val(lista[0].descripcion);
-            $('#id_modal_tareaEdit').val(tareasid);
-        });
-        $("#tareaModalEdit").modal('show');
-    });
+    // //Accion para Abrir Modal para Editar Tareas
+    // $(document).on('click', '#EditbtnTareas', function (e) {
+    //     console.log(" LLegar a Modal Editar Tareas ");
+    //     let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/findTareas/"); ?>';
+    //     let element = $(this)[0].parentElement.parentElement;
+    //     let tareasid = $(element).attr('Tareasid');
+    //     console.log('Tareas id', tareasid);
+    //     url = url + tareasid;
+    //     console.log(url);
+    //     $.get(url, function (response) {
+    //         let lista = JSON.parse(response);
+    //         console.log('lista tareas ', lista);
+    //         $('#tarea_fechaEdit').val(lista[0].fecha);
+    //         $('#tarea_descripcionEdit').val(lista[0].descripcion);
+    //         $('#id_modal_tareaEdit').val(tareasid);
+    //     });
+    //     $("#tareaModalEdit").modal('show');
+    // });
 
-    //Accion para Abrir Modal para Editar Documento
-    $(document).on('click', '#EditbtnDocumento', function (e) {
-        console.log(" LLegar a Modal Editar Documento ");
-        let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/findDocumentos/"); ?>';
-        let element = $(this)[0].parentElement.parentElement;
-        let docid = $(element).attr('Documentoid');
-        console.log('Tareas id', docid);
-        url = url + docid;
-        console.log(url);
-        $.get(url, function (response) {
-            let lista = JSON.parse(response);
-            console.log('lista tareas ', lista);
-            $('#doc_descripcionEdit').val(lista[0].descripcion);
-            $('#comentario_archivoEdit').val(lista[0].comentarios);
-            $('#id_modal_documentoEdit').val(docid);
-        });
-        $("#documentoModalEdit").modal('show');
-    });
+    // //Accion para Abrir Modal para Editar Documento
+    // $(document).on('click', '#EditbtnDocumento', function (e) {
+    //     console.log(" LLegar a Modal Editar Documento ");
+    //     let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/findDocumentos/"); ?>';
+    //     let element = $(this)[0].parentElement.parentElement;
+    //     let docid = $(element).attr('Documentoid');
+    //     console.log('Tareas id', docid);
+    //     url = url + docid;
+    //     console.log(url);
+    //     $.get(url, function (response) {
+    //         let lista = JSON.parse(response);
+    //         console.log('lista tareas ', lista);
+    //         $('#doc_descripcionEdit').val(lista[0].descripcion);
+    //         $('#comentario_archivoEdit').val(lista[0].comentarios);
+    //         $('#id_modal_documentoEdit').val(docid);
+    //     });
+    //     $("#documentoModalEdit").modal('show');
+    // });
 
     //-------------------------------------------------------------------------------
     // ----------------------- Accion para Editar Datos -------------------------
@@ -842,63 +842,63 @@
     //     }
     // });
 
-    //Eliminar Tarea
-    $(document).on('click', '#Tareas-delete', function (e) {
-        e.preventDefault();
-        if (confirm("Quieres eliminar este registro?")) {
+    // //Eliminar Tarea
+    // $(document).on('click', '#Tareas-delete', function (e) {
+    //     e.preventDefault();
+    //     if (confirm("Quieres eliminar este registro?")) {
 
-            var formData = new FormData();
+    //         var formData = new FormData();
 
-            let element = $(this)[0].parentElement.parentElement;
-            let tareaid = $(element).attr('Tareasid');
-            console.log(tareaid)
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/destroy/"); ?>';
-            url = url + tareaid;
-            console.log("url ", url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function (response) {
-                Tareas(id);
-                alert_float('success', "Tarea Eliminado Correctamente");
-            }).catch(function (response) {
-                alert("No se pudo Eliminar la Tarea");
-            });
-        }
-    });
+    //         let element = $(this)[0].parentElement.parentElement;
+    //         let tareaid = $(element).attr('Tareasid');
+    //         console.log(tareaid)
+    //         var csrf_token_name = $("input[name=csrf_token_name]").val();
+    //         formData.append('csrf_token_name', csrf_token_name);
+    //         let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/destroy/"); ?>';
+    //         url = url + tareaid;
+    //         console.log("url ", url);
+    //         $.ajax({
+    //             url,
+    //             method: 'POST',
+    //             data: formData,
+    //             processData: false,
+    //             contentType: false
+    //         }).then(function (response) {
+    //             Tareas(id);
+    //             alert_float('success', "Tarea Eliminado Correctamente");
+    //         }).catch(function (response) {
+    //             alert("No se pudo Eliminar la Tarea");
+    //         });
+    //     }
+    // });
 
-    //Eliminar Documento
-    $(document).on('click', '#Documento-delete', function (e) {
-        e.preventDefault();
-        if (confirm("Quieres eliminar este registro?")) {
-            var formData = new FormData();
-            let element = $(this)[0].parentElement.parentElement;
-            let documentoid = $(element).attr('Documentoid');
-            console.log(documentoid)
-            var csrf_token_name = $("input[name=csrf_token_name]").val();
-            formData.append('csrf_token_name', csrf_token_name);
-            let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/destroy/"); ?>';
-            url = url + documentoid;
-            console.log("url ", url);
-            $.ajax({
-                url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            }).then(function (response) {
-                Documentos(id);
-                alert_float('success', "Documento Eliminado Correctamente");
-            }).catch(function (response) {
-                alert("No se pudo Eliminar el Documento");
-            });
-        }
-    });
+    // //Eliminar Documento
+    // $(document).on('click', '#Documento-delete', function (e) {
+    //     e.preventDefault();
+    //     if (confirm("Quieres eliminar este registro?")) {
+    //         var formData = new FormData();
+    //         let element = $(this)[0].parentElement.parentElement;
+    //         let documentoid = $(element).attr('Documentoid');
+    //         console.log(documentoid)
+    //         var csrf_token_name = $("input[name=csrf_token_name]").val();
+    //         formData.append('csrf_token_name', csrf_token_name);
+    //         let url = '<?php echo admin_url("pi/AccionesTerceroDocumentosController/destroy/"); ?>';
+    //         url = url + documentoid;
+    //         console.log("url ", url);
+    //         $.ajax({
+    //             url,
+    //             method: 'POST',
+    //             data: formData,
+    //             processData: false,
+    //             contentType: false
+    //         }).then(function (response) {
+    //             Documentos(id);
+    //             alert_float('success', "Documento Eliminado Correctamente");
+    //         }).catch(function (response) {
+    //             alert("No se pudo Eliminar el Documento");
+    //         });
+    //     }
+    // });
 
     /*
     

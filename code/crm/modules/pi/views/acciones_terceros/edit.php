@@ -51,6 +51,7 @@ $select = ['' => '']; ?>
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
                                         <div class="col-md-6">
+                                            
                                             <h4>
                                                 <?php echo form_label("N° Expediente Solicitud: {$cod_contador}"); ?>
                                             </h4>
@@ -88,6 +89,7 @@ $select = ['' => '']; ?>
                                 <div class="tab-pane" role="tabpanel" id="step2">
                                     <div class="row">
                                         <div class="col-md-6">
+                                       
                                             <h4>
                                                 <?php echo form_label("N° Expediente Solicitud: {$cod_contador}"); ?>
                                             </h4>
@@ -123,7 +125,7 @@ $select = ['' => '']; ?>
                                                 'name'      => 'pais_id',
                                                 'class'     => 'form-control',
                                                 'options'   =>  $paises,
-                                                'selected'  =>  set_value('pais_id', $values['pais_id']),
+                                                'selected'  =>  set_value('pais_id', $values['marca_pais_id']),
                                             ]); ?>
                                         </div>
     
@@ -133,7 +135,7 @@ $select = ['' => '']; ?>
                                                 'id'            => 'nro_solicitud',
                                                 'name'          => 'nro_solicitud',
                                                 'class'         => 'form-control',
-                                                'value'      => set_value('nro_solicitud', $values['solicitud_nro'], TRUE),
+                                                
                                             ]); ?>
                                         </div>
     
@@ -143,7 +145,7 @@ $select = ['' => '']; ?>
                                                 'id'            => 'fecha_solicitud',
                                                 'name'          => 'fecha_solicitud',
                                                 'class'         => 'form-control calendar',
-                                                'value'         => set_value('fecha_solicitud', $values['fecha_solicitud'], TRUE),
+                                              
                                             ]); ?>
                                         </div>
     
@@ -153,7 +155,7 @@ $select = ['' => '']; ?>
                                                 'id'          => 'nro_registro',
                                                 'name'        => 'nro_registro',
                                                 'class'       => 'form-control',
-                                                'value'       => set_value('nro_registro', $values['registro_nro'], TRUE),
+                                               
                                             ]); ?>
                                         </div>
     
@@ -163,7 +165,7 @@ $select = ['' => '']; ?>
                                                 'id'       => 'fecha_registro',
                                                 'name'     => 'fecha_registro',
                                                 'class'    => 'form-control calendar',
-                                                'value'    => set_value('fecha_registro', $values['fecha_registro'], TRUE),
+                                             
                                             ]); ?>
                                         </div>
     
@@ -174,7 +176,7 @@ $select = ['' => '']; ?>
                                                 'name'      => 'propietario_id',
                                                 'class'     => 'form-control',
                                                 'options'   => $propietarios,
-                                                'selected'  => set_value('propietario_id'),
+                                                'selected'  => set_value('propietario_id', $values['marca_propietario']),
                                             ]); ?>
                                         </div>
     
@@ -184,7 +186,7 @@ $select = ['' => '']; ?>
                                                 'id'       => 'ciudad_propietario',
                                                 'name'     => 'ciudad_propietario',
                                                 'class'    => 'form-control',
-                                                'value'    => set_value('ciudad_propietario', '', TRUE),
+                                                'value'    => set_value('ciudad_propietario',$values['marca_ciudad']),
                                             ]); ?>
                                         </div>
     
@@ -194,7 +196,8 @@ $select = ['' => '']; ?>
                                                 'id' => 'pais_propietario',
                                                 'name' => 'pais_propietario',
                                                 'class' => 'form-control',
-                                                'options' => $paises
+                                                'options' => $paises,
+                                                'selected'  => set_value('pais_propietario', $values['marca_pais_propietario_id']),
                                             ]); ?>
                                         </div>
     
@@ -266,7 +269,7 @@ $select = ['' => '']; ?>
                                                 'id'       => 'nro_solicitud_opuesta',
                                                 'name'     => 'nro_solicitud_opuesta',
                                                 'class'    => 'form-control',
-                                                'value'    => set_value('nro_solicitud_opuesta', '', TRUE),
+                                                'value'      => set_value('nro_solicitud', $values['solicitud_nro'], TRUE),
                                             ]); ?>
                                         </div>
     
@@ -286,7 +289,7 @@ $select = ['' => '']; ?>
                                                 'id'       => 'nro_registro',
                                                 'name'     => 'nro_registro_opuesta',
                                                 'class'    => 'form-control',
-                                                'value'    => set_value('nro_registro', '', TRUE),
+                                                'value'    => set_value('nro_registro',  $values['registro_nro']),
                                             ]); ?>
                                         </div>
     
@@ -306,7 +309,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'propietario_opuesta',
                                                 'name' => 'propietario_opuesta',
                                                 'class' => 'form-control',
-                                                'value' => set_value('propietario_opuesta', '')
+                                                'value' => set_value('propietario_opuesta', $values['propietario'])
                                             ]); ?>
                                         </div>
     
@@ -316,7 +319,7 @@ $select = ['' => '']; ?>
                                                 'id'       => 'ciudad_propietario_opuesta',
                                                 'name'     => 'ciudad_propietario_opuesta',
                                                 'class'    => 'form-control',
-                                                'value'    => set_value('ciudad_propietario_opuesta', '', TRUE),
+                                                'value'    => set_value('ciudad_propietario_opuesta', $values['ciudad_propietario']),
                                             ]); ?>
                                         </div>
     
@@ -327,7 +330,7 @@ $select = ['' => '']; ?>
                                                 'name' => 'pais_propietario_opuesta',
                                                 'class' => 'form-control',
                                                 'options' => $paises,
-                                                
+                                                'selected' => set_value('pais_propietario_opuesta', $values['pais_propietario_id'])
                                             ]); ?>
                                         </div>
     
@@ -347,7 +350,8 @@ $select = ['' => '']; ?>
                                                 'id' => 'boletin',
                                                 'name' => 'boletin',
                                                 'class' => 'form-control',
-                                                'options' => $boletines
+                                                'options' => $boletines,
+                                                'selected' => set_value('boletin', $values['boletin_id'])
                                             ]); ?>
                                         </div>
     
@@ -382,7 +386,7 @@ $select = ['' => '']; ?>
 
                                         <div class="col-md-12">
                                             <?php echo form_label('Estado de Solicitud', 'estado_id'); ?>
-                                            <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', ''), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control']); ?>
                                         </div>
                                         <div class="col-md-12">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
@@ -390,7 +394,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'comentarios',
                                                 'name' => 'comentarios',
                                                 'class' => 'form-control',
-                                                'value' => set_value('comentarios', '')
+                                                'value' => set_value('comentarios', $values['comentarios'])
                                             ]); ?>
                                         </div>
                                         <div class="col-md-12" style="padding: 1.5% 1.5% 1.5% 1.5%;">
@@ -556,6 +560,7 @@ $select = ['' => '']; ?>
 <?php init_tail(); ?>
 <?php $CI->load->view('acciones_terceros/js/anexos.php');?>
 <?php $CI->load->view('acciones_terceros/js.php');?>
+
 </body>
 
 </html>

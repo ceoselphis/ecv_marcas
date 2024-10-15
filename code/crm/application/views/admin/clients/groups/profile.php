@@ -96,7 +96,7 @@
               Cliente Padre 
             </label>
             <select class='form-control selectpicker _select_input_group' name="parent_client" id="parent_client" data-live-search="true">
-            <option value='null'>Seleccione una opcion</option>
+            <option value='<?php echo null ?>' >Seleccione una opcion</option>
               <?php foreach ($clients as $key => $value){?>
                 <?php if ($key == $client->parent_client) { ?>
                   <option value="<?php echo $key;?>" selected><?php echo $value;?></option>

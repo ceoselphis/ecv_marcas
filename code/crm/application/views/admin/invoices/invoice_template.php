@@ -639,10 +639,7 @@
 
                             <select name="marcas" id="marcas" class='ajax-search selectpicker display-block tax main-tax' data-live-search="true" data-width="100%"  >
                             <option value=''>Seleccione una opcion</option>
-                            <?php foreach ($marcas as $key => $value) { ?>
-                                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                                <?php } ?>
-                            </select>
+                         
                         </td>
                         <td>
                             <?php

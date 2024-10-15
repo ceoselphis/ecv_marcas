@@ -221,7 +221,7 @@ class Invoice_items extends AdminController
             }
 
             echo json_encode($item);
-        }
+       }
     }
 
     /* Copy Item */

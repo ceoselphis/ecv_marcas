@@ -136,6 +136,16 @@ class Invoices_model extends App_Model
         return $this->db->get()->result_array();
     }
 
+
+
+    public function get_items($name){
+        $CI = &get_instance();
+        $this->db->select('*');
+        $this->db->from('tblitems');
+        $this->db->where('description',$name);
+        return $CI->db->get()->result_array();
+    }
+
     public function get_invoice_item($id)
     {
         $this->db->where('id', $id);

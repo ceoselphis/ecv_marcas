@@ -6970,11 +6970,12 @@ function edit_estimate_scheduled_email(schedule_id) {
 
 // Add item to preview
 function add_item_to_preview(id) {
+  console.log('id ',id);
   requestGetJSON("invoice_items/get_item_by_id/" + id).done(function (
     response
   ) {
     clear_item_preview_values();
-
+    console.log(" Tareas ", response);
     $('.main textarea[name="description"]').val(response.description);
     $('.main textarea[name="long_description"]').val(
       response.long_description.replace(/(<|&lt;)br\s*\/*(>|&gt;)/g, " ")
@@ -7073,6 +7074,7 @@ function add_task_to_preview_as_item(id) {
   requestGetJSON("tasks/get_billable_task_data/" + id).done(function (
     response
   ) {
+    console.log(" Response ", response);
     response.taxname = $("select.main-tax").selectpicker("val");
     var previewArea = $(".main");
     previewArea.find('textarea[name="description"]').val(response.name);

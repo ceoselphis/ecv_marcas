@@ -167,13 +167,14 @@ if (isset($invoice->scheduled_email) && $invoice->scheduled_email) { ?>
             <div class="table-responsive">
                 <?php
          $items = get_items_table_data($invoice, 'invoice', 'html', true);
-         echo $items->table();
+            echo $items->table();
          ?>
             </div>
         </div>
         <div class="col-md-5 col-md-offset-7">
             <table class="table text-right">
                 <tbody>
+                    
                     <tr id="subtotal">
                         <td>
                             <span class="bold tw-text-neutral-700"><?php echo _l('invoice_subtotal'); ?></span>

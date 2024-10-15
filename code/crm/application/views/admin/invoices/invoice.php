@@ -38,7 +38,47 @@
         init_ajax_search('items', '#item_select.ajax-search', undefined, admin_url + 'items/search');
     });
 
+    // function Cliente() {
+    //     let cliente = $('#clientid').val();
+    //     if (cliente === "") {
+    //         console.log("La variable está vacía o es falso.");
+    //     } else {
+    //         console.log("Valor del Cliente: ", cliente);
 
+    //         // Construir la URL con el valor del cliente
+    //         let url = '<?php echo admin_url("invoices/search_client/"); ?>' + cliente;
+    //         console.log(url);
+
+    //         // Hacer una solicitud GET al servidor
+    //         $.get(url, function (response) {
+    //             // Parsear la respuesta JSON
+    //             let lista = JSON.parse(response);
+    //             console.log("Lista obtenida del servidor: ", lista);
+
+    //             // Seleccionar el elemento <select> por su id "marcas"
+    //             var selectElement = $("#marcas");
+
+    //             // Eliminar todas las opciones actuales del select
+    //             selectElement.empty();
+    //             console.log('Opciones eliminadas.');
+
+    //             // Añadir la opción por defecto
+    //             selectElement.append('<option value="">Seleccione una opción</option>');
+
+    //             // Recorrer la lista con $.each()
+    //             $.each(lista, function (key, value) {
+    //                 selectElement.append('<option value="' + key + '">' + value + '</option>');
+    //             });
+    //             console.log('Opciones añadidas al select.');
+
+    //             // Si estás utilizando el plugin selectpicker (Bootstrap), refrescar el select
+    //             selectElement.selectpicker('refresh');
+    //             console.log("El selectpicker ha sido refrescado.");
+    //         });
+    //     }
+    // }
+
+    // Cliente();
 
     $('#clientid').on('change', function (e) {
         e.preventDefault(); // Evitar la acción predeterminada
@@ -48,6 +88,25 @@
             console.log("La variable está vacía o es falso.");
         } else {
             console.log("Valor del Cliente: ", valor);
+            var currency_select = $('#currency');
+
+            // Identificar la opción deseada (por ejemplo, por valor)
+            // var opcionDeseada = 'valorDeLaOpcion';
+
+            // // Marcar la opción como seleccionada y actualizar el valor del select
+            // $originalSelect.find('option[value="' + opcionDeseada + '"]').prop('selected', true);
+         //   $originalSelect.val(opcionDeseada);
+            let url_currency = '<?php echo admin_url("invoices/search_client_currency/"); ?>' + valor;
+            $.get(url_currency, function (response) {
+                let moneda = JSON.parse(response);
+                console.log('Moneda obtenida del servidor: ', moneda.default_currency);
+                let num = Number(moneda.default_currency);
+                let currency = num + 1;
+                console.log('Currency ',currency);
+                currency_select.find('option[value="' + currency + '"]').prop('selected', true);
+                currency_select.val(currency);
+                currency_select.selectpicker('refresh');
+            })
 
             // Construir la URL con el valor del cliente
             let url = '<?php echo admin_url("invoices/search_client/"); ?>' + valor;

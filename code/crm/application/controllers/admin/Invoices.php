@@ -307,6 +307,19 @@ class Invoices extends AdminController
         }
     }
 
+    public function search_client_currency($id){
+        $CI = &get_instance();
+        if (!empty($id)) {
+           
+            $this->load->model('clients_model');
+            $cliente = $this->clients_model->find($id);
+            
+            echo json_encode($cliente[0]); // Enviar datos al frontend
+        } else {
+            echo json_encode(['message' => 'no se proporcionó un cliente válido']);
+        }
+    }
+
     public function get_marca($id) {
         $CI = &get_instance();
         if (!empty($id)) {
@@ -364,12 +377,149 @@ class Invoices extends AdminController
     
     
 
+    public function ConvertirItem($result){
+        if (!empty($result)){
+            $this->load->model('invoices_model');
+            $items = $this->invoices_model->get_items($result);
+            return $items[0]['id'];
+        } else {
+            return null;
+        }
+    }
+
+    public function MostrarItem($result){
+        if (!empty($result)){
+            $grupo = $result[0]['group_id'];
+            $respuesta = array();
+            $this->load->model('facturaview_model');
+            switch ($grupo) {
+                case 3:
+                    // Caso para CAMBIOS ANTERIORES AL REGISTRO
+                    $respuesta = [
+                        'descripcion' => $result[0]['description'],
+                        'long_description' => $result[0]['long_description'],
+                    
+                    ];
+                    return $respuesta;
+                    break;
+            
+                case 4:
+                    // Caso para MARCAS / TRADEMARKS
+                    $marcas =  $this->facturaview_model->get_Marcas($result[0]['marcas_id']);
+                    $respuesta = [
+                        'descripcion' => "Marca: ". $marcas[0]['marca'] . " Clase: ". $marcas[0]['nombre_niza']. " Pais:" .$marcas[0]['nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['num_solicitud']." N° Reg: ".$marcas[0]['num_registro'],
+                        'long_description' => $result[0]['long_description'],
+                    
+                    ];
+                    return $respuesta;
+                    break;
+            
+                case 5:
+                    // Caso para CAMBIOS POSTERIORES AL REGISTRO
+                    $respuesta = [
+                        'descripcion' => $result[0]['description'],
+                        'long_description' => $result[0]['long_description'],
+                    
+                    ];
+                    return $respuesta;
+                    break;
+            
+                case 6:
+                    // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
+                    $respuesta = [
+                        'descripcion' => $result[0]['description'],
+                        'long_description' => $result[0]['long_description'],
+                    
+                    ];
+                    return $respuesta;
+                    break;
+            
+                case 7:
+                    // Caso para OTROS / OTHERS
+                    $respuesta = [
+                        'descripcion' => $result[0]['description'],
+                        'long_description' => $result[0]['long_description'],
+                    
+                    ];
+                    return $respuesta;
+                    break;
+            
+                case 8:
+                    // Caso para DERECHOS DE AUTOR
+                    $respuesta = [
+                        'descripcion' => $result[0]['description'],
+                        'long_description' => $result[0]['long_description'],
+                    
+                    ];
+                    return $respuesta;
+                    break;
+            
+                case 9:
+                    // Caso para PATENTES, MODELOS Y DISEÑOS
+                    $respuesta = [
+                        'descripcion' => $result[0]['description'],
+                        'long_description' => $result[0]['long_description'],
+                    
+                    ];
+                    return $respuesta;
+                    break;
+            
+                default:
+                    // En caso de que el valor no esté en la lista
+                    $respuesta = [
+                        'descripcion' => $result[0]['description'],
+                        'long_description' => $result[0]['long_description'],
+                    
+                    ];
+                    return $respuesta;
+                    break;
+            }
+        } else {
+            return null;
+        }
+    }
+    
+    
+    function eliminarAcentos($string) {
+        $normalizeChars = array(
+            'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
+            'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U',
+            'ñ' => 'n', 'Ñ' => 'N'
+        );
+        return strtr($string, $normalizeChars);
+    }
+    
+    function decodeUnicodeString($string) {
+        // Reemplazar la secuencia escapada \/ por /
+        $string = str_replace('\\/', '/', $string); // Quita la barra escapada correctamente
+        // Quitar cualquier barra invertida restante
+        $string = str_replace('\\', '', $string);   // Elimina todas las barras invertidas \
+        // Decodificar las secuencias Unicode
+        $decodedString = json_decode('"' . $string . '"');
+        // Asegurarse de que json_decode no retorne null
+        if ($decodedString === null) {
+            return $string;
+        }
+        // Eliminar acentos
+        return $this->eliminarAcentos($decodedString);
+    }
+
+
+
+
+
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {   
         if ($this->input->post()) {
-            $invoice_data = $this->input->post();     
-            $articulo_id = $invoice_data['newitems'][1]['order'];
+            $invoice_data = $this->input->post(); 
+            $item_description = $this->decodeUnicodeString($invoice_data['newitems'][1]['description']);
+            if (!empty($this->ConvertirItem($item_description))){
+
+                $articulo_id = $this->ConvertirItem($item_description);
+            } else {
+                $articulo_id = $invoice_data['newitems'][1]['order'];
+            }
             $marca_id = $invoice_data['marcaid'];
             $edit_marca = $invoice_data['edit_marca'];
             unset($invoice_data['marcaid']);
@@ -585,7 +735,14 @@ class Invoices extends AdminController
                 $data['customer_currency'] = $this->currencies_model->get_base_currency();
             }
         }
-
+        $this->load->model('facturaview_model');
+        $informacion_marca = $this->facturaview_model->find($id);
+        $data['informacion_marca'] = $this->MostrarMarca($this->facturaview_model->find($id));
+        $informacion_item = $this->MostrarItem($informacion_marca);
+        if (!empty($informacion_item)){
+            $invoice->items[0]['description'] = $informacion_item['descripcion'];
+            $invoice->items[0]['long_description'] = $informacion_item['long_description'];
+        }
         $data['invoice'] = $invoice;
 
         $data['record_payment'] = false;
@@ -598,8 +755,6 @@ class Invoices extends AdminController
             $data['send_later'] = true;
             $this->session->unset_userdata('send_later');
         }
-        $this->load->model('facturaview_model');
-        $data['informacion_marca'] = $this->MostrarMarca($this->facturaview_model->find($id));
         $this->load->view('admin/invoices/invoice_preview_template', $data);
     }
 

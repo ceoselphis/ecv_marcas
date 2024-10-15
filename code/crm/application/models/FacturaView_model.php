@@ -14,6 +14,21 @@ class FacturaView_model extends BaseModel
         parent::__construct();
     }
 
+    public function get_Marcas($id){
+        $this->db->select('*');
+        $this->db->from('tblview_marcas_solicitudes');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_Oposicion($id){
+        $this->db->select('*');
+        $this->db->from('tbl_acciones_terceros');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
    
     
 }

@@ -97,6 +97,7 @@ function manage_invoice_items(form) {
     var data = $(form).serialize();
 
     var url = form.action;
+    console.log("url ", url);
     $.post(url, data).done(function (response) {
         response = JSON.parse(response);
         console.log("response ",response);
@@ -148,6 +149,7 @@ function manage_invoice_items(form) {
 function init_item_js() {
      // Add item to preview from the dropdown for invoices estimates
     $("body").on('change', 'select[name="item_select"]', function () {
+        console.log(" Prueba ")
         var itemid = $(this).selectpicker('val');
         if (itemid != '') {
             add_item_to_preview(itemid);

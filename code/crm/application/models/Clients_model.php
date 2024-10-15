@@ -17,6 +17,17 @@ class Clients_model extends App_Model
     $this->load->model(['client_vault_entries_model', 'client_groups_model', 'statement_model']);
   }
 
+  
+  public function find($id = null)
+  {
+    $this->db->select('*');
+    $this->db->from('tblclients tc');
+    $this->db->where("tc.userid = ".$id);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  
+
   /**
    * Get client object based on passed clientid if not passed clientid return array of all clients
    * @param  mixed $id    client id

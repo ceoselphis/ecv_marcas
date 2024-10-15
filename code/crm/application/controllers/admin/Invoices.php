@@ -1,5 +1,7 @@
 <?php
 
+require_once FCPATH . "modules/pi/libraries/TableReport.php"; 
+
 use Dompdf\Positioner\NullPositioner;
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -383,7 +385,7 @@ class Invoices extends AdminController
             $items = $this->invoices_model->get_items($result);
             return $items[0]['id'];
         } else {
-            return null;
+            return "";
         }
     }
 
@@ -407,7 +409,7 @@ class Invoices extends AdminController
                     // Caso para MARCAS / TRADEMARKS
                     $marcas =  $this->facturaview_model->get_Marcas($result[0]['marcas_id']);
                     $respuesta = [
-                        'descripcion' => "Marca: ". $marcas[0]['marca'] . " Clase: ". $marcas[0]['nombre_niza']. " Pais:" .$marcas[0]['nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['num_solicitud']." N° Reg: ".$marcas[0]['num_registro'],
+                        'descripcion' => "Marca: ". $marcas[0]['marca'] ." ". $marcas[0]['nombre_niza']. " Pais: " .$marcas[0]['nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['num_solicitud']." N° Reg: ".$marcas[0]['num_registro'],
                         'long_description' => $result[0]['long_description'],
                     
                     ];
@@ -426,11 +428,13 @@ class Invoices extends AdminController
             
                 case 6:
                     // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
+                    $marcas =  $this->facturaview_model->get_Oposicion($result[0]['marcas_id']);
                     $respuesta = [
-                        'descripcion' => $result[0]['description'],
+                        'descripcion' => "Marca: ". $marcas[0]['marca_opuesta_nombre'] . " Clase: ". $marcas[0]['marca_nombre_niza']. " Pais:" .$marcas[0]['marca_nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['marca_opuesta_solicitud']." N° Reg: ".$marcas[0]['marca_opuesta_registro'],
                         'long_description' => $result[0]['long_description'],
                     
                     ];
+                    return $respuesta;
                     return $respuesta;
                     break;
             
@@ -955,32 +959,46 @@ class Invoices extends AdminController
             }
         }
 
-        $invoice        = $this->invoices_model->get($id);
-        $invoice        = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);
-        $invoice_number = format_invoice_number($invoice->id);
+       // $this->load->library('TableReport');
 
-        try {
-            $pdf = invoice_pdf($invoice);
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-            echo $message;
-            if (strpos($message, 'Unable to get the size of the image') !== false) {
-                show_pdf_unable_to_get_image_size_error();
-            }
-            die;
-        }
+        // Crear una instancia del reporte
+        $pdf = new TableReport();
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetTitle("Titulo");
+        $pdf->SetSubtitle("Subtitulo, es decir, lo que va debajo del titulo");
+       
+      
+        $pdf->Output('Reporte_solicitudes.pdf', 'I'); 
 
-        $type = 'D';
+        // $invoice        = $this->invoices_model->get($id);
+        // $invoice        = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);  
+        // $invoice_number = format_invoice_number($invoice->id);
 
-        if ($this->input->get('output_type')) {
-            $type = $this->input->get('output_type');
-        }
+       
+        // try {
+        //     $pdf = invoice_pdf($invoice);
+        // } catch (Exception $e) {
+        //     $message = $e->getMessage();
+        //     echo $message;
+        //     if (strpos($message, 'Unable to get the size of the image') !== false) {
+        //         show_pdf_unable_to_get_image_size_error();
+        //     }
+        //     die;
+        // }
+        
+        // $type = 'D';
 
-        if ($this->input->get('print')) {
-            $type = 'I';
-        }
+        // if ($this->input->get('output_type')) {
+        //     $type = $this->input->get('output_type');
+        // }
 
-        $pdf->Output(mb_strtoupper(slug_it($invoice_number)) . '.pdf', $type);
+        // if ($this->input->get('print')) {
+        //     $type = 'I';
+        // }
+
+        //echo json_encode($invoice);
+
+       // $pdf->Output(mb_strtoupper(slug_it($invoice_number)) . '.pdf', $type);
     }
 
     public function mark_as_sent($id)

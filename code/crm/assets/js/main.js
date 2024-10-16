@@ -1807,6 +1807,7 @@ $(function () {
 
   // Fix for bigger items descriptions, the select is going out of the container
   $("body").on("change loaded.bs.select", "#item_select", function () {
+    console.log("LLegue Aqui a Item_Select ");
     var selectWrapper = $(".items-wrapper .items-select-wrapper");
     $(".items-wrapper .bootstrap-select").css(
       "max-width",

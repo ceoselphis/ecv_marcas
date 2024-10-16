@@ -26,11 +26,19 @@ class InvoiceTemplate extends Fpdf
 
     protected $client_name = '';
 
+    protected $tax = ''; 
+
+    
+    protected $clientAddress = '';
+
+    protected $clientState = '';
+
+    protected $clientCountry = '';
+
     protected $invoice_id = '';
 
     protected $invoice_date = '';
 
-    protected $clientAddress = '';
 
     protected $subtotal = '';
 
@@ -38,13 +46,27 @@ class InvoiceTemplate extends Fpdf
 
     protected $currency = '';
 
-    public function __construct($invoice_number, $client_name, $invoice_id, $invoice_date, $clientAddress, $subtotal, $total, $currency)
+    public function __construct(
+        $invoice_number, 
+        $client_name,
+        $tax,
+        $clientAddress,
+        $clientState, 
+        $clientCountry, 
+        $invoice_id, 
+        $invoice_date, 
+        $subtotal, 
+        $total, 
+        $currency)
     {
         $this->invoice_number = $invoice_number;
         $this->client_name = $client_name;
+        $this->tax = $tax;
+        $this->clientAddress = $clientAddress;
+        $this->clientState = $clientState;
+        $this->clientCountry = $clientCountry;
         $this->invoice_id = $invoice_id;
         $this->invoice_date = $invoice_date;
-        $this->clientAddress = $clientAddress;
         $this->subtotal = $subtotal;
         $this->total = $total;
         $this->currency = $currency;
@@ -55,6 +77,7 @@ class InvoiceTemplate extends Fpdf
 
     public function header()
     {
+       
         //Logo y Nº de Factura
         $this->Cell(55);
         $this->Image(FCPATH."uploads/company/ECV_LOGO.jpg", 15, 15, 40, 20, 'jpg');
@@ -83,20 +106,35 @@ class InvoiceTemplate extends Fpdf
         $this->Cell(70);
         $this->Cell(140,10,"info@ecv.com.ve - www.ecv.com.ve",0,0,'L');
         $this->Ln(10);
-        //Client NAME
-        $this->Cell(70,10,"{$this->client_name}",0,0,'L');
+        //Factura
         $numberInvoice = str_pad($this->invoice_id,6, '0', STR_PAD_LEFT);
         $this->SetFontSize(11);
-        $this->Cell(125,10,"Factura Nro: {$numberInvoice}",0,0,'R');
+        $this->Cell(195,10,"Factura Nro: {$numberInvoice}",0,0,'R');
         $this->Ln(6);
         $this->SetFontSize(11);
         $invoice_date = date('d/m/Y',strtotime($this->invoice_date));
         $this->Cell(195,10,"Fecha: {$invoice_date}",0,0,'R');
-        $this->Ln(6);
-        //Direccion Cliente
+        $this->Ln(1);
+        //Client NAME
         $this->SetFontSize(10);
-        $this->Cell(70,10,"{$this->clientAddress}",0,0,'L');
-        $this->Ln(10);
+        $this->Cell(70,15,"{$this->client_name}",0,0,'L');
+        $this->Ln(5);
+        $this->SetFontSize(8);
+        $tax = 
+        $this->Cell(70,15,"Tax ID / VAT: {$this->tax}",0,0,'L');
+        $this->Ln(5);
+        $this->Cell(70,15,"{$this->clientAddress}",0,0,'L');
+        $this->Ln(5);
+        $this->SetFontSize(8);
+        $this->Cell(70,15,"{$this->clientState}",0,0,'L');
+        $this->Ln(5);
+        $this->SetFontSize(8);
+        $this->Cell(70,15,"{$this->clientCountry}",0,0,'L');
+        
+        //Direccion Cliente
+      //  $this->SetFontSize(10);
+       // $this->Cell(70,10,"{$this->clientAddress}",0,0,'L');
+        $this->Ln(13);
 
 
     }

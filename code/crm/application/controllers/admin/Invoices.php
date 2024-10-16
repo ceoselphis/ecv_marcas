@@ -1,6 +1,6 @@
 <?php
 
-require_once FCPATH . "modules/pi/libraries/TableReport.php"; 
+include FCPATH . 'modules/pi/libraries/InvoiceTemplate.php';
 
 use Dompdf\Positioner\NullPositioner;
 
@@ -943,7 +943,8 @@ class Invoices extends AdminController
         redirect(admin_url('invoices/list_invoices/' . $id));
     }
 
-    /* Generates invoice PDF and senting to email of $send_to_email = true is passed */
+    /*
+     Generates invoice PDF and senting to email of $send_to_email = true is passed 
     public function pdf($id)
     {
         if (!$id) {
@@ -988,6 +989,67 @@ class Invoices extends AdminController
         echo json_encode($invoice);
 
         $pdf->Output(mb_strtoupper(slug_it($invoice_number)) . '.pdf', $type);
+    }
+    */
+
+    /* Generates invoice PDF and senting to email of $send_to_email = true is passed */
+    public function pdf($id)
+    {
+        if (!$id) {
+            redirect(admin_url('invoices/list_invoices'));
+        }
+
+        $canView = user_can_view_invoice($id);
+        if (!$canView) {
+            access_denied('Invoices');
+        } else {
+            if (!has_permission('invoices', '', 'view') && !has_permission('invoices', '', 'view_own') && $canView == false) {
+                access_denied('Invoices');
+            }
+        }
+        
+        $this->load->model('facturaview_model');
+        $factura = $this->facturaview_model->get_Factura_Pdf($id);
+        $marcas = $factura[0];
+
+        $invoice = $this->invoices_model->get($id);
+        $invoice = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);  
+        $invoice_number = format_invoice_number($invoice->id);
+        $state = "{$marcas['estado']}, {$marcas['ciudad']}, {$marcas['codigo_postal']}";
+        try {
+            $pdf = new InvoiceTemplate(
+                format_invoice_number($marcas['id']), 
+                $marcas['marca'],
+                $marcas['vat'],
+                $marcas['direccion'],
+                $state,
+                $marcas['pais'],
+                $invoice->id, 
+                $invoice->date,
+                $invoice->items,
+                $invoice->subtotal,
+                $invoice->total,
+                $invoice->name
+            );
+
+           // echo json_encode($pdf);
+              $type = 'D';
+
+            if ($this->input->get('output_type')) {
+                 $type = $this->input->get('output_type');
+            }
+
+            if ($this->input->get('print')) {
+                 $type = 'I';
+            }
+            $pdf->SetFont('Times', '', 8);
+            $pdf->table($invoice->items);
+            $pdf->Output(mb_strtoupper(slug_it($invoice_number)) . '.pdf', $type);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+      
     }
 
     public function mark_as_sent($id)

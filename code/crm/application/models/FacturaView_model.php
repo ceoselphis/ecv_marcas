@@ -24,11 +24,18 @@ class FacturaView_model extends BaseModel
 
     public function get_Oposicion($id){
         $this->db->select('*');
-        $this->db->from('tbl_acciones_terceros');
-        $this->db->where('id', $id);
+        $this->db->from('tblview_acciones_terceros');
+        $this->db->where('marca_id', $id);
         $query = $this->db->get();
         return $query->result_array();
     }
    
+    public function get_Factura_Pdf($id){
+        $this->db->select('*');
+        $this->db->from('tblview_facturas_pdf');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     
 }

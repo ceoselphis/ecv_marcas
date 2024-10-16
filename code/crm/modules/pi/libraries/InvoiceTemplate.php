@@ -135,8 +135,6 @@ class InvoiceTemplate extends Fpdf
       //  $this->SetFontSize(10);
        // $this->Cell(70,10,"{$this->clientAddress}",0,0,'L');
         $this->Ln(13);
-
-
     }
 
     public function table($items)

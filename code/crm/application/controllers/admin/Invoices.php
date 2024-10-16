@@ -998,6 +998,7 @@ class Invoices extends AdminController
         if (!$id) {
             redirect(admin_url('invoices/list_invoices'));
         }
+        
 
         $canView = user_can_view_invoice($id);
         if (!$canView) {

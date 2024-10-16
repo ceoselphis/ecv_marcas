@@ -959,46 +959,35 @@ class Invoices extends AdminController
             }
         }
 
-       // $this->load->library('TableReport');
-
-        // Crear una instancia del reporte
-        $pdf = new TableReport();
-        $pdf->SetFont('Arial', '', 12);
-        $pdf->SetTitle("Titulo");
-        $pdf->SetSubtitle("Subtitulo, es decir, lo que va debajo del titulo");
-       
-      
-        $pdf->Output('Reporte_solicitudes.pdf', 'I'); 
-
-        // $invoice        = $this->invoices_model->get($id);
-        // $invoice        = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);  
-        // $invoice_number = format_invoice_number($invoice->id);
+         $invoice        = $this->invoices_model->get($id);
+         $invoice        = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);  
+         $invoice_number = format_invoice_number($invoice->id);
 
        
-        // try {
-        //     $pdf = invoice_pdf($invoice);
-        // } catch (Exception $e) {
-        //     $message = $e->getMessage();
-        //     echo $message;
-        //     if (strpos($message, 'Unable to get the size of the image') !== false) {
-        //         show_pdf_unable_to_get_image_size_error();
-        //     }
-        //     die;
-        // }
+         try {
+             $pdf = invoice_pdf($invoice);
+         } catch (Exception $e) {
+             $message = $e->getMessage();
+             echo $message;
+             if (strpos($message, 'Unable to get the size of the image') !== false) {
+                 show_pdf_unable_to_get_image_size_error();
+             }
+             die;
+         }
         
-        // $type = 'D';
+         $type = 'D';
 
-        // if ($this->input->get('output_type')) {
-        //     $type = $this->input->get('output_type');
-        // }
+         if ($this->input->get('output_type')) {
+             $type = $this->input->get('output_type');
+         }
 
-        // if ($this->input->get('print')) {
-        //     $type = 'I';
-        // }
+         if ($this->input->get('print')) {
+             $type = 'I';
+         }
 
-        //echo json_encode($invoice);
+        echo json_encode($invoice);
 
-       // $pdf->Output(mb_strtoupper(slug_it($invoice_number)) . '.pdf', $type);
+        $pdf->Output(mb_strtoupper(slug_it($invoice_number)) . '.pdf', $type);
     }
 
     public function mark_as_sent($id)

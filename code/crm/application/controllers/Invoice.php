@@ -2,6 +2,8 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+include FCPATH . 'modules/pi/libraries/InvoiceTemplate.php';
+
 class Invoice extends ClientsController
 {
     public function index($id, $hash)
@@ -15,22 +17,41 @@ class Invoice extends ClientsController
             load_client_language($invoice->clientid);
         }
 
+
         // Handle Invoice PDF generator
         if ($this->input->post('invoicepdf')) {
             try {
-                $pdf = invoice_pdf($invoice);
+                /*echo "<pre>";
+                print_r($invoice);
+                die();*/
+                $pdf = new InvoiceTemplate(
+                    format_invoice_number($invoice->id), 
+                    $invoice->deleted_customer_name,
+                    $invoice->id, 
+                    $invoice->date,
+                    "{$invoice->billing_street} {$invoice->billing_city} {$invoice->billing_state} {$invoice->billing_zip} {$invoice->billing_country}",
+                    $invoice->items,
+                    $invoice->subtotal,
+                    $invoice->total,
+                    $invoice->name
+                );
+                $pdf->SetFont('Times', '', 8);
+                $pdf->table($invoice->items);
+                $pdf->Output("hola" . '.pdf', 'D');
+                //$pdf = invoice_pdf($invoice);
             } catch (Exception $e) {
                 echo $e->getMessage();
                 die;
             }
-
-            $invoice_number = format_invoice_number($invoice->id);
+            echo "hola";
+            die();
+            /*$invoice_number = format_invoice_number($invoice->id);
             $companyname    = get_option('invoice_company_name');
             if ($companyname != '') {
                 $invoice_number .= '-' . mb_strtoupper(slug_it($companyname), 'UTF-8');
             }
             $pdf->Output(mb_strtoupper(slug_it($invoice_number), 'UTF-8') . '.pdf', 'D');
-            die();
+            die();*/
         }
 
         // Handle $_POST payment

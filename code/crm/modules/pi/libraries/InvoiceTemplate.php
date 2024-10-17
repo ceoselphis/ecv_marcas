@@ -81,7 +81,7 @@ class InvoiceTemplate extends Fpdf
         //Logo y Nº de Factura
         $this->Cell(55);
         $this->Image(FCPATH."uploads/company/ECV_LOGO.jpg", 15, 15, 40, 20, 'jpg');
-        $this->Cell(140,10,"RUC: {$this->invoice_number}",0,0,'R');
+        $this->Cell(140,10,"RUC: 259599-1-404365",0,0,'R');
         $this->Ln(4);
         //Oficinas
         $this->Cell(70);
@@ -154,11 +154,11 @@ class InvoiceTemplate extends Fpdf
         $this->Ln(6);
         $this->Cell(120);
         $this->Cell(40, 10, "SUBTOTAL  {$this->currency}: ", '', '', 'R');
-        $this->Cell(30, 10, "{$this->subtotal} ", '', '', 'C');
+        $this->Cell(30, 10, "{$this->subtotal}", '', '', 'C');
         $this->Ln(10);
         $this->Cell(120);
         $this->Cell(40, 10, "TOTAL  {$this->currency}: ", '', '', 'R');
-        $this->Cell(30, 10, "{$this->total} ", '', '', 'C');
+        $this->Cell(30, 10, "{$this->total}", '', '', 'C');
         $this->Ln(10);
 
     }

@@ -7741,7 +7741,7 @@ function format_money(total, excludeSymbol) {
 // Set the currency for accounting
 function init_currency(id, callback) {
   var $accountingTemplate = $("body").find(".accounting-template");
-
+  console.log(" Init Currency ");
   if ($accountingTemplate.length || id) {
     var selectedCurrencyId = !id
       ? $accountingTemplate.find('select[name="currency"]').val()

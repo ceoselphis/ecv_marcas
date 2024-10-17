@@ -1017,6 +1017,8 @@ class Invoices extends AdminController
         $invoice = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);  
         $invoice_number = format_invoice_number($invoice->id);
         $state = "{$marcas['estado']}, {$marcas['ciudad']}, {$marcas['codigo_postal']}";
+        //echo json_encode(floatval($invoice->subtotal));
+
         try {
             $pdf = new InvoiceTemplate(
                 format_invoice_number($marcas['id']), 
@@ -1027,8 +1029,8 @@ class Invoices extends AdminController
                 $marcas['pais'],
                 $invoice->id, 
                 $invoice->date,
-                $invoice->items,
-                $invoice->subtotal,
+                //$invoice->items,
+                floatval($invoice->subtotal),
                 $invoice->total,
                 $invoice->name
             );

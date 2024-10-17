@@ -244,6 +244,10 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                             <div class="text-danger tipo_signo_id_error"></div>
                                         </div>
+                                        <br>
+                                        <div class="col-md-12" style="padding-top: 20px;">
+                                            <img id="preview-image" src="#" alt="Previsualización" style="display:none; width: 200px; ">
+                                        </div>
                                     </div>
                                     <!-- Clase niza -->
                                     <div class="col-md-12" style="padding: 1.5% 1.5% 1.5% 1.5%;">

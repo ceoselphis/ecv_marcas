@@ -71,6 +71,24 @@
 
     })
 
+    
+       
+            $('#signo_archivo').change(function(event) {
+              console.log(" LLegue a Signo Archivo");
+                var input = event.target;
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        $('#preview-image').attr('src', e.target.result);
+                        $('#preview-image').show();
+                    };
+                    
+                    reader.readAsDataURL(input.files[0]);
+                }
+            });
+        
+    
     /***
      * funcion para guardar el formulario de la clase
      */

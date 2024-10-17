@@ -99,10 +99,10 @@
             let url_currency = '<?php echo admin_url("invoices/search_client_currency/"); ?>' + valor;
             $.get(url_currency, function (response) {
                 let moneda = JSON.parse(response);
-                console.log('Moneda obtenida del servidor: ', moneda.default_currency);
+               // console.log('Moneda obtenida del servidor: ', moneda.default_currency);
                 let num = Number(moneda.default_currency);
                 let currency = num + 1;
-                console.log('Currency ',currency);
+              //  console.log('Currency ',currency);
                 currency_select.find('option[value="' + currency + '"]').prop('selected', true);
                 currency_select.val(currency);
                 currency_select.selectpicker('refresh');

@@ -36,6 +36,7 @@
    });
 
    report_from.on('change', function() {
+    console.log(" PRuaba c ");
      var val = $(this).val();
      var report_to_val = report_to.val();
      if (val != '') {

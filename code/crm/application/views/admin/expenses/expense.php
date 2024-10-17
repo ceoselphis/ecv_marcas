@@ -398,6 +398,7 @@ var customer_currency = '<?php echo $customer_currency; ?>';
 <?php } ?>
 $(function() {
     $('body').on('change', '#project_id', function() {
+        console.log(" Prueba Currency 3 ");
         var project_id = $(this).val();
         if (project_id != '') {
             if (customer_currency != 0) {

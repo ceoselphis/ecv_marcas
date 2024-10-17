@@ -77,7 +77,7 @@ class InvoiceTemplate extends Fpdf
 
     public function header()
     {
-       
+        $this->SetFont('Times', 'B', 7);
         //Logo y Nº de Factura
         $this->Cell(55);
         $this->Image(FCPATH."uploads/company/ECV_LOGO.jpg", 15, 15, 40, 20, 'jpg');
@@ -89,10 +89,10 @@ class InvoiceTemplate extends Fpdf
         $this->Ln(4);
         //Direccion
         $this->Cell(70);
-        $this->Cell(140,10,"Calle La Iglesia, Edificio Centro Solano Plaza 1, Piso 4, Ofic. 4-A, Sabana Grande, Caracas",0,0,'L');
+        $this->Cell(140,10, iconv("UTF-8", "windows-1252", "Calle La Iglesia, Edificio Centro Solano Plaza 1, Piso 4, Ofic. 4-A, Sabana Grande, Caracas"),0,0,'L');
         $this->Ln(4);
         $this->Cell(70);
-        $this->Cell(140,10,"1050, República Bolivariana de Venezuela",0,0,'L');
+        $this->Cell(140,10, iconv("UTF-8", 'windows-1252', "1050, República Bolivariana de Venezuela"),0,0,'L');
         $this->Ln(6);
         //Oficinas
         $this->Cell(70);
@@ -100,7 +100,7 @@ class InvoiceTemplate extends Fpdf
         $this->Ln(4);
         //Direccion
         $this->Cell(70);
-        $this->Cell(140,10,"Calle 50, Edificio Global Plaza, Piso 6, Ciudad de Panamá, Panamá",0,0,'L');
+        $this->Cell(140,10, iconv('UTF-8', 'windows-1252', "Calle 50, Edificio Global Plaza, Piso 6, Ciudad de Panamá, Panamá"),0,0,'L');
         $this->Ln(6);
         //Info
         $this->Cell(70);
@@ -117,7 +117,7 @@ class InvoiceTemplate extends Fpdf
         $this->Ln(1);
         //Client NAME
         $this->SetFontSize(10);
-        $this->Cell(70,15,"{$this->client_name}",0,0,'L');
+        $this->Cell(70,15, iconv("UTF-8", "windows-1252", "{$this->client_name}"),0,0,'L');
         $this->Ln(5);
         $this->SetFontSize(8);
         $tax = 
@@ -130,35 +130,35 @@ class InvoiceTemplate extends Fpdf
         $this->Ln(5);
         $this->SetFontSize(8);
         $this->Cell(70,15,"{$this->clientCountry}",0,0,'L');
-        
-        //Direccion Cliente
-      //  $this->SetFontSize(10);
-       // $this->Cell(70,10,"{$this->clientAddress}",0,0,'L');
         $this->Ln(13);
     }
 
     public function table($items)
     {
         $this->AddPage();
-        $this->Cell(50,10,'CANT.', 'B');
-        $this->Cell(75, 10, "CONCEPTO", 'B');
-        $this->Cell(50, 10, "SUBTOTAL {$this->currency}", 'B');
-        $this->Ln(6);
-        $w = array(50,75,50);
+        $this->SetFont('Times', 'B', 7);
+        $this->Cell(10,2,'CANT.', 'B',0,"L");
+        $this->Cell(150,2, "CONCEPTO", 'B',0,"L");
+        $this->Cell(30,2, "SUBTOTAL {$this->currency}", 'B',0,"R");
+        $this->Ln(1);
+        $w = array(10,150,30);
         /*Parseamos la tabla*/
         $fill = false;
         foreach ($items as $key => $value) {
-            $this->Cell($w[0], 10, "{$value['qty']}", '', '', "C");
-            $this->Cell($w[1], 10, "{$value['description']}", "", '', "L");
-            $this->Cell($w[2], 5, "{$value['rate']}", "", '', "C");
-            $this->Ln(10);
+            $this->Cell($w[0], 6, "{$value['qty']}", '', '', "C");
+            $this->Cell($w[1], 6, iconv('UTF-8', 'windows-1252', "{$value['description']}"), "", '', "L");
+            $this->Cell($w[2], 6, "{$value['rate']}", "", '', "C");
+            $this->Ln(6);
             $fill = !$fill;
         }
-        $this->Cell(105, 10, "SUBTOTAL  {$this->currency}: ", '', '', 'L');
-        //$this->Cell(50, 10, "{$this->subtotal}: ", '', '', 'L');
+        $this->Ln(6);
+        $this->Cell(120);
+        $this->Cell(40, 10, "SUBTOTAL  {$this->currency}: ", '', '', 'R');
+        $this->Cell(30, 10, "{$this->subtotal} ", '', '', 'C');
         $this->Ln(10);
-        $this->Cell(105, 10, "TOTAL  {$this->currency}: ", '', '', 'L');
-        //$this->Cell(50, 10, "{$this->total}: ", '', '', 'L');
+        $this->Cell(120);
+        $this->Cell(40, 10, "TOTAL  {$this->currency}: ", '', '', 'R');
+        $this->Cell(30, 10, "{$this->total} ", '', '', 'C');
         $this->Ln(10);
 
     }
@@ -168,6 +168,7 @@ class InvoiceTemplate extends Fpdf
     {
         $this->SetY(-90);
         //Formas de Pago
+        //$this->SetFont("Times", 'N', 7);
         $this->Cell(70,10,"FORMAS DE PAGO",0,0,'L');
         $this->Ln(4);
         //CHEQUE
@@ -175,7 +176,7 @@ class InvoiceTemplate extends Fpdf
         $this->Ln(4);
         $this->Cell(70,10,"E.C.V & ASOCIADOS",0,0,'L');
         $this->Ln(4);
-        $this->Cell(70,10,"Envío por Courier a nuestra dirección",0,0,'L');
+        $this->Cell(70,10,iconv("UTF-8", "windows-1252", "Envío por Courier a nuestra dirección"),0,0,'L');
         $this->Ln(6);
         //TRANSFERENCIA
         $this->Cell(70,10,"-TRANSFERENCIA",0,0,'L');

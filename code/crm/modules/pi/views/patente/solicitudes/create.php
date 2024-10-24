@@ -88,7 +88,7 @@ $select = ['' => '']; ?>
                                         <a href="#step9" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">9</span> <i> Documentos</i></a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#step10" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">9</span> <i> Facturas</i></a>
+                                        <a href="#step10" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">10</span> <i> Facturas</i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -187,7 +187,19 @@ $select = ['' => '']; ?>
                                                 'selected' => set_value('pais_id', 226) //'226',
                                             ]); ?>
                                         </div>
-                                        <div class="col-md-12">
+
+                                        <div class="col-md-12" style="padding-top:15px;">
+                                            <?php echo form_label('Titulo'); ?>
+                                            <?php echo form_input([
+                                                'id' => 'titulo',
+                                                'name' => 'titulo',
+                                                'class' => 'form-control',
+                                                'value' => set_value('titulo'),
+                                            ]); ?>
+                                            <div class="text-danger solicitud_error"></div>
+                                        </div>
+
+                                        <div class="col-md-12" style="padding-top:15px;">
                                             <?php echo form_label('Resumen', "resumen"); ?>
                                             <?php echo form_textarea([
                                                 'id' => 'resumen',
@@ -196,7 +208,7 @@ $select = ['' => '']; ?>
                                             ]);
                                             ?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="padding-top: 20px;">
                                             <?php echo form_label('Inventores', 'inventores_id'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'inventores_id',
@@ -207,7 +219,7 @@ $select = ['' => '']; ?>
                                             ]);
                                             ?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="padding-top: 20px;">
                                             <?php echo form_label('Solicitantes', 'solicitantes_id'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'solicitantes_id',

@@ -16,12 +16,13 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a href="<?php echo admin_url('pi/patentes/SolicitudesController/create');?>" 
-                            class="btn btn-primary"><i class="fas fa-plus"></i> Nueva
+                            <a href="<?php echo admin_url('pi/patentes/SolicitudesController/create');?>"
+                                class="btn btn-primary"><i class="fas fa-plus"></i> Nueva
                                 Solicitud de Patente</a>
                             <button type="button" class="btn btn-default btn-outline pull-right" data-toggle="modal"
                                 data-target="#filterModal"><i class="fas fa-filter"></i> Filtrar por</button>
                         </div>
+                        <!--
                         <div class="_body">
                             <div class="row" style="padding: 2%;">
                                 <div class="col-md-12 pre-scrollable">
@@ -44,6 +45,28 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div>-->
+                        <div class="row" style="padding: 2%;">
+                            <div class="col-md-12 pre-scrollable" style="min-height: 300px !important;">
+                                <table class="ultimate table table-responsive" id="tableResult">
+                                    <thead>
+                                        <tr>
+                                            <td>Código</td>
+                                            <td>Tipo</td>
+                                            <td>Propietario</td>
+                                            <td>Titulo</td>
+                                            <td>Estado</td>
+                                            <td>Solicitud</td>
+                                            <td>Fecha Solicitud</td>
+                                            <td>Registro</td>
+                                            <td>Paises</td>
+                                            <td>Acciones</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -105,37 +128,40 @@
                                             <select name="paisSol_id" id="paisSol_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Pais'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row row-group">
+
                                         <!-- Clientes -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Clientes', 'client_id'); ?>
                                             <select class='form-control' name='client_id' id="client_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Clientes'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
+
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row row-group">
+
                                         <!-- Pais Cliente -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Pais Cliente', 'paisCli_id'); ?>
                                             <select name="paisCli_id" id="paisCli_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Pais'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -147,16 +173,13 @@
                                             <select class='form-control' name='contacto_id' id="contacto_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['contactos'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row row-group">
+
                                         <!-- Propietarios -->
                                         <div class="col-md-4">
                                             <label for="inventor_id">
@@ -165,21 +188,26 @@
                                             <select class='form-control' name='inventor_id' id="inventor_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($data['inventores'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row row-group">
+
                                         <!-- Pais inventores -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Pais Inventor', 'paisInv_id'); ?>
                                             <select name="paisInv_id" id="paisInv_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($data['Pais'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -191,9 +219,9 @@
                                             <select class='form-control' name='tramitante_id' id="tramitante_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($data['tramitantes'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -203,28 +231,30 @@
                                             <select name="paisProp_id" id="paisProp_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Pais'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
+
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row row-group">
                                         <!-- Clase Niza -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Clase Niza', 'clase_niza_id'); ?>
                                             <select name="clase_niza_id" id="clase_niza_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Clase Niza'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row row-group">
+
                                         <!-- Ref Cliente -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Referencia Cliente'); ?>
@@ -237,6 +267,7 @@
                                                 'placeholder' => 'Referencia Cliente'
                                             ]); ?>
                                         </div>
+
                                         <!-- Referencia Interna -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Referencia Interna'); ?>
@@ -249,6 +280,12 @@
                                                 'placeholder' => 'Referencia Interna'
                                             ]); ?>
                                         </div>
+
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row row-group">
+
                                         <!-- Número de Solicitud -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Número de Solicitud'); ?>
@@ -261,10 +298,7 @@
                                                 'placeholder' => 'Número de Solicitud'
                                             ]); ?>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row row-group">
+
                                         <!-- Número de Registro -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Número de Registro'); ?>
@@ -307,10 +341,7 @@
                                                 'placeholder' => 'Solicitud Hasta'
                                             ]); ?>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row row-group">
+
                                         <!-- Vigencia Desde -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Vigencia Desde'); ?>
@@ -323,6 +354,12 @@
                                                 'placeholder' => 'Vigencia Desde'
                                             ]); ?>
                                         </div>
+
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row row-group">
+
                                         <!-- Vigencia Hasta -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Vigencia Hasta'); ?>
@@ -335,19 +372,16 @@
                                                 'placeholder' => 'Vigencia Hasta'
                                             ]); ?>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row row-group">
+
                                         <!-- Estado de Solicitud -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Estado de Solicitud', 'est_sol_id'); ?>
                                             <select name="est_sol_id" id="est_sol_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Estado de Solicitud'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -357,12 +391,18 @@
                                             <select class='form-control' name='boletin_id' id="boletin_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Boletines'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
+
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row row-group">
+
                                         <!-- Tipo de Publicación -->
                                         <div class="col-md-4">
                                             <label for="tipo_publicacion_id">
@@ -372,28 +412,26 @@
                                                 id="tipo_publicacion_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['tipo publicacion'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row row-group">
+
                                         <!-- Tipo de Evento -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Tipo de Evento', 'tip_eve_id'); ?>
                                             <select name="tip_eve_id" id="tip_eve_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Tipo de Evento'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
+
                                         <!-- Evento Desde -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Evento Desde'); ?>
@@ -406,6 +444,12 @@
                                                 'placeholder' => 'Evento Desde'
                                             ]); ?>
                                         </div>
+
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row row-group">
+
                                         <!-- Evento Hasta -->
                                         <div class="col-md-4">
                                             <?php echo form_label('Evento Hasta'); ?>
@@ -430,9 +474,9 @@
                                             <select name="tip_sol_id" id="tip_sol_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Tipo de Solicitud'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -442,9 +486,9 @@
                                             <select class='form-control' name='oficina_id' id="oficina_id">
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Oficinas'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -454,9 +498,9 @@
                                             <select class='form-control' name='responsable_id' id='responsable_id'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Responsables'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -470,9 +514,9 @@
                                             <select name="tip_signo_id" id="tip_signo_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Tipos de Signo'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -482,9 +526,9 @@
                                             <select name="tip_reg_id" id="tip_reg_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
                                                 <?php foreach ($marcas['Tipo de Registro'] as $key => $value) { ?>
-                                                    <option value="<?php echo $key; ?>">
-                                                        <?php echo $value; ?>
-                                                    </option>
+                                                <option value="<?php echo $key; ?>">
+                                                    <?php echo $value; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -567,7 +611,7 @@
             </div>
             <div class="modal-footer" style="padding-top: 1.5%;">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button id="limpiar"  type="button" class="btn btn-gray">Limpiar</button>
+                <button id="limpiar" type="button" class="btn btn-gray">Limpiar</button>
                 <button id="filterSubmit" type="button" class="btn btn-primary" data-dismiss="modal">Buscar</button>
             </div>
         </div>
@@ -579,13 +623,23 @@
 <?php init_tail(); ?>
 
 <style>
-    th {
+    th,
+    td {
         text-align: center;
     }
 </style>
 
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script>
+    new DataTable("#tableResult", {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+    });
+</script>
 <script>
     function getFormData() {
         var config = {};
@@ -609,7 +663,8 @@
         formData.append('csrf_token_name', csrf_token_name);
         console.log('csrf_token_name', csrf_token_name);
         let url = '<?php echo admin_url("pi/MarcasSolicitudesController/addSolicitudesMarcas"); ?>';
-        let solicitudesEdit = '<?php echo admin_url('pi/MarcasSolicitudesController/edit/'); ?>';
+        let solicitudesEdit = '<?php echo admin_url('
+        pi / MarcasSolicitudesController / edit / '); ?>';
         $.ajax({
             url,
             method: 'POST',
@@ -625,25 +680,17 @@
         });
     });
 </script>
-<!-- <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
-<script>
-    new DataTable(".table", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
-</script> -->
 
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
+
+
+
 <script>
-    $("#tableResult").DataTable({
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        },
-        destroy: true,
-    });
+    // $("#tableResult").DataTable({
+    //     language: {
+    //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+    //     },
+    //     destroy: true,
+    // });
 </script>
 <script>
     $("select").selectpicker({
@@ -657,7 +704,7 @@
 
     $("#limpiar").on('click', function (event) {
         // recorrer todos los campos
-        $(':input', '#filter').each(function() {
+        $(':input', '#filter').each(function () {
             var type = this.type;
             var tag = this.tagName.toLowerCase();
             //limpiar los valores de los campos
@@ -667,16 +714,18 @@
             else if (type == 'checkbox' || type == 'radio')
                 this.checked = false;
             // los select quedan con indice -
-            else if (tag == 'select'){
+            else if (tag == 'select') {
                 this.selectedIndex = 0;
-                $('select').selectpicker('refresh'); 
+                $('select').selectpicker('refresh');
             }
         });
     });
 
 
     $("#filterSubmit").on('click', function (event) {
+        console.log(" LLegue Aqui en Patentes ");
         event.preventDefault();
+        let edit = "<?php echo admin_url('pi/patentes/SolicitudesController/edit/'); ?>";
         /* var params = {
             'i.id': $("select[name=pais_id]").val(),
             's.boletin_id': $("select[name=boletin_id]").val(),
@@ -726,14 +775,16 @@
             'fecha_registro_hasta': $("input[name=registro_hasta]").val()
 
         };
+        console.log("Parametros ", params)
         $.ajax({
-            url: "<?php echo admin_url('pi/MarcasSolicitudesController/filterSearch') ?>",
+            url: "<?php echo admin_url('pi/patentes/SolicitudesController/filterSearch') ?>",
             method: "POST",
             data: {
                 "csrf_token_name": $("input[name=csrf_token_name]").val(),
                 data: JSON.stringify(params),
             },
             success: function (response) {
+                console.log("Response ", response);
                 table = JSON.parse(response);
                 $("#tableResult").DataTable({
                     language: {
@@ -742,22 +793,52 @@
                     destroy: true,
                     data: table.data,
                     columns: [
-                        { data: 'cod_contador' },
-                        { data: 'tipo' },
-                        { data: 'propietario' },
-                        { data: 'nombre' },
-                        { data: 'clase' },
-                        { data: 'estado' },
-                        { data: 'solicitud' },
-                        { data: 'fecha_solicitud' },
-                        { data: 'registro' },
-                        { data: 'certificado' },
-                        { data: 'vigencia' },
-                        { data: 'pais' },
-                        { data: 'acciones' },
+                        {
+                            data: 'codigo'
+                        },
+                        {
+                            data: 'tipo'
+                        },
+                        {
+                            data: 'propietario'
+                        },
+                        {
+                            data: 'titulo'
+                        },
+                        {
+                            data: 'estado'
+                        },
+                        {
+                            data: 'solicitud'
+                        },
+                        {
+                            data: 'fecha_solicitud'
+                        },
+                        {
+                            data: 'registro'
+                        },
+                        {
+                            data: 'pais'
+                        },
+                        {
+                            data: null,
+                            render: function (data, type, row) {
+                                editar = edit + row.codigo;
+                               // console.log(" edit ", editar);
+                                return `
+                                <td class="text-center">
+                                    <a class="btn btn-light" href="${editar}" style="background-color: white;">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <button class="btn btn-danger delete-patente">
+                                        <i class="fas fa-trash"></i> Borrar
+                                    </button>
+                                </td>`;
+                            }
+                        }
                     ]
                 });
-            }
+            },
         })
     })
 
@@ -765,6 +846,7 @@
     //-----------------------------------------------
 
     var formData = new FormData();
+
     function fecha() {
         var hoy = new Date();
         var dd = hoy.getDate();
@@ -773,8 +855,7 @@
         var fecha = '';
         if (dd < 10) {
             dd = '0' + dd;
-        }
-        else if (mm < 10) {
+        } else if (mm < 10) {
             mm = '0' + mm;
         }
         fecha = dd + "/" + mm + "/" + yy;
@@ -794,9 +875,6 @@
             timepicker: false,
         });
     });
-
-
-
 </script>
 
 

@@ -150,6 +150,9 @@ class PatentePrioridadController extends AdminController
      * Find a single item to show
      */
 
+     
+  
+
     public function show(string $id = null)
     {
 

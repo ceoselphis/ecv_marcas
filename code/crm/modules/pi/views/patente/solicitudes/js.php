@@ -3913,8 +3913,136 @@
         });
     }
 
+    /*
+                                                'name'=> 'tipo_registro_id',
+                                              'id' => 'tipo_registro_id'
+                                            
+                                      
+                                            
+                                                'name' => 'client_id',
+                                                'id' => 'client_id'
+                                            
+                                     
+                                            
+                                              'name' => 'oficina_id',
+                                              'id' => 'oficina_id'
+                                            
+                                        
+                                            
+                                              'name' => 'staff_id',
+                                              'id' => 'staff_id'
+                                            
+                                  
+                                                'id' => 'pais_id',
+                                                'name' => 'pais_id',
+                                          
+                                                'id' => 'resumen',
+                                                'name' => 'resumen',
+                                            
+                                                'id' => 'inventores_id',
+                                                'name' => 'inventores_id',
+                                          
+                                                'id' => 'solicitantes_id',
+                                                'name' => 'solicitantes_id',
+                                            
+                                                'id' => 'clasificacion',
+                                                'name' => 'clasificacion',
+                                    
+                                                'id' => 'ref_interna',
+                                                'name' => 'ref_interna',
+                                         
+                                                'id' => 'ref_cliente',
+                                                'name' => 'ref_cliente',
+                                            
+                                                'id' => 'carpeta',
+                                                'name' => 'carpeta',
+                                       
+                                                'id' => 'libro',
+                                                'name' => 'libro',
+                                     
+                                                'id' => 'tomo',
+                                                'name' => 'tomo',
+                                               
+                                                'id' => 'folio',
+                                                'name' => 'folio',
+                                           
+                                            
+                                                'name' => 'estado_id',
+                                                'id' => 'estado_id'
+                                            
+                                         
+                                                'id' => 'solicitud',
+                                                'name' => 'solicitud',
+                                           
+                                                'id' => 'fecha_solicitud',
+                                                'name' => 'fecha_solicitud',
+                                             
+                                                'id' => 'registro',
+                                                'name' => 'registro',
+                                         
+                                                'id' => 'fecha_registro',
+                                                'name' => 'fecha_registro',
+                                               
+                                                'id' => 'certificado',
+                                                'name' => 'certificado',
+                                          
+                                                'id' => 'fecha_certificado',
+                                                'name' => 'fecha_certificado',
+                            
+                                                'id' => 'fecha_vencimiento',
+                                                'name' => 'fecha_vencimiento',
+                                          
+                                                'id' => 'pct_solicitud',
+                                                'name' => 'pct_solicitud',
+                                            
+                                                'id' => 'pct_publicacion',
+                                                'name' => 'pct_publicacion',
+                                           
+                                                'id' => 'pct_anualidad_desde',
+                                                'name' => 'pct_anualidad_desde',
+                                         
+                                                'id' => 'pct_anualidad_hasta',
+                                                'name' => 'pct_anualidad_hasta',
+                            
+                                                'id' => 'comentarios',
+                                                'name' => 'comentarios',
+                                
+    */
 
-    
+
+
+        /*
+          `id` ,
+  `tipo_registro_id`,
+  `client_id`  ,
+  `oficina_id` ) ,
+  `staff_id` ,
+  `pais_id` ,
+  `titulo` ,
+  `resumen` ,
+  `clasificacion` ,
+  `ref_interna` ,
+  `ref_cliente` ,
+  `carpeta` ,
+  `libro` ,
+  `tomo` ,
+  `folio` ,
+  `estado_id` ,
+  `nro_solicitud` ,
+  `fecha_solicitud` ,
+  `nro_registro` ,
+  `fecha_registro` ,
+  `nro_certificado` ,
+  `fecha_vencimiento_certificado` ,
+  `pct_nro_solicitud` ,
+  `pct_fecha_solicitud` ,
+  `pct_nro_publicacion` ,
+  `pct_fecha_publicacion` ,
+  `is_pago_anual` tinyint(1) ,
+  `anualidad_desde` ,
+  `anualidad_hasta` ,
+  `comentarios` ,
+        */
 
 
 
@@ -3926,28 +4054,29 @@
         e.preventDefault();
         var formData = new FormData();
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-        formData.append('id', $("input[name=id]").val());
-        formData.append('cod_contador', $('#cod_contador').val());
         formData.append('tipo_registro_id', $('#tipo_registro_id').val());
         formData.append('client_id', $('#client_id').val());
         formData.append('oficina_id', $('#oficina_id').val());
         formData.append('staff_id', $('#staff_id').val());
         //Pais_id fill
-        pais_id = JSON.stringify($('#pais_id').val());
-        formData.append('pais_id', pais_id);
+       // pais_id = JSON.stringify($('#pais_id').val());
+        formData.append('pais_id', $('#pais_id').val());
+        formData.append('titulo', $('#titulo').val());
+        formData.append('resumen', $('#resumen').val());
+       // inventores_id = JSON.stringify($('#inventores_id').val());
+        //console.log("inventores_id : ",inventores_id);
+        formData.append('inventores_id', $('#inventores_id').val());
         //solicitantes_id fill
         solicitantes_id = JSON.stringify($('#solicitantes_id').val());
+        console.log("solicitantes_id : ",solicitantes_id);
         formData.append('solicitantes_id', solicitantes_id);
-        formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
+        formData.append('clasificacion', $('#clasificacion').val());
         formData.append('ref_interna', $('#ref_interna').val());
         formData.append('ref_cliente', $('#ref_cliente').val());
-        //formData.append('primer_uso', $('input[name=primer_uso').val());
-        formData.append('prueba_uso', $('#prueba_uso').val());
         formData.append('carpeta', $('#carpeta').val());
         formData.append('libro', $('#libro').val());
         formData.append('tomo', $('#tomo').val());
         formData.append('folio', $('#folio').val());
-        formData.append('comentarios', $('#comentarios').val());
         formData.append('estado_id', $('#estado_id').val());
         formData.append('solicitud', $('#solicitud').val());
         formData.append('fecha_solicitud', $('#fecha_solicitud').val());
@@ -3955,6 +4084,92 @@
         formData.append('fecha_registro', $('#fecha_registro').val());
         formData.append('certificado', $('#certificado').val());
         formData.append('fecha_certificado', $('#fecha_certificado').val());
+        formData.append('pct_solicitud',$('#pct_solicitud').val());
+        formData.append('pct_publicacion',$('#pct_publicacion').val())
+        formData.append('pct_anualidad_desde',$('#pct_anualidad_desde').val())
+        formData.append('pct_anualidad_hasta',$('#pct_anualidad_hasta').val())
+        formData.append('comentarios', $('#comentarios').val());
+
+        
+        
+
+        $.ajax({
+            url: '<?php echo admin_url('pi/patentes/SolicitudesController/store'); ?>',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log("response ",response);
+                // const obj = JSON.parse(response);
+                // if (obj.code == 201) {
+                //     alert_float('danger', 'Se han encontrado errores en la Solicitud!');
+                //     jQuery.each(obj.error, function(item, val) {
+                //         $('.' + item + '_error').html(val);
+                //     });
+                // }else if (obj.code == 500){
+                //     alert_float('danger', obj.error);
+                // }else{
+                //     alert_float('success', 'Solicitud guardada con éxito!');
+                //     location.replace('<?php //echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
+                // }
+                
+            },
+            fail: function(request) {
+                console.log("Error ");
+                <?php //if (ENVIRONMENT != 'production') { ?>
+                    //alert(response);
+                <?php //} else { ?>
+                    //alert('ha ocurrido un error');
+                <?php //} ?>
+            }
+        });
+    });
+
+    /*
+    $(document).on('submit', "#solicitudfrm", function(e) {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formData.append('tipo_registro_id', $('#tipo_registro_id').val());
+        formData.append('client_id', $('#client_id').val());
+        formData.append('oficina_id', $('#oficina_id').val());
+        formData.append('staff_id', $('#staff_id').val());
+        //Pais_id fill
+        pais_id = JSON.stringify($('#pais_id').val());
+        formData.append('pais_id', pais_id);
+        formData.append('titulo', $('#titulo').val());
+        formData.append('resumen', $('#resumen').val());
+        inventores_id = JSON.stringify($('#inventores_id').val());
+        console.log("inventores_id : ",inventores_id);
+        formData.append('inventores_id', inventores_id);
+        //solicitantes_id fill
+        solicitantes_id = JSON.stringify($('#solicitantes_id').val());
+        console.log("solicitantes_id : ",solicitantes_id);
+        formData.append('solicitantes_id', solicitantes_id);
+        formData.append('clasificacion', $('#clasificacion').val());
+        formData.append('ref_interna', $('#ref_interna').val());
+        formData.append('ref_cliente', $('#ref_cliente').val());
+        formData.append('carpeta', $('#carpeta').val());
+        formData.append('libro', $('#libro').val());
+        formData.append('tomo', $('#tomo').val());
+        formData.append('folio', $('#folio').val());
+        formData.append('estado_id', $('#estado_id').val());
+        formData.append('solicitud', $('#solicitud').val());
+        formData.append('fecha_solicitud', $('#fecha_solicitud').val());
+        formData.append('registro', $('#registro').val());
+        formData.append('fecha_registro', $('#fecha_registro').val());
+        formData.append('certificado', $('#certificado').val());
+        formData.append('fecha_certificado', $('#fecha_certificado').val());
+        formData.append('pct_solicitud',$('#pct_solicitud').val());
+        formData.append('pct_publicacion',$('#pct_publicacion').val())
+        formData.append('pct_anualidad_desde',$('#pct_anualidad_desde').val())
+        formData.append('pct_anualidad_hasta',$('#pct_anualidad_hasta').val())
+        formData.append('comentarios', $('#comentarios').val());
+
+        formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
+        //formData.append('primer_uso', $('input[name=primer_uso').val());
+        formData.append('prueba_uso', $('#prueba_uso').val());
         formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
 
         formData.append('signo_archivo', $('#signo_archivo').val() ? $('#signo_archivo')[0].files[0] : '');
@@ -3973,7 +4188,7 @@
         formData.append("camnom_id", localStorage.getItem("camnom"));
         formData.append("camdom_id", localStorage.getItem("camdom"));
         formData.append("doc_id", localStorage.getItem("documentos"));
-        /* Se agrega al Form todos los Documentos agregados */
+        
         var docu = JSON.parse(localStorage.getItem("documentos"));
         docu.forEach(function(item){
             formData.append("doc_archivo_" + item.idRow, $("#doc_archivo_" + item.idRow).get(0).files[0]);
@@ -3982,7 +4197,7 @@
         
 
         $.ajax({
-            url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
+            url: '<?php //echo admin_url('pi/patentes/SolicitudesController/store'); ?>',
             method: 'POST',
             data: formData,
             processData: false,
@@ -3999,20 +4214,20 @@
                     alert_float('danger', obj.error);
                 }else{
                     alert_float('success', 'Solicitud guardada con éxito!');
-                    location.replace('<?php echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
+                    location.replace('<?php //echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
                 }
                 
             },
             fail: function(request) {
-                <?php if (ENVIRONMENT != 'production') { ?>
+                <?php //if (ENVIRONMENT != 'production') { ?>
                     alert(response);
-                <?php } else { ?>
+                <?php //} else { ?>
                     alert('ha ocurrido un error');
-                <?php } ?>
+                <?php //} ?>
             }
         });
     });
-
+    */
     /***
      * funcion que actualiza el IdRow de cada tabla
      */

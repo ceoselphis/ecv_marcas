@@ -32,7 +32,8 @@
 </div>
 </div>
 <style>
-    th {
+     th,
+    td {
         text-align: center;
     }
 </style>
@@ -43,41 +44,61 @@
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
-    $.ajax({
-        url: "<?php echo admin_url('pi/patentes/InventoresController/getInventores'); ?>",
-        method: "GET",
-        success: function(response) {
-            data = JSON.parse(response);
-            table = data.data;
-            console.log(table);
-            new DataTable(".table", {
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                },
-                destroy: true,
-                data: data.data,
-                columns: [{
-                        data: 'codigo'
+    Patente();
+    function Patente(){
+        let edit =  "<?php echo admin_url('pi/patentes/InventoresController/edit/'); ?>";
+       
+        $.ajax({
+            url: "<?php echo admin_url('pi/patentes/InventoresController/show'); ?>",
+            method: "GET",
+            success: function(response) {
+                
+                console.log("Response ", response);
+                data = JSON.parse(response);
+                table = data.data;
+                console.log(table);
+                new DataTable(".table", {
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
                     },
-                    {
-                        data: 'pais'
-                    },
-                    {
-                        data: 'nombre'
-                    },
-                    {
-                        data: 'apellido'
-                    },
-                    {
-                        data: 'nacionalidad'
-                    },
-                    {
-                        data: 'acciones'
-                    }
-                ]
-            });
-        }
-    });
+                    destroy: true,
+                    data: data.data,
+                    columns: [{
+                            data: 'codigo'
+                        },
+                        {
+                            data: 'pais'
+                        },
+                        {
+                            data: 'nombre'
+                        },
+                        {
+                            data: 'apellido'
+                        },
+                        {
+                            data: 'nacionalidad'
+                        },
+                        {
+                            data: null,
+                            render: function (data, type, row) {
+                            editar = edit + row.id;
+                            console.log(" edit ",editar);
+                            return `
+                                <td class="text-center">
+                                    <a class="btn btn-light" href="${editar}" style="background-color: white;">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <button class="btn btn-danger delete-patente">
+                                        <i class="fas fa-trash"></i> Borrar
+                                    </button>
+                                </td>`;
+                            }
+                        }
+                    ]
+                });
+            }
+        });
+    }
 </script>
 
 

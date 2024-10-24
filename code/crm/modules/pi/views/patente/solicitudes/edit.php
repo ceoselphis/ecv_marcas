@@ -98,6 +98,7 @@ $select = ['' => '']; ?>
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
                                         <div class="col-md-6">
+                                            <p><?php echo json_encode($values)?></p>
                                             <h4>
                                                 <?php echo form_label("N° Expediente Solicitud: {$cod_contador}"); ?>
                                             </h4>
@@ -111,8 +112,8 @@ $select = ['' => '']; ?>
                                             echo form_dropdown(
                                                 'tipo_registro_id',
                                                 $tipo_registro,
-                                                set_value('tipo_registro_id'),
-                                                ['class' => 'form-control', 'id' => 'tipo_registro_id']
+                                                set_value('tipo_registro_id',$values[0]['tipo_registro_id']),
+                                                ['class' => 'form-control', 'id' => 'tipo_registro_id' ]
                                             )
                                             ?>
                                             <div class="text-danger tipo_registro_id_error"></div>
@@ -124,7 +125,7 @@ $select = ['' => '']; ?>
                                             echo form_dropdown(
                                                 'client_id',
                                                 $clientes,
-                                                set_value('client_id'),
+                                                set_value('client_id',$values[0]['client_id']),
                                                 ['class' => 'form-control', 'id' => 'client_id']
                                             );
                                             ?>
@@ -139,7 +140,7 @@ $select = ['' => '']; ?>
                                             echo form_dropdown(
                                                 'oficina_id',
                                                 $oficinas,
-                                                set_value('oficina_id'),
+                                                set_value('oficina_id',$values[0]['oficina_id']),
                                                 ['class' => 'form-control', 'id' => 'oficina_id']
                                             );
                                             ?>
@@ -152,7 +153,7 @@ $select = ['' => '']; ?>
                                             echo form_dropdown(
                                                 'staff_id',
                                                 $responsable,
-                                                set_value('staff_id'),
+                                                set_value('staff_id',$values[0]['staff_id']),
                                                 ['class' => 'form-control', 'id' => 'staff_id']
                                             );
                                             ?>
@@ -184,7 +185,7 @@ $select = ['' => '']; ?>
                                                 'class' => 'form-control',
                                                 'multiple' => 'multiple',
                                                 'options' => $pais_id,
-                                                'selected' => set_value('pais_id', 226) //'226',
+                                                'selected' => set_value('pais_id',$values[0]['staff_id']) //'226',
                                             ]); ?>
                                         </div>
                                         <div class="col-md-12">
@@ -192,11 +193,12 @@ $select = ['' => '']; ?>
                                             <?php echo form_textarea([
                                                 'id' => 'resumen',
                                                 'name' => 'resumen',
-                                                'class' => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => $values[0]['resumen']
                                             ]);
                                             ?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="padding-top: 20px;">
                                             <?php echo form_label('Inventores', 'inventores_id'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'inventores_id',
@@ -207,7 +209,7 @@ $select = ['' => '']; ?>
                                             ]);
                                             ?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="padding-top: 20px;">
                                             <?php echo form_label('Solicitantes', 'solicitantes_id'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'solicitantes_id',

@@ -17,6 +17,31 @@ class InventoresController extends AdminController
         return $CI->load->view('patente/inventores/index');
     }
 
+    public function show(){
+        $CI = &get_instance();
+        $CI->load->model("Inventores_model");
+        $query = $CI->Inventores_model->findAll();
+        if (!empty($query)) {
+            foreach ($query as $row) {
+                $pais = $CI->Inventores_model->findPais($row['pais_id']);
+                $result[] = [
+                    'id' => $row['id'],
+                    'codigo' => $row['codigo'],
+                    'nombre' => $row['nombre'],
+                    'apellido' => $row['apellido'],
+                    'direccion' => $row['direccion'],
+                    'pais' => $pais[0]['nombre'],
+                    'comentarios' => $row['comentarios'],
+                    'nacionalidad' => $row['nacionalidad'],
+                ];
+            }
+            echo json_encode(['code' => 200,'message' =>'success', 'data' => $result]);
+        } else {
+           echo json_encode(['code' => 404,'message' => 'Not found']);
+        }
+       
+    }
+
     /**
      * Shows the form to create a new item
      */
@@ -55,9 +80,7 @@ class InventoresController extends AdminController
      * Find a single item to show
      */
 
-    public function show(string $id = null)
-    {
-    }
+    
 
     /**
      * Shows a form to edit the data

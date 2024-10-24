@@ -93,6 +93,13 @@ class PatentesSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function getAllPatentes(){
+        $this->db->select('*');
+        $this->db->from('tblview_patentes');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function getAllPaises()
     {
         $this->db->select('*');
@@ -137,6 +144,7 @@ class PatentesSolicitudes_model extends BaseModel
         }
         return array_combine($keys, $values);      
     }
+
 
     public function getAllTipoEvento()
     {
@@ -248,7 +256,7 @@ class PatentesSolicitudes_model extends BaseModel
         foreach($query->result_array() as $row)
         {
             array_push($keys, $row['id']);
-            array_push($values, $row['codigo'].'-'.$row['nombre'].' '.$row['apellido']);
+            array_push($values,$row['codigo'].'- '.$row['nombre'].' '.$row['apellido']);
         }
         return array_combine($keys, $values); 
     }

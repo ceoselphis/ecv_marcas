@@ -50,6 +50,22 @@ class PatentesSolicitudes_model extends BaseModel
         return $result;
     }
 
+    public function findAllTipoEvento()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_eventos');
+        $this->db->where('materia_id  = 1');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['descripcion']);
+        }
+        return array_combine($keys, $values);
+    }
+
     public function getAllOficinas()
     {
         $query = $this->db->get('tbl_oficina');

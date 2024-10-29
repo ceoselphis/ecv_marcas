@@ -98,7 +98,7 @@ $select = ['' => '']; ?>
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <p><?php echo json_encode($values)?></p>
+                                            
                                             <h4>
                                                 <?php echo form_label("N° Expediente Solicitud: {$cod_contador}"); ?>
                                             </h4>
@@ -174,6 +174,7 @@ $select = ['' => '']; ?>
                                                     <?php echo ' '; ?>
                                                 </strong>
                                             </h4>
+                                            
                                         </div>
                                     </div>
                                     <div class="row">
@@ -185,7 +186,7 @@ $select = ['' => '']; ?>
                                                 'class' => 'form-control',
                                                 'multiple' => 'multiple',
                                                 'options' => $pais_id,
-                                                'selected' => set_value('pais_id',$values[0]['staff_id']) //'226',
+                                                'selected' => set_value('pais_id',$values[0]['pais_id']) //'226',
                                             ]); ?>
                                         </div>
                                         <div class="col-md-12">
@@ -236,6 +237,7 @@ $select = ['' => '']; ?>
                                                     <?php echo ' ' ?>
                                                 </strong>
                                             </h4>
+                                            <p><?php echo json_encode($values)?></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -244,7 +246,8 @@ $select = ['' => '']; ?>
                                             <?php echo form_input([
                                                 'id' => 'clasificacion',
                                                 'name' => 'clasificacion',
-                                                "class" => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => $values[0]['clasificacion']
                                             ]); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -252,7 +255,8 @@ $select = ['' => '']; ?>
                                             <?php echo form_input([
                                                 'id' => 'ref_interna',
                                                 'name' => 'ref_interna',
-                                                "class" => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => $values[0]['ref_interna']
                                             ]); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -260,7 +264,8 @@ $select = ['' => '']; ?>
                                             <?php echo form_input([
                                                 'id' => 'ref_cliente',
                                                 'name' => 'ref_cliente',
-                                                "class" => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => $values[0]['ref_cliente']
                                             ]); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -268,7 +273,8 @@ $select = ['' => '']; ?>
                                             <?php echo form_input([
                                                 'id' => 'carpeta',
                                                 'name' => 'carpeta',
-                                                "class" => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => $values[0]['carpeta']
                                             ]); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -276,7 +282,8 @@ $select = ['' => '']; ?>
                                             <?php echo form_input([
                                                 'id' => 'libro',
                                                 'name' => 'libro',
-                                                "class" => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => $values[0]['libro']
                                             ]); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -284,7 +291,8 @@ $select = ['' => '']; ?>
                                             <?php echo form_input([
                                                 'id' => 'tomo',
                                                 'name' => 'tomo',
-                                                "class" => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => $values[0]['tomo']
                                             ]); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -292,7 +300,8 @@ $select = ['' => '']; ?>
                                             <?php echo form_input([
                                                 'id' => 'folio',
                                                 'name' => 'folio',
-                                                "class" => 'form-control'
+                                                'class' => 'form-control',
+                                                'value' => $values[0]['folio']
                                             ]); ?>
                                         </div>
                                     </div>
@@ -385,7 +394,7 @@ $select = ['' => '']; ?>
                                             echo form_dropdown(
                                                 'estado_id',
                                                 $estado,
-                                                set_value('estado_id'),
+                                                set_value('estado_id',$values[0]['estado_id']),
                                                 ['class' => 'form-control', 'id' => 'estado_id']
                                             );
                                             ?>
@@ -399,7 +408,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'solicitud',
                                                 'name' => 'solicitud',
                                                 'class' => 'form-control',
-                                                'value' => set_value('solicitud'),
+                                                'value' => set_value('solicitud', $values[0]['nro_solicitud']),
                                                 'placeholder' => 'Nº de Solicitud'
                                             ]); ?>
                                             <div class="text-danger solicitud_error"></div>
@@ -466,19 +475,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label('Fecha'); ?>
-                                            <?php
-                                            echo form_input([
-                                                'id' => 'fecha_vencimiento',
-                                                'name' => 'fecha_vencimiento',
-                                                'class' => 'form-control calendar',
-                                                'value' => set_value('fecha_vencimiento'),
-                                                'placeholder' => 'Fecha Vencimiento'
-                                            ]); ?>
-                                        </div>
-                                    </div>
+                                   
                                     <div class="row">
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label("Solicitud"); ?>
@@ -500,6 +497,30 @@ $select = ['' => '']; ?>
                                                 'class' => 'form-control calendar',
                                                 'value' => set_value('pct_publicacion'),
                                                 'placeholder' => 'Fecha Publicacion'
+                                            ]); ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label("Publicacion Patente"); ?>
+                                            <?php echo form_input([
+                                                'id' => 'pct_publicacion',
+                                                'name' => 'pct_publicacion',
+                                                'class' => 'form-control',
+                                                'value' => set_value('pct_nro_publicacion'),
+                                                'placeholder' => 'Nº de Publicacion'
+                                            ]); ?>
+                                            <div class="text-danger certificado_error"></div>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label("Fecha de Publicacion"); ?>
+                                            <?php
+                                            echo form_input([
+                                                'id' => 'pct_fecha_publicacion',
+                                                'name' => 'pct_fecha_publicacion',
+                                                'class' => 'form-control calendar',
+                                                'value' => set_value('pct_publicacion'),
+                                                'placeholder' => 'Fecha Publicacion de Patente'
                                             ]); ?>
                                         </div>
                                     </div>

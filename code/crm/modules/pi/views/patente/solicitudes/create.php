@@ -415,7 +415,8 @@ $select = ['' => '']; ?>
                                             <div class="text-danger solicitud_error"></div>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label('Fecha'); ?>
+                                            <?php echo form_label('Fecha  de Solicitud'); ?>
+
                                             <?php
                                             echo form_input([
                                                 'id' => 'fecha_solicitud',
@@ -441,7 +442,8 @@ $select = ['' => '']; ?>
                                             <div class="text-danger registro_error"></div>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label("Fecha"); ?>
+                                            <?php echo form_label("Fecha  de Registro"); ?>
+
                                             <?php
                                             echo form_input([
                                                 'id' => 'fecha_registro',
@@ -464,8 +466,9 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                             <div class="text-danger certificado_error"></div>
                                         </div>
+                                        
                                         <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label("Fecha"); ?>
+                                            <?php echo form_label("Fecha de Certificado"); ?>
                                             <?php
                                             echo form_input([
                                                 'id' => 'fecha_certificado',
@@ -478,38 +481,49 @@ $select = ['' => '']; ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label('Fecha'); ?>
-                                            <?php
-                                            echo form_input([
-                                                'id' => 'fecha_vencimiento',
-                                                'name' => 'fecha_vencimiento',
-                                                'class' => 'form-control calendar',
-                                                'value' => set_value('fecha_vencimiento'),
-                                                'placeholder' => 'Fecha Vencimiento'
-                                            ]); ?>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label("Solicitud"); ?>
+                                            <?php echo form_label("Solicitud Patente"); ?>
                                             <?php echo form_input([
                                                 'id' => 'pct_solicitud',
                                                 'name' => 'pct_solicitud',
                                                 'class' => 'form-control',
                                                 'value' => set_value('pct_solicitud'),
-                                                'placeholder' => 'Nº de Certificado'
+                                                'placeholder' => 'Nº Solicitud Patente'
                                             ]); ?>
                                             <div class="text-danger certificado_error"></div>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label("Fecha"); ?>
+                                            <?php echo form_label("Fecha Solicitud Patente"); ?>
                                             <?php
                                             echo form_input([
+                                                'id' => 'pct_fecha_solicitud',
+                                                'name' => 'pct_fecha_solicitud',
+                                                'class' => 'form-control calendar',
+                                                'value' => set_value('pct_fecha_solicitud'),
+                                                'placeholder' => 'Fecha Solicitud Patente'
+                                            ]); ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label("Publicacion Patente"); ?>
+                                            <?php echo form_input([
                                                 'id' => 'pct_publicacion',
                                                 'name' => 'pct_publicacion',
+                                                'class' => 'form-control',
+                                                'value' => set_value('pct_nro_publicacion'),
+                                                'placeholder' => 'Nº de Publicacion'
+                                            ]); ?>
+                                            <div class="text-danger certificado_error"></div>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label("Fecha de Publicacion"); ?>
+                                            <?php
+                                            echo form_input([
+                                                'id' => 'pct_fecha_publicacion',
+                                                'name' => 'pct_fecha_publicacion',
                                                 'class' => 'form-control calendar',
                                                 'value' => set_value('pct_publicacion'),
-                                                'placeholder' => 'Fecha Publicacion'
+                                                'placeholder' => 'Fecha Publicacion de Patente'
                                             ]); ?>
                                         </div>
                                     </div>

@@ -158,7 +158,7 @@
             <?php echo form_label('Tipo Evento', 'tipo_evento',['id' => 'lbltipo_evento']); ?>
             <?php
             /*$tipo_evento = $select + $tipo_evento;*/
-            echo form_dropdown(['name' => 'tipo_evento', 'id' => 'tipo_evento'], []/*$tipo_evento*/, '', ['class' => 'form-control']); ?>
+            echo form_dropdown(['name' => 'tipo_evento', 'id' => 'tipo_evento'], $tipo_evento, '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-4">
             <?php echo form_label('Fecha Evento', 'fecha_evento',['id' => 'lblfecha_evento']); ?>
@@ -173,7 +173,7 @@
         <div class="row" style="padding-top:15px;">
           <div class="col-md-12">
             <?php echo form_label('Comentario', 'evento_comentario',['id' => 'lblevento_comentario']); ?>
-            <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control ', 'style' => 'height: 100px; min-height: 100px;']); ?>
           </div>
         </div>
       </div>

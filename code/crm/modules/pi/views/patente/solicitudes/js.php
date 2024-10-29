@@ -4054,22 +4054,18 @@
         e.preventDefault();
         var formData = new FormData();
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        //----------------------- Step 1 -------------------------------
         formData.append('tipo_registro_id', $('#tipo_registro_id').val());
         formData.append('client_id', $('#client_id').val());
         formData.append('oficina_id', $('#oficina_id').val());
         formData.append('staff_id', $('#staff_id').val());
-        //Pais_id fill
-       // pais_id = JSON.stringify($('#pais_id').val());
+        //----------------------- Step 2 ----------------------------------- 
         formData.append('pais_id', $('#pais_id').val());
         formData.append('titulo', $('#titulo').val());
         formData.append('resumen', $('#resumen').val());
-       // inventores_id = JSON.stringify($('#inventores_id').val());
-        //console.log("inventores_id : ",inventores_id);
         formData.append('inventores_id', $('#inventores_id').val());
-        //solicitantes_id fill
-        solicitantes_id = JSON.stringify($('#solicitantes_id').val());
-        console.log("solicitantes_id : ",solicitantes_id);
-        formData.append('solicitantes_id', solicitantes_id);
+        formData.append('solicitantes_id', $('#solicitantes_id').val());
+        // -------------------- Step 3 -----------------------------------
         formData.append('clasificacion', $('#clasificacion').val());
         formData.append('ref_interna', $('#ref_interna').val());
         formData.append('ref_cliente', $('#ref_cliente').val());
@@ -4077,6 +4073,7 @@
         formData.append('libro', $('#libro').val());
         formData.append('tomo', $('#tomo').val());
         formData.append('folio', $('#folio').val());
+        // -------------- Step 4 ---------------------------
         formData.append('estado_id', $('#estado_id').val());
         formData.append('solicitud', $('#solicitud').val());
         formData.append('fecha_solicitud', $('#fecha_solicitud').val());
@@ -4084,45 +4081,44 @@
         formData.append('fecha_registro', $('#fecha_registro').val());
         formData.append('certificado', $('#certificado').val());
         formData.append('fecha_certificado', $('#fecha_certificado').val());
+
         formData.append('pct_solicitud',$('#pct_solicitud').val());
-        formData.append('pct_publicacion',$('#pct_publicacion').val())
+        formData.append('pct_fecha_solicitud',$('#pct_fecha_solicitud').val());
+
+        formData.append('pct_publicacion',$('#pct_publicacion').val());
+        formData.append('pct_fecha_publicacion',$('#pct_fecha_publicacion').val());
+
         formData.append('pct_anualidad_desde',$('#pct_anualidad_desde').val())
         formData.append('pct_anualidad_hasta',$('#pct_anualidad_hasta').val())
+        //---------------------- Step 5 ------------------------------------
         formData.append('comentarios', $('#comentarios').val());
 
-        
-        
+        let url =  '<?php echo admin_url('pi/patentes/SolicitudesController/store'); ?>';
 
         $.ajax({
-            url: '<?php echo admin_url('pi/patentes/SolicitudesController/store'); ?>',
+            url,
             method: 'POST',
             data: formData,
             processData: false,
-            contentType: false,
-            success: function(response) {
-                console.log("response ",response);
-                // const obj = JSON.parse(response);
-                // if (obj.code == 201) {
-                //     alert_float('danger', 'Se han encontrado errores en la Solicitud!');
-                //     jQuery.each(obj.error, function(item, val) {
-                //         $('.' + item + '_error').html(val);
-                //     });
-                // }else if (obj.code == 500){
-                //     alert_float('danger', obj.error);
-                // }else{
-                //     alert_float('success', 'Solicitud guardada con éxito!');
-                //     location.replace('<?php //echo admin_url("pi/MarcasSolicitudesController/edit/{$id}"); ?>');
-                // }
-                
-            },
-            fail: function(request) {
-                console.log("Error ");
-                <?php //if (ENVIRONMENT != 'production') { ?>
-                    //alert(response);
-                <?php //} else { ?>
-                    //alert('ha ocurrido un error');
-                <?php //} ?>
-            }
+            contentType: false
+        }).then(function (response) {
+            const obj = JSON.parse(response);
+                if (obj.code == 201) {
+                    alert_float('danger', 'Se han encontrado errores en la Solicitud!');
+                    jQuery.each(obj.error, function(item, val) {
+                        $('.' + item + '_error').html(val);
+                    });
+                }else if (obj.code == 500){
+                    alert_float('danger', obj.error);
+                }else if (obj.code == 200){
+
+                    alert_float('success', 'Solicitud guardada con éxito!');
+                    location.replace('<?php echo admin_url("pi/patentes/SolicitudesController/edit/{$id}"); ?>');
+                }
+   
+        }).catch(function (response) {
+            console.log(response);
+            alert("No puede agregar la patente");
         });
     });
 

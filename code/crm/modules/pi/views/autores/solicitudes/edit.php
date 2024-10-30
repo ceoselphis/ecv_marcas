@@ -438,7 +438,7 @@ $select = ['' => '']; ?>
                                             data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table id="body_tareas" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
@@ -448,7 +448,7 @@ $select = ['' => '']; ?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="body_tareas">
+                                            <tbody >
 
 
                                             </tbody>
@@ -477,18 +477,16 @@ $select = ['' => '']; ?>
                                             data-target="#docModal">Añadir Documento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table id="body_documentos" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
                                                     <th>Archivo</th>
                                                     <th>Descripcion</th>
-                                                    <th>Comentarios</th>
-                                                    <th>Documento</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="body_documentos">
+                                            <tbody >
 
                                             </tbody>
                                         </table>

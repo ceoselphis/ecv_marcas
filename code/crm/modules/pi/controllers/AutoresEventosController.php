@@ -27,7 +27,7 @@ class AutoresEventosController extends AdminController
         return $CI->load->view('eventos/index', ["eventos" => $data]);
     } */
 
-    /* public function showEventos(string $id = null){
+    public function showEventos(string $id = null){
         $CI = &get_instance();
         $CI->load->model("Eventos_model");
         $marcas = $CI->Eventos_model->findAllEventosMarcas($id);
@@ -42,7 +42,7 @@ class AutoresEventosController extends AdminController
         }
         echo json_encode($data);
 
-     } */
+     }
 
     /**
      * Shows the form to create a new item

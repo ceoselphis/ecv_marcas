@@ -64,13 +64,13 @@ class AutorTareasController extends AdminController
         $CI->load->model("AutorTareas_Model");
         $marcas = $CI->AutorTareas_Model->findAllTareasMarcas($id);
         $data = array();
-        /*`INSERT INTO `tbl_marcas_tareas`(`id`, `tipo_tareas_id`, `marcas_id`, `fecha`, `descripcion`) */
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
-                'tipo_tarea' => $CI->AutorTareas_Model->BuscarTipoTareas($row['tipo_tareas_id']),
+                'tipo_tarea' => $CI->AutorTareas_Model->BuscarTipoTareas($row['id_tipo_tareas']),
                 'descripcion' => $row['descripcion'],
-                'fecha' => $row['fecha'], 
+                'fecha' => $this->flip_dates($row['fecha']),
+                'acciones' => '<a class="btn btn-sm btn-danger borrarTarea" id="'.$row['id'].'"> <i class="fas fa-trash">  </i> Borrar </a>' 
             );
         }
         echo json_encode($data);
@@ -341,8 +341,8 @@ class AutorTareasController extends AdminController
         ];        
         $task_id = $CI->AutorTareas_Model->insertTask($task);
         $tarea = [
-            'tipo_tareas_id' => $data['tipo_tarea'],
-            'marcas_id'      => $data['marcas_id'],
+            'id_tipo_tareas' => $data['tipo_tarea'],
+            'id_solicitud'      => $data['solicitud_id'],
             'fecha'          => date('Y-m-d'),
             'descripcion'    => $data['descripcion'],
             'project_id'     => $data['project_id'],

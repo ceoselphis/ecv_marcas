@@ -65,10 +65,11 @@ class AutoresSolicitudesDocumentoController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
-                'marcas_id' => $CI->AutoresSolicitudesDocumento_model->BuscarSolicitudesMarcas($row['marcas_id']),
+                'id_solicitud' => $CI->AutoresSolicitudesDocumento_model->BuscarSolicitudesMarcas($row['id_solicitud']),
                 'descripcion' => $row['descripcion'],
                 'comentario' => $row['comentarios'],
-                'path' => $row['path'],
+                'path' => '<a target="_blank" href="'.admin_url('/uploads/derautor/documentos/').$row['path'].'"> Archivo </a>',
+                'acciones' => '<a class="btn btn-sm btn-danger borrarDoc" id="'.$row['id'].'"> <i class="fas fa-trash">  </i> Borrar </a>' 
             );
         }
         echo json_encode($data);
@@ -177,7 +178,7 @@ class AutoresSolicitudesDocumentoController extends AdminController
             $fileType = pathinfo($fpath, PATHINFO_EXTENSION);
             // Mover el archivo a la carpeta de destino
                 if (move_uploaded_file($file['doc_archivo']['tmp_name'], $fpath)) {
-                    echo "El archivo PDF se ha subido exitosamente.";
+                    echo json_encode(["message" => "El archivo PDF se ha subido exitosamente."]);
                 } else {
                     
                     throw new Exception('Error al subir el archivo'); 
@@ -187,7 +188,7 @@ class AutoresSolicitudesDocumentoController extends AdminController
         }
         if (!empty($data)){
             $insert = array(
-                'marcas_id' => $data['id_marcas'],
+                'id_solicitud' => $data['solicitud_id'],
                 'descripcion' => $data['doc_descripcion'],
                 'comentarios' => $data['comentario_archivo'],
                 'path' => $doc_arch,
@@ -233,7 +234,6 @@ class AutoresSolicitudesDocumentoController extends AdminController
     }
 
      public function UpdateDocumento(string $id = null){
-        /*INSERT INTO `tbl_marcas_solicitudes_documentos`(`id`, `marcas_id`, `comentarios`, `path`, `descripcion`) */
         $CI = &get_instance();
         $CI->load->model("AutoresSolicitudesDocumento_model");
         $query = $CI->AutoresSolicitudesDocumento_model->find($id);
@@ -251,7 +251,7 @@ class AutoresSolicitudesDocumentoController extends AdminController
                 $this->DeleteArchivoDocumento($query[0]['path']);
                 $fpath = FCPATH.'uploads/marcas/documentos/'.$file['doc_archivo']['name'];
                 if (move_uploaded_file($file['doc_archivo']['tmp_name'], $fpath)) {
-                    echo "El archivo PDF se ha subido exitosamente.";
+                    echo json_encode(["message" => "El archivo PDF se ha subido exitosamente."]);
                 } else {
                     
                     throw new Exception('Error al subir el archivo'); 

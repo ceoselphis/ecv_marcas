@@ -31,8 +31,8 @@ class AutoresSolicitudesDocumento_model extends BaseModel
 
     public function findAllDocumentosMarcas($id = NULL){
         $this->db->select('*');
-        $this->db->from('tbl_marcas_solicitudes_documentos');
-        $this->db->where('marcas_id = '.$id);
+        $this->db->from('tbl_derecho_autor_documentos');
+        $this->db->where('id_solicitud = '.$id);
         $query = $this->db->get();
         $values = $query->result_array();
         return $values; 

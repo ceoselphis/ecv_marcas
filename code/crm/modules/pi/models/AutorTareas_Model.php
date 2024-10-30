@@ -48,8 +48,8 @@ class AutorTareas_Model extends BaseModel
 
     public function findAllTareasMarcas($id = NULL){
         $this->db->select('*');
-        $this->db->from('tbl_marcas_tareas');
-        $this->db->where('marcas_id = '.$id);
+        $this->db->from('tbl_derecho_autor_tareas');
+        $this->db->where('id_solicitud = '.$id);
         $query = $this->db->get();
         $values = $query->result_array();
         return $values; 

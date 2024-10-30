@@ -3913,136 +3913,7 @@
         });
     }
 
-    /*
-                                                'name'=> 'tipo_registro_id',
-                                              'id' => 'tipo_registro_id'
-                                            
-                                      
-                                            
-                                                'name' => 'client_id',
-                                                'id' => 'client_id'
-                                            
-                                     
-                                            
-                                              'name' => 'oficina_id',
-                                              'id' => 'oficina_id'
-                                            
-                                        
-                                            
-                                              'name' => 'staff_id',
-                                              'id' => 'staff_id'
-                                            
-                                  
-                                                'id' => 'pais_id',
-                                                'name' => 'pais_id',
-                                          
-                                                'id' => 'resumen',
-                                                'name' => 'resumen',
-                                            
-                                                'id' => 'inventores_id',
-                                                'name' => 'inventores_id',
-                                          
-                                                'id' => 'solicitantes_id',
-                                                'name' => 'solicitantes_id',
-                                            
-                                                'id' => 'clasificacion',
-                                                'name' => 'clasificacion',
-                                    
-                                                'id' => 'ref_interna',
-                                                'name' => 'ref_interna',
-                                         
-                                                'id' => 'ref_cliente',
-                                                'name' => 'ref_cliente',
-                                            
-                                                'id' => 'carpeta',
-                                                'name' => 'carpeta',
-                                       
-                                                'id' => 'libro',
-                                                'name' => 'libro',
-                                     
-                                                'id' => 'tomo',
-                                                'name' => 'tomo',
-                                               
-                                                'id' => 'folio',
-                                                'name' => 'folio',
-                                           
-                                            
-                                                'name' => 'estado_id',
-                                                'id' => 'estado_id'
-                                            
-                                         
-                                                'id' => 'solicitud',
-                                                'name' => 'solicitud',
-                                           
-                                                'id' => 'fecha_solicitud',
-                                                'name' => 'fecha_solicitud',
-                                             
-                                                'id' => 'registro',
-                                                'name' => 'registro',
-                                         
-                                                'id' => 'fecha_registro',
-                                                'name' => 'fecha_registro',
-                                               
-                                                'id' => 'certificado',
-                                                'name' => 'certificado',
-                                          
-                                                'id' => 'fecha_certificado',
-                                                'name' => 'fecha_certificado',
-                            
-                                                'id' => 'fecha_vencimiento',
-                                                'name' => 'fecha_vencimiento',
-                                          
-                                                'id' => 'pct_solicitud',
-                                                'name' => 'pct_solicitud',
-                                            
-                                                'id' => 'pct_publicacion',
-                                                'name' => 'pct_publicacion',
-                                           
-                                                'id' => 'pct_anualidad_desde',
-                                                'name' => 'pct_anualidad_desde',
-                                         
-                                                'id' => 'pct_anualidad_hasta',
-                                                'name' => 'pct_anualidad_hasta',
-                            
-                                                'id' => 'comentarios',
-                                                'name' => 'comentarios',
-                                
-    */
-
-
-
-        /*
-          `id` ,
-  `tipo_registro_id`,
-  `client_id`  ,
-  `oficina_id` ) ,
-  `staff_id` ,
-  `pais_id` ,
-  `titulo` ,
-  `resumen` ,
-  `clasificacion` ,
-  `ref_interna` ,
-  `ref_cliente` ,
-  `carpeta` ,
-  `libro` ,
-  `tomo` ,
-  `folio` ,
-  `estado_id` ,
-  `nro_solicitud` ,
-  `fecha_solicitud` ,
-  `nro_registro` ,
-  `fecha_registro` ,
-  `nro_certificado` ,
-  `fecha_vencimiento_certificado` ,
-  `pct_nro_solicitud` ,
-  `pct_fecha_solicitud` ,
-  `pct_nro_publicacion` ,
-  `pct_fecha_publicacion` ,
-  `is_pago_anual` tinyint(1) ,
-  `anualidad_desde` ,
-  `anualidad_hasta` ,
-  `comentarios` ,
-        */
+  
 
 
 
@@ -4053,6 +3924,13 @@
     $(document).on('submit', "#solicitudfrm", function(e) {
         e.preventDefault();
         var formData = new FormData();
+        var formSolicitante = new FormData();   
+        var formInventor = new FormData();
+
+        let solicitantes = $('#solicitantes_id').val();
+        let inventores = $('#inventores_id').val();
+        console.log("solicitantes ",solicitantes);
+        //----------------- Patentes ----------------------------------------------
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         //----------------------- Step 1 -------------------------------
         formData.append('tipo_registro_id', $('#tipo_registro_id').val());
@@ -4081,19 +3959,34 @@
         formData.append('fecha_registro', $('#fecha_registro').val());
         formData.append('certificado', $('#certificado').val());
         formData.append('fecha_certificado', $('#fecha_certificado').val());
-
         formData.append('pct_solicitud',$('#pct_solicitud').val());
         formData.append('pct_fecha_solicitud',$('#pct_fecha_solicitud').val());
-
         formData.append('pct_publicacion',$('#pct_publicacion').val());
         formData.append('pct_fecha_publicacion',$('#pct_fecha_publicacion').val());
-
         formData.append('pct_anualidad_desde',$('#pct_anualidad_desde').val())
         formData.append('pct_anualidad_hasta',$('#pct_anualidad_hasta').val())
         //---------------------- Step 5 ------------------------------------
         formData.append('comentarios', $('#comentarios').val());
 
+        //######################################################################
+     
+        //--------------- Form Data Solictantes ----------------------
+        formSolicitante.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formSolicitante.append('solicitantes', solicitantes);
+        // ############################################################
+
+
+        // --------------------- Form Data Inventores --------------------
+        formInventor.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formInventor.append('inventores', inventores);
+        // #############################################################
+
+        let url_solicitantes = '<?php echo admin_url('pi/patentes/SolicitudesController/InsertarSolicitantes'); ?>';
+        let url_inventores =  '<?php echo admin_url('pi/patentes/SolicitudesController/InsertarInventores'); ?>';
+
         let url =  '<?php echo admin_url('pi/patentes/SolicitudesController/store'); ?>';
+
+       
 
         $.ajax({
             url,
@@ -4102,6 +3995,7 @@
             processData: false,
             contentType: false
         }).then(function (response) {
+            console.log(" Response ", response);
             const obj = JSON.parse(response);
                 if (obj.code == 201) {
                     alert_float('danger', 'Se han encontrado errores en la Solicitud!');
@@ -4111,14 +4005,46 @@
                 }else if (obj.code == 500){
                     alert_float('danger', obj.error);
                 }else if (obj.code == 200){
+                    let id = obj.id;
+                    formSolicitante.append('id',id);
+                    formInventor.append('id',id);
+
+                    $.ajax({
+                        url: url_solicitantes,
+                        method: 'POST',
+                        data: formSolicitante,
+                        processData: false,
+                        contentType: false
+                    }).then(function (response) {
+                        console.log(" Response ", response);
+                    }).catch(function (response) {
+                        console.log(response.responseText);
+                        alert_float('danger', 'No se pudo crear el Solicitante');
+                    });
+
+                    $.ajax({
+                        url: url_inventores,
+                        method: 'POST',
+                        data: formInventor,
+                        processData: false,
+                        contentType: false
+                    }).then(function (response) {
+                        console.log(" Response ", response);
+                    }).catch(function (response) {
+                        console.log(response.responseText);
+                        alert_float('danger', 'No se pudo crear la Patente');
+                    });
 
                     alert_float('success', 'Solicitud guardada con éxito!');
-                    location.replace('<?php echo admin_url("pi/patentes/SolicitudesController/edit/{$id}"); ?>');
+                    let ruta = '<?php echo admin_url("pi/patentes/SolicitudesController/edit/"); ?>';
+                    ruta = ruta + id;
+                    location.replace(ruta);
                 }
    
         }).catch(function (response) {
-            console.log(response);
-            alert("No puede agregar la patente");
+            console.log(response.responseText);
+            alert_float('danger', 'No se pudo crear la Patente');
+            //alert("No puede agregar la patente");
         });
     });
 

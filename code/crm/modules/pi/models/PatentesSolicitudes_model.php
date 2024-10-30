@@ -37,6 +37,35 @@ class PatentesSolicitudes_model extends BaseModel
 
     }
 
+    public function findPatenteSolicitantes($id){
+        $this->db->select('*');
+        $this->db->from('tbl_patentes_solicitantes');
+        $this->db->where('id',$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+           
+            array_push($values, $row['client_id']);
+        }
+        return $values;
+    }
+
+    public function findPatenteInventores($id){
+        $this->db->select('*');
+        $this->db->from('tbl_patentes_inventores_solicitudes');
+        $this->db->where('id',$id);
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($values, $row['inventor_id']);
+        }
+        return $values;
+    }
+
     public function getAllClients()
     {
         $this->db->select('userid, company');

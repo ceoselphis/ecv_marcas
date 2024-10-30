@@ -88,7 +88,7 @@ $select = ['' => '']; ?>
                                         <a href="#step9" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">9</span> <i> Documentos</i></a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#step10" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">9</span> <i> Facturas</i></a>
+                                        <a href="#step10" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab">10</span> <i> Facturas</i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -174,7 +174,6 @@ $select = ['' => '']; ?>
                                                     <?php echo ' '; ?>
                                                 </strong>
                                             </h4>
-                                            
                                         </div>
                                     </div>
                                     <div class="row">
@@ -206,7 +205,7 @@ $select = ['' => '']; ?>
                                                 'name' => 'inventores_id',
                                                 'multiple' => 'multiple',
                                                 'options' => $inventores,
-                                                'selected' => set_value('inventores_id', 1)
+                                                'selected' => set_value('inventores_id', $inventores_selected)
                                             ]);
                                             ?>
                                         </div>
@@ -217,7 +216,7 @@ $select = ['' => '']; ?>
                                                 'name' => 'solicitantes_id',
                                                 'multiple' => 'multiple',
                                                 'options' => $clientes,
-                                                'selected' => set_value('solicitantes_id', 1)
+                                                'selected' => set_value('solicitantes_id', $solicitantes_selected)
                                             ]);
                                             ?>
                                         </div>
@@ -237,7 +236,7 @@ $select = ['' => '']; ?>
                                                     <?php echo ' ' ?>
                                                 </strong>
                                             </h4>
-                                            <p><?php echo json_encode($values)?></p>
+                                           
                                         </div>
                                     </div>
                                     <div class="row">
@@ -384,6 +383,7 @@ $select = ['' => '']; ?>
                                                     <?php echo ' '; ?>
                                                 </strong>
                                             </h4>
+                                        
                                         </div>
                                     </div>
                                     <div class="row">
@@ -420,7 +420,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'fecha_solicitud',
                                                 'name' => 'fecha_solicitud',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('fecha_solicitud'),
+                                                'value' => set_value('fecha_solicitud',$values[0]['fecha_solicitud']),
                                                 'placeholder' => 'Fecha Solicitud'
                                             ]); ?>
                                             <div class="text-danger fecha_solicitud_error"></div>
@@ -434,7 +434,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'registro',
                                                 'name' => 'registro',
                                                 'class' => 'form-control',
-                                                'value' => set_value('registro'),
+                                                'value' => set_value('registro',$values[0]['nro_registro']),
                                                 'placeholder' => 'Nº Registro'
                                             ]); ?>
                                             <div class="text-danger registro_error"></div>
@@ -446,7 +446,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'fecha_registro',
                                                 'name' => 'fecha_registro',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('fecha_registro'),
+                                                'value' => set_value('fecha_registro',$values[0]['fecha_registro']),
                                                 'placeholder' => 'Fecha de Registro'
                                             ]); ?>
                                         </div>
@@ -458,7 +458,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'certificado',
                                                 'name' => 'certificado',
                                                 'class' => 'form-control',
-                                                'value' => set_value('certificado'),
+                                                'value' => set_value('certificado',$values[0]['nro_certificado']),
                                                 'placeholder' => 'Nº de Certificado'
                                             ]); ?>
                                             <div class="text-danger certificado_error"></div>
@@ -470,7 +470,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'fecha_certificado',
                                                 'name' => 'fecha_certificado',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('fecha_certificado'),
+                                                'value' => set_value('fecha_certificado',$values[0]['fecha_vencimiento_certificado']),
                                                 'placeholder' => 'Fecha de Certificado'
                                             ]); ?>
                                         </div>
@@ -483,20 +483,20 @@ $select = ['' => '']; ?>
                                                 'id' => 'pct_solicitud',
                                                 'name' => 'pct_solicitud',
                                                 'class' => 'form-control',
-                                                'value' => set_value('pct_solicitud'),
+                                                'value' => set_value('pct_solicitud',$values[0]['pct_nro_solicitud']),
                                                 'placeholder' => 'Nº de Certificado'
                                             ]); ?>
                                             <div class="text-danger certificado_error"></div>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label("Fecha"); ?>
+                                            <?php echo form_label("Fecha de Solicitud"); ?>
                                             <?php
                                             echo form_input([
-                                                'id' => 'pct_publicacion',
-                                                'name' => 'pct_publicacion',
+                                                'id' => 'pct_fecha_solicitud',
+                                                'name' => 'pct_fecha_solicitud',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('pct_publicacion'),
-                                                'placeholder' => 'Fecha Publicacion'
+                                                'value' => set_value('pct_fecha_solicitud',$values[0]['pct_fecha_solicitud']),
+                                                'placeholder' => 'Fecha Solicitud Patente'
                                             ]); ?>
                                         </div>
                                     </div>
@@ -507,7 +507,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'pct_publicacion',
                                                 'name' => 'pct_publicacion',
                                                 'class' => 'form-control',
-                                                'value' => set_value('pct_nro_publicacion'),
+                                                'value' => set_value('pct_nro_publicacion',$values[0]['pct_nro_publicacion']),
                                                 'placeholder' => 'Nº de Publicacion'
                                             ]); ?>
                                             <div class="text-danger certificado_error"></div>
@@ -519,7 +519,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'pct_fecha_publicacion',
                                                 'name' => 'pct_fecha_publicacion',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('pct_publicacion'),
+                                                'value' => set_value('pct_publicacion',$values[0]['pct_fecha_publicacion']),
                                                 'placeholder' => 'Fecha Publicacion de Patente'
                                             ]); ?>
                                         </div>
@@ -531,7 +531,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'pct_anualidad_desde',
                                                 'name' => 'pct_anualidad_desde',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('pct_anualidad_desde'),
+                                                'value' => set_value('pct_anualidad_desde',$values[0]['anualidad_desde']),
                                                 'placeholder' => 'Fecha Anualidad'
                                             ]); ?>
                                             <div class="text-danger certificado_error"></div>
@@ -543,7 +543,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'pct_anualidad_hasta',
                                                 'name' => 'pct_anualidad_hasta',
                                                 'class' => 'form-control calendar',
-                                                'value' => set_value('pct_anualidad_hasta'),
+                                                'value' => set_value('pct_anualidad_hasta',$values[0]['anualidad_hasta']),
                                                 'placeholder' => 'Fecha Anualidad'
                                             ]); ?>
                                         </div>
@@ -563,6 +563,7 @@ $select = ['' => '']; ?>
                                             'id' => 'comentarios',
                                             'name' => 'comentarios',
                                             'class' => 'form-control',
+                                            'value' => set_value('pct_anualidad_hasta',$values[0]['comentarios']),
                                         ]); ?>
                                     </div>
 
@@ -602,7 +603,13 @@ $select = ['' => '']; ?>
                                                 </tbody>
                                             </table>
                                         </div>
+
                                     </div>
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="default-btn prev-step">Atrás</button></li>
+                                        <li><button type="submit" class="btn btn-success"> Guardar</button></li>
+                                        <li><button type="button" class="default-btn btn-primary next-step">Siguiente</button></li>
+                                    </ul>
                                 </div>
                                 <!-- Step 7 -->
                                 <div class="tab-pane" role="tabpanel" id="step7">

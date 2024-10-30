@@ -45,68 +45,55 @@ class SolicitudesController extends AdminController
      * Recive the data for create a new item
      */
 
-      /*
-       'tipo_registro_id', $('#tipo_registro_id').val());
-       'client_id', $('#client_id').val());
-       'oficina_id', $('#oficina_id').val());
-       'staff_id', $('#staff_id').val());
-       'pais_id', $('#pais_id').val());
-       'titulo', $('#titulo').val());
-       'resumen', $('#resumen').val());
-       'inventores_id', $('#inventores_id').val());
-       'solicitantes_id', $('#solicitantes_id').val());
-       'clasificacion', $('#clasificacion').val());
-       'ref_interna', $('#ref_interna').val());
-       'ref_cliente', $('#ref_cliente').val());
-       'carpeta', $('#carpeta').val());
-       'libro', $('#libro').val());
-       'tomo', $('#tomo').val());
-       'folio', $('#folio').val());
-       'estado_id', $('#estado_id').val());
-       'solicitud', $('#solicitud').val());
-       'fecha_solicitud', $('#fecha_solicitud').val());
-       'registro', $('#registro').val());
-       'fecha_registro', $('#fecha_registro').val());
-       'certificado', $('#certificado').val());
-       'fecha_certificado', $('#fecha_certificado').val());
-       'pct_solicitud',$('#pct_solicitud').val());
-       'pct_publicacion',$('#pct_publicacion').val())
-       'pct_anualidad_desde',$('#pct_anualidad_desde').val())
-       'pct_anualidad_hasta',$('#pct_anualidad_hasta').val())
-       'comentarios', $('#comentarios').val());
-        */
-            /*
-          `id` ,
-  `tipo_registro_id`,
-  `client_id`  ,
-  `oficina_id` ) ,
-  `staff_id` ,
-  `pais_id` ,
-  `titulo` ,
-  `resumen` ,
-  `clasificacion` ,
-  `ref_interna` ,
-  `ref_cliente` ,
-  `carpeta` ,
-  `libro` ,
-  `tomo` ,
-  `folio` ,
-  `estado_id` ,
-  `nro_solicitud` ,
-  `fecha_solicitud` ,
-  `nro_registro` ,
-  `fecha_registro` ,
-  `nro_certificado` ,
-  `fecha_vencimiento_certificado` ,
-  `pct_nro_solicitud` ,
-  `pct_fecha_solicitud` ,
-  `pct_nro_publicacion` ,
-  `pct_fecha_publicacion` ,
-  `is_pago_anual` tinyint(1) ,
-  `anualidad_desde` ,
-  `anualidad_hasta` ,
-  `comentarios` ,
-        */
+    public function InsertarSolicitantes() {
+      $CI = &get_instance();
+      $CI->load->model("PatentesSolicitantes_model");
+      $form = array();
+      $data = $CI->input->post();
+      if (!empty($data['solicitantes'])){
+        $array_solicitantes = explode(',', $data['solicitantes']);
+        foreach ($array_solicitantes as $solicitante) {
+          $form['id'] = $data['id'];
+          $form['client_id'] =  $solicitante;
+          $query = $CI->PatentesSolicitantes_model->insert($form);
+          if(isset($query))
+          {
+            echo json_encode(['message' => 'success', 'code' => '200']);              
+          }else {
+            echo json_encode(['error' => $query,'code' => '500']);
+          }
+        }
+
+      } else {
+        echo json_encode(['message' => 'No hay Solicitantes', 'code' => '200']);
+      }
+    }
+
+    public function InsertarInventores() {
+      $CI = &get_instance();
+      $CI->load->model("PatentesInventores_model");
+      $form = array();
+      $data = $CI->input->post();
+
+      if (!empty($data['inventores'])){
+        $array_inventores = explode(',', $data['inventores']);
+        foreach ($array_inventores as $inventores) {
+          $form['id'] = $data['id'];
+          $form['inventor_id'] =  $inventores;
+          $query = $CI->PatentesInventores_model->insert($form);
+          if(isset($query))
+          {
+            echo json_encode(['message' => 'success', 'code' => '200']);              
+          }else {
+            echo json_encode(['error' => $query,'code' => '500']);
+          }
+        }
+      } else {
+        echo json_encode(['message' => 'No hay Inventores', 'code' => '200']);
+      }
+    }
+
+    
 
     public function store()
     {
@@ -144,22 +131,20 @@ class SolicitudesController extends AdminController
         $form['pct_nro_solicitud']    = $data['pct_solicitud'];
         $form['pct_fecha_solicitud']   = DateTime::createFromFormat('d/m/Y', $data['pct_fecha_solicitud'])->format('Y-m-d');
         $form['pct_nro_publicacion']    = $data['pct_publicacion'];
-        
         $form['pct_fecha_publicacion']     = DateTime::createFromFormat('d/m/Y', $data['pct_fecha_publicacion'])->format('Y-m-d');
         $form['is_pago_anual']     = true;
         $form['anualidad_desde']     = DateTime::createFromFormat('d/m/Y', $data['pct_anualidad_desde'])->format('Y-m-d');
         $form['anualidad_hasta']     = DateTime::createFromFormat('d/m/Y', $data['pct_anualidad_hasta'])->format('Y-m-d');
         //--------------- Step 5 ----------------------
         $form['comentarios']       = $data['comentarios'];
-       
-        
         try {
             $query = $CI->PatentesSolicitudes_model->insert($form);
+           
             if(isset($query))
             {
               $id = $CI->PatentesSolicitudes_model->last_insert_id();
-              echo json_encode(['message' => 'success','id' => $id, 'code' => '200']);
-            // return redirect("pi/patentes/SolicitudesController/edit/{$id}");
+              echo json_encode(['message' => 'success','id' => $id, 'code' => '200']);              
+            // // return redirect("pi/patentes/SolicitudesController/edit/{$id}");
             }else {
               echo json_encode(['error' => $query,'code' => '500']);
               //   return redirect(admin_url('pi/patentes/SolicitudesController/'));
@@ -325,16 +310,16 @@ class SolicitudesController extends AdminController
               "nro_solicitud" => $query[0]['nro_solicitud'] ,
               "fecha_solicitud" => date('d/m/Y', strtotime($query[0]['fecha_solicitud'])),  
               "nro_registro" => $query[0]['nro_registro'],
-              "fecha_registro" => $query[0]['fecha_registro'] ,
+              "fecha_registro" => date('d/m/Y', strtotime($query[0]['fecha_registro'])) ,
               "nro_certificado" => $query[0]['nro_certificado'] ,
-              "fecha_vencimiento_certificado" => $query[0]['fecha_vencimiento_certificado'] ,
+              "fecha_vencimiento_certificado" => date('d/m/Y', strtotime($query[0]['fecha_vencimiento_certificado']))  ,
               "pct_nro_solicitud" => $query[0]['pct_nro_solicitud'] ,
-              "pct_fecha_solicitud" => $query[0]['pct_fecha_solicitud'] ,
+              "pct_fecha_solicitud" =>  date('d/m/Y', strtotime($query[0]['pct_fecha_solicitud'])) ,
               "pct_nro_publicacion" => $query[0]['pct_nro_publicacion'] ,
-              "pct_fecha_publicacion" => $query[0]['pct_fecha_publicacion'],
+              "pct_fecha_publicacion" =>  date('d/m/Y', strtotime($query[0]['pct_fecha_publicacion'])) ,
               "is_pago_anual" => $query[0]['is_pago_anual'] ,
-              "anualidad_desde" => $query[0]['anualidad_desde'],
-              "anualidad_hasta" => $query[0]['anualidad_hasta'] ,
+              "anualidad_desde" =>  date('d/m/Y', strtotime($query[0]['anualidad_desde'])) ,
+              "anualidad_hasta" =>  date('d/m/Y', strtotime($query[0]['anualidad_hasta']))  ,
               "comentarios" => $query[0]['comentarios'],
           ];
             $data = [
@@ -348,6 +333,8 @@ class SolicitudesController extends AdminController
                 'inventores'    => $CI->PatentesSolicitudes_model->getAllInventores(),
                 'cod_contador'  => $id,
                 'solicitantes'  => $CI->PatentesSolicitudes_model->getAllClients(),
+                'solicitantes_selected' => $CI->PatentesSolicitudes_model->findPatenteSolicitantes($id),
+                'inventores_selected' => $CI->PatentesSolicitudes_model->findPatenteInventores($id),
                 'values' => $patente,
                 'labels' => array('Id', 'Nombre del anexo')
             ];

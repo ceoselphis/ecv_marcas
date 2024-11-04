@@ -112,7 +112,7 @@ $select = ['' => '']; ?>
                                                 'tipo_registro_id',
                                                 $tipo_registro,
                                                 set_value('tipo_registro_id'),
-                                                ['class' => 'form-control', 'id' => 'tipo_registro_id']
+                                                ['class' => 'form-control', 'id' => 'tipo_registro_id', 'required' => 'required']
                                             )
                                             ?>
                                             <div class="text-danger tipo_registro_id_error"></div>
@@ -125,7 +125,7 @@ $select = ['' => '']; ?>
                                                 'client_id',
                                                 $clientes,
                                                 set_value('client_id'),
-                                                ['class' => 'form-control', 'id' => 'client_id']
+                                                ['class' => 'form-control', 'id' => 'client_id', 'required' => 'required']
                                             );
                                             ?>
                                             <div class="text-danger client_id_error"></div>
@@ -896,7 +896,7 @@ $select = ['' => '']; ?>
                                                     <th>Nº</th>
                                                     <!-- <th>Archivo</th> -->
                                                     <th>Descripcion</th>
-                                                    <th>Comentarios</th>
+                                                    <th>Fecha</th>
                                                     <th>Documento</th>
                                                     <th>Acciones</th>
                                                 </tr>

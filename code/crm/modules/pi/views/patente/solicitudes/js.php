@@ -3,6 +3,12 @@
 <script>
     $('#modal-loading').modal('show');
 
+    url_patente = window.location.href;
+    let idMatch = url_patente.match(/(\d+)(?!.*\d)/);
+    let patente_id = idMatch ? idMatch[0] : null; 
+    if (!patente_id) {
+        patente_id = '<?php echo $id ?> ';
+    }
     
     /* Declaramos las variables de Datatable para iniciaizarlas*/
     var tblClaseDT;
@@ -3612,7 +3618,7 @@
                 tblDocumentosDT.clear();
                 tblDocumentosDT.rows.add(JSON.parse(localStorage.getItem("documentos")));
                 tblDocumentosDT.columns.adjust().draw();
-                ResetTablaDocumento();
+                ResetTablaDocumento(patente_id);
                 $("#docModal").modal('hide');
                 alert_float('success', 'Registro guardado exitosamente');
             } catch (error) {
@@ -3685,15 +3691,17 @@
     /***
      * funcion que configura el Datatable de las Documento
      */
-    function TablaDocumento() {
-        table = JSON.parse(localStorage.getItem("documentos"));
-        tblDocumentosDT = 
-        new $("#DocTbl").DataTable({
+
+    function TablaDocumento(patente_id) {
+        console.log("Patente ", patente_id);
+        //'http://localhost/ecv_marcas/code/crm/admin/pi/patentes/SolicitudesController/showDocumentos/';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showDocumentos/"); ?>';
+        url += encodeURIComponent(patente_id.trim()); // Sanitiza el `patente_id`
+        $("#DocTbl").DataTable({
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
             },
             autoWidth: false,
-            data: table,
             destroy: true,
             dataSrc: '',
             columnDefs: [
@@ -3703,46 +3711,166 @@
                 { width: '30%', targets: 3 },
                 { width: '5%', targets: 4 }
             ],
-            columns: [
-                {
-                    data: 'idRow',
-                    render: function (data, type, row)
-                    {
-                        return "<div class='col-md-12'>" + data + "</div>"
-                    }
-                },
-                {
-                    data: 'descripcion',
-                    render: function (data, type, row)
-                    {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
-                    }
-                },
-                {
-                    data: 'comentarios',
-                    render: function (data, type, row)
-                    {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
-                    }
-                },
-                {
-                    data: 'path',
-                    render: function (data, type, row)
-                    {
-                        return "<div class='col-md-12 text-left'>" + data + "</div>"
-                    }
-                },
-                {
-                    data: 'acciones',
-                    render: function (data, type, row)
-                    {
-                        return "<div class='col-md-12'>" + data + "</div>"
-                    }
-                },
-            ],
             width: "100%"
         });
+        console.log(url);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log('Data retrieved:', data);
+                $("#DocTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: data,
+                    destroy: true,
+                    dataSrc: '',
+                    columnDefs: [
+                        { width: '5%', targets: 0 },
+                        { width: '25%', targets: 1 },
+                        { width: '30%', targets: 2 },
+                        { width: '30%', targets: 3 },
+                        { width: '5%', targets: 4 }
+                    ],
+                    columns: [
+                        {
+                            data: 'id',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'descripcion',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'path',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-md-12 text-center'> <a href = '" + data + "' Target='_blank' > Documento </a></div>"
+                            }
+                        },
+                        {
+                            data: null,
+                            render: function (data, type, row) {
+                                return `
+                                    <td class="text-center">
+                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <i class="fas fa-trash"></i> Borrar
+                                        </button>
+                                    </td>`;
+                            }
+                        },
+                    ],
+                    width: "100%"
+                });
+                $('#DocTbl').on('click', '.delete-documento', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('documento');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Legue a elimar la publicacion ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaDocumento(patente_id);
+                            alert_float('success', "Eliminado Documento Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar el Publicacion");
+                        });
+                    }
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log('Error al cargar el documento:');
+            }
+        });
     }
+
+   
+
+    // function TablaDocumento() {
+    //     table = JSON.parse(localStorage.getItem("documentos"));
+    //     tblDocumentosDT = 
+    //     new $("#DocTbl").DataTable({
+    //         language: {
+    //             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+    //         },
+    //         autoWidth: false,
+    //         data: table,
+    //         destroy: true,
+    //         dataSrc: '',
+    //         columnDefs: [
+    //             { width: '5%', targets: 0 },
+    //             { width: '25%', targets: 1 },
+    //             { width: '30%', targets: 2 },
+    //             { width: '30%', targets: 3 },
+    //             { width: '5%', targets: 4 }
+    //         ],
+    //         columns: [
+    //             {
+    //                 data: 'idRow',
+    //                 render: function (data, type, row)
+    //                 {
+    //                     return "<div class='col-md-12'>" + data + "</div>"
+    //                 }
+    //             },
+    //             {
+    //                 data: 'descripcion',
+    //                 render: function (data, type, row)
+    //                 {
+    //                     return "<div class='col-md-12 text-left'>" + data + "</div>"
+    //                 }
+    //             },
+    //             {
+    //                 data: 'comentarios',
+    //                 render: function (data, type, row)
+    //                 {
+    //                     return "<div class='col-md-12 text-left'>" + data + "</div>"
+    //                 }
+    //             },
+    //             {
+    //                 data: 'path',
+    //                 render: function (data, type, row)
+    //                 {
+    //                     return "<div class='col-md-12 text-left'>" + data + "</div>"
+    //                 }
+    //             },
+    //             {
+    //                 data: 'acciones',
+    //                 render: function (data, type, row)
+    //                 {
+    //                     return "<div class='col-md-12'>" + data + "</div>"
+    //                 }
+    //             },
+    //         ],
+    //         width: "100%"
+    //     });
+    // }
 
 
 
@@ -4380,7 +4508,7 @@
         TablaCamDom();
         TablaCamDomAnteriores();
         TablaCamDomActuales();
-        TablaDocumento();
+        TablaDocumento(patente_id);
 
         /* CONFIGURA LOS INPUT CALENDAR */
         $(".calendar").datetimepicker({
@@ -4446,19 +4574,22 @@
     //----------------------------------- Modal Para Añadir y Editar -----------------------------------------------
 
     //Añadir Documento ---------------------------------------------------------------------------
-    /* $(document).on('click', '#documentofrmsubmit', function(e) {
+     $(document).on('click', '#documentofrmsubmit', function(e) {
         e.preventDefault();
         var formData = new FormData();
-        var data = getFormData(this);
         var description = $('#doc_descripcion').val();
-        var comentario_archivo = $('#comentario_archivo').val();
+        var fecha_documento = $('#fecha_documento').val();
         var doc_archivo = $('#doc_archivo')[0].files[0];
+      //  var patente_id = '<?php //echo $id ?>';
+        
         var csrf_token_name = $("input[name=csrf_token_name]").val();
         formData.append('csrf_token_name', csrf_token_name);
         formData.append('doc_descripcion', description);
-        formData.append('comentario_archivo', comentario_archivo);
+        formData.append('fecha_documento', fecha_documento);
         formData.append('doc_archivo', doc_archivo);
-        let url = '<?php echo admin_url("pi/MarcasSolicitudesDocumentoController/addSolicitudDocumento"); ?>'
+        formData.append('patente_id',patente_id);
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/addDocumentos"); ?>';
+        console.log(" Descripcion ", description, ' fecha documento ', fecha_documento, ' darchivo ', doc_archivo, ' Patente id ', patente_id);
         $.ajax({
             url,
             method: 'POST',
@@ -4466,12 +4597,16 @@
             processData: false,
             contentType: false
         }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
+            console.log(" Response ",response);
             $("#docModal").modal('hide');
+            TablaDocumento(patente_id);
+            alert_float('success', "Documento Insertado Correctamente");
         }).catch(function(response) {
             alert("No puede agregar un Documento sin registro de la solicitud");
         });
-    }); */
+    }); 
+
+    
 
 
     //Editar Documento ---------------------------------------------------------------------------

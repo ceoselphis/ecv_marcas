@@ -207,14 +207,14 @@
               'name' => 'project_id',
               'id' => 'project_id',
               'class' => 'form-control',
-              'options' =>[] /*$projects*/
+              'options' => $projects
             ]); ?>
           </div>
           <div class="col-md-4">
             <?php echo form_label('Tipo Tareas', 'tipo_tarea',['id' => 'lbltipo_tarea']); ?>
             <?php 
             /*$tipo_tareas = $select + $tipo_tareas*/;
-            echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'],[]/*$tipo_tareas*/, '', ['class' => 'form-control']); ?>
+            echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'],$tareas, ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-4">
             <?php echo form_label('Fecha', 'fecha_tarea',['id' => 'lblfecha_tarea']); ?>
@@ -224,7 +224,7 @@
         <div class="row" style="padding-top:15px;">
           <div class="col-md-12">
             <?php echo form_label('Descripcion', 'descripcion',['id' => 'lbldescripcion']); ?>
-            <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control', 'style' => 'height: 150px;',]); ?>
           </div>
         </div>
       </div>
@@ -275,25 +275,25 @@
                 <?php echo form_label('Cliente', 'clienteCesion'); ?>
                 <?php 
                 /*$clientes = $select + $clientes*/;
-                echo form_dropdown(['name' => 'clienteCesion', 'id' => 'clienteCesion'], []/*$clientes*/, '', ['class' => 'form-control']); ?>
+                echo form_dropdown(['name' => 'clienteCesion', 'id' => 'clienteCesion'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Oficina', 'oficinaCesion',['id' => 'lbloficinaCesion']); ?>
                 <?php 
                 /*$oficinas = $select + $oficinas*/;
-                echo form_dropdown(['name' => 'oficinaCesion', 'id' => 'oficinaCesion'], []/*$oficinas*/, '', ['class' => 'form-control']); ?>
+                echo form_dropdown(['name' => 'oficinaCesion', 'id' => 'oficinaCesion'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Staff', 'staffCesion'); ?>
                 <?php 
                 /*$responsable = $select + $responsable;*/
-                echo form_dropdown(['name' => 'staffCesion', 'id' => 'staffCesion'], []/*$responsable*/, '', ['class' => 'form-control']); ?>
+                echo form_dropdown(['name' => 'staffCesion', 'id' => 'staffCesion'], $responsable, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Estado', 'estadoCesion',['id' => 'lblestadoCesion']); ?>
                 <?php 
                 /*$estados_solicitudes = $select + $estados_solicitudes;*/
-                echo form_dropdown(['name' => 'estadoCesion', 'id' => 'estadoCesion'], []/*$estados_solicitudes*/, '', ['class' => 'form-control']); ?>
+                echo form_dropdown(['name' => 'estadoCesion', 'id' => 'estadoCesion'], $estado, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCesion',['id' => 'lblnro_solicitudCesion']); ?>
@@ -329,7 +329,7 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <?php echo form_label('Comentario', 'comentarioCesion',['id' => 'lblcomentarioCesion']); ?>
-                <?php echo form_textarea(['name' => 'comentarioCesion', 'id' => 'comentarioCesion'], '', ['class' => 'form-control']); ?>
+                <?php echo form_textarea(['name' => 'comentarioCesion', 'id' => 'comentarioCesion'], '', ['class' => 'form-control', 'style' => 'height: 150px;']); ?>
               </div>
             </div><!-- fin step 1 -->
             <!-- step 2 -->
@@ -514,7 +514,7 @@
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Estado', 'estadoLicencia',['id' => 'lblestadoLicencia']); ?>
-                <?php echo form_dropdown(['name' => 'estadoLicencia', 'id' => 'estadoLicencia'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
+                <?php echo form_dropdown(['name' => 'estadoLicencia', 'id' => 'estadoLicencia'], $estado, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitudLicencia',['id' => 'lblnro_solicitudLicencia']); ?>
@@ -736,7 +736,7 @@
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Estado', 'estadoFusion',['id' => 'lblestadoFusion']); ?>
-                <?php echo form_dropdown(['name' => 'estadoFusion', 'id' => 'estadoFusion'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
+                <?php echo form_dropdown(['name' => 'estadoFusion', 'id' => 'estadoFusion'], $estado, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitudFusion',['id' => 'lblnro_solicitudFusion']); ?>
@@ -958,7 +958,7 @@
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Estado', 'estadoCamNom',['id' => 'lblestadoCamNom']); ?>
-                <?php echo form_dropdown(['name' => 'estadoCamNom', 'id' => 'estadoCamNom'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
+                <?php echo form_dropdown(['name' => 'estadoCamNom', 'id' => 'estadoCamNom'], $estado, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCamNom',['id' => 'lblnro_solicitudCamNom']); ?>
@@ -1180,7 +1180,7 @@
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Estado', 'estadoCamDom',['id' => 'lblestadoCamDom']); ?>
-                <?php echo form_dropdown(['name' => 'estadoCamDom', 'id' => 'estadoCamDom'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
+                <?php echo form_dropdown(['name' => 'estadoCamDom', 'id' => 'estadoCamDom'], $estado, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3" style="margin-top:10px">
                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCamDom',['id' => 'lblnro_solicitudCamDom']); ?>
@@ -1397,15 +1397,27 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <?php echo form_label('Descripcion', 'descripcion_archivo'); ?>
             <?php echo form_input(['name' => 'doc_descripcion', 'id' => 'doc_descripcion'], '', ['class' => 'form-control']); ?>
           </div>
-          <div class="col-md-12">
-            <?php echo form_label('Comentarios', 'comentario_archivo'); ?>
-            <?php echo form_textarea(['name' => 'comentario_archivo', 'id' => 'comentario_archivo'], '', ['class' => 'form-control']); ?>
+          <div class="col-md-6" >
+            <?php echo form_label('Fecha del Documento'); ?>
+            <?php echo form_input([
+              'id' => 'fecha_documento',
+              'name' => 'fecha_documento',
+              'class' => 'form-control calendar',
+              'value' => set_value('fecha_documento'),
+              'placeholder' => 'Fecha Documento'
+            ]); ?>
+            <div class="text-danger fecha_solicitud_error"></div>
           </div>
-          <div class="col-md-12">
+          <!--
+          <div class="col-md-6">
+            <?php //echo form_label('Comentarios', 'comentario_archivo'); ?>
+            <?php //echo form_textarea(['name' => 'comentario_archivo', 'id' => 'comentario_archivo'], '', ['class' => 'form-control']); ?>
+          </div>-->
+          <div class="col-md-12" style="padding-top: 20px;">
             <?php echo form_label('Archivo', 'doc_archivo'); ?>
             <?php echo form_input([
               'id' => 'doc_archivo',

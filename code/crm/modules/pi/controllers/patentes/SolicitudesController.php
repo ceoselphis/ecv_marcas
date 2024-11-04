@@ -37,6 +37,8 @@ class SolicitudesController extends AdminController
             'cod_contador'  => "P-{$CI->PatentesSolicitudes_model->last_insert_id()}",
             'tipo_evento'           => $CI->PatentesSolicitudes_model->findAllTipoEvento(),
             'solicitantes'  => $CI->PatentesSolicitudes_model->getAllClients(),
+            'projects' => $CI->PatentesSolicitudes_model->findAllProjects(),
+            'tareas' => $CI->PatentesSolicitudes_model->findAllTipoTarea(),
         ];
         return $CI->load->view('patente/solicitudes/create', $data);
     }
@@ -93,118 +95,171 @@ class SolicitudesController extends AdminController
       }
     }
 
+    public function showDocumentos($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesDocumento_model");
+      $data = $CI->PatentesDocumento_model->ShowPantentes($id);
+      $patente = array();
+      foreach ( $data as $row){
+        $patente[] = [
+          'id' => $row['id'],
+          'descripcion' => $row['descripcion'],
+          'fecha' =>  date('d/m/Y', strtotime($row['fecha'])) ,
+          'path' => $row['path'],
+          'patente_id' => $row['patentes_id']
+        ];
+      }
+      
+      echo json_encode($patente);
+    }
+
+    public function deleteDocumentos($id){ 
+      $CI = &get_instance();
+      $CI->load->model("PatentesDocumento_model");
+      $query = $CI->PatentesDocumento_model->delete($id);
+      if (isset($query)){
+
+        echo json_encode(['message' => 'Documento Eliminado Correctamente', 'code' => '200']);
+      } else {
+        echo json_encode(['message' => 'No se ha podido Eliminar', 'code' => '500']);
+      }
+
+    }
+
+    public function addDocumentos(){
+      $CI = &get_instance();
+      $data = $CI->input->post();
+      $file = $_FILES;
+      $doc_arch = '';
+      $fecha_documento = "";
+     
+      if (empty($file['doc_archivo'])){
+          $doc_arch ="No tiene";
+      }if(!empty($file['doc_archivo'])){
+        $fpath = FCPATH.'uploads/patentes/documentos/' . $data['patente_id'] . '-' .$file['doc_archivo']['name'];
+        $path = site_url('uploads/patentes/documentos/' . $data['patente_id'] . '-' .$file['doc_archivo']['name']);
+      //  echo json_encode(['mesage' => $data , 'archivo' => $fpath]);
+         // $fileType = pathinfo($fpath, PATHINFO_EXTENSION);
+          // Mover el archivo a la carpeta de destino
+              if (move_uploaded_file($file['doc_archivo']['tmp_name'], $fpath)) {
+                  echo json_encode(['message' => "El archivo PDF se ha subido exitosamente.", 'code ' => '200']);
+              } else {
+                echo json_encode(['message' => "Error al subir el archivo", 'code' => '500']);
+                 // throw new Exception('Error al subir el archivo');
+              }
+
+          $doc_arch = $path;
+        
+      }
+      if (!empty($data)){
+          if (!empty($data['fecha_documento'])){
+            $fecha_documento = DateTime::createFromFormat('d/m/Y', $data['fecha_documento'])->format('Y-m-d');
+          }
+          $insert = array(
+              'patentes_id' => $data['patente_id'],
+              'descripcion' => $data['doc_descripcion'],
+              'fecha' => $fecha_documento,
+              'path' => $doc_arch,
+          );
+          //echo json_encode(['data' => $insert]);
+
+          $CI->load->model("PatentesDocumento_model");
+              try{
+                  $query = $CI->PatentesDocumento_model->insert($insert);
+                      if (isset($query)){
+                          echo json_encode(['code' => 200, 'message' => 'Insertado Correctamente']);
+
+                      }else {
+                          echo json_encode(['code' => 500, 'message' => 'No se ha podido Insertado']);
+                      }
+              }catch (Exception $e){
+                  return $e;
+              }
+      }
+      else {
+          echo json_encode(['code' => 500, 'message' => 'No tiene Data']);
+
+      }
+  }
+
     
 
-    public function store()
-    {
-        $CI = &get_instance();
-        $CI->load->model("PatentesSolicitudes_model");
-        $CI->load->helper(['url','form']);
-        $CI->load->library('form_validation');
-        $form = array();
-        $data = $CI->input->post();
-        //-------------- Step 1 ---------------
-        $form['tipo_registro_id'] = $data['tipo_registro_id'];
-        $form['client_id'] = $data['client_id'];
-        $form['oficina_id'] = $data['oficina_id'];
-        $form['staff_id']  = $data['staff_id'];
-        // ------------- Step 2 ----------------
-        $form['pais_id']  = $data['pais_id'];
-        $form['titulo'] = $data['titulo'];
-        $form['resumen'] = $data['resumen'];
-        //--------------- Step 3 -----------------
-        $form['clasificacion']     = $data['clasificacion'];
-        $form['ref_interna']        = $data['ref_interna'];
-        $form['ref_cliente']  = $data['ref_cliente'];
-        $form['carpeta'] = $data['carpeta'];
-        $form['libro']  = $data['libro'];
-        $form['tomo']  = $data['tomo'];
-        $form['folio'] = $data['folio'];
-        //--------------- Step 4 ----------------------
-        $form['estado_id'] = $data['estado_id'];
-        $form['nro_solicitud']  = $data['solicitud'];
-        $form['fecha_solicitud']  = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud'])->format('Y-m-d');
-        $form['nro_registro']      = $data['registro'];
-        $form['fecha_registro']   = DateTime::createFromFormat('d/m/Y', $data['fecha_registro'])->format('Y-m-d');
-        $form['nro_certificado']   = $data['certificado'];
-        $form['fecha_vencimiento_certificado'] = DateTime::createFromFormat('d/m/Y', $data['fecha_certificado'])->format('Y-m-d');
-        $form['pct_nro_solicitud']    = $data['pct_solicitud'];
-        $form['pct_fecha_solicitud']   = DateTime::createFromFormat('d/m/Y', $data['pct_fecha_solicitud'])->format('Y-m-d');
-        $form['pct_nro_publicacion']    = $data['pct_publicacion'];
-        $form['pct_fecha_publicacion']     = DateTime::createFromFormat('d/m/Y', $data['pct_fecha_publicacion'])->format('Y-m-d');
-        $form['is_pago_anual']     = true;
-        $form['anualidad_desde']     = DateTime::createFromFormat('d/m/Y', $data['pct_anualidad_desde'])->format('Y-m-d');
-        $form['anualidad_hasta']     = DateTime::createFromFormat('d/m/Y', $data['pct_anualidad_hasta'])->format('Y-m-d');
-        //--------------- Step 5 ----------------------
-        $form['comentarios']       = $data['comentarios'];
-        try {
-            $query = $CI->PatentesSolicitudes_model->insert($form);
-           
-            if(isset($query))
-            {
+  public function store()
+  {
+      $CI = &get_instance();
+      $CI->load->model("PatentesSolicitudes_model");
+      $CI->load->helper(['url', 'form']);
+      $CI->load->library('form_validation');
+  
+      $form = array();
+      $data = $CI->input->post();
+      
+      //-------------- Step 1 ---------------
+      $form['tipo_registro_id'] = $data['tipo_registro_id'];
+      $form['client_id'] = $data['client_id'];
+      $form['oficina_id'] = $data['oficina_id'];
+      $form['staff_id'] = $data['staff_id'];
+      // ------------- Step 2 ----------------
+      $form['pais_id'] = $data['pais_id'];
+      $form['titulo'] = $data['titulo'];
+      $form['resumen'] = $data['resumen'];
+      //--------------- Step 3 -----------------
+      $form['clasificacion'] = $data['clasificacion'];
+      $form['ref_interna'] = $data['ref_interna'];
+      $form['ref_cliente'] = $data['ref_cliente'];
+      $form['carpeta'] = $data['carpeta'];
+      $form['libro'] = $data['libro'];
+      $form['tomo'] = $data['tomo'];
+      $form['folio'] = $data['folio'];
+      //--------------- Step 4 ----------------------
+      $form['estado_id'] = $data['estado_id'];
+      $form['nro_solicitud'] = $data['solicitud'];
+  
+      // Validar y formatear fechas si tienen datos
+      if (!empty($data['fecha_solicitud'])) {
+          $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud'])->format('Y-m-d');
+      }
+      $form['nro_registro'] = $data['registro'];
+      if (!empty($data['fecha_registro'])) {
+          $form['fecha_registro'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro'])->format('Y-m-d');
+      }
+      $form['nro_certificado'] = $data['certificado'];
+      if (!empty($data['fecha_certificado'])) {
+          $form['fecha_vencimiento_certificado'] = DateTime::createFromFormat('d/m/Y', $data['fecha_certificado'])->format('Y-m-d');
+      }
+      $form['pct_nro_solicitud'] = $data['pct_solicitud'];
+      if (!empty($data['pct_fecha_solicitud'])) {
+          $form['pct_fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['pct_fecha_solicitud'])->format('Y-m-d');
+      }
+      $form['pct_nro_publicacion'] = $data['pct_publicacion'];
+      if (!empty($data['pct_fecha_publicacion'])) {
+          $form['pct_fecha_publicacion'] = DateTime::createFromFormat('d/m/Y', $data['pct_fecha_publicacion'])->format('Y-m-d');
+      }
+      $form['is_pago_anual'] = true;
+      if (!empty($data['pct_anualidad_desde'])) {
+          $form['anualidad_desde'] = DateTime::createFromFormat('d/m/Y', $data['pct_anualidad_desde'])->format('Y-m-d');
+      }
+      if (!empty($data['pct_anualidad_hasta'])) {
+          $form['anualidad_hasta'] = DateTime::createFromFormat('d/m/Y', $data['pct_anualidad_hasta'])->format('Y-m-d');
+      }
+      //--------------- Step 5 ----------------------
+      $form['comentarios'] = $data['comentarios'];
+  
+      try {
+          $query = $CI->PatentesSolicitudes_model->insert($form);
+  
+          if (isset($query)) {
               $id = $CI->PatentesSolicitudes_model->last_insert_id();
-              echo json_encode(['message' => 'success','id' => $id, 'code' => '200']);              
-            // // return redirect("pi/patentes/SolicitudesController/edit/{$id}");
-            }else {
-              echo json_encode(['error' => $query,'code' => '500']);
-              //   return redirect(admin_url('pi/patentes/SolicitudesController/'));
-            }
-         //   return redirect("pi/patentes/SolicitudesController/edit/{$id}");
-        } catch (\Throwable $th) {
-            echo json_encode(['message' => $th->getMessage(),'code' => '500']);
-        }
-         
-        //we validate the data
-        //we set the rules
-        // $config = array(
-        //     [
-        //         'field' => 'nombre_anexo',
-        //         'label' => 'Nombre del Anexo',
-        //         'rules' => 'trim|required|min_length[3]|max_length[60]',
-        //         'errors' => [
-        //             'required' => 'Debe indicar un nombre para el anexo',
-        //             'min_length' => 'Nombre demasiado corto',
-        //             'max_lenght' => 'Nombre demasiado largo'
-        //         ]
-        //     ],
-        // );
-        // $CI->form_validation->set_rules($config);
-        
-        // if($CI->form_validation->run() == FALSE)
-        // {
-        //     $fields = $CI->PatentesSolicitudes_model->getFillableFields();
-        //     $inputs = array();
-        //     $labels = array();
-        //     foreach ($fields as $field) {
-        //         if ($field['type'] == 'INT') {
-        //             $inputs[] = array(
-        //                 'name' => $field['name'],
-        //                 'id'   => $field['name'],
-        //                 'type' => 'range',
-        //                 'class' => 'form-control'
-        //             );
-        //         } else {
-        //             $inputs[] = array(
-        //                 'name' => $field['name'],
-        //                 'id'   => $field['name'],
-        //                 'type' => 'text',
-        //                 'class' => 'form-control'
-        //             );
-        //         }
-        //     }
-        //     $labels = ['Id', 'Nombre del anexo'];
-        //     return $CI->load->view('patente/solicitudes/create', ['fields' => $inputs, 'labels' => $labels]);
-        // }
-        // else
-        // {
-        //     //we sent the data to the model
-        //     $query = $CI->PatentesSolicitudes_model->insert($data);
-        //     if(isset($query))
-        //     {
-        //         return redirect(admin_url('pi/patentes/SolicitudesController/'));
-        //     }
-        // }
-    }
+              echo json_encode(['message' => 'success', 'id' => $id, 'code' => '200']);
+          } else {
+              echo json_encode(['error' => $query, 'code' => '500']);
+          }
+      } catch (\Throwable $th) {
+          echo json_encode(['message' => $th->getMessage(), 'code' => '500']);
+      }
+  }
+  
+    
 
     /**
      * Find a single item to show
@@ -335,6 +390,8 @@ class SolicitudesController extends AdminController
                 'solicitantes'  => $CI->PatentesSolicitudes_model->getAllClients(),
                 'solicitantes_selected' => $CI->PatentesSolicitudes_model->findPatenteSolicitantes($id),
                 'inventores_selected' => $CI->PatentesSolicitudes_model->findPatenteInventores($id),
+                'projects' => $CI->PatentesSolicitudes_model->findAllProjects(),
+                'tareas' => $CI->PatentesSolicitudes_model->findAllTipoTarea(),
                 'values' => $patente,
                 'labels' => array('Id', 'Nombre del anexo')
             ];

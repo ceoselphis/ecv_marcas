@@ -95,6 +95,36 @@ class PatentesSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function findAllTipoTarea()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_tipos_tareas');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllProjects()
+    {
+        $this->db->select('*');
+        $this->db->from('tblprojects');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['name']);
+        }
+        return array_combine($keys, $values);
+    }
+
     public function getAllOficinas()
     {
         $query = $this->db->get('tbl_oficina');

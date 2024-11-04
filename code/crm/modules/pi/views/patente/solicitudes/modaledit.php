@@ -165,7 +165,7 @@
             </div>
             <div class="col-md-4">
                 <?php echo form_label('Tipo Tareas', 'tipo_tarea');?>
-                <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tipo_tareas, '',['class' => 'form-control']);?>
+                <?php echo form_dropdown(['name'=>'tipo_tarea','id'=>'tipo_tarea'], $tareas, '',['class' => 'form-control']);?>
             </div>
             <div class="col-md-12" style="margin-top: 15px;">
                 <?php echo form_label('Descripcion', 'descripcion');?>

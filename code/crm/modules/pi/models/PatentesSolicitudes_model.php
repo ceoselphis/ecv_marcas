@@ -175,6 +175,8 @@ class PatentesSolicitudes_model extends BaseModel
         return $query->result_array();
     }
 
+  
+
     public function getAllPaises()
     {
         $this->db->select('*');
@@ -334,6 +336,102 @@ class PatentesSolicitudes_model extends BaseModel
             array_push($values,$row['codigo'].'- '.$row['nombre'].' '.$row['apellido']);
         }
         return array_combine($keys, $values); 
+    }
+
+    public function insertPrioridades($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_prioridad', $params);
+        return $query;
+    }
+
+    public function insertPublicaciones($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_publicaciones', $params);
+        return $query;
+    }
+
+    public function insertEventos($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_eventos', $params);
+        return $query;
+    }
+
+    public function insertTareas($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_tareas', $params);
+        return $query;
+    }
+
+    public function insertCesiones($params)
+    {
+        $query = $this->db->insert('tbl_patentes_cesiones', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertCesionesAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_cedentes_cesionarios', $params);
+        return $query;
+    }
+
+    public function insertLicencias($params)
+    {
+        $query = $this->db->insert('tbl_patentes_licencia', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertLicenciasAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_licenciantes', $params);
+        return $query;
+    }
+
+    public function insertFusion($params)
+    {
+        $query = $this->db->insert('tbl_patentes_fusion', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertFusionesAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_fusion_participantes', $params);
+        return $query;
+    }
+
+    public function insertCamNom($params)
+    {
+        $query = $this->db->insert('tbl_patentes_cambio_nombre', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertCamNomAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_cambio_nombre_participantes', $params);
+        return $query;
+    }
+
+    public function insertCamDom($params)
+    {
+        $query = $this->db->insert('tbl_patentes_cambio_domicilio', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function insertCamDomAntAct($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_domicilios', $params);
+        return $query;
+    }
+
+    
+    public function insertMarcaFactura($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_facturas', $params);
+        return $query;
     }
 
 

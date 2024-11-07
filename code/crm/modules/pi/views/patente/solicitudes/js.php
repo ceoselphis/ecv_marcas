@@ -138,7 +138,7 @@
                 'clase_id': $('#clase_niza').val(),
                 'clase_id_name': $("#clase_niza option[value=" + $( "#clase_niza").val() + "]").text(),
                 'descripcion': $('#clase_niza_descripcion').val(),
-                'marcas_id': $("input[name=id]").val(),
+                'patentes_id': $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='claseNiza_" + (tblClaseDT.rows().count()) + "' class='btn btn-danger col-mrg deleteClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
 
@@ -272,8 +272,8 @@
                 'pais_id': $('#pais_prioridad').val(),
                 'pais_name': $('#pais_prioridad option[value=' + $('#pais_prioridad').val() + ']').text(),
                 'fecha_prioridad': $('#fecha_prioridad').val(),
-                'numero_prioridad': $('#nro_prioridad').val(),
-                'marcas_id': $("input[name=id]").val(),
+                'numero': $('#nro_prioridad').val(),
+                'patentes_id': $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='prioridad_" + (tblPrioridadDT.rows().count()) + "' class='btn btn-danger col-mrg deletePrioridad'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             prioridad.push(data);
@@ -378,7 +378,7 @@
                     }
                 },
                 {
-                    data: 'numero_prioridad',
+                    data: 'numero',
                     render: function (data, type, row)
                     {
                         return "<div class='col-md-12 text-left'>" + data + "</div>"
@@ -421,7 +421,7 @@
                 'boletin_name': $('#boletin_publicacion option[value=' + $('#boletin_publicacion').val() + ']').text(),
                 "tomo": $('#tomo_publicacion').val(),
                 "pagina": $('#pag_publicacion').val(),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='publicacion_" + (tblPublicacionDT.rows().count()) + "' class='btn btn-danger col-mrg deletePublicacion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             publicacion.push(data);
@@ -587,7 +587,7 @@
                 "tipo_evento_id": $('#tipo_evento').val(),
                 'tipo_evento_name': $('#tipo_evento option[value=' + $('#tipo_evento').val() + ']').text(),
                 "comentarios": $('#evento_comentario').val(),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='eventos_" + (tblEventosDT.rows().count()) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             eventos.push(data);
@@ -735,7 +735,7 @@
                 "tipo_tareas_id": $('#tipo_tarea').val(),
                 'tipo_tareas_id_name': $('#tipo_tarea option[value=' + $('#tipo_tarea').val() + ']').text(),
                 "descripcion": $('#descripcion').val(),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='tareas_" + (tblTareasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteTarea'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             tareas.push(data);
@@ -915,7 +915,7 @@
                 "comentarios": $('#comentarioCesion').val(),
                 "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
                 "cesionesactuales": localStorage.getItem("cesionesactuales"),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesiones_" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             end = new Date(); console.log(`Asignada la Data en ${end.getTime() - start.getTime()} msec`); start = new Date();
@@ -932,7 +932,7 @@
                 $("#AddCesion").modal('hide');
                 alert_float('success', 'Registro guardado exitosamente');
             } catch (error) {
-                alert(error);
+                //alert(error);
             }
 
         }else{
@@ -1458,7 +1458,7 @@
                 "comentarios": $('#comentarioLicencia').val(),
                 "licenciasanteriores": localStorage.getItem("licenciasanteriores"),
                 "licenciasactuales": localStorage.getItem("licenciasactuales"),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licencias_" + (tblLicenciasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteLicencia'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             licencias.push(data);
@@ -1999,7 +1999,7 @@
                 "comentarios": $('#comentarioFusion').val(),
                 "fusionesanteriores": localStorage.getItem("fusionesanteriores"),
                 "fusionesactuales": localStorage.getItem("fusionesactuales"),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusiones_" + (tblFusionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFusion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             fusiones.push(data);
@@ -2541,7 +2541,7 @@
                 "comentarios": $('#comentarioCamNom').val(),
                 "camnomanteriores": localStorage.getItem("camnomanteriores"),
                 "camnomactuales": localStorage.getItem("camnomactuales"),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnom_" + (tblCamNomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamNom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             camnom.push(data);
@@ -3082,7 +3082,7 @@
                 "comentarios": $('#comentarioCamDom').val(),
                 "camdomanteriores": localStorage.getItem("camdomanteriores"),
                 "camdomactuales": localStorage.getItem("camdomactuales"),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             camdom.push(data);
@@ -3603,7 +3603,7 @@
                 'descripcion': $('#doc_descripcion').val(),
                 'comentarios': $('#doc_comentario').val(),
                 'path': $('#doc_archivo').get(0).files[0].name,
-                'marcas_id': $("input[name=id]").val(),
+                'patentes_id': $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='documentos_" + (rowCount) + "' class='btn btn-danger col-mrg deleteDocumento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             /* Creamos un elemento input file duplicado del original para el archivo seleccionado */
@@ -3917,7 +3917,7 @@
                 'factNum': $("#facturaId option[value=" + $( "#facturaId").val() + "]").text(),
                 "factFecha": factFecha,
                 'factEstatus': factStatus,
-                'marcas_id': $("input[name=id]").val(),
+                'patentes_id': $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='facturas_" + (tblFacturasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFactura'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
 
@@ -4095,6 +4095,19 @@
         formData.append('pct_anualidad_hasta',$('#pct_anualidad_hasta').val())
         //---------------------- Step 5 ------------------------------------
         formData.append('comentarios', $('#comentarios').val());
+        //------------------- Local Storage  ---------------------
+       // formData.append('clase_niza_id', localStorage.getItem("clase_niza"));
+        formData.append('prioridad_id', localStorage.getItem("prioridad"));
+        formData.append("publicacion_id", localStorage.getItem("publicacion"));
+        formData.append("eventos_id", localStorage.getItem("eventos"));
+        formData.append("tareas_id", localStorage.getItem("tareas"));
+        formData.append("cesiones_id", localStorage.getItem("cesiones"));
+        formData.append("licencias_id", localStorage.getItem("licencias"));
+        formData.append("fusiones_id", localStorage.getItem("fusiones"));
+        formData.append("camnom_id", localStorage.getItem("camnom"));
+        formData.append("camdom_id", localStorage.getItem("camdom"));
+        formData.append("facturas_id", localStorage.getItem("facturas"));
+
 
         //######################################################################
      
@@ -4124,55 +4137,55 @@
             contentType: false
         }).then(function (response) {
             console.log(" Response ", response);
-            const obj = JSON.parse(response);
-                if (obj.code == 201) {
-                    alert_float('danger', 'Se han encontrado errores en la Solicitud!');
-                    jQuery.each(obj.error, function(item, val) {
-                        $('.' + item + '_error').html(val);
-                    });
-                }else if (obj.code == 500){
-                    alert_float('danger', obj.error);
-                }else if (obj.code == 200){
-                    let id = obj.id;
-                    formSolicitante.append('id',id);
-                    formInventor.append('id',id);
+            // const obj = JSON.parse(response);
+            //     if (obj.code == 201) {
+            //         alert_float('danger', 'Se han encontrado errores en la Solicitud!');
+            //         jQuery.each(obj.error, function(item, val) {
+            //             $('.' + item + '_error').html(val);
+            //         });
+            //     }else if (obj.code == 500){
+            //         alert_float('danger', obj.error);
+            //     }else if (obj.code == 200){
+            //         let id = obj.id;
+            //         formSolicitante.append('id',id);
+            //         formInventor.append('id',id);
 
-                    $.ajax({
-                        url: url_solicitantes,
-                        method: 'POST',
-                        data: formSolicitante,
-                        processData: false,
-                        contentType: false
-                    }).then(function (response) {
-                        console.log(" Response ", response);
-                    }).catch(function (response) {
-                        console.log(response.responseText);
-                        alert_float('danger', 'No se pudo crear el Solicitante');
-                    });
+            //         $.ajax({
+            //             url: url_solicitantes,
+            //             method: 'POST',
+            //             data: formSolicitante,
+            //             processData: false,
+            //             contentType: false
+            //         }).then(function (response) {
+            //             console.log(" Response ", response);
+            //         }).catch(function (response) {
+            //             console.log(response.responseText);
+            //             alert_float('danger', 'No se pudo crear el Solicitante');
+            //         });
 
-                    $.ajax({
-                        url: url_inventores,
-                        method: 'POST',
-                        data: formInventor,
-                        processData: false,
-                        contentType: false
-                    }).then(function (response) {
-                        console.log(" Response ", response);
-                    }).catch(function (response) {
-                        console.log(response.responseText);
-                        alert_float('danger', 'No se pudo crear la Patente');
-                    });
+            //         $.ajax({
+            //             url: url_inventores,
+            //             method: 'POST',
+            //             data: formInventor,
+            //             processData: false,
+            //             contentType: false
+            //         }).then(function (response) {
+            //             console.log(" Response ", response);
+            //         }).catch(function (response) {
+            //             console.log(response.responseText);
+            //             alert_float('danger', 'No se pudo crear la Patente');
+            //         });
 
-                    alert_float('success', 'Solicitud guardada con éxito!');
-                    let ruta = '<?php echo admin_url("pi/patentes/SolicitudesController/edit/"); ?>';
-                    ruta = ruta + id;
-                    location.replace(ruta);
-                }
+            //         alert_float('success', 'Solicitud guardada con éxito!');
+            //         let ruta = '<?php echo admin_url("pi/patentes/SolicitudesController/edit/"); ?>';
+            //         ruta = ruta + id;
+            //         location.replace(ruta);
+            //     }
    
         }).catch(function (response) {
             console.log(response.responseText);
             alert_float('danger', 'No se pudo crear la Patente');
-            //alert("No puede agregar la patente");
+            
         });
     });
 
@@ -4444,7 +4457,7 @@
                 "factNum": $('#factNumber').val(),
                 "factFecha": $('#factFecha').val(),
                 'factEstatus': $('#factEstatus').val(),
-                "marcas_id": $("input[name=id]").val(),
+                "patentes_id": $("input[name=id]").val(),
                 'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='facturas_" + (rowCount) + "' class='btn btn-danger col-mrg deleteFactura'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
             }
             facturas.push(data);

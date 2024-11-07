@@ -111,7 +111,7 @@
             <?php echo form_label('Tipo', 'tipo_publicacion',['id' => 'lbltipo_publicacion']); ?>
             <?php
             
-            echo form_dropdown('tipo_publicacion', [], set_value('tipo_publicacion'), ['class' => 'form-control','id' => 'tipo_publicacion']); ?>
+            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control','id' => 'tipo_publicacion']); ?>
           </div>
         </div>
         <div class="row" style="padding-top:15px;">
@@ -119,7 +119,7 @@
             <?php echo form_label('Boletin', 'boletin_publicacion',['id' => 'lblboletin_publicacion']); ?>
             <?php
 
-            echo form_dropdown('boletin_publicacion', [], set_value('boletin_publicacion'), ['class' => 'form-control','id' => 'boletin_publicacion']); ?>
+            echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control','id' => 'boletin_publicacion']); ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Tomo', 'tomo_publicacion',['id' => 'lbltomo_publicacion']); ?>

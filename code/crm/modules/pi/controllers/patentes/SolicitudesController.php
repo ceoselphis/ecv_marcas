@@ -25,17 +25,20 @@ class SolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("PatentesSolicitudes_model");
+        $id = intval($CI->PatentesSolicitudes_model->last_insert_id()) + 1;
         $data = [
-            'id'            => $CI->PatentesSolicitudes_model->last_insert_id(),
+            'id'            => $id,
             'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
             'clientes'      => $CI->PatentesSolicitudes_model->getAllClients(),
+            'boletines' => $CI->PatentesSolicitudes_model->getAllBoletines(),
             'oficinas'      => $CI->PatentesSolicitudes_model->getAllOficinas(),
             'responsable'   => $CI->PatentesSolicitudes_model->getAllStaff(),
             'pais_id'       => $CI->PatentesSolicitudes_model->getAllPaises(),
             'inventores'    => $CI->PatentesSolicitudes_model->getAllInventores(),
             'estado' => $CI->PatentesSolicitudes_model->getAllEstadoExpediente(),
-            'cod_contador'  => "P-{$CI->PatentesSolicitudes_model->last_insert_id()}",
+            'cod_contador'  => "P-{$id}",
             'tipo_evento'           => $CI->PatentesSolicitudes_model->findAllTipoEvento(),
+            'tipo_publicacion'           => $CI->PatentesSolicitudes_model->getAllTiposPublicaciones(),
             'solicitantes'  => $CI->PatentesSolicitudes_model->getAllClients(),
             'projects' => $CI->PatentesSolicitudes_model->findAllProjects(),
             'tareas' => $CI->PatentesSolicitudes_model->findAllTipoTarea(),
@@ -182,9 +185,8 @@ class SolicitudesController extends AdminController
       }
   }
 
-    
-
-  public function store()
+  /* 
+   public function store()
   {
       $CI = &get_instance();
       $CI->load->model("PatentesSolicitudes_model");
@@ -254,6 +256,321 @@ class SolicitudesController extends AdminController
           } else {
               echo json_encode(['error' => $query, 'code' => '500']);
           }
+      } catch (\Throwable $th) {
+          echo json_encode(['message' => $th->getMessage(), 'code' => '500']);
+      }
+  }
+  */
+
+  public function turn_dates($date)
+  {
+    if ($date != '') {
+      try {
+        $wdate = explode('/', $date);
+        $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+        return $cdate;
+      } catch (Exception $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+      }
+    } else {
+      return NULL;
+    }
+  }
+
+  // public function InsertarPrioridades($params) {
+  //   $CI = &get_instance();
+  //   $CI->load->model("PatentesSolicitudes_model");
+    
+  // }
+
+  public function store()
+  {
+      $CI = &get_instance();
+      $CI->load->model("PatentesSolicitudes_model");
+      $CI->load->helper(['url', 'form']);
+      $CI->load->library('form_validation');
+      $form = array();
+      $data = $CI->input->post();
+      //-------------- Step 1 ---------------
+      $form['tipo_registro_id'] = $data['tipo_registro_id'];
+      $form['client_id'] = $data['client_id'];
+      $form['oficina_id'] = $data['oficina_id'];
+      $form['staff_id'] = $data['staff_id'];
+      // ------------- Step 2 ----------------
+      $form['pais_id'] = $data['pais_id'];
+      $form['titulo'] = $data['titulo'];
+      $form['resumen'] = $data['resumen'];
+      //--------------- Step 3 -----------------
+      $form['clasificacion'] = $data['clasificacion'];
+      $form['ref_interna'] = $data['ref_interna'];
+      $form['ref_cliente'] = $data['ref_cliente'];
+      $form['carpeta'] = $data['carpeta'];
+      $form['libro'] = $data['libro'];
+      $form['tomo'] = $data['tomo'];
+      $form['folio'] = $data['folio'];
+      //--------------- Step 4 ----------------------
+      $form['estado_id'] = $data['estado_id'];
+      $form['nro_solicitud'] = $data['solicitud'];
+  
+      // Validar y formatear fechas si tienen datos
+      if (!empty($data['fecha_solicitud'])) {
+          $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud'])->format('Y-m-d');
+      }
+      $form['nro_registro'] = $data['registro'];
+      if (!empty($data['fecha_registro'])) {
+          $form['fecha_registro'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro'])->format('Y-m-d');
+      }
+      $form['nro_certificado'] = $data['certificado'];
+      if (!empty($data['fecha_certificado'])) {
+          $form['fecha_vencimiento_certificado'] = DateTime::createFromFormat('d/m/Y', $data['fecha_certificado'])->format('Y-m-d');
+      }
+      $form['pct_nro_solicitud'] = $data['pct_solicitud'];
+      if (!empty($data['pct_fecha_solicitud'])) {
+          $form['pct_fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['pct_fecha_solicitud'])->format('Y-m-d');
+      }
+      $form['pct_nro_publicacion'] = $data['pct_publicacion'];
+      if (!empty($data['pct_fecha_publicacion'])) {
+          $form['pct_fecha_publicacion'] = DateTime::createFromFormat('d/m/Y', $data['pct_fecha_publicacion'])->format('Y-m-d');
+      }
+      $form['is_pago_anual'] = true;
+      if (!empty($data['pct_anualidad_desde'])) {
+          $form['anualidad_desde'] = DateTime::createFromFormat('d/m/Y', $data['pct_anualidad_desde'])->format('Y-m-d');
+      }
+      if (!empty($data['pct_anualidad_hasta'])) {
+          $form['anualidad_hasta'] = DateTime::createFromFormat('d/m/Y', $data['pct_anualidad_hasta'])->format('Y-m-d');
+      }
+      //--------------- Step 5 ----------------------
+      $form['comentarios'] = $data['comentarios'];
+
+        /*Seteamos el arreglo para las prioridades */
+        $prioridades = json_decode($data['prioridad_id'], TRUE);
+        for ($i = 0; $i < count($prioridades); ++$i) {
+          unset($prioridades[$i]['idRow']);
+          unset($prioridades[$i]['pais_name']);
+          unset($prioridades[$i]['acciones']);
+          $prioridades[$i]['fecha_prioridad'] = empty($prioridades[$i]['fecha_prioridad']) || '' ? NULL : $this->turn_dates($prioridades[$i]['fecha_prioridad']);
+        }
+  
+        /*Seteamos el arreglo para las publicaciones */
+        $publicacion = json_decode($data['publicacion_id'], TRUE);
+        for ($i = 0; $i < count($publicacion); ++$i) {
+          unset($publicacion[$i]['idRow']);
+          unset($publicacion[$i]['tipo_pub_name']);
+          unset($publicacion[$i]['boletin_name']);
+          unset($publicacion[$i]['acciones']);
+          $publicacion[$i]['fecha'] = empty($publicacion[$i]['fecha']) || '' ? NULL : $this->turn_dates($publicacion[$i]['fecha']);
+        }
+  
+        /*Seteamos el arreglo para los eventos */
+        $eventos = json_decode($data['eventos_id'], TRUE);
+        for ($i = 0; $i < count($eventos); ++$i) {
+          unset($eventos[$i]['idRow']);
+          unset($eventos[$i]['tipo_evento_name']);
+          unset($eventos[$i]['acciones']);
+          $eventos[$i]['fecha'] = empty($eventos[$i]['fecha']) || '' ? NULL : $this->turn_dates($eventos[$i]['fecha']);
+        }
+  
+        /*Seteamos el arreglo para las tareas */
+        $tareas = json_decode($data['tareas_id'], TRUE);
+        for ($i = 0; $i < count($tareas); ++$i) {
+          unset($tareas[$i]['idRow']);
+          unset($tareas[$i]['project_id_name']);
+          unset($tareas[$i]['tipo_tareas_id_name']);
+          unset($tareas[$i]['acciones']);
+          $tareas[$i]['fecha'] = empty($tareas[$i]['fecha']) || '' ? NULL : $this->turn_dates($tareas[$i]['fecha']);
+        }
+  
+        /*Seteamos el arreglo para las Cesiones */
+        $cesiones = json_decode($data['cesiones_id'], TRUE);
+        $cesiones_ant_id = array();
+        $cesiones_act_id = array();
+        $cesion_anterior = array();
+        for ($i = 0; $i < count($cesiones); ++$i) {
+          unset($cesiones[$i]['idRow']);
+          unset($cesiones[$i]['tmp_cesion_id']);
+          unset($cesiones[$i]['client_id_name']);
+          unset($cesiones[$i]['oficina_id_name']);
+          unset($cesiones[$i]['staff_id_name']);
+          unset($cesiones[$i]['estado_id_name']);
+          unset($cesiones[$i]['acciones']);
+          $cesiones_ant_id[$i] = json_decode($cesiones[$i]['cesionesanteriores'], TRUE);
+          unset($cesiones[$i]['cesionesanteriores']);
+          $cesiones_act_id[$i] = json_decode($cesiones[$i]['cesionesactuales'], TRUE);
+          unset($cesiones[$i]['cesionesactuales']);
+          $cesiones[$i]['fecha_solicitud'] = empty($cesiones[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_solicitud']);
+          $cesiones[$i]['fecha_resolucion'] = empty($cesiones[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_resolucion']);
+        }
+
+        /*Seteamos el arreglo para las Licencias */
+        $licencias = json_decode($data['licencias_id'], TRUE);
+        $licencias_ant_id = array();
+        $licencias_act_id = array();
+        for ($i = 0; $i < count($licencias); ++$i) {
+          unset($licencias[$i]['idRow']);
+          unset($licencias[$i]['tmp_licencia_id']);
+          unset($licencias[$i]['client_id_name']);
+          unset($licencias[$i]['oficina_id_name']);
+          unset($licencias[$i]['staff_id_name']);
+          unset($licencias[$i]['estado_id_name']);
+          unset($licencias[$i]['acciones']);
+          $licencias_ant_id[$i] = json_decode($licencias[$i]['licenciasanteriores'], TRUE);
+          unset($licencias[$i]['licenciasanteriores']);
+          $licencias_act_id[$i] = json_decode($licencias[$i]['licenciasactuales'], TRUE);
+          unset($licencias[$i]['licenciasactuales']);
+          $licencias[$i]['fecha_solicitud'] = empty($licencias[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($licencias[$i]['fecha_solicitud']);
+          $licencias[$i]['fecha_resolucion'] = empty($licencias[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($licencias[$i]['fecha_resolucion']);
+        }
+  
+        /*Seteamos el arreglo para las Fusiones */
+        $fusiones = json_decode($data['fusiones_id'], TRUE);
+        $fusiones_ant_id = array();
+        $fusiones_act_id = array();
+        for ($i = 0; $i < count($fusiones); ++$i) {
+          unset($fusiones[$i]['idRow']);
+          unset($fusiones[$i]['tmp_fusion_id']);
+          unset($fusiones[$i]['client_id_name']);
+          unset($fusiones[$i]['oficina_id_name']);
+          unset($fusiones[$i]['staff_id_name']);
+          unset($fusiones[$i]['estado_id_name']);
+          unset($fusiones[$i]['acciones']);
+          $fusiones_ant_id[$i] = json_decode($fusiones[$i]['fusionesanteriores'], TRUE);
+          unset($fusiones[$i]['fusionesanteriores']);
+          $fusiones_act_id[$i] = json_decode($fusiones[$i]['fusionesactuales'], TRUE);
+          unset($fusiones[$i]['fusionesactuales']);
+          $fusiones[$i]['fecha_solicitud'] = empty($fusiones[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($fusiones[$i]['fecha_solicitud']);
+          $fusiones[$i]['fecha_resolucion'] = empty($fusiones[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($fusiones[$i]['fecha_resolucion']);
+        }
+  
+        /*Seteamos el arreglo para los Cambios de Nombre */
+        $camnom = json_decode($data['camnom_id'], TRUE);
+        $camnom_ant_id = array();
+        $camnom_act_id = array();
+        for ($i = 0; $i < count($camnom); ++$i) {
+          unset($camnom[$i]['idRow']);
+          unset($camnom[$i]['tmp_camnom_id']);
+          unset($camnom[$i]['client_id_name']);
+          unset($camnom[$i]['oficina_id_name']);
+          unset($camnom[$i]['staff_id_name']);
+          unset($camnom[$i]['estado_id_name']);
+          unset($camnom[$i]['acciones']);
+          $camnom_ant_id[$i] = json_decode($camnom[$i]['camnomanteriores'], TRUE);
+          unset($camnom[$i]['camnomanteriores']);
+          $camnom_act_id[$i] = json_decode($camnom[$i]['camnomactuales'], TRUE);
+          unset($camnom[$i]['camnomactuales']);
+          $camnom[$i]['fecha_solicitud'] = empty($camnom[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($camnom[$i]['fecha_solicitud']);
+          $camnom[$i]['fecha_resolucion'] = empty($camnom[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($camnom[$i]['fecha_resolucion']);
+        }
+  
+        /*Seteamos el arreglo para los Cambios de Domicilio */
+        $camdom = json_decode($data['camdom_id'], TRUE);
+        $camdom_ant_id = array();
+        $camdom_act_id = array();
+        for ($i = 0; $i < count($camdom); ++$i) {
+          unset($camdom[$i]['idRow']);
+          unset($camdom[$i]['tmp_camdom_id']);
+          unset($camdom[$i]['client_id_name']);
+          unset($camdom[$i]['oficina_id_name']);
+          unset($camdom[$i]['staff_id_name']);
+          unset($camdom[$i]['estado_id_name']);
+          unset($camdom[$i]['acciones']);
+          $camdom_ant_id[$i] = json_decode($camdom[$i]['camdomanteriores'], TRUE);
+          unset($camdom[$i]['camdomanteriores']);
+          $camdom_act_id[$i] = json_decode($camdom[$i]['camdomactuales'], TRUE);
+          unset($camdom[$i]['camdomactuales']);
+          $camdom[$i]['fecha_solicitud'] = empty($camdom[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($camdom[$i]['fecha_solicitud']);
+          $camdom[$i]['fecha_resolucion'] = empty($camdom[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($camdom[$i]['fecha_resolucion']);
+        }
+
+        $facturas = json_decode($data['facturas_id'], TRUE);
+        for ($i = 0; $i < count($facturas); ++$i) {
+          unset($facturas[$i]['idRow']);
+          unset($facturas[$i]['factNum']);
+          unset($facturas[$i]['factFecha']);
+          unset($facturas[$i]['factEstatus']);
+          unset($facturas[$i]['acciones']);
+          $facturas[$i]['staff_id'] = $_SESSION['staff_user_id'];
+        }
+
+        // $prueba[] = [
+        //   'formulario' => $form,
+        //   'prioridades' => $prioridades,
+        //   'publicacion' => $publicacion,
+        //   'eventos' => $eventos,
+        //   'tareas' => $tareas,
+        //   'cesiones' => $cesiones,
+        //   'cesiones_ant_id' => $cesiones_ant_id,
+        //   'cesion_anterior' => $cesion_anterior,
+        //   'cesiones_act_id' => $cesiones_act_id,
+        //   'licencias' => $licencias,
+        //   'licencias_ant_id' => $licencias_ant_id,
+        //   'licencias_act_id' => $licencias_act_id,
+        //   'fusiones' => $fusiones,
+        //   'fusiones_ant_id' => $fusiones_ant_id,
+        //   'fusiones_act_id' => $fusiones_act_id,
+        //   'camnom' => $camnom,
+        //   'camnom_ant_id' => $camnom_ant_id,
+        //   'camnom_act_id' => $camnom_act_id,
+        //   'camdom' => $camdom,
+        //   'camdom_ant_id' => $camdom_ant_id,
+        //   'camdom_act_id' => $camdom_act_id,
+        //   'facturas' => $facturas,
+        // ];
+
+        // echo json_encode($prueba);
+  
+      try {
+        if (!empty($prioridades)) {
+          $CI->PatentesSolicitudes_model->insertPrioridades($prioridades);
+        }
+        if (!empty($publicacion)) {
+          $CI->PatentesSolicitudes_model->insertPublicaciones($publicacion);
+        }
+
+        if (!empty($eventos)) {
+          $CI->PatentesSolicitudes_model->insertEventos($eventos);
+        }
+        if (!empty($tareas)) {
+          $CI->PatentesSolicitudes_model->insertTareas($tareas);
+        }
+
+        if (!empty($cesiones)) {
+          for ($i = 0; $i < count($cesiones); ++$i) {
+            /* INSERTO LA CESION Y RETORNO SU ID*/
+            $cesion_id = $CI->PatentesSolicitudes_model->insertCesiones($cesiones[$i]);
+
+            /*Guardamos las cesiones anteriores  */
+            if (!empty($cesiones_ant_id)) {
+              for ($j = 0; $j < count($cesiones_ant_id[$i]); ++$j) {
+                unset($cesiones_ant_id[$i][$j]['idRow']);
+                unset($cesiones_ant_id[$i][$j]['cedente_id_name']);
+                unset($cesiones_ant_id[$i][$j]['acciones']);
+                $cesiones_ant_id[$i][$j]['cesion_id'] = $cesion_id;
+                $cesiones_ant_id[$i][$j]['tipo_cedente'] = '1';
+              }
+              $CI->PatentesSolicitudes_model->insertCesionesAntAct($cesiones_ant_id[$i]);
+            }
+            /*Guardamos las cesiones actuales  */
+            if (!empty($cesiones_act_id)) {
+              for ($j = 0; $j < count($cesiones_act_id[$i]); ++$j) {
+                unset($cesiones_act_id[$i][$j]['idRow']);
+                unset($cesiones_act_id[$i][$j]['cedente_id_name']);
+                unset($cesiones_act_id[$i][$j]['acciones']);
+                $cesiones_act_id[$i][$j]['cesion_id'] = $cesion_id;
+                $cesiones_ant_id[$i][$j]['tipo_cedente'] = '2';
+              }
+              $CI->PatentesSolicitudes_model->insertCesionesAntAct($cesiones_act_id[$i]);
+            }
+          }
+        }
+        echo json_encode(['message' => 'success', 'code' => '200']);
+        // $query = $CI->PatentesSolicitudes_model->insert($form);
+  
+        // if (isset($query)) {
+        //   $id = $CI->PatentesSolicitudes_model->last_insert_id();
+        //   echo json_encode(['message' => 'success', 'id' => $id, 'code' => '200']);
+        // } else {
+        //   echo json_encode(['error' => $query, 'code' => '500']);
+        // }
       } catch (\Throwable $th) {
           echo json_encode(['message' => $th->getMessage(), 'code' => '500']);
       }
@@ -393,6 +710,7 @@ class SolicitudesController extends AdminController
                 'projects' => $CI->PatentesSolicitudes_model->findAllProjects(),
                 'tareas' => $CI->PatentesSolicitudes_model->findAllTipoTarea(),
                 'values' => $patente,
+                'tipo_evento' => $CI->PatentesSolicitudes_model->findAllTipoEvento(),
                 'labels' => array('Id', 'Nombre del anexo')
             ];
             return $CI->load->view('patente/solicitudes/edit', $data);

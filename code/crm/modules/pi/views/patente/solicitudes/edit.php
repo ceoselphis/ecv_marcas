@@ -311,10 +311,10 @@ $select = ['' => '']; ?>
                                                     <a href="#prioridad" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Prioridades<i class="fa fa-chevron-down"></i></a>
                                                     <div class="collapse" id="prioridad">
                                                         <div class="list-box">
-                                                        <div style="padding-top:30px;" ></div>
+                                                        <div style="padding-top:20px;" ></div>
                                                             <button type="button"  class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir
                                                                 prioridad</button>
-                                                                <div style="padding-top:30px;" ></div>
+                                                                <div style="padding-bottom:70px;" ></div>
                                                             <table id="prioridadTbl"   class="ultimate table table-responsive">
                                                                 <thead>
                                                                     <tr>
@@ -344,10 +344,11 @@ $select = ['' => '']; ?>
                                                         <div class="list-box">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                <div style="padding-top:30px;" ></div>
+                                                                    <div style="padding-top:20px;" ></div>
                                                                     <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir
                                                                         publicacion</button>
-                                                                    <table id="publicacionTbl" style="padding-top:20px" class="ultimate table table-responsive">
+                                                                    <div style="padding-bottom:70px;" ></div>
+                                                                    <table id="publicacionTbl"  class="ultimate table table-responsive">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>N°</th>

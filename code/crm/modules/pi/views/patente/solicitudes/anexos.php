@@ -3,12 +3,9 @@
 <script>
     $('#modal-loading').modal('show');
 
-    url_patente = window.location.href;
-    let idMatch = url_patente.match(/(\d+)(?!.*\d)/);
-    let patente_id = idMatch ? idMatch[0] : null; 
-    if (!patente_id) {
+   
         patente_id = '<?php echo $id ?> ';
-    }
+    
     
     /* Declaramos las variables de Datatable para iniciaizarlas*/
     var tblClaseDT;
@@ -3694,6 +3691,7 @@
 
     function TablaDocumento(patente_id) {
         console.log("Patente ", patente_id);
+        //'http://localhost/ecv_marcas/code/crm/admin/pi/patentes/SolicitudesController/showDocumentos/';
         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showDocumentos/"); ?>';
         url += encodeURIComponent(patente_id.trim()); // Sanitiza el `patente_id`
         $("#DocTbl").DataTable({

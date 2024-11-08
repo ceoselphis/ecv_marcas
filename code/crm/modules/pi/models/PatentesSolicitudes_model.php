@@ -110,6 +110,14 @@ class PatentesSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function findAllPAtentesPrioridad($id) {
+        $this->db->select('*');
+        $this->db->from('tbl_patentes_prioridad');
+        $this->db->where('patentes_id  = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
     public function findAllProjects()
     {
         $this->db->select('*');
@@ -428,7 +436,7 @@ class PatentesSolicitudes_model extends BaseModel
     }
 
     
-    public function insertMarcaFactura($params)
+    public function insertPatenteFactura($params)
     {
         $query = $this->db->insert_batch('tbl_patentes_facturas', $params);
         return $query;

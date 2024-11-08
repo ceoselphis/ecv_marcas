@@ -14,6 +14,8 @@ class PatentesPrioridad_model extends BaseModel
         parent::__construct();
     }
 
+    
+
     public function findAllPatentes()
     {
         $this->db->select('sol_pat_id, titulo');

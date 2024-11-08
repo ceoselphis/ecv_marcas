@@ -116,6 +116,24 @@ class SolicitudesController extends AdminController
       echo json_encode($patente);
     }
 
+    public function showPrioridad($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesDocumento_model");
+      $data = $CI->PatentesDocumento_model->ShowPantentes($id);
+      $patente = array();
+      foreach ( $data as $row){
+        $patente[] = [
+          'id' => $row['id'],
+          'descripcion' => $row['descripcion'],
+          'fecha' =>  date('d/m/Y', strtotime($row['fecha'])) ,
+          'path' => $row['path'],
+          'patente_id' => $row['patentes_id']
+        ];
+      }
+      
+      echo json_encode($patente);
+    }
+
     public function deleteDocumentos($id){ 
       $CI = &get_instance();
       $CI->load->model("PatentesDocumento_model");
@@ -491,32 +509,7 @@ class SolicitudesController extends AdminController
           $facturas[$i]['staff_id'] = $_SESSION['staff_user_id'];
         }
 
-        // $prueba[] = [
-        //   'formulario' => $form,
-        //   'prioridades' => $prioridades,
-        //   'publicacion' => $publicacion,
-        //   'eventos' => $eventos,
-        //   'tareas' => $tareas,
-        //   'cesiones' => $cesiones,
-        //   'cesiones_ant_id' => $cesiones_ant_id,
-        //   'cesion_anterior' => $cesion_anterior,
-        //   'cesiones_act_id' => $cesiones_act_id,
-        //   'licencias' => $licencias,
-        //   'licencias_ant_id' => $licencias_ant_id,
-        //   'licencias_act_id' => $licencias_act_id,
-        //   'fusiones' => $fusiones,
-        //   'fusiones_ant_id' => $fusiones_ant_id,
-        //   'fusiones_act_id' => $fusiones_act_id,
-        //   'camnom' => $camnom,
-        //   'camnom_ant_id' => $camnom_ant_id,
-        //   'camnom_act_id' => $camnom_act_id,
-        //   'camdom' => $camdom,
-        //   'camdom_ant_id' => $camdom_ant_id,
-        //   'camdom_act_id' => $camdom_act_id,
-        //   'facturas' => $facturas,
-        // ];
-
-        // echo json_encode($prueba);
+      
   
       try {
         if (!empty($prioridades)) {
@@ -562,15 +555,134 @@ class SolicitudesController extends AdminController
             }
           }
         }
-        echo json_encode(['message' => 'success', 'code' => '200']);
-        // $query = $CI->PatentesSolicitudes_model->insert($form);
-  
-        // if (isset($query)) {
-        //   $id = $CI->PatentesSolicitudes_model->last_insert_id();
-        //   echo json_encode(['message' => 'success', 'id' => $id, 'code' => '200']);
-        // } else {
-        //   echo json_encode(['error' => $query, 'code' => '500']);
+
+        if (!empty($licencias)) {
+          for ($i = 0; $i < count($licencias); ++$i) {
+            /* INSERTO LA LICENCIA Y RETORNO SU ID*/
+            $licencia_id = $CI->PatentesSolicitudes_model->insertLicencias($licencias[$i]);
+
+            /*Guardamos las licencias anteriores  */
+            if (!empty($licencias_ant_id)) {
+              for ($j = 0; $j < count($licencias_ant_id[$i]); ++$j) {
+                unset($licencias_ant_id[$i][$j]['idRow']);
+                unset($licencias_ant_id[$i][$j]['propietario_id_name']);
+                unset($licencias_ant_id[$i][$j]['acciones']);
+                $licencias_ant_id[$i][$j]['licencia_id'] = $licencia_id;
+                
+              }
+              $CI->PatentesSolicitudes_model->insertLicenciasAntAct($licencias_ant_id[$i]);
+            }
+            /*Guardamos las licencias actuales  */
+            if (!empty($licencias_act_id)) {
+              for ($j = 0; $j < count($licencias_act_id[$i]); ++$j) {
+                unset($licencias_act_id[$i][$j]['idRow']);
+                unset($licencias_act_id[$i][$j]['propietario_id_name']);
+                unset($licencias_act_id[$i][$j]['acciones']);
+                $licencias_act_id[$i][$j]['licencia_id'] = $licencia_id;
+                 
+              }
+              $CI->PatentesSolicitudes_model->insertLicenciasAntAct($licencias_act_id[$i]);
+            }
+          }
+        }
+
+        if (!empty($fusiones)) {
+          for ($i = 0; $i < count($fusiones); ++$i) {
+            /* INSERTO LA FUSION Y RETORNO SU ID*/
+            $fusion_id = $CI->PatentesSolicitudes_model->insertFusion($fusiones[$i]);
+
+            /*Guardamos las fusiones anteriores  */
+            if (!empty($fusiones_ant_id)) {
+              for ($j = 0; $j < count($fusiones_ant_id[$i]); ++$j) {
+                unset($fusiones_ant_id[$i][$j]['idRow']);
+                unset($fusiones_ant_id[$i][$j]['propietario_id_name']);
+                unset($fusiones_ant_id[$i][$j]['acciones']);
+                $fusiones_ant_id[$i][$j]['fusion_id'] = $fusion_id;
+              }
+              $CI->PatentesSolicitudes_model->insertFusionesAntAct($fusiones_ant_id[$i]);
+            }
+            /*Guardamos las fusiones actuales  */
+            if (!empty($fusiones_act_id)) {
+              for ($j = 0; $j < count($fusiones_act_id[$i]); ++$j) {
+                unset($fusiones_act_id[$i][$j]['idRow']);
+                unset($fusiones_act_id[$i][$j]['propietario_id_name']);
+                unset($fusiones_act_id[$i][$j]['acciones']);
+                $fusiones_act_id[$i][$j]['fusion_id'] = $fusion_id;
+              }
+              $CI->PatentesSolicitudes_model->insertFusionesAntAct($fusiones_act_id[$i]);
+            }
+          }
+        }
+
+        if (!empty($camnom)) {
+          for ($i = 0; $i < count($camnom); ++$i) {
+            /* INSERTO EL CAMBIO DE NOMBRE Y RETORNO SU ID*/
+            $fusion_id = $CI->PatentesSolicitudes_model->insertCamNom($camnom[$i]);
+
+            /*Guardamos los Cambios de Nombre anteriores  */
+            if (!empty($camnom_ant_id)) {
+              for ($j = 0; $j < count($camnom_ant_id[$i]); ++$j) {
+                unset($camnom_ant_id[$i][$j]['idRow']);
+                unset($camnom_ant_id[$i][$j]['propietario_id_name']);
+                unset($camnom_ant_id[$i][$j]['acciones']);
+                $camnom_ant_id[$i][$j]['cambio_nombre_id'] = $fusion_id;
+              }
+              $CI->PatentesSolicitudes_model->insertCamNomAntAct($camnom_ant_id[$i]);
+            }
+            /*Guardamos las Cambios de Nombre actuales  */
+            if (!empty($camnom_act_id)) {
+              for ($j = 0; $j < count($camnom_act_id[$i]); ++$j) {
+                unset($camnom_act_id[$i][$j]['idRow']);
+                unset($camnom_act_id[$i][$j]['propietario_id_name']);
+                unset($camnom_act_id[$i][$j]['acciones']);
+                $camnom_act_id[$i][$j]['cambio_nombre_id'] = $fusion_id;
+              }
+              $CI->PatentesSolicitudes_model->insertCamNomAntAct($camnom_act_id[$i]);
+            }
+          }
+        }
+
+        if (!empty($camdom)) {
+          for ($i = 0; $i < count($camdom); ++$i) {
+            /* INSERTO EL CAMBIO DE DOMICLIO Y RETORNO SU ID*/
+            $fusion_id = $CI->PatentesSolicitudes_model->insertCamDom($camdom[$i]);
+
+            /*Guardamos los Cambios de Domicilio anteriores  */
+            if (!empty($camdom_ant_id)) {
+              for ($j = 0; $j < count($camdom_ant_id[$i]); ++$j) {
+                unset($camdom_ant_id[$i][$j]['idRow']);
+                unset($camdom_ant_id[$i][$j]['propietario_id_name']);
+                unset($camdom_ant_id[$i][$j]['acciones']);
+                $camdom_ant_id[$i][$j]['cambio_domicilio_id'] = $fusion_id;
+              }
+              $CI->PatentesSolicitudes_model->insertCamDomAntAct($camdom_ant_id[$i]);
+            }
+            /*Guardamos las Cambios de Domicilio actuales  */
+            if (!empty($camdom_act_id)) {
+              for ($j = 0; $j < count($camdom_act_id[$i]); ++$j) {
+                unset($camdom_act_id[$i][$j]['idRow']);
+                unset($camdom_act_id[$i][$j]['propietario_id_name']);
+                unset($camdom_act_id[$i][$j]['acciones']);
+                $camdom_act_id[$i][$j]['cambio_domicilio_id'] = $fusion_id;
+              }
+              $CI->PatentesSolicitudes_model->insertCamDomAntAct($camdom_act_id[$i]);
+            }
+          }
+        }
+
+        // if (!empty($facturas)) {
+        //   $CI->PatentesSolicitudes_model->insertPatenteFactura($facturas);
         // }
+
+        //echo json_encode(['message' => 'success', 'code' => '200']);
+        $query = $CI->PatentesSolicitudes_model->insert($form);
+  
+        if (isset($query)) {
+          $id = $CI->PatentesSolicitudes_model->last_insert_id();
+          echo json_encode(['message' => 'success', 'id' => $id, 'code' => '200']);
+        } else {
+          echo json_encode(['error' => $query, 'code' => '500']);
+        }
       } catch (\Throwable $th) {
           echo json_encode(['message' => $th->getMessage(), 'code' => '500']);
       }

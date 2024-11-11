@@ -3,10 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require __DIR__ . '/BaseModel.php';
 
-class PatentesPrioridad_model extends BaseModel
+class PatentesPublicaciones_model extends BaseModel
 {
-    protected $primaryKey = 'pri_pat_id';
-    protected $tableName =  'tbl_patentes_prioridad';
+    protected $primaryKey = 'id';
+    protected $tableName =  'tbl_patentes_publicaciones';
     protected $DBgroup = 'default';
     
     public function __construct()
@@ -59,12 +59,30 @@ class PatentesPrioridad_model extends BaseModel
 
     public function ShowPantentes($id){
         $this->db->select('*');
-        $this->db->from('tbl_patentes_prioridad');
+        $this->db->from('tbl_patentes_publicaciones');
         $this->db->where('patentes_id = '.$id);
         $query = $this->db->get();
         return $query->result_array();
     }
 
+
+    public function findTipoPublicaciones($id){
+        $this->db->select('*');
+        $this->db->from('tbl_tipo_publicacion');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result[0]['nombre'];
+    }
+
+    public function findBoletines($id){
+        $this->db->select('*');
+        $this->db->from('tbl_boletines');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result[0]['descripcion'];
+    }
  
 
 

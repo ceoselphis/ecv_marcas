@@ -98,7 +98,6 @@ $select = ['' => '']; ?>
                                 <div class="tab-pane active" role="tabpanel" id="step1">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            
                                             <h4>
                                                 <?php echo form_label("N° Expediente Solicitud: {$cod_contador}"); ?>
                                             </h4>
@@ -315,7 +314,7 @@ $select = ['' => '']; ?>
                                                             <button type="button"  class="btn btn-primary pull-right" data-toggle="modal" data-target="#prioridadModal">Añadir
                                                                 prioridad</button>
                                                                 <div style="padding-bottom:70px;" ></div>
-                                                            <table id="prioridadTbl"   class="ultimate table table-responsive">
+                                                            <table id="prioridadEditTbl"   class="ultimate table table-responsive">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>N°</th>
@@ -348,7 +347,7 @@ $select = ['' => '']; ?>
                                                                     <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#publicacionModal">Añadir
                                                                         publicacion</button>
                                                                     <div style="padding-bottom:70px;" ></div>
-                                                                    <table id="publicacionTbl"  class="ultimate table table-responsive">
+                                                                    <table id="publicacionEditTbl"  class="ultimate table table-responsive">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>N°</th>
@@ -593,13 +592,13 @@ $select = ['' => '']; ?>
                                             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                         </div>
                                         <div class="col-md-12" style="padding-top: 1.5%;">
-                                            <table id="eventosTbl" class="ultimate table table-responsive">
+                                            <table id="eventosEditTbl" class="ultimate table table-responsive">
                                                 <thead>
                                                     <tr>
                                                         <th>N°</th>
+                                                        <th>Fecha</th>
                                                         <th>Evento</th>
                                                         <th>Comentarios</th>
-                                                        <th>Fecha</th>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
@@ -630,7 +629,7 @@ $select = ['' => '']; ?>
                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table id="tareasTbl" class="ultimate table table-responsive">
+                                        <table id="tareasEditTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>N°</th>
@@ -677,7 +676,7 @@ $select = ['' => '']; ?>
                                                         </div>
                                                         <div class="row" style="padding-top: 15px;">
                                                             <div class="col-md-12 pre-scrollable">
-                                                                <table id="CesionTbl" class="ultimate table table-responsive">
+                                                                <table id="CesionEditTbl" class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>N°</th>
@@ -718,7 +717,7 @@ $select = ['' => '']; ?>
                                                         </div>
                                                         <div class="row" style="padding-top: 15px;">
                                                             <div class="col-md-12 pre-scrollable">
-                                                                <table id="LicenciaTbl" class="ultimate table table-responsive">
+                                                                <table id="LicenciaEditTbl" class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>N°</th>
@@ -759,7 +758,7 @@ $select = ['' => '']; ?>
                                                         </div>
                                                         <div class="row" style="padding-top: 15px;">
                                                             <div class="col-md-12 pre-scrollable">
-                                                                <table id="FusionTbl" class="ultimate table table-responsive">
+                                                                <table id="FusionEditTbl" class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>N°</th>

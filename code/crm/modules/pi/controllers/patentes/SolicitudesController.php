@@ -118,20 +118,158 @@ class SolicitudesController extends AdminController
 
     public function showPrioridad($id){
       $CI = &get_instance();
-      $CI->load->model("PatentesDocumento_model");
-      $data = $CI->PatentesDocumento_model->ShowPantentes($id);
+      $CI->load->model("PatentesPrioridad_model");
+      $data = $CI->PatentesPrioridad_model->ShowPantentes($id);
       $patente = array();
       foreach ( $data as $row){
         $patente[] = [
           'id' => $row['id'],
-          'descripcion' => $row['descripcion'],
-          'fecha' =>  date('d/m/Y', strtotime($row['fecha'])) ,
-          'path' => $row['path'],
+          'numero' => $row['numero'],
+          'fecha' =>  date('d/m/Y', strtotime($row['fecha_prioridad'])) ,
+          'pais' => $CI->PatentesPrioridad_model->findPais($row['pais_id']),
           'patente_id' => $row['patentes_id']
         ];
       }
       
       echo json_encode($patente);
+    }
+
+    public function showPublicaciones($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesPublicaciones_model");
+      $data = $CI->PatentesPublicaciones_model->ShowPantentes($id);
+      $publicaciones = array();
+      foreach ( $data as $row){
+        $publicaciones[] = [
+          'id' => $row['id'],
+          'fecha' =>  date('d/m/Y', strtotime($row['fecha'])) ,
+          'tipo_publicacion' => $CI->PatentesPublicaciones_model->findTipoPublicaciones($row['tipo_pub_id']),
+          'boletin' => $CI->PatentesPublicaciones_model->findBoletines($row['boletin_id']),
+          'tomo' => $row['tomo'],
+          'pagina' => $row['pagina'],
+          'patente_id' => $row['patentes_id']
+        ];
+      }
+      
+      echo json_encode($publicaciones);
+    }
+
+    public function showEventos($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesEventos_model");
+      $data = $CI->PatentesEventos_model->ShowPantentes($id);
+      $eventos = array();
+      foreach ( $data as $row){
+        $eventos[] = [
+          'id' => $row['id'],
+          'fecha' =>  date('d/m/Y', strtotime($row['fecha'])) ,
+          'tipo_evento' => $CI->PatentesEventos_model->findTipoEvento($row['tipo_evento_id']),
+          'comentarios' => $row['comentarios'],
+          'patente_id' => $row['patentes_id']
+        ];
+      }
+      
+      echo json_encode($eventos);
+    }
+
+    public function showTareas($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesTareas_model");
+      $data = $CI->PatentesTareas_model->ShowPantentes($id);
+      $tareas = array();
+      foreach ( $data as $row){
+        $tareas[] = [
+          'id' => $row['id'],
+          'fecha' =>  date('d/m/Y', strtotime($row['fecha'])) ,
+          'tipo_tareas' => $CI->PatentesTareas_model->findTipoTareas($row['tipo_tareas_id']),
+          'proyecto' => $CI->PatentesTareas_model->findProyectos($row['project_id']),
+          'descripcion' => $row['descripcion'],
+          'patente_id' => $row['patentes_id']
+        ];
+      }
+      
+      echo json_encode($tareas);
+    }
+
+    public function showCesion($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesCesiones_model");
+      $data = $CI->PatentesCesiones_model->ShowPantentes($id);
+      $cesion = array();
+    
+      foreach ( $data as $row){
+        $cesion[] = [
+          'id' => $row['id'],
+          'cliente' => $CI->PatentesCesiones_model->findClientes($row['client_id']),
+          'oficina' => $CI->PatentesCesiones_model->findOficinas($row['oficina_id']),
+          'patente_id' => $row['patentes_id'],
+          'staff' => $CI->PatentesCesiones_model->findStaff($row['staff_id']),
+          'estado' => $CI->PatentesCesiones_model->findEstadoExpediente($row['estado_id']),
+          'solicitud_num' => $row['solicitud_num'],
+
+          'fecha_solicitud' =>  date('d/m/Y', strtotime($row['fecha_solicitud'])),
+          'resolucion_num' => $row['resolucion_num'],
+          'fecha_resolucion' =>  date('d/m/Y', strtotime($row['fecha_resolucion'])),
+          'referencia_cliente' => $row['referencia_cliente'],
+          'comentarios' => $row['comentarios']
+        ];
+      }
+      
+      echo json_encode($cesion);
+    }
+
+    public function showLicencia($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesLicencia_model");
+      $data = $CI->PatentesLicencia_model->ShowPantentes($id);
+      $licencia = array();
+    
+      foreach ( $data as $row){
+        $licencia[] = [
+          'id' => $row['id'],
+          'cliente' => $CI->PatentesLicencia_model->findClientes($row['client_id']),
+          'oficina' => $CI->PatentesLicencia_model->findOficinas($row['oficina_id']),
+          'patente_id' => $row['patentes_id'],
+          'staff' => $CI->PatentesLicencia_model->findStaff($row['staff_id']),
+          'estado' => $CI->PatentesLicencia_model->findEstadoExpediente($row['estado_id']),
+          'solicitud_num' => $row['num_solicitud'],
+
+          'fecha_solicitud' =>  date('d/m/Y', strtotime($row['fecha_solicitud'])),
+          'resolucion_num' => $row['num_resolucion'],
+          'fecha_resolucion' =>  date('d/m/Y', strtotime($row['fecha_resolucion'])),
+          'referencia_cliente' => $row['referencia_cliente'],
+          'comentarios' => $row['comentarios']
+        ];
+      }
+      
+      echo json_encode($licencia);
+    }
+
+    public function showFusion($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesFusion_model");
+      $data = $CI->PatentesFusion_model->ShowPantentes($id);
+      $licencia = array();
+    
+      foreach ( $data as $row){
+        $licencia[] = [
+          'id' => $row['id'],
+          'cliente' => $CI->PatentesFusion_model->findClientes($row['client_id']),
+          'oficina' => $CI->PatentesFusion_model->findOficinas($row['oficina_id']),
+          'patente_id' => $row['patentes_id'],
+          'staff' => $CI->PatentesFusion_model->findStaff($row['staff_id']),
+          'estado' => $CI->PatentesFusion_model->findEstadoExpediente($row['estado_id']),
+          'solicitud_num' => $row['num_solicitud'],
+
+          'fecha_solicitud' =>  date('d/m/Y', strtotime($row['fecha_solicitud'])),
+          'resolucion_num' => $row['num_resolucion'],
+          'fecha_resolucion' =>  date('d/m/Y', strtotime($row['fecha_resolucion'])),
+          'referencia_cliente' => $row['referencia_cliente'],
+          'comentarios' => $row['comentarios']
+        ];
+      }
+      
+      echo json_encode($licencia);
     }
 
     public function deleteDocumentos($id){ 
@@ -807,7 +945,7 @@ class SolicitudesController extends AdminController
               "comentarios" => $query[0]['comentarios'],
           ];
             $data = [
-                'id'            => $CI->PatentesSolicitudes_model->last_insert_id(),
+                'id'            => $id,
                 'tipo_registro' => $CI->PatentesSolicitudes_model->getTipoSolicitudes(),
                 'clientes'      => $CI->PatentesSolicitudes_model->getAllClients(),
                 'oficinas'      => $CI->PatentesSolicitudes_model->getAllOficinas(),
@@ -815,7 +953,7 @@ class SolicitudesController extends AdminController
                 'responsable'   => $CI->PatentesSolicitudes_model->getAllStaff(),
                 'pais_id'       => $CI->PatentesSolicitudes_model->getAllPaises(),
                 'inventores'    => $CI->PatentesSolicitudes_model->getAllInventores(),
-                'cod_contador'  => $id,
+                'cod_contador'  =>  "P-{$id}",
                 'solicitantes'  => $CI->PatentesSolicitudes_model->getAllClients(),
                 'solicitantes_selected' => $CI->PatentesSolicitudes_model->findPatenteSolicitantes($id),
                 'inventores_selected' => $CI->PatentesSolicitudes_model->findPatenteInventores($id),

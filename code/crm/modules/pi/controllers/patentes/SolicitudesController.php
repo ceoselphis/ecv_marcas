@@ -272,6 +272,61 @@ class SolicitudesController extends AdminController
       echo json_encode($licencia);
     }
 
+    public function showCambioNombre($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesCambioNombre_model");
+      $data = $CI->PatentesCambioNombre_model->ShowPantentes($id);
+      $licencia = array();
+    
+      foreach ( $data as $row){
+        $licencia[] = [
+          'id' => $row['id'],
+          'cliente' => $CI->PatentesCambioNombre_model->findClientes($row['client_id']),
+          'oficina' => $CI->PatentesCambioNombre_model->findOficinas($row['oficina_id']),
+          'patente_id' => $row['patentes_id'],
+          'staff' => $CI->PatentesCambioNombre_model->findStaff($row['staff_id']),
+          'estado' => $CI->PatentesCambioNombre_model->findEstadoExpediente($row['estado_id']),
+          'solicitud_num' => $row['num_solicitud'],
+
+          'fecha_solicitud' =>  date('d/m/Y', strtotime($row['fecha_solicitud'])),
+          'resolucion_num' => $row['num_resolucion'],
+          'fecha_resolucion' =>  date('d/m/Y', strtotime($row['fecha_resolucion'])),
+          'referencia_cliente' => $row['referencia_cliente'],
+          'comentarios' => $row['comentarios']
+        ];
+      }
+      
+      echo json_encode($licencia);
+    }
+
+    public function showCambioDomicilio($id){
+      $CI = &get_instance();
+      $CI->load->model("PatentesCambioDomicilio_model");
+      $data = $CI->PatentesCambioDomicilio_model->ShowPantentes($id);
+      $licencia = array();
+    
+      foreach ( $data as $row){
+        $licencia[] = [
+          'id' => $row['id'],
+          'cliente' => $CI->PatentesCambioDomicilio_model->findClientes($row['client_id']),
+          'oficina' => $CI->PatentesCambioDomicilio_model->findOficinas($row['oficina_id']),
+          'patente_id' => $row['patentes_id'],
+          'staff' => $CI->PatentesCambioDomicilio_model->findStaff($row['staff_id']),
+          'estado' => $CI->PatentesCambioDomicilio_model->findEstadoExpediente($row['estado_id']),
+          'solicitud_num' => $row['num_solicitud'],
+
+          'fecha_solicitud' =>  date('d/m/Y', strtotime($row['fecha_solicitud'])),
+          'resolucion_num' => $row['num_resolucion'],
+          'fecha_resolucion' =>  date('d/m/Y', strtotime($row['fecha_resolucion'])),
+          'referencia_cliente' => $row['referencia_cliente'],
+          'comentarios' => $row['comentarios']
+        ];
+      }
+      
+      echo json_encode($licencia);
+    }
+
+   
     public function deleteDocumentos($id){ 
       $CI = &get_instance();
       $CI->load->model("PatentesDocumento_model");
@@ -961,6 +1016,8 @@ class SolicitudesController extends AdminController
                 'tareas' => $CI->PatentesSolicitudes_model->findAllTipoTarea(),
                 'values' => $patente,
                 'tipo_evento' => $CI->PatentesSolicitudes_model->findAllTipoEvento(),
+                'tipo_publicacion'           => $CI->PatentesSolicitudes_model->getAllTiposPublicaciones(),
+                'boletines' => $CI->PatentesSolicitudes_model->getAllBoletines(),
                 'labels' => array('Id', 'Nombre del anexo')
             ];
             return $CI->load->view('patente/solicitudes/edit', $data);

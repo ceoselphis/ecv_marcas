@@ -794,13 +794,13 @@ $select = ['' => '']; ?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCamNom">Añadir Cambio de
+                                                                <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de
                                                                     Nombre</button>
                                                             </div>
                                                         </div>
                                                         <div class="row" style="padding-top: 15px;">
                                                             <div class="col-md-12 pre-scrollable">
-                                                                <table id="CamNomTbl" class="ultimate table table-responsive">
+                                                                <table id="CamNomEditTbl" class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>N°</th>
@@ -842,7 +842,7 @@ $select = ['' => '']; ?>
                                                         </div>
                                                         <div class="row" style="padding-top: 15px;">
                                                             <div class="col-md-12 pre-scrollable">
-                                                                <table id="CamDomTbl" class="ultimate table table-responsive">
+                                                                <table id="CamDomEditTbl" class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>N°</th>
@@ -953,7 +953,7 @@ $select = ['' => '']; ?>
 </div>
 
 
-<?php $CI->load->view('patente/solicitudes/modal.php'); ?>
+<?php $CI->load->view('patente/solicitudes/modaledit.php'); ?>
 <?php $CI->load->view('patente/solicitudes/base64.php'); ?>
 
 <?php init_tail(); ?>

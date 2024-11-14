@@ -310,6 +310,83 @@
         }
     });
 
+    /*
+         //Crear Evento
+    $(document).on('click', '#eventosfrmsubmit', function (e) {
+        console.log("Click Evento");
+        e.preventDefault();
+        var formData = new FormData();
+        var tipo_evento = $('#tipo_evento').val();
+        var evento_comentario = $('#evento_comentario').val();
+        var acc_ter_id = id;
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        formData.append('tipo_evento', tipo_evento);
+        formData.append('evento_comentario', evento_comentario);
+        formData.append('acc_ter_id', acc_ter_id);
+        console.log("tipo_evento ", tipo_evento, "evento_comentario ", evento_comentario,
+            " Acciones Tercero ID ", acc_ter_id);
+        let url = '<?php echo admin_url("pi/AccionesTercerosEventosController/addEvento"); ?>'
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function (response) {
+            Eventos(id);
+            console.log(response);
+            alert_float('success', "Insertado Correctamente");
+            $("#eventoModal").modal('hide');
+        }).catch(function (response) {
+            console.log(response);
+            alert("No puede agregar el Evento sin registro");
+        });
+    });
+    */
+
+    $("#prioridadEditfrmsubmit").on('click', function (e) {
+        e.preventDefault();
+        console.log(" Guardar Prioridad ");
+        
+        if ($('#pais_prioridad').val() && $('#fecha_prioridad').val() && $('#nro_prioridad').val()) {
+            var formData = new FormData();
+            let pais_id = $('#pais_prioridad').val();
+            let fecha_prioridad =  $('#fecha_prioridad').val();
+            let numero = $('#nro_prioridad').val();
+            let patentes_id = $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('pais_id', pais_id);
+            formData.append('fecha_prioridad', fecha_prioridad);
+            formData.append('numero', numero);
+            formData.append('patentes_id', patentes_id);
+            console.log("pais_id ", pais_id, " fecha_prioridad ", fecha_prioridad, " numero ", numero," patentes_id ", patentes_id);
+            let url = '<?php echo admin_url("pi/patentes/PrioridadController/create"); ?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                
+                console.log(response);
+                $("#prioridadModal").modal('hide');
+                alert_float('success', "Prioridad Insertado Correctamente");
+                TablaPrioridadEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No puede agregar la prioridad ");
+            });
+        } else {
+            $("#pais_prioridad").css('color', $('#pais_prioridad').val() ? color_lbl : 'red');
+            $("#lblfecha_prioridad").css('color', $('#fecha_prioridad').val() ? color_lbl : 'red');
+            $("#lblnro_prioridad").css('color', $('#nro_prioridad').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir la Prioridad');
+        }
+    });
+
     /***
      * funcion para borrar una Prioridad
      */
@@ -462,6 +539,55 @@
             } catch (error) {
                 alert(error);
             }
+        } else {
+            $("#lblfecha_publicacion").css('color', $('#fecha_publicacion').val() ? color_lbl : 'red');
+            $("#lbltipo_publicacion").css('color', $('#tipo_publicacion').val() ? color_lbl : 'red');
+            $("#lblboletin_publicacion").css('color', $('#boletin_publicacion').val() ? color_lbl : 'red');
+            $("#lbltomo_publicacion").css('color', $('#tomo_publicacion').val() ? color_lbl : 'red');
+            $("#lblpag_publicacion").css('color', $('#pag_publicacion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para la Añadir la Publicación');
+        }
+    });
+
+    $('#publicacionEditfrmsubmit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.log(" Llegue a Publicacion ");
+        if ($('#fecha_publicacion').val() && $('#tipo_publicacion').val() && $('#boletin_publicacion').val() && $('#tomo_publicacion').val() && $('#pag_publicacion').val()) {
+            var formData = new FormData();
+            let fecha = $('#fecha_publicacion').val();
+            let tipo_pub_id = $('#tipo_publicacion').val();
+            let boletin_id = $('#boletin_publicacion').val();
+            let tomo = $('#tomo_publicacion').val();
+            let pagina = $('#pag_publicacion').val();
+            let patentes_id = $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('fecha', fecha);
+            formData.append('tipo_pub_id', tipo_pub_id);
+            formData.append('boletin_id', boletin_id);
+            formData.append('tomo', tomo);
+            formData.append('pagina', pagina);
+            formData.append('patentes_id', patentes_id);
+            console.log(" fecha ", fecha , " tipo publicacion ", tipo_pub_id , );
+            let url = '<?php echo admin_url("pi/patentes/PublicacionesController/create"); ?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                
+                console.log(response);
+                $("#publicacionModal").modal('hide');
+                alert_float('success', "Publicacion Insertado Correctamente");
+                TablaPublicacionEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No puede agregar la prioridad ");
+            });
+
         } else {
             $("#lblfecha_publicacion").css('color', $('#fecha_publicacion').val() ? color_lbl : 'red');
             $("#lbltipo_publicacion").css('color', $('#tipo_publicacion').val() ? color_lbl : 'red');
@@ -822,6 +948,51 @@
 
     });
 
+    $('#eventosEditfrmsubmit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.log(" Llegue a Eventos ");
+        if ($('#tipo_evento').val() && $('#fecha_evento').val() && $('#evento_comentario').val()) {
+
+            var formData = new FormData();
+            let fecha =  $('#fecha_evento').val();
+            let tipo_evento_id =  $('#tipo_evento').val();
+            let comentarios =  $('#evento_comentario').val();
+            let patentes_id =  $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('fecha', fecha);
+            formData.append('tipo_evento_id', tipo_evento_id);
+            formData.append('comentarios', comentarios);
+            formData.append('patentes_id', patentes_id);
+            console.log(" fecha ", fecha , " tipo_evento_id  ", tipo_evento_id , " comentarios ",comentarios , ' patentes_id ', patentes_id);
+            let url = '<?php echo admin_url("pi/patentes/EventosController/create"); ?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                
+                console.log(response);
+                $("#eventoModal").modal('hide');
+                alert_float('success', "Evento Insertado Correctamente");
+                TablaEventosEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No puede agregar el Evento ");
+            });
+
+        } else {
+            $("#lbltipo_evento").css('color', $('#tipo_evento').val() ? color_lbl : 'red');
+            $("#lblfecha_evento").css('color', $('#fecha_evento').val() ? color_lbl : 'red');
+            $("#lblevento_comentario").css('color', $('#evento_comentario').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar todos los datos para Añadir el Evento');
+        }
+
+    });
+
     /***
      * funcion para borrar un Evento
      */
@@ -1121,6 +1292,53 @@
             } catch (error) {
                 alert(error);
             }
+
+        } else {
+            $("#lblfecha_tarea").css('color', $('#fecha_tarea').val() ? color_lbl : 'red');
+            $("#lblproject_id").css('color', $('#project_id').val() ? color_lbl : 'red');
+            $("#lbltipo_tarea").css('color', $('#tipo_tarea').val() ? color_lbl : 'red');
+            $("#lbldescripcion").css('color', $('#descripcion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe seleccionar los datos para para Añadir la Tarea');
+        }
+    })
+
+    $('#tareasEditfrmsubmit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.log(" LLegue a Tareas ");
+        if ($('#fecha_tarea').val() && $('#project_id').val() && $('#tipo_tarea').val() && $('#descripcion').val()) {
+            var formData = new FormData();
+            let fecha =  $('#fecha_tarea').val();
+            let project_id =  $('#project_id').val();
+            let tipo_tareas_id =  $('#tipo_tarea').val();
+            let descripcion =  $('#descripcion').val();
+            let patentes_id =  $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('fecha', fecha);
+            formData.append('project_id', project_id);
+            formData.append('tipo_tareas_id', tipo_tareas_id);
+            formData.append('descripcion', descripcion);
+            formData.append('patentes_id', patentes_id);
+            console.log(" fecha ", fecha , " project_id  ", project_id , " tipo_tareas_id ",tipo_tareas_id ,' descripcion ' , descripcion , ' patentes_id ' , patentes_id );
+            let url = '<?php echo admin_url("pi/patentes/TareasController/create"); ?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                
+                console.log(response);
+                $("#addTask").modal('hide');
+                alert_float('success', "Tarea Insertado Correctamente");
+                TablaTareasEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No pudo agregar la Tarea ");
+            });
+           
 
         } else {
             $("#lblfecha_tarea").css('color', $('#fecha_tarea').val() ? color_lbl : 'red');
@@ -1465,6 +1683,103 @@
             $("#lblcomentarioCesion").css('color', $('#comentarioCesion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos la Cesión');
         }
+    });
+
+    $('#cesionesEditfrmsubmit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.log(" LLegue a Cesiones ");
+        if ($('#oficinaCesion').val() &&
+            $('#estadoCesion').val() &&
+            $('#nro_solicitudCesion').val() &&
+            $('#fecha_solicitudCesion').val() &&
+            $('#nro_resolucionCesion').val() &&
+            $('#fecha_resolucionCesion').val() &&
+            $('#referenciaclienteCesion').val() &&
+            $('#comentarioCesion').val()) {
+
+            
+
+            /*
+                 "client_id": $('#clienteCesion').val(),
+                'client_id_name': $('#clienteCesion option[value=' + $('#clienteCesion').val() + ']')
+                .text(),
+                "oficina_id": $('#oficinaCesion').val(),
+                'oficina_id_name': $('#oficinaCesion option[value=' + $('#oficinaCesion').val() + ']')
+                .text(),
+                "staff_id": $('#staffCesion').val(),
+                'staff_id_name': $('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoCesion').val(),
+                'estado_id_name': $('#estadoCesion option[value=' + $('#estadoCesion').val() + ']').text(),
+                "solicitud_num": $('#nro_solicitudCesion').val(),
+                "fecha_solicitud": $('#fecha_solicitudCesion').val(),
+                "resolucion_num": $('#nro_resolucionCesion').val(),
+                "fecha_resolucion": $('#fecha_resolucionCesion').val(),
+                "referencia_cliente": $('#referenciaclienteCesion').val(),
+                "comentarios": $('#comentarioCesion').val(),
+                "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
+                "cesionesactuales": localStorage.getItem("cesionesactuales"),
+                "patentes_id": $("input[name=id]").val(),
+            */
+
+            var formData = new FormData();
+            let client_id =  $('#clienteCesion').val();
+            let oficina_id =  $('#oficinaCesion').val();
+            let staff_id = $('#staffCesion').val();
+            let estado_id = $('#estadoCesion').val();
+            let solicitud_num = $('#nro_solicitudCesion').val();
+            let fecha_solicitud = $('#fecha_solicitudCesion').val();
+            let resolucion_num = $('#nro_resolucionCesion').val();
+            let fecha_resolucion = $('#fecha_resolucionCesion').val();
+            let referencia_cliente = $('#referenciaclienteCesion').val(); 
+            let comentarios = $('#comentarioCesion').val();
+            let patentes_id = $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('client_id', client_id);
+            formData.append('oficina_id', oficina_id);
+            formData.append('staff_id', staff_id);
+            formData.append('estado_id', estado_id);
+            formData.append('solicitud_num', solicitud_num);
+            formData.append('fecha_solicitud', fecha_solicitud);
+            formData.append('resolucion_num', resolucion_num);
+            formData.append('fecha_resolucion', fecha_resolucion);
+            formData.append('referencia_cliente', referencia_cliente);
+            formData.append('comentarios', comentarios);
+            formData.append('patentes_id', patentes_id);
+            console.log(" client_id ", client_id, " oficina_id ", oficina_id, " staff_id ",staff_id," estado_id ", estado_id , " solicitud_num ", solicitud_num, " fecha_solicitud ", fecha_solicitud , " resolucion_num ",resolucion_num , " fecha_resolucion ", fecha_resolucion , " referencia_cliente ", referencia_cliente ,  " comentarios ", comentarios , " patentes_id ", patentes_id);
+            let url = '<?php echo admin_url("pi/patentes/CesionController/create"); ?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                
+                console.log(response);
+                $("#AddCesion").modal('hide');
+                alert_float('success', "Cesion Insertado Correctamente");
+                TablaCesionesEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No pudo agregar la Tarea ");
+            });
+            
+
+        } else {
+            $("#lbloficinaCesion").css('color', $('#oficinaCesion').val() ? color_lbl : 'red');
+            $("#lblestadoCesion").css('color', $('#estadoCesion').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudCesion').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudCesion').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionCesion').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionCesion').val() ? color_lbl :
+            'red');
+            $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteCesion').val() ? color_lbl :
+                'red');
+            $("#lblcomentarioCesion").css('color', $('#comentarioCesion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Cesión');
+        }
     })
 
     /***
@@ -1512,9 +1827,9 @@
             !($('#referenciaclienteCesion').val() || '') == '' ||
             !($('#comentarioCesion').val() || '') == '' ||
             tblCesionesAnteDT.rows().count() > 0 || tblCesionesActDT.rows().count() > 0) {
-            if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
-                e.preventDefault();
-            }
+            // if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
+            //     e.preventDefault();
+            // }
         }
     })
 
@@ -2008,7 +2323,7 @@
                         {
                             data: 'pais',
                             render: function (data, type, row) {
-                                return "<div class='col-md-12 text-left'>" + data + "</div>"
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
                             }
                         },
                         {
@@ -2385,6 +2700,107 @@
         }
     })
 
+    $('#licenciasEditfrmsubmit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.log(" Llegue a Añadir Licencia ");
+        if ($('#oficinaLicencia').val() &&
+            $('#estadoLicencia').val() &&
+            $('#nro_solicitudLicencia').val() &&
+            $('#fecha_solicitudLicencia').val() &&
+            $('#nro_resolucionLicencia').val() &&
+            $('#fecha_resolucionLicencia').val() &&
+            $('#referenciaclienteLicencia').val() &&
+            $('#comentarioLicencia').val()) {
+
+           
+
+            /*
+                "tmp_licencia_id": tblLicenciasDT.rows().count() + 1,
+                "client_id": $('#clienteLicencia').val(),
+                'client_id_name': $('#clienteLicencia option[value=' + $('#clienteLicencia').val() + ']')
+                    .text(),
+                "oficina_id": $('#oficinaLicencia').val(),
+                'oficina_id_name': $('#oficinaLicencia option[value=' + $('#oficinaLicencia').val() + ']')
+                    .text(),
+                "staff_id": $('#staffLicencia').val(),
+                'staff_id_name': $('#staffLicencia option[value=' + $('#staffLicencia').val() + ']').text(),
+                "estado_id": $('#estadoLicencia').val(),
+                'estado_id_name': $('#estadoLicencia option[value=' + $('#estadoLicencia').val() + ']')
+                    .text(),
+                "num_solicitud": $('#nro_solicitudLicencia').val(),
+                "fecha_solicitud": $('#fecha_solicitudLicencia').val(),
+                "num_resolucion": $('#nro_resolucionLicencia').val(),
+                "fecha_resolucion": $('#fecha_resolucionLicencia').val(),
+                "referencia_cliente": $('#referenciaclienteLicencia').val(),
+                "comentarios": $('#comentarioLicencia').val(),
+                "patentes_id": $("input[name=id]").val(),
+                "licenciasanteriores": localStorage.getItem("licenciasanteriores"),
+                "licenciasactuales": localStorage.getItem("licenciasactuales"),
+            
+            */
+
+           
+            var formData = new FormData();
+            let client_id =  $('#clienteLicencia').val();
+            let oficina_id =  $('#oficinaLicencia').val();
+            let staff_id = $('#staffLicencia').val();
+            let estado_id = $('#estadoLicencia').val();
+            let solicitud_num = $('#nro_solicitudLicencia').val();
+            let fecha_solicitud = $('#fecha_solicitudLicencia').val();
+            let resolucion_num = $('#nro_resolucionLicencia').val();
+            let fecha_resolucion = $('#fecha_resolucionLicencia').val();
+            let referencia_cliente = $('#referenciaclienteLicencia').val(); 
+            let comentarios = $('#comentarioLicencia').val();
+            let patentes_id = $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('client_id', client_id);
+            formData.append('oficina_id', oficina_id);
+            formData.append('staff_id', staff_id);
+            formData.append('estado_id', estado_id);
+            formData.append('solicitud_num', solicitud_num);
+            formData.append('fecha_solicitud', fecha_solicitud);
+            formData.append('resolucion_num', resolucion_num);
+            formData.append('fecha_resolucion', fecha_resolucion);
+            formData.append('referencia_cliente', referencia_cliente);
+            formData.append('comentarios', comentarios);
+            formData.append('patentes_id', patentes_id);
+            console.log(" client_id ", client_id, " oficina_id ", oficina_id, " staff_id ",staff_id," estado_id ", estado_id , " solicitud_num ", solicitud_num, " fecha_solicitud ", fecha_solicitud , " resolucion_num ",resolucion_num , " fecha_resolucion ", fecha_resolucion , " referencia_cliente ", referencia_cliente ,  " comentarios ", comentarios , " patentes_id ", patentes_id);
+            let url = '<?php echo admin_url("pi/patentes/LicenciaController/create"); ?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                
+                console.log(response);
+                $("#AddLicencia").modal('hide');
+                alert_float('success', "Licencia Insertada Correctamente");
+                TablaLicenciaEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No pudo agregar la Licencia ");
+            });
+
+        } else {
+            $("#lbloficinaLicencia").css('color', $('#oficinaLicencia').val() ? color_lbl : 'red');
+            $("#lblestadoLicencia").css('color', $('#estadoLicencia').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudLicencia").css('color', $('#nro_solicitudLicencia').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudLicencia").css('color', $('#fecha_solicitudLicencia').val() ? color_lbl :
+                'red');
+            $("#lblnro_resolucionLicencia").css('color', $('#nro_resolucionLicencia').val() ? color_lbl :
+            'red');
+            $("#lblfecha_resolucionLicencia").css('color', $('#fecha_resolucionLicencia').val() ? color_lbl :
+                'red');
+            $("#lblreferenciaclienteLicencia").css('color', $('#referenciaclienteLicencia').val() ? color_lbl :
+                'red');
+            $("#lblcomentarioLicencia").css('color', $('#comentarioLicencia').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Licencia');
+        }
+    })
     /***
      * funcion para borrar una Licencia
      */
@@ -2430,9 +2846,9 @@
             !($('#referenciaclienteLicencia').val() || '') == '' ||
             !($('#comentarioLicencia').val() || '') == '' ||
             tblLicenciasAnteDT.rows().count() > 0 || tblLicenciasActDT.rows().count() > 0) {
-            if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
-                e.preventDefault();
-            }
+            // if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
+            //     e.preventDefault();
+            // }
         }
     })
 
@@ -3154,7 +3570,79 @@
             $("#lblcomentarioFusion").css('color', $('#comentarioFusion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos la Fusion');
         }
-    })
+    });
+
+    $('#fusionesEditfrmsubmit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.log(" LLegue a Fusiones ");
+        if ($('#oficinaFusion').val() &&
+            $('#estadoFusion').val() &&
+            $('#estadoFusion').val() &&
+            $('#fecha_solicitudFusion').val() &&
+            $('#nro_resolucionFusion').val() &&
+            $('#fecha_resolucionFusion').val() &&
+            $('#referenciaclienteFusion').val() &&
+            $('#comentarioFusion').val()) {
+
+            var formData = new FormData();
+            let client_id =  $('#clienteFusion').val();
+            let oficina_id =  $('#oficinaFusion').val();
+            let staff_id = $('#staffFusion').val();
+            let estado_id = $('#estadoFusion').val();
+            let solicitud_num = $('#nro_solicitudFusion').val();
+            let fecha_solicitud = $('#fecha_solicitudFusion').val();
+            let resolucion_num = $('#nro_resolucionFusion').val();
+            let fecha_resolucion = $('#fecha_resolucionFusion').val();
+            let referencia_cliente = $('#referenciaclienteFusion').val(); 
+            let comentarios = $('#comentarioFusion').val();
+            let patentes_id = $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('client_id', client_id);
+            formData.append('oficina_id', oficina_id);
+            formData.append('staff_id', staff_id);
+            formData.append('estado_id', estado_id);
+            formData.append('solicitud_num', solicitud_num);
+            formData.append('fecha_solicitud', fecha_solicitud);
+            formData.append('resolucion_num', resolucion_num);
+            formData.append('fecha_resolucion', fecha_resolucion);
+            formData.append('referencia_cliente', referencia_cliente);
+            formData.append('comentarios', comentarios);
+            formData.append('patentes_id', patentes_id);
+            console.log(" client_id ", client_id, " oficina_id ", oficina_id, " staff_id ",staff_id," estado_id ", estado_id , " solicitud_num ", solicitud_num, " fecha_solicitud ", fecha_solicitud , " resolucion_num ",resolucion_num , " fecha_resolucion ", fecha_resolucion , " referencia_cliente ", referencia_cliente ,  " comentarios ", comentarios , " patentes_id ", patentes_id);
+            let url = '<?php echo admin_url("pi/patentes/FusionController/create"); ?>';
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                console.log(response);
+                //$("#AddFusion").modal('hide');
+                //alert_float('success', "Fusion Insertada Correctamente");
+                //TablaFusionEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No pudo agregar la Licencia ");
+            });
+          
+
+        } else {
+            $("#lbloficinaFusion").css('color', $('#oficinaFusion').val() ? color_lbl : 'red');
+            $("#lblestadoFusion").css('color', $('#estadoFusion').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudFusion").css('color', $('#estadoFusion').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudFusion").css('color', $('#fecha_solicitudFusion').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionFusion").css('color', $('#nro_resolucionFusion').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionFusion").css('color', $('#fecha_resolucionFusion').val() ? color_lbl :
+            'red');
+            $("#lblreferenciaclienteFusion").css('color', $('#referenciaclienteFusion').val() ? color_lbl :
+                'red');
+            $("#lblcomentarioFusion").css('color', $('#comentarioFusion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos la Fusion');
+        }
+    });
 
     /***
      * funcion para borrar una Fusion
@@ -3201,9 +3689,9 @@
             !($('#referenciaclienteFusion').val() || '') == '' ||
             !($('#comentarioFusion').val() || '') == '' ||
             tblFusionesAnteDT.rows().count() > 0 || tblFusionesActDT.rows().count() > 0) {
-            if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
-                e.preventDefault();
-            }
+            // if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
+            //     e.preventDefault();
+            // }
         }
     })
 
@@ -3926,6 +4414,104 @@
             $("#lblcomentarioCamNom").css('color', $('#comentarioCamNom').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre');
         }
+    });
+
+    $('#camnomEditfrmsubmit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.log(" LLegue a Cambio Nombre ");
+        if ($('#oficinaCamNom').val() &&
+            $('#estadoCamNom').val() &&
+            $('#nro_solicitudCamNom').val() &&
+            $('#fecha_solicitudCamNom').val() &&
+            $('#nro_resolucionCamNom').val() &&
+            $('#fecha_resolucionCamNom').val() &&
+            $('#referenciaclienteCamNom').val() &&
+            $('#comentarioCamNom').val()) {
+
+            
+            
+
+            /*
+                "client_id": $('#clienteCamNom').val(),
+                'client_id_name': $('#clienteCamNom option[value=' + $('#clienteCamNom').val() + ']')
+                .text(),
+                "oficina_id": $('#oficinaCamNom').val(),
+                'oficina_id_name': $('#oficinaCamNom option[value=' + $('#oficinaCamNom').val() + ']')
+                .text(),
+                "staff_id": $('#staffCamNom').val(),
+                'staff_id_name': $('#staffCamNom option[value=' + $('#staffCamNom').val() + ']').text(),
+                "estado_id": $('#estadoCamNom').val(),
+                'estado_id_name': $('#estadoCamNom option[value=' + $('#estadoCamNom').val() + ']').text(),
+                "num_solicitud": $('#nro_solicitudCamNom').val(),
+                "fecha_solicitud": $('#fecha_solicitudCamNom').val(),
+                "num_resolucion": $('#nro_resolucionCamNom').val(),
+                "fecha_resolucion": $('#fecha_resolucionCamNom').val(),
+                "referencia_cliente": $('#referenciaclienteCamNom').val(),
+                "comentarios": $('#comentarioCamNom').val(),
+                "camnomanteriores": localStorage.getItem("camnomanteriores"),
+                "camnomactuales": localStorage.getItem("camnomactuales"),
+                "patentes_id": $("input[name=id]").val(),
+            */
+
+            var formData = new FormData();
+            let client_id =  $('#clienteCamNom').val();
+            let oficina_id =  $('#oficinaCamNom').val();
+            let staff_id = $('#staffCamNom').val();
+            let estado_id = $('#estadoCamNom').val();
+            let solicitud_num = $('#nro_solicitudCamNom').val();
+            let fecha_solicitud = $('#fecha_solicitudCamNom').val();
+            let resolucion_num = $('#nro_resolucionCamNom').val();
+            let fecha_resolucion = $('#fecha_resolucionCamNom').val();
+            let referencia_cliente = $('#referenciaclienteCamNom').val(); 
+            let comentarios = $('#comentarioCamNom').val();
+            let patentes_id = $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('client_id', client_id);
+            formData.append('oficina_id', oficina_id);
+            formData.append('staff_id', staff_id);
+            formData.append('estado_id', estado_id);
+            formData.append('solicitud_num', solicitud_num);
+            formData.append('fecha_solicitud', fecha_solicitud);
+            formData.append('resolucion_num', resolucion_num);
+            formData.append('fecha_resolucion', fecha_resolucion);
+            formData.append('referencia_cliente', referencia_cliente);
+            formData.append('comentarios', comentarios);
+            formData.append('patentes_id', patentes_id);
+            console.log(" client_id ", client_id, " oficina_id ", oficina_id, " staff_id ",staff_id," estado_id ", estado_id , " solicitud_num ", solicitud_num, " fecha_solicitud ", fecha_solicitud , " resolucion_num ",resolucion_num , " fecha_resolucion ", fecha_resolucion , " referencia_cliente ", referencia_cliente ,  " comentarios ", comentarios , " patentes_id ", patentes_id);
+            let url = '<?php echo admin_url("pi/patentes/CambioNombreController/create"); ?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                
+                console.log(response);
+                $("#AddCambioNombre").modal('hide');
+                alert_float('success', "Cambio de Nombre Insertado Correctamente");
+                TablaCamNomEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No pudo agregar la Tarea ");
+            });
+           
+
+        } else {
+            $("#lbloficinaCamNom").css('color', $('#oficinaCamNom').val() ? color_lbl : 'red');
+            $("#lblestadoCamNom").css('color', $('#estadoCamNom').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCamNom").css('color', $('#nro_solicitudCamNom').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCamNom").css('color', $('#fecha_solicitudCamNom').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCamNom").css('color', $('#nro_resolucionCamNom').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCamNom").css('color', $('#fecha_resolucionCamNom').val() ? color_lbl :
+            'red');
+            $("#lblreferenciaclienteCamNom").css('color', $('#referenciaclienteCamNom').val() ? color_lbl :
+                'red');
+            $("#lblcomentarioCamNom").css('color', $('#comentarioCamNom').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre');
+        }
     })
 
     /***
@@ -3973,9 +4559,9 @@
             !($('#referenciaclienteCamNom').val() || '') == '' ||
             !($('#comentarioCamNom').val() || '') == '' ||
             tblCamNomAnteDT.rows().count() > 0 || tblCamNomActDT.rows().count() > 0) {
-            if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
-                e.preventDefault();
-            }
+            // if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
+            //     e.preventDefault();
+            // }
         }
     })
 
@@ -4138,6 +4724,198 @@
                 ],
                 width: "100%"
             });
+    }
+
+    function TablaCamNomEdit(patente_id) {
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCambioNombre/"); ?>';
+        url += encodeURIComponent(patente_id.trim());
+        $("#CamNomEditTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            destroy: true,
+            width: "100%"
+        });
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Data Fusion:', data);
+                $("#CamNomEditTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: data,
+                    destroy: true,
+                    columnDefs: [
+                        {
+                            width: '5%',
+                            targets: 0
+                        },
+                        {
+                            width: '10%',
+                            targets: 1
+                        },
+                        {
+                            width: '30%',
+                            targets: 2
+                        },
+                        {
+                            width: '30%',
+                            targets: 3
+                        },
+                        {
+                            width: '2.5%',
+                            targets: 4
+                        },
+                        {
+                            width: '2.5%',
+                            targets: 5
+                        },
+                        {
+                            width: '5%',
+                            targets: 6
+                        },
+                        {
+                            width: '10%',
+                            targets: 7
+                        },
+                        {
+                            width: '30%',
+                            targets: 8
+                        },
+                        {
+                            width: '30%',
+                            targets: 9
+                        },
+                        {
+                            width: '2.5%',
+                            targets: 10
+                        },
+                        {
+                            width: '2.5%',
+                            targets: 11
+                        },
+                      
+                    ],
+                    /*
+                    {"id":"7","fecha":"05\/11\/2024","tipo_evento":"ACCI\u00c3\u201cN DE NULIDAD DE REGISTRO","comentarios":"asdasd","patente_id":"1"}
+                    */
+                    columns: [
+                        {
+                            data: 'id',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'cliente',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'oficina',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'staff',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'estado',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'solicitud_num',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_solicitud',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'resolucion_num',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_resolucion',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'referencia_cliente',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'comentarios',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: null,
+                            render: function (data, type, row) {
+                                return `
+                                    <td class="text-center">
+                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <i class="fas fa-trash"></i> Borrar
+                                        </button>
+                                    </td>`;
+                            }
+                        },
+                    ],
+                    width: "100%"
+                });
+                // $('#DocTbl').on('click', '.delete-documento', function (e) {
+                //     e.preventDefault();
+                //     let pubid = $(this).data('documento');
+                //     console.log("ID para editar: " + pubid);
+                //     console.log("Legue a elimar la publicacion ");
+                //     if (confirm("Quieres eliminar este registro?")) {
+                //         var formData = new FormData();
+                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
+                //         formData.append('csrf_token_name', csrf_token_name);
+                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
+                //         url = url + pubid;
+                //         console.log("url ", url);
+                //         $.ajax({
+                //             url,
+                //             method: 'POST',
+                //             data: formData,
+                //             processData: false,
+                //             contentType: false
+                //         }).then(function (response) {
+                //             TablaDocumento(patente_id);
+                //             alert_float('success', "Eliminado Documento Correctamente");
+                //         }).catch(function (response) {
+                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
+                //         });
+                //     }
+                // });
+            },
+            error: function (xhr, status, error) {
+                console.log('Error al cargar el documento:');
+            }
+        });
     }
 
 
@@ -4507,6 +5285,107 @@
         }
     })
 
+    $('#camdomEditfrmsubmit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if ($('#oficinaCamDom').val() &&
+            $('#estadoCamDom').val() &&
+            $('#nro_solicitudCamDom').val() &&
+            $('#fecha_solicitudCamDom').val() &&
+            $('#nro_resolucionCamDom').val() &&
+            $('#fecha_resolucionCamDom').val() &&
+            $('#referenciaclienteCamDom').val() &&
+            $('#comentarioCamDom').val()) {
+
+            
+            var data = {
+                'idRow': tblCamDomDT.rows().count() + 1,
+                "tmp_camdom_id": tblCamDomDT.rows().count() + 1,
+                "client_id": $('#clienteCamDom').val(),
+                'client_id_name': $('#clienteCamDom option[value=' + $('#clienteCamDom').val() + ']')
+                .text(),
+                "oficina_id": $('#oficinaCamDom').val(),
+                'oficina_id_name': $('#oficinaCamDom option[value=' + $('#oficinaCamDom').val() + ']')
+                .text(),
+                "staff_id": $('#staffCamDom').val(),
+                'staff_id_name': $('#staffCamDom option[value=' + $('#staffCamDom').val() + ']').text(),
+                "estado_id": $('#estadoCamDom').val(),
+                'estado_id_name': $('#estadoCamDom option[value=' + $('#estadoCamDom').val() + ']').text(),
+                "num_solicitud": $('#nro_solicitudCamDom').val(),
+                "fecha_solicitud": $('#fecha_solicitudCamDom').val(),
+                "num_resolucion": $('#nro_resolucionCamDom').val(),
+                "fecha_resolucion": $('#fecha_resolucionCamDom').val(),
+                "referencia_cliente": $('#referenciaclienteCamDom').val(),
+                "comentarios": $('#comentarioCamDom').val(),
+                "camdomanteriores": localStorage.getItem("camdomanteriores"),
+                "camdomactuales": localStorage.getItem("camdomactuales"),
+                "patentes_id": $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" +
+                    (tblCamDomDT.rows().count()) +
+                    "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+
+            var formData = new FormData();
+            let client_id =  $('#clienteCamDom').val();
+            let oficina_id =  $('#oficinaCamDom').val();
+            let staff_id = $('#staffCamDom').val();
+            let estado_id = $('#estadoCamDom').val();
+            let solicitud_num = $('#nro_solicitudCamDom').val();
+            let fecha_solicitud = $('#fecha_solicitudCamDom').val();
+            let resolucion_num = $('#nro_resolucionCamDom').val();
+            let fecha_resolucion = $('#fecha_resolucionCamDom').val();
+            let referencia_cliente = $('#referenciaclienteCamDom').val(); 
+            let comentarios = $('#comentarioCamDom').val();
+            let patentes_id = $("input[name=id]").val();
+            let csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('client_id', client_id);
+            formData.append('oficina_id', oficina_id);
+            formData.append('staff_id', staff_id);
+            formData.append('estado_id', estado_id);
+            formData.append('solicitud_num', solicitud_num);
+            formData.append('fecha_solicitud', fecha_solicitud);
+            formData.append('resolucion_num', resolucion_num);
+            formData.append('fecha_resolucion', fecha_resolucion);
+            formData.append('referencia_cliente', referencia_cliente);
+            formData.append('comentarios', comentarios);
+            formData.append('patentes_id', patentes_id);
+            console.log(" client_id ", client_id, " oficina_id ", oficina_id, " staff_id ",staff_id," estado_id ", estado_id , " solicitud_num ", solicitud_num, " fecha_solicitud ", fecha_solicitud , " resolucion_num ",resolucion_num , " fecha_resolucion ", fecha_resolucion , " referencia_cliente ", referencia_cliente ,  " comentarios ", comentarios , " patentes_id ", patentes_id);
+            let url = '<?php echo admin_url("pi/patentes/CambioDomicilioController/create"); ?>'
+            // $.ajax({
+            //     url,
+            //     method: 'POST',
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false
+            // }).then(function (response) {
+                
+            //     console.log(response);
+            //     $("#AddCambioNombre").modal('hide');
+            //     alert_float('success', "Cambio de Nombre Insertado Correctamente");
+            //     TablaCamNomEdit(patentes_id);
+            // }).catch(function (response) {
+            //     //console.log(response);
+            //     alert("No pudo agregar la Tarea ");
+            // });
+           
+
+        } else {
+            $("#lbloficinaCamDom").css('color', $('#oficinaCamDom').val() ? color_lbl : 'red');
+            $("#lblestadoCamDom").css('color', $('#estadoCamDom').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudCamDom").css('color', $('#nro_solicitudCamDom').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudCamDom").css('color', $('#fecha_solicitudCamDom').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionCamDom").css('color', $('#nro_resolucionCamDom').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionCamDom").css('color', $('#fecha_resolucionCamDom').val() ? color_lbl :
+            'red');
+            $("#lblreferenciaclienteCamDom").css('color', $('#referenciaclienteCamDom').val() ? color_lbl :
+                'red');
+            $("#lblcomentarioCamDom").css('color', $('#comentarioCamDom').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos el Cambio de Domicilio');
+        }
+    })
+
+
     /***
      * funcion para borrar una CamDom
      */
@@ -4552,9 +5431,9 @@
             !($('#referenciaclienteCamDom').val() || '') == '' ||
             !($('#comentarioCamDom').val() || '') == '' ||
             tblCamDomAnteDT.rows().count() > 0 || tblCamDomActDT.rows().count() > 0) {
-            if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
-                e.preventDefault();
-            }
+            // if (!confirm('Hay datos sin guardar. ¿Esta seguro que desea salir?')) {
+            //     e.preventDefault();
+            // }
         }
     })
 
@@ -4717,6 +5596,198 @@
                 ],
                 width: "100%"
             });
+    }
+
+    function TablaCamDomEdit(patente_id){
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCambioNombre/"); ?>';
+        url += encodeURIComponent(patente_id.trim());
+        $("#CamDomEditTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            destroy: true,
+            width: "100%"
+        });
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Data Fusion:', data);
+                $("#CamDomEditTbl").DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: data,
+                    destroy: true,
+                    columnDefs: [
+                        {
+                            width: '5%',
+                            targets: 0
+                        },
+                        {
+                            width: '10%',
+                            targets: 1
+                        },
+                        {
+                            width: '30%',
+                            targets: 2
+                        },
+                        {
+                            width: '30%',
+                            targets: 3
+                        },
+                        {
+                            width: '2.5%',
+                            targets: 4
+                        },
+                        {
+                            width: '2.5%',
+                            targets: 5
+                        },
+                        {
+                            width: '5%',
+                            targets: 6
+                        },
+                        {
+                            width: '10%',
+                            targets: 7
+                        },
+                        {
+                            width: '30%',
+                            targets: 8
+                        },
+                        {
+                            width: '30%',
+                            targets: 9
+                        },
+                        {
+                            width: '2.5%',
+                            targets: 10
+                        },
+                        {
+                            width: '2.5%',
+                            targets: 11
+                        },
+                      
+                    ],
+                    /*
+                    {"id":"7","fecha":"05\/11\/2024","tipo_evento":"ACCI\u00c3\u201cN DE NULIDAD DE REGISTRO","comentarios":"asdasd","patente_id":"1"}
+                    */
+                    columns: [
+                        {
+                            data: 'id',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'cliente',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'oficina',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'staff',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'estado',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'solicitud_num',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_solicitud',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'resolucion_num',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'fecha_resolucion',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'referencia_cliente',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'comentarios',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: null,
+                            render: function (data, type, row) {
+                                return `
+                                    <td class="text-center">
+                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <i class="fas fa-trash"></i> Borrar
+                                        </button>
+                                    </td>`;
+                            }
+                        },
+                    ],
+                    width: "100%"
+                });
+                // $('#DocTbl').on('click', '.delete-documento', function (e) {
+                //     e.preventDefault();
+                //     let pubid = $(this).data('documento');
+                //     console.log("ID para editar: " + pubid);
+                //     console.log("Legue a elimar la publicacion ");
+                //     if (confirm("Quieres eliminar este registro?")) {
+                //         var formData = new FormData();
+                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
+                //         formData.append('csrf_token_name', csrf_token_name);
+                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
+                //         url = url + pubid;
+                //         console.log("url ", url);
+                //         $.ajax({
+                //             url,
+                //             method: 'POST',
+                //             data: formData,
+                //             processData: false,
+                //             contentType: false
+                //         }).then(function (response) {
+                //             TablaDocumento(patente_id);
+                //             alert_float('success', "Eliminado Documento Correctamente");
+                //         }).catch(function (response) {
+                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
+                //         });
+                //     }
+                // });
+            },
+            error: function (xhr, status, error) {
+                console.log('Error al cargar el documento:');
+            }
+        });
     }
 
 
@@ -6000,6 +7071,8 @@
         TablaCesionesEdit(patente_id);
         TablaLicenciaEdit(patente_id);
         TablaFusionEdit(patente_id);
+        TablaCamNomEdit(patente_id);
+        TablaCamDomEdit(patente_id);
 
 
 

@@ -14,7 +14,14 @@ class PatentesCesiones_model extends BaseModel
         parent::__construct();
     }
 
-    
+    public function findPantenteAnterior($id) {
+        $this->db->select('*');
+        $this->db->from('tbl_patentes_cedentes_cesionarios');
+        $this->db->where('pat_id_actual = '.$id);
+        $query = $this->db->get();
+        $respuesta = $query->result_array();
+        return $respuesta[0]['pat_id_anterior'];
+    }
 
     public function findAllPatentes()
     {
@@ -57,6 +64,19 @@ class PatentesCesiones_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+ 
+
+    public function ShowPantentesAnterior($patente_id) {
+        $this->db->select('cesionarios.id as id, cesionarios.cedente_id, cesionarios.cesion_id, cesionarios.tipo_cedente');
+        $this->db->from('tbl_patentes_cesiones cesiones');
+        $this->db->join('tbl_patentes_cedentes_cesionarios cesionarios', 'cesionarios.cesion_id = cesiones.id', 'left');
+        $this->db->where('cesiones.patentes_id', $patente_id);
+        $this->db->where('cesionarios.tipo_cedente', 1);
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function ShowPantentes($id){
         $this->db->select('*');
         $this->db->from('tbl_patentes_cesiones');
@@ -65,6 +85,16 @@ class PatentesCesiones_model extends BaseModel
         return $query->result_array();
     }
 
+    public function ShowPantentesActual($patente_id) {
+        $this->db->select('cesionarios.id as id, cesionarios.cedente_id, cesionarios.cesion_id, cesionarios.tipo_cedente');
+        $this->db->from('tbl_patentes_cesiones cesiones');
+        $this->db->join('tbl_patentes_cedentes_cesionarios cesionarios', 'cesionarios.cesion_id = cesiones.id', 'left');
+        $this->db->where('cesiones.patentes_id', $patente_id);
+        $this->db->where('cesionarios.tipo_cedente', 2);
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 
     public function findTipoEvento($id){
         $this->db->select('*');

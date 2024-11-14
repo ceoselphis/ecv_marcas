@@ -1997,6 +1997,7 @@
     function TablaCesionesEdit(patente_id){
         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCesion/"); ?>';
         url += encodeURIComponent(patente_id.trim());
+        console.log(url);
         $("#CesionEditTbl").DataTable({
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
@@ -2429,6 +2430,139 @@
      */
     function TablaCesionesAnteriores() {
         tabla = JSON.parse(localStorage.getItem("cesionesanteriores"));
+        tblCesionesAnteDT =
+            new $("#CesionesAnterioresTbl").DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                autoWidth: false,
+                data: tabla,
+                destroy: true,
+                columnDefs: [{
+                        width: '5%',
+                        targets: 0
+                    },
+                    {
+                        width: '85%',
+                        targets: 1
+                    },
+                    {
+                        width: '10%',
+                        targets: 2
+                    }
+                ],
+                columns: [{
+                        data: 'idRow',
+                        render: function (data, type, row) {
+                            return "<div class='col-md-12'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'cedente_id_name',
+                        render: function (data, type, row) {
+                            return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'acciones',
+                        render: function (data, type, row) {
+                            return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        }
+                    }
+                ],
+                width: "100%"
+            });
+    }
+
+    function TablaCesionesAnterioresEdit(patente_id) {
+        tabla = JSON.parse(localStorage.getItem("cesionesanteriores"));
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCesion/"); ?>';
+        url += encodeURIComponent(patente_id.trim());
+        $("#CesionesAnterioresEditTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            destroy: true,
+            width: "100%"
+        });
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Data retrieved:', data);
+                $("#CesionesAnterioresEditTbl").DataTable({
+                    language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    },
+                    autoWidth: false,
+                    data: tabla,
+                    destroy: true,
+                    columnDefs: [{
+                            width: '5%',
+                            targets: 0
+                        },
+                        {
+                            width: '85%',
+                            targets: 1
+                        },
+                        {
+                            width: '10%',
+                            targets: 2
+                        }
+                    ],
+                    columns: [{
+                            data: 'id',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12'>" + data + "</div>"
+                            }
+                        },
+                        {
+                            data: 'cedente_id_name',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                        },
+                        {
+                            data: 'acciones',
+                            render: function (data, type, row) {
+                            return "<div class='col-md-12 text-center'>" + data + "</div>"
+                        }
+                    }],
+                    width: "100%"
+                });
+                // $('#DocTbl').on('click', '.delete-documento', function (e) {
+                //     e.preventDefault();
+                //     let pubid = $(this).data('documento');
+                //     console.log("ID para editar: " + pubid);
+                //     console.log("Legue a elimar la publicacion ");
+                //     if (confirm("Quieres eliminar este registro?")) {
+                //         var formData = new FormData();
+                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
+                //         formData.append('csrf_token_name', csrf_token_name);
+                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
+                //         url = url + pubid;
+                //         console.log("url ", url);
+                //         $.ajax({
+                //             url,
+                //             method: 'POST',
+                //             data: formData,
+                //             processData: false,
+                //             contentType: false
+                //         }).then(function (response) {
+                //             TablaDocumento(patente_id);
+                //             alert_float('success', "Eliminado Documento Correctamente");
+                //         }).catch(function (response) {
+                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
+                //         });
+                //     }
+                // });
+            },
+            error: function (xhr, status, error) {
+                console.log('Error al cargar el documento:');
+            }
+        });
         tblCesionesAnteDT =
             new $("#CesionesAnterioresTbl").DataTable({
                 language: {
@@ -3620,9 +3754,9 @@
                 contentType: false
             }).then(function (response) {
                 console.log(response);
-                //$("#AddFusion").modal('hide');
-                //alert_float('success', "Fusion Insertada Correctamente");
-                //TablaFusionEdit(patentes_id);
+                $("#AddFusion").modal('hide');
+                alert_float('success', "Fusion Insertada Correctamente");
+                TablaFusionEdit(patentes_id);
             }).catch(function (response) {
                 //console.log(response);
                 alert("No pudo agregar la Licencia ");
@@ -6729,6 +6863,89 @@
         });
     });
 
+    $(document).on('submit', "#solicitudEditfrm", function (e) {
+        e.preventDefault();
+       // console.log(" llegue a Editar PAtente")
+        var formData = new FormData();
+        var formSolicitante = new FormData();
+        var formInventor = new FormData();
+
+        let solicitantes = $('#solicitantes_id').val();
+        let inventores = $('#inventores_id').val();
+        console.log("solicitantes ", solicitantes);
+        //----------------- Patentes ----------------------------------------------
+        formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        //----------------------- Step 1 -------------------------------
+        formData.append('tipo_registro_id', $('#tipo_registro_id').val());
+        formData.append('client_id', $('#client_id').val());
+        formData.append('oficina_id', $('#oficina_id').val());
+        formData.append('staff_id', $('#staff_id').val());
+        //----------------------- Step 2 ----------------------------------- 
+        formData.append('pais_id', $('#pais_id').val());
+        formData.append('titulo', $('#titulo').val());
+        formData.append('resumen', $('#resumen').val());
+        formData.append('inventores_id', $('#inventores_id').val());
+        formData.append('solicitantes_id', $('#solicitantes_id').val());
+        // -------------------- Step 3 -----------------------------------
+        formData.append('clasificacion', $('#clasificacion').val());
+        formData.append('ref_interna', $('#ref_interna').val());
+        formData.append('ref_cliente', $('#ref_cliente').val());
+        formData.append('carpeta', $('#carpeta').val());
+        formData.append('libro', $('#libro').val());
+        formData.append('tomo', $('#tomo').val());
+        formData.append('folio', $('#folio').val());
+        // -------------- Step 4 ---------------------------
+        formData.append('estado_id', $('#estado_id').val());
+        formData.append('solicitud', $('#solicitud').val());
+        formData.append('fecha_solicitud', $('#fecha_solicitud').val());
+        formData.append('registro', $('#registro').val());
+        formData.append('fecha_registro', $('#fecha_registro').val());
+        formData.append('certificado', $('#certificado').val());
+        formData.append('fecha_certificado', $('#fecha_certificado').val());
+        formData.append('pct_solicitud', $('#pct_solicitud').val());
+        formData.append('pct_fecha_solicitud', $('#pct_fecha_solicitud').val());
+        formData.append('pct_publicacion', $('#pct_publicacion').val());
+        formData.append('pct_fecha_publicacion', $('#pct_fecha_publicacion').val());
+        formData.append('pct_anualidad_desde', $('#pct_anualidad_desde').val())
+        formData.append('pct_anualidad_hasta', $('#pct_anualidad_hasta').val())
+        //---------------------- Step 5 ------------------------------------
+        formData.append('comentarios', $('#comentarios').val());
+
+        let url = '<?php echo admin_url('pi/patentes/SolicitudesController/update/'); ?>';
+        url += encodeURIComponent(patente_id.trim());
+        console.log(" url ",url);
+
+        $.ajax({
+            url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function (response) {
+            console.log(" Response ", response);
+            const obj = JSON.parse(response);
+            if (obj.code == 201) {
+                alert_float('danger', 'Se han encontrado errores en la Solicitud!');
+                jQuery.each(obj.error, function (item, val) {
+                    $('.' + item + '_error').html(val);
+                });
+            } else if (obj.code == 500) {
+                alert_float('danger', obj.error);
+            } else if (obj.code == 200) {
+               
+
+                alert_float('success', 'Solicitud Actualizada con éxito!');
+                let ruta = '<?php echo admin_url("pi/patentes/SolicitudesController"); ?>';
+                location.replace(ruta);
+            }
+
+        }).catch(function (response) {
+            console.log(response.responseText);
+            alert_float('danger', 'No se pudo actualizar la Patente');
+
+        });
+    });
+
     /*
     $(document).on('submit', "#solicitudfrm", function(e) {
         e.preventDefault();
@@ -7064,15 +7281,20 @@
         TablaCamDomAnteriores();
         TablaCamDomActuales();
         TablaDocumento(patente_id);
-        TablaPrioridadEdit(patente_id);
-        TablaPublicacionEdit(patente_id);
-        TablaEventosEdit(patente_id);
-        TablaTareasEdit(patente_id);
-        TablaCesionesEdit(patente_id);
-        TablaLicenciaEdit(patente_id);
-        TablaFusionEdit(patente_id);
-        TablaCamNomEdit(patente_id);
-        TablaCamDomEdit(patente_id);
+        if (window.location.href.indexOf("edit") !== -1) {
+            TablaPrioridadEdit(patente_id);
+            TablaPublicacionEdit(patente_id);
+            TablaEventosEdit(patente_id);
+            TablaTareasEdit(patente_id);
+            TablaCesionesEdit(patente_id);
+            TablaLicenciaEdit(patente_id);
+            TablaFusionEdit(patente_id);
+            TablaCamNomEdit(patente_id);
+            TablaCamDomEdit(patente_id);
+            TablaCesionesAnterioresEdit(patente_id);
+            // TablaCesionesActualesEdit(patente_id);
+        }
+
 
 
 

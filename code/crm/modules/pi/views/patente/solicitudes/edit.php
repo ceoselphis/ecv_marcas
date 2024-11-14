@@ -21,7 +21,7 @@ $select = ['' => '']; ?>
 
         <div class="row">
             <div class="col-md-12">
-                <?php echo form_open_multipart('', ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
+                <?php echo form_open_multipart('', ['id' => 'solicitudEditfrm', 'name' => 'solicitudEditfrm']); ?>
                 <?php echo form_hidden('id', $id); ?>
                 <?php echo form_input([
                     'type'  => 'hidden',
@@ -794,7 +794,7 @@ $select = ['' => '']; ?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCambioNombre">Añadir Cambio de
+                                                                <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCamDom">Añadir Cambio de
                                                                     Nombre</button>
                                                             </div>
                                                         </div>

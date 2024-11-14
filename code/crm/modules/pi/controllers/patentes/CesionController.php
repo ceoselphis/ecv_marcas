@@ -17,7 +17,46 @@ class CesionController extends AdminController
         return $CI->load->view('patente/solicitudes/index');
     }
 
+    public function showCesionAnterior($id) {
+        $CI = &get_instance();
+        $CI->load->model("PatentesCesiones_model");
     
+        // Obtenemos los datos de la consulta
+        $data = $CI->PatentesCesiones_model->ShowPantentesAnterior($id);
+    
+        $cesiones = array();
+        foreach ( $data as $row){
+            $cesiones[] = [
+              'id' => $row['id'],
+              'cesion_id' =>  date('d/m/Y', strtotime($row['fecha'])) ,
+              'tipo_publicacion' => $CI->PatentesPublicaciones_model->findTipoPublicaciones($row['tipo_pub_id']),
+              'boletin' => $CI->PatentesPublicaciones_model->findBoletines($row['boletin_id']),
+              'tomo' => $row['tomo'],
+              'pagina' => $row['pagina'],
+              'patente_id' => $row['patentes_id']
+            ];
+        }
+        foreach ($data as $row) {
+
+            $cesiones['id'] = $row['id'];
+            $cesiones['cesion_id'] = $row['cesion_id'];
+            $cesiones['tipo_cedente'] = $row['tipo_cedente'];
+            $cesiones['cliente'] = $CI->PatentesCesiones_model->findClientes($row['cedente_id']);
+            
+        }
+       
+        echo json_encode($cesiones);
+        
+
+    }
+
+    public function showCesionActual($id) {
+        $CI = &get_instance();
+        $CI->load->model("PatentesCesiones_model");
+        $cesion = $CI->PatentesCesiones_model->ShowPantentesActual($id);
+        echo json_encode($cesion); 
+
+    }
 
     /**
      * Shows the form to create a new item

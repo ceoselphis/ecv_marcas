@@ -722,11 +722,11 @@
                 <?php echo form_label('Cliente', 'clienteFusion'); ?>
                 <?php 
                 $clientes = $select + $clientes;
-                echo form_dropdown(['name' => 'clienteFusion', 'id' => 'clienteFusion'], $clientes, '', ['class' => 'form-control']); ?>
+                echo form_dropdown(['name' => 'clienteFusion', 'id' => 'clienteFusion'], $clientes, ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Oficina', 'oficinaFusion',['id' => 'lbloficinaFusion']); ?>
-                <?php echo form_dropdown(['name' => 'oficinaFusion', 'id' => 'oficinaFusion'], $oficinas, '', ['class' => 'form-control']); ?>
+                <?php echo form_dropdown(['name' => 'oficinaFusion', 'id' => 'oficinaFusion'], $oficinas, ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
                 <?php echo form_label('Staff', 'staffFusion'); ?>

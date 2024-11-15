@@ -830,7 +830,7 @@
                         <div class="col-md-12">
                           <button type="button" id="addbtnCesionAnterior" class="btn btn-primary pull-right">Añadir
                             Cesion Anterior</button>
-                          <table id="CesionesAnterioresEditTbl"
+                          <table id="CesionesAnterioresTbl"
                             class="ultimate table table-responsive">
                             <thead>
                               <tr>

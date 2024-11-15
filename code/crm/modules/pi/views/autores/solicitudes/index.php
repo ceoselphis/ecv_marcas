@@ -81,7 +81,7 @@ $select = ['' => '']; ?>
                     <div class="container-fluid">
                         <div class="row row-group">
                             <!-- Pais Solicitud -->
-                            <div class="col-md-6  col-md-offset-3">
+                            <div class="col-md-12">
                                 <?php echo form_label('Pais Solicitud', 'paisSol_id'); ?>
                                 <?php $id_pais = $select + $id_pais; ?>
                                 <?php echo form_dropdown([

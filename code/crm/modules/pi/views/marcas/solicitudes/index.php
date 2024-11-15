@@ -602,7 +602,7 @@
         formData.append('csrf_token_name', csrf_token_name);
         console.log('csrf_token_name', csrf_token_name);
         let url = '<?php echo admin_url("pi/MarcasSolicitudesController/addSolicitudesMarcas"); ?>';
-        let solicitudesEdit = '<?php echo admin_url('pi/MarcasSolicitudesController/edit/'); ?>';
+        let solicitudesEdit = '<?php echo admin_url('pi/MarcasSolicitudesController/edit/') ?>';
         $.ajax({
             url,
             method: 'POST',

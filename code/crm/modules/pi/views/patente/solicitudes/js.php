@@ -703,19 +703,19 @@
                     {
                         data: 'boletin_name',
                         render: function (data, type, row) {
-                            return "<div class='col-md-12 text-left'>" + data + "</div>"
+                            return "<div class='col-md-12 text-center'>" + data + "</div>"
                         }
                     },
                     {
                         data: 'tomo',
                         render: function (data, type, row) {
-                            return "<div class='col-md-12 text-left'>" + data + "</div>"
+                            return "<div class='col-md-12 text-center'>" + data + "</div>"
                         }
                     },
                     {
                         data: 'pagina',
                         render: function (data, type, row) {
-                            return "<div class='col-md-12 text-left'>" + data + "</div>"
+                            return "<div class='col-md-12 text-center'>" + data + "</div>"
                         }
                     },
                     {
@@ -2475,8 +2475,7 @@
     }
 
     function TablaCesionesAnterioresEdit(patente_id) {
-        tabla = JSON.parse(localStorage.getItem("cesionesanteriores"));
-        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCesion/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/CesionController/showCesionAnterior/"); ?>';
         url += encodeURIComponent(patente_id.trim());
         $("#CesionesAnterioresEditTbl").DataTable({
             language: {
@@ -2497,22 +2496,24 @@
                     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                     },
                     autoWidth: false,
-                    data: tabla,
+                    data: data,
                     destroy: true,
-                    columnDefs: [{
-                            width: '5%',
-                            targets: 0
+                    columnDefs: [
+                        {
+                        width: '5%',
+                        targets: 0
                         },
                         {
-                            width: '85%',
+                            width: '65%',
                             targets: 1
                         },
                         {
-                            width: '10%',
+                            width: '30%',
                             targets: 2
                         }
                     ],
-                    columns: [{
+                    columns: [
+                        {
                             data: 'id',
                             render: function (data, type, row) {
                                 return "<div class='col-md-12'>" + data + "</div>"
@@ -2522,14 +2523,15 @@
                             data: 'cedente_id_name',
                             render: function (data, type, row) {
                                 return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                        }
+                            }
                         },
                         {
                             data: 'acciones',
                             render: function (data, type, row) {
-                            return "<div class='col-md-12 text-center'>" + data + "</div>"
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
                         }
-                    }],
+                    ],
                     width: "100%"
                 });
                 // $('#DocTbl').on('click', '.delete-documento', function (e) {
@@ -2563,48 +2565,7 @@
                 console.log('Error al cargar el documento:');
             }
         });
-        tblCesionesAnteDT =
-            new $("#CesionesAnterioresTbl").DataTable({
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                },
-                autoWidth: false,
-                data: tabla,
-                destroy: true,
-                columnDefs: [{
-                        width: '5%',
-                        targets: 0
-                    },
-                    {
-                        width: '85%',
-                        targets: 1
-                    },
-                    {
-                        width: '10%',
-                        targets: 2
-                    }
-                ],
-                columns: [{
-                        data: 'idRow',
-                        render: function (data, type, row) {
-                            return "<div class='col-md-12'>" + data + "</div>"
-                        }
-                    },
-                    {
-                        data: 'cedente_id_name',
-                        render: function (data, type, row) {
-                            return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                        }
-                    },
-                    {
-                        data: 'acciones',
-                        render: function (data, type, row) {
-                            return "<div class='col-md-12 text-center'>" + data + "</div>"
-                        }
-                    }
-                ],
-                width: "100%"
-            });
+       
     }
 
 
@@ -7291,7 +7252,7 @@
             TablaFusionEdit(patente_id);
             TablaCamNomEdit(patente_id);
             TablaCamDomEdit(patente_id);
-            TablaCesionesAnterioresEdit(patente_id);
+          //  TablaCesionesAnterioresEdit(patente_id);
             // TablaCesionesActualesEdit(patente_id);
         }
 

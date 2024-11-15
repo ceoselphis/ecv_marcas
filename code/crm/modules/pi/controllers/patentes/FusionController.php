@@ -216,6 +216,21 @@ class FusionController extends AdminController
      * Deletes the item
      */
 
+     public function destroyFusion(string $id)
+     {
+         $CI = &get_instance();
+         $CI->load->model("PatentesFusion_model");
+         $CI->load->helper('url');
+         $query = $CI->PatentesFusion_model->delete($id);
+         if (isset($query)) {
+            echo json_encode(['message' => 'Fusion Eliminada Correctamente', 'code' => '200']);
+        } else {
+            echo json_encode(['message' => 'No se pudo Eliminar la Fusion', 'code' => '500']);
+        }   
+         
+         
+     }
+
     public function destroy(string $id)
     {
         $CI = &get_instance();

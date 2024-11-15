@@ -216,6 +216,19 @@ class CambioDomicilioController extends AdminController
      * Deletes the item
      */
 
+     public function destroyCambioDomicilio(string $id)
+    {
+        $CI = &get_instance();
+        $CI->load->model("PatentesCambioDomicilio_model");
+        $CI->load->helper('url');
+        $query = $CI->PatentesCambioDomicilio_model->delete($id);
+        if (isset($query)) {
+            echo json_encode(['message' => 'Cambio de Domicilio Eliminada Correctamente', 'code' => '200']);
+        } else {
+            echo json_encode(['message' => 'No se pudo Eliminar el Cambio de Domicilio', 'code' => '500']);
+        }  
+    }
+
     public function destroy(string $id)
     {
         $CI = &get_instance();

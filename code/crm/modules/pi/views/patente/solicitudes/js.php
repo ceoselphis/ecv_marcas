@@ -856,7 +856,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-publicaciones" data-publicaciones="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -865,32 +865,32 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#publicacionEditTbl').on('click', '.delete-publicaciones', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('publicaciones');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Legue a elimar la publicacion ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/PublicacionesController/destroyPublicaciones/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaPublicacionEdit(patente_id);
+                            alert_float('success', "Eliminado Publicaciones Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar la Publicacion");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');
@@ -1208,7 +1208,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-evento" data-evento="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -1217,32 +1217,32 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#eventosEditTbl').on('click', '.delete-evento', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('evento');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Legue a elimar la publicacion ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/EventosController/destroyEvento/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaEventosEdit(patente_id);
+                            alert_float('success', "Evento Eliminado Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar el Evento");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');
@@ -1558,7 +1558,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-tareas" data-tareas="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -1567,32 +1567,32 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#tareasEditTbl').on('click', '.delete-tareas', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('tareas');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Llegue a elimar la Tarea ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/TareasController/destroyTareas/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaTareasEdit(patente_id);
+                            alert_float('success', "Tarea Eliminada Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar el Publicacion");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');
@@ -1688,7 +1688,9 @@
     $('#cesionesEditfrmsubmit').on('click', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        console.log(" LLegue a Cesiones ");
+        let start = new Date();
+        let end;
+        console.log('Comienzo = ' + start.getHours() + ":" + start.getMinutes() + ":" + start.getSeconds());
         if ($('#oficinaCesion').val() &&
             $('#estadoCesion').val() &&
             $('#nro_solicitudCesion').val() &&
@@ -1697,30 +1699,6 @@
             $('#fecha_resolucionCesion').val() &&
             $('#referenciaclienteCesion').val() &&
             $('#comentarioCesion').val()) {
-
-            
-
-            /*
-                 "client_id": $('#clienteCesion').val(),
-                'client_id_name': $('#clienteCesion option[value=' + $('#clienteCesion').val() + ']')
-                .text(),
-                "oficina_id": $('#oficinaCesion').val(),
-                'oficina_id_name': $('#oficinaCesion option[value=' + $('#oficinaCesion').val() + ']')
-                .text(),
-                "staff_id": $('#staffCesion').val(),
-                'staff_id_name': $('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
-                "estado_id": $('#estadoCesion').val(),
-                'estado_id_name': $('#estadoCesion option[value=' + $('#estadoCesion').val() + ']').text(),
-                "solicitud_num": $('#nro_solicitudCesion').val(),
-                "fecha_solicitud": $('#fecha_solicitudCesion').val(),
-                "resolucion_num": $('#nro_resolucionCesion').val(),
-                "fecha_resolucion": $('#fecha_resolucionCesion').val(),
-                "referencia_cliente": $('#referenciaclienteCesion').val(),
-                "comentarios": $('#comentarioCesion').val(),
-                "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
-                "cesionesactuales": localStorage.getItem("cesionesactuales"),
-                "patentes_id": $("input[name=id]").val(),
-            */
 
             var formData = new FormData();
             let client_id =  $('#clienteCesion').val();
@@ -1765,6 +1743,54 @@
                 //console.log(response);
                 alert("No pudo agregar la Tarea ");
             });
+            
+            var cesiones = JSON.parse(localStorage.getItem("cesiones"));
+            var data = {
+                'idRow': tblCesionesDT.rows().count() + 1,
+                "tmp_cesion_id": tblCesionesDT.rows().count() + 1,
+                "client_id": $('#clienteCesion').val(),
+                'client_id_name': $('#clienteCesion option[value=' + $('#clienteCesion').val() + ']')
+                .text(),
+                "oficina_id": $('#oficinaCesion').val(),
+                'oficina_id_name': $('#oficinaCesion option[value=' + $('#oficinaCesion').val() + ']')
+                .text(),
+                "staff_id": $('#staffCesion').val(),
+                'staff_id_name': $('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoCesion').val(),
+                'estado_id_name': $('#estadoCesion option[value=' + $('#estadoCesion').val() + ']').text(),
+                "solicitud_num": $('#nro_solicitudCesion').val(),
+                "fecha_solicitud": $('#fecha_solicitudCesion').val(),
+                "resolucion_num": $('#nro_resolucionCesion').val(),
+                "fecha_resolucion": $('#fecha_resolucionCesion').val(),
+                "referencia_cliente": $('#referenciaclienteCesion').val(),
+                "comentarios": $('#comentarioCesion').val(),
+                "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
+                "cesionesactuales": localStorage.getItem("cesionesactuales"),
+                "patentes_id": $("input[name=id]").val(),
+                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesiones_" +
+                    (tblCesionesDT.rows().count()) +
+                    "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            }
+            end = new Date();
+            console.log(`Asignada la Data en ${end.getTime() - start.getTime()} msec`);
+            start = new Date();
+            cesiones.push(data);
+            console.log('cesiones', cesiones);
+            try {
+                localStorage.setItem("cesiones", JSON.stringify(cesiones));
+                tblCesionesDT.clear();
+                tblCesionesDT.rows.add(JSON.parse(localStorage.getItem("cesiones")));
+                tblCesionesDT.columns.adjust().draw();
+                tblCesionesAnteDT.clear().draw();
+                tblCesionesActDT.clear().draw();
+                ResetTablaCesiones();
+               // $("#AddCesion").modal('hide');
+                //alert_float('success', 'Registro guardado exitosamente');
+            } catch (error) {
+                //alert(error);
+            }
+
+            
             
 
         } else {
@@ -2145,7 +2171,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-cesiones" data-cesiones="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -2154,32 +2180,32 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#CesionEditTbl').on('click', '.delete-cesiones', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('cesiones');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Legue a elimar la Cesiones ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/CesionController/destroyCesiones/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaCesionesEdit(patente_id);
+                            alert_float('success', "Cesiones Eliminado Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar la Cesion");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');
@@ -2338,7 +2364,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-prioridad" data-prioridad="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -2347,32 +2373,33 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#prioridadEditTbl').on('click', '.delete-prioridad', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('prioridad');
+                    console.log("ID para eliminar : " + pubid);
+                    console.log("Legue a elimar la prioridad ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/PrioridadController/destroyPrioridad/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            console.log("response ",response); 
+                            TablaPrioridadEdit(patente_id);
+                            alert_float('success', "Eliminado Prioridad Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar la Prioridad");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');
@@ -3258,7 +3285,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-licencia" data-licencia="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -3267,32 +3294,32 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#LicenciaEditTbl').on('click', '.delete-licencia', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('licencia');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Legue a elimar la publicacion ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/LicenciaController/destroyLicencia/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaLicenciaEdit(patente_id);
+                            alert_float('success', "Licencia Eliminado Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar la Licencia");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');
@@ -4102,7 +4129,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-fusion" data-fusion="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -4111,32 +4138,32 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#FusionEditTbl').on('click', '.delete-fusion', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('fusion');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Legue a elimar la publicacion ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/FusionController/destroyFusion/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaFusionEdit(patente_id);
+                            alert_float('success', "Fusion Eliminada Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar la Fusion");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');
@@ -4585,7 +4612,7 @@
             }).then(function (response) {
                 
                 console.log(response);
-                $("#AddCambioNombre").modal('hide');
+                $("#AddCamNom").modal('hide');
                 alert_float('success', "Cambio de Nombre Insertado Correctamente");
                 TablaCamNomEdit(patentes_id);
             }).catch(function (response) {
@@ -4971,7 +4998,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-camnom" data-camnom="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -4980,32 +5007,33 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#CamNomEditTbl').on('click', '.delete-camnom', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('camnom');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Legue a elimar la publicacion ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/CambioNombreController/destroyCambioNombre/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaCamNomEdit(patente_id);
+
+                            alert_float('success', "Cambio de Nombre Eliminado Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar el Cambio de Nombre");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');
@@ -5393,32 +5421,32 @@
             $('#comentarioCamDom').val()) {
 
             
-            var data = {
-                'idRow': tblCamDomDT.rows().count() + 1,
-                "tmp_camdom_id": tblCamDomDT.rows().count() + 1,
-                "client_id": $('#clienteCamDom').val(),
-                'client_id_name': $('#clienteCamDom option[value=' + $('#clienteCamDom').val() + ']')
-                .text(),
-                "oficina_id": $('#oficinaCamDom').val(),
-                'oficina_id_name': $('#oficinaCamDom option[value=' + $('#oficinaCamDom').val() + ']')
-                .text(),
-                "staff_id": $('#staffCamDom').val(),
-                'staff_id_name': $('#staffCamDom option[value=' + $('#staffCamDom').val() + ']').text(),
-                "estado_id": $('#estadoCamDom').val(),
-                'estado_id_name': $('#estadoCamDom option[value=' + $('#estadoCamDom').val() + ']').text(),
-                "num_solicitud": $('#nro_solicitudCamDom').val(),
-                "fecha_solicitud": $('#fecha_solicitudCamDom').val(),
-                "num_resolucion": $('#nro_resolucionCamDom').val(),
-                "fecha_resolucion": $('#fecha_resolucionCamDom').val(),
-                "referencia_cliente": $('#referenciaclienteCamDom').val(),
-                "comentarios": $('#comentarioCamDom').val(),
-                "camdomanteriores": localStorage.getItem("camdomanteriores"),
-                "camdomactuales": localStorage.getItem("camdomactuales"),
-                "patentes_id": $("input[name=id]").val(),
-                'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" +
-                    (tblCamDomDT.rows().count()) +
-                    "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-            }
+            // var data = {
+            //     'idRow': tblCamDomDT.rows().count() + 1,
+            //     "tmp_camdom_id": tblCamDomDT.rows().count() + 1,
+            //     "client_id": $('#clienteCamDom').val(),
+            //     'client_id_name': $('#clienteCamDom option[value=' + $('#clienteCamDom').val() + ']')
+            //     .text(),
+            //     "oficina_id": $('#oficinaCamDom').val(),
+            //     'oficina_id_name': $('#oficinaCamDom option[value=' + $('#oficinaCamDom').val() + ']')
+            //     .text(),
+            //     "staff_id": $('#staffCamDom').val(),
+            //     'staff_id_name': $('#staffCamDom option[value=' + $('#staffCamDom').val() + ']').text(),
+            //     "estado_id": $('#estadoCamDom').val(),
+            //     'estado_id_name': $('#estadoCamDom option[value=' + $('#estadoCamDom').val() + ']').text(),
+            //     "num_solicitud": $('#nro_solicitudCamDom').val(),
+            //     "fecha_solicitud": $('#fecha_solicitudCamDom').val(),
+            //     "num_resolucion": $('#nro_resolucionCamDom').val(),
+            //     "fecha_resolucion": $('#fecha_resolucionCamDom').val(),
+            //     "referencia_cliente": $('#referenciaclienteCamDom').val(),
+            //     "comentarios": $('#comentarioCamDom').val(),
+            //     "camdomanteriores": localStorage.getItem("camdomanteriores"),
+            //     "camdomactuales": localStorage.getItem("camdomactuales"),
+            //     "patentes_id": $("input[name=id]").val(),
+            //     'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" +
+            //         (tblCamDomDT.rows().count()) +
+            //         "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+            // }
 
             var formData = new FormData();
             let client_id =  $('#clienteCamDom').val();
@@ -5447,22 +5475,22 @@
             formData.append('patentes_id', patentes_id);
             console.log(" client_id ", client_id, " oficina_id ", oficina_id, " staff_id ",staff_id," estado_id ", estado_id , " solicitud_num ", solicitud_num, " fecha_solicitud ", fecha_solicitud , " resolucion_num ",resolucion_num , " fecha_resolucion ", fecha_resolucion , " referencia_cliente ", referencia_cliente ,  " comentarios ", comentarios , " patentes_id ", patentes_id);
             let url = '<?php echo admin_url("pi/patentes/CambioDomicilioController/create"); ?>'
-            // $.ajax({
-            //     url,
-            //     method: 'POST',
-            //     data: formData,
-            //     processData: false,
-            //     contentType: false
-            // }).then(function (response) {
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
                 
-            //     console.log(response);
-            //     $("#AddCambioNombre").modal('hide');
-            //     alert_float('success', "Cambio de Nombre Insertado Correctamente");
-            //     TablaCamNomEdit(patentes_id);
-            // }).catch(function (response) {
-            //     //console.log(response);
-            //     alert("No pudo agregar la Tarea ");
-            // });
+                console.log(response);
+                $("#AddCambioDomicilio").modal('hide');
+                alert_float('success', "Cambio de Domicilio Insertado Correctamente");
+                TablaCamDomEdit(patentes_id);
+            }).catch(function (response) {
+                //console.log(response);
+                alert("No pudo agregar la Tarea ");
+            });
            
 
         } else {
@@ -5694,7 +5722,7 @@
     }
 
     function TablaCamDomEdit(patente_id){
-        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCambioNombre/"); ?>';
+        let url = '<?php echo admin_url("pi/patentes/SolicitudesController/showCambioDomicilio/"); ?>';
         url += encodeURIComponent(patente_id.trim());
         $("#CamDomEditTbl").DataTable({
             language: {
@@ -5843,7 +5871,7 @@
                             render: function (data, type, row) {
                                 return `
                                     <td class="text-center">
-                                        <button class="btn btn-danger delete-documento" data-documento="${row.id}">
+                                        <button class="btn btn-danger delete-camdom" data-camdom="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                         </button>
                                     </td>`;
@@ -5852,32 +5880,32 @@
                     ],
                     width: "100%"
                 });
-                // $('#DocTbl').on('click', '.delete-documento', function (e) {
-                //     e.preventDefault();
-                //     let pubid = $(this).data('documento');
-                //     console.log("ID para editar: " + pubid);
-                //     console.log("Legue a elimar la publicacion ");
-                //     if (confirm("Quieres eliminar este registro?")) {
-                //         var formData = new FormData();
-                //         var csrf_token_name = $("input[name=csrf_token_name]").val();
-                //         formData.append('csrf_token_name', csrf_token_name);
-                //         let url = '<?php echo admin_url("pi/patentes/SolicitudesController/deleteDocumentos/"); ?>';
-                //         url = url + pubid;
-                //         console.log("url ", url);
-                //         $.ajax({
-                //             url,
-                //             method: 'POST',
-                //             data: formData,
-                //             processData: false,
-                //             contentType: false
-                //         }).then(function (response) {
-                //             TablaDocumento(patente_id);
-                //             alert_float('success', "Eliminado Documento Correctamente");
-                //         }).catch(function (response) {
-                //             alert_float('danger',"No se pudo Eliminar el Publicacion");
-                //         });
-                //     }
-                // });
+                $('#CamDomEditTbl').on('click', '.delete-camdom', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('camdom');
+                    console.log("ID para editar: " + pubid);
+                    console.log("Legue a elimar la publicacion ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/patentes/CambioDomicilioController/destroyCambioDomicilio/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            TablaCamDomEdit(patente_id);
+                            alert_float('success', "Cambio de Domicilio Eliminado Correctamente");
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar el Cambio de Domicilio");
+                        });
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.log('Error al cargar el documento:');

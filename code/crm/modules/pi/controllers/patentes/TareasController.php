@@ -204,6 +204,22 @@ class TareasController extends AdminController
      * Deletes the item
      */
 
+     public function destroyTareas(string $id)
+     {
+         $CI = &get_instance();
+         $CI->load->model("PatentesTareas_model");
+         $CI->load->helper('url');
+         $query = $CI->PatentesTareas_model->delete($id);
+         if (isset($query)){
+            echo json_encode(['message' => 'Tarea Eliminado Correctamente', 'code' => '200']);
+        } else {
+            echo json_encode(['message' => 'No se pudo Eliminar la Tarea', 'code' => '500']);
+        }
+         
+         
+         
+     }
+
     public function destroy(string $id)
     {
         $CI = &get_instance();

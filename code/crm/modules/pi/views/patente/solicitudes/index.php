@@ -127,7 +127,7 @@
                                             <?php echo form_label('Pais Solicitud', 'paisSol_id'); ?>
                                             <select name="paisSol_id" id="paisSol_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
-                                                <?php foreach ($marcas['Pais'] as $key => $value) { ?>
+                                                <?php foreach ($pais as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
                                                     <?php echo $value; ?>
                                                 </option>
@@ -158,7 +158,7 @@
                                             <?php echo form_label('Pais Cliente', 'paisCli_id'); ?>
                                             <select name="paisCli_id" id="paisCli_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
-                                                <?php foreach ($marcas['Pais'] as $key => $value) { ?>
+                                                <?php foreach ($pais as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
                                                     <?php echo $value; ?>
                                                 </option>
@@ -204,7 +204,7 @@
                                             <?php echo form_label('Pais Inventor', 'paisInv_id'); ?>
                                             <select name="paisInv_id" id="paisInv_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
-                                                <?php foreach ($data['Pais'] as $key => $value) { ?>
+                                                <?php foreach ($pais as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
                                                     <?php echo $value; ?>
                                                 </option>
@@ -230,7 +230,7 @@
                                             <?php echo form_label('Pais Propietario', 'paisProp_id'); ?>
                                             <select name="paisProp_id" id="paisProp_id" class='form-control'>
                                                 <option value=''>Seleccione una opcion</option>
-                                                <?php foreach ($marcas['Pais'] as $key => $value) { ?>
+                                                <?php foreach ($pais as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
                                                     <?php echo $value; ?>
                                                 </option>

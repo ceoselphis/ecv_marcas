@@ -201,6 +201,18 @@ class PublicacionesController extends AdminController
         }
     }
 
+    public function destroyPublicaciones(string $id){
+        $CI = &get_instance();
+        $CI->load->model("PatentesPublicaciones_model");
+        $CI->load->helper('url');
+        $query = $CI->PatentesPublicaciones_model->delete($id);
+        if (isset($query)){
+            echo json_encode(['message' => 'Publicacion Eliminada Correctamente' , 'code' => '200']);
+        } else {
+            echo json_encode(['message' => 'No se pudo Eliminar la Publicacion' , 'code' => '500']);
+        }
+    }
+
     /**
      * Deletes the item
      */

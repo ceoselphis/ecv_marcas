@@ -14,7 +14,10 @@ class SolicitudesController extends AdminController
     {
         $CI = &get_instance();
         $CI->load->model("PatentesSolicitudes_model");
-        return $CI->load->view('patente/solicitudes/index');
+        $marcas = [
+          'pais' => $CI->PatentesSolicitudes_model->getAllPaises(),
+        ];
+        return $CI->load->view('patente/solicitudes/index', $marcas);
     }
 
     /**

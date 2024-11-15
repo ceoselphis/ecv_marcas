@@ -1073,17 +1073,23 @@
                         <!-- Step 1 -->
                         <div class="tab-pane active" role="tabpanel" id="addcamdomstep1">
                             <input type="hidden" id="camdomid">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                              <?php echo form_label('Cliente', 'clienteCamNom'); ?>
+                              <?php 
+                              //$clientes = $select + $clientes;
+                              echo form_dropdown(['name' => 'clienteCamDom', 'id' => 'clienteCamDom'], $clientes, '', ['class' => 'form-control']); ?>
+                            </div>
+                            <div class="col-md-3">
                                 <?php echo form_label('Oficina', 'oficina');?>
                                 <?php echo form_dropdown(['name'=>'oficinaCamDom','id'=>'oficinaCamDom'], $oficinas, '',['class' => 'form-control']);?>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <?php echo form_label('Staff', 'staff');?>  
                                 <?php echo form_dropdown(['name'=>'staffCamDom','id'=>'staffCamDom'], $responsable, '',['class' => 'form-control']);?>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <?php echo form_label('Estado', 'estado');?>
-                                <?php echo form_dropdown(['name'=>'estadoCamDom','id'=>'estadoCamDom'], $estados_solicitudes, '',['class' => 'form-control']);?>
+                                <?php echo form_dropdown(['name'=>'estadoCamDom','id'=>'estadoCamDom'], $estado, '',['class' => 'form-control']);?>
                             </div>
                             <div class="col-md-3" style="margin-top:10px">
                                 <?php echo form_label('Nº de Solicitud	', 'nro_solicitud');?>
@@ -1644,7 +1650,7 @@
 </div>
 
 <!-- Añadir Cambio de Nombre -->
-<div class="modal fade" id="AddCamDom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddCamNom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomFrm']);?>
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

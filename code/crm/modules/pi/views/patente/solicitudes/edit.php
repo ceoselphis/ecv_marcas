@@ -794,7 +794,7 @@ $select = ['' => '']; ?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCamDom">Añadir Cambio de
+                                                                <button type="button" class="btn btn-primary pull-right" id="AddCambioNombreAbrirModal" data-toggle="modal" data-target="#AddCamNom">Añadir Cambio de
                                                                     Nombre</button>
                                                             </div>
                                                         </div>
@@ -836,7 +836,7 @@ $select = ['' => '']; ?>
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <button type="button" id="AddCambioDomicilioAbrirModal" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCamDom">Añadir cambio de
+                                                                <button type="button" id="AddCambioDomicilioAbrirModal" class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddCambioDomicilio">Añadir cambio de
                                                                     domicilio</button>
                                                             </div>
                                                         </div>

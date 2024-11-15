@@ -250,6 +250,20 @@ class CesionController extends AdminController
      * Deletes the item
      */
 
+    
+     public function destroyCesiones(string $id)
+     {
+         $CI = &get_instance();
+         $CI->load->model("PatentesCesiones_model");
+         $CI->load->helper('url');
+         $query = $CI->PatentesCesiones_model->delete($id);
+         if (isset($query)) {
+            echo json_encode(['message' => 'Cesion Eliminada Correctamente', 'code' => '200']);
+        } else {
+            echo json_encode(['message' => 'No se pudo Eliminar la Cesion', 'code' => '500']);
+        }         
+     }
+
     public function destroy(string $id)
     {
         $CI = &get_instance();

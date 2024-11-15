@@ -216,6 +216,21 @@ class CambioNombreController extends AdminController
      * Deletes the item
      */
 
+     public function destroyCambioNombre(string $id)
+    {
+        $CI = &get_instance();
+        $CI->load->model("PatentesCambioNombre_model");
+        $CI->load->helper('url');
+        $query = $CI->PatentesCambioNombre_model->delete($id);
+        if (isset($query)) {
+            echo json_encode(['message' => 'Cambio de Nombre Eliminada Correctamente', 'code' => '200']);
+        } else {
+            echo json_encode(['message' => 'No se pudo Eliminar el Cambio de Nombre', 'code' => '500']);
+        }       
+        
+        
+    }
+
     public function destroy(string $id)
     {
         $CI = &get_instance();

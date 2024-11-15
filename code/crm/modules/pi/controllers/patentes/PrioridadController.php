@@ -17,6 +17,8 @@ class PrioridadController extends AdminController
         return $CI->load->view('patente/solicitudes/index');
     }
 
+
+
     
 
     /**
@@ -200,6 +202,19 @@ class PrioridadController extends AdminController
     /**
      * Deletes the item
      */
+
+    public function destroyPrioridad($id) {
+        $CI = &get_instance();
+        $CI->load->model("PatentesPrioridad_model");
+        $CI->load->helper('url');
+        $query = $CI->PatentesPrioridad_model->delete($id);
+        if (isset($query)){
+            echo json_encode(['message' => 'Prioridad Eliminada Correctamente', 'code' => '200']);
+        } else {
+            echo json_encode(['message' => 'No se pudo Eliminar la Prioridad Correctamente', 'code' => '500']);
+        }
+        
+    }
 
     public function destroy(string $id)
     {

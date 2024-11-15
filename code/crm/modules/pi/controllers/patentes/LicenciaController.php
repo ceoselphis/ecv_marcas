@@ -215,6 +215,18 @@ class LicenciaController extends AdminController
     /**
      * Deletes the item
      */
+    public function destroyLicencia(string $id)
+    {
+        $CI = &get_instance();
+        $CI->load->model("PatentesLicencia_model");
+        $CI->load->helper('url');
+        $query = $CI->PatentesLicencia_model->delete($id);
+        if (isset($query)) {
+            echo json_encode(['message' => 'Licencia Eliminada Correctamente', 'code' => '200']);
+        } else {
+            echo json_encode(['message' => 'No se pudo Eliminar la Licencia', 'code' => '500']);
+        }   
+    }
 
     public function destroy(string $id)
     {
@@ -223,7 +235,5 @@ class LicenciaController extends AdminController
         $CI->load->helper('url');
         $query = $CI->PatentesLicencia_model->delete($id);
         return redirect('pi/patentes/SolicitudesController');
-        
-        
     }
 }

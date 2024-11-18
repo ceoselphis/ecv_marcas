@@ -33,8 +33,8 @@ init_head(); ?>
                                 data-target="#filterModal"><i class="fas fa-filter"></i> Filtrar por</button>
                         </div>
                     </div>
-                    <div class="row">
-
+                    <div class="row" style="witdh : 100%">
+    
                         <div class="col-md-12 pre-scrollable">
                             <table class="table" id="tableResult">
                                 <thead>
@@ -196,6 +196,7 @@ init_head(); ?>
                     },
                     destroy: true,
                     data: table.data,
+                    
                     columns: [
                         { data: 'id' },
                         { data: 'nombre'/* ,

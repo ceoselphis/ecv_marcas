@@ -140,7 +140,7 @@
                                             <?php echo form_label('Clientes', 'client_id'); ?>
                                             <select class='form-control' name='client_id' id="client_id">
                                                 <option value=''>Seleccione una opcion</option>
-                                                <?php foreach ($marcas['Clientes'] as $key => $value) { ?>
+                                                <?php foreach ($clientes as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
                                                     <?php echo $value; ?>
                                                 </option>
@@ -186,8 +186,8 @@
                                                 <?php echo ('Inventores'); ?>
                                             </label>
                                             <select class='form-control' name='inventor_id' id="inventor_id">
-                                                <option value=''>Seleccione una opcion</option>
-                                                <?php foreach ($data['inventores'] as $key => $value) { ?>
+
+                                                <?php foreach ($inventores as $key => $value) { ?>
                                                 <option value="<?php echo $key; ?>">
                                                     <?php echo $value; ?>
                                                 </option>

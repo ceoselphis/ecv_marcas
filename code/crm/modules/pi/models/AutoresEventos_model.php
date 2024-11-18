@@ -46,4 +46,13 @@ class AutoresEventos_model extends BaseModel
         $values = $query->result_array();
         return $values; 
     }
+
+    public function findEventoAutores($id) {
+        $this->db->select('*');
+        $this->db->from('tbl_derecho_autor_eventos eventos');
+        $this->db->where('eventos.id_solicitud = '.$id);
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values;  // returns an array with the event details
+    }
 }

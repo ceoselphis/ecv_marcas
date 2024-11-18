@@ -13,15 +13,15 @@ class AutoresEventosController extends AdminController
     /* public function index()
     {
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
+        $CI->load->model("AutoresEventos_model");
         $data = array();
-        foreach($CI->Eventos_model->findAll() as $row)
+        foreach($CI->AutoresEventos_model->findAll() as $row)
         {
             $data[] = [
                 'eve_id' => $row['eve_id'],
-                'tipo_eve_id' => $CI->Eventos_model->findTipoEvento($row['tipo_eve_id'])[0]['nombre'],
+                'tipo_eve_id' => $CI->AutoresEventos_model->findTipoEvento($row['tipo_eve_id'])[0]['nombre'],
                 'created_at' => $row['created_at'],
-                'staff_id' => $CI->Eventos_model->getStaff($row['staff_id'])[0]['firstname'].' '.$CI->Eventos_model->getStaff($row['staff_id'])[0]['lastname']
+                'staff_id' => $CI->AutoresEventos_model->getStaff($row['staff_id'])[0]['firstname'].' '.$CI->AutoresEventos_model->getStaff($row['staff_id'])[0]['lastname']
             ];
         }
         return $CI->load->view('eventos/index', ["eventos" => $data]);
@@ -29,13 +29,13 @@ class AutoresEventosController extends AdminController
 
     public function showEventos(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
-        $marcas = $CI->Eventos_model->findAllEventosMarcas($id);
+        $CI->load->model("AutoresEventos_model");
+        $marcas = $CI->AutoresEventos_model->findEventoAutores($id);
         $data = array();
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
-                'tipo_evento' => $CI->Eventos_model->findTipoEvento($row['tipo_evento_id']),
+                'tipo_evento' => $CI->AutoresEventos_model->findTipoEvento($row['id_tipo_evento']),
                 'comentarios' => $row['comentarios'],
                 'fecha' => $row['fecha'],
             );
@@ -50,43 +50,61 @@ class AutoresEventosController extends AdminController
 
      public function addEvento(){
         $CI = &get_instance();
+        $CI->load->model("AutoresEventos_model");
         $data = $CI->input->post();
+      //  echo json_encode($data);
+        /*
+            `id` int(11) NOT NULL,
+            `id_tipo_evento` int(11) NOT NULL,
+            `id_solicitud` int(11) NOT NULL,
+            `comentarios` text NOT NULL,
+            `fecha` date NOT NULL,
+        */
+        /*
+             formData.append('tipo_evento', tipo_evento);
+            formData.append('fecha_evento', fecha_evento);
+            formData.append('evento_comentario', evento_comentario);
+            formData.append('id_solicitud', id_solicitud);
+        */
+        $fecha = '';
+        if (!empty($data['fecha_evento'])) {
+            $fecha = DateTime::createFromFormat('d/m/Y', $data['fecha_evento'])->format('Y-m-d');
+        }
+
         if (!empty($data)){
             $insert = array(
-                            'id_tipo_evento' => $data['id_tipo_evento'],
+                            'id_tipo_evento' => $data['tipo_evento'],
                             'id_solicitud' => $data['id_solicitud'],
                             'comentarios' => $data['evento_comentario'],
-                            'fecha' => date('Y-m-d'),
+                            'fecha' => $fecha,
                     );
-
-            $CI->load->model("AutoresEventos_model");
-                try{
-                    $query = $CI->AutoresEventos_model->insert($insert);
-                        if (isset($query)){
-                            echo "Insertado Correctamente";
-
-                        }else {
-                            echo "No hemos podido Insertar";
-                        }
-                }catch (Exception $e){
-                    return $e->getMessage();
-                }
+            try {
+                $query = $CI->AutoresEventos_model->insert($insert);
+                    if (isset($query)){
+                        echo  json_encode(['message' => 'Evento Insertado Correctamente' , 'code' => '200']);
+                    }else {
+                        echo  json_encode(['message' => 'No se pudo insertar el Evento' , 'code' => '500' ]);
+                    }
+            }
+            catch (Exception $e){
+                return $e->getMessage();
+            }
         }
         else {
-            echo "No tiene Data";
+            echo json_encode(['message' => 'Not Data' , 'code' => '500']);
         }
      }
 
      public function EditEventos(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
-        $query =$CI->Eventos_model->find($id);
+        $CI->load->model("AutoresEventos_model");
+        $query =$CI->AutoresEventos_model->find($id);
         echo json_encode($query);   
      }
 
      public function UpdateEventos(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
+        $CI->load->model("AutoresEventos_model");
         $data = $CI->input->post();
         
         if (!empty($data)){
@@ -97,7 +115,7 @@ class AutoresEventosController extends AdminController
                     );
                    
 
-                    $query = $CI->Eventos_model->update($id, $insert);
+                    $query = $CI->AutoresEventos_model->update($id, $insert);
                     if (isset($query))
                     {
                         echo "Actualizado Correctamente";
@@ -107,9 +125,9 @@ class AutoresEventosController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
-        $fields = $CI->Eventos_model->getFillableFields();
-        $select = $CI->Eventos_model->getAllTipoEvento();
+        $CI->load->model("AutoresEventos_model");
+        $fields = $CI->AutoresEventos_model->getFillableFields();
+        $select = $CI->AutoresEventos_model->getAllTipoEvento();
         $labels = array();
         foreach($fields as $field)
         {
@@ -142,14 +160,14 @@ class AutoresEventosController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
+        $CI->load->model("AutoresEventos_model");
         $CI->load->helper('url');
         // get the data
         $data = $CI->input->post();
         //we validate the data
         //TODO
         //we sent the data to the model
-        $query = $CI->Eventos_model->insert($data);
+        $query = $CI->AutoresEventos_model->insert($data);
         if(isset($query))
         {
             return redirect(admin_url('pi/eventoscontroller/'));
@@ -163,8 +181,8 @@ class AutoresEventosController extends AdminController
     public function show(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
-        $query = $CI->Eventos_model->find($id);
+        $CI->load->model("AutoresEventos_model");
+        $query = $CI->AutoresEventos_model->find($id);
         if(isset($query))
         {
             $table = '<table class="table"><thead><tr>';
@@ -192,10 +210,10 @@ class AutoresEventosController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
+        $CI->load->model("AutoresEventos_model");
         $CI->load->helper('url');
-        $query = $CI->Eventos_model->find($id);
-        $select = $CI->Eventos_model->getAllTipoEvento();
+        $query = $CI->AutoresEventos_model->find($id);
+        $select = $CI->AutoresEventos_model->getAllTipoEvento();
         if(isset($query))
         {
             $labels = array('Id', 'Tipo de Evento', 'Comentario');
@@ -215,14 +233,14 @@ class AutoresEventosController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Eventos_model");
+        $CI->load->model("AutoresEventos_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         $data['fecha'] = date('Y-m-d');
         //We validate the data
         //TODO
         //We prepare the data 
-        $query = $CI->Eventos_model->update($id, $data);
+        $query = $CI->AutoresEventos_model->update($id, $data);
         if (isset($query))
         {
             return redirect('pi/MarcasSolicitudesController/create');
@@ -236,13 +254,13 @@ class AutoresEventosController extends AdminController
      public function destroy(string $id)
      {
          $CI = &get_instance();
-         $CI->load->model("Eventos_model");
+         $CI->load->model("AutoresEventos_model");
          $CI->load->helper('url');
-         $query = $CI->Eventos_model->delete($id);
+         $query = $CI->AutoresEventos_model->delete($id);
          if (isset($query)){
-             echo "Eliminado Correctamente";
+             echo json_encode([ 'message' => ' Evento Eliminado Correctamente ' , 'code' => '200']);
          }else {
-             echo "No se ha podido Eliminar";
+            echo json_encode([ 'message' => ' No se pudo eliminar el Evento ' , 'code' => '500']);
          }
          
          

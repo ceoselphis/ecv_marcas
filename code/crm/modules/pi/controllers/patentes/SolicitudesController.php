@@ -16,6 +16,8 @@ class SolicitudesController extends AdminController
         $CI->load->model("PatentesSolicitudes_model");
         $marcas = [
           'pais' => $CI->PatentesSolicitudes_model->getAllPaises(),
+          'inventores' => $CI->PatentesSolicitudes_model->getAllInventores(),
+          'clientes' => $CI->PatentesSolicitudes_model->getAllClients(),
         ];
         return $CI->load->view('patente/solicitudes/index', $marcas);
     }

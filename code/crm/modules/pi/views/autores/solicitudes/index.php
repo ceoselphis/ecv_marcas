@@ -364,6 +364,9 @@ $select = ['' => '']; ?>
 
     $("#filterSubmit").on('click', function (event) {
         event.preventDefault();
+        console.log('====================================');
+        console.log( " LLegue a Filtrar Autores " );
+        console.log('====================================');
         var params = {
             'id_pais': $("select[name=id_pais]").val(),
             'titulo': $("input[name=titulo]").val(),
@@ -382,6 +385,7 @@ $select = ['' => '']; ?>
             'paisProp_id': $("select[name=paisProp_id]").val(),
 
         };
+        console.log(" Parametros ", params);
         $.ajax({
             url: "<?php echo admin_url('pi/AutoresSolicitudesController/filterSearch') ?>",
             method: "POST",
@@ -390,7 +394,8 @@ $select = ['' => '']; ?>
                 data: JSON.stringify(params),
             },
             success: function (response) {
-                alert(response);
+                console.log(" Respuesta ",response);
+              //  alert(response);
                 table = JSON.parse(response);
                 $("#tableResult").DataTable({
                     language: {

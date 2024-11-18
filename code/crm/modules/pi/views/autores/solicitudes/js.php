@@ -1,81 +1,263 @@
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
-    function loadTareasTable() {
+
+    let derecho_autor_id = '<?php echo $id ?>';
+    console.log(" Derecho de Autor ", derecho_autor_id);
+    Eventos(derecho_autor_id);
+
+    // function loadTareasTable() {
+    //     $.ajax({
+    //         url: "<?php echo admin_url('pi/AutorTareasController/showTareas/' . $id); ?>",
+    //         method: "POST",
+    //         data: {
+    //             'csrf_token_name': $("input[name=csrf_token_name]").val()
+    //         },
+    //         success: function(response) {
+    //             res = JSON.parse(response);
+    //             $("#body_tareas").DataTable({
+    //                 // language: {
+    //                 //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+    //                 // },
+    //                 data: res,
+    //                 destroy: true,
+    //                 dataSrc: '',
+    //                 columns: [{
+    //                         data: 'id'
+    //                     },
+    //                     {
+    //                         data: 'tipo_tarea'
+    //                     },
+    //                     {
+    //                         data: 'descripcion'
+    //                     },
+    //                     {
+    //                         data: "fecha"
+    //                     },
+    //                     {
+    //                         data: 'acciones'
+    //                     },
+    //                 ],
+    //                 width: "100%"
+    //             });
+    //         }
+    //     })
+    // }
+
+    // function Eventos(id) {
+    //     let url = '<?php echo admin_url('pi/AutoresEventosController/showEventos/'); ?>';
+    //     url = url + id;
+    //     $.ajax({
+    //         url: url,
+    //         method: "GET",
+    //         success: function(response) {
+    //             console.log("respuesta ",response);
+    //             // res = JSON.parse(response);
+    //             // $("#body_eventos").DataTable({
+    //             //     language: {
+    //             //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+    //             //     },
+    //             //     data: res,
+    //             //     destroy: true,
+    //             //     dataSrc: '',
+    //             //     columns: [{
+    //             //             data: 'id'
+    //             //         },
+    //             //         {
+    //             //             data: 'fecha'
+    //             //         },
+    //             //         {
+    //             //             data: 'descripcion'
+    //             //         },
+    //             //         {
+    //             //             data: 'acciones'
+    //             //         },
+    //             //     ],
+    //             //     width: "100%"
+    //             // });
+    //         }
+    //     });
+        
+    // }
+
+
+
+    function Eventos(id){
+        let url = '<?php echo admin_url("pi/AutoresEventosController/showEventos/"); ?>';
+        url += encodeURIComponent(id.trim());
+        // $("#eventosTbl").DataTable({
+            // language: {
+            //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            // },
+        //     autoWidth: false,
+        //     destroy: true,
+        //     columnDefs: [
+        //         {
+        //             width: '5%',
+        //             targets: 0
+        //         },
+        //         {
+        //             width: '30%',
+        //             targets: 1
+        //         },
+        //         {
+        //             width: '10%',
+        //             targets: 2
+        //         },
+        //         {
+        //             width: '30%',
+        //             targets: 3
+        //         },
+        //         {
+        //             width: '10%',
+        //             targets: 4
+        //         }
+        //     ],
+        //     width: "100%"
+        // });
         $.ajax({
-            url: "<?php echo admin_url('pi/AutorTareasController/showTareas/' . $id); ?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val()
-            },
-            success: function(response) {
-                res = JSON.parse(response);
-                $("#body_tareas").DataTable({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Data retrieved:', data);
+                $("#eventosTbl").DataTable({
                     language: {
                         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                     },
-                    data: res,
+                    autoWidth: false,
+                    data: data,
                     destroy: true,
-                    dataSrc: '',
+                    columnDefs: [
+                        {
+                            width: '5%',
+                            targets: 0
+                        },
+                        {
+                            width: '30%',
+                            targets: 1
+                        },
+                        {
+                            width: '10%',
+                            targets: 2
+                        },
+                        {
+                            width: '30%',
+                            targets: 3
+                        },
+                        {
+                            width: '10%',
+                            targets: 4
+                        }
+                      
+                    ],
                     columns: [{
-                            data: 'id'
+                            data: 'id',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
                         },
                         {
-                            data: 'tipo_tarea'
+                            data: 'tipo_evento',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
                         },
                         {
-                            data: 'descripcion'
+                            data: 'fecha',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
                         },
                         {
-                            data: "fecha"
+                            data: 'comentarios',
+                            render: function (data, type, row) {
+                                return "<div class='col-md-12 text-center'>" + data + "</div>"
+                            }
                         },
                         {
-                            data: 'acciones'
+                            data: null,
+                            render: function (data, type, row) {
+                                return `
+                                    <td class="text-center">
+                                        <button class="btn btn-danger delete-evento" data-evento="${row.id}">
+                                        <i class="fas fa-trash"></i> Borrar
+                                        </button>
+                                    </td>`;
+                            }
                         },
                     ],
                     width: "100%"
                 });
-            }
-        })
-    }
-</script>
-<script>
-    function loadDocumentosTable() {
-        $.ajax({
-            url: "<?php echo admin_url('pi/AutoresSolicitudesDocumentoController/showDocumentos/' . $id); ?>",
-            method: "POST",
-            data: {
-                'csrf_token_name': $("input[name=csrf_token_name]").val()
+                
             },
-            success: function(response) {
-                res = JSON.parse(response);
-                $("#body_documentos").DataTable({
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                    },
-                    data: res,
-                    destroy: true,
-                    dataSrc: '',
-                    columns: [{
-                            data: 'id'
-                        },
-                        {
-                            data: 'path'
-                        },
-                        {
-                            data: 'comentario'
-                        },
-                        {
-                            data: 'acciones'
-                        },
-                    ],
-                    width: "100%"
-                });
+            error: function (xhr, status, error) {
+                console.log('Error al cargar el documento:');
             }
-        })
+        });
     }
-</script>
-<script>
+
+    $('#eventosTbl').on('click', '.delete-evento', function (e) {
+                    e.preventDefault();
+                    let pubid = $(this).data('evento');
+                    console.log("ID para Eliminar: " + pubid);
+                    console.log("Legue a elimar la publicacion ");
+                    if (confirm("Quieres eliminar este registro?")) {
+                        var formData = new FormData();
+                        var csrf_token_name = $("input[name=csrf_token_name]").val();
+                        formData.append('csrf_token_name', csrf_token_name);
+                        let url = '<?php echo admin_url("pi/AutoresEventosController/destroy/"); ?>';
+                        url = url + pubid;
+                        console.log("url ", url);
+                        $.ajax({
+                            url,
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).then(function (response) {
+                            alert_float('success', "Evento Eliminado Correctamente");
+                            Eventos(id);
+                        }).catch(function (response) {
+                            alert_float('danger',"No se pudo Eliminar el Evento");
+                        });
+                    }
+                });
+    // function loadDocumentosTable() {
+    //     $.ajax({
+    //         url: "<?php echo admin_url('pi/AutoresSolicitudesDocumentoController/showDocumentos/' . $id); ?>",
+    //         method: "POST",
+    //         data: {
+    //             'csrf_token_name': $("input[name=csrf_token_name]").val()
+    //         },
+    //         success: function(response) {
+    //             res = JSON.parse(response);
+    //             $("#body_documentos").DataTable({
+    //                 // language: {
+    //                 //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+    //                 // },
+    //                 data: res,
+    //                 destroy: true,
+    //                 dataSrc: '',
+    //                 columns: [{
+    //                         data: 'id'
+    //                     },
+    //                     {
+    //                         data: 'path'
+    //                     },
+    //                     {
+    //                         data: 'comentario'
+    //                     },
+    //                     {
+    //                         data: 'acciones'
+    //                     },
+    //                 ],
+    //                 width: "100%"
+    //             });
+    //         }
+    //     })
+    // }
+
     function fecha() {
         var hoy = new Date();
         var dd = hoy.getDate();
@@ -175,14 +357,20 @@
     $(document).on('click', '#eventosfrmsubmit', function(e) {
         e.preventDefault();
         var formData = new FormData();
-        var data = getFormData(this);
-        var tipo_evento = $('#tipo_evento').val();
+
+        var tipo_evento = $('#id_tipo_evento').val();
         var evento_comentario = $('#evento_comentario').val();
+        let fecha_evento = $('#fecha_evento').val(); 
         var csrf_token_name = $("input[name=csrf_token_name]").val();
+        let id_solicitud = '<?php echo $id ?>';
+        console.log(" tipo_evento ", tipo_evento , " evento_comentario ", evento_comentario , ' fecha_evento ', fecha_evento , ' derecho_autor_id ', derecho_autor_id ) ; 
         formData.append('csrf_token_name', csrf_token_name);
         formData.append('tipo_evento', tipo_evento);
+        formData.append('fecha_evento', fecha_evento);
         formData.append('evento_comentario', evento_comentario);
-        let url = '<?php echo admin_url("pi/AutoresEventosController/addEvento"); ?>'
+        formData.append('id_solicitud', id_solicitud);
+        let url = '<?php echo admin_url("pi/AutoresEventosController/addEvento"); ?>';
+        console.log('url ', url);
         $.ajax({
             url,
             method: 'POST',
@@ -190,11 +378,14 @@
             processData: false,
             contentType: false
         }).then(function(response) {
-            alert_float('success', "Insertado Correctamente");
+            console.log(" Response ", response );
             $("#eventoModal").modal('hide');
+            alert_float('success', "Evento Insertado Correctamente");
+            Eventos(derecho_autor_id);
             
         }).catch(function(response) {
-            alert("No puede agregar un Evento sin registro de la solicitud");
+           // console.log(" Response ",response );
+           // alert("No puede agregar un Evento sin registro de la solicitud");
         });
     });
 
@@ -311,9 +502,7 @@
             }
         });
     });
-</script>
 
-<script>
     $(document).on('click','.borrarTarea', function(e){
         e.preventDefault();
         var id = $(this).attr('id');
@@ -330,8 +519,7 @@
             })
         }
     })
-</script>
-<script>
+
     $(document).on('click','.borrarDoc', function(e){
         e.preventDefault();
         var id = $(this).attr('id');
@@ -353,7 +541,7 @@
 
 <script>
     $(document).ready(function(){
-        loadTareasTable();
-        loadDocumentosTable();
+        //loadTareasTable();
+        //loadDocumentosTable();
     })
 </script>

@@ -101,7 +101,7 @@ $select = ['' => ''];?>
                                             'name'     => 'id_pais',
                                             'class'    => 'form-control',
                                             'options' => $id_pais,
-                                            'selected' => set_value('id_pais'),
+                                            'selected' => set_value('id_pais',226),
                                         ]); ?>
                                         <?php echo form_error($fields[6]['name'], '<div class="text-danger">', '</div>'); ?>
                                    </div>
@@ -207,29 +207,29 @@ $select = ['' => ''];?>
                                         <?php echo form_input('ref_cliente', set_value('ref_cliente'), ['class' => 'form-control']) ?>
                                         <?php echo form_error($fields[15]['name'], '<div class="text-danger">', '</div>'); ?>
                                     </div>
-                                    <div class="col-md-4" style="padding-top:15px;">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Carpeta', 'carpeta'); ?>
                                         <?php echo form_input('carpeta', set_value('carpeta'), ['class' => 'form-control']) ?>
                                         <?php echo form_error($fields[16]['name'], '<div class="text-danger">', '</div>'); ?>
                                     </div>
-                                    <div class="col-md-4" style="padding-top:15px;">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Libro', 'libro'); ?>
                                         <?php echo form_input('libro', set_value('libro'), ['class' => 'form-control']) ?>
                                         <?php echo form_error($fields[17]['name'], '<div class="text-danger">', '</div>'); ?>
                                     </div>
-                                    <div class="col-md-4" style="padding-top:15px;">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Tomo', 'tomo'); ?>
                                         <?php echo form_input('tomo', set_value('tomo'), ['class' => 'form-control']) ?>
                                         <?php echo form_error($fields[18]['name'], '<div class="text-danger">', '</div>'); ?>
                                     </div>
-                                    <div class="col-md-4" style="padding-top:15px;">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Folio', 'folio'); ?>
                                         <?php echo form_input('folio', set_value('folio'), ['class' => 'form-control']) ?>
                                         <?php echo form_error($fields[19]['name'], '<div class="text-danger">', '</div>'); ?>
                                     </div>
                                     <div class="col-md-12" style="padding-top:15px;">
                                         <?php echo form_label('Comentarios', 'comentarios'); ?>
-                                        <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control', 'maxlength' => '200']); ?>
+                                        <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control', 'maxlength' => '200' , 'style' => 'height  : 150px']); ?>
                                         <?php echo form_error($fields[20]['name'], '<div class="text-danger">', '</div>'); ?>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -334,18 +334,17 @@ $select = ['' => ''];?>
                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#eventoModal">Añadir Evento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table class="ultimate table table-responsive" id="eventosTbl">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
-                                                    <th>Descripcion</th>
-                                                    <th>Comentarios</th>
+                                                    <th>Tipo Evento</th>
                                                     <th>Fecha</th>
+                                                    <th>Comentarios</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="body_eventos">
-                                            </tbody>
+                                            
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -375,10 +374,7 @@ $select = ['' => ''];?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="body_tareas">
-
-
-                                            </tbody>
+                                           
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -409,9 +405,7 @@ $select = ['' => ''];?>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="body_documentos">
-
-                                            </tbody>
+                                         
                                         </table>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -444,11 +438,11 @@ $select = ['' => ''];?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
-    new DataTable(".ultimate", {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-        }
-    });
+    // new DataTable(".ultimate", {
+    //     language: {
+    //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+    //     }
+    // });
 </script>
 <!-- <script>
     new DataTable(".anexo", {

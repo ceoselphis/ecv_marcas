@@ -134,8 +134,11 @@ class AutoresSolicitudes_model extends BaseModel
         $values = array();
         foreach($query->result_array() as $row)
         {
-            array_push($keys, $row['id']);
-            array_push($values, $row['nombre_propietario']);
+            if (!empty($row['nombre_propietario'] )) {
+
+                array_push($keys, $row['id']);
+                array_push($values, $row['nombre_propietario']);
+            }
         }
         return array_combine($keys, $values);
     }

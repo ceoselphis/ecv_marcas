@@ -14,14 +14,23 @@ $select = ['0' => 'Seleccione una opcion']; ?>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <?php echo form_label('Tipo Evento', 'tipo_evento'); ?>
             <?php $tipo_evento = $select + $tipo_evento; ?>
             <?php echo form_dropdown(['name' => 'id_tipo_evento', 'id' => 'id_tipo_evento'], $tipo_evento, '', ['class' => 'form-control']); ?>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
+            <?php echo form_label('Fecha Evento', 'fecha_evento',['id' => 'lblfecha_evento']); ?>
+            <?php echo form_input([
+              'id' => 'fecha_evento',
+              'name' => 'fecha_evento',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Evento'
+            ]); ?>
+          </div>
+          <div class="col-md-12" style= "padding-top : 15px;">
             <?php echo form_label('Comentario', 'evento_comentario'); ?>
-            <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control', 'style' => 'height: 100px;']); ?>
           </div>
         </div>
       </div>

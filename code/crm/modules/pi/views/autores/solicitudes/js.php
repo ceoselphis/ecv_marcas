@@ -6,43 +6,43 @@
     console.log(" Derecho de Autor ", derecho_autor_id);
     Eventos(derecho_autor_id);
 
-    // function loadTareasTable() {
-    //     $.ajax({
-    //         url: "<?php echo admin_url('pi/AutorTareasController/showTareas/' . $id); ?>",
-    //         method: "POST",
-    //         data: {
-    //             'csrf_token_name': $("input[name=csrf_token_name]").val()
-    //         },
-    //         success: function(response) {
-    //             res = JSON.parse(response);
-    //             $("#body_tareas").DataTable({
-    //                 // language: {
-    //                 //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-    //                 // },
-    //                 data: res,
-    //                 destroy: true,
-    //                 dataSrc: '',
-    //                 columns: [{
-    //                         data: 'id'
-    //                     },
-    //                     {
-    //                         data: 'tipo_tarea'
-    //                     },
-    //                     {
-    //                         data: 'descripcion'
-    //                     },
-    //                     {
-    //                         data: "fecha"
-    //                     },
-    //                     {
-    //                         data: 'acciones'
-    //                     },
-    //                 ],
-    //                 width: "100%"
-    //             });
-    //         }
-    //     })
-    // }
+    function loadTareasTable() {
+        $.ajax({
+            url: "<?php echo admin_url('pi/AutorTareasController/showTareas/' . $id); ?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val()
+            },
+            success: function(response) {
+                res = JSON.parse(response);
+                $("#body_tareas").DataTable({
+                    // language: {
+                    //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    // },
+                    data: res,
+                    destroy: true,
+                    dataSrc: '',
+                    columns: [{
+                            data: 'id'
+                        },
+                        {
+                            data: 'tipo_tarea'
+                        },
+                        {
+                            data: 'descripcion'
+                        },
+                        {
+                            data: "fecha"
+                        },
+                        {
+                            data: 'acciones'
+                        },
+                    ],
+                    width: "100%"
+                });
+            }
+        })
+    }
 
     // function Eventos(id) {
     //     let url = '<?php echo admin_url('pi/AutoresEventosController/showEventos/'); ?>';
@@ -189,15 +189,7 @@
                     ],
                     width: "100%"
                 });
-                
-            },
-            error: function (xhr, status, error) {
-                console.log('Error al cargar el documento:');
-            }
-        });
-    }
-
-    $('#eventosTbl').on('click', '.delete-evento', function (e) {
+                $('#eventosTbl').on('click', '.delete-evento', function (e) {
                     e.preventDefault();
                     let pubid = $(this).data('evento');
                     console.log("ID para Eliminar: " + pubid);
@@ -223,40 +215,49 @@
                         });
                     }
                 });
-    // function loadDocumentosTable() {
-    //     $.ajax({
-    //         url: "<?php echo admin_url('pi/AutoresSolicitudesDocumentoController/showDocumentos/' . $id); ?>",
-    //         method: "POST",
-    //         data: {
-    //             'csrf_token_name': $("input[name=csrf_token_name]").val()
-    //         },
-    //         success: function(response) {
-    //             res = JSON.parse(response);
-    //             $("#body_documentos").DataTable({
-    //                 // language: {
-    //                 //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-    //                 // },
-    //                 data: res,
-    //                 destroy: true,
-    //                 dataSrc: '',
-    //                 columns: [{
-    //                         data: 'id'
-    //                     },
-    //                     {
-    //                         data: 'path'
-    //                     },
-    //                     {
-    //                         data: 'comentario'
-    //                     },
-    //                     {
-    //                         data: 'acciones'
-    //                     },
-    //                 ],
-    //                 width: "100%"
-    //             });
-    //         }
-    //     })
-    // }
+                
+            },
+            error: function (xhr, status, error) {
+                console.log('Error al cargar el documento:');
+            }
+        });
+    }
+
+    
+    function loadDocumentosTable() {
+        $.ajax({
+            url: "<?php echo admin_url('pi/AutoresSolicitudesDocumentoController/showDocumentos/' . $id); ?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val()
+            },
+            success: function(response) {
+                res = JSON.parse(response);
+                $("#body_documentos").DataTable({
+                    // language: {
+                    //     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                    // },
+                    data: res,
+                    destroy: true,
+                    dataSrc: '',
+                    columns: [{
+                            data: 'id'
+                        },
+                        {
+                            data: 'path'
+                        },
+                        {
+                            data: 'comentario'
+                        },
+                        {
+                            data: 'acciones'
+                        },
+                    ],
+                    width: "100%"
+                });
+            }
+        })
+    }
 
     function fecha() {
         var hoy = new Date();
@@ -541,7 +542,7 @@
 
 <script>
     $(document).ready(function(){
-        //loadTareasTable();
-        //loadDocumentosTable();
+        loadTareasTable();
+        loadDocumentosTable();
     })
 </script>

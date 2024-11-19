@@ -65,11 +65,11 @@ class AutoresSolicitudesDocumentoController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
                 'id' => $row['id'],
-                'id_solicitud' => $CI->AutoresSolicitudesDocumento_model->BuscarSolicitudesMarcas($row['id_solicitud']),
+              //  'id_solicitud' => $CI->AutoresSolicitudesDocumento_model->BuscarSolicitudesMarcas($row['id_solicitud']),
                 'descripcion' => $row['descripcion'],
                 'comentario' => $row['comentarios'],
-                'path' => '<a target="_blank" href="'.admin_url('/uploads/derautor/documentos/').$row['path'].'"> Archivo </a>',
-                'acciones' => '<a class="btn btn-sm btn-danger borrarDoc" id="'.$row['id'].'"> <i class="fas fa-trash">  </i> Borrar </a>' 
+                'path' => '<a target="_blank" href="http://localhost/ecv_marcas/code/crm/uploads/derautor/documentos/' . $row['path'] . '"> Archivo </a>',
+                //'acciones' => '<a class="btn btn-sm btn-danger borrarDoc" id="'.$row['id'].'"> <i class="fas fa-trash">  </i> Borrar </a>' 
             );
         }
         echo json_encode($data);
@@ -180,24 +180,39 @@ class AutoresSolicitudesDocumentoController extends AdminController
                 if (move_uploaded_file($file['doc_archivo']['tmp_name'], $fpath)) {
                     echo json_encode(["message" => "El archivo PDF se ha subido exitosamente."]);
                 } else {
-                    
-                    throw new Exception('Error al subir el archivo'); 
+                    echo json_encode(["message" => "Error al subir el archivo" , 'code' => '500' ]);
+                    //throw new Exception('Error al subir el archivo'); 
                 }
             
             $doc_arch =$file['doc_archivo']['name']; 
         }
+        /*
+            formData.append('id_solicitud', id_solicitud);
+            formData.append('doc_descripcion', descripcion);
+            formData.append('comentario_archivo', comentario_archivo);
+            formData.append('doc_archivo', doc_archivo);
+        */
+        /*
+            `id` int(11) NOT NULL,
+            `id_solicitud` int(11) NOT NULL,
+            `descripcion` text,
+            `comentarios` text NOT NULL,
+            `path` varchar(250) NOT NULL,
+        */
         if (!empty($data)){
             $insert = array(
-                'id_solicitud' => $data['solicitud_id'],
+                'id_solicitud' => $data['id_solicitud'],
                 'descripcion' => $data['doc_descripcion'],
                 'comentarios' => $data['comentario_archivo'],
                 'path' => $doc_arch,
             );
+
+            echo json_encode(['data' => $insert]);
             $CI->load->model("AutoresSolicitudesDocumento_model");
                 try{
                     $query = $CI->AutoresSolicitudesDocumento_model->insert($insert);
                         if (isset($query)){
-                            echo json_encode(['code' => 200, 'message' => 'Insertado Correctamente']);
+                            echo json_encode(['code' => 200, 'message' => 'Documento Insertado Correctamente']);
 
                         }else {
                             echo json_encode(['code' => 500, 'message' => 'No se ha podido Insertar']);
@@ -207,7 +222,7 @@ class AutoresSolicitudesDocumentoController extends AdminController
                 }
         }
         else {
-            echo "No tiene Data";
+            echo json_encode(['message' => 'Not Data' , 'code' => '404']); 
         }
         
     }
@@ -327,9 +342,9 @@ class AutoresSolicitudesDocumentoController extends AdminController
         $CI->load->helper('url');
         $query = $CI->AutoresSolicitudesDocumento_model->delete($id);
         if (isset($query)){
-            echo "Eliminado Correctamente";
+            echo json_encode(['message' => 'Documento Eliminado Correctamente', 'code' => 200]);
         }else {
-            echo "No se ha podido Eliminar";
+            echo json_encode(['message' => 'No se Pudo  Eliminar el Documento', 'code' => 500]);
         }
     }
 }

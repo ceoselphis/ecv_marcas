@@ -143,6 +143,20 @@ class AutoresSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function findAllTask() {
+        $this->db->select('*');
+        $this->db->from('tbltasks');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['name']);
+        }
+        return array_combine($keys, $values);
+    }
+
     public function findEstadosSolicitudes($id = NULL)
     {
         $this->db->select('*');

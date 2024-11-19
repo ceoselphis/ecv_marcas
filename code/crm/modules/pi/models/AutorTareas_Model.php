@@ -70,6 +70,8 @@ class AutorTareas_Model extends BaseModel
         return $insert_id->result_array()[0]['LAST_INSERT_ID()'];
     }
 
+    
+
     public function findTaskDetail($id = null)
     {
         $this->db->select('*');

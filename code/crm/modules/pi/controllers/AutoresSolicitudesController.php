@@ -118,6 +118,7 @@ class AutoresSolicitudesController extends AdminController
             'eventos'               => $datos,
             'tareas'                => $data,
             'cod_contador'          => $cod_contador,
+            'tasks'                 => $CI->AutoresSolicitudes_model->findAllTask(),
             'oficinas'              => $CI->AutoresSolicitudes_model->findAllOficinas(),
             'clientes'              => $CI->AutoresSolicitudes_model->findAllClients(),
             'solicitantes'          => $CI->AutoresSolicitudes_model->findAllPropietarios2(),

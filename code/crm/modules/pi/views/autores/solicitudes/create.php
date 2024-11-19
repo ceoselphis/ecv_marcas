@@ -364,13 +364,13 @@ $select = ['' => ''];?>
                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTask">Añadir Tarea</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table class="ultimate table table-responsive" id="tareaTbl">
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
                                                     <th>Tipo de Tarea</th>
-                                                    <th>Comentarios</th>
                                                     <th>Fecha</th>
+                                                    <th>Comentarios</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -394,14 +394,13 @@ $select = ['' => ''];?>
                                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#docModal">Añadir Documento</button>
                                     </div>
                                     <div class="col-md-12" style="padding-top: 1.5%;">
-                                        <table class="ultimate table table-responsive">
+                                        <table class="ultimate table table-responsive" id ="docTbl">
                                             <thead>
                                                 <tr>
                                                     <th>Nº</th>
-                                                    <th>Archivo</th>
                                                     <th>Descripcion</th>
                                                     <th>Comentarios</th>
-                                                    <th>Documento</th>
+                                                    <th>Archivo</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -428,13 +427,13 @@ $select = ['' => ''];?>
 <?php init_tail(); ?>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<?php $CI->load->view('autores/solicitudes/js.php'); ?>
+<?php $CI->load->view('autores/solicitudes/anexos.php'); ?>
 
 
 </body>
 
 </html>
-<?php init_tail(); ?>
+<?php //init_tail(); ?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>

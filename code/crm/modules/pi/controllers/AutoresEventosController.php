@@ -37,7 +37,7 @@ class AutoresEventosController extends AdminController
                 'id' => $row['id'],
                 'tipo_evento' => $CI->AutoresEventos_model->findTipoEvento($row['id_tipo_evento']),
                 'comentarios' => $row['comentarios'],
-                'fecha' => $row['fecha'],
+                'fecha' => date('d/m/Y', strtotime($row['fecha'])),
             );
         }
         echo json_encode($data);

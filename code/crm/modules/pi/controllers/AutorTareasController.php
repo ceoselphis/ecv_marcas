@@ -70,39 +70,53 @@ class AutorTareasController extends AdminController
                 'tipo_tarea' => $CI->AutorTareas_Model->BuscarTipoTareas($row['id_tipo_tareas']),
                 'descripcion' => $row['descripcion'],
                 'fecha' => $this->flip_dates($row['fecha']),
-                'acciones' => '<a class="btn btn-sm btn-danger borrarTarea" id="'.$row['id'].'"> <i class="fas fa-trash">  </i> Borrar </a>' 
+             //   'acciones' => '<a class="btn btn-sm btn-danger borrarTarea" id="'.$row['id'].'"> <i class="fas fa-trash">  </i> Borrar </a>' 
             );
         }
         echo json_encode($data);
-
      }
 
      public function addTareas(){
         $CI = &get_instance();
         $data = $CI->input->post();
-       // echo json_encode($data);
+        /*
+        {"project":"50","fecha_limite":"13\/11\/2024","tipo_tarea":"4","descripcion":"asdasdasd","id_solicitud":"4"}
+        */
+        /*
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `id_tipo_tareas` int(11) NOT NULL,
+            `id_solicitud` int(11) NOT NULL,
+            `project_id` int(11) DEFAULT NULL,
+            `fecha` date NOT NULL,
+            `descripcion` text,
+        */
         if (!empty($data)){
+            $fecha = '';
+            if (!empty($data['fecha_limite'])) {
+                $fecha = DateTime::createFromFormat('d/m/Y', $data['fecha_limite'])->format('Y-m-d');
+            }
             $insert = array(
-                            'tipo_tareas_id' => $data['tipo_tarea'],
-                            'marcas_id' => $data['id_marcas'],
+                            'id_tipo_tareas' => $data['tipo_tarea'],
+                            'id_solicitud' => $data['id_solicitud'],
+                            'project_id' => $data['project'],
                             'descripcion' => $data['descripcion'],
-                            'fecha' => date('Y-m-d'),
+                            'fecha' => $fecha,
                     );
             $CI->load->model("AutorTareas_Model");
                 try{
                     $query = $CI->AutorTareas_Model->insert($insert);
                         if (isset($query)){
-                            echo "Insertado Correctamente";
+                            echo json_encode([ 'message' => ' Tarea Insertada Correctamente ', 'code' => '200']);
 
                         }else {
-                            echo "No hemos podido Insertar";
+                            echo json_encode([ 'message' => ' Tarea Insertada Correctamente ', 'code' => '500']);
                         }
                 }catch (Exception $e){
                     return $e->getMessage();
                 }
         }
         else {
-            echo "No tiene Data";
+            echo json_encode(['message' => 'No tiene Data' , 'code' => '400' ]) ;
         }
      }
 
@@ -291,9 +305,9 @@ class AutorTareasController extends AdminController
         $CI->load->helper('url');
         $query = $CI->AutorTareas_Model->delete($id);
         if (isset($query)){
-            echo "Eliminado Correctamente";
+            echo json_encode(['message' => 'Tarea Eliminado Correctamente' , 'code' => 200]);
         }else {
-            echo "No se ha podido Eliminar";
+            echo json_encode(['message' => 'No se pudo Eliminar la Tarea' , 'code' => 500]);
         }
         
         

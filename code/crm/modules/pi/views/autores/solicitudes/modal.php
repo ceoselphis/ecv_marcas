@@ -15,7 +15,7 @@ $select = ['0' => 'Seleccione una opcion']; ?>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6">
-            <?php echo form_label('Tipo Evento', 'tipo_evento'); ?>
+            <?php echo form_label('Tipo Evento', 'tipo_evento' , ['id' => 'lbltipo_evento']); ?>
             <?php $tipo_evento = $select + $tipo_evento; ?>
             <?php echo form_dropdown(['name' => 'id_tipo_evento', 'id' => 'id_tipo_evento'], $tipo_evento, '', ['class' => 'form-control']); ?>
           </div>
@@ -29,7 +29,7 @@ $select = ['0' => 'Seleccione una opcion']; ?>
             ]); ?>
           </div>
           <div class="col-md-12" style= "padding-top : 15px;">
-            <?php echo form_label('Comentario', 'evento_comentario'); ?>
+            <?php echo form_label('Comentario', 'evento_comentario', ['id' => 'lblevento_comentario']); ?>
             <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control', 'style' => 'height: 100px;']); ?>
           </div>
         </div>
@@ -57,7 +57,7 @@ $select = ['0' => 'Seleccione una opcion']; ?>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-4">
-            <?php echo form_label('Proyecto', 'project_id', ['class' => 'form-label']); ?>
+            <?php echo form_label('Proyecto', 'lblproject_id', ['class' => 'form-label' , 'id' => 'lblproject_id']); ?>
             <?php $projects = $select + $projects; ?>
             <?php echo form_dropdown([
               'name' => 'project_id',
@@ -68,12 +68,12 @@ $select = ['0' => 'Seleccione una opcion']; ?>
             ]); ?>
           </div>
           <div class="col-md-4">
-            <?php echo form_label('Tipo Tareas', 'tipo_tarea'); ?>
+            <?php echo form_label('Tipo Tareas', 'lbltipo_tarea' , ['class' => 'form-label' , 'id' => 'lbltipo_tarea']); ?>
             <?php $tipo_tareas = $select + $tipo_tareas; ?>
             <?php echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'], $tipo_tareas, '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-4">
-            <?php echo form_label("Fecha de registro"); ?>
+            <?php echo form_label("Fecha de registro" , 'lblfecha_tarea' , ['class' => 'form-label' , 'id' => 'lblfecha_tarea']); ?>
             <?php
             echo form_input([
               'id' => 'fecha_limite',
@@ -84,7 +84,7 @@ $select = ['0' => 'Seleccione una opcion']; ?>
             ]); ?>
           </div>
           <div class="col-md-12" style="margin-top: 15px;">
-            <?php echo form_label('Descripcion', 'descripcion'); ?>
+            <?php echo form_label('Descripcion', 'lbldescripcion', ['class' => 'form-label' , 'id' => 'lbldescripcion']); ?>
             <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control']); ?>
           </div>
         </div>
@@ -115,11 +115,11 @@ $select = ['0' => 'Seleccione una opcion']; ?>
             <?php echo form_label('Descripcion', 'descripcion_archivo'); ?>
             <?php echo form_input(['name' => 'doc_descripcion', 'id' => 'doc_descripcion'], '', ['class' => 'form-control']); ?>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12" style="padding-top:20px">
             <?php echo form_label('Comentarios', 'comentario_archivo'); ?>
-            <?php echo form_textarea(['name' => 'comentario_archivo', 'id' => 'comentario_archivo'], '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea(['name' => 'comentario_archivo', 'id' => 'comentario_archivo'], '', ['class' => 'form-control' ,'style' => 'height : 100px' ,]); ?>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12" style="padding-top:20px">
             <?php echo form_label('Archivo', 'doc_archivo'); ?>
             <?php echo form_input([
               'id' => 'doc_archivo',

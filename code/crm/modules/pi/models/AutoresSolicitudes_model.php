@@ -338,6 +338,7 @@ class AutoresSolicitudes_model extends BaseModel
     public function insertAutoresDesignados($params)
     {
         $query = $this->db->insert_batch('tbl_derecho_autor_autores', $params);
+        
         return $query;
     }
 

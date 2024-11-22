@@ -4497,13 +4497,10 @@
         formInventor.append('inventores', inventores);
         // #############################################################
 
-        let url_solicitantes = '<?php echo admin_url('
-        pi / patentes / SolicitudesController / InsertarSolicitantes '); ?>';
-        let url_inventores = '<?php echo admin_url('
-        pi / patentes / SolicitudesController / InsertarInventores '); ?>';
+        let url_solicitantes = '<?php echo admin_url('pi/patentes/SolicitudesController/InsertarSolicitantes'); ?>';
+        let url_inventores = '<?php echo admin_url('pi/patentes/SolicitudesController/InsertarInventores'); ?>';
 
-        let url = '<?php echo admin_url('
-        pi / patentes / SolicitudesController / store '); ?>';
+        let url = '<?php echo admin_url('pi/patentes/SolicitudesController/store'); ?>';
 
 
 

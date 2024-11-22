@@ -112,15 +112,15 @@ $select = ['0' => 'Seleccione una opcion']; ?>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <?php echo form_label('Descripcion', 'descripcion_archivo'); ?>
+            <?php echo form_label('Descripcion', 'descripcion_archivo', ['id' => 'lbldescripcion_archivo']); ?>
             <?php echo form_input(['name' => 'doc_descripcion', 'id' => 'doc_descripcion'], '', ['class' => 'form-control']); ?>
           </div>
           <div class="col-md-12" style="padding-top:20px">
-            <?php echo form_label('Comentarios', 'comentario_archivo'); ?>
+            <?php echo form_label('Comentarios', 'comentario_archivo', ['id' => 'lblcomentario_archivo']); ?>
             <?php echo form_textarea(['name' => 'comentario_archivo', 'id' => 'comentario_archivo'], '', ['class' => 'form-control' ,'style' => 'height : 100px' ,]); ?>
           </div>
           <div class="col-md-12" style="padding-top:20px">
-            <?php echo form_label('Archivo', 'doc_archivo'); ?>
+            <?php echo form_label('Archivo', 'doc_archivo' , ['id' => 'lbldoc_archivo']); ?>
             <?php echo form_input([
               'id' => 'doc_archivo',
               'name' => 'doc_archivo',

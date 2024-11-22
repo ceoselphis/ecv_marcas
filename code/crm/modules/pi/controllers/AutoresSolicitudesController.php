@@ -377,18 +377,18 @@ class AutoresSolicitudesController extends AdminController
         }
       }
   
-      public function InsertarPropietarios() {
+      public function InsertarSolicitantes() {
         $CI = &get_instance();
         $CI->load->model("AutoresSolicitantes_model");
         $form = array();
         $data = $CI->input->post();
-  
-        if (!empty($data['inventores'])){
-          $array_inventores = explode(',', $data['inventores']);
+        echo json_encode(['message' => 'success', 'code' => '200' , 'data' => $data]);
+        if (!empty($data['id_propietario'])){
+          $array_inventores = explode(',', $data['id_propietario']);
           foreach ($array_inventores as $inventores) {
-            $form['id'] = $data['id'];
-            $form['inventor_id'] =  $inventores;
-            $query = $CI->PatentesInventorAutoresSolicitantes_modeles_model->insert($form);
+            $form['id_solicitud'] = $data['id_solicitud'];
+            $form['id_propietario'] =  $inventores;
+            $query = $CI->AutoresSolicitantes_model->insert($form);
             if(isset($query))
             {
               echo json_encode(['message' => 'success', 'code' => '200']);              
@@ -397,90 +397,11 @@ class AutoresSolicitudesController extends AdminController
             }
           }
         } else {
-          echo json_encode(['message' => 'No hay Inventores', 'code' => '200']);
+          echo json_encode(['message' => 'No hay Propietarios', 'code' => '200']);
         }
       }
 
 
-    // public function InsertarAutores($array_autores ) {
-    //     $CI = &get_instance();
-    //     $CI->load->model("AutoresSolicitudAutor_model");
-    //     echo json_encode($array_autores);
-    //     if (!empty($array_autores)){
-    //       foreach ($array_autores as $autores) {
-    //         $query = $CI->AutoresSolicitudAutor_model->insert($autores);
-    //         if(isset($query))
-    //         {
-    //           echo json_encode(['message' => 'Insertado Correctamente Autores', 'code' => '200']);              
-    //         }else {
-    //           echo json_encode(['message' => 'No se Pudo Insertar Autores', 'code' => '500']);
-    //         }
-    //       }
-    //     } else {
-    //       echo json_encode(['message' => 'No hay Autores', 'code' => '200']);
-    //     }
-    // }
-
-    // public function InsertarPropietarios($array_propietarios) {
-    //     $CI = &get_instance();
-    //     $CI->load->model("AutoresSolicitudes_model");
-    //     if (!empty($array_propietarios)){
-    //       foreach ($array_propietarios as $propietarios) {
-    //         $query = $CI->AutoresSolicitudes_model->insertAutoresDesignados($propietarios);
-    //         if(isset($query))
-    //         {
-    //           echo json_encode(['message' => 'Insertado Correctamente Propietarios', 'code' => '200']);              
-    //         }else {
-    //           echo json_encode(['message' => 'No se Pudo Insertar Propietarios', 'code' => '500']);
-    //         }
-    //       }
-    //     } else {
-    //       echo json_encode(['message' => 'No hay Propietarios', 'code' => '200']);
-    //     }
-    // }
-
-    /*
-    
-    // if (!empty($data['id_propietario'])){
-        //     $array_propietarios = explode(',', $data['id_propietario']);
-        // }
-
-        if (!empty($data['id_autor'])){
-            $array_autores = explode(',', $data['id_autor']);
-           
-            foreach($array_autores as $key => $valor){
-                $autoresSol[] = [
-                    'id_solicitud' => $data['id'],
-                    'id_autor'   => $array_autores[0] 
-                ];
-            }
-            echo json_encode($autoresSol);
-        //  $query = $CI->AutoresSolicitudAutor_model->insert($autoresSol);
-         // echo json_encode($query);
-            // if(isset($query))
-            // {
-            //   echo json_encode(['message' => 'Insertado Correctamente Autores', 'code' => '200', 'query' => $query]);              
-            // }else {
-            //   echo json_encode(['message' => 'No se Pudo Insertar Autores', 'code' => '500', 'query' => $query]);
-            // }
-        }
-
-       // $this->InsertarAutores($autoresSol);
-
-        // foreach($array_propietarios as $key => $valor){
-        //     $propietariosSol[] = [
-        //         'id_solicitud' => $data['id'],
-        //         'id_propietario'   => $valor
-        //     ];
-        //     $query =  $CI->AutoresSolicitudes_model->insertSolicitantesDesignados($propietariosSol);
-        //     if(isset($query))
-        //     {
-        //       echo json_encode(['message' => 'Insertado Correctamente Autores', 'code' => '200']);              
-        //     }else {
-        //       echo json_encode(['message' => 'No se Pudo Insertar Autores', 'code' => '500']);
-        //     }
-        // }    
-    */
 
     public function store()
     {
@@ -491,7 +412,7 @@ class AutoresSolicitudesController extends AdminController
         if (!empty($data)){
             //-------------- Step 1 ---------------
             $form['cod_contador'] = $data['cod_contador'];
-            $form['id_tipo_solicitud'] = $data['id_estado'];
+            $form['id_tipo_solicitud'] = $data['id_tipo_solicitud'];
             $form['client_id'] = $data['client_id'];
             $form['oficina_id'] = $data['oficina_id'];
             $form['staff_id'] = $data['staff_id'];

@@ -85,7 +85,7 @@ $select = ['0' => 'Seleccione una opcion']; ?>
           </div>
           <div class="col-md-12" style="margin-top: 15px;">
             <?php echo form_label('Descripcion', 'lbldescripcion', ['class' => 'form-label' , 'id' => 'lbldescripcion']); ?>
-            <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control' ,'style' => 'height:100px;' ]); ?>
           </div>
         </div>
       </div>

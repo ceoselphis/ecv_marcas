@@ -942,30 +942,26 @@ class SolicitudesController extends AdminController
         }
       } else {
         //$query = $CI->PatentesSolicitudes_model->searchWhere($form);
-        echo json_encode("Llegue a formulario con data");
-        // $query = $CI->PatentesSolicitudes_model->searchWhere2($form);
-        // if (!empty($query)) {
-        //   foreach ($query as $row) {
-        //     $result[] = [
-        //       'cod_contador' => $row['cod_contador'],
-        //       'tipo' => $row['tipo_registro'],
-        //       'propietario' => $row['nombre_propietario'],
-        //       'nombre' => $row['marca'],
-        //       'clase' => $row['clase_niza'],
-        //       'estado' => $row['solicitud'],
-        //       'solicitud' => $row['estado_expediente'],
-        //       'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
-        //       'registro' => $row['registro'],
-        //       'certificado' => $row['certificado'],
-        //       'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
-        //       'pais' => $row['pais_nom'],
-        //       'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
-        //     ];
-        //   }
-        //   echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);
-        // } else {
-        //   echo json_encode(['code' => 404, 'message' => 'not found']);
-        // }
+     //   echo json_encode(['message' => 'success' , 'formulario' => $form]);
+        $query = $CI->PatentesSolicitudes_model->searchWhere2($form);
+        if (!empty($query)) {
+          foreach ($query as $row) {
+            $result[] = [
+              'codigo' => $row['codigo'],
+              'tipo' => $row['tipo'],
+              'propietario' => $row['cliente'],
+              'titulo' => $row['titulo'],
+              'estado' => $row['nombre_estado'],
+              'solicitud' => $row['solicitud'],
+              'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
+              'registro' => $row['registro'],
+              'pais' => $row['pais'],
+            ];
+          }
+          echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);
+        } else {
+          echo json_encode(['code' => 404, 'message' => 'not found']);
+        }
       }
     }
 

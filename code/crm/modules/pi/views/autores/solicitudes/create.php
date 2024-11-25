@@ -6,6 +6,13 @@ $select = ['' => ''];?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
+                        <h4>Crear Solicitud de Autor</h4>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-12"> <!--admin_url('pi/AutoresSolicitudesController/store/') -->
                 <?php echo form_open_multipart("", ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
                 <?php echo form_hidden('id', $id); ?>

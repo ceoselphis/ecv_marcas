@@ -667,7 +667,7 @@
         //--------------- Form Data Solictantes ----------------------
         formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formPropietario.append('id_solicitud', data.id);
-        formPropietario.append('id_propietario', id_propietario);
+        formPropietario.append('id_propietario', data.id_propietario);
         // ############################################################
 
 
@@ -782,118 +782,120 @@
             'certificado' : $("#Editcertificado").val(),
             'fecha_vencimiento' : $("input[name=Editfecha_vencimiento]").val(),
         };
-        console.log(" Data Edit", data);
-    //   //  console.log(" Data ", data.id_estado);
-    //     formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-    //     formData.append('id', data.id);
-    //     formData.append('cod_contador', data.cod_contador );
-    //     // ------------- Step 1 ----------------
-    //     formData.append('id_estado', data.id_estado);
-    //     formData.append('client_id', data.client_id);
-    //     formData.append('oficina_id', data.oficina_id);
-    //     formData.append('staff_id', data.staff_id);
-    //     // ------------- Step 2 ----------------
-    //     formData.append('id_pais', data.id_pais); 
-    //     formData.append('titulo', data.titulo);
-    //     formData.append('descripcion', data.descripcion);
-    //     formData.append('id_autor', data.id_autor);
-    //     formData.append('id_propietario', data.id_propietario);
-    //     // ------------- Step 3 ----------------
-    //     formData.append('clasificacion', data.id_clasificacion );
-    //     formData.append('origen', data.id_origen);
-    //     formData.append('titulo_clasif', data.titulo_clasif);
-    //     formData.append('autor_clasif', data.autor_clasif);
-    //     formData.append('fecha_clasif', data.fecha_clasif);
-    //     formData.append('ref_interna', data.ref_interna);
-    //     formData.append('ref_cliente', data.ref_cliente);
-    //     formData.append('carpeta', data.carpeta);
-    //     formData.append('libro', data.libro );
-    //     formData.append('tomo', data.tomo);
-    //     formData.append('folio', data.folio);
-    //     formData.append('comentarios', data.comentarios );
-    //     //-------------- Step 4 -----------------------
-    //     formData.append('id_estado', data.id_estado); 
-    //     formData.append('solicitud', data.num_solicitud );
-    //     formData.append('fecha_solicitud', data.fecha_solicitud );
-    //     formData.append('registro', data.registro );
-    //     formData.append('fecha_registro', data.fecha_registro );
-    //     formData.append('certificado', data.certificado );
-    //     formData.append('fecha_vencimiento', data.fecha_vencimiento );
-    //     //##################################################
 
-    //     //--------------- Form Data Solictantes ----------------------
-    //     formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-    //     formPropietario.append('id_solicitud', data.id);
-    //     formPropietario.append('id_propietario', id_propietario);
-    //     // ############################################################
+        console.log(" Data Edit " , data );
+
+        formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formData.append('id', data.id);
+        formData.append('cod_contador', data.cod_contador );
+        // ------------- Step 1 ----------------
+        formData.append('id_tipo_solicitud', data.id_tipo_solicitud);
+        formData.append('client_id', data.client_id);
+        formData.append('oficina_id', data.oficina_id);
+        formData.append('staff_id', data.staff_id);
+        // ------------- Step 2 ----------------
+        formData.append('id_pais', data.id_pais); 
+        formData.append('titulo', data.titulo);
+        formData.append('descripcion', data.descripcion);
+        formData.append('id_autor', data.id_autor);
+        formData.append('id_propietario', data.id_propietario);
+        // ------------- Step 3 ----------------
+        formData.append('clasificacion', data.id_clasificacion );
+        formData.append('origen', data.id_origen);
+        formData.append('titulo_clasif', data.titulo_clasif);
+        formData.append('autor_clasif', data.autor_clasif);
+        formData.append('fecha_clasif', data.fecha_clasif);
+        formData.append('ref_interna', data.ref_interna);
+        formData.append('ref_cliente', data.ref_cliente);
+        formData.append('carpeta', data.carpeta);
+        formData.append('libro', data.libro );
+        formData.append('tomo', data.tomo);
+        formData.append('folio', data.folio);
+        formData.append('comentarios', data.comentarios );
+        //-------------- Step 4 -----------------------
+        formData.append('id_estado', data.id_estado); 
+        formData.append('solicitud', data.num_solicitud );
+        formData.append('fecha_solicitud', data.fecha_solicitud );
+        formData.append('registro', data.registro );
+        formData.append('fecha_registro', data.fecha_registro );
+        formData.append('certificado', data.certificado );
+        formData.append('fecha_vencimiento', data.fecha_vencimiento );
+        //##################################################
+
+        //--------------- Form Data Solictantes ----------------------
+        formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formPropietario.append('id_solicitud', data.id);
+        formPropietario.append('id_propietario', data.id_propietario);
+        //############################################################
 
 
-    //     // --------------------- Form Data Autores --------------------
-    //     formAutor.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-    //     formAutor.append('id_solicitud', data.id);
-    //     formAutor.append('id_autor', data.id_autor);
-    //     // #############################################################
+        //--------------------- Form Data Autores --------------------
+        formAutor.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formAutor.append('id_solicitud', data.id);
+        formAutor.append('id_autor', data.id_autor);
+        // #############################################################
 
-    //     let url_propietarios = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarSolicitantes'); ?>';
-    //     let url_autores = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarAutores'); ?>';
+        let url_propietarios = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarSolicitantes'); ?>';
+        let url_autores = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarAutores'); ?>';
 
+        let url = '<?php echo admin_url('pi/AutoresSolicitudesController/update/'); ?>';
+        url += data.id;
        
 
-    //     $.ajax({
-    //         url: '<?php echo admin_url('pi/AutoresSolicitudesController/store'); ?>',
-    //         method: 'POST',
-    //         data: formData,
-    //         processData: false,
-    //         contentType: false,
-    //         success: function(response) {
-    //             console.log(" Response " , response);
-    //             const obj = JSON.parse(response);
-    //             if (obj.code == 200) {
-    //                 let id = data.id;
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(" Response " , response);
+                const obj = JSON.parse(response);
+                if (obj.code == 200) {
+                    let id = data.id;
 
-    //                 $.ajax({
-    //                 url: url_propietarios,
-    //                 method: 'POST',
-    //                 data: formPropietario,
-    //                 processData: false,
-    //                 contentType: false
-    //                 }).then(function (response) {
-    //                     console.log(" Response ", response);
-    //                 }).catch(function (response) {
-    //                     console.log(response.responseText);
-    //                     //alert_float('danger', 'No se pudo crear el Solicitante');
-    //                 });
+                    $.ajax({
+                        url: url_propietarios,
+                        method: 'POST',
+                        data: formPropietario,
+                        processData: false,
+                        contentType: false
+                    }).then(function (response) {
+                        console.log(" Response ", response);
+                    }).catch(function (response) {
+                        console.log(response.responseText);
+                        //alert_float('danger', 'No se pudo crear el Solicitante');
+                    });
 
-    //                 $.ajax({
-    //                     url: url_autores,
-    //                     method: 'POST',
-    //                     data: formAutor,
-    //                     processData: false,
-    //                     contentType: false
-    //                 }).then(function (response) {
-    //                     console.log(" Response ", response);
-    //                 }).catch(function (response) {
-    //                     console.log(response.responseText);
-    //                    // alert_float('danger', 'No se pudo crear la Patente');
-    //                 });
+                    $.ajax({
+                        url: url_autores,
+                        method: 'POST',
+                        data: formAutor,
+                        processData: false,
+                        contentType: false
+                    }).then(function (response) {
+                        console.log(" Response ", response);
+                    }).catch(function (response) {
+                        console.log(response.responseText);
+                       // alert_float('danger', 'No se pudo crear la Patente');
+                    });
 
-    //                 alert_float('success', 'Solicitud guardada con éxito!');
-    //                 let ruta = '<?php echo admin_url("pi/AutoresSolicitudesController/edit/"); ?>';
-    //                 ruta = ruta + id;
-    //                 location.replace(ruta);
-    //             } else if (obj.code == 500) {
-    //                 console.log(" ")
-    //                 alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-    //             }
-    //         },
-    //         fail: function(request) {
-    //             <?php if (ENVIRONMENT != 'production') { ?>
-    //                 alert(response);
-    //             <?php } else { ?>
-    //                 alert('ha ocurrido un error');
-    //             <?php } ?>
-    //         }
-    //     });
+                    alert_float('success', 'Solicitud Actualizada con éxito!');
+                    let ruta = '<?php echo admin_url("pi/AutoresSolicitudesController"); ?>';
+                    location.replace(ruta);
+                } else if (obj.code == 500) {
+                    console.log(" ")
+                    alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                }
+            },
+            fail: function(request) {
+                <?php if (ENVIRONMENT != 'production') { ?>
+                    alert(response);
+                <?php } else { ?>
+                    alert('ha ocurrido un error');
+                <?php } ?>
+            }
+        });
     });
 
     

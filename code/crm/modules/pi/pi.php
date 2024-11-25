@@ -148,6 +148,20 @@ function pi_menu_item_collapsible()
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);
 
+    $CI->app_menu->add_sidebar_menu_item('57', [
+        'name'     => 'Registros Sanitarios', // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        'position' => 11, // The menu position
+        'icon'     => 'fa-solid fa-faucet', // Font awesome icon
+    ]);
+    $CI->app_menu->add_sidebar_children_item('57', [
+        'slug'     => 'registros-sanitarios', // Required ID/slug UNIQUE for the child menu
+        'name'     => 'Registros Sanitarios', // The name if the item
+        'href'     => admin_url('pi/BusquedasController'), // URL of the item
+        'position' => 11, // The menu position
+        //'icon'     => 'fa fa-plus', // Font awesome icon
+    ]);
+
     
     
     //Acciones contra terceros

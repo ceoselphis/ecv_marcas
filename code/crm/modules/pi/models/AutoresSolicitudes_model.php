@@ -480,8 +480,8 @@ class AutoresSolicitudes_model extends BaseModel
 
     public function deleteAutoresDesignadosBySolicitud($id = null)
     {
-        $this->db->delete('tbl_derecho_autor_autores', ['id_solicitud' => $id]);
-        return true;
+        $query =  $this->db->delete('tbl_derecho_autor_autores', ['id_solicitud' => $id]);
+        return $query;
     }
 
 

@@ -590,6 +590,7 @@ class AutoresSolicitudesController extends AdminController
                 'fecha' => $row['fecha'],
             );
         }
+        $cod_contador = 'I-' . $CI->AutoresSolicitudes_model->CantidadSolicitudes();
         $values['autores'] = $autores;
         $values['solicitantes'] = $solicitantes;
         $values['fecha_vencimiento'] = $this->flip_dates($values['fecha_vencimiento']);
@@ -600,6 +601,7 @@ class AutoresSolicitudesController extends AdminController
         return $CI->load->view('autores/solicitudes/edit', [
             'fields'                => $inputs,
             'id'                    => $id,
+            'cod_contador'          => $cod_contador,
             'values'                => $values,
             'eventos'               => $datos,
             'tareas'                => $data,
@@ -626,84 +628,157 @@ class AutoresSolicitudesController extends AdminController
      * 
      */
 
-    public function update(string $id = null)
-    {
+     public function update(string $id = null ) 
+     {
         $CI = &get_instance();
         $CI->load->model("AutoresSolicitudes_model");
-        if($this->ValidationsForm() == FALSE)
-        {
-            $this->LoadPageEdit($id);
-        }
-        else
-        {
-
-            // Preparamos la data
-            $form = $CI->input->post();
-            /*Inicializamos los arreglos*/
-            $solicitud = array();
-
-            // WE prepare the data
-            $solicitud['id'] = empty($form['id']) ? null : $form['id'];
-            $solicitud['id_tipo_solicitud'] = empty($form['id_tipo_solicitud']) ? null : $form['id_tipo_solicitud'];
-            $solicitud['client_id'] = empty($form['client_id']) ? null : $form['client_id'];
-            $solicitud['oficina_id'] = empty($form['oficina_id']) ? null : $form['oficina_id'];
-            $solicitud['staff_id'] = empty($form['staff_id']) ? null : $form['staff_id'];
-            $solicitud['id_pais'] = empty($form['id_pais']) ? null : $form['id_pais'];
-            $solicitud['titulo'] = empty($form['titulo']) ? null : $form['titulo'];
-            $solicitud['descripcion'] = empty($form['descripcion']) ? null : $form['descripcion'];
-            $solicitud['id_clasificacion'] = empty($form['id_clasificacion']) ? null : $form['id_clasificacion'];
-            $solicitud['id_origen'] = empty($form['id_origen']) ? null : $form['id_origen'];
-            $solicitud['titulo_clasif'] = empty($form['titulo_clasif']) ? null : $form['titulo_clasif'];
-            $solicitud['autor_clasif'] = empty($form['autor_clasif']) ? null : $form['autor_clasif'];
-            $solicitud['fecha_clasif'] = empty($form['fecha_clasif']) ? null : $this->turn_dates($form['fecha_clasif']);
-            $solicitud['ref_interna'] = empty($form['ref_interna']) ? null : $form['ref_interna'];
-            $solicitud['ref_cliente'] = empty($form['ref_cliente']) ? null : $form['ref_cliente'];
-            $solicitud['carpeta'] = empty($form['carpeta']) ? null : $form['carpeta'];
-            $solicitud['libro'] = empty($form['libro']) ? null : $form['libro'];
-            $solicitud['tomo'] = empty($form['tomo']) ? null : $form['tomo'];
-            $solicitud['folio'] = empty($form['folio']) ? null : $form['folio'];
-            $solicitud['comentarios'] = empty($form['comentarios']) ? null : $form['comentarios'];
-            $solicitud['id_estado'] = empty($form['id_estado']) ? null : $form['id_estado'];
-            $solicitud['solicitud'] = empty($form['solicitud']) ? null : $form['solicitud'];
-            $solicitud['fecha_solicitud'] = empty($form['fecha_solicitud']) ? null : $this->turn_dates($form['fecha_solicitud']);
-            $solicitud['registro'] = empty($form['registro']) ? null : $form['registro'];
-            $solicitud['fecha_registro'] = empty($form['fecha_registro']) ? null : $this->turn_dates($form['fecha_registro']);
-            $solicitud['certificado']     = empty($form['certificado']) ? null : $form['certificado'];
-            $solicitud['fecha_vencimiento']    = empty($form['fecha_vencimiento']) ? null : $this->turn_dates($form['fecha_vencimiento']);
-
-            unset($isset);
-            $isset = $CI->AutoresSolicitudes_model->deleteAutoresDesignadosBySolicitud($id);
-            if ($isset) {
-                /*Seteamos el arreglo para los Autores designados*/
-                foreach($form['id_autor'] as $key => $valor){
-                    $autoresSol[] = [
-                        'id_solicitud' => $solicitud['id'],
-                        'id_autor'   => $valor
-                    ];
-                }
+        $form = array();
+        $data = $CI->input->post();
+      
+        
+        
+        if (!empty($data)){
+            //-------------- Step 1 ---------------
+            $form['cod_contador'] = $data['cod_contador'];
+            $form['id_tipo_solicitud'] = $data['id_tipo_solicitud'];
+            $form['client_id'] = $data['client_id'];
+            $form['oficina_id'] = $data['oficina_id'];
+            $form['staff_id'] = $data['staff_id'];
+            // ------------- Step 2 ----------------
+            $form['id_pais'] = $data['id_pais'];
+            $form['titulo'] = $data['titulo'];
+            $form['descripcion'] = $data['descripcion'];
+            //--------------- Step 3 -----------------
+            $form['id_clasificacion'] = $data['clasificacion'];
+            $form['id_origen'] = $data['origen'];
+            $form['titulo_clasif'] = $data['titulo_clasif'];
+            $form['autor_clasif'] = $data['autor_clasif'];
+            if (!empty($data['fecha_clasif'])) {
+                $form['fecha_clasif'] = DateTime::createFromFormat('d/m/Y', $data['fecha_clasif'])->format('Y-m-d');
             }
-            unset($isset);
-            $isset = $CI->AutoresSolicitudes_model->deletePropietariosDesignadosBySolicitud($id);
-            if ($isset) {
-                /*Seteamos el arreglo para los Solicitantes designados*/
-                foreach($form['id_propietario'] as $key => $valor){
-                    $propietariosSol[] = [
-                        'id_solicitud' => $solicitud['id'],
-                        'id_propietario'   => $valor
-                    ];
-                }   
-            } 
+            $form['ref_interna'] = $data['ref_interna'];
+            $form['ref_cliente'] = $data['ref_cliente'];
+            $form['carpeta'] = $data['carpeta'];
+            $form['libro'] = $data['libro'];
+            $form['tomo'] = $data['tomo'];
+            $form['folio'] = $data['folio'];
+            $form['comentarios'] = $data['comentarios'];
+            // --------------- Step 4 ------------------
+            $form['id_estado'] = $data['id_estado'];
+            $form['solicitud'] = $data['solicitud'];
+
+            if (!empty($data['fecha_solicitud'])) {
+                $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud'])->format('Y-m-d');
+            }
+
+            $form['registro'] = $data['registro'];        
+            if (!empty($data['fecha_registro'])) {
+                $form['fecha_registro'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro'])->format('Y-m-d');
+            }
+           
+            $form['certificado'] = $data['certificado'];
+            if (!empty($data['fecha_vencimiento'])) {
+                $form['fecha_vencimiento'] = DateTime::createFromFormat('d/m/Y', $data['fecha_vencimiento'])->format('Y-m-d');
+            }
+
+         
             try {
-                $CI->AutoresSolicitudes_model->update($id, $solicitud);
-                $CI->AutoresSolicitudes_model->insertAutoresDesignados($autoresSol);
-                $CI->AutoresSolicitudes_model->insertSolicitantesDesignados($propietariosSol);
-                return redirect(admin_url('pi/AutoresSolicitudesController/edit/' . $id));
+                $query = $CI->AutoresSolicitudes_model->update($id, $form);
+                if (isset($query)) {
+                    echo json_encode(['message' => 'Derecho de Autor Actualizado con exito' ,  'code' => '200']);
+                } else {
+                    echo json_encode(['message' => 'No se Pudo Actualizar la solicitud' , 'error' => $query , 'code' => '500']);
+                }
+              
             } catch (\Throwable $th) {
                 //Activate SYSLOG in the app
                 echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
             }
+
+           
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
         }
-    }
+     }
+
+    // public function update(string $id = null)
+    // {
+    //     $CI = &get_instance();
+    //     $CI->load->model("AutoresSolicitudes_model");
+    //     if($this->ValidationsForm() == FALSE)
+    //     {
+    //         $this->LoadPageEdit($id);
+    //     }
+    //     else
+    //     {
+
+    //         // Preparamos la data
+    //         $form = $CI->input->post();
+    //         /*Inicializamos los arreglos*/
+    //         $solicitud = array();
+
+    //         // WE prepare the data
+    //         $solicitud['id'] = empty($form['id']) ? null : $form['id'];
+    //         $solicitud['id_tipo_solicitud'] = empty($form['id_tipo_solicitud']) ? null : $form['id_tipo_solicitud'];
+    //         $solicitud['client_id'] = empty($form['client_id']) ? null : $form['client_id'];
+    //         $solicitud['oficina_id'] = empty($form['oficina_id']) ? null : $form['oficina_id'];
+    //         $solicitud['staff_id'] = empty($form['staff_id']) ? null : $form['staff_id'];
+    //         $solicitud['id_pais'] = empty($form['id_pais']) ? null : $form['id_pais'];
+    //         $solicitud['titulo'] = empty($form['titulo']) ? null : $form['titulo'];
+    //         $solicitud['descripcion'] = empty($form['descripcion']) ? null : $form['descripcion'];
+    //         $solicitud['id_clasificacion'] = empty($form['id_clasificacion']) ? null : $form['id_clasificacion'];
+    //         $solicitud['id_origen'] = empty($form['id_origen']) ? null : $form['id_origen'];
+    //         $solicitud['titulo_clasif'] = empty($form['titulo_clasif']) ? null : $form['titulo_clasif'];
+    //         $solicitud['autor_clasif'] = empty($form['autor_clasif']) ? null : $form['autor_clasif'];
+    //         $solicitud['fecha_clasif'] = empty($form['fecha_clasif']) ? null : $this->turn_dates($form['fecha_clasif']);
+    //         $solicitud['ref_interna'] = empty($form['ref_interna']) ? null : $form['ref_interna'];
+    //         $solicitud['ref_cliente'] = empty($form['ref_cliente']) ? null : $form['ref_cliente'];
+    //         $solicitud['carpeta'] = empty($form['carpeta']) ? null : $form['carpeta'];
+    //         $solicitud['libro'] = empty($form['libro']) ? null : $form['libro'];
+    //         $solicitud['tomo'] = empty($form['tomo']) ? null : $form['tomo'];
+    //         $solicitud['folio'] = empty($form['folio']) ? null : $form['folio'];
+    //         $solicitud['comentarios'] = empty($form['comentarios']) ? null : $form['comentarios'];
+    //         $solicitud['id_estado'] = empty($form['id_estado']) ? null : $form['id_estado'];
+    //         $solicitud['solicitud'] = empty($form['solicitud']) ? null : $form['solicitud'];
+    //         $solicitud['fecha_solicitud'] = empty($form['fecha_solicitud']) ? null : $this->turn_dates($form['fecha_solicitud']);
+    //         $solicitud['registro'] = empty($form['registro']) ? null : $form['registro'];
+    //         $solicitud['fecha_registro'] = empty($form['fecha_registro']) ? null : $this->turn_dates($form['fecha_registro']);
+    //         $solicitud['certificado']     = empty($form['certificado']) ? null : $form['certificado'];
+    //         $solicitud['fecha_vencimiento']    = empty($form['fecha_vencimiento']) ? null : $this->turn_dates($form['fecha_vencimiento']);
+
+    //         unset($isset);
+    //         $isset = $CI->AutoresSolicitudes_model->deleteAutoresDesignadosBySolicitud($id);
+    //         if ($isset) {
+    //             /*Seteamos el arreglo para los Autores designados*/
+    //             foreach($form['id_autor'] as $key => $valor){
+    //                 $autoresSol[] = [
+    //                     'id_solicitud' => $solicitud['id'],
+    //                     'id_autor'   => $valor
+    //                 ];
+    //             }
+    //         }
+    //         unset($isset);
+    //         $isset = $CI->AutoresSolicitudes_model->deletePropietariosDesignadosBySolicitud($id);
+    //         if ($isset) {
+    //             /*Seteamos el arreglo para los Solicitantes designados*/
+    //             foreach($form['id_propietario'] as $key => $valor){
+    //                 $propietariosSol[] = [
+    //                     'id_solicitud' => $solicitud['id'],
+    //                     'id_propietario'   => $valor
+    //                 ];
+    //             }   
+    //         } 
+    //         try {
+    //             $CI->AutoresSolicitudes_model->update($id, $solicitud);
+    //             $CI->AutoresSolicitudes_model->insertAutoresDesignados($autoresSol);
+    //             $CI->AutoresSolicitudes_model->insertSolicitantesDesignados($propietariosSol);
+    //             return redirect(admin_url('pi/AutoresSolicitudesController/edit/' . $id));
+    //         } catch (\Throwable $th) {
+    //             //Activate SYSLOG in the app
+    //             echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
+    //         }
+    //     }
+    // }
 
     /**
      * Deletes the item

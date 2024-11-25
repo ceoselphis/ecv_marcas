@@ -15,6 +15,13 @@ $select = ['' => '']; ?>
     <div class="content">
         <div class="row">
             <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
+                        <h4>Editar Solicitud de Acciones a Terceros</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
                 <?php echo form_open_multipart(admin_url('pi/AccionesTerceroController/update/'.$values['id']), ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
                 <div class="panel_s">
                     <div class="panel-body">

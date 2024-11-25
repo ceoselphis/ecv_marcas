@@ -85,7 +85,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Busqueda de Solicitudes</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Busqueda de Solicitudes de Patentes</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -739,11 +739,13 @@
             'm.tipo_evento_id': $("select[name=tip_eve_id]").val()
         }; */
         var params = {
-            'cod_contador': $("input[name=cod_contador]").val(),
+            'codigo': $("input[name=cod_contador]").val(),
             'id_pais_solicitud': $("select[name=paisSol_id]").val(),
-            'marca': $("input[name=marca]").val(),
+          //  'marca': $("input[name=marca]").val(),
             'id_cliente': $("select[name=client_id]").val(),
             'id_pais_cliente': $("select[name=paisCli_id]").val(),
+            'inventor_id' : $("#inventor_id").val(),
+            'pais_inventor_id' : $("#paisInv_id").val(),
             'id_contacto': $("select[name=contacto_id]").val(),
             'id_propietario': $("select[name=propietario_id]").val(),
             'id_pais_propietario': $("select[name=paisProp_id]").val(),
@@ -826,12 +828,10 @@
                                // console.log(" edit ", editar);
                                 return `
                                 <td class="text-center">
-                                    <a class="btn btn-light" href="${editar}" style="background-color: white;">
+                                   
+                                    <a class="btn btn-primary" href="${editar}">
                                         <i class="fas fa-edit"></i> Editar
                                     </a>
-                                    <button class="btn btn-danger delete-patente">
-                                        <i class="fas fa-trash"></i> Borrar
-                                    </button>
                                 </td>`;
                             }
                         }

@@ -37,6 +37,41 @@ class PatentesSolicitudes_model extends BaseModel
 
     }
 
+    public function searchWhere2($params){
+        $this->db->select('*');
+        $this->db->from('tblview_patentes');
+        foreach($params as $key => $value)
+        { /*
+            'ref_cliente': $("input[name=refCliente]").val(),
+            'ref_interna': $("input[name=refInterna]").val(),
+            'num_solicitud': $("input[name=num_solicitud]").val(),
+            'num_registro': $("input[name=num_registro]").val(),
+            */
+            switch ($key) {
+                case 'codigo':
+                    $this->db->where($key.' = '.$value);
+                break;
+                case 'ref_cliente':
+                case 'num_solicitud':
+                case 'num_registro':
+                    $this->db->like($key,$value);
+                break;
+                case  'id_pais_solicitud' :
+                case  'cliente_id' :
+                case  'pais_cliente_id' :
+                case  'inventor_id' :
+                case  'pais_inventor_id' :
+                    $this->db->where($key.' = '.$value);
+                break;
+                default:
+                    $this->db->where($key, $value);
+            }
+        }
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
+
     public function findPatenteSolicitantes($id){
         $this->db->select('*');
         $this->db->from('tbl_patentes_solicitantes');

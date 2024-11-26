@@ -2,7 +2,9 @@
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
     $('#modal-loading').modal('show');
-
+    $("#AddAccion").css({
+        "padding-left": "7px",
+    });
     
     /* Declaramos las variables de Datatable para iniciaizarlas*/
     var tblClaseDT;

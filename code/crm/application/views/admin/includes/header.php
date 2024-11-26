@@ -30,10 +30,10 @@
                 ?>
                     <?php if ($quickActions->isNotEmpty()) { ?>
                     <li class="icon tw-relative ltr:tw-mr-1.5 rtl:tw-ml-1.5" title="<?php echo _l('quick_create'); ?>"
-                        data-toggle="tooltip" data-placement="bottom">
+                        data-toggle="tooltip" data-placement="bottom" >
                         <a href="#" class="!tw-px-0 tw-group !tw-text-white" data-toggle="dropdown">
                             <span
-                                class="tw-rounded-full tw-bg-primary-600 tw-text-white tw-inline-flex tw-items-center tw-justify-center tw-h-7 tw-w-7 -tw-mt-1 group-hover:!tw-bg-primary-700">
+                                class="tw-rounded-full tw-bg-primary-600 tw-text-white tw-inline-flex tw-items-center tw-justify-center tw-h-7 tw-w-7 -tw-mt-1 group-hover:!tw-bg-primary-700" id = "AddAccion" >
                                 <i class="fa-regular fa-plus fa-lg"></i>
                             </span>
                         </a>

@@ -14,6 +14,13 @@ init_head(); ?>
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                        <h4>Editar Autor</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
 
                         <?php echo form_open(admin_url('pi/AutoresController/update/'.$id), ['id' => 'autoresFrm', 'name' => 'autoresFrm']); ?>
                         <div class="row">
@@ -42,7 +49,7 @@ init_head(); ?>
                                 <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>'); ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style = "padding-top : 10px;">
                             <div class="col-md-6">
                                 <?php echo form_label('Fec. Nacimiento', 'fecha_nac'); ?>
                                 <?php echo form_input([
@@ -64,7 +71,7 @@ init_head(); ?>
                                 </select>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style = "padding-top : 10px;">
                             <div class="col-md-6">
                                 <?php echo form_label('Cédula', 'cedula'); ?>
                                 <?php echo form_input([
@@ -87,7 +94,7 @@ init_head(); ?>
                                 ]); ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style = "padding-top : 10px;">
                             <div class="col-md-6">
                                 <?php echo form_label('Email', 'email'); ?>
                                 <?php echo form_input([
@@ -111,8 +118,8 @@ init_head(); ?>
                                 <?php echo form_error($fields[8]['name'], '<div class="text-danger">', '</div>'); ?>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                        <div class="row" style = "padding-top : 10px;">
+                            <div class="col-md-12">
                                 <?php echo form_label('Fax', 'fax'); ?>
                                 <?php echo form_input([
                                     'id' => 'fax',
@@ -124,14 +131,14 @@ init_head(); ?>
                                 <?php echo form_error($fields[9]['name'], '<div class="text-danger">', '</div>'); ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style = "padding-top : 10px;">
                             <div class="col-md-12">
                                 <?php echo form_label('Direccion', 'direccion'); ?>
-                                <?php echo form_textarea('direccion', set_value('direccion', $values['direccion']), ['class' => 'form-control', 'maxlength' => '200']); ?>
+                                <?php echo form_textarea('direccion', set_value('direccion', $values['direccion']), ['class' => 'form-control', 'style' => 'height : 100px' , 'maxlength' => '200']); ?>
                                 <?php echo form_error($fields[10]['name'], '<div class="text-danger">', '</div>'); ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style = "padding-top : 10px;">
                             <div class="col-md-6">
                                 <?php echo form_label('Ciudad', 'ciudad'); ?>
                                 <?php echo form_input([
@@ -155,7 +162,7 @@ init_head(); ?>
                                 <?php echo form_error($fields[12]['name'], '<div class="text-danger">', '</div>'); ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style = "padding-top : 10px;">
                             <div class="col-md-6">
                                 <?php echo form_label('Código Postal', 'codigo_postal'); ?>
                                 <?php echo form_input([

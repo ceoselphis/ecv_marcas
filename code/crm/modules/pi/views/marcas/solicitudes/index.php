@@ -277,7 +277,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Fecha Solicitud Desde -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <?php echo form_label('Solicitud Desde'); ?>
                                             <?php
                                             echo form_input([
@@ -289,7 +289,7 @@
                                             ]); ?>
                                         </div>
                                         <!-- Fecha Solicitud Hasta -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <?php echo form_label('Solicitud Hasta'); ?>
                                             <?php
                                             echo form_input([
@@ -305,7 +305,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Vigencia Desde -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <?php echo form_label('Vigencia Desde'); ?>
                                             <?php
                                             echo form_input([
@@ -317,7 +317,7 @@
                                             ]); ?>
                                         </div>
                                         <!-- Vigencia Hasta -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <?php echo form_label('Vigencia Hasta'); ?>
                                             <?php
                                             echo form_input([
@@ -498,7 +498,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Prueba de Uso -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <?php echo form_label('Prueba de Uso Desde'); ?>
                                             <?php
                                             echo form_input([
@@ -510,7 +510,7 @@
                                             ]); ?>
                                         </div>
                                         <!-- Evento Hasta -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <?php echo form_label('Prueba de Uso Hasta'); ?>
                                             <?php
                                             echo form_input([
@@ -526,7 +526,7 @@
                                 <div class="container-fluid">
                                     <div class="row row-group">
                                         <!-- Registro -->
-                                        <div class="col-md-4 ">
+                                        <div class="col-md-6 ">
                                             <?php echo form_label('Registro Desde'); ?>
                                             <?php
                                             echo form_input([
@@ -538,7 +538,7 @@
                                             ]); ?>
                                         </div>
                                         <!-- Evento Hasta -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <?php echo form_label('Registro Hasta'); ?>
                                             <?php
                                             echo form_input([

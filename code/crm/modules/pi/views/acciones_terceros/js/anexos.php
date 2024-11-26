@@ -13,7 +13,9 @@
 </script>
 <script>
     id = '<?php echo $cod_id ?>';
-
+    $("#AddAccion").css({
+        "padding-left": "7px",
+    });
 
     //-------------------------- Mostra Datos ----------------------
     Eventos(id);

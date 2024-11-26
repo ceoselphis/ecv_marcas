@@ -179,9 +179,13 @@ class AutoresController extends AdminController
         {
             // WE prepare the data
             $data = $CI->input->post();
+            echo json_encode($data);
             foreach($data as $key => $valor){
                 $data[$key] = empty($data[$key]) ? null : $valor;
             }
+            
+            $data['fecha_nac'] = empty($data['fecha_nac']) || '' ? NULL : $this->turn_dates($data['fecha_nac']);
+
             
             //we sent the data to the model
             $query = $CI->Autores_model->insert($data);
@@ -191,6 +195,21 @@ class AutoresController extends AdminController
             }
         }
         
+    }
+
+    public function turn_dates($date)
+    {
+      if ($date != '') {
+        try {
+          $wdate = explode('/', $date);
+          $cdate = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+          return $cdate;
+        } catch (Exception $e) {
+          echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+      } else {
+        return NULL;
+      }
     }
 
     public function filterSearch()
@@ -224,6 +243,7 @@ class AutoresController extends AdminController
                         'pais_id_res'   => $CI->Autores_model->searchPaises($row['pais_id_res']),
                         'acciones' => "<div class=\"row row-group\">
                         <div class=\"col-md-6\"><a class='btn btn-primary' href='{$url_edit}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a></div>
+                        
                         <div class=\"col-md-6\"><form method='DELETE' action='{$url_delete}{$row["id"]}' onsubmit=\"return confirm('¿Esta seguro de eliminar este registro?')\">
                         <button type='submit' class='btn btn-danger col-mrg'><i class='fas fa-trash'></i>Borrar</button>
                         </form></div></div>",
@@ -303,6 +323,7 @@ class AutoresController extends AdminController
 
         if(isset($query))
         {
+            $query[0]['fecha_nac'] = date('d/m/Y', strtotime($query[0]['fecha_nac']));
             //$labels = array('Id', 'Nombres', 'Apellidos', 'fecha_nac', );
             return $CI->load->view('Autores/edit', ['fields' => $inputs, 'labels' => $labels, 'values' => $query[0], 'id' => $id, 'Autores' => $data]);
         }

@@ -5,6 +5,10 @@
     patente_id = '<?php echo $id ?> ';
     console.log("Patente ", patente_id);
 
+    $("#AddAccion").css({
+        "padding-left": "7px",
+    });
+
     /* Declaramos las variables de Datatable para iniciaizarlas*/
     var tblClaseDT;
     var tblPrioridadDT;

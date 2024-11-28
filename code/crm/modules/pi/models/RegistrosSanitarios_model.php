@@ -109,6 +109,63 @@ class RegistrosSanitarios_model extends BaseModel
         return $tipo_id;
     }
 
+    public function findAllGrupo(){
+        $this->db->select('*');
+        $this->db->from('tbl_registros_sanitarios_grupo');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+
+    }
+
+    public function findAllContactos() 
+    {
+        $this->db->select('*');
+        $this->db->from('tblcontacts');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row){
+            array_push($keys, $row['id']);
+            array_push($values, $row['firstname'].' '.$row['lastname']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllMarcas(){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_solicitudes');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['signonom']);
+        }
+        return array_combine($keys, $values);
+    }
+
+    public function findAllClaseNiza() {
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_clase_niza');
+        $query = $this->db->get();
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['clase_niza_id']);
+            array_push($values, $row['nombre']);
+        }
+        return array_combine($keys, $values);
+    }
+
     public function findAllEstadosSolicitudes()
     {
         $this->db->select('*');
@@ -748,7 +805,7 @@ class RegistrosSanitarios_model extends BaseModel
    
     public function CantidadSolicitudes(){
         $this->db->select('max(id) as cantidad');
-        $this->db->from('tbl_derecho_autor_solicitudes');
+        $this->db->from('tbl_registros_sanitarios_solicitudes');
         $query = $this->db->get();
         $values = $query->result_array();
         return (empty($values[0]['cantidad']) || $values[0]['cantidad'] == null) ? 0 : $values[0]['cantidad']; 

@@ -109,13 +109,21 @@ class RegistrosSanitariosController extends AdminController
                 'fecha' => $row['fecha'],
             );
         }
+        $niza = $CI->RegistrosSanitarios_model->findAllClaseNiza();
         $cod_contador = 'I-' . ($CI->RegistrosSanitarios_model->CantidadSolicitudes() + 1);
+        $grupo = $CI->RegistrosSanitarios_model->findAllGrupo();
+        $marcas = $CI->RegistrosSanitarios_model->findAllMarcas();
+        $contacto = $CI->RegistrosSanitarios_model->findAllContactos();
         //$labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
-        return $CI->load->view('autores/solicitudes/create', [
+        return $CI->load->view('registros_sanitarios/create', [
             'fields'                => $inputs,
             //'labels'                => $labels,
+            
             'id'                    => $id,
+            'marcas'                => $marcas,
             'eventos'               => $datos,
+            'grupo'                 => $grupo,
+            'contacto'              => $contacto,
             'tareas'                => $data,
             'cod_contador'          => $cod_contador,
             'tasks'                 => $CI->RegistrosSanitarios_model->findAllTask(),
@@ -132,7 +140,8 @@ class RegistrosSanitariosController extends AdminController
             'projects'              => $CI->RegistrosSanitarios_model->findAllProjects(),
             'autores'               => $CI->RegistrosSanitarios_model->findAllAutores(),
             'clasificacion'         => $CI->RegistrosSanitarios_model->findAllClasificacion(),
-            'origen'                => $CI->RegistrosSanitarios_model->findAllOrigen()
+            'origen'                => $CI->RegistrosSanitarios_model->findAllOrigen(),
+            'niza'                  => $CI->RegistrosSanitarios_model->findAllClaseNiza(),
 
         ]);
     }

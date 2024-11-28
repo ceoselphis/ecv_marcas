@@ -6,7 +6,7 @@ require __DIR__ . '/BaseModel.php';
 class RegistrosSanitarios_model extends BaseModel
 {
     protected $primaryKey = 'id';
-    protected $tableName =  'tbl_registro_sanitarios_solicitudes';
+    protected $tableName =  'tbl_registros_sanitarios_solicitudes';
     protected $DBgroup = 'default';
     protected $countPK  = 0;
     

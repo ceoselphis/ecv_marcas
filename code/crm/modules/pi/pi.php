@@ -157,7 +157,7 @@ function pi_menu_item_collapsible()
     $CI->app_menu->add_sidebar_children_item('57', [
         'slug'     => 'registros-sanitarios', // Required ID/slug UNIQUE for the child menu
         'name'     => 'Registros Sanitarios', // The name if the item
-        'href'     => admin_url('pi/BusquedasController'), // URL of the item
+        'href'     => admin_url('pi/RegistrosSanitariosController'), // URL of the item
         'position' => 11, // The menu position
         //'icon'     => 'fa fa-plus', // Font awesome icon
     ]);

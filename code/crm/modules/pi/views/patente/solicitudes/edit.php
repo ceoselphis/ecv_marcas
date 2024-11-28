@@ -21,6 +21,13 @@ $select = ['' => '']; ?>
 
         <div class="row">
             <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
+                        <h4>Editar Solicitud de Patentes</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
                 <?php echo form_open_multipart('', ['id' => 'solicitudEditfrm', 'name' => 'solicitudEditfrm']); ?>
                 <?php echo form_hidden('id', $id); ?>
                 <?php echo form_input([

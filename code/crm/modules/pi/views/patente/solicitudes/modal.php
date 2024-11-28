@@ -98,7 +98,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-3 col-md-offset-3">
+          <div class="col-md-6">
             <?php echo form_label('Fecha', 'fecha_publicacion',['id' => 'lblfecha_publicacion']); ?>
             <?php echo form_input([
               'id' => 'fecha_publicacion',
@@ -107,7 +107,7 @@
               'placeholder' => 'Fecha Publicación'
             ]); ?>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-6">
             <?php echo form_label('Tipo', 'tipo_publicacion',['id' => 'lbltipo_publicacion']); ?>
             <?php
             
@@ -115,17 +115,17 @@
           </div>
         </div>
         <div class="row" style="padding-top:15px;">
-          <div class="col-md-3 col-md-offset-1">
+          <div class="col-md-4 ">
             <?php echo form_label('Boletin', 'boletin_publicacion',['id' => 'lblboletin_publicacion']); ?>
             <?php
 
             echo form_dropdown('boletin_publicacion', $boletines, set_value('boletin_publicacion'), ['class' => 'form-control','id' => 'boletin_publicacion']); ?>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <?php echo form_label('Tomo', 'tomo_publicacion',['id' => 'lbltomo_publicacion']); ?>
             <?php echo form_input('tomo_publicacion', set_value('tomo_publicacion'), ['class' => 'form-control','id' => 'tomo_publicacion']); ?>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <?php echo form_label('Página', 'pag_publicacion',['id' => 'lblpag_publicacion']); ?>
             <?php echo form_input('pag_publicacion', set_value('pag_publicacion'), ['class' => 'form-control','id' => 'pag_publicacion']); ?>
           </div>

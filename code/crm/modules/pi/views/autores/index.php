@@ -25,6 +25,13 @@ init_head(); ?>
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                        <h4>Lista de Autores</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
                         <div class="_buttons">
                             <a class="btn btn-primary"
                                 href="<?php echo admin_url('pi/AutoresController/create'); ?>"><i

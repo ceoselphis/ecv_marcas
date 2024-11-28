@@ -24,9 +24,9 @@ $select = ['' => '']; ?>
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a href="<?php echo admin_url('pi/AutoresSolicitudesController/create'); ?>"
+                            <a href="<?php echo admin_url('pi/RegistrosSanitariosController/create'); ?>"
                                 class="btn btn-primary"><i class="fas fa-plus"></i> Nueva
-                                Solicitud de Derecho Autor</a>
+                                Solicitud Registro Sanitario</a>
                             <button type="button" class="btn btn-default btn-outline pull-right" data-toggle="modal"
                                 data-target="#filterModal"><i class="fas fa-filter"></i> Filtrar por</button>
                         </div>
@@ -37,12 +37,13 @@ $select = ['' => '']; ?>
                                         <thead style="text-align: justify;">
                                             <tr>
                                                 <td>Código</td>
-                                                <td>Tipo</td>
+                                                <td>Grupo</td>
                                                 <td>Título</td>
                                                 <td>Estado</td>
                                                 <td>Solicitud</td>
                                                 <td>Fecha Solicitud</td>
                                                 <td>Registro</td>
+                                                <td>Vigencia</td>
                                                 <td>Pais</td>
                                                 <td>Acciones</td>
                                             </tr>
@@ -387,7 +388,7 @@ $select = ['' => '']; ?>
         };
         console.log(" Parametros ", params);
         $.ajax({
-            url: "<?php echo admin_url('pi/AutoresSolicitudesController/filterSearch') ?>",
+            url: "<?php echo admin_url('pi/RegistrosSanitariosController/filterSearch') ?>",
             method: "POST",
             data: {
                 "csrf_token_name": $("input[name=csrf_token_name]").val(),

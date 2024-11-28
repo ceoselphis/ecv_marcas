@@ -27,7 +27,7 @@ class RegistrosSanitariosController extends AdminController
             'tipo_evento'           => $CI->RegistrosSanitarios_model->findAllTipoEvento(),
             'propietarios'           => $CI->RegistrosSanitarios_model->findAllPropietarios2(),
         ];
-        return $CI->load->view('autores/solicitudes/index', $data);
+        return $CI->load->view('registros_sanitarios/index', $data);
     }
 
     //**Get fields from database */

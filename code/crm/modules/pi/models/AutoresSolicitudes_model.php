@@ -124,6 +124,69 @@ class AutoresSolicitudes_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function searchWhere2($params){
+        $this->db->select('*');
+        /*
+            
+                {
+                    "id_pais":"",
+                    "titulo":"",
+                    "id_tipo_solicitud":"",
+                    "cod_contador":"",
+                    "ref_interna":"",
+                    "solicitud":"",
+                    "registro":"",
+                    "fecha_solicitud_desde":"",
+                    "fecha_solicitud_hasta":"",
+                    "id_estado":"",
+                    "id_tipo_evento":"",
+                    "client_id":"",
+                    "country":"",
+                    "id_propietario":"",
+                    "paisProp_id":""
+                }
+            
+        */
+        $this->db->from('tblview_derecho_autor');
+        foreach($params as $key => $value)
+        {
+            switch ($key) {
+                case 'titulo':
+                case 'cod_contador':
+                case 'ref_interna':
+                case 'solicitud':
+                case 'registro':
+                    $this->db->like($key,$value);
+                break;
+                case  'id_pais' :
+                case  'id_tipo_solicitud' :
+                case  'id_estado' :
+                case  'id_tipo_evento' :
+                case  'client_id' :
+                case  'country' :
+                case  'id_propietario' :
+                case  'paisProp_id' :
+                    $this->db->where($key.' = '.$value);
+                break;
+                case 'fecha_solicitud_desde':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_solicitud_desde >=', $data);
+                break;
+                case 'fecha_solicitud_hasta':
+                    $wdate = '' ? '' : explode('/', $value);
+                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                    $this->db->where('fecha_solicitud_hasta <=', $data);
+                break;
+                default:
+                    $this->db->where($key, $value);
+            }
+        }
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return $values; 
+    }
+
     public function findAllPropietarios2()
     {
         $this->db->select('*');
@@ -604,63 +667,63 @@ class AutoresSolicitudes_model extends BaseModel
         }
     }
 
-    public function searchWhere2($params): array{
-        $this->db->select('a.id, a.cod_contador, b.descripcion, a.titulo, c.nombre as estado_exp, a.solicitud, a.fecha_solicitud, a.registro, d.nombre pais');
-        $this->db->distinct();
-        $this->db->from('tbl_derecho_autor_solicitudes a');
-        $this->db->join('tbl_derecho_autor_tipo b', 'a.id_tipo_solicitud = b.id_tipo_solicitud', 'left outer');
-        $this->db->join('tbl_estado_expediente c', 'a.id_estado = c.id', 'left outer');
-        $this->db->join('tbl_paises d', 'a.id_pais = d.id', 'left outer');
-        $this->db->join('tbl_derecho_autor_eventos e', 'a.id = e.id_solicitud', 'left outer');
-        $this->db->join('tbl_tipos_eventos f', 'e.id_tipo_evento = f.id', 'left outer');
-        $this->db->join('tblclients g', 'a.client_id = g.userid', 'left outer');
-        $this->db->join('tblcountries h', 'g.country = h.country_id', 'left outer');
-        $this->db->join('tbl_derecho_autor_solicitantes i', 'a.id = i.id_solicitud', 'left outer');
-        $this->db->join('tbl_propietarios j', 'j.id = i.id_propietario', 'left outer');
-        $this->db->join('tbl_paises k', 'j.pais_id = k.id', 'left outer');
+    // public function searchWhere2($params): array{
+    //     $this->db->select('a.id, a.cod_contador, b.descripcion, a.titulo, c.nombre as estado_exp, a.solicitud, a.fecha_solicitud, a.registro, d.nombre pais');
+    //     $this->db->distinct();
+    //     $this->db->from('tbl_derecho_autor_solicitudes a');
+    //     $this->db->join('tbl_derecho_autor_tipo b', 'a.id_tipo_solicitud = b.id_tipo_solicitud', 'left outer');
+    //     $this->db->join('tbl_estado_expediente c', 'a.id_estado = c.id', 'left outer');
+    //     $this->db->join('tbl_paises d', 'a.id_pais = d.id', 'left outer');
+    //     $this->db->join('tbl_derecho_autor_eventos e', 'a.id = e.id_solicitud', 'left outer');
+    //     $this->db->join('tbl_tipos_eventos f', 'e.id_tipo_evento = f.id', 'left outer');
+    //     $this->db->join('tblclients g', 'a.client_id = g.userid', 'left outer');
+    //     $this->db->join('tblcountries h', 'g.country = h.country_id', 'left outer');
+    //     $this->db->join('tbl_derecho_autor_solicitantes i', 'a.id = i.id_solicitud', 'left outer');
+    //     $this->db->join('tbl_propietarios j', 'j.id = i.id_propietario', 'left outer');
+    //     $this->db->join('tbl_paises k', 'j.pais_id = k.id', 'left outer');
         
         
         
         
-        foreach($params as $key => $value)
-        {
-            switch ($key) {
-                case 'cod_contador':
-                case 'titulo':
-                case 'ref_interna':
-                case 'solicitud':
-                case 'registro':
-                    $this->db->like($key,$value);
-                    break;
-                case 'soli_desde':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_solicitud >=', $data);
-                    break;
-                case 'soli_hasta':
-                    $wdate = '' ? '' : explode('/', $value);
-                    $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
-                    $this->db->where('fecha_solicitud <=', $data);
-                    break;
-                case 'paisProp_id':
-                    $this->db->where('k.id', $value);
-                    break;
-                default:
-                    $this->db->where($key, $value);
-            }
-        }
-        //$this->db->order_by("id", 'ASC');
-        $result = $this->db->get();
-        if($result->num_rows() > 0)
-        {
-            return $result->result_array();
-        }
-        else
-        {
-            return [];
-        }
+    //     foreach($params as $key => $value)
+    //     {
+    //         switch ($key) {
+    //             case 'cod_contador':
+    //             case 'titulo':
+    //             case 'ref_interna':
+    //             case 'solicitud':
+    //             case 'registro':
+    //                 $this->db->like($key,$value);
+    //                 break;
+    //             case 'soli_desde':
+    //                 $wdate = '' ? '' : explode('/', $value);
+    //                 $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+    //                 $this->db->where('fecha_solicitud >=', $data);
+    //                 break;
+    //             case 'soli_hasta':
+    //                 $wdate = '' ? '' : explode('/', $value);
+    //                 $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+    //                 $this->db->where('fecha_solicitud <=', $data);
+    //                 break;
+    //             case 'paisProp_id':
+    //                 $this->db->where('k.id', $value);
+    //                 break;
+    //             default:
+    //                 $this->db->where($key, $value);
+    //         }
+    //     }
+    //     //$this->db->order_by("id", 'ASC');
+    //     $result = $this->db->get();
+    //     if($result->num_rows() > 0)
+    //     {
+    //         return $result->result_array();
+    //     }
+    //     else
+    //     {
+    //         return [];
+    //     }
 
-    }
+    // }
 
     public function findAll()
     {

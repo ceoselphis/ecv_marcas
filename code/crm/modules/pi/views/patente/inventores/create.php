@@ -43,7 +43,7 @@
                                 'class' => 'form-control'
                             ]); ?>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" style ="padding-top : 20px">
                             <?php echo form_label('Direccion', 'direccion', ['class' => 'form-label']); ?>
                             <?php echo form_input([
                                 'id' => 'direccion',
@@ -52,7 +52,7 @@
                                 'class' => 'form-control'
                             ]); ?>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" style ="padding-top : 20px">
                             <?php echo form_label('Nacionalidad', 'nacionalidad', ['class' => 'form-label']); ?>
                             <?php echo form_input([
                                 'id' => 'nacionalidad',
@@ -69,14 +69,15 @@
                                 'id' => 'comentarios',
                                 'name' => 'comentarios',
                                 'value' => set_value('comentarios', ''),
-                                'class' => 'form-control'
+                                'class' => 'form-control',
+                                'style' => 'height: 150px'
                             ]); ?>
                         </div>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-12">
-                            <button class="btn btn-primary" type="submit">Guardar</button>
-                            <button class="btn btn-gray" type="reset">Limpiar</button>
+                            <button class="btn btn-primary" style = "padding-right : 15px;" type="submit">Guardar</button>
+                            <button class="btn btn-gray" style = "padding-right : 15px;"type="reset">Limpiar</button>
                             <a href="<?php echo admin_url('pi/patentes/InventoresController'); ?>" class="btn btn-success">Volver atras</a>
                         </div>
                     </div>

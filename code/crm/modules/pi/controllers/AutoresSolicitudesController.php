@@ -949,26 +949,25 @@ class AutoresSolicitudesController extends AdminController
                 echo json_encode(['code' => 200, 'message' => 'not data']);
             }
         } else {
-            echo json_encode(['code' => 200, 'message' => 'success', 'data' => $form]);
-            // $query = $CI->AutoresSolicitudes_model->searchWhere2($form);
-            // if (!empty($query)) {
-            //     foreach ($query as $row) {
-            //         $result[] = [
-            //             'cod_contador' => $row['cod_contador'],
-            //             'tipo' =>  $row['descripcion'],
-            //             'titulo' =>  $row['titulo'],
-            //             'estado_exp' =>  is_null($row['estado_exp']) ? '' : $row['estado_exp'],
-            //             'solicitud' => is_null($row['solicitud']) ? '' : $row['solicitud'],
-            //             'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
-            //             'registro' => $row['registro'],
-            //             'pais' => $row['pais'],
-            //             'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
-            //         ];
-            //     }
-            //     echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);
-            // } else {
-            //     echo json_encode(['code' => 404, 'message' => 'not found']);
-            // }
+            $query = $CI->AutoresSolicitudes_model->searchWhere2($form);
+            if (!empty($query)) {
+                foreach ($query as $row) {
+                    $result[] = [
+                        'cod_contador' => $row['cod_contador'],
+                        'tipo' =>  $row['tipo_autor'],
+                        'titulo' =>  $row['titulo'],
+                        'estado_exp' =>  is_null($row['estado_expediente']) ? '' : $row['estado_expediente'],
+                        'solicitud' => is_null($row['solicitud']) ? '' : $row['solicitud'],
+                        'fecha_solicitud' => is_null($row['fecha_solicitud_desde']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud_desde'])),
+                        'registro' => $row['registro'],
+                        'pais' => $row['pais'],
+                        'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
+                    ];
+                }
+                echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);
+            } else {
+                echo json_encode(['code' => 404, 'message' => 'not found']);
+            }
         }
     }
 

@@ -23,6 +23,13 @@ $select = ['' => '']; ?>
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                        <h4>Lista Solicitudes de Derecho de Autor</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
                         <div class="_buttons">
                             <a href="<?php echo admin_url('pi/AutoresSolicitudesController/create'); ?>"
                                 class="btn btn-primary"><i class="fas fa-plus"></i> Nueva

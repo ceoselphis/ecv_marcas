@@ -5,6 +5,18 @@ $CI->load->view('marcas/solicitudes/css.php');
 $select = ['' => ''];?>
 <div id="wrapper">
     <div class="content">
+         <!-- Loading Modal -->
+         <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
@@ -134,7 +146,7 @@ $select = ['' => ''];?>
                                         </div>
                                         <div class="col-md-12" style="padding-top:15px;">
                                             <?php echo form_label('Descripción', 'descripcion'); ?>
-                                            <?php echo form_textarea('descripcion', set_value('descripcion'), ['class' => 'form-control', 'id' =>  'descripcion_der', 'style' => 'height : 100px' ,  'maxlength' => '200']); ?>
+                                            <?php echo form_textarea('descripcion', set_value('descripcion'), ['class' => 'form-control', 'id' =>  'descripcion', 'style' => 'height : 100px' ,  'maxlength' => '200']); ?>
                                             <?php echo form_error($fields[8]['name'], '<div class="text-danger">', '</div>'); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
@@ -239,7 +251,7 @@ $select = ['' => ''];?>
                                         </div>
                                         <div class="col-md-12" style="padding-top:15px;">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
-                                            <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control', 'id' => 'comentarios_der' , 'maxlength' => '200' , 'style' => 'height  : 100px']); ?>
+                                            <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control', 'id' => 'comentarios' , 'maxlength' => '200' , 'style' => 'height  : 100px']); ?>
                                             <?php echo form_error($fields[20]['name'], '<div class="text-danger">', '</div>'); ?>
                                         </div>
                                     </div>
@@ -439,7 +451,7 @@ $select = ['' => ''];?>
 <?php init_tail(); ?>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<?php $CI->load->view('autores/solicitudes/anexos.php'); ?>
+<?php $CI->load->view('registros_sanitarios/anexos.php'); ?>
 
 
 </body>

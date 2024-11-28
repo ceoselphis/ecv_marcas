@@ -2,10 +2,17 @@
 <script>
 
     let derecho_autor_id = '<?php echo $id ?>';
-    console.log(" Derecho de Autor ", derecho_autor_id);
-    Eventos(derecho_autor_id);
-    Tareas(derecho_autor_id);
-    Documentos(derecho_autor_id);
+    $('#modal-loading').modal('show');
+    $(function() {
+        $("#AddAccion").css({
+            "padding-left": "7px",
+        });
+        console.log(" Derecho de Autor ", derecho_autor_id);
+        Eventos(derecho_autor_id);
+        Tareas(derecho_autor_id);
+        Documentos(derecho_autor_id);
+        $('#modal-loading').modal('hide');
+    });
 
     function Tareas(id){
         let url = '<?php echo admin_url("pi/AutorTareasController/showTareas/"); ?>';
@@ -577,8 +584,6 @@
     });
     
 
-    
-
     // Añadir Derecho de Autor Editsolicitudfrm
     $("#solicitudfrm").on('submit', function(e) {
         var formData = new FormData();
@@ -593,40 +598,39 @@
             // ------------- Step 1 ---------------
             'id' : $("input[name=id]").val(),
             'cod_contador' : $("input[name=cod_contador]").val(),
-            'id_tipo_solicitud' : $("select[name=id_tipo_solicitud]").val(),
-            'client_id' : $("#client_id").val(),
+            'grupo_id' : $("#grupo_id").val(),
+            'nombre_cliente' : $("#nombre_cliente").val(),
+            'contacto_id' : $("#contacto_id").val(),
             'oficina_id' : $("#oficina_id").val(),
             'staff_id' : $("#staff_id").val(),
             //-------------- Step 2 ---------------
-            'id_pais' : $("select[name=id_pais]").val(),
-            'titulo' : $("input[name=titulo]").val(),
-            'descripcion' : $("#descripcion_der").val(),
-            'id_autor' : $("#id_autor").val(),
+            'id_pais' : $("#id_pais").val(),
+            'titulo' : $("#titulo").val(),
+            'descripcion' : $("#descripcion").val(),
+            'fabricante_nombre' : $("#fabricante_nombre").val(),
+            'fabricante_ciudad' : $("#fabricante_ciudad").val(),
+            'fabricante_pais' : $("#fabricante_pais").val(),
             'id_propietario' : $("#id_propietario").val(),
-            //-------------- Step 3 ---------------
-            'id_clasificacion' : $("#id_clasificacion").val(),
-            'id_origen' : $("#id_origen").val(),
-            'titulo_clasif' : $("input[name=titulo_clasif]").val(),
-            'autor_clasif' : $("input[name=autor_clasif]").val(),
-            'fecha_clasif' : $("input[name=fecha_clasif]").val(),
-            'ref_interna' : $("input[name=ref_interna]").val(),
-            'ref_cliente' : $('input[name=ref_cliente]').val(),
-            'carpeta' : $("input[name=carpeta]").val(),
-            'libro' : $("input[name=libro]").val(),
-            'tomo' : $("input[name=tomo]").val(),
-            'folio' : $("input[name=folio]").val(),
-            'comentarios' : $("#comentarios_der").val(),
-            //-------------- Step 4 -----------------------
+            // -------- Step 3 -----------------
+            'ref_interna' : $("#ref_interna").val(),
+            'ref_cliente' : $("#ref_cliente").val(),
+            'carpeta' : $("#carpeta").val(),
+            'libro' : $("#libro").val(),
+            'tomo' : $("#tomo").val(),
+            'folio' : $("#folio").val(),
+            'marca_id' : $("#marca_id").val(),
+            'clase_niza_id' : $("#clase_niza_id").val(),
+            'comentarios' : $("#comentarios").val(),
+            // -------- Step 4 -----------------
             'id_estado' : $("#id_estado").val(),
-            'num_solicitud' : $("#solicitud").val(),
-            'fecha_solicitud' : $("input[name=fecha_solicitud]").val(),
+            'solicitud' : $("#solicitud").val(),
+            'fecha_solicitud' : $("#fecha_solicitud").val(),
             'registro' : $("#registro").val(),
-            'fecha_registro' : $("input[name=fecha_registro]").val(),
+            'fecha_registro' : $("#fecha_registro").val(),
             'certificado' : $("#certificado").val(),
-            'fecha_vencimiento' : $("input[name=fecha_vencimiento]").val(),
+            'fecha_vencimiento' : $("#fecha_vencimiento").val(),
         };
           console.log(" Data ", data);
-      //  console.log(" Data ", data.id_estado);
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', data.id);
         formData.append('cod_contador', data.cod_contador );
@@ -662,81 +666,81 @@
         formData.append('fecha_registro', data.fecha_registro );
         formData.append('certificado', data.certificado );
         formData.append('fecha_vencimiento', data.fecha_vencimiento );
-        //##################################################
+        // //##################################################
 
-        //--------------- Form Data Solictantes ----------------------
-        formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-        formPropietario.append('id_solicitud', data.id);
-        formPropietario.append('id_propietario', data.id_propietario);
-        // ############################################################
+        // //--------------- Form Data Solictantes ----------------------
+        // formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        // formPropietario.append('id_solicitud', data.id);
+        // formPropietario.append('id_propietario', data.id_propietario);
+        // // ############################################################
 
 
-        // --------------------- Form Data Autores --------------------
-        formAutor.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-        formAutor.append('id_solicitud', data.id);
-        formAutor.append('id_autor', data.id_autor);
-        // #############################################################
+        // // --------------------- Form Data Autores --------------------
+        // formAutor.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        // formAutor.append('id_solicitud', data.id);
+        // formAutor.append('id_autor', data.id_autor);
+        // // #############################################################
 
-        let url_propietarios = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarSolicitantes'); ?>';
-        let url_autores = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarAutores'); ?>';
+        // let url_propietarios = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarSolicitantes'); ?>';
+        // let url_autores = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarAutores'); ?>';
 
        
 
-        $.ajax({
-            url: '<?php echo admin_url('pi/AutoresSolicitudesController/store'); ?>',
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                console.log(" Response " , response);
-                const obj = JSON.parse(response);
-                if (obj.code == 200) {
-                    let id = data.id;
+        // $.ajax({
+        //     url: '<?php echo admin_url('pi/AutoresSolicitudesController/store'); ?>',
+        //     method: 'POST',
+        //     data: formData,
+        //     processData: false,
+        //     contentType: false,
+        //     success: function(response) {
+        //         console.log(" Response " , response);
+        //         const obj = JSON.parse(response);
+        //         if (obj.code == 200) {
+        //             let id = data.id;
 
-                    $.ajax({
-                    url: url_propietarios,
-                    method: 'POST',
-                    data: formPropietario,
-                    processData: false,
-                    contentType: false
-                    }).then(function (response) {
-                        console.log(" Response ", response);
-                    }).catch(function (response) {
-                        console.log(response.responseText);
-                        //alert_float('danger', 'No se pudo crear el Solicitante');
-                    });
+        //             $.ajax({
+        //             url: url_propietarios,
+        //             method: 'POST',
+        //             data: formPropietario,
+        //             processData: false,
+        //             contentType: false
+        //             }).then(function (response) {
+        //                 console.log(" Response ", response);
+        //             }).catch(function (response) {
+        //                 console.log(response.responseText);
+        //                 //alert_float('danger', 'No se pudo crear el Solicitante');
+        //             });
 
-                    $.ajax({
-                        url: url_autores,
-                        method: 'POST',
-                        data: formAutor,
-                        processData: false,
-                        contentType: false
-                    }).then(function (response) {
-                        console.log(" Response ", response);
-                    }).catch(function (response) {
-                        console.log(response.responseText);
-                       // alert_float('danger', 'No se pudo crear la Patente');
-                    });
+        //             $.ajax({
+        //                 url: url_autores,
+        //                 method: 'POST',
+        //                 data: formAutor,
+        //                 processData: false,
+        //                 contentType: false
+        //             }).then(function (response) {
+        //                 console.log(" Response ", response);
+        //             }).catch(function (response) {
+        //                 console.log(response.responseText);
+        //                // alert_float('danger', 'No se pudo crear la Patente');
+        //             });
 
-                    alert_float('success', 'Solicitud guardada con éxito!');
-                    let ruta = '<?php echo admin_url("pi/AutoresSolicitudesController/edit/"); ?>';
-                    ruta = ruta + id;
-                    location.replace(ruta);
-                } else if (obj.code == 500) {
-                    console.log(" ")
-                    alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                }
-            },
-            fail: function(request) {
-                <?php if (ENVIRONMENT != 'production') { ?>
-                    alert(response);
-                <?php } else { ?>
-                    alert('ha ocurrido un error');
-                <?php } ?>
-            }
-        });
+        //             alert_float('success', 'Solicitud guardada con éxito!');
+        //             let ruta = '<?php echo admin_url("pi/AutoresSolicitudesController/edit/"); ?>';
+        //             ruta = ruta + id;
+        //             location.replace(ruta);
+        //         } else if (obj.code == 500) {
+        //             console.log(" ")
+        //             alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+        //         }
+        //     },
+        //     fail: function(request) {
+        //         <?php if (ENVIRONMENT != 'production') { ?>
+        //             alert(response);
+        //         <?php } else { ?>
+        //             alert('ha ocurrido un error');
+        //         <?php } ?>
+        //     }
+        // });
     });
 
     $("#Editsolicitudfrm").on('submit', function(e) {

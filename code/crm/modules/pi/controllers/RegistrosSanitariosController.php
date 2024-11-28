@@ -117,8 +117,6 @@ class RegistrosSanitariosController extends AdminController
         //$labels = ['Nº Solicitud', 'Nº de Registro', 'Tipo Solicitud', 'Estado de solicitud', ''];
         return $CI->load->view('registros_sanitarios/create', [
             'fields'                => $inputs,
-            //'labels'                => $labels,
-            
             'id'                    => $id,
             'marcas'                => $marcas,
             'eventos'               => $datos,
@@ -386,7 +384,7 @@ class RegistrosSanitariosController extends AdminController
         }
       }
   
-      public function InsertarSolicitantes() {
+    public function InsertarSolicitantes() {
         $CI = &get_instance();
         $CI->load->model("AutoresSolicitantes_model");
         $form = array();
@@ -408,7 +406,7 @@ class RegistrosSanitariosController extends AdminController
         } else {
           echo json_encode(['message' => 'No hay Propietarios', 'code' => '200']);
         }
-      }
+    }
 
 
 

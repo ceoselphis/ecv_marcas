@@ -101,7 +101,7 @@
                         var formData = new FormData();
                         var csrf_token_name = $("input[name=csrf_token_name]").val();
                         formData.append('csrf_token_name', csrf_token_name);
-                        let url = '<?php echo admin_url("pi/AutorTareasController/destroy/"); ?>';
+                        let url = '<?php echo admin_url("pi/RegistrosSanitariosController/destroyEventos/"); ?>';
                         url = url + pubid;
                         console.log("url ", url);
                         $.ajax({
@@ -214,7 +214,7 @@
                         var formData = new FormData();
                         var csrf_token_name = $("input[name=csrf_token_name]").val();
                         formData.append('csrf_token_name', csrf_token_name);
-                        let url = '<?php echo admin_url("pi/AutoresEventosController/destroy/"); ?>';
+                        let url = '<?php echo admin_url("pi/RegistrosSanitariosController/destroyEventos/"); ?>';
                         url = url + pubid;
                         console.log("url ", url);
                         $.ajax({
@@ -531,7 +531,6 @@
         } else {
             let color_lbl = '';
             $("#lblfecha_tarea").css('color', $('#fecha_limite').val() ? color_lbl : 'red');
-            $("#lblproject_id").css('color', $('#project_id').val() ? color_lbl : 'red');
             $("#lbltipo_tarea").css('color', $('#tipo_tarea').val() ? color_lbl : 'red');
             $("#lbldescripcion").css('color', $('#descripcion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe seleccionar los datos para para Añadir la Tarea');
@@ -555,7 +554,7 @@
             formData.append('doc_descripcion', descripcion);
             formData.append('comentario_archivo', comentario_archivo);
             formData.append('doc_archivo', doc_archivo);
-            let url = '<?php echo admin_url("pi/AutoresSolicitudesDocumentoController/addSolicitudDocumento"); ?>';
+            let url = '<?php echo admin_url("pi/RegistrosSanitariosController/addSolicitudDocumento"); ?>';
             console.log(' id_solicitud ', id_solicitud, ' descripcion ', descripcion, ' comentario_archivo ', comentario_archivo , ' doc_archivo ', doc_archivo);
             console.log(" url " , url);
             $.ajax({

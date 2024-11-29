@@ -435,7 +435,7 @@ class RegistrosSanitariosController extends AdminController
                 'id' => $row['id'],
                 'descripcion' => $row['descripcion'],
                 'comentarios' => $row['comentarios'],
-                'path' => $row['path'],
+                'path' => '<a target="_blank" href="http://localhost/ecv_marcas/code/crm/uploads/regsanitarios/documentos/' . $row['path'] . '"> Archivo </a>',
             );
         }
         echo json_encode($data);
@@ -456,6 +456,36 @@ class RegistrosSanitariosController extends AdminController
             );
         }
         echo json_encode($data);
+    }
+
+    public function destroyEventos(string $id)
+    {
+        $CI = &get_instance();
+        $CI->load->model("RegistrosSanitariosEventos_model");
+        $CI->load->helper('url');
+        $query = $CI->RegistrosSanitariosEventos_model->delete($id);
+        if (isset($query)){
+            echo json_encode(['message' => 'Evento Eliminado Correctamente' , 'code' => 200]);
+        }else {
+            echo json_encode(['message' => 'No se pudo Eliminar el Evento' , 'code' => 500]);
+        }
+        
+        
+    }
+
+    public function destroyTareas(string $id)
+    {
+        $CI = &get_instance();
+        $CI->load->model("RegistrosSanitariosTareas_model");
+        $CI->load->helper('url');
+        $query = $CI->RegistrosSanitariosTareas_model->delete($id);
+        if (isset($query)){
+            echo json_encode(['message' => 'Evento Eliminado Correctamente' , 'code' => 200]);
+        }else {
+            echo json_encode(['message' => 'No se pudo Eliminar el Evento' , 'code' => 500]);
+        }
+        
+        
     }
 
    
@@ -571,9 +601,9 @@ class RegistrosSanitariosController extends AdminController
             );
 
             echo json_encode(['data' => $insert]);
-            $CI->load->model("AutoresSolicitudesDocumento_model");
+            $CI->load->model("RegistrosSanitariosDocumentos_model");
                 try{
-                    $query = $CI->AutoresSolicitudesDocumento_model->insert($insert);
+                    $query = $CI->RegistrosSanitariosDocumentos_model->insert($insert);
                         if (isset($query)){
                             echo json_encode(['code' => 200, 'message' => 'Documento Insertado Correctamente']);
 

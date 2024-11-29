@@ -446,7 +446,7 @@ $select = ['' => ''];?>
     </div>
 </div>
 
-<?php $CI->load->view('autores/solicitudes/modal.php'); ?>
+<?php $CI->load->view('registros_sanitarios/modal.php'); ?>
 
 <?php init_tail(); ?>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

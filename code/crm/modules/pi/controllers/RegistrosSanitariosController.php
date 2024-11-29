@@ -359,7 +359,7 @@ class RegistrosSanitariosController extends AdminController
      * Recive the data for create a new item
      */
 
-     public function InsertarAutores() {
+    public function InsertarAutores() {
         $CI = &get_instance();
         $CI->load->model("AutoresSolicitudAutor_model");
         $form = array();
@@ -382,20 +382,20 @@ class RegistrosSanitariosController extends AdminController
         } else {
           echo json_encode(['message' => 'No hay Solicitantes', 'code' => '200']);
         }
-      }
+    }
   
     public function InsertarSolicitantes() {
         $CI = &get_instance();
-        $CI->load->model("AutoresSolicitantes_model");
+        $CI->load->model("RegistrosSanitariosSolicitantes_model");
         $form = array();
         $data = $CI->input->post();
-        echo json_encode(['message' => 'success', 'code' => '200' , 'data' => $data]);
+        //echo json_encode(['message' => 'success', 'code' => '200' , 'data' => $data]);
         if (!empty($data['id_propietario'])){
           $array_inventores = explode(',', $data['id_propietario']);
           foreach ($array_inventores as $inventores) {
             $form['id_solicitud'] = $data['id_solicitud'];
             $form['id_propietario'] =  $inventores;
-            $query = $CI->AutoresSolicitantes_model->insert($form);
+            $query = $CI->RegistrosSanitariosSolicitantes_model->insert($form);
             if(isset($query))
             {
               echo json_encode(['message' => 'success', 'code' => '200']);              
@@ -408,6 +408,187 @@ class RegistrosSanitariosController extends AdminController
         }
     }
 
+    public function showTareas(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("RegistrosSanitariosTareas_model");
+        $marcas = $CI->RegistrosSanitariosTareas_model->findRegistroSanitarios($id);
+        $data = array();
+        foreach ($marcas as $row){
+            $data[] = array(
+                'id' => $row['id'],
+                'tipo_tarea' => $CI->RegistrosSanitariosTareas_model->BuscarTipoTareas($row['id_tipo_tareas']),
+                'descripcion' => $row['descripcion'],
+                'fecha' => $this->flip_dates($row['fecha']),
+             //   'acciones' => '<a class="btn btn-sm btn-danger borrarTarea" id="'.$row['id'].'"> <i class="fas fa-trash">  </i> Borrar </a>' 
+            );
+        }
+        echo json_encode($data);
+    }
+
+    public function showDocumentos(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("RegistrosSanitariosDocumentos_model");
+        $marcas = $CI->RegistrosSanitariosDocumentos_model->findRegistrosSanitarios($id);
+        $data = array();
+        foreach ($marcas as $row){
+            $data[] = array(
+                'id' => $row['id'],
+                'descripcion' => $row['descripcion'],
+                'comentarios' => $row['comentarios'],
+                'path' => $row['path'],
+            );
+        }
+        echo json_encode($data);
+    }
+
+    public function showEventos(string $id = null){
+        $CI = &get_instance();
+        $CI->load->model("RegistrosSanitariosEventos_model");
+        $marcas = $CI->RegistrosSanitariosEventos_model->findRegistroSanitarios($id);
+        $data = array();
+    
+        foreach ($marcas as $row){
+            $data[] = array(
+                'id' => $row->id, // Notación de objeto
+                'tipo_evento' => $CI->RegistrosSanitariosEventos_model->findTipoEvento($row->id_tipo_evento), // Notación de objeto
+                'comentarios' => $row->comentarios, // Notación de objeto
+                'fecha' => date('d/m/Y', strtotime($row->fecha)), // Notación de objeto
+            );
+        }
+        echo json_encode($data);
+    }
+
+   
+
+    public function addEvento(){
+        $CI = &get_instance();
+        $CI->load->model("RegistrosSanitariosEventos_model");
+        $data = $CI->input->post();
+      //  echo json_encode($data);
+        /*
+            `id` int(11) NOT NULL,
+            `id_tipo_evento` int(11) NOT NULL,
+            `id_solicitud` int(11) NOT NULL,
+            `comentarios` text NOT NULL,
+            `fecha` date NOT NULL,
+        */
+        /*
+             formData.append('tipo_evento', tipo_evento);
+            formData.append('fecha_evento', fecha_evento);
+            formData.append('evento_comentario', evento_comentario);
+            formData.append('id_solicitud', id_solicitud);
+        */
+        $fecha = '';
+        if (!empty($data['fecha_evento'])) {
+            $fecha = DateTime::createFromFormat('d/m/Y', $data['fecha_evento'])->format('Y-m-d');
+        }
+
+        if (!empty($data)){
+            $insert = array(
+                            'id_tipo_evento' => $data['tipo_evento'],
+                            'id_solicitud' => $data['id_solicitud'],
+                            'comentarios' => $data['evento_comentario'],
+                            'fecha' => $fecha,
+                    );
+            try {
+                $query = $CI->RegistrosSanitariosEventos_model->insert($insert);
+                    if (isset($query)){
+                        echo  json_encode(['message' => 'Evento Insertado Correctamente' , 'code' => '200']);
+                    }else {
+                        echo  json_encode(['message' => 'No se pudo insertar el Evento' , 'code' => '500' ]);
+                    }
+            }
+            catch (Exception $e){
+                return $e->getMessage();
+            }
+        }
+        else {
+            echo json_encode(['message' => 'Not Data' , 'code' => '500']);
+        }
+    }
+
+    public function addTareas(){
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        
+        if (!empty($data)){
+            $fecha = '';
+            if (!empty($data['fecha_limite'])) {
+                $fecha = DateTime::createFromFormat('d/m/Y', $data['fecha_limite'])->format('Y-m-d');
+            }
+            $insert = array(
+                            'id_tipo_tareas' => $data['tipo_tarea'],
+                            'id_solicitud' => $data['id_solicitud'],
+                            'descripcion' => $data['descripcion'],
+                            'fecha' => $fecha,
+                    );
+            $CI->load->model("RegistrosSanitariosTareas_model");
+                try{
+                    $query = $CI->RegistrosSanitariosTareas_model->insert($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'message' => ' Tarea Insertada Correctamente ', 'code' => '200']);
+
+                        }else {
+                            echo json_encode([ 'message' => ' Tarea Insertada Correctamente ', 'code' => '500']);
+                        }
+                }catch (Exception $e){
+                    return $e->getMessage();
+                }
+        }
+        else {
+            echo json_encode(['message' => 'No tiene Data' , 'code' => '400' ]) ;
+        }
+    }
+
+    public function addSolicitudDocumento()
+    {
+        $CI = &get_instance();
+        $data = $CI->input->post();
+        $file = $_FILES;
+        $doc_arch = '';
+        if (empty($file['doc_archivo'])){
+            $doc_arch ="No tiene"; 
+        }if(!empty($file['doc_archivo'])){
+            $fpath = FCPATH.'uploads/regsanitarios/documentos/'.$file['doc_archivo']['name'];
+            $fileType = pathinfo($fpath, PATHINFO_EXTENSION);
+            // Mover el archivo a la carpeta de destino
+                if (move_uploaded_file($file['doc_archivo']['tmp_name'], $fpath)) {
+                    echo json_encode(["message" => "El archivo PDF se ha subido exitosamente."]);
+                } else {
+                    echo json_encode(["message" => "Error al subir el archivo" , 'code' => '500' ]);
+                    //throw new Exception('Error al subir el archivo'); 
+                }
+            
+            $doc_arch =$file['doc_archivo']['name']; 
+        }
+       
+        if (!empty($data)){
+            $insert = array(
+                'id_solicitud' => $data['id_solicitud'],
+                'descripcion' => $data['doc_descripcion'],
+                'comentarios' => $data['comentario_archivo'],
+                'path' => $doc_arch,
+            );
+
+            echo json_encode(['data' => $insert]);
+            $CI->load->model("AutoresSolicitudesDocumento_model");
+                try{
+                    $query = $CI->AutoresSolicitudesDocumento_model->insert($insert);
+                        if (isset($query)){
+                            echo json_encode(['code' => 200, 'message' => 'Documento Insertado Correctamente']);
+
+                        }else {
+                            echo json_encode(['code' => 500, 'message' => 'No se ha podido Insertar']);
+                        }
+                }catch (Exception $e){
+                    return $e;
+                }
+        }
+        else {
+            echo json_encode(['message' => 'Not Data' , 'code' => '404']); 
+        }
+        
+    }
 
 
     public function store()
@@ -419,28 +600,27 @@ class RegistrosSanitariosController extends AdminController
         if (!empty($data)){
             //-------------- Step 1 ---------------
             $form['cod_contador'] = $data['cod_contador'];
-            $form['id_tipo_solicitud'] = $data['id_tipo_solicitud'];
-            $form['client_id'] = $data['client_id'];
+            $form['grupo_id'] = $data['grupo_id'];
+            $form['cliente'] = $data['nombre_cliente'];
+            $form['contacto_id'] = $data['contacto_id'];
             $form['oficina_id'] = $data['oficina_id'];
             $form['staff_id'] = $data['staff_id'];
             // ------------- Step 2 ----------------
-            $form['id_pais'] = $data['id_pais'];
+            $form['pais_id'] = $data['id_pais'];
             $form['titulo'] = $data['titulo'];
             $form['descripcion'] = $data['descripcion'];
+            $form['fabricante_nombre'] = $data['fabricante_nombre'];
+            $form['fabricante_ciudad'] = $data['fabricante_ciudad'];
+            $form['fabricante_pais_id'] = $data['fabricante_pais'];
             //--------------- Step 3 -----------------
-            $form['id_clasificacion'] = $data['clasificacion'];
-            $form['id_origen'] = $data['origen'];
-            $form['titulo_clasif'] = $data['titulo_clasif'];
-            $form['autor_clasif'] = $data['autor_clasif'];
-            if (!empty($data['fecha_clasif'])) {
-                $form['fecha_clasif'] = DateTime::createFromFormat('d/m/Y', $data['fecha_clasif'])->format('Y-m-d');
-            }
             $form['ref_interna'] = $data['ref_interna'];
             $form['ref_cliente'] = $data['ref_cliente'];
             $form['carpeta'] = $data['carpeta'];
             $form['libro'] = $data['libro'];
             $form['tomo'] = $data['tomo'];
             $form['folio'] = $data['folio'];
+            $form['marcas_id'] = $data['marca_id'];
+            $form['clase_niza_id'] = $data['clase_niza_id'];
             $form['comentarios'] = $data['comentarios'];
             // --------------- Step 4 ------------------
             $form['id_estado'] = $data['id_estado'];
@@ -473,9 +653,6 @@ class RegistrosSanitariosController extends AdminController
         } else {
             echo json_encode(['message' => 'not data' , 'code' => '400']);
         }
-
-       
-
     }
 
    /*

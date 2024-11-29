@@ -93,7 +93,7 @@ class AutoresEventosController extends AdminController
         else {
             echo json_encode(['message' => 'Not Data' , 'code' => '500']);
         }
-     }
+    }
 
      public function EditEventos(string $id = null){
         $CI = &get_instance();

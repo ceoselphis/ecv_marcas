@@ -15,7 +15,7 @@
     });
 
     function Tareas(id){
-        let url = '<?php echo admin_url("pi/AutorTareasController/showTareas/"); ?>';
+        let url = '<?php echo admin_url("pi/RegistrosSanitariosController/showTareas/"); ?>';
         url += encodeURIComponent(id.trim());
       
         $.ajax({
@@ -129,7 +129,7 @@
 
 
     function Eventos(id){
-        let url = '<?php echo admin_url("pi/AutoresEventosController/showEventos/"); ?>';
+        let url = '<?php echo admin_url("pi/RegistrosSanitariosController/showEventos/"); ?>';
         url += encodeURIComponent(id.trim());
         $.ajax({
             url: url,
@@ -240,7 +240,7 @@
     }
 
     function Documentos(id) {
-        let url = '<?php echo admin_url("pi/AutoresSolicitudesDocumentoController/showDocumentos/"); ?>';
+        let url = '<?php echo admin_url("pi/RegistrosSanitariosController/showDocumentos/"); ?>';
         url += encodeURIComponent(id.trim());
         $.ajax({
             url: url,
@@ -265,11 +265,11 @@
                             targets: 1
                         },
                         {
-                            width: '10%',
+                            width: '30%',
                             targets: 2
                         },
                         {
-                            width: '30%',
+                            width: '10%',
                             targets: 3
                         },
                         {
@@ -291,7 +291,7 @@
                             }
                         },
                         {
-                            data: 'comentario',
+                            data: 'comentarios',
                             render: function (data, type, row) {
                                 return "<div class='col-md-12 text-center'>" + data + "</div>"
                             }
@@ -452,6 +452,7 @@
     $(document).on('click', '#eventosfrmsubmit', function(e) {
         e.preventDefault();
         var formData = new FormData();
+        console.log(" Añadir Eventos ");
         if ($('#id_tipo_evento').val() && $('#fecha_evento').val() && $('#evento_comentario').val()) {  
             var tipo_evento = $('#id_tipo_evento').val();
             var evento_comentario = $('#evento_comentario').val();
@@ -464,7 +465,7 @@
             formData.append('fecha_evento', fecha_evento);
             formData.append('evento_comentario', evento_comentario);
             formData.append('id_solicitud', id_solicitud);
-            let url = '<?php echo admin_url("pi/AutoresEventosController/addEvento"); ?>';
+            let url = '<?php echo admin_url("pi/RegistrosSanitariosController/addEvento"); ?>';
             console.log('url ', url);
             $.ajax({
                 url,
@@ -498,21 +499,19 @@
         e.preventDefault();
         console.log(" Llegue a Tareas ");
         var formData = new FormData();
-        if ($('#fecha_limite').val() && $('#project_id').val() && $('#tipo_tarea').val() && $('#descripcion').val()) { 
-            let project = $('#project_id').val();
+        if ($('#fecha_limite').val() &&  $('#tipo_tarea').val() && $('#descripcion').val()) { 
             let fecha_limite = $('#fecha_limite').val(); 
             var tipo_tarea = $('#tipo_tarea').val();
             var descripcion = $('#descripcion').val();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             let id_solicitud = '<?php echo $id ?>';
-            console.log(" project ", project , " tipo_tarea ", tipo_tarea , ' descripcion ', descripcion , ' fecha_limite ', fecha_limite , ' id_solicitud ' , id_solicitud) ; 
+            console.log( " tipo_tarea ", tipo_tarea , ' descripcion ', descripcion , ' fecha_limite ', fecha_limite , ' id_solicitud ' , id_solicitud) ; 
             formData.append('csrf_token_name', csrf_token_name);
-            formData.append('project', project);
             formData.append('fecha_limite', fecha_limite);
             formData.append('tipo_tarea', tipo_tarea);
             formData.append('descripcion', descripcion);
             formData.append('id_solicitud', id_solicitud);
-            let url = '<?php echo admin_url("pi/AutorTareasController/addTareas"); ?>';
+            let url = '<?php echo admin_url("pi/RegistrosSanitariosController/addTareas"); ?>';
             console.log('url ', url);
             $.ajax({
                 url,
@@ -631,116 +630,101 @@
             'fecha_vencimiento' : $("#fecha_vencimiento").val(),
         };
           console.log(" Data ", data);
+        // ------------- Step 1 ----------------
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', data.id);
         formData.append('cod_contador', data.cod_contador );
-        // ------------- Step 1 ----------------
-        formData.append('id_estado', data.id_estado);
-        formData.append('client_id', data.client_id);
+        formData.append('grupo_id' , data.grupo_id );
+        formData.append('nombre_cliente', data.nombre_cliente);
+        formData.append('contacto_id', data.contacto_id);
         formData.append('oficina_id', data.oficina_id);
         formData.append('staff_id', data.staff_id);
         // ------------- Step 2 ----------------
         formData.append('id_pais', data.id_pais); 
         formData.append('titulo', data.titulo);
         formData.append('descripcion', data.descripcion);
-        formData.append('id_autor', data.id_autor);
+        formData.append('fabricante_nombre' , data.fabricante_nombre);
+        formData.append('fabricante_ciudad' , data.fabricante_ciudad);
+        formData.append('fabricante_pais' , data.fabricante_pais);
         formData.append('id_propietario', data.id_propietario);
         // ------------- Step 3 ----------------
-        formData.append('clasificacion', data.id_clasificacion );
-        formData.append('origen', data.id_origen);
-        formData.append('titulo_clasif', data.titulo_clasif);
-        formData.append('autor_clasif', data.autor_clasif);
-        formData.append('fecha_clasif', data.fecha_clasif);
-        formData.append('ref_interna', data.ref_interna);
-        formData.append('ref_cliente', data.ref_cliente);
-        formData.append('carpeta', data.carpeta);
-        formData.append('libro', data.libro );
-        formData.append('tomo', data.tomo);
-        formData.append('folio', data.folio);
-        formData.append('comentarios', data.comentarios );
+        formData.append('ref_interna' , data.ref_interna );
+        formData.append('ref_cliente' , data.ref_cliente );
+        formData.append('carpeta' , data.carpeta );
+        formData.append('libro' , data.libro );
+        formData.append('tomo' , data.tomo );
+        formData.append('folio' , data.folio );
+        formData.append('marca_id' , data.marca_id );
+        formData.append('clase_niza_id' , data.clase_niza_id );
+        formData.append('comentarios' , data.comentarios );
         //-------------- Step 4 -----------------------
-        formData.append('id_estado', data.id_estado); 
-        formData.append('solicitud', data.num_solicitud );
-        formData.append('fecha_solicitud', data.fecha_solicitud );
-        formData.append('registro', data.registro );
-        formData.append('fecha_registro', data.fecha_registro );
-        formData.append('certificado', data.certificado );
-        formData.append('fecha_vencimiento', data.fecha_vencimiento );
-        // //##################################################
+        formData.append('id_estado' , data.id_estado );
+        formData.append('solicitud' , data.solicitud );
+        formData.append('fecha_solicitud' , data.fecha_solicitud );
+        formData.append('registro' , data.registro );
+        formData.append('fecha_registro' , data.fecha_registro );
+        formData.append('certificado' , data.certificado );
+        formData.append('fecha_vencimiento' , data.fecha_vencimiento );
+        //##################################################
 
-        // //--------------- Form Data Solictantes ----------------------
-        // formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-        // formPropietario.append('id_solicitud', data.id);
-        // formPropietario.append('id_propietario', data.id_propietario);
-        // // ############################################################
+        //--------------- Form Data Solictantes ----------------------
+        formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formPropietario.append('id_solicitud', data.id);
+        formPropietario.append('id_propietario', data.id_propietario);
+        // ############################################################
 
-
-        // // --------------------- Form Data Autores --------------------
-        // formAutor.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-        // formAutor.append('id_solicitud', data.id);
-        // formAutor.append('id_autor', data.id_autor);
-        // // #############################################################
-
-        // let url_propietarios = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarSolicitantes'); ?>';
-        // let url_autores = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarAutores'); ?>';
 
        
 
-        // $.ajax({
-        //     url: '<?php echo admin_url('pi/AutoresSolicitudesController/store'); ?>',
-        //     method: 'POST',
-        //     data: formData,
-        //     processData: false,
-        //     contentType: false,
-        //     success: function(response) {
-        //         console.log(" Response " , response);
-        //         const obj = JSON.parse(response);
-        //         if (obj.code == 200) {
-        //             let id = data.id;
+        let url_propietarios = '<?php echo admin_url('pi/RegistrosSanitariosController/InsertarSolicitantes'); ?>';
+       
 
-        //             $.ajax({
-        //             url: url_propietarios,
-        //             method: 'POST',
-        //             data: formPropietario,
-        //             processData: false,
-        //             contentType: false
-        //             }).then(function (response) {
-        //                 console.log(" Response ", response);
-        //             }).catch(function (response) {
-        //                 console.log(response.responseText);
-        //                 //alert_float('danger', 'No se pudo crear el Solicitante');
-        //             });
+       
 
-        //             $.ajax({
-        //                 url: url_autores,
-        //                 method: 'POST',
-        //                 data: formAutor,
-        //                 processData: false,
-        //                 contentType: false
-        //             }).then(function (response) {
-        //                 console.log(" Response ", response);
-        //             }).catch(function (response) {
-        //                 console.log(response.responseText);
-        //                // alert_float('danger', 'No se pudo crear la Patente');
-        //             });
+        $.ajax({
+            url: '<?php echo admin_url('pi/RegistrosSanitariosController/store'); ?>',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(" Response " , response);
+                const obj = JSON.parse(response);
+                if (obj.code == 200) {
+                    let id = data.id;
 
-        //             alert_float('success', 'Solicitud guardada con éxito!');
-        //             let ruta = '<?php echo admin_url("pi/AutoresSolicitudesController/edit/"); ?>';
-        //             ruta = ruta + id;
-        //             location.replace(ruta);
-        //         } else if (obj.code == 500) {
-        //             console.log(" ")
-        //             alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-        //         }
-        //     },
-        //     fail: function(request) {
-        //         <?php if (ENVIRONMENT != 'production') { ?>
-        //             alert(response);
-        //         <?php } else { ?>
-        //             alert('ha ocurrido un error');
-        //         <?php } ?>
-        //     }
-        // });
+                    $.ajax({
+                    url: url_propietarios,
+                    method: 'POST',
+                    data: formPropietario,
+                    processData: false,
+                    contentType: false
+                    }).then(function (response) {
+                        console.log(" Response ", response);
+                    }).catch(function (response) {
+                        console.log(response.responseText);
+                        //alert_float('danger', 'No se pudo crear el Solicitante');
+                    });
+
+                    
+
+                    alert_float('success', 'Solicitud guardada con éxito!');
+                    let ruta = '<?php echo admin_url("pi/RegistrosSanitariosController/edit/"); ?>';
+                    ruta = ruta + id;
+                    location.replace(ruta);
+                } else if (obj.code == 500) {
+                    console.log(" ")
+                    alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                }
+            },
+            fail: function(request) {
+                <?php if (ENVIRONMENT != 'production') { ?>
+                    alert(response);
+                <?php } else { ?>
+                    alert('ha ocurrido un error');
+                <?php } ?>
+            }
+        });
     });
 
     $("#Editsolicitudfrm").on('submit', function(e) {

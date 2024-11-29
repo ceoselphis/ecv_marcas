@@ -56,23 +56,13 @@ $select = ['0' => 'Seleccione una opcion']; ?>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-4">
-            <?php echo form_label('Proyecto', 'lblproject_id', ['class' => 'form-label' , 'id' => 'lblproject_id']); ?>
-            <?php $projects = $select + $projects; ?>
-            <?php echo form_dropdown([
-              'name' => 'project_id',
-              'id' => 'project_id',
-              'class' => 'form-control',
-              'selected' => set_value('project_id'),
-              'options' => $projects
-            ]); ?>
-          </div>
-          <div class="col-md-4">
+          
+          <div class="col-md-6">
             <?php echo form_label('Tipo Tareas', 'lbltipo_tarea' , ['class' => 'form-label' , 'id' => 'lbltipo_tarea']); ?>
             <?php $tipo_tareas = $select + $tipo_tareas; ?>
             <?php echo form_dropdown(['name' => 'tipo_tarea', 'id' => 'tipo_tarea'], $tipo_tareas, '', ['class' => 'form-control']); ?>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <?php echo form_label("Fecha de registro" , 'lblfecha_tarea' , ['class' => 'form-label' , 'id' => 'lblfecha_tarea']); ?>
             <?php
             echo form_input([

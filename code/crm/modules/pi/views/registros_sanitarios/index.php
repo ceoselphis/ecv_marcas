@@ -209,6 +209,18 @@ $select = ['' => '']; ?>
                                     'placeholder' => 'Solicitud Desde'
                                 ]); ?>
                             </div>
+                             <!-- Fecha Solicitud Desde -->
+                             <div class="col-md-3 col-md-offset-0">
+                                <?php echo form_label('Solicitud Desde'); ?>
+                                <?php
+                                echo form_input([
+                                    'id' => 'soli_desde',
+                                    'name' => 'soli_desde',
+                                    'class' => 'form-control calendar',
+                                    'value' => set_value('soli_desde', ''),
+                                    'placeholder' => 'Solicitud Desde'
+                                ]); ?>
+                            </div>
                             <!-- Fecha Solicitud Hasta -->
                             <div class="col-md-3">
                                 <?php echo form_label('Solicitud Hasta'); ?>

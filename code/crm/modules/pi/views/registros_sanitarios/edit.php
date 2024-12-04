@@ -5,11 +5,21 @@ $CI->load->view('marcas/solicitudes/css.php');
 $select = ['' => '']; ?>
 <div id="wrapper">
     <div class="content">
+        <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <h4>Editar Solicitud de Autor</h4>
+                        <h4>Editar Solicitud de Registro Sanitarios</h4>
                     </div>
                 </div>
             </div>
@@ -67,42 +77,48 @@ $select = ['' => '']; ?>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="row">
-                                            <div class="col-md-6" style="padding-top:15px;">
-                                                <?php echo form_label('Tipo de solicitud', 'id_tipo_solicitud'); ?>
-                                                <?php
-                                                $tipo_solicitud = $select + $tipo_solicitud;
-                                                echo form_dropdown(
-                                                    [
-                                                        'id' => 'Editid_tipo_solicitud',
-                                                        'name' => 'Editid_tipo_solicitud',
-                                                        'class' => 'form-control',
-                                                        'options' => $tipo_solicitud,
-                                                        'selected' => set_value('Editid_tipo_solicitud', $values['id_tipo_solicitud'])
-                                                    ]
-                                                ); ?>
+                                        <div class="col-md-12" style="padding-top:15px;">
+                                            <?php echo form_label('Grupo', 'lbl_grupo'); ?>
+                                            <?php 
+                                                $grupo = $select + $grupo;
+                                                echo form_dropdown([
+                                                    'id'       => 'grupo_id', 
+                                                    'name'     => 'grupo_id', 
+                                                    'class'    => 'form-control',
+                                                    'options'  => $grupo,
+                                                    'selected' => set_value('grupo_id',$values['grupo_id']),
+                                                ],
+                                                );?>
                                                 <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>'); ?>
-                                            </div>
-                                            <div class="col-md-6" style="padding-top:15px;">
-                                                <?php echo form_label('Cliente', 'client_id'); ?>
-                                                <?php $clientes = $select + $clientes; ?>
-                                                <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $values['client_id']), ['class' => 'form-control' , 'id' => 'Editclient_id']); ?>
-                                                <?php echo form_error($fields[3]['name'], '<div class="text-danger">', '</div>'); ?>
-                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6" style="padding-top:15px;">
-                                                <?php echo form_label('Oficina', 'oficina_id') ?>
-                                                <?php $oficinas = $select + $oficinas; ?>
-                                                <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id', $values['oficina_id']), ['class' => 'form-control' , 'id' => 'Editoficina_id']); ?>
-                                                <?php echo form_error($fields[4]['name'], '<div class="text-danger">', '</div>'); ?>
-                                            </div>
-                                            <div class="col-md-6" style="padding-top:15px;">
-                                                <?php echo form_label('Responsable', 'staff_id'); ?>
-                                                <?php $responsable = $select + $responsable; ?>
-                                                <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control' , 'id' => 'Editstaff_id']); ?>
-                                            </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Nombre Cliente', 'lblnombre_cliente'); ?>
+                                            <?php echo form_input([
+                                                'id'    =>   'nombre_cliente',
+                                                'name'  =>   'nombre_cliente',
+                                                'class' =>   'form-control',
+                                                'value' =>   set_value('nombre_cliente', $values['cliente'])
+                                            ]); ?>
+                                            <?php echo form_error($fields[7]['name'], '<div class="text-danger">', '</div>'); ?>
                                         </div>
+
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Contacto', 'lblcontacto'); ?>
+                                            <?php $contacto = $select + $contacto; ?>
+                                            <?php echo form_dropdown('contacto_id', $contacto, set_value('contacto_id',$values['contacto_id']), ['class' => 'form-control', 'id' => 'contacto_id']); ?>
+                                            <?php echo form_error($fields[3]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Oficina', 'oficina_id') ?>
+                                            <?php $oficinas = $select + $oficinas; ?>
+                                            <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id', $values['oficina_id']), ['class' => 'form-control' , 'id' => 'oficina_id']); ?>
+                                            <?php echo form_error($fields[4]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Responsable', 'staff_id'); ?>
+                                            <?php $responsable = $select + $responsable; ?>
+                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control' , 'id' => 'staff_id']); ?>
+                                         </div>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="btn btn-primary next-step">Siguiente</button>
@@ -120,67 +136,78 @@ $select = ['' => '']; ?>
                                             </h4>
                                         </div>
                                     </div>
-                                    <div class="row">
                                     <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Paises Designados', 'id_pais'); ?>
-                                        <?php $id_pais = $select + $id_pais; ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'Editid_pais',
-                                            'name' => 'Editid_pais',
-                                            'class' => 'form-control',
-                                            //'multiple' => 'multiple',
-                                            'options' => $id_pais,
-                                            'selected' => set_value('Editid_pais', $values['id_pais'])
-                                        ]); ?>
-                                        <?php echo form_error($fields[6]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Titulo', 'titulo'); ?>
-                                        <?php echo form_input([
-                                            'id' => 'Edittitulo',
-                                            'name' => 'Edittitulo',
-                                            'class' => 'form-control',
-                                            'value' => set_value('Edittitulo', $values['titulo'])
-                                        ]); ?>
-                                        <?php echo form_error($fields[7]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Descripcion', 'descripcion'); ?>
-                                        <?php echo form_textarea('descripcion', set_value('descripcion', $values['descripcion']), ['class' => 'form-control', 'id' => 'Editdescripcion' , 'maxlength' => '200']); ?>
-                                        <?php echo form_error($fields[8]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Autores', 'id_autor'); ?>
-                                        <?php //$autores = $select + $autores;  ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'Editid_autor',
-                                            'name' => 'Editid_autor',
-                                            'class' => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $autores,
-                                            'selected' => set_value('Editid_autor', $values['autores'])
-                                        ]); ?>
-                                        <?php echo form_error($fields[28]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Solicitantes', 'id_propietario'); ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'Editid_propietario',
-                                            'name' => 'Editid_propietario',
-                                            'class' => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $solicitantes,
-                                            'selected' => set_value('Editid_propietario', $values['solicitantes'])
-                                        ]); ?>
-                                        <?php echo form_error($fields[29]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    </div>
+                                            <?php echo form_label('País Designado', 'id_pais'); ?>
+                                            <?php $id_pais = $select + $id_pais; ?>
+                                            <?php echo form_dropdown([
+                                                'id'       => 'id_pais',
+                                                'name'     => 'id_pais',
+                                                'class'    => 'form-control',
+                                                'options' => $id_pais,
+                                                'selected' => set_value('id_pais',226),
+                                            ]); ?>
+                                            <?php echo form_error($fields[6]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-12" style="padding-top:15px;">
+                                            <?php echo form_label('Título', 'titulo'); ?>
+                                            <?php echo form_input([
+                                                'id'    =>   'titulo',
+                                                'name'  =>   'titulo',
+                                                'class' =>   'form-control',
+                                                'value' =>   set_value('titulo', $values['titulo'])
+                                            ]); ?>
+                                            <?php echo form_error($fields[7]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-12" style="padding-top:15px;">
+                                            <?php echo form_label('Descripción', 'descripcion'); ?>
+                                            <?php echo form_textarea('descripcion', set_value('descripcion', $values['descripcion']), ['class' => 'form-control', 'id' =>  'descripcion', 'style' => 'height : 100px' ,  'maxlength' => '200']); ?>
+                                            <?php echo form_error($fields[8]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Nombre del Fabricante', 'fabricante_nombre'); ?>
+                                            <?php echo form_input([
+                                                'id'    =>   'fabricante_nombre',
+                                                'name'  =>   'fabricante_nombre',
+                                                'class' =>   'form-control',
+                                                'value' =>   set_value('fabricante_nombre', $values['fabricante_nombre'])
+                                            ]); ?>
+                                            <?php echo form_error($fields[7]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Cidad del Fabricante', 'fabricante_ciudad'); ?>
+                                            <?php echo form_input([
+                                                'id'    =>   'fabricante_ciudad',
+                                                'name'  =>   'fabricante_ciudad',
+                                                'class' =>   'form-control',
+                                                'value' =>   set_value('fabricante_ciudad', $values['fabricante_ciudad'])
+                                            ]); ?>
+                                            <?php echo form_error($fields[7]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('País del Fabricante', 'fabricante_pais'); ?>
+                                            <?php $id_pais = $select + $id_pais; ?>
+                                            <?php echo form_dropdown([
+                                                'id'       => 'fabricante_pais',
+                                                'name'     => 'fabricante_pais',
+                                                'class'    => 'form-control',
+                                                'options' => $id_pais,
+                                                'selected' => set_value('fabricante_pais', $values['fabricante_pais_id']),
+                                            ]); ?>
+                                            <?php echo form_error($fields[6]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Solicitantes', 'id_propietario'); ?>
+                                            <?php //$solicitantes = $select + $solicitantes; ?>
+                                            <?php echo form_dropdown([
+                                                'id'       => 'id_propietario',
+                                                'name'     => 'id_propietario',
+                                                'class'    => 'form-control',
+                                                'multiple' => 'multiple',
+                                                'options' => $solicitantes,
+                                                'selected'  => set_value('id_propietario',$values['solicitantes']),
+                                            ]); ?>
+                                            <?php echo form_error($fields[29]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
@@ -200,93 +227,73 @@ $select = ['' => '']; ?>
                                         </div>
                                     </div>
                                     <div class="row">
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Clasificación', 'id_clasificacion'); ?>
-                                        <?php $clasificacion = $select + $clasificacion; ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'Editid_clasificacion',
-                                            'name' => 'Editid_clasificacion',
-                                            'class' => 'form-control',
-                                            'options' => $clasificacion,
-                                            'selected' => set_value('Editid_clasificacion', $values['id_clasificacion']),
-                                        ]); ?>
-                                        <?php echo form_error($fields[9]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Origen', 'id_origen'); ?>
-                                        <?php $origen = $select + $origen; ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'Editid_origen',
-                                            'name' => 'Editid_origen',
-                                            'class' => 'form-control',
-                                            'options' => $origen,
-                                            'selected' => set_value('Editid_origen', $values['id_origen']),
-                                        ]); ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Titulo Clasificación', 'titulo_clasif'); ?>
-                                        <?php echo form_input('titulo_clasif', set_value('titulo_clasif', $values['titulo_clasif']), ['class' => 'form-control' , 'id' => 'Edittitulo_clasif']) ?>
-                                        <?php echo form_error($fields[11]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Autor Clasificación', 'autor_clasif'); ?>
-                                        <?php echo form_input('autor_clasif', set_value('autor_clasif', $values['autor_clasif']), ['class' => 'form-control' , 'id' => 'Editautor_clasif']) ?>
-                                        <?php echo form_error($fields[12]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Fecha', 'fecha_clasif'); ?>
-                                        <?php echo form_input('fecha_clasif', set_value('fecha_clasif', $values['fecha_clasif']), ['class' => 'form-control calendar' ,'id' => 'Editfecha_clasif']) ?>
-                                        <?php echo form_error($fields[13]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Referencia interna', 'ref_interna'); ?>
-                                        <?php echo form_input('ref_interna', set_value('ref_interna', $values['ref_interna']), ['class' => 'form-control' , 'id' => 'Editref_interna']) ?>
-                                        <?php echo form_error($fields[14]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Referencia cliente', 'ref_cliente'); ?>
-                                        <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control' , 'id' => 'Editref_cliente']) ?>
-                                        <?php echo form_error($fields[15]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Carpeta', 'carpeta'); ?>
-                                        <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control' , 'id' => 'Editcarpeta']) ?>
-                                        <?php echo form_error($fields[16]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                    <div class="col-md-6" style="padding-top:15px;">
-                                        <?php echo form_label('Libro', 'libro'); ?>
-                                        <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control' , 'id' => 'Editlibro']) ?>
-                                        <?php echo form_error($fields[17]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
-                                </div>
-                                <div class="row">
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Referencia Interna', 'ref_interna'); ?>
+                                            <?php echo form_input('ref_interna', set_value('ref_interna',$values['ref_interna']), ['class' => 'form-control' , 'id' => 'ref_interna']); ?>
+                                            <?php echo form_error($fields[14]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Referencia Cliente', 'ref_cliente'); ?>
+                                            <?php echo form_input('ref_cliente', set_value('ref_cliente',$values['ref_cliente']), ['class' => 'form-control' , 'id' => 'ref_cliente']); ?>
+                                            <?php echo form_error($fields[15]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Carpeta', 'carpeta'); ?>
+                                            <?php echo form_input('carpeta', set_value('carpeta',$values['carpeta']), ['class' => 'form-control' , 'id' => 'carpeta']); ?>
+                                            <?php echo form_error($fields[16]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Libro', 'libro'); ?>
+                                            <?php echo form_input('libro', set_value('libro',$values['libro']), ['class' => 'form-control' , 'id' => 'libro']); ?>
+                                            <?php echo form_error($fields[17]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Tomo', 'tomo'); ?>
-                                            <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control' , 'id' => 'Edittomo']) ?>
+                                            <?php echo form_input('tomo', set_value('tomo',$values['tomo']), ['class' => 'form-control' , 'id' => 'tomo']); ?>
                                             <?php echo form_error($fields[18]['name'], '<div class="text-danger">', '</div>'); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Folio', 'folio'); ?>
-                                            <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control' , 'id' => 'Editfolio']) ?>
+                                            <?php echo form_input('folio', set_value('folio',$values['folio']), ['class' => 'form-control' , 'id' => 'folio']); ?>
                                             <?php echo form_error($fields[19]['name'], '<div class="text-danger">', '</div>'); ?>
                                         </div>
-                                </div>
-                                    <div class="row">
-                                    <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Comentarios', 'comentarios'); ?>
-                                        <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control', 'id' => 'Editcomentarios' , 'maxlength' => '200']); ?>
-                                        <?php echo form_error($fields[20]['name'], '<div class="text-danger">', '</div>'); ?>
-                                    </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Marca', 'lblmarca'); ?>
+                                            <?php $marcas = $select + $marcas; ?>
+                                            <?php echo form_dropdown('marca_id', $marcas, set_value('marca_id',$values['marcas_id']), ['class' => 'form-control' , 'id' => 'marca_id']); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label('Clase Niza', 'lblclase_niza'); ?>
+                                            <?php $niza = $select + $niza; ?>
+                                            <?php echo form_dropdown('clase_niza_id', $niza, set_value('clase_niza_id',$values['clase_niza_id']), ['class' => 'form-control' , 'id' => 'clase_niza_id']); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                        <?php echo form_label('Fecha Orden'); ?>
+                                        <?php
+                                            echo form_input([
+                                                'id' => 'fecha_orden',
+                                                'name' => 'fecha_orden',
+                                                'class' => 'form-control calendar',
+                                                'value' => set_value('fecha_orden',$values['fecha_orden']),
+                                                'placeholder' => 'Fecha Orden'
+                                            ]); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label("Fecha Presente"); ?>
+                                            <?php
+                                            echo form_input([
+                                                'id' => 'fecha_presente',
+                                                'name' => 'fecha_presente',
+                                                'class' => 'form-control calendar',
+                                                'value' => set_value('fecha_presente',$values['fecha_presente']),
+                                                'placeholder' => 'Fecha Presente'
+                                            ]); ?>
+                                        </div>
+                                        <div class="col-md-12" style="padding-top:15px;">
+                                            <?php echo form_label('Comentarios', 'comentarios'); ?>
+                                            <?php echo form_textarea('comentarios', set_value('comentarios',$values['comentarios']), ['class' => 'form-control', 'id' => 'comentarios' , 'maxlength' => '200' , 'style' => 'height  : 100px']); ?>
+                                            <?php echo form_error($fields[20]['name'], '<div class="text-danger">', '</div>'); ?>
+                                        </div>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
@@ -310,17 +317,17 @@ $select = ['' => '']; ?>
                                     <div class="col-md-12" style="padding-top:15px;">
                                         <?php echo form_label('Estado de Solicitud', 'id_estado'); ?>
                                         <?php $estados_solicitudes = $select + $estados_solicitudes; ?>
-                                        <?php echo form_dropdown('id_estado', $estados_solicitudes, set_value('id_estado', $values['id_estado']), ['class' => 'form-control' , 'id' =>  'Editid_estado']); ?>
+                                        <?php echo form_dropdown('id_estado', $estados_solicitudes, set_value('id_estado', $values['id_estado']), ['class' => 'form-control' , 'id' =>  'id_estado']); ?>
                                     </div>
                                     </div>
                                     <div class="row">
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Solicitud'); ?>
                                         <?php echo form_input([
-                                            'id' => 'Editsolicitud',
-                                            'name' => 'Editsolicitud',
+                                            'id' => 'solicitud',
+                                            'name' => 'solicitud',
                                             'class' => 'form-control',
-                                            'value' => set_value('Editsolicitud', $values['solicitud']),
+                                            'value' => set_value('solicitud', $values['solicitud']),
                                             'placeholder' => 'Nº de Solicitud'
                                         ]); ?>
                                         <?php echo form_error($fields[22]['name'], '<div class="text-danger">', '</div>'); ?>
@@ -329,10 +336,10 @@ $select = ['' => '']; ?>
                                         <?php echo form_label('Fecha de Solicitud'); ?>
                                         <?php
                                         echo form_input([
-                                            'id' => 'Editfecha_solicitud',
-                                            'name' => 'Editfecha_solicitud',
+                                            'id' => 'fecha_solicitud',
+                                            'name' => 'fecha_solicitud',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('Editfecha_solicitud', $values['fecha_solicitud']),
+                                            'value' => set_value('fecha_solicitud', $values['fecha_solicitud']),
                                             'placeholder' => 'Fecha Solicitud'
                                         ]); ?>
                                     </div>
@@ -342,10 +349,10 @@ $select = ['' => '']; ?>
                                         <?php echo form_label('Nº de Registro'); ?>
                                         <?php
                                         echo form_input([
-                                            'id' => 'Editregistro',
-                                            'name' => 'Editregistro',
+                                            'id' => 'registro',
+                                            'name' => 'registro',
                                             'class' => 'form-control',
-                                            'value' => set_value('Editregistro', $values['registro']),
+                                            'value' => set_value('registro', $values['registro']),
                                             'placeholder' => 'Nº Registro'
                                         ]); ?>
                                         <?php echo form_error($fields[24]['name'], '<div class="text-danger">', '</div>'); ?>
@@ -354,10 +361,10 @@ $select = ['' => '']; ?>
                                         <?php echo form_label("Fecha de registro"); ?>
                                         <?php
                                         echo form_input([
-                                            'id' => 'Editfecha_registro',
-                                            'name' => 'Editfecha_registro',
+                                            'id' => 'fecha_registro',
+                                            'name' => 'fecha_registro',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('Editfecha_registro', $values['fecha_registro']),
+                                            'value' => set_value('fecha_registro', $values['fecha_registro']),
                                             'placeholder' => 'Fecha de Registro'
                                         ]); ?>
                                     </div>
@@ -366,10 +373,10 @@ $select = ['' => '']; ?>
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label("Nº de Certificado"); ?>
                                         <?php echo form_input([
-                                            'id' => 'Editcertificado',
-                                            'name' => 'Editcertificado',
+                                            'id' => 'certificado',
+                                            'name' => 'certificado',
                                             'class' => 'form-control',
-                                            'value' => set_value('Editcertificado', $values['certificado']),
+                                            'value' => set_value('certificado', $values['certificado']),
                                             'placeholder' => 'Nº de Certificado'
                                         ]); ?>
                                         <?php echo form_error($fields[26]['name'], '<div class="text-danger">', '</div>'); ?>
@@ -378,10 +385,10 @@ $select = ['' => '']; ?>
                                         <?php echo form_label('Fecha de Vencimiento'); ?>
                                         <?php
                                         echo form_input([
-                                            'id' => 'Editfecha_vencimiento',
-                                            'name' => 'Editfecha_vencimiento',
+                                            'id' => 'fecha_vencimiento',
+                                            'name' => 'fecha_vencimiento',
                                             'class' => 'form-control calendar',
-                                            'value' => set_value('Editfecha_vencimiento', $values['fecha_vencimiento']),
+                                            'value' => set_value('fecha_vencimiento', $values['fecha_vencimiento']),
                                             'placeholder' => 'Fecha Vencimiento'
                                         ]); ?>
                                     </div>
@@ -509,12 +516,12 @@ $select = ['' => '']; ?>
     </div>
 </div>
 
-<?php $CI->load->view('autores/solicitudes/modal.php'); ?>
+<?php $CI->load->view('registros_sanitarios/modal.php'); ?>
 
 <?php init_tail(); ?>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<?php $CI->load->view('autores/solicitudes/anexos.php'); ?>
+<?php $CI->load->view('registros_sanitarios/anexos.php'); ?>
 
 
 </body>

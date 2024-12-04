@@ -65,6 +65,14 @@ class RegistrosSanitarios_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function findSolicitantes($id) {
+        $this->db->select('*');
+        $this->db->from('tbl_registros_sanitarios_solicitantes');
+        $this->db->where('id_solicitud = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function findAllAutores()
     {
         $this->db->select('*');
@@ -326,6 +334,15 @@ class RegistrosSanitarios_model extends BaseModel
         return array_combine($keys, $values);
     }
 
+    public function findPaises($id) {
+        $this->db->select('*');
+        $this->db->from('tbl_paises');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $res = $query->result_array();
+        return $res[0]['nombre'];
+    }
+
     public function findAllStaff()
     {
         $this->db->select('*');
@@ -432,7 +449,7 @@ class RegistrosSanitarios_model extends BaseModel
     public function findAutorSolicitantes($id = NULL)
     {
         $this->db->select('*');
-        $this->db->from('tbl_derecho_autor_solicitantes a');
+        $this->db->from('tbl_registros_sanitarios_solicitantes a');
         $this->db->join('tbl_propietarios b', 'a.id_propietario = b.id');
         $this->db->where('a.id_solicitud = '.$id);
         $query = $this->db->get();
@@ -442,6 +459,15 @@ class RegistrosSanitarios_model extends BaseModel
             array_push($values, $row['id_propietario']);
         }
         return $values;
+    }
+
+    public function findGrupo($id) {
+        $this->db->select('*');
+        $this->db->from('tbl_registros_sanitarios_grupo');
+        $this->db->where('id = '.$id);
+        $query = $this->db->get();
+        $res = $query->result_array();
+        return $res[0]['nombre'];
     }
 
     public function findAutoresDesignados($id = NULL)
@@ -520,6 +546,16 @@ class RegistrosSanitarios_model extends BaseModel
         }
     }
 
+    public function findEstadoExpediente($id) {
+        $this->db->select('*');
+        $this->db->from('tbl_estado_expediente a');
+        $this->db->where('a.id = '.$id);
+        $query = $this->db->get();
+        $res = $query->result_array();
+        return $res[0]['nombre'];
+
+    }
+
     public function findAllPropietarios()
     {
         $this->db->select('*');
@@ -544,7 +580,7 @@ class RegistrosSanitarios_model extends BaseModel
 
     public function deletePropietariosDesignadosBySolicitud($id = NULL)
     {
-        $this->db->delete('tbl_derecho_autor_solicitantes', ['id_solicitud' => $id]);
+        $this->db->delete('tbl_registros_sanitarios_solicitantes', ['id_solicitud' => $id]);
         return true;
     }
 
@@ -719,21 +755,23 @@ class RegistrosSanitarios_model extends BaseModel
 
     }
 
-    public function findAll()
-    {
-        $this->db->select('a.id, a.cod_contador, b.descripcion, a.titulo, c.nombre as estado_exp, a.solicitud, a.fecha_solicitud, a.registro, d.nombre pais');
-        $this->db->distinct();
-        $this->db->from('tbl_derecho_autor_solicitudes a');
-        $this->db->join('tbl_derecho_autor_tipo b', 'a.id_tipo_solicitud = b.id_tipo_solicitud', 'left outer');
-        $this->db->join('tbl_estado_expediente c', 'a.id_estado = c.id', 'left outer');
-        $this->db->join('tbl_paises d', 'a.id_pais = d.id', 'left outer');
-        $this->db->limit(150);
-        $query = $this->db->get();
-        if($query->num_rows() > 0)
-        {
-            return $query->result_array();
-        }
-    }
+    // public function findAll()
+    // {
+    //     $this->db->select('a.id, a.cod_contador, b.descripcion, a.titulo, c.nombre as estado_exp, a.solicitud, a.fecha_solicitud, a.registro, d.nombre pais');
+    //     $this->db->distinct();
+    //     $this->db->from('tbl_derecho_autor_solicitudes a');
+    //     $this->db->join('tbl_derecho_autor_tipo b', 'a.id_tipo_solicitud = b.id_tipo_solicitud', 'left outer');
+    //     $this->db->join('tbl_estado_expediente c', 'a.id_estado = c.id', 'left outer');
+    //     $this->db->join('tbl_paises d', 'a.id_pais = d.id', 'left outer');
+    //     $this->db->limit(150);
+    //     $query = $this->db->get();
+    //     if($query->num_rows() > 0)
+    //     {
+    //         return $query->result_array();
+    //     }
+    // }
+
+
 
 
     public function findEventosByMarca($id = NULL)

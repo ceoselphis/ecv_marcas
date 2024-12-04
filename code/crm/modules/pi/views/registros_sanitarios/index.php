@@ -84,12 +84,24 @@ $select = ['' => '']; ?>
             </div>
             <div class="modal-body">
                 <div class="row">
-
-
                     <div class="container-fluid">
                         <div class="row row-group">
+                            <!-- Código Expediente -->
+                            <div class="col-md-6 ">
+                                <label for="cod_contador">
+                                    <?php echo ('Código Expediente'); ?>
+                                </label>
+                                <?php
+                                echo form_input([
+                                    'id' => 'cod_contador',
+                                    'name' => 'cod_contador',
+                                    'class' => 'form-control',
+                                    'value' => set_value('cod_contador', ''),
+                                    'placeholder' => 'Código Expediente'
+                                ]); ?>
+                            </div>
                             <!-- Pais Solicitud -->
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <?php echo form_label('Pais Solicitud', 'paisSol_id'); ?>
                                 <?php $id_pais = $select + $id_pais; ?>
                                 <?php echo form_dropdown([
@@ -104,6 +116,30 @@ $select = ['' => '']; ?>
                     </div>
                     <div class="container-fluid">
                         <div class="row row-group">
+                            <!-- Cliente Registro Sanitarios -->
+                            <div class="col-md-3 col-md-offset-0">
+                                <?php echo form_label('Cliente', 'cliente'); ?>
+                                <?php
+                                echo form_input([
+                                    'id' => 'cliente',
+                                    'name' => 'cliente',
+                                    'class' => 'form-control',
+                                    'value' => set_value('cliente', ''),
+                                    'placeholder' => 'Cliente'
+                                ]); ?>
+                            </div>
+                              <!-- Pais Cliente -->
+                              <div class="col-md-3 col-md-offset-0">
+                                <?php echo form_label('Pais Cliente', 'pais_cliente'); ?>
+                                <?php $id_pais = $select + $id_pais; ?>
+                                <?php echo form_dropdown([
+                                    'id' => 'pais_cliente',
+                                    'name' => 'pais_cliente',
+                                    'class' => 'form-control',
+                                    'options' => $id_pais,
+                                    'selected' => set_value('pais_cliente'),
+                                ]); ?>
+                            </div>
                             <!-- Título Derecho Autor -->
                             <div class="col-md-3 col-md-offset-0">
                                 <?php echo form_label('Título', 'titulo'); ?>
@@ -130,32 +166,8 @@ $select = ['' => '']; ?>
                                     ],
                                 ); ?>
                             </div>
-                            <!-- Código Expediente -->
-                            <div class="col-md-3 col-md-offset-0">
-                                <label for="cod_contador">
-                                    <?php echo ('Código Expediente'); ?>
-                                </label>
-                                <?php
-                                echo form_input([
-                                    'id' => 'cod_contador',
-                                    'name' => 'cod_contador',
-                                    'class' => 'form-control',
-                                    'value' => set_value('cod_contador', ''),
-                                    'placeholder' => 'Código Expediente'
-                                ]); ?>
-                            </div>
-                            <!-- Referencia Interna -->
-                            <div class="col-md-3 col-md-offset-0">
-                                <?php echo form_label('Referencia Interna'); ?>
-                                <?php
-                                echo form_input([
-                                    'id' => 'ref_interna',
-                                    'name' => 'ref_interna',
-                                    'class' => 'form-control',
-                                    'value' => set_value('ref_interna', ''),
-                                    'placeholder' => 'Referencia Interna'
-                                ]); ?>
-                            </div>
+                            
+                          
 
                         </div>
                     </div>
@@ -403,7 +415,6 @@ $select = ['' => '']; ?>
             },
             success: function (response) {
                 console.log(" Respuesta ",response);
-              //  alert(response);
                 table = JSON.parse(response);
                 $("#tableResult").DataTable({
                     language: {
@@ -413,7 +424,7 @@ $select = ['' => '']; ?>
                     data: table.data,
                     columns: [
                         { data: 'cod_contador' },
-                        { data: 'tipo',
+                        { data: 'grupo',
                             render: function (data, type, row)
                             {
                                 return "<div class='text-wrap'>" + data + "</div>"
@@ -434,6 +445,7 @@ $select = ['' => '']; ?>
                         { data: 'solicitud' },
                         { data: 'fecha_solicitud' },
                         { data: 'registro' },
+                        { data: 'fecha_registro' },
                         { data: 'pais',
                             render: function (data, type, row)
                             {

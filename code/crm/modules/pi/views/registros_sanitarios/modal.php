@@ -1,6 +1,6 @@
 <?php
 $select = ['0' => 'Seleccione una opcion']; ?>
-?>
+
 <!-- Añadir Evento Modal -->
 <div class="modal fade" id="eventoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoFrm']); ?>

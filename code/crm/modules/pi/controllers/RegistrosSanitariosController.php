@@ -651,6 +651,14 @@ class RegistrosSanitariosController extends AdminController
             $form['folio'] = $data['folio'];
             $form['marcas_id'] = $data['marca_id'];
             $form['clase_niza_id'] = $data['clase_niza_id'];
+            $form['marcas_id'] = $data['marca_id'];
+            $form['clase_niza_id'] = $data['clase_niza_id'];
+            if (!empty($data['fecha_orden'])) {
+                $form['fecha_orden'] = DateTime::createFromFormat('d/m/Y', $data['fecha_orden'])->format('Y-m-d');
+            }
+            if (!empty($data['fecha_presente'])) {
+                $form['fecha_presente'] = DateTime::createFromFormat('d/m/Y', $data['fecha_presente'])->format('Y-m-d');
+            }
             $form['comentarios'] = $data['comentarios'];
             // --------------- Step 4 ------------------
             $form['id_estado'] = $data['id_estado'];
@@ -810,15 +818,26 @@ class RegistrosSanitariosController extends AdminController
         $values['fecha_vencimiento'] = $this->flip_dates($values['fecha_vencimiento']);
         $values['fecha_registro'] = $this->flip_dates($values['fecha_registro']);
         $values['fecha_solicitud'] = $this->flip_dates($values['fecha_solicitud']);
-        $values['fecha_clasif'] = $this->flip_dates($values['fecha_clasif']);
+        $values['fecha_orden'] = $this->flip_dates($values['fecha_orden']); 
+        $values['fecha_presente'] = $this->flip_dates($values['fecha_presente']); 
         $values['projects'] = $CI->RegistrosSanitarios_model->findProjectByAutor($id);
-        return $CI->load->view('autores/solicitudes/edit', [
+        $niza = $CI->RegistrosSanitarios_model->findAllClaseNiza();
+        $grupo = $CI->RegistrosSanitarios_model->findAllGrupo();
+        $marcas = $CI->RegistrosSanitarios_model->findAllMarcas();
+        $contacto = $CI->RegistrosSanitarios_model->findAllContactos();
+        $findsolicitantes = $CI->RegistrosSanitarios_model->findSolicitantes($id);
+        return $CI->load->view('registros_sanitarios/edit', [
             'fields'                => $inputs,
             'id'                    => $id,
-            'cod_contador'          => $cod_contador,
-            'values'                => $values,
+            'marcas'                => $marcas,
             'eventos'               => $datos,
+            'values'                => $values,
+            'grupo'                 => $grupo,
+            'findsolicitantes'      => $findsolicitantes,
+            'contacto'              => $contacto,
             'tareas'                => $data,
+            'cod_contador'          => $cod_contador,
+            'tasks'                 => $CI->RegistrosSanitarios_model->findAllTask(),
             'oficinas'              => $CI->RegistrosSanitarios_model->findAllOficinas(),
             'clientes'              => $CI->RegistrosSanitarios_model->findAllClients(),
             'solicitantes'          => $CI->RegistrosSanitarios_model->findAllPropietarios2(),
@@ -832,7 +851,8 @@ class RegistrosSanitariosController extends AdminController
             'projects'              => $CI->RegistrosSanitarios_model->findAllProjects(),
             'autores'               => $CI->RegistrosSanitarios_model->findAllAutores(),
             'clasificacion'         => $CI->RegistrosSanitarios_model->findAllClasificacion(),
-            'origen'                => $CI->RegistrosSanitarios_model->findAllOrigen()
+            'origen'                => $CI->RegistrosSanitarios_model->findAllOrigen(),
+            'niza'                  => $CI->RegistrosSanitarios_model->findAllClaseNiza(),
         ]);
     }
 
@@ -848,58 +868,69 @@ class RegistrosSanitariosController extends AdminController
         $CI->load->model("RegistrosSanitarios_model");
         $form = array();
         $data = $CI->input->post();
-      
-        
-        
         if (!empty($data)){
             //-------------- Step 1 ---------------
             $form['cod_contador'] = $data['cod_contador'];
-            $form['id_tipo_solicitud'] = $data['id_tipo_solicitud'];
-            $form['client_id'] = $data['client_id'];
+            $form['grupo_id'] = $data['grupo_id'];
+            $form['cliente'] = $data['nombre_cliente'];
+            $form['contacto_id'] = $data['contacto_id'];
             $form['oficina_id'] = $data['oficina_id'];
             $form['staff_id'] = $data['staff_id'];
             // ------------- Step 2 ----------------
-            $form['id_pais'] = $data['id_pais'];
+            $form['pais_id'] = $data['id_pais'];
             $form['titulo'] = $data['titulo'];
             $form['descripcion'] = $data['descripcion'];
+            $form['fabricante_nombre'] = $data['fabricante_nombre'];
+            $form['fabricante_ciudad'] = $data['fabricante_ciudad'];
+            $form['fabricante_pais_id'] = $data['fabricante_pais'];
             //--------------- Step 3 -----------------
-            $form['id_clasificacion'] = $data['clasificacion'];
-            $form['id_origen'] = $data['origen'];
-            $form['titulo_clasif'] = $data['titulo_clasif'];
-            $form['autor_clasif'] = $data['autor_clasif'];
-            if (!empty($data['fecha_clasif'])) {
-                $form['fecha_clasif'] = DateTime::createFromFormat('d/m/Y', $data['fecha_clasif'])->format('Y-m-d');
-            }
             $form['ref_interna'] = $data['ref_interna'];
             $form['ref_cliente'] = $data['ref_cliente'];
             $form['carpeta'] = $data['carpeta'];
             $form['libro'] = $data['libro'];
             $form['tomo'] = $data['tomo'];
             $form['folio'] = $data['folio'];
+            $form['marcas_id'] = $data['marca_id'];
+            $form['clase_niza_id'] = $data['clase_niza_id'];
+            $form['marcas_id'] = $data['marca_id'];
+            $form['clase_niza_id'] = $data['clase_niza_id'];
+            if (!empty($data['fecha_orden'])) {
+                $form['fecha_orden'] = DateTime::createFromFormat('d/m/Y', $data['fecha_orden'])->format('Y-m-d');
+            }
+            if (!empty($data['fecha_presente'])) {
+                $form['fecha_presente'] = DateTime::createFromFormat('d/m/Y', $data['fecha_presente'])->format('Y-m-d');
+            }
             $form['comentarios'] = $data['comentarios'];
-            // --------------- Step 4 ------------------
+               // --------------- Step 4 ------------------
             $form['id_estado'] = $data['id_estado'];
             $form['solicitud'] = $data['solicitud'];
-
+   
             if (!empty($data['fecha_solicitud'])) {
                 $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud'])->format('Y-m-d');
             }
-
+   
             $form['registro'] = $data['registro'];        
             if (!empty($data['fecha_registro'])) {
                 $form['fecha_registro'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro'])->format('Y-m-d');
             }
-           
+              
             $form['certificado'] = $data['certificado'];
             if (!empty($data['fecha_vencimiento'])) {
                 $form['fecha_vencimiento'] = DateTime::createFromFormat('d/m/Y', $data['fecha_vencimiento'])->format('Y-m-d');
             }
 
-         
+            if (!empty($data['id_propietario'])){
+
+                $isset = $CI->RegistrosSanitarios_model->deletePropietariosDesignadosBySolicitud($id);
+                if ($isset) {
+                   // echo json_encode(["message" => "Propietarios Eliminado Con Exito", "code" => "200"]);  
+                } 
+            }
+        
             try {
                 $query = $CI->RegistrosSanitarios_model->update($id, $form);
                 if (isset($query)) {
-                    echo json_encode(['message' => 'Derecho de Autor Actualizado con exito' ,  'code' => '200']);
+                    echo json_encode(['message' => 'Registro Sanitario Actualizado con exito' ,  'code' => '200']);
                 } else {
                     echo json_encode(['message' => 'No se Pudo Actualizar la solicitud' , 'error' => $query , 'code' => '500']);
                 }
@@ -1144,17 +1175,19 @@ class RegistrosSanitariosController extends AdminController
         }
         if (empty($form)) {
             $query = $CI->RegistrosSanitarios_model->findAll();
+            //echo json_encode(['message' => 'success' , 'code' => '200', 'data' => $query]);
             if (!empty($query)) {
                 foreach ($query as $row) {
                     $result[] =  [
                         'cod_contador' => $row['cod_contador'],
-                        'tipo' =>  $row['descripcion'],
+                        'grupo' => $CI->RegistrosSanitarios_model->findGrupo($row['grupo_id']),
                         'titulo' =>  $row['titulo'],
-                        'estado_exp' =>  is_null($row['estado_exp']) ? '' : $row['estado_exp'],
+                        'estado_exp' =>  is_null($row['id_estado']) ? '' : $CI->RegistrosSanitarios_model->findEstadoExpediente($row['id_estado']),
                         'solicitud' => is_null($row['solicitud']) ? '' : $row['solicitud'],
                         'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
                         'registro' => $row['registro'],
-                        'pais' => $row['pais'],
+                        'fecha_registro' => is_null($row['fecha_registro']) ? '' : date('d/m/Y', strtotime($row['fecha_registro'])),
+                        'pais' => is_null($row['pais_id']) ? '' : $CI->RegistrosSanitarios_model->findPaises($row['pais_id']),
                         'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
                     ];
                 }

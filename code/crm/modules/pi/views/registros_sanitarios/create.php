@@ -249,6 +249,28 @@ $select = ['' => ''];?>
                                             <?php $niza = $select + $niza; ?>
                                             <?php echo form_dropdown('clase_niza_id', $niza, set_value('clase_niza_id'), ['class' => 'form-control' , 'id' => 'clase_niza_id']); ?>
                                         </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                        <?php echo form_label('Fecha Orden'); ?>
+                                        <?php
+                                            echo form_input([
+                                                'id' => 'fecha_orden',
+                                                'name' => 'fecha_orden',
+                                                'class' => 'form-control calendar',
+                                                'value' => set_value('fecha_orden'),
+                                                'placeholder' => 'Fecha Orden'
+                                            ]); ?>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:15px;">
+                                            <?php echo form_label("Fecha Presente"); ?>
+                                            <?php
+                                            echo form_input([
+                                                'id' => 'fecha_presente',
+                                                'name' => 'fecha_presente',
+                                                'class' => 'form-control calendar',
+                                                'value' => set_value('fecha_presente'),
+                                                'placeholder' => 'Fecha Presente'
+                                            ]); ?>
+                                        </div>
                                         <div class="col-md-12" style="padding-top:15px;">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
                                             <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control', 'id' => 'comentarios' , 'maxlength' => '200' , 'style' => 'height  : 100px']); ?>

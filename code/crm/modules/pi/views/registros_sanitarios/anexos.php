@@ -618,9 +618,11 @@
             'folio' : $("#folio").val(),
             'marca_id' : $("#marca_id").val(),
             'clase_niza_id' : $("#clase_niza_id").val(),
+            'fecha_orden' : $("#fecha_orden").val(),
+            'fecha_presente' : $("#fecha_presente").val(),
             'comentarios' : $("#comentarios").val(),
             // -------- Step 4 -----------------
-            'id_estado' : $("#id_estado").val(),
+            'id_estado' : $("#Editid_estado").val(),
             'solicitud' : $("#solicitud").val(),
             'fecha_solicitud' : $("#fecha_solicitud").val(),
             'registro' : $("#registro").val(),
@@ -655,6 +657,8 @@
         formData.append('folio' , data.folio );
         formData.append('marca_id' , data.marca_id );
         formData.append('clase_niza_id' , data.clase_niza_id );
+        formData.append('fecha_orden' , data.fecha_orden );
+        formData.append('fecha_presente' , data.fecha_presente );
         formData.append('comentarios' , data.comentarios );
         //-------------- Step 4 -----------------------
         formData.append('id_estado' , data.id_estado );
@@ -731,103 +735,102 @@
         var formPropietario = new FormData();
         var formAutor = new FormData();
         e.preventDefault();
-        console.log(" LLegue a Enviar a Derecho de Autor");
+        console.log(" LLegue a Eitar a Registros Sanitarios");
        
         data = {
             // ------------- Step 1 ---------------
             'id' : $("input[name=id]").val(),
             'cod_contador' : $("input[name=cod_contador]").val(),
-            'id_tipo_solicitud' : $("#Editid_tipo_solicitud").val(),
-            'client_id' : $("#Editclient_id").val(),
-            'oficina_id' : $("#Editoficina_id").val(),
-            'staff_id' : $("#Editstaff_id").val(),
+            'grupo_id' : $("#grupo_id").val(),
+            'nombre_cliente' : $("#nombre_cliente").val(),
+            'contacto_id' : $("#contacto_id").val(),
+            'oficina_id' : $("#oficina_id").val(),
+            'staff_id' : $("#staff_id").val(),
             //-------------- Step 2 ---------------
-            'id_pais' : $("select[name=Editid_pais]").val(),
-            'titulo' : $("input[name=Edittitulo]").val(),
-            'descripcion' : $("#Editdescripcion").val(),
-            'id_autor' : $("#Editid_autor").val(),
-            'id_propietario' : $("#Editid_propietario").val(),
-            //-------------- Step 3 ---------------
-            'id_clasificacion' : $("#Editid_clasificacion").val(),
-            'id_origen' : $("#Editid_origen").val(),
-            'titulo_clasif' : $("#Edittitulo_clasif").val(),
-            'autor_clasif' : $("input[name=Editautor_clasif]").val(),
-            'fecha_clasif' : $("#Editfecha_clasif").val(),
-            'ref_interna' : $("#Editref_interna").val(),
-            'ref_cliente' : $('#Editref_cliente').val(),
-            'carpeta' : $("#Editcarpeta").val(),
-            'libro' : $("#Editlibro").val(),
-            'tomo' : $("#Edittomo").val(),
-            'folio' : $("#Editfolio").val(),
-            'comentarios' : $("#Editcomentarios").val(),
-            //-------------- Step 4 -----------------------
-            'id_estado' : $("#Editid_estado").val(),
-            'num_solicitud' : $("#Editsolicitud").val(),
-            'fecha_solicitud' : $("input[name=Editfecha_solicitud]").val(),
-            'registro' : $("#Editregistro").val(),
-            'fecha_registro' : $("input[name=Editfecha_registro]").val(),
-            'certificado' : $("#Editcertificado").val(),
-            'fecha_vencimiento' : $("input[name=Editfecha_vencimiento]").val(),
+            'id_pais' : $("#id_pais").val(),
+            'titulo' : $("#titulo").val(),
+            'descripcion' : $("#descripcion").val(),
+            'fabricante_nombre' : $("#fabricante_nombre").val(),
+            'fabricante_ciudad' : $("#fabricante_ciudad").val(),
+            'fabricante_pais' : $("#fabricante_pais").val(),
+            'id_propietario' : $("#id_propietario").val(),
+            // -------- Step 3 -----------------
+            'ref_interna' : $("#ref_interna").val(),
+            'ref_cliente' : $("#ref_cliente").val(),
+            'carpeta' : $("#carpeta").val(),
+            'libro' : $("#libro").val(),
+            'tomo' : $("#tomo").val(),
+            'folio' : $("#folio").val(),
+            'marca_id' : $("#marca_id").val(),
+            'clase_niza_id' : $("#clase_niza_id").val(),
+            'fecha_orden' : $("#fecha_orden").val(),
+            'fecha_presente' : $("#fecha_presente").val(),
+            'comentarios' : $("#comentarios").val(),
+            // -------- Step 4 -----------------
+            'id_estado' : $("#id_estado").val(),
+            'solicitud' : $("#solicitud").val(),
+            'fecha_solicitud' : $("#fecha_solicitud").val(),
+            'registro' : $("#registro").val(),
+            'fecha_registro' : $("#fecha_registro").val(),
+            'certificado' : $("#certificado").val(),
+            'fecha_vencimiento' : $("#fecha_vencimiento").val(),
         };
 
-        console.log(" Data Edit " , data );
-
+        console.log(" Data ", data);
+        // ------------- Step 1 ----------------
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', data.id);
         formData.append('cod_contador', data.cod_contador );
-        // ------------- Step 1 ----------------
-        formData.append('id_tipo_solicitud', data.id_tipo_solicitud);
-        formData.append('client_id', data.client_id);
+        formData.append('grupo_id' , data.grupo_id );
+        formData.append('nombre_cliente', data.nombre_cliente);
+        formData.append('contacto_id', data.contacto_id);
         formData.append('oficina_id', data.oficina_id);
         formData.append('staff_id', data.staff_id);
         // ------------- Step 2 ----------------
         formData.append('id_pais', data.id_pais); 
         formData.append('titulo', data.titulo);
         formData.append('descripcion', data.descripcion);
-        formData.append('id_autor', data.id_autor);
+        formData.append('fabricante_nombre' , data.fabricante_nombre);
+        formData.append('fabricante_ciudad' , data.fabricante_ciudad);
+        formData.append('fabricante_pais' , data.fabricante_pais);
         formData.append('id_propietario', data.id_propietario);
         // ------------- Step 3 ----------------
-        formData.append('clasificacion', data.id_clasificacion );
-        formData.append('origen', data.id_origen);
-        formData.append('titulo_clasif', data.titulo_clasif);
-        formData.append('autor_clasif', data.autor_clasif);
-        formData.append('fecha_clasif', data.fecha_clasif);
-        formData.append('ref_interna', data.ref_interna);
-        formData.append('ref_cliente', data.ref_cliente);
-        formData.append('carpeta', data.carpeta);
-        formData.append('libro', data.libro );
-        formData.append('tomo', data.tomo);
-        formData.append('folio', data.folio);
-        formData.append('comentarios', data.comentarios );
+        formData.append('ref_interna' , data.ref_interna );
+        formData.append('ref_cliente' , data.ref_cliente );
+        formData.append('carpeta' , data.carpeta );
+        formData.append('libro' , data.libro );
+        formData.append('tomo' , data.tomo );
+        formData.append('folio' , data.folio );
+        formData.append('marca_id' , data.marca_id );
+        formData.append('clase_niza_id' , data.clase_niza_id );
+        formData.append('fecha_orden' , data.fecha_orden );
+        formData.append('fecha_presente' , data.fecha_presente );
+        formData.append('comentarios' , data.comentarios );
         //-------------- Step 4 -----------------------
-        formData.append('id_estado', data.id_estado); 
-        formData.append('solicitud', data.num_solicitud );
-        formData.append('fecha_solicitud', data.fecha_solicitud );
-        formData.append('registro', data.registro );
-        formData.append('fecha_registro', data.fecha_registro );
-        formData.append('certificado', data.certificado );
-        formData.append('fecha_vencimiento', data.fecha_vencimiento );
+        formData.append('id_estado' , data.id_estado );
+        formData.append('solicitud' , data.solicitud );
+        formData.append('fecha_solicitud' , data.fecha_solicitud );
+        formData.append('registro' , data.registro );
+        formData.append('fecha_registro' , data.fecha_registro );
+        formData.append('certificado' , data.certificado );
+        formData.append('fecha_vencimiento' , data.fecha_vencimiento );
         //##################################################
 
         //--------------- Form Data Solictantes ----------------------
         formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formPropietario.append('id_solicitud', data.id);
         formPropietario.append('id_propietario', data.id_propietario);
-        //############################################################
+        // ############################################################
 
 
-        //--------------------- Form Data Autores --------------------
-        formAutor.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-        formAutor.append('id_solicitud', data.id);
-        formAutor.append('id_autor', data.id_autor);
-        // #############################################################
 
-        let url_propietarios = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarSolicitantes'); ?>';
-        let url_autores = '<?php echo admin_url('pi/AutoresSolicitudesController/InsertarAutores'); ?>';
+        let url_propietarios = '<?php echo admin_url('pi/RegistrosSanitariosController/InsertarSolicitantes'); ?>';
+     
 
-        let url = '<?php echo admin_url('pi/AutoresSolicitudesController/update/'); ?>';
+        let url = '<?php echo admin_url('pi/RegistrosSanitariosController/update/'); ?>';
         url += data.id;
        
+        console.log(" url : " + url);
 
         $.ajax({
             url: url,
@@ -854,21 +857,10 @@
                         //alert_float('danger', 'No se pudo crear el Solicitante');
                     });
 
-                    $.ajax({
-                        url: url_autores,
-                        method: 'POST',
-                        data: formAutor,
-                        processData: false,
-                        contentType: false
-                    }).then(function (response) {
-                        console.log(" Response ", response);
-                    }).catch(function (response) {
-                        console.log(response.responseText);
-                       // alert_float('danger', 'No se pudo crear la Patente');
-                    });
+      
 
                     alert_float('success', 'Solicitud Actualizada con éxito!');
-                    let ruta = '<?php echo admin_url("pi/AutoresSolicitudesController"); ?>';
+                    let ruta = '<?php echo admin_url("pi/RegistrosSanitariosController"); ?>';
                     location.replace(ruta);
                 } else if (obj.code == 500) {
                     console.log(" ")

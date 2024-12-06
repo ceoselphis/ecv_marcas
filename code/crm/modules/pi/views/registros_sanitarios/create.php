@@ -84,14 +84,10 @@ $select = ['' => ''];?>
                                                 <?php echo form_error($fields[2]['name'], '<div class="text-danger">', '</div>'); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label('Nombre Cliente', 'lblnombre_cliente'); ?>
-                                            <?php echo form_input([
-                                                'id'    =>   'nombre_cliente',
-                                                'name'  =>   'nombre_cliente',
-                                                'class' =>   'form-control',
-                                                'value' =>   set_value('nombre_cliente')
-                                            ]); ?>
-                                            <?php echo form_error($fields[7]['name'], '<div class="text-danger">', '</div>'); ?>
+                                            <?php echo form_label('Cliente', 'client_id'); ?>
+                                            <?php $clientes = $select + $clientes; ?>
+                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id'), ['class' => 'form-control', 'id' => 'client_id']); ?>
+                                            <?php echo form_error($fields[3]['name'], '<div class="text-danger">', '</div>'); ?>
                                         </div>
 
                                         <div class="col-md-6" style="padding-top:15px;">

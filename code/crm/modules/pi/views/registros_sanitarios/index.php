@@ -116,17 +116,19 @@ $select = ['' => '']; ?>
                     </div>
                     <div class="container-fluid">
                         <div class="row row-group">
-                            <!-- Cliente Registro Sanitarios -->
+                            <!-- Clientes -->
                             <div class="col-md-3 col-md-offset-0">
-                                <?php echo form_label('Cliente', 'cliente'); ?>
-                                <?php
-                                echo form_input([
-                                    'id' => 'cliente',
-                                    'name' => 'cliente',
-                                    'class' => 'form-control',
-                                    'value' => set_value('cliente', ''),
-                                    'placeholder' => 'Cliente'
-                                ]); ?>
+                                <?php echo form_label('Clientes', 'clientes'); ?>
+                                <?php $clientes = $select + $clientes;
+                                echo form_dropdown(
+                                    [
+                                        'id' => 'client_id',
+                                        'name' => 'client_id',
+                                        'class' => 'form-control',
+                                        'options' => $clientes,
+                                        'value' => set_value('client_id')
+                                    ],
+                                ); ?>
                             </div>
                               <!-- Pais Cliente -->
                               <div class="col-md-3 col-md-offset-0">
@@ -142,27 +144,27 @@ $select = ['' => '']; ?>
                             </div>
                             <!-- Título Derecho Autor -->
                             <div class="col-md-3 col-md-offset-0">
-                                <?php echo form_label('Título', 'titulo'); ?>
+                                <?php echo form_label('Propietario', 'propietario'); ?>
                                 <?php
                                 echo form_input([
-                                    'id' => 'titulo',
-                                    'name' => 'titulo',
+                                    'id' => 'propietario',
+                                    'name' => 'propietario',
                                     'class' => 'form-control',
-                                    'value' => set_value('titulo', ''),
-                                    'placeholder' => 'Título Derecho Autor'
+                                    'value' => set_value('propietario', ''),
+                                    'placeholder' => 'Propietario'
                                 ]); ?>
                             </div>
                             <!-- Tipo -->
                             <div class="col-md-3">
-                                <?php echo form_label('Tipo Derecho Autor', 'id_tipo_solicitud'); ?>
-                                <?php $tipo_solicitud = $select + $tipo_solicitud;
+                                <?php echo form_label('Pais Propietario', 'pais_propietario'); ?>
+                                <?php $id_pais = $select + $id_pais; 
                                 echo form_dropdown(
                                     [
-                                        'id' => 'id_tipo_solicitud',
-                                        'name' => 'id_tipo_solicitud',
+                                        'id' => 'pais_propietario',
+                                        'name' => 'pais_propietario',
                                         'class' => 'form-control',
-                                        'options' => $tipo_solicitud,
-                                        'value' => set_value('id_tipo_solicitud')
+                                        'options' => $id_pais,
+                                        'value' => set_value('pais_propietario')
                                     ],
                                 ); ?>
                             </div>
@@ -173,44 +175,58 @@ $select = ['' => '']; ?>
                     </div>
                     <div class="container-fluid">
                         <div class="row row-group">
-                            <!-- Número de Solicitud -->
+                              <!-- Título Registro Sanitarios -->
+                              <div class="col-md-3 col-md-offset-0">
+                                <?php echo form_label('Título', 'titulo'); ?>
+                                <?php
+                                echo form_input([
+                                    'id' => 'titulo',
+                                    'name' => 'titulo',
+                                    'class' => 'form-control',
+                                    'value' => set_value('titulo', ''),
+                                    'placeholder' => 'Título Registro Sanitarios'
+                                ]); ?>
+                            </div>
+                            <!-- Tipo -->
+                            <div class="col-md-3">
+                                <?php echo form_label('Grupos', 'grupos'); ?>
+                                <?php $grupos = $select + $grupos;
+                                echo form_dropdown(
+                                    [
+                                        'id' => 'grupos',
+                                        'name' => 'grupos',
+                                        'class' => 'form-control',
+                                        'options' => $grupos,
+                                        'value' => set_value('grupos')
+                                    ],
+                                ); ?>
+                            </div>
+                            <!-- Solicitud -->
                             <div class="col-md-3 col-md-offset-0">
-                                <?php echo form_label('Número de Solicitud'); ?>
+                                <?php echo form_label('Solicitud'); ?>
                                 <?php
                                 echo form_input([
                                     'id' => 'solicitud',
                                     'name' => 'solicitud',
                                     'class' => 'form-control',
                                     'value' => set_value('solicitud', ''),
-                                    'placeholder' => 'Número de Solicitud'
+                                    'placeholder' => 'Numero Solicitud'
                                 ]); ?>
                             </div>
-                            <!-- Número de Registro -->
+                            <!-- Registro -->
                             <div class="col-md-3">
-                                <?php echo form_label('Número de Registro'); ?>
+                                <?php echo form_label('Registro'); ?>
                                 <?php
                                 echo form_input([
                                     'id' => 'registro',
                                     'name' => 'registro',
                                     'class' => 'form-control',
                                     'value' => set_value('registro', ''),
-                                    'placeholder' => 'Número de Registro'
+                                    'placeholder' => 'Numero registro'
                                 ]); ?>
                             </div>
                             <!-- Fecha Solicitud Desde -->
-                            <div class="col-md-3 col-md-offset-0">
-                                <?php echo form_label('Solicitud Desde'); ?>
-                                <?php
-                                echo form_input([
-                                    'id' => 'soli_desde',
-                                    'name' => 'soli_desde',
-                                    'class' => 'form-control calendar',
-                                    'value' => set_value('soli_desde', ''),
-                                    'placeholder' => 'Solicitud Desde'
-                                ]); ?>
-                            </div>
-                             <!-- Fecha Solicitud Desde -->
-                             <div class="col-md-3 col-md-offset-0">
+                            <div class="col-md-3 col-md-offset-0" style="padding-top:10px">
                                 <?php echo form_label('Solicitud Desde'); ?>
                                 <?php
                                 echo form_input([
@@ -222,7 +238,7 @@ $select = ['' => '']; ?>
                                 ]); ?>
                             </div>
                             <!-- Fecha Solicitud Hasta -->
-                            <div class="col-md-3">
+                            <div class="col-md-3" style="padding-top:10px">
                                 <?php echo form_label('Solicitud Hasta'); ?>
                                 <?php
                                 echo form_input([
@@ -231,6 +247,30 @@ $select = ['' => '']; ?>
                                     'class' => 'form-control calendar',
                                     'value' => set_value('soli_hasta', ''),
                                     'placeholder' => 'Solicitud Hasta'
+                                ]); ?>
+                            </div>
+                            <!-- Fecha Vigencia Desde -->
+                            <div class="col-md-3 col-md-offset-0" style="padding-top:10px">
+                                <?php echo form_label('Vigencia Desde'); ?>
+                                <?php
+                                echo form_input([
+                                    'id' => 'vigencia_desde',
+                                    'name' => 'vigencia_desde',
+                                    'class' => 'form-control calendar',
+                                    'value' => set_value('vigencia_desde', ''),
+                                    'placeholder' => 'Vifencia Desde'
+                                ]); ?>
+                            </div>
+                            <!-- Fecha Vigencia Desde -->
+                            <div class="col-md-3 col-md-offset-0" style="padding-top:10px">
+                                <?php echo form_label('Vigencia Hasta'); ?>
+                                <?php
+                                echo form_input([
+                                    'id' => 'vigencia_hasta',
+                                    'name' => 'vigencia_hasta',
+                                    'class' => 'form-control calendar',
+                                    'value' => set_value('vigencia_desde', ''),
+                                    'placeholder' => 'Vifencia Hasta'
                                 ]); ?>
                             </div>
                         </div>
@@ -265,59 +305,7 @@ $select = ['' => '']; ?>
                             </div>
                         </div>
                     </div>
-                    <div class="container-fluid">
-                        <div class="row row-group">
-                            <!-- Clientes -->
-                            <div class="col-md-3 col-md-offset-0">
-                                <?php echo form_label('Clientes', 'clientes'); ?>
-                                <?php $clientes = $select + $clientes;
-                                echo form_dropdown(
-                                    [
-                                        'id' => 'client_id',
-                                        'name' => 'client_id',
-                                        'class' => 'form-control',
-                                        'options' => $clientes,
-                                        'value' => set_value('client_id')
-                                    ],
-                                ); ?>
-                            </div>
-                            <!-- Pais Cliente -->
-                            <div class="col-md-3">
-                                <?php echo form_label('Pais Cliente', 'paisCli_id'); ?>
-                                <?php $paisCli = $select + $paisCli; ?>
-                                <?php echo form_dropdown([
-                                    'id' => 'country',
-                                    'name' => 'country',
-                                    'class' => 'form-control',
-                                    'options' => $paisCli,
-                                    'selected' => set_value('country'),
-                                ]); ?>
-                            </div>
-                            <!-- Propietarios -->
-                            <div class="col-md-3 col-md-offset-0">
-                                <?php echo form_label('Propietarios', 'propietarios'); ?>
-                                <?php $propietarios = $select + $propietarios; ?>
-                                <?php echo form_dropdown([
-                                    'id' => 'id_propietario',
-                                    'name' => 'id_propietario',
-                                    'class' => 'form-control',
-                                    'options' => $propietarios,
-                                    'selected' => set_value('id_propietario'),
-                                ]); ?>
-                            </div>
-                            <!-- Pais Propietario -->
-                            <div class="col-md-3">
-                                <?php echo form_label('Pais Propietario', 'paisProp_id'); ?>
-                                <?php echo form_dropdown([
-                                    'id' => 'paisProp_id',
-                                    'name' => 'paisProp_id',
-                                    'class' => 'form-control',
-                                    'options' => $id_pais,
-                                    'selected' => set_value('paisProp_id'),
-                                ]); ?>
-                            </div>
-                        </div>
-                    </div>
+                  
                 </div>
             </div>
             <div class="modal-footer" style="padding-top: 1.5%;">

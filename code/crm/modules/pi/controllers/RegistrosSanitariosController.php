@@ -26,6 +26,7 @@ class RegistrosSanitariosController extends AdminController
             'paisCli'               => $CI->RegistrosSanitarios_model->findAllPaisesClientes(),
             'tipo_evento'           => $CI->RegistrosSanitarios_model->findAllTipoEvento(),
             'propietarios'           => $CI->RegistrosSanitarios_model->findAllPropietarios2(),
+            'grupos'                => $CI->RegistrosSanitarios_model->findAllGrupo()
         ];
         return $CI->load->view('registros_sanitarios/index', $data);
     }
@@ -627,11 +628,12 @@ class RegistrosSanitariosController extends AdminController
         $CI->load->model("RegistrosSanitarios_model");
         $form = array();
         $data = $CI->input->post();
+       
         if (!empty($data)){
             //-------------- Step 1 ---------------
             $form['cod_contador'] = $data['cod_contador'];
             $form['grupo_id'] = $data['grupo_id'];
-            $form['cliente'] = $data['nombre_cliente'];
+            $form['client_id'] = $data['client_id'];
             $form['contacto_id'] = $data['contacto_id'];
             $form['oficina_id'] = $data['oficina_id'];
             $form['staff_id'] = $data['staff_id'];
@@ -681,7 +683,8 @@ class RegistrosSanitariosController extends AdminController
             try {
                 $query = $CI->RegistrosSanitarios_model->insert($form);
                 if (isset($query)) {
-                    echo json_encode(['message' => 'success', 'code' => '200']);
+                    $id = $CI->RegistrosSanitarios_model->CantidadSolicitudes();
+                    echo json_encode(['message' => 'success', 'code' => '200' , 'id' => $id]);
                 } else {
                     echo json_encode(['error' => $query, 'code' => '500']);
                 }
@@ -789,6 +792,10 @@ class RegistrosSanitariosController extends AdminController
         $CI->load->model("RegistrosSanitarios_model");
         $inputs = $this->getFields();
         //We get the data
+        if (empty($CI->RegistrosSanitarios_model->find($id))) {
+            $ruta = admin_url("pi/RegistrosSanitariosController/");
+            header('Location: '.$ruta);
+        }
         $values = $CI->RegistrosSanitarios_model->find($id)[0];
         $autores = $CI->RegistrosSanitarios_model->findAutoresDesignados($id);
         $solicitantes = $CI->RegistrosSanitarios_model->findAutorSolicitantes($id);
@@ -872,7 +879,7 @@ class RegistrosSanitariosController extends AdminController
             //-------------- Step 1 ---------------
             $form['cod_contador'] = $data['cod_contador'];
             $form['grupo_id'] = $data['grupo_id'];
-            $form['cliente'] = $data['nombre_cliente'];
+            $form['client_id'] = $data['client_id'];
             $form['contacto_id'] = $data['contacto_id'];
             $form['oficina_id'] = $data['oficina_id'];
             $form['staff_id'] = $data['staff_id'];

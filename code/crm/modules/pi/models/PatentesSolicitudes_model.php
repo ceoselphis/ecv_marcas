@@ -477,5 +477,13 @@ class PatentesSolicitudes_model extends BaseModel
         return $query;
     }
 
+    public function CantidadSolicitudes(){
+        $this->db->select('max(id) as cantidad');
+        $this->db->from('tbl_patentes_solicitudes');
+        $query = $this->db->get();
+        $values = $query->result_array();
+        return (empty($values[0]['cantidad']) || $values[0]['cantidad'] == null) ? 0 : $values[0]['cantidad']; 
+    }
+
 
 }

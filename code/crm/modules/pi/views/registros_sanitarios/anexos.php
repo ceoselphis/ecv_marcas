@@ -597,7 +597,7 @@
             'id' : $("input[name=id]").val(),
             'cod_contador' : $("input[name=cod_contador]").val(),
             'grupo_id' : $("#grupo_id").val(),
-            'nombre_cliente' : $("#nombre_cliente").val(),
+            'client_id' : $("#client_id").val(),
             'contacto_id' : $("#contacto_id").val(),
             'oficina_id' : $("#oficina_id").val(),
             'staff_id' : $("#staff_id").val(),
@@ -622,7 +622,7 @@
             'fecha_presente' : $("#fecha_presente").val(),
             'comentarios' : $("#comentarios").val(),
             // -------- Step 4 -----------------
-            'id_estado' : $("#Editid_estado").val(),
+            'id_estado' : $("#id_estado").val(),
             'solicitud' : $("#solicitud").val(),
             'fecha_solicitud' : $("#fecha_solicitud").val(),
             'registro' : $("#registro").val(),
@@ -635,8 +635,8 @@
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', data.id);
         formData.append('cod_contador', data.cod_contador );
+        formData.append('client_id', data.client_id);
         formData.append('grupo_id' , data.grupo_id );
-        formData.append('nombre_cliente', data.nombre_cliente);
         formData.append('contacto_id', data.contacto_id);
         formData.append('oficina_id', data.oficina_id);
         formData.append('staff_id', data.staff_id);
@@ -672,7 +672,7 @@
 
         //--------------- Form Data Solictantes ----------------------
         formPropietario.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-        formPropietario.append('id_solicitud', data.id);
+       // formPropietario.append('id_solicitud', data.id);
         formPropietario.append('id_propietario', data.id_propietario);
         // ############################################################
 
@@ -680,9 +680,6 @@
        
 
         let url_propietarios = '<?php echo admin_url('pi/RegistrosSanitariosController/InsertarSolicitantes'); ?>';
-       
-
-       
 
         $.ajax({
             url: '<?php echo admin_url('pi/RegistrosSanitariosController/store'); ?>',
@@ -694,8 +691,9 @@
                 console.log(" Response " , response);
                 const obj = JSON.parse(response);
                 if (obj.code == 200) {
-                    let id = data.id;
-
+                    let id = obj.id;
+                    formPropietario.append('id_solicitud', id);
+                    console.log( " Data id: ",id );
                     $.ajax({
                     url: url_propietarios,
                     method: 'POST',
@@ -714,6 +712,7 @@
                     alert_float('success', 'Solicitud guardada con éxito!');
                     let ruta = '<?php echo admin_url("pi/RegistrosSanitariosController/edit/"); ?>';
                     ruta = ruta + id;
+                    console.log(ruta);
                     location.replace(ruta);
                 } else if (obj.code == 500) {
                     console.log(" ")
@@ -742,7 +741,7 @@
             'id' : $("input[name=id]").val(),
             'cod_contador' : $("input[name=cod_contador]").val(),
             'grupo_id' : $("#grupo_id").val(),
-            'nombre_cliente' : $("#nombre_cliente").val(),
+            'client_id' : $("#client_id").val(),
             'contacto_id' : $("#contacto_id").val(),
             'oficina_id' : $("#oficina_id").val(),
             'staff_id' : $("#staff_id").val(),
@@ -782,7 +781,7 @@
         formData.append('id', data.id);
         formData.append('cod_contador', data.cod_contador );
         formData.append('grupo_id' , data.grupo_id );
-        formData.append('nombre_cliente', data.nombre_cliente);
+        formData.append('client_id', data.client_id);
         formData.append('contacto_id', data.contacto_id);
         formData.append('oficina_id', data.oficina_id);
         formData.append('staff_id', data.staff_id);

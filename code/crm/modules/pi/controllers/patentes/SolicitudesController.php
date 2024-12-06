@@ -885,7 +885,7 @@ class SolicitudesController extends AdminController
         $query = $CI->PatentesSolicitudes_model->insert($form);
   
         if (isset($query)) {
-          $id = $CI->PatentesSolicitudes_model->last_insert_id();
+          $id = $CI->PatentesSolicitudes_model->CantidadSolicitudes();
           echo json_encode(['message' => 'success', 'id' => $id, 'code' => '200']);
         } else {
           echo json_encode(['error' => $query, 'code' => '500']);

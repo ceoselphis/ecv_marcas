@@ -96,6 +96,7 @@ class AccionesContraTerceros_model extends BaseModel
     public function getAllClients()
     {
         $this->db->select('userid, company');
+
         $this->db->from('tblclients');
         $query = $this->db->get();
         $result = array();
@@ -103,7 +104,10 @@ class AccionesContraTerceros_model extends BaseModel
         {
             $result[$row['userid']] = $row['company'];
         }
-        return $result;
+        // Eliminar duplicados
+        $uniqueResult = array_unique($result, SORT_REGULAR);
+    
+        return $uniqueResult;
     }
 
     public function getAllOficinas()
@@ -158,15 +162,21 @@ class AccionesContraTerceros_model extends BaseModel
         $this->db->select('id, ref_interna, signonom');
         $this->db->from('tbl_marcas_solicitudes');
         $query = $this->db->get();
+    
+        // Obtener todos los IDs únicos
+        $uniqueIds = array_unique($query->result_array(), SORT_REGULAR);
+    
         $keys = array();
         $values = array();
-        foreach($query->result_array() as $row)
-        {
+    
+        foreach ($uniqueIds as $row) {
             array_push($keys, $row['id']);
-            array_push($values, $row['ref_interna'].' - '.$row['signonom']);
+            array_push($values, $row['ref_interna'] . ' - ' . $row['signonom']);
         }
+    
         return array_combine($keys, $values);
     }
+
 
     public function getAllClases()
     {

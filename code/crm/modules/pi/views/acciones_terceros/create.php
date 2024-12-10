@@ -90,11 +90,11 @@ $select = ['' => '']; ?>
                                             <?php echo form_label('Cliente', 'client_id'); ?>
                                             <?php echo form_dropdown('client_id', $clientes, set_value('client_id'), ['class' => 'form-control','id' => 'client_id']); ?>
                                         </div>
-                                        <div class="col-md-6" style="padding-top:15px;">
+                                        <div class="col-md-6" style="padding-top:10px;">
                                             <?php echo form_label('Oficina', 'oficina_id') ?>
                                             <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id'), ['class' => 'form-control','id' => 'oficina_id']); ?>
                                         </div>
-                                        <div class="col-md-6" style="padding-top:15px;">
+                                        <div class="col-md-6" style="padding-top:10px;">
                                             <?php echo form_label('Responsable', 'staff_id'); ?>
                                             <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id'), ['class' => 'form-control','id' => 'staff_id']); ?>
                                         </div>

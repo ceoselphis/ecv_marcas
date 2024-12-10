@@ -204,7 +204,7 @@ $select = ['' => '']; ?>
                                                 'class' => 'form-control',
                                                 'multiple' => 'multiple',
                                                 'options' => $pais_id,
-                                                'selected' => set_value('pais_id')//'226',
+                                                'selected' => set_value('pais_id','226')//'226',
                                             ]); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -233,7 +233,7 @@ $select = ['' => '']; ?>
                                             <div class="text-danger" id="SignoFileName"></div>
                                             <div class="text-danger" id="DescFileName"></div>
                                         </div>
-                                        <div class="col-md-2" style="padding-top: 2%; padding-bottom:0%">
+                                        <div class="col-md-2" style="padding-top: 23px; padding-bottom:0%">
                                             <button type="button" class="btn btn-outline" data-toggle="modal"
                                                 data-target="#signoModal"><i class="fas fa-paperclip"></i>
                                                 Añadir</button>
@@ -257,7 +257,7 @@ $select = ['' => '']; ?>
                                         </div>
                                     </div>
                                     <!-- Clase niza -->
-                                    <div class="col-md-12" style="padding: 1.5% 1.5% 1.5% 1.5%;">
+                                    <div class="col-md-12" style="padding: 1.5% 0% 1.5% 0%;">
                                         <div class="all-info-container">
                                             <div class="list-content">
                                                 <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false"
@@ -529,7 +529,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
                                     </div>
-                                    <div class="col-md-12" style="padding: 1.5% 1.5% 1.5% 1.5%;">
+                                    <div class="col-md-12" style="padding: 1.5% 0% 1.5% 0%;">
                                         <div class="all-info-container">
                                             <div class="list-content">
                                                 <a href="#publicaciones" data-toggle="collapse" aria-expanded="false"

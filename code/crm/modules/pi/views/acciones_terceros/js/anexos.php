@@ -17,11 +17,24 @@
         "padding-left": "7px",
     });
 
+    $('#modal-loading').modal('show');
+    $(function() {
+        $("#AddAccion").css({
+            "padding-left": "7px",
+        });
+        
+        Eventos(id);
+        Publicaciones(id);
+        Tareas(id);
+        Documentos(id);
+        $('#modal-loading').modal('hide');
+    });
+
     //-------------------------- Mostra Datos ----------------------
-    Eventos(id);
-    Publicaciones(id);
-    Tareas(id);
-    Documentos(id);
+    // Eventos(id);
+    // Publicaciones(id);
+    // Tareas(id);
+    // Documentos(id);
 
     //-------------------------- Lista de datos --------------------------------
 

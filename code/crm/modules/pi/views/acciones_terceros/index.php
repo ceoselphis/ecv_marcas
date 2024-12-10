@@ -2,8 +2,11 @@
 
 use PayPalHttp\Serializer\Form;
 
-init_head(); ?>
-<?php $CI = &get_instance(); ?>
+init_head(); 
+
+?>
+
+<?php $CI = &get_instance();  $CI->load->view('marcas/solicitudes/css.php'); ?>
 <style>
     /* From bootstrap.css */
     .row-group {
@@ -15,6 +18,17 @@ init_head(); ?>
 
 <div id="wrapper">
     <div class="content">
+        <!-- Loading Modal -->
+        <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
@@ -30,8 +44,8 @@ init_head(); ?>
                             <a class="btn btn-primary"
                                 href="<?php echo admin_url('pi/AccionesTerceroController/create'); ?>"><i
                                     class="fas fa-plus"></i> Nueva Accion a Terceros</a>
-                            <button class="btn btn-white pull-right" data-toggle="modal" data-target="#search"><i
-                                    class="fas fa-filter"></i> </button>
+                                    <button type="button" class="btn btn-default btn-outline pull-right" data-toggle="modal"
+                                    data-target="#search"><i class="fas fa-filter"></i> Filtrar por</button>
                         </div>
                     </div>
                     <!--
@@ -412,6 +426,13 @@ init_head(); ?>
     });
 </script>
 <script>
+    $('#modal-loading').modal('show');
+    $(function() {
+        $("#AddAccion").css({
+            "padding-left": "7px",
+        });
+        $('#modal-loading').modal('hide');
+    });
     $("#filterSubmit").on('click', function (event) {
         event.preventDefault();
         
@@ -491,61 +512,7 @@ init_head(); ?>
                         {
                             data: 'acciones'
                         }
-                        // { data: 'cod_contador' },
-                        // { 
-                        //     data: 'tipo',
-                        //     render: function (data, type, row)
-                        //     {
-                        //         data = data ? data : '';
-                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                        //     }
-                        // },
-                        // { 
-                        //     data: 'propietario',
-                        //     render: function (data, type, row)
-                        //     {
-                        //         data = data ? data : '';
-                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                        //     }
-                        // },
-                        // { 
-                        //     data: 'nombre',
-                        //     render: function (data, type, row)
-                        //     {
-                        //         data = data ? data : '';
-                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                        //     }
-                        // },
-                        // { 
-                        //     data: 'clase',
-                        //     render: function (data, type, row)
-                        //     {
-                        //         data = data ? data : '';
-                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                        //     }
-                        // },
-                        // { 
-                        //     data: 'estado',
-                        //     render: function (data, type, row)
-                        //     {
-                        //         data = data ? data : '';
-                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                        //     }
-                        // },
-                        // { 
-                        //     data: 'solicitud',
-                        //     render: function (data, type, row)
-                        //     {
-                        //         data = data ? data : '';
-                        //         return "<div class='col-md-12 text-left text-nowrap'>" + data + "</div>"
-                        //     }
-                        // },
-                        // { data: 'fecha_solicitud' },
-                        // { data: 'registro' },
-                        // { data: 'certificado' },
-                        // { data: 'vigencia' },
-                        // { data: 'pais' },
-                        // { data: 'acciones' },
+                       
                     ]
                 });
             }

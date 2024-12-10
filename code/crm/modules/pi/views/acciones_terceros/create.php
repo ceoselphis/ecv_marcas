@@ -1,7 +1,7 @@
 <?php
 $CI = &get_instance();
 init_head();
-$CI->load->view('acciones_terceros/css.php');
+$CI->load->view('marcas/solicitudes/css.php'); 
 $select = ['' => '']; ?>
 <style>
     .link-style {
@@ -13,8 +13,8 @@ $select = ['' => '']; ?>
 </style>
 <div id="wrapper">
     <div class="content">
-        <!-- Loading Modal -->
-        <div class="modal" id="modal-loading" data-backdrop="static">
+         <!-- Loading Modal -->
+         <div class="modal" id="modal-loading" data-backdrop="static">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-body text-center">
@@ -561,6 +561,8 @@ $select = ['' => '']; ?>
         </div>
     </div>
 </div>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <?php $CI->load->view('acciones_terceros/modal.php');?>
 <?php $CI->load->view('acciones_terceros/modaledit.php');?>
 <?php init_tail(); ?>

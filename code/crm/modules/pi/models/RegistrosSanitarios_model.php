@@ -697,30 +697,73 @@ class RegistrosSanitarios_model extends BaseModel
         }
     }
 
+    // public function searchWhere2($params): array{
+    //     $this->db->select('a.id, a.cod_contador, b.descripcion, a.titulo, c.nombre as estado_exp, a.solicitud, a.fecha_solicitud, a.registro, d.nombre pais');
+    //     $this->db->distinct();
+    //     $this->db->from('tbl_derecho_autor_solicitudes a');
+    //     $this->db->join('tbl_derecho_autor_tipo b', 'a.id_tipo_solicitud = b.id_tipo_solicitud', 'left outer');
+    //     $this->db->join('tbl_estado_expediente c', 'a.id_estado = c.id', 'left outer');
+    //     $this->db->join('tbl_paises d', 'a.id_pais = d.id', 'left outer');
+    //     $this->db->join('tbl_derecho_autor_eventos e', 'a.id = e.id_solicitud', 'left outer');
+    //     $this->db->join('tbl_tipos_eventos f', 'e.id_tipo_evento = f.id', 'left outer');
+    //     $this->db->join('tblclients g', 'a.client_id = g.userid', 'left outer');
+    //     $this->db->join('tblcountries h', 'g.country = h.country_id', 'left outer');
+    //     $this->db->join('tbl_derecho_autor_solicitantes i', 'a.id = i.id_solicitud', 'left outer');
+    //     $this->db->join('tbl_propietarios j', 'j.id = i.id_propietario', 'left outer');
+    //     $this->db->join('tbl_paises k', 'j.pais_id = k.id', 'left outer');
+        
+        
+        
+        
+    //     foreach($params as $key => $value)
+    //     {
+    //         switch ($key) {
+    //             case 'cod_contador':
+    //             case 'titulo':
+    //             case 'ref_interna':
+    //             case 'solicitud':
+    //             case 'registro':
+    //                 $this->db->like($key,$value);
+    //                 break;
+    //             case 'soli_desde':
+    //                 $wdate = '' ? '' : explode('/', $value);
+    //                 $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+    //                 $this->db->where('fecha_solicitud >=', $data);
+    //                 break;
+    //             case 'soli_hasta':
+    //                 $wdate = '' ? '' : explode('/', $value);
+    //                 $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+    //                 $this->db->where('fecha_solicitud <=', $data);
+    //                 break;
+    //             case 'paisProp_id':
+    //                 $this->db->where('k.id', $value);
+    //                 break;
+    //             default:
+    //                 $this->db->where($key, $value);
+    //         }
+    //     }
+    //     //$this->db->order_by("id", 'ASC');
+    //     $result = $this->db->get();
+    //     if($result->num_rows() > 0)
+    //     {
+    //         return $result->result_array();
+    //     }
+    //     else
+    //     {
+    //         return [];
+    //     }
+
+    // }
+
     public function searchWhere2($params): array{
-        $this->db->select('a.id, a.cod_contador, b.descripcion, a.titulo, c.nombre as estado_exp, a.solicitud, a.fecha_solicitud, a.registro, d.nombre pais');
-        $this->db->distinct();
-        $this->db->from('tbl_derecho_autor_solicitudes a');
-        $this->db->join('tbl_derecho_autor_tipo b', 'a.id_tipo_solicitud = b.id_tipo_solicitud', 'left outer');
-        $this->db->join('tbl_estado_expediente c', 'a.id_estado = c.id', 'left outer');
-        $this->db->join('tbl_paises d', 'a.id_pais = d.id', 'left outer');
-        $this->db->join('tbl_derecho_autor_eventos e', 'a.id = e.id_solicitud', 'left outer');
-        $this->db->join('tbl_tipos_eventos f', 'e.id_tipo_evento = f.id', 'left outer');
-        $this->db->join('tblclients g', 'a.client_id = g.userid', 'left outer');
-        $this->db->join('tblcountries h', 'g.country = h.country_id', 'left outer');
-        $this->db->join('tbl_derecho_autor_solicitantes i', 'a.id = i.id_solicitud', 'left outer');
-        $this->db->join('tbl_propietarios j', 'j.id = i.id_propietario', 'left outer');
-        $this->db->join('tbl_paises k', 'j.pais_id = k.id', 'left outer');
-        
-        
-        
-        
+        $this->db->select('*');
+        $this->db->from('tblview_registros_sanitarios');
+       
         foreach($params as $key => $value)
         {
             switch ($key) {
                 case 'cod_contador':
                 case 'titulo':
-                case 'ref_interna':
                 case 'solicitud':
                 case 'registro':
                     $this->db->like($key,$value);
@@ -735,8 +778,25 @@ class RegistrosSanitarios_model extends BaseModel
                     $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
                     $this->db->where('fecha_solicitud <=', $data);
                     break;
-                case 'paisProp_id':
-                    $this->db->where('k.id', $value);
+                case 'vigencia_desde':
+                        $wdate = '' ? '' : explode('/', $value);
+                        $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                        $this->db->where('fecha_registro >=', $data);
+                    break;
+                case 'vigencia_hasta':
+                        $wdate = '' ? '' : explode('/', $value);
+                        $data = "{$wdate[2]}-{$wdate[1]}-{$wdate[0]}";
+                        $this->db->where('fecha_registro <=', $data);
+                    break;
+                case 'grupo_id' : 
+                case 'client_id' :
+                case 'pais_cliente' :
+                case 'pais_id' :
+                case 'propietario_id' :
+                case 'pais_propietario' :
+                case 'id_estado' :
+                case 'id_tipo_evento' : 
+                    $this->db->where($key, $value);
                     break;
                 default:
                     $this->db->where($key, $value);

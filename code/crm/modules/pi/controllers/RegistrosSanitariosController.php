@@ -1174,7 +1174,7 @@ class RegistrosSanitariosController extends AdminController
         $form = json_decode($CI->input->post('data'), TRUE);
         $result = array();
         $query = array();
-        $url = admin_url('pi/AutoresSolicitudesController/edit/');
+        $url = admin_url('pi/RegistrosSanitariosController/edit/');
         foreach ($form as $key => $value) {
             if ($value === '') {
                 unset($form[$key]);
@@ -1203,26 +1203,28 @@ class RegistrosSanitariosController extends AdminController
                 echo json_encode(['code' => 200, 'message' => 'not data']);
             }
         } else {
-            echo json_encode(['code' => 200, 'message' => 'success', 'data' => $form]);
-            // $query = $CI->RegistrosSanitarios_model->searchWhere2($form);
-            // if (!empty($query)) {
-            //     foreach ($query as $row) {
-            //         $result[] = [
-            //             'cod_contador' => $row['cod_contador'],
-            //             'tipo' =>  $row['descripcion'],
-            //             'titulo' =>  $row['titulo'],
-            //             'estado_exp' =>  is_null($row['estado_exp']) ? '' : $row['estado_exp'],
-            //             'solicitud' => is_null($row['solicitud']) ? '' : $row['solicitud'],
-            //             'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
-            //             'registro' => $row['registro'],
-            //             'pais' => $row['pais'],
-            //             'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
-            //         ];
-            //     }
-            //     echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);
-            // } else {
-            //     echo json_encode(['code' => 404, 'message' => 'not found']);
-            // }
+           // echo json_encode(['code' => 200, 'message' => 'success', 'data' => $form]);
+            $query = $CI->RegistrosSanitarios_model->searchWhere2($form);
+          //  echo json_encode(['message' => 'success', 'data' => $query]);
+            if (!empty($query)) {
+                foreach ($query as $row) {
+                    $result[] = [
+                        'cod_contador' => $row['cod_contador'],
+                        'grupo' => $CI->RegistrosSanitarios_model->findGrupo($row['grupo_id']),
+                        'titulo' =>  $row['titulo'],
+                        'estado_exp' =>  is_null($row['id_estado']) ? '' : $CI->RegistrosSanitarios_model->findEstadoExpediente($row['id_estado']),
+                        'solicitud' => is_null($row['solicitud']) ? '' : $row['solicitud'],
+                        'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
+                        'registro' => $row['registro'],
+                        'fecha_registro' => is_null($row['fecha_registro']) ? '' : date('d/m/Y', strtotime($row['fecha_registro'])),
+                        'pais' => is_null($row['pais_id']) ? '' : $CI->RegistrosSanitarios_model->findPaises($row['pais_id']),
+                        'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
+                    ];
+                }
+                echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);
+            } else {
+                echo json_encode(['code' => 404, 'message' => 'not found']);
+            }
         }
     }
 

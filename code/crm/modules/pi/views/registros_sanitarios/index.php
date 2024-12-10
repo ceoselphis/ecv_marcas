@@ -147,10 +147,10 @@ $select = ['' => '']; ?>
                                 <?php echo form_label('Propietario', 'propietario'); ?>
                                 <?php
                                 echo form_input([
-                                    'id' => 'propietario',
-                                    'name' => 'propietario',
+                                    'id' => 'propietario_id',
+                                    'name' => 'propietario_id',
                                     'class' => 'form-control',
-                                    'value' => set_value('propietario', ''),
+                                    'value' => set_value('propietario_id', ''),
                                     'placeholder' => 'Propietario'
                                 ]); ?>
                             </div>
@@ -193,11 +193,11 @@ $select = ['' => '']; ?>
                                 <?php $grupos = $select + $grupos;
                                 echo form_dropdown(
                                     [
-                                        'id' => 'grupos',
-                                        'name' => 'grupos',
+                                        'id' => 'grupo_id',
+                                        'name' => 'grupo_id',
                                         'class' => 'form-control',
                                         'options' => $grupos,
-                                        'value' => set_value('grupos')
+                                        'value' => set_value('grupo_id')
                                     ],
                                 ); ?>
                             </div>
@@ -387,23 +387,72 @@ $select = ['' => '']; ?>
         console.log('====================================');
         console.log( " LLegue a Filtrar Autores " );
         console.log('====================================');
+        /*
+             'id' => 'cod_contador',
+                                    'name' => 'cod_contador',
+                               
+                                    'id' => 'id_pais',
+                                    'name' => 'id_pais',
+                            
+                                        'id' => 'client_id',
+                                        'name' => 'client_id',
+                                    
+                                    'id' => 'pais_cliente',
+                                    'name' => 'pais_cliente',
+                                
+                                    'id' => 'propietario',
+                                    'name' => 'propietario',
+                                 
+                                        'id' => 'pais_propietario',
+                                        'name' => 'pais_propietario',
+                                       
+                                    'id' => 'titulo',
+                                    'name' => 'titulo',
+                                 
+                                        'id' => 'grupos',
+                                        'name' => 'grupos',
+                                        
+                                    'id' => 'solicitud',
+                                    'name' => 'solicitud',
+                               
+                                    'id' => 'registro',
+                                    'name' => 'registro',
+                                  
+                                    'id' => 'soli_desde',
+                                    'name' => 'soli_desde',
+                                
+                                    'id' => 'soli_hasta',
+                                    'name' => 'soli_hasta',
+                             
+                                    'id' => 'vigencia_desde',
+                                    'name' => 'vigencia_desde',
+                             
+                                    'id' => 'vigencia_hasta',
+                                    'name' => 'vigencia_hasta',
+                             
+                                        'id' => 'id_estado',
+                                        'name' => 'id_estado',
+                            
+                                        'id' => 'id_tipo_evento',
+                                        'name' => 'id_tipo_evento',
+        */
         var params = {
-            'id_pais': $("select[name=id_pais]").val(),
-            'titulo': $("input[name=titulo]").val(),
-            'id_tipo_solicitud': $("select[name=id_tipo_solicitud]").val(),
-            'cod_contador': $("input[name=cod_contador]").val(),
-            'ref_interna': $("input[name=ref_interna]").val(),
-            'solicitud': $("input[name=solicitud]").val(),
-            'registro': $("input[name=registro]").val(),
-            'fecha_solicitud_desde': $("input[name=soli_desde]").val(),
-            'fecha_solicitud_hasta': $("input[name=soli_hasta]").val(),
-            'id_estado': $("select[name=id_estado]").val(),
-            'id_tipo_evento': $("select[name=id_tipo_evento]").val(),
-            'client_id': $("select[name=client_id]").val(),
-            'country': $("select[name=country]").val(),
-            'id_propietario': $("select[name=id_propietario]").val(),
-            'paisProp_id': $("select[name=paisProp_id]").val(),
-
+            'cod_contador': $("#cod_contador").val(),
+            'pais_id': $("#id_pais").val(),
+            'client_id' : $("#client_id").val(),
+            'pais_cliente' : $("#pais_cliente").val(),
+            'propietario_id' : $("#propietario_id").val(),
+            'pais_propietario' : $("#pais_propietario").val(),
+            'titulo': $("#titulo").val(),
+            'grupo_id' : $("#grupo_id").val(),
+            'solicitud': $("#solicitud").val(),
+            'registro': $("#registro").val(),
+            'soli_desde': $("#soli_desde").val(),
+            'soli_hasta' : $("#soli_hasta").val(),
+            'vigencia_desde' : $("#vigencia_desde").val(),
+            'vigencia_hasta' : $("#vigencia_hasta").val(),
+            'id_estado': $("#id_estado").val(),
+            'id_tipo_evento': $("#id_tipo_evento").val(),
         };
         console.log(" Parametros ", params);
         $.ajax({

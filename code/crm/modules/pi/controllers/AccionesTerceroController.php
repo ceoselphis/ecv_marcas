@@ -250,9 +250,15 @@ class AccionesTerceroController extends AdminController
         $CI->load->library('form_validation');
         $form = array();
         $data = $CI->input->post();
-        $fecha_solicitud_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
-        $fecha_registro_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
-        $fecha_boletin = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
+        if (!empty($data['fecha_solicitud_opuesta'])) {
+            $form['fecha_solicitud_opuesta'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
+        }
+        if (!empty($data['fecha_registro_opuesta'])) {
+            $form['fecha_registro_opuesta'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
+        }
+        if (!empty($data['fecha_boletin'])) {
+            $form['fecha_boletin'] = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
+        }
         //-------------- Step 1 ---------------
         $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
         $form['client_id'] = $data['client_id'];
@@ -270,15 +276,15 @@ class AccionesTerceroController extends AdminController
         $form['clase_niza']        = $data['clase_niza'];
         $form['pais_id']  = $data['pais_id_opuesta'];
         $form['solicitud_nro'] = $data['nro_solicitud_opuesta'];
-        $form['fecha_solicitud'] = $fecha_solicitud_opuesta;
+        
         $form['registro_nro']  = $data['nro_registro_opuesta'];
-        $form['fecha_registro']  = $fecha_registro_opuesta;
+       
         $form['propietario']  = $data['propietario_opuesta'];
         $form['ciudad_propietario'] = $data['ciudad_propietario_opuesta'];
         $form['pais_propietario_id'] = $data['pais_propietario_opuesta'];
         $form['agente']            = $data['agente'];
         $form['boletin_id']        = $data['boletin'];
-        $form['fecha_boletin']     = $fecha_boletin;
+        
         //--------------- Step 4 ----------------------
         $form['estado_id']         = $data['estado_id'];
         $form['comentarios']       = $data['comentarios'];

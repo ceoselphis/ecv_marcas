@@ -131,7 +131,8 @@ $select = ['' => '']; ?>
                                                 'id' => 'clase_id',
                                                 'name' => 'clase_id',
                                                 'class' => 'form-control',
-                                                'options' => $clase_niza
+                                                'options' => $clase_niza,
+                                                
                                             ]); ?>
                                         </div>
     
@@ -141,7 +142,8 @@ $select = ['' => '']; ?>
                                                 'id' => 'pais_id',
                                                 'name' => 'pais_id',
                                                 'class' => 'form-control',
-                                                'options' => $paises
+                                                'options' => $paises,
+                                               // 'selected' => set_value('clase_id' , '226')
                                             ]); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -210,7 +212,8 @@ $select = ['' => '']; ?>
                                                 'id' => 'pais_propietario',
                                                 'name' => 'pais_propietario',
                                                 'class' => 'form-control',
-                                                'options' => $paises
+                                                'options' => $paises,
+                                                'selected' => set_value('clase_id' , '226')
                                             ]); ?>
                                         </div>
     
@@ -220,6 +223,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'fundamento',
                                                 'name' => 'fundamento',
                                                 'class' => 'form-control',
+                                                'style' => 'height: 150px',
                                             ]); ?>
                                         </div>
                                     </div>       
@@ -399,6 +403,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'comentarios',
                                                 'name' => 'comentarios',
                                                 'class' => 'form-control',
+                                                'style' => 'height: 150px',
                                                 'value' => set_value('comentarios', '')
                                             ]); ?>
                                         </div>

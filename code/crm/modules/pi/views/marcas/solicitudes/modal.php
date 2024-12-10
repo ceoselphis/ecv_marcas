@@ -27,7 +27,7 @@
           </div>
           <div class="col-md-12">
             <?php echo form_label('Descripcion', 'descripcion_signo', ['id' => 'lbldescripcion_signo']); ?>
-            <?php echo form_textarea('descripcion_signo', '', ['class' => 'form-control', 'id' => 'descripcion_signo']); ?>
+            <?php echo form_textarea('descripcion_signo', '', ['class' => 'form-control', 'style' => 'height: 150px;' ,'id' => 'descripcion_signo']); ?>
           </div>
         </div>
       </div>

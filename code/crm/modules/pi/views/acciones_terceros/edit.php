@@ -225,6 +225,7 @@ $select = ['' => '']; ?>
                                                 'id' => 'fundamento',
                                                 'name' => 'fundamento',
                                                 'class' => 'form-control',
+                                                'style' => 'height: 150px',
                                                 'value' => set_value('fundamento', $values['fundamento'])
                                             ]); ?>
                                         </div>
@@ -406,12 +407,13 @@ $select = ['' => '']; ?>
                                             <?php echo form_label('Estado de Solicitud', 'estado_id'); ?>
                                             <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control']); ?>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style = "padding-top : 10px;">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
                                             <?php echo form_textarea([
                                                 'id' => 'comentarios',
                                                 'name' => 'comentarios',
                                                 'class' => 'form-control',
+                                                'style' => 'height: 150px',
                                                 'value' => set_value('comentarios', $values['comentarios'])
                                             ]); ?>
                                         </div>

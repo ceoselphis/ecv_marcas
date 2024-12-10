@@ -405,7 +405,7 @@ $select = ['' => '']; ?>
                                     <div class="row">
                                         <div class="col-md-12" style="padding-top:15px;">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
-                                            <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control','id' => 'comentarios']); ?>
+                                            <?php echo form_textarea('comentarios', set_value('comentarios'), ['class' => 'form-control', 'style' => 'height: 150px;','id' => 'comentarios']); ?>
                                             <div class="text-danger comentarios_error"></div>
                                         </div>
                                     </div>

@@ -125,7 +125,7 @@ $select = ['' => '']; ?>
                                                 'options' => $marcas,
                                             ]); ?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Clase', 'clase_id'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'clase_id',
@@ -136,7 +136,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Pais', 'pais_id'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'pais_id',
@@ -146,7 +146,7 @@ $select = ['' => '']; ?>
                                                // 'selected' => set_value('clase_id' , '226')
                                             ]); ?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Nº Solicitud', 'nro_solicitud'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'nro_solicitud',
@@ -156,7 +156,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Fecha Solicitud', 'fecha_solicitud'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'fecha_solicitud',
@@ -166,7 +166,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Nº Registro', 'nro_registro'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'nro_registro',
@@ -176,7 +176,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Fecha Registro', 'fecha_registro'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'fecha_registro',
@@ -186,7 +186,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style = "padding-top : 10px">
                                             <?php echo form_label('Propietario', 'propietario_id'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'propietario_id',
@@ -196,7 +196,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Ciudad', 'ciudad_propietario'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'ciudad_propietario',
@@ -206,7 +206,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Pais', 'pais_propietario'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'pais_propietario',
@@ -217,7 +217,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style = "padding-top : 10px">
                                             <?php echo form_label('Fundamento', 'fundamento'); ?>
                                             <?php echo form_textarea([
                                                 'id' => 'fundamento',
@@ -256,7 +256,7 @@ $select = ['' => '']; ?>
                                                 'value'    => set_value('marca_opuesta', '')
                                             ]); ?>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Clase', 'clase_niza'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'clase_niza',
@@ -266,7 +266,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Pais', 'pais_id'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'pais_id_opuesta',
@@ -276,7 +276,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Nº Solicitud', 'nro_solicitud'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'nro_solicitud_opuesta',
@@ -286,7 +286,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Fecha Solicitud', 'fecha_solicitud_opuesta'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'fecha_solicitud_opuesta',
@@ -296,7 +296,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Nº Registro', 'nro_registro'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'nro_registro',
@@ -306,7 +306,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Fecha Registro', 'fecha_registro_opuesta'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'fecha_registro_opuesta',
@@ -316,7 +316,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style = "padding-top : 10px">
                                             <?php echo form_label('Propietario', 'propietario_opuesta'); ?>
                                             <?php echo form_input([
                                                 'id' => 'propietario_opuesta',
@@ -326,7 +326,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Ciudad', 'ciudad_propietario_opuesta'); ?>
                                             <?php echo form_input([
                                                 'id'       => 'ciudad_propietario_opuesta',
@@ -336,7 +336,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Pais', 'pais_propietario_opuesta'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'pais_propietario_opuesta',
@@ -346,7 +346,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style = "padding-top : 10px">
                                             <?php echo form_label('Agente', 'agente'); ?>
                                             <?php echo form_input([
                                                 'id' => 'agente',
@@ -355,7 +355,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Boletin', 'boletin'); ?>
                                             <?php echo form_dropdown([
                                                 'id' => 'boletin',
@@ -365,7 +365,7 @@ $select = ['' => '']; ?>
                                             ]); ?>
                                         </div>
     
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style = "padding-top : 10px">
                                             <?php echo form_label('Fecha', 'fecha_boletin'); ?>
                                             <?php echo form_input([
                                                 'id' => 'fecha_boletin',
@@ -397,7 +397,7 @@ $select = ['' => '']; ?>
                                             <?php echo form_label('Estado de Solicitud', 'estado_id'); ?>
                                             <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', ''), ['class' => 'form-control', 'id'=>'estado_id']); ?>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style = "padding-top:10px">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
                                             <?php echo form_textarea([
                                                 'id' => 'comentarios',

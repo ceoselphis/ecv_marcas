@@ -57,7 +57,7 @@
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentario', 'evento_comentario');?>
-                <?php echo form_textarea(['name'=>'evento_comentario','id'=>'evento_comentario'],'',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'evento_comentario','id'=>'evento_comentario'],'',['class' => 'form-control' , 'style' => 'height : 150px']);?>
             </div>
         </div>
       </div>
@@ -90,7 +90,7 @@
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Comentarios', 'comentario_archivo');?>
-                <?php echo form_textarea(['name'=>'comentario_archivo', 'id'=>'comentario_archivo'],'',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'comentario_archivo', 'id'=>'comentario_archivo'],'',['class' => 'form-control' , 'style' => 'height : 150px']);?>
             </div>
             <div class="col-md-12">
                 <?php echo form_label('Archivo', 'doc_archivo');?>
@@ -141,7 +141,7 @@
             </div>
             <div class="col-md-12" style="padding-top:15px;">
               <?php echo form_label('Descripcion', 'descripcion', ['id' => 'lbltareadescripcion']); ?>
-              <?php echo form_textarea(['name' => 'tarea_descripcion', 'id' => 'tarea_descripcion'], '', ['class' => 'form-control']); ?>
+              <?php echo form_textarea(['name' => 'tarea_descripcion', 'id' => 'tarea_descripcion'], '', ['class' => 'form-control' , 'style' => 'height : 150px']); ?>
             </div>
             
         </div>

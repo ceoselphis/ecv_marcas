@@ -1,7 +1,7 @@
 <?php
 $CI = &get_instance();
 init_head();
-$CI->load->view('patente/solicitudes/css.php');
+$CI->load->view('marcas/solicitudes/css.php'); 
 $select = ['' => '']; ?>
 
 <div id="wrapper">

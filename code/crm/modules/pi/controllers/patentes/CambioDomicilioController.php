@@ -236,7 +236,5 @@ class CambioDomicilioController extends AdminController
         $CI->load->helper('url');
         $query = $CI->PatentesCambioDomicilio_model->delete($id);
         return redirect('pi/patentes/SolicitudesController');
-        
-        
     }
 }

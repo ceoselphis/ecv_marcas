@@ -88,11 +88,11 @@
                 <?php echo form_label('Descripcion', 'descripcion_archivo');?>
                 <?php echo form_input(['name'=>'doc_descripcion','id'=>'doc_descripcion'],'', ['class' => 'form-control']);?>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="padding-top : 10px">
                 <?php echo form_label('Comentarios', 'comentario_archivo');?>
                 <?php echo form_textarea(['name'=>'comentario_archivo', 'id'=>'comentario_archivo'],'',['class' => 'form-control' , 'style' => 'height : 150px']);?>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="padding-top : 10px">
                 <?php echo form_label('Archivo', 'doc_archivo');?>
                 <?php echo form_input([
                     'id' => 'doc_archivo',

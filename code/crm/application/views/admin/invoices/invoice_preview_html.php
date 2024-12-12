@@ -166,6 +166,7 @@ if (isset($invoice->scheduled_email) && $invoice->scheduled_email) { ?>
         <div class="col-md-12">
             <div class="table-responsive">
                 <?php
+                //echo json_encode($invoice);
          $items = get_items_table_data($invoice, 'invoice', 'html', true);
             echo $items->table();
          ?>

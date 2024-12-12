@@ -55,7 +55,7 @@
                 <?php echo form_label('Tipo Evento', 'tipo_evento');?>
                 <?php echo form_dropdown(['name'=>'tipo_evento','id'=>'tipo_evento'], $tipo_evento, '',['class' => 'form-control']);?>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style = "padding-top:10px">
                 <?php echo form_label('Comentario', 'evento_comentario');?>
                 <?php echo form_textarea(['name'=>'evento_comentario','id'=>'evento_comentario'],'',['class' => 'form-control' , 'style' => 'height : 150px']);?>
             </div>

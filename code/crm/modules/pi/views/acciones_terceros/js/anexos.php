@@ -71,13 +71,16 @@
                         data: 'fecha'
                     },
                     {
+                        /*
+                            <a class="btn btn-light edit-publicacion" data-publicacionid="${row.id}" style="background-color: white;">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                         */
                         data: null,
                         render: function (data, type, row) {
                             return `
                             <td class="text-center">
-                                <a class="btn btn-light edit-publicacion" data-publicacionid="${row.id}" style="background-color: white;">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
+                                
                                 <button class="btn btn-danger delete-publicacion" data-publicacionid="${row.id}">
                                     <i class="fas fa-trash"></i> Borrar
                                 </button>
@@ -170,11 +173,14 @@
                         data: 'fecha'
                     },
                     {
+                        /*
+                            <a class=" btn btn-light edit-evento"  data-eventoid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                         */
                         data: null,
                         render: function (data, type, row) {
                             return `
                             <td class="text-center">
-                            <a class=" btn btn-light edit-evento"  data-eventoid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
+                            
                             <button  class="btn btn-danger delete-evento" data-eventoid="${row.id}">
                             <i class="fas fa-trash"></i>Borrar</button>
                             </td>`;
@@ -262,11 +268,11 @@
                         data: 'fecha'
                     },
                     {
-                        data: null,
+                        /* <a class=" btn btn-light edit-tarea" data-tareaid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a> */
+                        data: null, 
                         render: function (data, type, row) {
                             return `
                                         <td class="text-center">
-                                            <a class=" btn btn-light edit-tarea" data-tareaid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
                                             <button class="btn btn-danger delete-tarea" data-tareaid="${row.id}">
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>
@@ -277,23 +283,23 @@
             });
 
             // Evento para el botón de Editar
-            $('#tareaTbl').on('click', '.edit-tarea', function () {
-                let tareasid = $(this).data('tareaid');
-                console.log("ID para editar: " + tareasid);
-                console.log(" LLegar a Modal Editar Tareas ");
-                let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/findTareas/"); ?>';
-                url = url + tareasid;
-                console.log(url);
-                $.get(url, function (response) {
-                    let lista = JSON.parse(response);
-                    console.log('lista tareas ', lista);
-                    $('#tarea_fechaEdit').val(lista[0].fecha);
-                    $('#tarea_descripcionEdit').val(lista[0].descripcion);
-                    $('#id_modal_tareaEdit').val(tareasid);
-                });
-                $("#tareaModalEdit").modal('show');
+            // $('#tareaTbl').on('click', '.edit-tarea', function () {
+            //     let tareasid = $(this).data('tareaid');
+            //     console.log("ID para editar: " + tareasid);
+            //     console.log(" LLegar a Modal Editar Tareas ");
+            //     let url = '<?php echo admin_url("pi/AccionesTerceroTareasController/findTareas/"); ?>';
+            //     url = url + tareasid;
+            //     console.log(url);
+            //     $.get(url, function (response) {
+            //         let lista = JSON.parse(response);
+            //         console.log('lista tareas ', lista);
+            //         $('#tarea_fechaEdit').val(lista[0].fecha);
+            //         $('#tarea_descripcionEdit').val(lista[0].descripcion);
+            //         $('#id_modal_tareaEdit').val(tareasid);
+            //     });
+            //     $("#tareaModalEdit").modal('show');
 
-            });
+            // });
 
             // Evento para el botón de Editar
             $('#tareaTbl').on('click', '.delete-tarea', function (e) {
@@ -359,13 +365,16 @@
                     },
 
                     {
+                        /*
+                             <a class="btn btn-light edit-documento" data-documentoid="${row.id}" style="background-color: white;">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>                        
+                        */
                         data: null,
                         render: function (data, type, row) {
                             return `
                             <td class="text-center">
-                                <a class="btn btn-light edit-documento" data-documentoid="${row.id}" style="background-color: white;">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
+                               
                                 <button class="btn btn-danger delete-documento" data-documentoid="${row.id}">
                                     <i class="fas fa-trash"></i> Borrar
                                 </button>

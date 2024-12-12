@@ -31,9 +31,9 @@ $select = ['' => '']; ?>
                         <h4>Editar Solicitud de Acciones a Terceros</h4>
                     </div>
                 </div>
-            </div>
+            </div> <!--admin_url('pi/AccionesTerceroController/update/'.$values['id'])-->
             <div class="col-md-12">
-                <?php echo form_open_multipart(admin_url('pi/AccionesTerceroController/update/'.$values['id']), ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
+                <?php echo form_open_multipart("", ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="wizard">
@@ -88,15 +88,15 @@ $select = ['' => '']; ?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Cliente', 'client_id'); ?>
-                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $values['client_id']), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $values['client_id']), ['class' => 'form-control' , 'id' => 'client_id']); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Oficina', 'oficina_id') ?>
-                                            <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id', $values['oficina_id']), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id', $values['oficina_id']), ['class' => 'form-control' , 'id' => 'oficina_id']); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Responsable', 'staff_id'); ?>
-                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control' , 'id' => 'staff_id']); ?>
                                         </div>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -188,13 +188,14 @@ $select = ['' => '']; ?>
                                         </div>
     
                                         <div class="col-md-12" style = "padding-top:10px;">
-                                            <?php echo form_label('Propietario', 'propietario_id'); ?>
+                                            <?php echo form_label('Propietario', 'lbl_propietario_id'); ?>
+                                            <p><?php echo json_encode($values['marca_propietario']);?></p>
                                             <?php echo form_dropdown([
-                                                'id'        => 'propietario_id',
-                                                'name'      => 'propietario_id',
+                                                'id'        => 'Editpropietario_id',
+                                                'name'      => 'Editpropietario_id',
                                                 'class'     => 'form-control',
                                                 'options'   => $propietarios,
-                                                'selected'  => set_value('propietario_id', $values['marca_propietario']),
+                                                'selected'  => set_value('Editpropietario_id', $values['marca_propietario']),
                                             ]); ?>
                                         </div>
     
@@ -405,7 +406,7 @@ $select = ['' => '']; ?>
 
                                         <div class="col-md-12">
                                             <?php echo form_label('Estado de Solicitud', 'estado_id'); ?>
-                                            <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control' , 'id' => 'estado_id']); ?>
                                         </div>
                                         <div class="col-md-12" style = "padding-top : 10px;">
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
@@ -580,7 +581,157 @@ $select = ['' => '']; ?>
 <?php init_tail(); ?>
 <?php $CI->load->view('acciones_terceros/js/anexos.php');?>
 <?php $CI->load->view('acciones_terceros/js.php');?>
+<script>
+     $("#solicitudfrm").on('submit', function(e) {
+        e.preventDefault();
+        console.log(" Llegue a Solicitud ");
+        var formData = new FormData();
+     
+        /*
+              //-------------- Step 1 ---------------
+        $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
+        $form['client_id'] = $data['client_id'];
+        $form['oficina_id'] = $data['oficina_id'];
+        $form['staff_id']  = $data['staff_id'];
+        // ------------- Step 2 ----------------
+        $form['marcas_id']  = $data['marcas_id'];
+        $form['marca_pais_id'] = $data['pais_id'];
+        $form['marca_propietario'] = is_null($data['propietario_id']) ? '' : $data['propietario_id'];
+        $form['marca_ciudad']  = $data['ciudad_propietario'];
+        $form['marca_pais_propietario_id'] = $data['pais_propietario'];
+        $form['fundamento']        = $data['fundamento'];
+        //--------------- Step 3 -----------------
+        $form['marca_opuesta']     = $data['marca_opuesta'];
+        $form['clase_niza']        = $data['clase_niza'];
+        $form['pais_id']  = $data['pais_id_opuesta'];
+        $form['solicitud_nro'] = $data['nro_solicitud_opuesta'];
+        if (!empty($data['fecha_solicitud_opuesta'])) {
+            $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
+        }
+        $form['registro_nro']  = $data['nro_registro_opuesta'];
+        if (!empty($data['fecha_registro_opuesta'])) {
+            $form['fecha_registro'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
+        }
+        $form['propietario']  = $data['propietario_opuesta'];
+        $form['ciudad_propietario'] = $data['ciudad_propietario_opuesta'];
+        $form['pais_propietario_id'] = $data['pais_propietario_opuesta'];
+        $form['agente']            = $data['agente'];
+        $form['boletin_id']        = $data['boletin'];
+        if (!empty($data['fecha_boletin'])) {
+            $form['fecha_boletin'] = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
+        }
+        //--------------- Step 4 ----------------------
+        $form['estado_id']         = $data['estado_id'];
+        $form['comentarios']       = $data['comentarios'];
+        */
 
+        
+
+        data = {
+            // ------------- Step 1 ---------------
+            'id' : '<?php echo $cod_id; ?>',
+            'id_tipo_solicitud' : $("#tipo_solicitud_id").val(),
+            'client_id' : $("#client_id").val(),
+            'oficina_id' : $("#oficina_id").val(),
+            'staff_id' : $("#staff_id").val(),
+            //-------------- Step 2 ---------------
+            'marcas_id' : $("#marcas_id").val(),
+            'tipo_solicitud_id'  : $("#tipo_solicitud_id").val(),
+            'clase_id' : $("#clase_id").val(),
+            'pais_id' : $("#pais_id").val(),
+            'nro_solicitud' : $("#nro_solicitud").val(),
+            'fecha_solicitud' : $("#fecha_solicitud").val(),
+            'nro_registro' : $("#nro_registro").val(),
+            'fecha_registro' : $("#fecha_registro").val(),
+            'propietario_id' : $("#Editpropietario_id").val(),
+            'ciudad_propietario' : $("#ciudad_propietario").val(),
+            'pais_propietario' : $("#pais_propietario").val(),
+            'fundamento' : $("#fundamento").val(),
+            'marca_opuesta' : $("#marca_opuesta").val(),
+            'clase_niza' : $("#clase_niza").val(),
+            'pais_id_opuesta' : $("#pais_id_opuesta").val(),
+            'nro_solicitud_opuesta' : $("#nro_solicitud_opuesta").val(),
+            'fecha_solicitud_opuesta' : $("#fecha_solicitud_opuesta").val(),
+            'nro_registro' : $("#nro_registro").val(),
+            'fecha_registro_opuesta' : $("#fecha_registro_opuesta").val(),
+            'propietario_opuesta' : $("#propietario_opuesta").val(),
+            'ciudad_propietario_opuesta' : $("#ciudad_propietario_opuesta").val(),
+            'pais_propietario_opuesta' : $("#pais_propietario_opuesta").val(),
+            'agente' : $("#agente").val(),
+            'boletin' : $("#boletin").val(),
+            'fecha_boletin' : $("#fecha_boletin").val(),
+            'estado_id' : $("#estado_id").val(),
+            'comentarios' : $("#comentarios").val(),
+        };
+          console.log(" Data ", data);
+       
+        formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formData.append('id', data.id);
+        // ------------- Step 1 ----------------
+        formData.append('id_tipo_solicitud' , data.id_tipo_solicitud);
+        formData.append('client_id', data.client_id);
+        formData.append('oficina_id', data.oficina_id);
+        formData.append('staff_id', data.staff_id);
+        //-------------- Step 2 ----------------
+        formData.append('marcas_id', data.marcas_id);
+        formData.append('tipo_solicitud_id', data.tipo_solicitud_id);
+        formData.append('clase_id', data.clase_id);
+        formData.append('pais_id', data.pais_id);
+        formData.append('nro_solicitud', data.nro_solicitud);
+        formData.append('fecha_solicitud', data.fecha_solicitud);
+        formData.append('nro_registro', data.nro_registro);
+        formData.append('fecha_registro', data.fecha_registro);
+        formData.append('propietario_id', data.propietario_id);
+        formData.append('ciudad_propietario', data.ciudad_propietario);
+        formData.append('pais_propietario', data.pais_propietario);
+        formData.append('fundamento', data.fundamento);
+        formData.append('marca_opuesta', data.marca_opuesta);
+        formData.append('clase_niza', data.clase_niza);
+        formData.append('pais_id_opuesta', data.pais_id_opuesta);
+        formData.append('nro_solicitud_opuesta', data.nro_solicitud_opuesta);
+        formData.append('fecha_solicitud_opuesta', data.fecha_solicitud_opuesta);
+        formData.append('nro_registro', data.nro_registro);
+        formData.append('fecha_registro_opuesta', data.fecha_registro_opuesta);
+        formData.append('propietario_opuesta', data.propietario_opuesta);
+        formData.append('ciudad_propietario_opuesta', data.ciudad_propietario_opuesta);
+        formData.append('pais_propietario_opuesta', data.pais_propietario_opuesta);
+        formData.append('agente', data.agente);
+        formData.append('boletin', data.boletin);
+        formData.append('fecha_boletin', data.fecha_boletin);
+        formData.append('estado_id', data.estado_id);
+        formData.append('comentarios', data.comentarios);
+
+        let url =  '<?php echo admin_url('pi/AccionesTerceroController/update/'); ?>';
+        url += data.id;
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(" Response " , response);
+                const obj = JSON.parse(response);
+                if (obj.code == 200) {
+                    
+                    alert_float('success', 'Solicitud Actualizada con éxito!');
+                    let ruta = '<?php echo admin_url("pi/AccionesTerceroController/"); ?>';
+                    location.replace(ruta);
+                } else if (obj.code == 500) {
+                    console.log(" ")
+                    alert_float('danger', 'No se Pudo Actualizar la Solicitud ');
+                }
+            },
+            fail: function(request) {
+                <?php if (ENVIRONMENT != 'production') { ?>
+                    alert(response);
+                <?php } else { ?>
+                    alert('ha ocurrido un error');
+                <?php } ?>
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

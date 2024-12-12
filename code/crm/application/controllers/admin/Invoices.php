@@ -516,8 +516,13 @@ class Invoices extends AdminController
     public function invoice($id = '')
     {   
         if ($this->input->post()) {
-            $invoice_data = $this->input->post(); 
-            $item_description = $this->decodeUnicodeString($invoice_data['newitems'][1]['description']);
+            $invoice_data = $this->input->post();
+            $item_description= ''; 
+            $articulo_id = 13;
+            if (!empty($invoice_data['newitems'][1]['description'])) {
+
+                $item_description = $this->decodeUnicodeString($invoice_data['newitems'][1]['description']);
+            }
             if (!empty($this->ConvertirItem($item_description))){
 
                 $articulo_id = $this->ConvertirItem($item_description);
@@ -549,7 +554,7 @@ class Invoices extends AdminController
                 $id = $this->invoices_model->add($invoice_data);
                 if ($id) {
                     $marcas = $this->session->userdata('marca_id');
-
+                    
                     if ($marcas){
                         $insert = array(
                             'marcas_id' => $marcas,
@@ -562,10 +567,10 @@ class Invoices extends AdminController
                         try{
                             $query = $this->MarcasFacturas_model->insert($insert);
                                 if (isset($query)){
-                                //  echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'status'=>true]);
+                                echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'status'=>true]);
         
                                 }else {
-                                  // echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);
+                                  echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);
                                     
                                 }
                         }catch (Exception $e){
@@ -595,7 +600,7 @@ class Invoices extends AdminController
                         $this->session->set_userdata('send_later', true);
                     }
 
-                    redirect($redUrl);
+                    //redirect($redUrl);
                 }
             } else {
                 if (!has_permission('invoices', '', 'edit')) {

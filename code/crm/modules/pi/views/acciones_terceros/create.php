@@ -665,7 +665,6 @@ $select = ['' => '']; ?>
         formData.append('client_id', data.client_id);
         formData.append('oficina_id', data.oficina_id);
         formData.append('staff_id', data.staff_id);
-
         //-------------- Step 2 ----------------
         formData.append('marcas_id', data.marcas_id),
         formData.append('tipo_solicitud_id', data.tipo_solicitud_id),
@@ -703,44 +702,17 @@ $select = ['' => '']; ?>
             contentType: false,
             success: function(response) {
                 console.log(" Response " , response);
-                // const obj = JSON.parse(response);
-                // if (obj.code == 200) {
-                //     let id = data.id;
-
-                //     $.ajax({
-                //     url: url_propietarios,
-                //     method: 'POST',
-                //     data: formPropietario,
-                //     processData: false,
-                //     contentType: false
-                //     }).then(function (response) {
-                //         console.log(" Response ", response);
-                //     }).catch(function (response) {
-                //         console.log(response.responseText);
-                //         //alert_float('danger', 'No se pudo crear el Solicitante');
-                //     });
-
-                //     $.ajax({
-                //         url: url_autores,
-                //         method: 'POST',
-                //         data: formAutor,
-                //         processData: false,
-                //         contentType: false
-                //     }).then(function (response) {
-                //         console.log(" Response ", response);
-                //     }).catch(function (response) {
-                //         console.log(response.responseText);
-                //        // alert_float('danger', 'No se pudo crear la Patente');
-                //     });
-
-                //     alert_float('success', 'Solicitud guardada con éxito!');
-                //     let ruta = '<?php echo admin_url("pi/AutoresSolicitudesController/edit/"); ?>';
-                //     ruta = ruta + id;
-                //     location.replace(ruta);
-                // } else if (obj.code == 500) {
-                //     console.log(" ")
-                //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                // }
+                const obj = JSON.parse(response);
+                if (obj.code == 200) {
+                    let id = data.id;
+                    alert_float('success', 'Solicitud guardada con éxito!');
+                    let ruta = '<?php echo admin_url("pi/AccionesTerceroController/edit/"); ?>';
+                    ruta = ruta + id;
+                    location.replace(ruta);
+                } else if (obj.code == 500) {
+                    console.log(" ")
+                    alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                }
             },
             fail: function(request) {
                 <?php if (ENVIRONMENT != 'production') { ?>

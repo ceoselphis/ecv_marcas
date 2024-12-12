@@ -244,95 +244,73 @@ class AccionesTerceroController extends AdminController
 
     public function store()
     {
-        /* 
-        formData.append('id', data.id);
-        // ------------- Step 1 ----------------
-        formData.append('id_estado', data.id_estado);
-        formData.append('client_id', data.client_id);
-        formData.append('oficina_id', data.oficina_id);
-        formData.append('staff_id', data.staff_id);
-
-        //-------------- Step 2 ----------------
-        formData.append('marcas_id', data.marcas_id),
-        formData.append('tipo_solicitud_id', data.tipo_solicitud_id),
-        formData.append('clase_id', data.clase_id),
-        formData.append('pais_id', data.pais_id),
-        formData.append('nro_solicitud', data.nro_solicitud),
-        formData.append('fecha_solicitud', data.fecha_solicitud),
-        formData.append('nro_registro', data.nro_registro),
-        formData.append('fecha_registro', data.fecha_registro),
-        formData.append('propietario_id', data.propietario_id),
-        formData.append('ciudad_propietario', data.ciudad_propietario),
-        formData.append('pais_propietario', data.pais_propietario),
-        formData.append('fundamento', data.fundamento),
-        formData.append('marca_opuesta', data.marca_opuesta),
-        formData.append('clase_niza', data.clase_niza),
-        formData.append('pais_id_opuesta', data.pais_id_opuesta),
-        formData.append('nro_solicitud_opuesta', data.nro_solicitud_opuesta),
-        formData.append('fecha_solicitud_opuesta', data.fecha_solicitud_opuesta),
-        formData.append('nro_registro', data.nro_registro),
-        formData.append('fecha_registro_opuesta', data.fecha_registro_opuesta),
-        formData.append('propietario_opuesta', data.propietario_opuesta),
-        formData.append('ciudad_propietario_opuesta', data.ciudad_propietario_opuesta),
-        formData.append('pais_propietario_opuesta', data.pais_propietario_opuesta),
-        formData.append('agente', data.agente),
-        formData.append('boletin', data.boletin),
-        formData.append('fecha_boletin', data.fecha_boletin),
-        formData.append('estado_id', data.estado_id),
-        formData.append('comentarios', data.comentarios),
-        */
+        
         $CI = &get_instance();
         $CI->load->model("AccionesContraTerceros_model");
         $CI->load->helper(['url', 'form']);
         $CI->load->library('form_validation');
         $form = array();
         $data = $CI->input->post();
-        //-------------- Step 1 ---------------
-        $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
-        $form['client_id'] = $data['client_id'];
-        $form['oficina_id'] = $data['oficina_id'];
-        $form['staff_id']  = $data['staff_id'];
-        // ------------- Step 2 ----------------
-        $form['marcas_id']  = $data['marcas_id'];
-        $form['marca_pais_id'] = $data['pais_id'];
-        $form['marca_propietario'] = is_null($data['propietario_id']) ? '' : $data['propietario_id'];
-        $form['marca_ciudad']  = $data['ciudad_propietario'];
-        $form['marca_pais_propietario_id'] = $data['pais_propietario'];
-        $form['fundamento']        = $data['fundamento'];
-        //--------------- Step 3 -----------------
-        $form['marca_opuesta']     = $data['marca_opuesta'];
-        $form['clase_niza']        = $data['clase_niza'];
-        $form['pais_id']  = $data['pais_id_opuesta'];
-        $form['solicitud_nro'] = $data['nro_solicitud_opuesta'];
-        if (!empty($data['fecha_solicitud_opuesta'])) {
-            $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
-        }
-        $form['registro_nro']  = $data['nro_registro_opuesta'];
-        if (!empty($data['fecha_registro_opuesta'])) {
-            $form['fecha_registro'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
-        }
-        $form['propietario']  = $data['propietario_opuesta'];
-        $form['ciudad_propietario'] = $data['ciudad_propietario_opuesta'];
-        $form['pais_propietario_id'] = $data['pais_propietario_opuesta'];
-        $form['agente']            = $data['agente'];
-        $form['boletin_id']        = $data['boletin'];
-        if (!empty($data['fecha_boletin'])) {
-            $form['fecha_boletin'] = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
-        }
-        //--------------- Step 4 ----------------------
-        $form['estado_id']         = $data['estado_id'];
-        $form['comentarios']       = $data['comentarios'];
+        if (!empty($data)){
+            //-------------- Step 1 ---------------
+            $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
+            $form['client_id'] = $data['client_id'];
+            $form['oficina_id'] = $data['oficina_id'];
+            $form['staff_id']  = $data['staff_id'];
+            // ------------- Step 2 ----------------
+            $form['marcas_id']  = $data['marcas_id'];
+            $form['marca_pais_id'] = $data['pais_id'];
+            $form['marca_propietario'] = is_null($data['propietario_id']) ? '' : $data['propietario_id'];
+            $form['marca_ciudad']  = $data['ciudad_propietario'];
+            $form['marca_pais_propietario_id'] = $data['pais_propietario'];
+            $form['fundamento']        = $data['fundamento'];
+            //--------------- Step 3 -----------------
+            $form['marca_opuesta']     = $data['marca_opuesta'];
+            $form['clase_niza']        = $data['clase_niza'];
+            $form['pais_id']  = $data['pais_id_opuesta'];
+            $form['solicitud_nro'] = $data['nro_solicitud_opuesta'];
+            if (!empty($data['fecha_solicitud_opuesta'])) {
+                $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
+            }
+            $form['registro_nro']  = $data['nro_registro'];
+            if (!empty($data['fecha_registro_opuesta'])) {
+                $form['fecha_registro'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
+            }
+            $form['propietario']  = $data['propietario_opuesta'];
+            $form['ciudad_propietario'] = $data['ciudad_propietario_opuesta'];
+            $form['pais_propietario_id'] = $data['pais_propietario_opuesta'];
+            $form['agente']            = $data['agente'];
+            $form['boletin_id']        = $data['boletin'];
+            if (!empty($data['fecha_boletin'])) {
+                $form['fecha_boletin'] = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
+            }
+            //--------------- Step 4 ----------------------
+            $form['estado_id']         = $data['estado_id'];
+            $form['comentarios']       = $data['comentarios'];
 
-        echo json_encode($form);
-        
-        // try {
-        //     $query = $CI->AccionesContraTerceros_model->insert($form);
-        //     $id = $CI->AccionesContraTerceros_model->last_insert_id();
-        //     return redirect("pi/AccionesTerceroController/edit/{$id}");
-        // } catch (\Throwable $th) {
-        //     echo json_encode($th->getMessage());
-            
-        // }
+            // echo json_encode($form);
+
+            try {
+                $query = $CI->AccionesContraTerceros_model->insert($form);
+                if (isset($query)) {
+                    echo json_encode(['message' => 'success', 'code' => '200']);
+                } else {
+                    echo json_encode(['error' => $query, 'code' => '500']);
+                }
+            } catch (\Throwable $th) {
+                echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
+            } 
+            // try {
+            //     $query = $CI->AccionesContraTerceros_model->insert($form);
+            //     $id = $CI->AccionesContraTerceros_model->last_insert_id();
+            //     return redirect("pi/AccionesTerceroController/edit/{$id}");
+            // } catch (\Throwable $th) {
+            //     echo json_encode($th->getMessage());
+                
+            // }
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
+        }
     }
 
     /**
@@ -422,7 +400,64 @@ class AccionesTerceroController extends AdminController
         $CI->load->helper('url');
         $form = array();
         $data = $CI->input->post();
-        $fecha_solicitud_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
+        if (!empty($data)){
+            //-------------- Step 1 ---------------
+            $form['tipo_solicitud_id'] = $data['tipo_solicitud_id'];
+            $form['client_id'] = $data['client_id'];
+            $form['oficina_id'] = $data['oficina_id'];
+            $form['staff_id']  = $data['staff_id'];
+            // ------------- Step 2 ----------------
+            $form['marcas_id']  = $data['marcas_id'];
+            $form['marca_pais_id'] = $data['pais_id'];
+            $form['marca_propietario'] = is_null($data['propietario_id']) ? '' : $data['propietario_id'];
+            $form['marca_ciudad']  = $data['ciudad_propietario'];
+            $form['marca_pais_propietario_id'] = $data['pais_propietario'];
+            $form['fundamento']        = $data['fundamento'];
+            //--------------- Step 3 -----------------
+            $form['marca_opuesta']     = $data['marca_opuesta'];
+            $form['clase_niza']        = $data['clase_niza'];
+            $form['pais_id']  = $data['pais_id_opuesta'];
+            $form['solicitud_nro'] = $data['nro_solicitud_opuesta'];
+            if (!empty($data['fecha_solicitud_opuesta'])) {
+                $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
+            }
+            $form['registro_nro']  = $data['nro_registro'];
+            if (!empty($data['fecha_registro_opuesta'])) {
+                $form['fecha_registro'] = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
+            }
+            $form['propietario']  = $data['propietario_opuesta'];
+            $form['ciudad_propietario'] = $data['ciudad_propietario_opuesta'];
+            $form['pais_propietario_id'] = $data['pais_propietario_opuesta'];
+            $form['agente']            = $data['agente'];
+            $form['boletin_id']        = $data['boletin'];
+            if (!empty($data['fecha_boletin'])) {
+                $form['fecha_boletin'] = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
+            }
+            //--------------- Step 4 ----------------------
+            $form['estado_id']         = $data['estado_id'];
+            $form['comentarios']       = $data['comentarios'];
+
+            // echo json_encode($form);
+
+            try {
+                $query = $CI->AccionesContraTerceros_model->update($id, $form);
+                if (isset($query)) {
+                    echo json_encode(['message' => 'success', 'code' => '200']);
+                } else {
+                    echo json_encode(['error' => $query, 'code' => '500']);
+                }
+            } catch (\Throwable $th) {
+                echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
+            } 
+          
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
+        }
+      
+    }
+
+    /*
+          $fecha_solicitud_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
         $fecha_registro_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_registro_opuesta'])->format('Y-m-d');
         $fecha_boletin = DateTime::createFromFormat('d/m/Y', $data['fecha_boletin'])->format('Y-m-d');
         $fecha_solicitud_opuesta = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud_opuesta'])->format('Y-m-d');
@@ -463,7 +498,7 @@ class AccionesTerceroController extends AdminController
         } catch (\Throwable $th) {
             echo json_encode($th->getMessage());
         }
-    }
+    */
 
     /**
      * Deletes the item

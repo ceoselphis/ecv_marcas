@@ -564,7 +564,7 @@
         <?php if (isset($invoice_from_project)) {
                                 echo '<hr class="no-mtop" />';
                             } ?>
-        <div class="table-responsive "> <!--s_table-->
+        <div class="table-responsive s_table"> <!--s_table-->
             <table class="table invoice-items-table items table-main-invoice-edit has-calculations no-mtop">
                 <thead>
                     <tr>

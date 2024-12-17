@@ -430,7 +430,8 @@ class Invoices extends AdminController
                     // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
                     $marcas =  $this->facturaview_model->get_Oposicion($result[0]['marcas_id']);
                     $respuesta = [
-                        'descripcion' => "Marca: ". $marcas[0]['marca_opuesta_nombre'] . " Clase: ". $marcas[0]['marca_nombre_niza']. " Pais:" .$marcas[0]['marca_nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['marca_opuesta_solicitud']." N° Reg: ".$marcas[0]['marca_opuesta_registro'],
+                        // 'descripcion' => "Marca: ". $marcas[0]['marca_opuesta_nombre'] . " Clase: ". $marcas[0]['marca_nombre_niza']. " Pais:" .$marcas[0]['marca_nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['marca_opuesta_solicitud']." N° Reg: ".$marcas[0]['marca_opuesta_registro'],
+                        'descripcion' => $result[0]['description'],
                         'long_description' => $result[0]['long_description'],
                     
                     ];
@@ -600,7 +601,7 @@ class Invoices extends AdminController
                         $this->session->set_userdata('send_later', true);
                     }
 
-                    //redirect($redUrl);
+                    redirect($redUrl);
                 }
             } else {
                 if (!has_permission('invoices', '', 'edit')) {

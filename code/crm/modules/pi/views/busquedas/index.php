@@ -1,7 +1,29 @@
-<?php init_head();?>
+<?php 
+$CI = &get_instance();
+init_head();
+$CI->load->view('marcas/solicitudes/css.php'); 
+?>
 <div id="wrapper">
     <div class="content">
+        <!-- Loading Modal -->
+        <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
+                        <h4>Lista de Solicitud de Busqueda de Marca</h4>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">

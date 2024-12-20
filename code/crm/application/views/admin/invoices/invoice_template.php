@@ -650,7 +650,7 @@
                         ?>
                             <button type="button"
                                 onclick="add_item_to_table('undefined','undefined',<?php echo $new_item; ?>); return false;"
-                                class="btn pull-right btn-primary"><i class="fa fa-check"></i></button>
+                                class="btn pull-right btn-primary" id="save_item"><i class="fa fa-check"></i></button>
                         </td>
                     </tr>
                     <?php if (isset($invoice) || isset($add_items)) {

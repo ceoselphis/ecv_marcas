@@ -141,6 +141,30 @@
         }
     });
 
+    $("#save_item").on("click", function() {
+        // Handler code here
+        console.log(" Guradar Item ");
+    });
+    
+
+    $('#item_select').on('change', function () {
+        console.log(" Item Seleccionado ");
+        let valor = $(this).val();
+        if (valor === "") {
+            console.log("No se seleccionó ninguna Item.");
+        } else {
+            console.log("Item seleccionado: " + valor);
+
+            // let url = '<?php //echo admin_url("invoices/get_marca/"); ?>';
+            // url = url + valor;
+            // console.log(url);
+            // $.get(url, function (response) {
+            //     let lista = JSON.parse(response);
+            //     console.log(lista);
+            // });
+        }
+    });
+
     $('#marcas').on('change', function () {
         console.log('cambio en marca ');
         var valor = $(this).val(); // Obtener el valor de la opción seleccionada

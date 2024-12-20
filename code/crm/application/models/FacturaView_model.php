@@ -37,5 +37,14 @@ class FacturaView_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function get_Item_Group($id){
+        $this->db->select('*');
+        $this->db->from('tblitems');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        $res = $query->result_array();
+        return $res[0]['group_id'];
+    }
     
 }

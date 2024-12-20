@@ -46,7 +46,7 @@ $CI->load->view('marcas/solicitudes/css.php');  ?>
                         <div class="row" style="padding-top: 10px;">
                             <div class="col-md-4">
                                 <?php echo form_label('Responsable', 'staff_id');?>
-                                <?php echo form_dropdown('staff_id', $staff, set_value('staff_id', $values['staff_id']), ['id' => 'oficina_id' , 'class' => 'form-control']);?>
+                                <?php echo form_dropdown('staff_id', $staff, set_value('staff_id', $values['staff_id']), ['id' => 'staff_id' , 'class' => 'form-control']);?>
                             </div>
                             <div class="col-md-4">
                                 <?php echo form_label('Marca', 'marca');?>
@@ -88,7 +88,7 @@ $CI->load->view('marcas/solicitudes/css.php');  ?>
                         <div class="row" style="padding-top: 10px;">
                             <div class="col-md-12">
                                 <?php echo form_label('Comentarios', 'comentarios');?>
-                                <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['id' => 'comentarios' , 'class' => 'form-control']);?>
+                                <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['id' => 'comentarios' , 'class' => 'form-control' , 'style' => 'height:100px']);?>
                             </div>
                         </div>
                         <div class="row" style="padding: 2%">
@@ -136,7 +136,16 @@ $CI->load->view('marcas/solicitudes/css.php');  ?>
       </div>
       <div class="modal-body">
         <div class="row">
+            
             <div class="col-md-12">
+                <?php echo form_label('Descripcion', 'descripcion');?>
+                <?php echo form_input('descripcion','', ['class' => 'form-control']);?>
+            </div>
+            <div class="col-md-12" style="padding-top:10px">
+                <?php echo form_label('Comentarios', 'comentarios');?>
+                <?php echo form_textarea('comentarios','',['class' => 'form-control', 'style' => 'height : 150px', 'id' => 'comentarios']);?>
+            </div>
+            <div class="col-md-12" style="padding-top:10px">
                 <?php echo form_label('Archivo', 'archivo');?>
                 <?php echo form_input([
                     'id' => 'archivo',
@@ -146,14 +155,6 @@ $CI->load->view('marcas/solicitudes/css.php');  ?>
                     'accept' => 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                     text/plain, application/pdf, image/*'
                 ]);?>
-            </div>
-            <div class="col-md-12">
-                <?php echo form_label('Descripcion', 'descripcion');?>
-                <?php echo form_input('descripcion','', ['class' => 'form-control']);?>
-            </div>
-            <div class="col-md-12">
-                <?php echo form_label('Comentarios', 'comentarios');?>
-                <?php echo form_textarea('comentarios','',['class' => 'form-control', 'id' => 'comentarios']);?>
             </div>
             
         </div>
@@ -234,16 +235,15 @@ $CI->load->view('marcas/solicitudes/css.php');  ?>
             contentType: false,
             success: function(response) {
                 console.log(" Response " , response);
-                // const obj = JSON.parse(response);
-                // if (obj.code == 200) {
-                //     let id = data.id;
-                //     alert_float('success', 'Solicitud actualizada con éxito!');
-                //     let ruta = '<?php echo admin_url("pi/BusquedasController/"); ?>';
-                //     location.replace(ruta);
-                // } else if (obj.code == 500) {
-                //     console.log(" Error en Crear la solicitud ");
-                //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                // }
+                const obj = JSON.parse(response);
+                if (obj.code == 200) {
+                    alert_float('success', 'Solicitud actualizada con éxito!');
+                    let ruta = '<?php echo admin_url("pi/BusquedasController/"); ?>';
+                    location.replace(ruta);
+                } else if (obj.code == 500) {
+                    console.log(" Error en Crear la solicitud ");
+                    alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                }
             },
             fail: function(request) {
                 <?php if (ENVIRONMENT != 'production') { ?>

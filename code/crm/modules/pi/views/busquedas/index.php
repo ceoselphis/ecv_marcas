@@ -70,6 +70,16 @@ $CI->load->view('marcas/solicitudes/css.php');
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
 <script>
+    $('#modal-loading').modal('show');
+    $(function() {
+        $("#AddAccion").css({
+            "padding-left": "7px",
+        });
+        setTimeout(function() { 
+            $('#modal-loading').modal('hide');
+        }, 5000);
+    });
+
     $(document).ready(function()
     {
         $.ajax({

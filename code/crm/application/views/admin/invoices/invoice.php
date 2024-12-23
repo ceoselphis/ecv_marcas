@@ -78,12 +78,16 @@
     //     }
     // }
 
-    // Cliente();
+    
+
+    item_select = "";
+    marcas = "";
+    cliente = "";
 
     $('#clientid').on('change', function (e) {
         e.preventDefault(); // Evitar la acción predeterminada
         var valor = $(this).val(); // Obtener el valor seleccionado del cliente
-
+        cliente = $(this).val();
         if (valor === "") {
             console.log("La variable está vacía o es falso.");
         } else {
@@ -141,19 +145,15 @@
         }
     });
 
-    $("#save_item").on("click", function() {
-        // Handler code here
-        console.log(" Guradar Item ");
-    });
     
 
     $('#item_select').on('change', function () {
         console.log(" Item Seleccionado ");
-        let valor = $(this).val();
-        if (valor === "") {
+        item_select = $(this).val();
+        if (item_select === "") {
             console.log("No se seleccionó ninguna Item.");
         } else {
-            console.log("Item seleccionado: " + valor);
+            console.log("Item seleccionado: " + item_select);
 
             // let url = '<?php //echo admin_url("invoices/get_marca/"); ?>';
             // url = url + valor;
@@ -165,8 +165,14 @@
         }
     });
 
+   
+    
+
+   
+
     $('#marcas').on('change', function () {
         console.log('cambio en marca ');
+        marcas = $(this).val();
         var valor = $(this).val(); // Obtener el valor de la opción seleccionada
         if (valor === "") {
             console.log("No se seleccionó ninguna marca.");
@@ -181,6 +187,37 @@
             });
         }
 
+    });
+
+    $("#save_item").on("click", function() {
+        // Handler code here
+        console.log(" Guradar Item ");
+       // item_select = $('#item_select').val(); // Obtener el valor del input
+        // Verificar si tiene datos
+        console.log(" Item Select ", item_select);
+        let expediente = {
+            "expediente_id" : item_select,
+            "marca_id" :  marcas,
+            "cliente_id" :  cliente
+        };
+        if (localStorage.getItem('expediente') !== null) {
+            let valor_nuevo = [];
+            let valor = localStorage.getItem('expediente');
+            console.log('El dato existe: ' ,JSON.parse(valor));
+            valor_viejo = JSON.parse(valor);
+            valor_nuevo.push(expediente);
+            valor_viejo.forEach(function(item) {
+                valor_nuevo.push(item);
+            });
+            console.log(' array nuevo ', valor_nuevo);
+        } else {
+
+            let array_expediente = []; 
+            array_expediente.push(expediente);
+            let exp = JSON.stringify(array_expediente);
+            console.log(" expediente : " , exp);
+            localStorage.setItem('expediente', exp);
+        }
     });
 
     // $('#marcas').on('change', function (e) {

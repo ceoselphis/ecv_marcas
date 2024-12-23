@@ -338,6 +338,14 @@ class Invoices extends AdminController
         }
     }
 
+    public function get_expediente($expediente){
+        $CI = &get_instance();
+        if (!empty($expediente)){
+            $this->session->set_userdata('expediente', $expediente);
+            echo json_encode(['code' => 200, 'message' => 'ID de marca Gurdado','marca_id' => $id]);
+        }
+    }
+
 
 
     public function MostrarMarca($result){
@@ -526,12 +534,18 @@ class Invoices extends AdminController
     }
 
 
+    public function ValidarItem($item) {
+
+        $this->load->model('facturaview_model');
+    }
+
+
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {   
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
-            echo json_encode(['message' => 'succes' , 'data' => $invoice_data]);
+            echo json_encode(['message' => 'succes' , 'data' => $invoice_data['newitems']]);
             $item_description= ''; 
             $articulo_id = 13;
             if (!empty($invoice_data['newitems'][1]['description'])) {
@@ -703,6 +717,185 @@ class Invoices extends AdminController
 
         $this->load->view('admin/invoices/invoice', $data);
     }
+
+    //  /* Add new invoice or update existing */
+    //  public function invoice($id = '')
+    //  {   
+    //      if ($this->input->post()) {
+    //          $invoice_data = $this->input->post();
+    //          echo json_encode(['message' => 'succes' , 'data' => $invoice_data]);
+    //          $item_description= ''; 
+    //          $articulo_id = 13;
+    //          if (!empty($invoice_data['newitems'][1]['description'])) {
+ 
+    //              $item_description = $this->decodeUnicodeString($invoice_data['newitems'][1]['description']);
+    //          }
+    //          if (!empty($this->ConvertirItem($item_description))){
+ 
+    //              $articulo_id = $this->ConvertirItem($item_description);
+    //          } else {
+    //              $articulo_id = $invoice_data['newitems'][1]['order'];
+    //          }
+    //          $marca_id = $invoice_data['marcaid'];
+    //          $edit_marca = $invoice_data['edit_marca'];
+    //          unset($invoice_data['marcaid']);
+    //          unset($invoice_data['edit_marca']);
+    //          if ($id == '') {
+    //              if (!has_permission('invoices', '', 'create')) {
+    //                  access_denied('invoices');
+    //              }
+ 
+    //              if (hooks()->apply_filters('validate_invoice_number', true)) {
+    //                  $number = ltrim($invoice_data['number'], '0');
+    //                  if (total_rows('invoices', [
+    //                      'YEAR(date)' => date('Y', strtotime(to_sql_date($invoice_data['date']))),
+    //                      'number'     => $number,
+    //                      'status !='  => Invoices_model::STATUS_DRAFT,
+    //                  ])) {
+    //                      set_alert('warning', _l('invoice_number_exists'));
+ 
+    //                      redirect(admin_url('invoices/invoice'));
+    //                  }
+    //              }
+ 
+    //              $id = $this->invoices_model->add($invoice_data);
+    //              if ($id) {
+    //                  $marcas = $this->session->userdata('marca_id');
+    //                  // Mi parte 
+    //                  if ($marcas){
+    //                      $insert = array(
+    //                          'marcas_id' => $marcas,
+    //                          'facturas_id' => $id,
+    //                          'staff_id' => $_SESSION['staff_user_id'],
+    //                          'articulo_id' => $articulo_id
+    //                      );
+                         
+    //                      $this->load->model('MarcasFacturas_model');
+    //                      try{
+    //                          $query = $this->MarcasFacturas_model->insert($insert);
+    //                              if (isset($query)){
+    //                             // echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'status'=>true]);
+         
+    //                              }else {
+    //                               // echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);
+                                     
+    //                              }
+    //                      }catch (Exception $e){
+    //                          return $e->getMessage();
+    //                      }
+ 
+                         
+    //                  }
+    //                  //-----------------------------------------------------
+    //                  //set_alert('success', _l('added_successfully', _l('invoice')));
+    //                  /*We add the new invoice in the table */
+    //                  if(!empty($marca_id) && $edit_marca != "true") //nueva marca
+    //                  {
+    //                      $this->session->set_flashdata('marca_id',$marca_id);
+    //                      $this->session->set_flashdata('factId',$id);
+    //                      $redUrl = admin_url("pi/MarcasSolicitudesController/create");
+    //                  } else if(!empty($marca_id) && $edit_marca == "true") //edit marca
+    //                  {
+    //                      $this->invoices_model->insertMarcaFactura($marca_id, $id, $_SESSION['staff_user_id']);
+    //                      $redUrl = admin_url("pi/MarcasSolicitudesController/edit/" . $marca_id);
+    //                  }else{
+    //                      $redUrl = admin_url('invoices/list_invoices/' . $id);
+    //                  }
+ 
+    //                  if (isset($invoice_data['save_and_record_payment'])) {
+    //                      $this->session->set_userdata('record_payment', true);
+    //                  } elseif (isset($invoice_data['save_and_send_later'])) {
+    //                      $this->session->set_userdata('send_later', true);
+    //                  }
+ 
+    //                  redirect($redUrl);
+    //              }
+    //          } else {
+    //              if (!has_permission('invoices', '', 'edit')) {
+    //                  access_denied('invoices');
+    //              }
+ 
+    //              // If number not set, is draft
+    //              if (hooks()->apply_filters('validate_invoice_number', true) && isset($invoice_data['number'])) {
+    //                  $number = trim(ltrim($invoice_data['number'], '0'));
+    //                  if (total_rows('invoices', [
+    //                      'YEAR(date)' => date('Y', strtotime(to_sql_date($invoice_data['date']))),
+    //                      'number'     => $number,
+    //                      'status !='  => Invoices_model::STATUS_DRAFT,
+    //                      'id !='      => $id,
+    //                  ])) {
+    //                      set_alert('warning', _l('invoice_number_exists'));
+ 
+    //                      redirect(admin_url('invoices/invoice/' . $id));
+    //                  }
+    //              }
+    //              $success = $this->invoices_model->update($invoice_data, $id);
+    //              if ($success) {
+    //                  set_alert('success', _l('updated_successfully', _l('invoice')));
+    //              }
+ 
+    //              redirect(admin_url('invoices/list_invoices/' . $id));
+    //          }
+    //      }
+    //      if ($id == '') {
+    //          $title                  = _l('create_new_invoice');
+    //          $data['billable_tasks'] = [];
+    //      } else {
+    //          $invoice = $this->invoices_model->get($id);
+ 
+    //          if (!$invoice || !user_can_view_invoice($id)) {
+    //              blank_page(_l('invoice_not_found'));
+    //          }
+ 
+    //          $data['invoices_to_merge'] = $this->invoices_model->check_for_merge_invoice($invoice->clientid, $invoice->id);
+    //          $data['expenses_to_bill']  = $this->invoices_model->get_expenses_to_bill($invoice->clientid);
+ 
+    //          $data['invoice']        = $invoice;
+    //          $data['edit']           = true;
+    //          $data['billable_tasks'] = $this->tasks_model->get_billable_tasks($invoice->clientid, !empty($invoice->project_id) ? $invoice->project_id : '');
+ 
+    //          $title = _l('edit', _l('invoice_lowercase')) . ' - ' . format_invoice_number($invoice->id);
+    //      }
+ 
+    //      if ($this->input->get('customer_id')) {
+    //          $data['customer_id'] = $this->input->get('customer_id');
+    //      }
+ 
+    //      $this->load->model('payment_modes_model');
+    //      $data['payment_modes'] = $this->payment_modes_model->get('', [
+    //          'expenses_only !=' => 1,
+    //      ]);
+ 
+         
+    //      $this->load->model('taxes_model');
+    //      $data['taxes'] = $this->taxes_model->get();
+    //      $data['marcas']      = $this->taxes_model->getMarcas();
+         
+ 
+    //      $this->load->model('invoice_items_model');
+ 
+    //      $data['ajaxItems'] = false;
+    //      if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
+    //          $data['items'] = $this->invoice_items_model->get_grouped();
+    //      } else {
+    //          $data['items']     = [];
+    //          $data['ajaxItems'] = true;
+    //      }
+    //      $data['items_groups'] = $this->invoice_items_model->get_groups();
+ 
+    //      $this->load->model('currencies_model');
+    //      $data['currencies'] = $this->currencies_model->get();
+ 
+    //      $data['base_currency'] = $this->currencies_model->get_base_currency();
+ 
+    //      $data['staff']     = $this->staff_model->get('', ['active' => 1]);
+    //      $data['title']     = $title;
+    //      $data['bodyclass'] = 'invoice';
+    //      //$this->load->model('MarcasSolicitudes_model');
+ 
+    //      $this->load->view('admin/invoices/invoice', $data);
+    //  }
+ 
 
     /* Get all invoice data used when user click on invoiec number in a datatable left side*/
     public function get_invoice_data_ajax($id)

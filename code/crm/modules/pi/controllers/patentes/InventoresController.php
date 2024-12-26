@@ -51,7 +51,8 @@ class InventoresController extends AdminController
         $CI = &get_instance();
         $CI->load->model("Inventores_model");
         $paises = $CI->Inventores_model->findAllPais();
-        $data = ['paises' => $paises, 'codigo' => $CI->Inventores_model->last_insert_id()];
+        $id = intval($CI->Inventores_model->setCountPK());
+        $data = ['paises' => $paises, 'codigo' => $CI->Inventores_model->last_insert_id(),'id' => $id];
         return  $CI->load->view(
             'patente/inventores/create', $data
         );
@@ -73,6 +74,31 @@ class InventoresController extends AdminController
         $query = $CI->Inventores_model->insert($data);
         if (isset($query)) {
             return redirect(admin_url('pi/patentes/InventoresController/'));
+        }
+    }
+
+    public function insertInventores() {
+        $CI = &get_instance();
+        $CI->load->model("Inventores_model");
+        $form = array();
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $form['codigo'] = $data['codigo'];
+            $form['pais_id'] = $data['pais_id'];
+            $form['nombre'] = $data['nombre'];
+            $form['apellido'] = $data['apellido'];
+            $form['direccion'] = $data['direccion'];
+            $form['nacionalidad'] = $data['nacionalidad'];
+            $form['comentarios'] = $data['comentarios'];
+            $query = $CI->Inventores_model->insert($form);
+            if (isset($query)) {
+                echo json_encode(['message' => 'success', 'code' => '200']);
+            } else {
+                echo json_encode(['error' => $query, 'code' => '500']);
+            }
+           
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
         }
     }
 
@@ -123,9 +149,54 @@ class InventoresController extends AdminController
         
     }
 
+    public function updateInventores(string $id){
+        $CI = &get_instance();
+        $CI->load->model("Inventores_model");
+        $CI->load->helper('url');
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $form['codigo'] = $data['codigo'];
+            $form['pais_id'] = $data['pais_id'];
+            $form['nombre'] = $data['nombre'];
+            $form['apellido'] = $data['apellido'];
+            $form['direccion'] = $data['direccion'];
+            $form['nacionalidad'] = $data['nacionalidad'];
+            $form['comentarios'] = $data['comentarios'];
+            $query = $CI->Inventores_model->update($id, $data);
+            if (isset($query)) {
+                echo json_encode(['message' => 'success', 'code' => '200']);
+            } else {
+                echo json_encode(['error' => $query, 'code' => '500']);
+            }
+           
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
+        }
+        // try {
+        //     $query = $CI->Inventores_model->update($id, $data);
+        //     return redirect('pi/patentes/InventoresController');
+        // } catch (\Throwable $th) {
+        //     echo $th;
+        // }
+    }
+
     /**
      * Deletes the item
      */
+
+    public function destroyInventores($id)
+    {
+        $CI = &get_instance();
+        $CI->load->model("Inventores_model");
+        $CI->load->helper('url');
+        $query = $CI->Inventores_model->delete($id);
+        echo json_encode($query);
+        if (isset($query)) {
+            echo json_encode(['message' => 'success', 'code' => '200']);
+        } else {
+            echo json_encode(['error' => $query, 'code' => '500']);
+        }
+    }
 
     public function destroy(string $id)
     {
@@ -133,6 +204,7 @@ class InventoresController extends AdminController
         $CI->load->model("Inventores_model");
         $CI->load->helper('url');
         $query = $CI->Inventores_model->delete($id);
+
         return redirect('pi/patentes/InventoresController/');
     }
 

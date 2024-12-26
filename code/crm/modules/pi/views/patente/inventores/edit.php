@@ -1,12 +1,34 @@
-<?php init_head(); ?>
+<?php $CI = &get_instance();
+init_head(); 
+$CI->load->view('marcas/solicitudes/css.php'); ?>
 
 <div id="wrapper">
     <div class="content">
+        <!-- Loading Modal -->
+        <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
+                    <div class="panel-body">
+                        <h4>Editar Inventor</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel_s">
                     <div class="panel-body" style="padding-bottom: 0%;">
-                        <?php echo form_open(admin_url('pi/patentes/InventoresController/update/'.$id), 'form'); ?>
+                        <?php //echo form_open(admin_url('pi/patentes/InventoresController/update/'.$id), 'form'); ?>
+                        <?php echo form_open_multipart("", ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
+                        <?php echo form_hidden('id', $id); ?>
                         <div class="col-md-2">
                             <?php echo form_label('Código', 'codigo', ['class' => 'form-label']); ?>
                             <?php echo form_input([
@@ -46,7 +68,7 @@
                                 'class' => 'form-control'
                             ]); ?>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" style ="padding-top : 20px">
                             <?php echo form_label('Direccion', 'direccion', ['class' => 'form-label']); ?>
                             <?php echo form_input([
                                 'id' => 'direccion',
@@ -55,7 +77,7 @@
                                 'class' => 'form-control'
                             ]); ?>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" style ="padding-top : 20px">
                             <?php echo form_label('Nacionalidad', 'nacionalidad', ['class' => 'form-label']); ?>
                             <?php echo form_input([
                                 'id' => 'nacionalidad',
@@ -96,6 +118,81 @@
 <?php init_tail(); ?>
 
 <script>
+    $('#modal-loading').modal('show');
+    $(function() {
+        $("#AddAccion").css({
+            "padding-left": "7px",
+        });
+        setTimeout(function() {
+            $('#modal-loading').modal('hide');
+        }, 3000);
+    });
+
+    $("#solicitudfrm").on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData();
+
+        console.log(" LLegue a Enviar de Autores");
+        data = {
+            
+            'id' : $("input[name=id]").val(),
+            'codigo' :  $("#codigo").val(),
+            'pais_id' : $("#pais_id").val(),
+            'nombre' : $("#nombre").val(),
+            'apellido' : $("#apellido").val(),
+            'direccion' : $("#direccion").val(),
+            'nacionalidad' : $("#nacionalidad").val(),
+            'comentarios' : $("#comentarios").val(),
+        };
+        console.log(" Data ", data);
+        if (data.pais_id == 0){
+            alert("Por favor Seleccione un pais ");
+        } else {
+
+            formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+            formData.append('id', data.id);
+            formData.append('codigo', data.codigo);
+            formData.append('pais_id', data.pais_id );
+            formData.append('nombre', data.nombre);
+            formData.append('apellido', data.apellido);
+            formData.append('direccion', data.direccion);
+            formData.append('nacionalidad', data.nacionalidad);
+            formData.append('comentarios', data.comentarios); 
+            //##################################################
+            let url = '<?php echo admin_url('pi/patentes/InventoresController/updateInventores/'); ?>';
+            url += data.id;
+    
+    
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(" Response " , response);
+                    const obj = JSON.parse(response);
+                    if (obj.code == 200) {
+                        let id = data.id;
+                        alert_float('success', 'Inventor actualizado con éxito!');
+                        let ruta = '<?php echo admin_url("pi/patentes/InventoresController/"); ?>';
+                        location.replace(ruta);
+                    } else if (obj.code == 500) {
+                        console.log(" ")
+                        alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                    }
+                },
+                fail: function(request) {
+                    <?php if (ENVIRONMENT != 'production') { ?>
+                        alert(response);
+                    <?php } else { ?>
+                        alert('ha ocurrido un error');
+                    <?php } ?>
+                }
+            });
+        }
+    });
+
     $("select").selectpicker({
         liveSearch: true,
         virtualScroll: 600,

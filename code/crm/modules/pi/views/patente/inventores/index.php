@@ -1,15 +1,35 @@
-<?php init_head(); ?>
+<?php $CI = &get_instance();
+init_head(); 
+$CI->load->view('marcas/solicitudes/css.php'); ?>
 <div id="wrapper">
     <div class="content">
+        <!-- Loading Modal -->
+        <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                        <h4>Lista de Inventores</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
                         <div class="_buttons">
-                            <a class="btn btn-primary" href="<?php echo admin_url('pi/patentes/InventoresController/create'); ?>"><i class="fas fa-plus"></i>Registrar Inventor</a>
+                            <a class="btn btn-primary" href="<?php echo admin_url('pi/patentes/InventoresController/create'); ?>"><i class="fas fa-plus"></i> Registrar Inventor</a>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="padding: 2%;">
                         <div class="col-md-12">
                             <table class="min-w-full text-left text-sm font-light table" id="tableResult">
                                 <thead class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
@@ -44,6 +64,15 @@
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
+    $('#modal-loading').modal('show');
+    $(function() {
+        $("#AddAccion").css({
+            "padding-left": "7px",
+        });
+        setTimeout(function() {
+            $('#modal-loading').modal('hide');
+        }, 3000);
+    });
     Patente();
     function Patente(){
         let edit =  "<?php echo admin_url('pi/patentes/InventoresController/edit/'); ?>";
@@ -88,7 +117,7 @@
                                     <a class="btn btn-light" href="${editar}" style="background-color: white;">
                                         <i class="fas fa-edit"></i> Editar
                                     </a>
-                                    <button class="btn btn-danger delete-patente">
+                                    <button class="btn btn-danger delete-inventores" data-inventores="${row.id}">
                                         <i class="fas fa-trash"></i> Borrar
                                     </button>
                                 </td>`;
@@ -96,9 +125,51 @@
                         }
                     ]
                 });
+
+                
             }
         });
     }
+
+    $('.table').on('click', '.delete-inventores', function (e) {
+        e.preventDefault();
+        console.log(" Llegue a eliminar Inventores")
+        let inventores_id = $(this).data('inventores');
+        console.log("Legue a elimar la Inventores ", inventores_id);
+        var formData = new FormData();
+        if (confirm("Quieres eliminar este registro?")) {
+            formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+            let url = '<?php echo admin_url("pi/patentes/InventoresController/destroyInventores/"); ?>';
+            url = url + inventores_id;
+            console.log("url ", url);
+                    // $.ajax({
+                    //     url : url,
+                    //     method: 'POST',
+                    //     data: formData,
+                    //     processData: false,
+                    //     contentType: false
+                    // }).then(function (response) {
+                    //     console.log("Response ",response);
+                    //   //  Patente();
+                    //    // alert_float('success', "Eliminado Intentores Correctamente");
+                    // }).catch(function (response) {
+                    //     alert_float('danger' , "No se pudo Eliminar la Intentores");
+                    // });
+
+            $.ajax({
+                url: url,
+                method: "GET",
+                success: function(response) {
+                    console.log("Response ", response);
+                    Patente();
+                    alert_float('success', "Eliminado Inventores Correctamente");
+                },
+                error: function(response) { 
+                    alert_float('danger' , "No se pudo Eliminar la Inventores");
+                }
+            });
+        }
+    });
 </script>
 
 

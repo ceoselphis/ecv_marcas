@@ -517,9 +517,7 @@ class Invoices extends AdminController
         return $this->eliminarAcentos($decodedString);
     }
 
-    public function sort_file($id) {
-        
-    }
+   
 
     public function get_item_group($id) {
         $this->load->model('facturaview_model');
@@ -533,11 +531,48 @@ class Invoices extends AdminController
         }
     }
 
-
-    public function ValidarItem($item) {
-
-        $this->load->model('facturaview_model');
+    public function save_expediente(){
+      
+        $data = $this->input->post();
+        $lista_expediente = [];
+        if (!empty($data)){
+            for ($i = 0 ; $i <= count($data); $i++){
+                array_push($lista_expediente, $data[$i]['expediente_id']);
+            }
+            $this->session->set_userdata('lista_expediente', $lista_expediente);
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
+        }
     }
+
+
+    public function ValidarItem($items) {
+       
+        $lista_item = [];
+       // echo json_encode(['data' => $items[1]]);
+        if (is_array($items)) {
+            for ($i = 1; $i <= count($items); $i++) {
+                $valor_item = $items[$i]['description'];
+                $item_description = $this->decodeUnicodeString($valor_item);
+            
+                if (!empty($this->ConvertirItem($item_description))){
+
+                    $articulo_id = $this->ConvertirItem($item_description);
+                } else {
+                    $articulo_id = $items[1]['order'];
+                }
+                array_push($lista_item, $articulo_id);
+               
+            }
+            
+           
+            
+          echo json_encode(['message' => 'success', 'data' => $lista_item]);
+        } else {
+           echo json_encode(['message' => 'La variable no es un array']);
+        }
+    }
+    
 
 
     /* Add new invoice or update existing */
@@ -545,6 +580,7 @@ class Invoices extends AdminController
     {   
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
+            $this->ValidarItem($invoice_data['newitems']);
             echo json_encode(['message' => 'succes' , 'data' => $invoice_data['newitems']]);
             $item_description= ''; 
             $articulo_id = 13;

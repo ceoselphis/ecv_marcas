@@ -220,6 +220,51 @@
         }
     });
 
+    $('.invoice-form-submit').on("click", function(e) {
+        e.preventDefault();
+        console.log('Voy a enviar  ');
+        let valor = localStorage.getItem('expediente');
+        console.log(" Valor ",valor);
+        var formData = new FormData();
+        var csrf_token_name = $("input[name=csrf_token_name]").val();
+        formData.append('csrf_token_name', csrf_token_name);
+        formData.append('expediente', valor);
+        let url = '<?php echo admin_url("invoices/save_expediente"); ?>'
+        $.ajax({
+            url : url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function (response) {
+         
+            console.log(response);
+            alert_float('success', "Factura Generada Correctamente");
+         
+        }).catch(function (response) {
+            console.log(response);
+            alert_float('success'," No se pudo Generar la Factura");
+        });
+        
+    });
+
+    // $(document).on('click', '#eventosfrmsubmit', function (e) {
+    //     console.log("Click Evento");
+    //     e.preventDefault();
+    //     var formData = new FormData();
+    //     var tipo_evento = $('#tipo_evento').val();
+    //     var evento_comentario = $('#evento_comentario').val();
+    //     var acc_ter_id = id;
+    //     var csrf_token_name = $("input[name=csrf_token_name]").val();
+    //     formData.append('csrf_token_name', csrf_token_name);
+    //     formData.append('tipo_evento', tipo_evento);
+    //     formData.append('evento_comentario', evento_comentario);
+    //     formData.append('acc_ter_id', acc_ter_id);
+    //     console.log("tipo_evento ", tipo_evento, "evento_comentario ", evento_comentario,
+    //         " Acciones Tercero ID ", acc_ter_id);
+       
+    // });
+
     // $('#marcas').on('change', function (e) {
     //    // e.preventDefault();
     //     var valor = $(this).val();

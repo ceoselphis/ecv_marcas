@@ -214,6 +214,18 @@
         // Handler code here
         console.log("Guardar Item");
 
+        let selectedTaxes = $('.selectpicker.display-block.tax.main-tax').find(':selected').map(function () {
+            return $(this).text(); // Obtener el texto de las opciones seleccionadas
+        }).get().join(', '); // Concatenar valores con una coma
+
+            // Mostrar el valor seleccionado en el elemento con clase taxrate
+        let taxrateCell = $(this).closest('tr').find('.taxrate');
+        if (taxrateCell.length) {
+            taxrateCell.text(selectedTaxes || 'No tax selected');
+        } else {
+            console.warn("No se encontró una celda con clase 'taxrate' en la misma fila.");
+        }
+
         // Obtener el valor del input
        
 

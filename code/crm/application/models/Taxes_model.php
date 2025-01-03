@@ -45,6 +45,63 @@ class Taxes_model extends App_Model
     //     return $data;
     // }
 
+    public function findExpedienteGrupo($id){
+        $this->db->select('*');
+        $this->db->from('tblitems_groups as i');
+        if (!empty($id)) {
+            $this->db->where('i.id', $id); // Quitar el espacio y el igual
+        }
+        $query = $this->db->get();
+        return $query->result_array();
+      
+    }
+
+    public function getGrupoItem($id) {
+        $this->db->select('*');
+        $this->db->from('tblitems as i');
+        $this->db->where('i.id', $id); // Quitar el espacio y el igual
+        $query = $this->db->get();
+        $res = $query->result_array();
+        return $res[0]['group_id'];
+    }
+
+    public function getAccionesTercerosByCliente($id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_acciones_terceros as acc');
+        if (!empty($id)) {
+            $this->db->where('acc.client_id', $id); // Quitar el espacio y el igual
+        }
+        $query = $this->db->get();
+        $keys = array('');
+        $values = array('');
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['marca_opuesta']);
+        }
+        return array_combine($keys, $values); 
+    }
+   
+
+    public function getPatentesByCliente($id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_patentes_solicitudes as ps');
+        if (!empty($id)) {
+            $this->db->where('ps.client_id', $id); // Quitar el espacio y el igual
+        }
+        $query = $this->db->get();
+        $keys = array('');
+        $values = array('');
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['titulo']);
+        }
+        return array_combine($keys, $values); 
+    }
+
     public function getMarcasByCliente($id)
     {
         $this->db->select('*');
@@ -59,6 +116,42 @@ class Taxes_model extends App_Model
         {
             array_push($keys, $row['id']);
             array_push($values, $row['signonom']);
+        }
+        return array_combine($keys, $values); 
+    }
+
+    public function getDerechosAutorByCliente($id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_derecho_autor_solicitudes as da');
+        if (!empty($id)) {
+            $this->db->where('da.client_id', $id); // Quitar el espacio y el igual
+        }
+        $query = $this->db->get();
+        $keys = array('');
+        $values = array('');
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['titulo']);
+        }
+        return array_combine($keys, $values); 
+    }
+
+    public function getRegistroSanitariosByCliente($id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_registros_sanitarios_solicitudes as rs');
+        if (!empty($id)) {
+            $this->db->where('rs.client_id', $id); // Quitar el espacio y el igual
+        }
+        $query = $this->db->get();
+        $keys = array('');
+        $values = array('');
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['titulo']);
         }
         return array_combine($keys, $values); 
     }

@@ -223,45 +223,19 @@
     });
 
     $("#save_item").on("click", function() {
-        // Handler code here
+      
         console.log("Guardar Item");
-        // items_indicator = $('.dragger input').attr('name');
-        // let  number = items_indicator.match(/\d+/);
-
-        // if (number) {
-        //     number = parseInt(number[0], 10);
-        //     console.log("number ",number);
-        // }
-        // // items_indicator = $('.dragger input.order').val();
         let newitems = 'input[name="newitems['+lista_items+'][order]"]';
         console.log("El valor de items_indicator es: ", newitems);
         if ($(newitems).val() !== undefined) {
             console.log(" tiene Valor ");
             console.log(" marcas  ", $('#marcas').val());
             $('select[name="newitems['+lista_items+'][taxname][]"]').val(taxname);
-            $('#item_informacion').text(nombre_marca);
+            $('span[name="newitems['+lista_items+'][info]"]').text(nombre_marca);
+           // $('#item_informacion').text(nombre_marca);
         } else {
             console.log(" No tiene Valor ");
         }
-
-        
-
-         
-       
-        // let selectedTaxes = $('.selectpicker.display-block.tax.main-tax').find(':selected').map(function () {
-        //     return $(this).text(); // Obtener el texto de las opciones seleccionadas
-        // }).get().join(', '); // Concatenar valores con una coma
-
-        //     // Mostrar el valor seleccionado en el elemento con clase taxrate
-        // let taxrateCell = $(this).closest('tr').find('.taxrate');
-        // if (taxrateCell.length) {
-        //     taxrateCell.text(selectedTaxes || 'No tax selected');
-        // } else {
-        //     console.warn("No se encontró una celda con clase 'taxrate' en la misma fila.");
-        // }
-
-        // Obtener el valor del input
-       
 
         let expediente = {
             "expediente_id": item_select,
@@ -269,7 +243,6 @@
             "cliente_id": cliente
         };
 
-     
         var formData = new FormData();
         var csrf_token_name = $("input[name=csrf_token_name]").val();
         formData.append('csrf_token_name', csrf_token_name);

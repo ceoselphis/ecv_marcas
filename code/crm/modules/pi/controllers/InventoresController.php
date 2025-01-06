@@ -39,6 +39,7 @@ class InventoresController extends AdminController
         $CI = &get_instance();
         $CI->load->model("Inventores_model");
         $fields = $CI->Inventores_model->getFillableFields();
+        $id = intval($CI->Inventores_model->setCountPK());
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -62,7 +63,7 @@ class InventoresController extends AdminController
             }
         }
         $labels = ['Id', 'Pais', 'Nombre', 'Apellido', "Direccion", "Domicilio", "Nacionalidad"];
-        return $CI->load->view('inventores/create', ['fields' => $inputs, 'labels' => $labels, 'pais' => $CI->Inventores_model->findAllPais()]);
+        return $CI->load->view('inventores/create', ['id' => $id,'fields' => $inputs, 'labels' => $labels, 'pais' => $CI->Inventores_model->findAllPais() ]);
     }
 
     /**

@@ -1,4 +1,18 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<style>
+    .amount-container {
+        display: flex;
+    }
+
+    .left-info {
+        margin-right: 10px; /* Ajusta el espacio según sea necesario */
+    }
+
+    .amount {
+        text-align: right;
+    }
+
+</style>
 <div class="<?php if (!isset($invoice) || (isset($invoice) && count($invoices_to_merge) == 0 && (isset($invoice) && !isset($invoice_from_project) && count($expenses_to_bill) == 0 || $invoice->status == Invoices_model::STATUS_CANCELLED))) {
     echo ' hide';
 } ?>" id="invoice_top_info">
@@ -619,7 +633,7 @@
                         <td>
                             <?php
                         $default_tax = unserialize(get_option('default_tax'));
-                        $select      = '<select class="selectpicker display-block tax main-tax" data-width="100%" name="taxname" multiple data-none-selected-text="' . _l('no_tax') . '">';
+                        $select      = '<select class="selectpicker display-block tax main-tax" data-width="100%" id="taxname" name="taxname" multiple data-none-selected-text="' . _l('no_tax') . '">';
                       //  $select .= '<option value=""'.(count($default_tax) == 0 ? ' selected' : '').'>'._l('no_tax').'</option>';
                         foreach ($taxes as $tax) {
                             $selected = '';
@@ -677,7 +691,7 @@
                                 $amount = $item['rate'] * $item['qty'];
                                 $amount = app_format_number($amount);
                                 // order input
-                                $table_row .= '<input type="hidden" class="order" name="' . $items_indicator . '[' . $i . '][order]">';
+                                $table_row .= '<input  type="hidden"  class="order"  name="' . $items_indicator . '[' . $i . '][order]">';
                                 $table_row .= '</td>';
                                 $table_row .= '<td class="bold description"><textarea name="' . $items_indicator . '[' . $i . '][description]" class="form-control" rows="5">' . clear_textarea_breaks($item['description']) . '</textarea></td>';
                                 $table_row .= '<td><textarea name="' . $items_indicator . '[' . $i . '][long_description]" class="form-control" rows="5">' . clear_textarea_breaks($item['long_description']) . '</textarea></td>';
@@ -696,8 +710,10 @@
 
                                 $table_row .= '</td>';
                                 $table_row .= '<td class="rate"><input type="number" data-toggle="tooltip" title="' . _l('numbers_not_formatted_while_editing') . '" onblur="calculate_total();" onchange="calculate_total();" name="' . $items_indicator . '[' . $i . '][rate]" value="' . $item['rate'] . '" class="form-control"></td>';
-                                $table_row .= '<td class="taxrate">' . $this->misc_model->get_taxes_dropdown_template('' . $items_indicator . '[' . $i . '][taxname][]', $invoice_item_taxes, 'invoice', $item['id'], true, $manual) . '</td>';
-                                $table_row .= '<td class="amount" align="right">' . $amount . '</td>';
+                                $table_row .= '<td class="taxrate" id="taxrate">' . $this->misc_model->get_taxes_dropdown_template('' . $items_indicator . '[' . $i . '][taxname][]', $invoice_item_taxes, 'invoice', $item['id'], true, $manual) . '</td>';
+                                // <td class="amount-container"> <span class="left-info">Información izquierda</span> <span class="amount" align="right">20.00</span> </td>
+                                $table_row .= '<td class="amount-container"> <span class="left-info">Información izquierda</span> <span class="amount" align="right">' . $amount . '</span> </td>';
+                                //$table_row .= '<td class="amount" align="right">' . $amount . '</td>';
                                 $table_row .= '<td><a href="#" class="btn btn-danger pull-left" onclick="delete_item(this,' . $item['id'] . '); return false;"><i class="fa fa-times"></i></a></td>';
                                 if (isset($item['task_id'])) {
                                     if (!is_array($item['task_id'])) {

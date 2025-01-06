@@ -34,6 +34,7 @@ class AutoresController extends AdminController
         $CI = &get_instance();
         $CI->load->model("Autores_model");
         $fields = $CI->Autores_model->getFillableFields();
+        $id = intval($CI->Autores_model->setCountPK());
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -60,7 +61,7 @@ class AutoresController extends AdminController
             'Pais'               => $CI->Autores_model->findAllPaises()
         ];
         $labels = ['Id', 'Nombres', 'Apellidos', 'Fecha Nacimiento', 'Pais Nacimiento', 'Cédula', 'RFC', 'Email', 'Teléfono', 'Fax', "Direccion", "Ciudad", "Estado", 'Código Postal', 'Pais Residencia'];
-        return $CI->load->view('Autores/create', ['fields' => $inputs, 'labels' => $labels, 'Autores' => $data]);
+        return $CI->load->view('Autores/create', ['fields' => $inputs, 'labels' => $labels, 'Autores' => $data, 'id' => $id]);
     }
 
     private function ValidationsForm(){
@@ -195,6 +196,46 @@ class AutoresController extends AdminController
             }
         }
         
+    }
+
+    public function InsertAutores()
+    {
+        $CI = &get_instance();
+        $CI->load->model("Autores_model");
+        $form = array();
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $form['nombres'] = $data['nombres'];
+            $form['apellidos'] = $data['apellidos'];
+            if (!empty($data['fecha_nac'])) {
+                $form['fecha_nac'] = DateTime::createFromFormat('d/m/Y', $data['fecha_nac'])->format('Y-m-d');
+            }
+            $form['pais_id_nac'] = $data['pais_id_nac'];
+            $form['cedula'] = $data['cedula'];
+            $form['rfc'] = $data['rfc'];
+            $form['email'] = $data['email'];
+            $form['telefono'] = $data['telefono'];
+            $form['fax'] = $data['fax'];
+            $form['direccion'] = $data['direccion'];
+            $form['ciudad'] = $data['ciudad'];
+            $form['estado'] = $data['estado'];
+            $form['codigo_postal'] = $data['codigo_postal'];
+            $form['pais_id_res'] = $data['pais_id_res'];
+           
+
+            try {
+                $query = $CI->Autores_model->insert($form);
+                if (isset($query)) {
+                    echo json_encode(['message' => 'success', 'code' => '200']);
+                } else {
+                    echo json_encode(['error' => $query, 'code' => '500']);
+                }
+            } catch (\Throwable $th) {
+                echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
+            } 
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
+        }
     }
 
     public function turn_dates($date)
@@ -359,6 +400,46 @@ class AutoresController extends AdminController
             {
                 return redirect('pi/Autorescontroller/');
             }
+
+
+        }
+        
+    }
+
+    public function updateAutores(string $id = null)
+    {
+        $CI = &get_instance();
+        $CI->load->model("Autores_model");
+
+        if($this->ValidationsForm() == FALSE)
+        {
+            $this->edit($id);
+        }
+        else
+        {
+            //We prepare the data 
+            $data = $CI->input->post();
+            
+            if (!empty($data)){
+                foreach($data as $key => $valor){
+                    $data[$key] = empty($data[$key]) ? null : $valor;
+                }
+              
+                try {
+                    $query = $CI->Autores_model->update($id, $data);
+                    if (isset($query)) {
+                        echo json_encode(['message' => 'success', 'code' => '200']);
+                    } else {
+                        echo json_encode(['error' => $query, 'code' => '500']);
+                    }
+                } catch (\Throwable $th) {
+                    echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
+                } 
+            } else {
+                echo json_encode(['message' => 'not data' , 'code' => '400']);
+            }
+            
+
         }
         
     }

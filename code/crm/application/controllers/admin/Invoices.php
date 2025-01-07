@@ -620,12 +620,13 @@ class Invoices extends AdminController
         echo json_encode(['message' => 'success', 'data' => $lista_expediente]);
     }
     
-
+   
+    
+    
+    
 
     public function ValidarItem($items) {
-       
         $lista_item = [];
-       // echo json_encode(['data' => $items[1]]);
         if (is_array($items)) {
             for ($i = 1; $i <= count($items); $i++) {
                 $valor_item = $items[$i]['description'];
@@ -641,42 +642,170 @@ class Invoices extends AdminController
                
             }
             
-            $lista_expediente = $this->session->userdata('lista_expediente');
+        //    $lista_expediente = $this->session->userdata('lista_expediente');
 
+            $lista_item = array_diff($lista_item, [0]);
+
+            return $lista_item;
+            // $lista_expediente = array_diff($lista_expediente, [0]);
             // if ($lista_item === $lista_expediente){
-
+            //     //echo json_encode(['message' => 'Los Arrays Son Iguales' , 'data' => $lista_item]);
+            //     return $lista_item;
             // } else {
 
+            //     return $lista_item;
+            //    // echo json_encode(['message' => 'Los Arrays Non Son Iguales' , 'data' => $lista_item]);
             // }
 
 
             
-          echo json_encode(['message' => 'success', 'data' => $lista_expediente]);
+         // echo json_encode(['message' => 'success', 'data' => $lista_expediente]);
         } else {
-           echo json_encode(['message' => 'La variable no es un array']);
+            return [];
+           //echo json_encode(['message' => 'La variable no es un array']);
+        }
+    }
+
+    public function ItemsGrupo($items) {
+        $lista_grupo = [];
+        $this->load->model('taxes_model');
+            
+        if (is_array($items)) { 
+            for ($i = 0; $i < count($items); $i++) {
+                $grupo_items =   $this->taxes_model->getGrupoItem($items[$i]);
+                array_push($lista_grupo, $grupo_items);
+            }
+            return $lista_grupo;
+        } else {
+            return [];
         }
     }
     
+    /*
+          $item_description= ''; 
+            $articulo_id = 13;
+            if (!empty($invoice_data['newitems'][1]['description'])) {
 
+                $item_description = $this->decodeUnicodeString($invoice_data['newitems'][1]['description']);
+            }
+            if (!empty($this->ConvertirItem($item_description))){
+
+                $articulo_id = $this->ConvertirItem($item_description);
+            } else {
+                $articulo_id = $invoice_data['newitems'][1]['order'];
+            }
+            $marca_id = $invoice_data['marcaid'];
+            $edit_marca = $invoice_data['edit_marca'];
+            unset($invoice_data['marcaid']);
+            unset($invoice_data['edit_marca']);
+            if ($id == '') {
+                if (!has_permission('invoices', '', 'create')) {
+                    access_denied('invoices');
+                }
+
+                if (hooks()->apply_filters('validate_invoice_number', true)) {
+                    $number = ltrim($invoice_data['number'], '0');
+                    if (total_rows('invoices', [
+                        'YEAR(date)' => date('Y', strtotime(to_sql_date($invoice_data['date']))),
+                        'number'     => $number,
+                        'status !='  => Invoices_model::STATUS_DRAFT,
+                    ])) {
+                        set_alert('warning', _l('invoice_number_exists'));
+
+                        redirect(admin_url('invoices/invoice'));
+                    }
+                }
+
+                $id = $this->invoices_model->add($invoice_data);
+                if ($id) {
+                    $marcas = $this->session->userdata('marca_id');
+                    // Mi parte 
+                    if ($marcas){
+                        $insert = array(
+                            'marcas_id' => $marcas,
+                            'facturas_id' => $id,
+                            'staff_id' => $_SESSION['staff_user_id'],
+                            'articulo_id' => $articulo_id
+                        );
+                        
+                        $this->load->model('MarcasFacturas_model');
+                        try{
+                            $query = $this->MarcasFacturas_model->insert($insert);
+                                if (isset($query)){
+                               // echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'status'=>true]);
+        
+                                }else {
+                                 // echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);
+                                    
+                                }
+                        }catch (Exception $e){
+                            return $e->getMessage();
+                        }
+
+                        
+                    }
+                    //-----------------------------------------------------
+                    //set_alert('success', _l('added_successfully', _l('invoice')));
+                    
+                    if(!empty($marca_id) && $edit_marca != "true") //nueva marca
+                    {
+                        $this->session->set_flashdata('marca_id',$marca_id);
+                        $this->session->set_flashdata('factId',$id);
+                        $redUrl = admin_url("pi/MarcasSolicitudesController/create");
+                    } else if(!empty($marca_id) && $edit_marca == "true") //edit marca
+                    {
+                        $this->invoices_model->insertMarcaFactura($marca_id, $id, $_SESSION['staff_user_id']);
+                        $redUrl = admin_url("pi/MarcasSolicitudesController/edit/" . $marca_id);
+                    }else{
+                        $redUrl = admin_url('invoices/list_invoices/' . $id);
+                    }
+
+                    if (isset($invoice_data['save_and_record_payment'])) {
+                        $this->session->set_userdata('record_payment', true);
+                    } elseif (isset($invoice_data['save_and_send_later'])) {
+                        $this->session->set_userdata('send_later', true);
+                    }
+
+                    redirect($redUrl);
+                }
+            } else {
+                if (!has_permission('invoices', '', 'edit')) {
+                    access_denied('invoices');
+                }
+
+                // If number not set, is draft
+                if (hooks()->apply_filters('validate_invoice_number', true) && isset($invoice_data['number'])) {
+                    $number = trim(ltrim($invoice_data['number'], '0'));
+                    if (total_rows('invoices', [
+                        'YEAR(date)' => date('Y', strtotime(to_sql_date($invoice_data['date']))),
+                        'number'     => $number,
+                        'status !='  => Invoices_model::STATUS_DRAFT,
+                        'id !='      => $id,
+                    ])) {
+                        set_alert('warning', _l('invoice_number_exists'));
+
+                        redirect(admin_url('invoices/invoice/' . $id));
+                    }
+                }
+                $success = $this->invoices_model->update($invoice_data, $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', _l('invoice')));
+                }
+
+                redirect(admin_url('invoices/list_invoices/' . $id));
+            }
+    */
 
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {   
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
-            $this->ValidarItem($invoice_data['newitems']);
-            // $item_description= ''; 
-            // $articulo_id = 13;
-            // if (!empty($invoice_data['newitems'][1]['description'])) {
-
-            //     $item_description = $this->decodeUnicodeString($invoice_data['newitems'][1]['description']);
-            // }
-            // if (!empty($this->ConvertirItem($item_description))){
-
-            //     $articulo_id = $this->ConvertirItem($item_description);
-            // } else {
-            //     $articulo_id = $invoice_data['newitems'][1]['order'];
-            // }
+            $lista_items = $this->ValidarItem($invoice_data['newitems']);
+            $lista_grupo = $this->ItemsGrupo($lista_items);
+            echo json_encode(['message' => 'success', 'data' => $lista_grupo ]);
+            
+        
             // $marca_id = $invoice_data['marcaid'];
             // $edit_marca = $invoice_data['edit_marca'];
             // unset($invoice_data['marcaid']);
@@ -701,32 +830,6 @@ class Invoices extends AdminController
 
             //     $id = $this->invoices_model->add($invoice_data);
             //     if ($id) {
-            //         $marcas = $this->session->userdata('marca_id');
-            //         // Mi parte 
-            //         if ($marcas){
-            //             $insert = array(
-            //                 'marcas_id' => $marcas,
-            //                 'facturas_id' => $id,
-            //                 'staff_id' => $_SESSION['staff_user_id'],
-            //                 'articulo_id' => $articulo_id
-            //             );
-                        
-            //             $this->load->model('MarcasFacturas_model');
-            //             try{
-            //                 $query = $this->MarcasFacturas_model->insert($insert);
-            //                     if (isset($query)){
-            //                    // echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'status'=>true]);
-        
-            //                     }else {
-            //                      // echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);
-                                    
-            //                     }
-            //             }catch (Exception $e){
-            //                 return $e->getMessage();
-            //             }
-
-                        
-            //         }
             //         //-----------------------------------------------------
             //         //set_alert('success', _l('added_successfully', _l('invoice')));
             //         /*We add the new invoice in the table */

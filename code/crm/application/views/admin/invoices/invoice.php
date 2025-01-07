@@ -87,6 +87,26 @@
     nombre_marca = "";
     lista_items = 1;
 
+    $(function() {
+    var lastPageLoadTime = null;
+
+        $(window).on('load', function() {
+            var currentTime = new Date().getTime();
+        
+            if (lastPageLoadTime !== null) {
+                // La página se está recargando
+                console.log('La página se está recargando');
+
+                // Aquí puedes agregar tu lógica para cuando la página se recarga
+            } else {
+                localStorage.removeItem('expediente');
+                lastPageLoadTime = currentTime;
+                console.log('La página se está cargando por primera vez o ha terminado de cargar');
+            }
+        });
+    });
+
+
     $('#clientid').on('change', function (e) {
         e.preventDefault(); // Evitar la acción predeterminada
         var valor = $(this).val(); // Obtener el valor seleccionado del cliente
@@ -243,27 +263,6 @@
             "cliente_id": cliente
         };
 
-        var formData = new FormData();
-        var csrf_token_name = $("input[name=csrf_token_name]").val();
-        formData.append('csrf_token_name', csrf_token_name);
-        formData.append('cliente_id', expediente.cliente_id);
-        formData.append('expediente_id', expediente.expediente_id);
-        let url = '<?php echo admin_url("invoices/buscar_cliente_expediente"); ?>'
-        $.ajax({
-            url : url,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false
-        }).then(function (response) {
-         
-            console.log(" ===== response grupo item ", response);
-         
-        }).catch(function (response) {
-            console.log(response);
-            alert_float('success'," No se pudo Generar la Factura");
-        });
-        
 
         if (localStorage.getItem('expediente') !== null) {
             let valor_viejo = JSON.parse(localStorage.getItem('expediente'));
@@ -312,6 +311,8 @@
             console.log(response);
             alert_float('success'," No se pudo Generar la Factura");
         });
+
+        localStorage.removeItem('expediente');
         
     });
 

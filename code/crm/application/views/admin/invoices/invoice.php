@@ -86,6 +86,7 @@
     taxname = "";
     nombre_marca = "";
     lista_items = 1;
+    item_grupo = "";
 
     $(function() {
     var lastPageLoadTime = null;
@@ -163,10 +164,7 @@
                 "expediente_id": item_select,
                 "cliente_id": cliente
             };
-
-            console.log("==== Cambios en el tipo Item Select ", expediente);
-
-     
+            console.log("==== Cambios en el tipo Item Select ", expediente);    
             var formData = new FormData();
             var csrf_token_name = $("input[name=csrf_token_name]").val();
             formData.append('csrf_token_name', csrf_token_name);
@@ -181,12 +179,14 @@
                 contentType: false
             }).then(function (response) {
                 let lista = JSON.parse(response);
-                console.log("Lista obtenida del servidor: ", lista);
+                console.log(" $$$$$ Lista $$$$$ ", lista);
+                item_grupo = lista.grupo_expediente;
+                console.log(" $$$$$ Item Grupo $$$$$ ", item_grupo)
                 var selectElement = $("#marcas");
                 selectElement.empty();
                 console.log('Opciones eliminadas.');
                 selectElement.append('<option value="">Seleccione una opción</option>');
-                $.each(lista, function (key, value) {
+                $.each(lista.lista_expediente, function (key, value) {
                     selectElement.append('<option value="' + key + '">' + value + '</option>');
                 });
                 console.log('Opciones añadidas al select.');
@@ -221,15 +221,37 @@
         if (valor === "") {
             console.log("No se seleccionó ninguna marca.");
         } else {
-            console.log("Marca seleccionada: " + valor);
-            let url = '<?php echo admin_url("invoices/get_marca/"); ?>';
-            url = url + valor;
-            console.log(url);
-            $.get(url, function (response) {
-                let lista = JSON.parse(response);
-                console.log(" Lista de Marcas ", lista);
-                nombre_marca = lista.nombre_marca;
+
+            //get_expediente_items
+            var formData = new FormData();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            formData.append('item_grupo', item_grupo);
+            formData.append('marcas', valor);
+            let url = '<?php echo admin_url("invoices/get_expediente_items"); ?>'
+            $.ajax({
+                url : url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                console.log(" #####3 Nombre Expediente  ####### ", response);
+                nombre_marca = JSON.parse(response);
+         
+            }).catch(function (response) {
+                console.log(response);
+            
             });
+            //console.log("Marca seleccionada: " + nombre_marca);
+            // let url = '<?php //echo admin_url("invoices/get_marca/"); ?>';
+            // url = url + valor;
+            // console.log(url);
+            // $.get(url, function (response) {
+            //     let lista = JSON.parse(response);
+            //     console.log(" Lista de Marcas ", lista);
+            //     nombre_marca = lista.nombre_marca;
+            // });
 
 
         }
@@ -259,9 +281,12 @@
 
         let expediente = {
             "expediente_id": item_select,
+            'grupo_expediente_id': item_grupo,
             "marca_id": marcas,
             "cliente_id": cliente
         };
+
+        console.log("------------- Expediente:  ---- ", expediente);
 
 
         if (localStorage.getItem('expediente') !== null) {

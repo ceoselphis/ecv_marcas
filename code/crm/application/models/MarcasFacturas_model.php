@@ -14,6 +14,17 @@ class MarcasFacturas_model extends BaseModel
         parent::__construct();
     }
 
+    public function insertPatenteFactura($params)
+    {
+        $query = $this->db->insert_batch('tbl_patentes_facturas', $params);
+        if (isset($query)) { 
+
+            return $query;
+        } else {
+            return " Error al Insertar "
+        }
+    }
+
    
     
 }

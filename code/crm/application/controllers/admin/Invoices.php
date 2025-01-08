@@ -361,7 +361,7 @@ class Invoices extends AdminController
             }
             
             
-            echo json_encode($lista_expediente); // Enviar datos al frontend
+            echo json_encode(['lista_expediente' =>  $lista_expediente, 'grupo_expediente' => $grupo_expediente]); // Enviar datos al frontend
         } else {
             echo json_encode(['message' => 'no se proporcionó un cliente válido']);
         }
@@ -393,6 +393,64 @@ class Invoices extends AdminController
                 echo json_encode(['code' => 500, 'message' => 'ID no Guardado']);
             }
         
+        }
+    }
+
+    public function get_expediente_items() {
+        $CI = &get_instance();
+        $data = $this->input->post(); 
+        $nombre_expediente = "";
+        if (!empty($data)) {
+            $grupo_item = $data['item_grupo'];
+            $expediente = $data['marcas'];
+            $this->load->model('taxes_model');
+
+            switch ($grupo_item) {
+                case 3:
+                    // Caso para CAMBIOS ANTERIORES AL REGISTRO
+                    $nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
+                    break;
+            
+                case 4:
+                    // Caso para MARCAS / TRADEMARKS
+                    $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                    break;
+            
+                case 5:
+                    // Caso para CAMBIOS POSTERIORES AL REGISTRO
+                    $nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
+                    break;
+            
+                case 6:
+                    // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
+                    $nombre_expediente = $this->taxes_model->getAccionesTercerosById($expediente);
+                    break;
+            
+                case 7:
+                    // Caso para OTROS / OTHERS
+                    $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                    break;
+            
+                case 8:
+                    // Caso para DERECHOS DE AUTOR
+                    $nombre_expediente = $this->taxes_model->getDerechoAutorById($expediente);
+                    break;
+            
+                case 9:
+                    // Caso para PATENTES, MODELOS Y DISEÑOS
+                    $nombre_expediente = $this->taxes_model->getPatentesById($expediente);
+                    break;
+            
+                default:
+                    // En caso de que el valor no esté en la lista
+                    $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                    break;
+            }
+            
+            
+            echo json_encode($nombre_expediente); // Enviar datos al frontend
+        } else {
+            echo json_encode(['message' => 'no se proporcionó un cliente válido']);
         }
     }
 
@@ -609,7 +667,7 @@ class Invoices extends AdminController
         $lista_expediente = [];
         foreach ($data as $expediente) {
 
-            array_push($lista_expediente, $expediente['expediente_id']);
+            array_push($lista_expediente, $expediente);
         }
         
         
@@ -625,7 +683,7 @@ class Invoices extends AdminController
     
     
 
-    public function ValidarItem($items) {
+    public function ListaItem($items) {
         $lista_item = [];
         if (is_array($items)) {
             for ($i = 1; $i <= count($items); $i++) {
@@ -641,29 +699,32 @@ class Invoices extends AdminController
                 array_push($lista_item, $articulo_id);
                
             }
-            
-        //    $lista_expediente = $this->session->userdata('lista_expediente');
-
             $lista_item = array_diff($lista_item, [0]);
-
             return $lista_item;
-            // $lista_expediente = array_diff($lista_expediente, [0]);
-            // if ($lista_item === $lista_expediente){
-            //     //echo json_encode(['message' => 'Los Arrays Son Iguales' , 'data' => $lista_item]);
-            //     return $lista_item;
-            // } else {
-
-            //     return $lista_item;
-            //    // echo json_encode(['message' => 'Los Arrays Non Son Iguales' , 'data' => $lista_item]);
-            // }
-
-
-            
-         // echo json_encode(['message' => 'success', 'data' => $lista_expediente]);
         } else {
             return [];
-           //echo json_encode(['message' => 'La variable no es un array']);
         }
+    }
+
+    public function ValidarItems($lista_items) {
+        $lista_expediente = $this->session->userdata('lista_expediente');
+        $lista = [];
+        foreach ($lista_expediente as $item) {
+            array_push($lista, $item['expediente_id']);
+        }
+        if ($lista_items === $lista){
+            return $lista_expediente;
+        } else {
+            $diferencias1 = array_diff($lista_items, $lista);
+            $diferencias2 = array_diff($lista, $lista_items);
+            $diferenciasTotales = array_merge($diferencias1, $diferencias2);
+            $lista_expedienteFiltrado = array_filter($lista_expediente, function ($elemento) use ($diferenciasTotales) {
+                return !in_array($elemento['expediente_id'], $diferenciasTotales);
+            });
+            $lista_expedienteFiltrado = array_values($lista_expedienteFiltrado);
+            return $lista_expedienteFiltrado;
+        }
+
     }
 
     public function ItemsGrupo($items) {
@@ -796,16 +857,81 @@ class Invoices extends AdminController
             }
     */
 
+    public function insertarExpedientesFacturas($id , $lista_expedientes ) {
+        $insert = [];
+        if ( !empty($lista_expedientes) ) {
+            foreach ($lista_expedientes as $item) {
+                switch ($item['grupo_expediente_id']) {
+                    case 3:
+                        $insert = [
+                            /*
+                                'staff_id' => $_SESSION['staff_user_id'],
+                            'articulo_id' => $articulo_id
+                            */
+                            "expediente_id" => $item['marca_id'],
+                            "facturas_id" => $id,
+                            "staff_id" => $_SESSION['staff_user_id'],
+                            "articulo_id" => $item['expediente_id'],
+                         
+                        ];
+                        // Caso para CAMBIOS ANTERIORES AL REGISTRO
+                        $nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
+                        break;
+                
+                    case 4:
+                        // Caso para MARCAS / TRADEMARKS
+                        $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                        break;
+                
+                    case 5:
+                        // Caso para CAMBIOS POSTERIORES AL REGISTRO
+                        $nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
+                        break;
+                
+                    case 6:
+                        // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
+                        $nombre_expediente = $this->taxes_model->getAccionesTercerosById($expediente);
+                        break;
+                
+                    case 7:
+                        // Caso para OTROS / OTHERS
+                        $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                        break;
+                
+                    case 8:
+                        // Caso para DERECHOS DE AUTOR
+                        $nombre_expediente = $this->taxes_model->getDerechoAutorById($expediente);
+                        break;
+                
+                    case 9:
+                        // Caso para PATENTES, MODELOS Y DISEÑOS
+                        $nombre_expediente = $this->taxes_model->getPatentesById($expediente);
+                        break;
+                
+                    default:
+                        // En caso de que el valor no esté en la lista
+                        $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                        break;
+                }
+                $insert = array(
+                    'expedientes_id' => $item['expediente_id'],
+                    'facturas_id' => $id,
+                    'staff_id' => $_SESSION['staff_user_id'],
+                    'articulo_id' => $item['articulo_id']
+                );
+                
+            }
+        }
+    }
+
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {   
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
-            $lista_items = $this->ValidarItem($invoice_data['newitems']);
-            $lista_grupo = $this->ItemsGrupo($lista_items);
-            echo json_encode(['message' => 'success', 'data' => $lista_grupo ]);
-            
-        
+            $lista_items = $this->ListaItem($invoice_data['newitems']);
+            $lista_items_validados = $this->ValidarItems($lista_items);
+            echo json_encode($lista_items_validados);
             // $marca_id = $invoice_data['marcaid'];
             // $edit_marca = $invoice_data['edit_marca'];
             // unset($invoice_data['marcaid']);
@@ -830,6 +956,7 @@ class Invoices extends AdminController
 
             //     $id = $this->invoices_model->add($invoice_data);
             //     if ($id) {
+
             //         //-----------------------------------------------------
             //         //set_alert('success', _l('added_successfully', _l('invoice')));
             //         /*We add the new invoice in the table */

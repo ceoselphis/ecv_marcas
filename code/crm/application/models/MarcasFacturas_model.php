@@ -17,13 +17,29 @@ class MarcasFacturas_model extends BaseModel
     public function insertPatenteFactura($params)
     {
         $query = $this->db->insert_batch('tbl_patentes_facturas', $params);
-        if (isset($query)) { 
-
-            return $query;
-        } else {
-            return " Error al Insertar "
-        }
+        return $query;
     }
+
+    public function insertRegistroSanitariosFactura($params)
+    {
+        $query = $this->db->insert_batch('tbl_registros_sanitarios_solicitudes', $params);
+        return $query;
+    }
+
+    public function insertDerechoAutorFactura($params)
+    {
+        $query = $this->db->insert_batch('tbl_derecho_autor_solicitudes', $params);
+        return $query;
+    }
+
+    public function insertAccionesTercerosFactura($params){
+        $query = $this->db->insert_batch('tbl_acciones_terceros', $params);
+        return $query;
+    }
+
+     
+
+
 
    
     

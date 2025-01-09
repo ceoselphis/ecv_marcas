@@ -859,31 +859,64 @@ class Invoices extends AdminController
 
     public function insertarExpedientesFacturas($id , $lista_expedientes ) {
         $insert = [];
+        $this->load->model('MarcasFacturas_model');
         if ( !empty($lista_expedientes) ) {
             foreach ($lista_expedientes as $item) {
                 switch ($item['grupo_expediente_id']) {
                     case 3:
                         $insert = [
-                            /*
-                                'staff_id' => $_SESSION['staff_user_id'],
-                            'articulo_id' => $articulo_id
-                            */
                             "expediente_id" => $item['marca_id'],
                             "facturas_id" => $id,
                             "staff_id" => $_SESSION['staff_user_id'],
                             "articulo_id" => $item['expediente_id'],
-                         
                         ];
+
+                        $query = $this->MarcasFacturas_model->insertRegistroSanitariosFactura($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
+     
+                        }else {
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code' => '400']);
+              
+                        }
                         // Caso para CAMBIOS ANTERIORES AL REGISTRO
-                        $nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
+                        //$nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
                         break;
                 
                     case 4:
+                        $insert = array(
+                            'marcas_id' => $item['marca_id'],
+                            'facturas_id' => $id,
+                            'staff_id' => $_SESSION['staff_user_id'],
+                            'articulo_id' => $item['expediente_id']
+                        );
+                        $query = $this->MarcasFacturas_model->insert($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'status'=>true]);
+        
+                        }else {
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);
+                        }
+                     
                         // Caso para MARCAS / TRADEMARKS
-                        $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                       // $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
                         break;
                 
                     case 5:
+                        $insert = [
+                            "expediente_id" => $item['marca_id'],
+                            "facturas_id" => $id,
+                            "staff_id" => $_SESSION['staff_user_id'],
+                            "articulo_id" => $item['expediente_id'],
+                        ];
+
+                        $query = $this->MarcasFacturas_model->insertRegistroSanitariosFactura($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
+     
+                        }else {
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);  
+                        }
                         // Caso para CAMBIOS POSTERIORES AL REGISTRO
                         $nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
                         break;

@@ -22,18 +22,18 @@ class MarcasFacturas_model extends BaseModel
 
     public function insertRegistroSanitariosFactura($params)
     {
-        $query = $this->db->insert_batch('tbl_registros_sanitarios_solicitudes', $params);
+        $query = $this->db->insert_batch('tbl_registros_sanitarios_facturas', $params);
         return $query;
     }
 
     public function insertDerechoAutorFactura($params)
     {
-        $query = $this->db->insert_batch('tbl_derecho_autor_solicitudes', $params);
+        $query = $this->db->insert_batch('tbl_derecho_autor_facturas', $params);
         return $query;
     }
 
     public function insertAccionesTercerosFactura($params){
-        $query = $this->db->insert_batch('tbl_acciones_terceros', $params);
+        $query = $this->db->insert_batch('tbl_acciones_terceros_facturas', $params);
         return $query;
     }
 

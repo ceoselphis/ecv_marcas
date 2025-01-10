@@ -864,12 +864,18 @@ class Invoices extends AdminController
             foreach ($lista_expedientes as $item) {
                 switch ($item['grupo_expediente_id']) {
                     case 3:
-                        $insert = [
+                        /*
+                          `expediente_id` int(11) NOT NULL,
+                          `facturas_id` int(11) NOT NULL,
+                          `staff_id` int(11) NOT NULL,
+                          `articulo_id` int(11) NOT NULL,
+                        */
+                        $insert = array(
                             "expediente_id" => $item['marca_id'],
                             "facturas_id" => $id,
                             "staff_id" => $_SESSION['staff_user_id'],
                             "articulo_id" => $item['expediente_id'],
-                        ];
+                        );
 
                         $query = $this->MarcasFacturas_model->insertRegistroSanitariosFactura($insert);
                         if (isset($query)){
@@ -884,6 +890,12 @@ class Invoices extends AdminController
                         break;
                 
                     case 4:
+                        /*
+                            `marcas_id` int(11) NOT NULL,
+                            `facturas_id` int(11) NOT NULL,
+                            `staff_id` int(11) NOT NULL,
+                            `articulo_id` int(11) NOT NULL,
+                        */
                         $insert = array(
                             'marcas_id' => $item['marca_id'],
                             'facturas_id' => $id,
@@ -892,10 +904,10 @@ class Invoices extends AdminController
                         );
                         $query = $this->MarcasFacturas_model->insert($insert);
                         if (isset($query)){
-                            echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'status'=>true]);
+                            echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'code' => '200']);
         
                         }else {
-                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code '=> '400']);
                         }
                      
                         // Caso para MARCAS / TRADEMARKS
@@ -903,55 +915,134 @@ class Invoices extends AdminController
                         break;
                 
                     case 5:
-                        $insert = [
+                        $insert = array(
                             "expediente_id" => $item['marca_id'],
                             "facturas_id" => $id,
                             "staff_id" => $_SESSION['staff_user_id'],
                             "articulo_id" => $item['expediente_id'],
-                        ];
+                        );
 
                         $query = $this->MarcasFacturas_model->insertRegistroSanitariosFactura($insert);
                         if (isset($query)){
                             echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
      
                         }else {
-                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'status'=>false]);  
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Registro Sanitario Factura', 'code' => '400']);
+              
                         }
                         // Caso para CAMBIOS POSTERIORES AL REGISTRO
-                        $nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
+                        //$nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
                         break;
                 
                     case 6:
+                        /*
+                            `expediente_id` int(11) NOT NULL,
+                            `facturas_id` int(11) NOT NULL,
+                            `staff_id` int(11) NOT NULL,
+                            `articulo_id` int(11) NOT NULL,
+                        */
+                        $insert = array(
+                            "expediente_id" => $item['marca_id'],
+                            "facturas_id" => $id,
+                            "staff_id" => $_SESSION['staff_user_id'],
+                            "articulo_id" => $item['expediente_id'],
+                        );
+
+                        $query = $this->MarcasFacturas_model->insertAccionesTercerosFactura($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
+                        }else {
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Registro Sanitario Factura', 'status'=>false]);  
+                        }
                         // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
-                        $nombre_expediente = $this->taxes_model->getAccionesTercerosById($expediente);
+                        //$nombre_expediente = $this->taxes_model->getAccionesTercerosById($expediente);
                         break;
                 
                     case 7:
                         // Caso para OTROS / OTHERS
-                        $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                        $insert = array(
+                            'marcas_id' => $item['marca_id'],
+                            'facturas_id' => $id,
+                            'staff_id' => $_SESSION['staff_user_id'],
+                            'articulo_id' => $item['expediente_id']
+                        );
+                        $query = $this->MarcasFacturas_model->insert($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'code' => '200']);
+        
+                        }else {
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code '=> '400']);
+                        }
+                      //  $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
                         break;
                 
                     case 8:
+                        /*  
+                            `expediente_id` int(11) NOT NULL,
+                            `facturas_id` int(11) NOT NULL,
+                            `staff_id` int(11) NOT NULL,
+                            `articulo_id` int(11) NOT NULL, 
+                        */
                         // Caso para DERECHOS DE AUTOR
-                        $nombre_expediente = $this->taxes_model->getDerechoAutorById($expediente);
+                        $insert = array(
+                            "expediente_id" => $item['marca_id'],
+                            "facturas_id" => $id,
+                            "staff_id" => $_SESSION['staff_user_id'],
+                            "articulo_id" => $item['expediente_id'],
+                        );
+
+                        $query = $this->MarcasFacturas_model->insertDerechoAutorFactura($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'mensaje'=>'Derecho de Autor Factura registrado con éxito', 'code' => '200' ]);
+                        }else {
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Derecho de Autor Factura', 'code'=> '400']);  
+                        }
+                        //$nombre_expediente = $this->taxes_model->getDerechoAutorById($expediente);
                         break;
                 
                     case 9:
+                        /*
+                            `expediente_id` int(11) NOT NULL,
+                            `facturas_id` int(11) NOT NULL,
+                            `staff_id` int(11) NOT NULL,
+                            `articulo_id` int(11) NOT NULL,
+                        */
                         // Caso para PATENTES, MODELOS Y DISEÑOS
-                        $nombre_expediente = $this->taxes_model->getPatentesById($expediente);
+                        $insert = array(
+                            "expediente_id" => $item['marca_id'],
+                            "facturas_id" => $id,
+                            "staff_id" => $_SESSION['staff_user_id'],
+                            "articulo_id" => $item['expediente_id'],
+                        );
+
+                        $query = $this->MarcasFacturas_model->insertDerechoAutorFactura($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'mensaje'=>'Patentes Factura registrado con éxito', 'code' => '200' ]);
+                        }else {
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Patentes Factura', 'code'=> '400']);  
+                        }
+                        //$nombre_expediente = $this->taxes_model->getPatentesById($expediente);
                         break;
                 
                     default:
                         // En caso de que el valor no esté en la lista
-                        $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
+                        $insert = array(
+                            'marcas_id' => $item['marca_id'],
+                            'facturas_id' => $id,
+                            'staff_id' => $_SESSION['staff_user_id'],
+                            'articulo_id' => $item['expediente_id']
+                        );
+                        $query = $this->MarcasFacturas_model->insert($insert);
+                        if (isset($query)){
+                            echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'code' => '200']);
+        
+                        }else {
+                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code '=> '400']);
+                        }
+                        //$nombre_expediente = $this->taxes_model->getMarcaById($expediente);
                         break;
                 }
-                $insert = array(
-                    'expedientes_id' => $item['expediente_id'],
-                    'facturas_id' => $id,
-                    'staff_id' => $_SESSION['staff_user_id'],
-                    'articulo_id' => $item['articulo_id']
-                );
+               
                 
             }
         }
@@ -964,82 +1055,82 @@ class Invoices extends AdminController
             $invoice_data = $this->input->post();
             $lista_items = $this->ListaItem($invoice_data['newitems']);
             $lista_items_validados = $this->ValidarItems($lista_items);
-            echo json_encode($lista_items_validados);
-            // $marca_id = $invoice_data['marcaid'];
-            // $edit_marca = $invoice_data['edit_marca'];
-            // unset($invoice_data['marcaid']);
-            // unset($invoice_data['edit_marca']);
-            // if ($id == '') {
-            //     if (!has_permission('invoices', '', 'create')) {
-            //         access_denied('invoices');
-            //     }
+           // echo json_encode($lista_items_validados);
+            $marca_id = $invoice_data['marcaid'];
+            $edit_marca = $invoice_data['edit_marca'];
+            unset($invoice_data['marcaid']);
+            unset($invoice_data['edit_marca']);
+            if ($id == '') {
+                if (!has_permission('invoices', '', 'create')) {
+                    access_denied('invoices');
+                }
 
-            //     if (hooks()->apply_filters('validate_invoice_number', true)) {
-            //         $number = ltrim($invoice_data['number'], '0');
-            //         if (total_rows('invoices', [
-            //             'YEAR(date)' => date('Y', strtotime(to_sql_date($invoice_data['date']))),
-            //             'number'     => $number,
-            //             'status !='  => Invoices_model::STATUS_DRAFT,
-            //         ])) {
-            //             set_alert('warning', _l('invoice_number_exists'));
+                if (hooks()->apply_filters('validate_invoice_number', true)) {
+                    $number = ltrim($invoice_data['number'], '0');
+                    if (total_rows('invoices', [
+                        'YEAR(date)' => date('Y', strtotime(to_sql_date($invoice_data['date']))),
+                        'number'     => $number,
+                        'status !='  => Invoices_model::STATUS_DRAFT,
+                    ])) {
+                        set_alert('warning', _l('invoice_number_exists'));
 
-            //             redirect(admin_url('invoices/invoice'));
-            //         }
-            //     }
+                        redirect(admin_url('invoices/invoice'));
+                    }
+                }
 
-            //     $id = $this->invoices_model->add($invoice_data);
-            //     if ($id) {
+                $id = $this->invoices_model->add($invoice_data);
+                if ($id) {
+                    $this->insertarExpedientesFacturas($id ,$lista_items_validados );
+                    //-----------------------------------------------------
+                    //set_alert('success', _l('added_successfully', _l('invoice')));
+                    /*We add the new invoice in the table */
+                    if(!empty($marca_id) && $edit_marca != "true") //nueva marca
+                    {
+                        $this->session->set_flashdata('marca_id',$marca_id);
+                        $this->session->set_flashdata('factId',$id);
+                        $redUrl = admin_url("pi/MarcasSolicitudesController/create");
+                    } else if(!empty($marca_id) && $edit_marca == "true") //edit marca
+                    {
+                        $this->invoices_model->insertMarcaFactura($marca_id, $id, $_SESSION['staff_user_id']);
+                        $redUrl = admin_url("pi/MarcasSolicitudesController/edit/" . $marca_id);
+                    }else{
+                        $redUrl = admin_url('invoices/list_invoices/' . $id);
+                    }
 
-            //         //-----------------------------------------------------
-            //         //set_alert('success', _l('added_successfully', _l('invoice')));
-            //         /*We add the new invoice in the table */
-            //         if(!empty($marca_id) && $edit_marca != "true") //nueva marca
-            //         {
-            //             $this->session->set_flashdata('marca_id',$marca_id);
-            //             $this->session->set_flashdata('factId',$id);
-            //             $redUrl = admin_url("pi/MarcasSolicitudesController/create");
-            //         } else if(!empty($marca_id) && $edit_marca == "true") //edit marca
-            //         {
-            //             $this->invoices_model->insertMarcaFactura($marca_id, $id, $_SESSION['staff_user_id']);
-            //             $redUrl = admin_url("pi/MarcasSolicitudesController/edit/" . $marca_id);
-            //         }else{
-            //             $redUrl = admin_url('invoices/list_invoices/' . $id);
-            //         }
+                    if (isset($invoice_data['save_and_record_payment'])) {
+                        $this->session->set_userdata('record_payment', true);
+                    } elseif (isset($invoice_data['save_and_send_later'])) {
+                        $this->session->set_userdata('send_later', true);
+                    }
 
-            //         if (isset($invoice_data['save_and_record_payment'])) {
-            //             $this->session->set_userdata('record_payment', true);
-            //         } elseif (isset($invoice_data['save_and_send_later'])) {
-            //             $this->session->set_userdata('send_later', true);
-            //         }
+                    redirect($redUrl);
+                }
+            } else {
+                if (!has_permission('invoices', '', 'edit')) {
+                    access_denied('invoices');
+                }
 
-            //         redirect($redUrl);
-            //     }
-            // } else {
-            //     if (!has_permission('invoices', '', 'edit')) {
-            //         access_denied('invoices');
-            //     }
+                // If number not set, is draft
+                if (hooks()->apply_filters('validate_invoice_number', true) && isset($invoice_data['number'])) {
+                    $number = trim(ltrim($invoice_data['number'], '0'));
+                    if (total_rows('invoices', [
+                        'YEAR(date)' => date('Y', strtotime(to_sql_date($invoice_data['date']))),
+                        'number'     => $number,
+                        'status !='  => Invoices_model::STATUS_DRAFT,
+                        'id !='      => $id,
+                    ])) {
+                        set_alert('warning', _l('invoice_number_exists'));
 
-            //     // If number not set, is draft
-            //     if (hooks()->apply_filters('validate_invoice_number', true) && isset($invoice_data['number'])) {
-            //         $number = trim(ltrim($invoice_data['number'], '0'));
-            //         if (total_rows('invoices', [
-            //             'YEAR(date)' => date('Y', strtotime(to_sql_date($invoice_data['date']))),
-            //             'number'     => $number,
-            //             'status !='  => Invoices_model::STATUS_DRAFT,
-            //             'id !='      => $id,
-            //         ])) {
-            //             set_alert('warning', _l('invoice_number_exists'));
+                        redirect(admin_url('invoices/invoice/' . $id));
+                    }
+                }
+                $success = $this->invoices_model->update($invoice_data, $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', _l('invoice')));
+                }
 
-            //             redirect(admin_url('invoices/invoice/' . $id));
-            //         }
-            //     }
-            //     $success = $this->invoices_model->update($invoice_data, $id);
-            //     if ($success) {
-            //         set_alert('success', _l('updated_successfully', _l('invoice')));
-            //     }
-
-            //     redirect(admin_url('invoices/list_invoices/' . $id));
-            // }
+                redirect(admin_url('invoices/list_invoices/' . $id));
+            }
         }
         if ($id == '') {
             $title                  = _l('create_new_invoice');

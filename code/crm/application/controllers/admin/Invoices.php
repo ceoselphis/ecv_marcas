@@ -515,95 +515,241 @@ class Invoices extends AdminController
         }
     }
 
-    public function MostrarItem($result){
-        if (!empty($result)){
-            $grupo = $result[0]['group_id'];
-            $respuesta = array();
-            $this->load->model('facturaview_model');
-            switch ($grupo) {
-                case 3:
-                    // Caso para CAMBIOS ANTERIORES AL REGISTRO
-                    $respuesta = [
-                        'descripcion' => $result[0]['description'],
-                        'long_description' => $result[0]['long_description'],
+    // public function MostrarItem($result){
+    //     if (!empty($result)){
+    //         $grupo = $result[0]['group_id'];
+    //         $respuesta = array();
+    //         $this->load->model('facturaview_model');
+    //         switch ($grupo) {
+    //             case 3:
+    //                 // Caso para CAMBIOS ANTERIORES AL REGISTRO
+    //                 $respuesta = [
+    //                     'descripcion' => $result[0]['description'],
+    //                     'long_description' => $result[0]['long_description'],
                     
-                    ];
-                    return $respuesta;
-                    break;
+    //                 ];
+    //                 return $respuesta;
+    //                 break;
             
-                case 4:
-                    // Caso para MARCAS / TRADEMARKS
-                    $marcas =  $this->facturaview_model->get_Marcas($result[0]['marcas_id']);
-                    $respuesta = [
-                        'descripcion' => "Marca: ". $marcas[0]['marca'] ." ". $marcas[0]['nombre_niza']. " Pais: " .$marcas[0]['nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['num_solicitud']." N° Reg: ".$marcas[0]['num_registro'],
-                        'long_description' => $result[0]['long_description'],
+    //             case 4:
+    //                 // Caso para MARCAS / TRADEMARKS
+    //                 $marcas =  $this->facturaview_model->get_Marcas($result[0]['marcas_id']);
+    //                 $respuesta = [
+    //                     'descripcion' => "Marca: ". $marcas[0]['marca'] ." ". $marcas[0]['nombre_niza']. " Pais: " .$marcas[0]['nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['num_solicitud']." N° Reg: ".$marcas[0]['num_registro'],
+    //                     'long_description' => $result[0]['long_description'],
                     
-                    ];
-                    return $respuesta;
-                    break;
+    //                 ];
+    //                 return $respuesta;
+    //                 break;
             
-                case 5:
-                    // Caso para CAMBIOS POSTERIORES AL REGISTRO
-                    $respuesta = [
-                        'descripcion' => $result[0]['description'],
-                        'long_description' => $result[0]['long_description'],
+    //             case 5:
+    //                 // Caso para CAMBIOS POSTERIORES AL REGISTRO
+    //                 $respuesta = [
+    //                     'descripcion' => $result[0]['description'],
+    //                     'long_description' => $result[0]['long_description'],
                     
-                    ];
-                    return $respuesta;
-                    break;
+    //                 ];
+    //                 return $respuesta;
+    //                 break;
             
-                case 6:
-                    // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
-                    $marcas =  $this->facturaview_model->get_Oposicion($result[0]['marcas_id']);
-                    $respuesta = [
-                        // 'descripcion' => "Marca: ". $marcas[0]['marca_opuesta_nombre'] . " Clase: ". $marcas[0]['marca_nombre_niza']. " Pais:" .$marcas[0]['marca_nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['marca_opuesta_solicitud']." N° Reg: ".$marcas[0]['marca_opuesta_registro'],
-                        'descripcion' => $result[0]['description'],
-                        'long_description' => $result[0]['long_description'],
+    //             case 6:
+    //                 // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
+    //                 $marcas =  $this->facturaview_model->get_Oposicion($result[0]['marcas_id']);
+    //                 $respuesta = [
+    //                     // 'descripcion' => "Marca: ". $marcas[0]['marca_opuesta_nombre'] . " Clase: ". $marcas[0]['marca_nombre_niza']. " Pais:" .$marcas[0]['marca_nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['marca_opuesta_solicitud']." N° Reg: ".$marcas[0]['marca_opuesta_registro'],
+    //                     'descripcion' => $result[0]['description'],
+    //                     'long_description' => $result[0]['long_description'],
                     
-                    ];
-                    return $respuesta;
-                    break;
+    //                 ];
+    //                 return $respuesta;
+    //                 break;
             
-                case 7:
-                    // Caso para OTROS / OTHERS
-                    $respuesta = [
-                        'descripcion' => $result[0]['description'],
-                        'long_description' => $result[0]['long_description'],
+    //             case 7:
+    //                 // Caso para OTROS / OTHERS
+    //                 $respuesta = [
+    //                     'descripcion' => $result[0]['description'],
+    //                     'long_description' => $result[0]['long_description'],
                     
-                    ];
-                    return $respuesta;
-                    break;
+    //                 ];
+    //                 return $respuesta;
+    //                 break;
             
-                case 8:
-                    // Caso para DERECHOS DE AUTOR
-                    $respuesta = [
-                        'descripcion' => $result[0]['description'],
-                        'long_description' => $result[0]['long_description'],
+    //             case 8:
+    //                 // Caso para DERECHOS DE AUTOR
+    //                 $respuesta = [
+    //                     'descripcion' => $result[0]['description'],
+    //                     'long_description' => $result[0]['long_description'],
                     
-                    ];
-                    return $respuesta;
-                    break;
+    //                 ];
+    //                 return $respuesta;
+    //                 break;
             
-                case 9:
-                    // Caso para PATENTES, MODELOS Y DISEÑOS
-                    $respuesta = [
-                        'descripcion' => $result[0]['description'],
-                        'long_description' => $result[0]['long_description'],
+    //             case 9:
+    //                 // Caso para PATENTES, MODELOS Y DISEÑOS
+    //                 $respuesta = [
+    //                     'descripcion' => $result[0]['description'],
+    //                     'long_description' => $result[0]['long_description'],
                     
-                    ];
-                    return $respuesta;
-                    break;
+    //                 ];
+    //                 return $respuesta;
+    //                 break;
             
-                default:
-                    // En caso de que el valor no esté en la lista
-                    $respuesta = [
-                        'descripcion' => $result[0]['description'],
-                        'long_description' => $result[0]['long_description'],
+    //             default:
+    //                 // En caso de que el valor no esté en la lista
+    //                 $respuesta = [
+    //                     'descripcion' => $result[0]['description'],
+    //                     'long_description' => $result[0]['long_description'],
                     
-                    ];
-                    return $respuesta;
+    //                 ];
+    //                 return $respuesta;
+    //                 break;
+    //         }
+    //     } else {
+    //         return null;
+    //     }
+    // }
+
+    public function MostrarItem($lista_expediente , $lista_items){
+        $this->load->model('facturaview_model');
+        $respuesta = array();
+        $lista_respuesta = array(); 
+        if (!empty($lista_expediente[0])){
+            for ($i=0; $i < count($lista_expediente) ; $i++) {
+                switch ($lista_expediente[$i]['grupo_id']) {
+                    case 3:
+                        // Caso para CAMBIOS ANTERIORES AL REGISTRO
+                        $registro = $this->facturaview_model->get_Registro_Sanitarios($lista_expediente[$i]['expediente_id']);
+                        if (!empty($registro)) {
+
+                            $respuesta = [
+                                'descripcion' => "Registro Sanitario: ". $registro[0]['titulo'] ." Grupo : ". $registro[0]['grupo']. " Pais: " .$registro[0]['pais']. "  Expediente : ".$registro[0]['expediente'],
+                            ];
+                        } else {
+                            $respuesta = [
+                                'descripcion' => $lista_items[$i]['description'],
+                            ];
+                        }
+                        array_push($lista_respuesta , $respuesta);
+                        
+                        break;
+                
+                    case 4:
+                        // Caso para MARCAS / TRADEMARKS
+                        $marcas =  $this->facturaview_model->get_Marcas($lista_expediente[$i]['expediente_id']);
+                        if (!empty($marcas)) {
+                            $respuesta = [
+                                'descripcion' => "Marca: ". $marcas[0]['marca'] ." ". $marcas[0]['nombre_niza']. " Pais: " .$marcas[0]['nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['num_solicitud']." N° Reg: ".$marcas[0]['num_registro'],
+                                //'long_description' => $result[0]['long_description'],
+                            ];
+                        }else {
+                            $respuesta = [
+                                'descripcion' => $lista_items[$i]['description'],
+                            ];
+                        }
+                        array_push($lista_respuesta , $respuesta);
                     break;
+                
+                    case 5:
+                        // Caso para CAMBIOS POSTERIORES AL REGISTRO
+                        $registro = $this->facturaview_model->get_Registro_Sanitarios($lista_expediente[$i]['expediente_id']);
+                        if (!empty($registro)) {
+
+                            $respuesta = [
+                                'descripcion' => "Registro Sanitario: ". $registro[0]['titulo'] ." Grupo : ". $registro[0]['grupo']. " Pais: " .$registro[0]['pais']. "  Expediente : ".$registro[0]['expediente'],
+                            ];
+                        } else {
+                            $respuesta = [
+                                'descripcion' => $lista_items[$i]['description'],
+                            ];
+                        }
+                        array_push($lista_respuesta , $respuesta);
+                        break;
+                
+                    case 6:
+                        // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
+                        $oposicion =  $this->facturaview_model->get_Oposicion($lista_expediente[$i]['expediente_id']);
+                        if (!empty($oposicion)) { 
+
+                            $respuesta = [
+                                 'descripcion' => "Oposicion: ". $oposicion[0]['marca_opuesta_nombre'] ." ". $oposicion[0]['marca_opuesta_clase_niza']. " Pais: " .$oposicion[0]['marca_opuesta_pais']. "  N° Solicitud: ".$oposicion[0]['marca_opuesta_solicitud']." N° Reg: ".$oposicion[0]['marca_opuesta_registro'],
+                               // 'descripcion' => $lista_expediente[0]['description'],
+                                //'long_description' => $lista_expediente[0]['long_description'],
+                            
+                            ];
+                        } else {
+                            $respuesta = [ 
+                                'descripcion' => $lista_items[$i]['description'],
+                            ];
+                        }
+                        array_push($lista_respuesta , $respuesta);
+                    break;
+                
+                    case 7:
+                        // Caso para OTROS / OTHERS
+                        $marcas =  $this->facturaview_model->get_Marcas($lista_expediente[$i]['expediente_id']);
+                        if (!empty($marcas)) {
+                            $respuesta = [
+                                'descripcion' => "Marca: ". $marcas[0]['marca'] ." ". $marcas[0]['nombre_niza']. " Pais: " .$marcas[0]['nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['num_solicitud']." N° Reg: ".$marcas[0]['num_registro'],
+                                //'long_description' => $result[0]['long_description'],
+                            ];
+                        }else {
+                            $respuesta = [
+                                'descripcion' => $lista_items[$i]['description'],
+                            ];
+                        }
+                        array_push($lista_respuesta , $respuesta);
+                        break;
+                
+                    case 8:
+                        // Caso para DERECHOS DE AUTOR
+                        $derecho_autor = $this->facturaview_model->get_derecho_autor($lista_expediente[$i]['expediente_id']);
+                        if (!empty($derecho_autor)) {
+                            $respuesta = [
+                                'descripcion' => "Derecho Autor: ". $derecho_autor[0]['titulo'] ." Tipo Autor: ". $derecho_autor[0]['tipo_autor']. " Pais: " .$derecho_autor[0]['pais']. "  N° Solicitud: ".$derecho_autor[0]['solicitud']." N° Reg: ".$derecho_autor[0]['registro'],
+                                //'long_description' => $lista_expediente[0]['long_description'],
+                            ];
+                        } else {
+                            $respuesta = [
+                                'descripcion' => $lista_items[$i]['description'],
+                            ];
+                        }
+                        array_push($lista_respuesta , $respuesta);
+                        break;
+                
+                    case 9:
+                        // Caso para PATENTES, MODELOS Y DISEÑOS
+                        $patentes = $this->facturaview_model->get_Patente($lista_expediente[$i]['expediente_id']);
+                        if (!empty($patentes)) { 
+                            $respuesta = [
+                                'descripcion' => "Patentes: ". $patentes[0]['titulo'] ." Tipo Patente: ". $patentes[0]['tipo']. " Pais: " .$patentes[0]['pais']. "  N° Solicitud: ".$patentes[0]['solicitud']." N° Reg: ".$patentes[0]['registro'],
+                                //'long_description' => $lista_expediente[0]['long_description'],
+                            ];
+                        } else {
+                            $respuesta = [
+                                'descripcion' => $lista_items[$i]['description'],
+                            ];
+                        }
+                        array_push($lista_respuesta , $respuesta);
+                        break;
+                
+                    default:
+                        // En caso de que el valor no esté en la lista
+                        $marcas =  $this->facturaview_model->get_Marcas($lista_expediente[$i]['expediente_id']);
+                        if (!empty($marcas)) {
+                            $respuesta = [
+                                'descripcion' => "Marca: ". $marcas[0]['marca'] ." ". $marcas[0]['nombre_niza']. " Pais: " .$marcas[0]['nombre_pais_cliente']. "  N° Solicitud: ".$marcas[0]['num_solicitud']." N° Reg: ".$marcas[0]['num_registro'],
+                                //'long_description' => $result[0]['long_description'],
+                            ];
+                        }else {
+                            $respuesta = [
+                                'descripcion' => $lista_items[$i]['description'],
+                            ];
+                        }
+                        array_push($lista_respuesta , $respuesta);
+                    break;
+                }
             }
+            return array_reverse($lista_respuesta);
         } else {
             return null;
         }
@@ -859,37 +1005,44 @@ class Invoices extends AdminController
 
     public function insertarExpedientesFacturas($id , $lista_expedientes ) {
         $insert = [];
+        $expdiente_factura = [];
         $this->load->model('MarcasFacturas_model');
         if ( !empty($lista_expedientes) ) {
             foreach ($lista_expedientes as $item) {
                 switch ($item['grupo_expediente_id']) {
                     case 3:
+                        // Caso para CAMBIOS ANTERIORES AL REGISTRO
                         /*
                           `expediente_id` int(11) NOT NULL,
                           `facturas_id` int(11) NOT NULL,
                           `staff_id` int(11) NOT NULL,
                           `articulo_id` int(11) NOT NULL,
                         */
-                        $insert = array(
+                        $insert = [
                             "expediente_id" => $item['marca_id'],
                             "facturas_id" => $id,
                             "staff_id" => $_SESSION['staff_user_id'],
                             "articulo_id" => $item['expediente_id'],
-                        );
+                        ];
+                        
+                        if (is_array($insert)) {
 
-                        $query = $this->MarcasFacturas_model->insertRegistroSanitariosFactura($insert);
-                        if (isset($query)){
-                            echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
-     
-                        }else {
-                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code' => '400']);
-              
+                            $query = $this->MarcasFacturas_model->insertRegistroSanitariosFactura($insert);
+                            if (isset($query)){
+                                echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
+        
+                            }else {
+                                echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code' => '400']);
+                
+                            }
+                        } else {
+                            echo json_encode(['message ' => 'No es array'  ]);
                         }
-                        // Caso para CAMBIOS ANTERIORES AL REGISTRO
-                        //$nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
-                        break;
+                        
+                    break;
                 
                     case 4:
+                        // Caso para MARCAS / TRADEMARKS
                         /*
                             `marcas_id` int(11) NOT NULL,
                             `facturas_id` int(11) NOT NULL,
@@ -910,62 +1063,72 @@ class Invoices extends AdminController
                             echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code '=> '400']);
                         }
                      
-                        // Caso para MARCAS / TRADEMARKS
-                       // $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
-                        break;
+                        
+                       
+                    break;
                 
                     case 5:
-                        $insert = array(
+                        // Caso para CAMBIOS POSTERIORES AL REGISTRO
+                        $insert = [
                             "expediente_id" => $item['marca_id'],
                             "facturas_id" => $id,
                             "staff_id" => $_SESSION['staff_user_id'],
                             "articulo_id" => $item['expediente_id'],
-                        );
+                        ];
 
-                        $query = $this->MarcasFacturas_model->insertRegistroSanitariosFactura($insert);
-                        if (isset($query)){
-                            echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
+                        if (is_array($insert)) {
+
+                            $query = $this->MarcasFacturas_model->insertRegistroSanitariosFactura($insert);
+                            if (isset($query)){
+                                echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
      
-                        }else {
-                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Registro Sanitario Factura', 'code' => '400']);
+                            }else {
+                                echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Registro Sanitario Factura', 'code' => '400']);
               
+                            }
+                        } else {
+                            echo json_encode(['message ' => 'No es array'  ]);
                         }
-                        // Caso para CAMBIOS POSTERIORES AL REGISTRO
-                        //$nombre_expediente = $this->taxes_model->getRegistroSanitariosById($expediente);
-                        break;
+                        
+                    break;
                 
                     case 6:
+                        // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
                         /*
                             `expediente_id` int(11) NOT NULL,
                             `facturas_id` int(11) NOT NULL,
                             `staff_id` int(11) NOT NULL,
                             `articulo_id` int(11) NOT NULL,
                         */
-                        $insert = array(
+                        $insert = [
                             "expediente_id" => $item['marca_id'],
                             "facturas_id" => $id,
                             "staff_id" => $_SESSION['staff_user_id'],
                             "articulo_id" => $item['expediente_id'],
-                        );
+                        ];
+                        if (is_array($insert)) {
 
-                        $query = $this->MarcasFacturas_model->insertAccionesTercerosFactura($insert);
-                        if (isset($query)){
-                            echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
-                        }else {
-                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Registro Sanitario Factura', 'status'=>false]);  
+                            $query = $this->MarcasFacturas_model->insertAccionesTercerosFactura($insert);
+                            if (isset($query)){
+                                echo json_encode([ 'mensaje'=>'Registro Sanitario Factura registrado con éxito', 'code' => '200' ]);
+                            }else {
+                                echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Registro Sanitario Factura', 'status'=>false]);  
+                            }
+                        } else {
+                            echo json_encode(['message ' => 'No es array'  ]);
                         }
-                        // Caso para OPOSICIONES, RECURSOS, CANCELACIONES, NULIDADES
-                        //$nombre_expediente = $this->taxes_model->getAccionesTercerosById($expediente);
-                        break;
+                        
+                        
+                    break;
                 
                     case 7:
                         // Caso para OTROS / OTHERS
-                        $insert = array(
+                        $insert = [
                             'marcas_id' => $item['marca_id'],
                             'facturas_id' => $id,
                             'staff_id' => $_SESSION['staff_user_id'],
                             'articulo_id' => $item['expediente_id']
-                        );
+                        ];
                         $query = $this->MarcasFacturas_model->insert($insert);
                         if (isset($query)){
                             echo json_encode([ 'mensaje'=>'Marca Factura registrado con éxito', 'code' => '200']);
@@ -973,8 +1136,7 @@ class Invoices extends AdminController
                         }else {
                             echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code '=> '400']);
                         }
-                      //  $nombre_expediente = $this->taxes_model->getMarcaById($expediente);
-                        break;
+                    break;
                 
                     case 8:
                         /*  
@@ -984,21 +1146,25 @@ class Invoices extends AdminController
                             `articulo_id` int(11) NOT NULL, 
                         */
                         // Caso para DERECHOS DE AUTOR
-                        $insert = array(
+                        $insert = [
                             "expediente_id" => $item['marca_id'],
                             "facturas_id" => $id,
                             "staff_id" => $_SESSION['staff_user_id'],
                             "articulo_id" => $item['expediente_id'],
-                        );
+                        ];
 
-                        $query = $this->MarcasFacturas_model->insertDerechoAutorFactura($insert);
-                        if (isset($query)){
-                            echo json_encode([ 'mensaje'=>'Derecho de Autor Factura registrado con éxito', 'code' => '200' ]);
-                        }else {
-                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Derecho de Autor Factura', 'code'=> '400']);  
+                        if (is_array($insert)) {
+                            echo json_encode(['message ' => 'es array' , 'data' => $insert ]);
+                            $query = $this->MarcasFacturas_model->insertDerechoAutorFactura($insert);
+                            if (isset($query)){
+                                echo json_encode([ 'mensaje'=>'Derecho de Autor Factura registrado con éxito', 'code' => '200' ]);
+                            }else {
+                                echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Derecho de Autor Factura', 'code'=> '400']);  
+                            }
+                        } else {
+                            echo json_encode(['message ' => 'No es array'  ]);
                         }
-                        //$nombre_expediente = $this->taxes_model->getDerechoAutorById($expediente);
-                        break;
+                    break;
                 
                     case 9:
                         /*
@@ -1008,21 +1174,25 @@ class Invoices extends AdminController
                             `articulo_id` int(11) NOT NULL,
                         */
                         // Caso para PATENTES, MODELOS Y DISEÑOS
-                        $insert = array(
+                        $insert = [
                             "expediente_id" => $item['marca_id'],
                             "facturas_id" => $id,
                             "staff_id" => $_SESSION['staff_user_id'],
                             "articulo_id" => $item['expediente_id'],
-                        );
+                        ];
 
-                        $query = $this->MarcasFacturas_model->insertDerechoAutorFactura($insert);
-                        if (isset($query)){
-                            echo json_encode([ 'mensaje'=>'Patentes Factura registrado con éxito', 'code' => '200' ]);
-                        }else {
-                            echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Patentes Factura', 'code'=> '400']);  
+                        if (is_array($insert)) {
+
+                            $query = $this->MarcasFacturas_model->insertPatenteFactura($insert);
+                            if (isset($query)){
+                                echo json_encode([ 'mensaje'=>'Patentes Factura registrado con éxito', 'code' => '200' ]);
+                            }else {
+                                echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Patentes Factura', 'code'=> '400']);  
+                            }
+                        } else {
+                            echo json_encode(['message ' => 'No es array'  ]);
                         }
-                        //$nombre_expediente = $this->taxes_model->getPatentesById($expediente);
-                        break;
+                    break;
                 
                     default:
                         // En caso de que el valor no esté en la lista
@@ -1039,10 +1209,39 @@ class Invoices extends AdminController
                         }else {
                             echo json_encode([ 'mensaje'=>'No hemos podido Insertar la Marca Factura', 'code '=> '400']);
                         }
-                        //$nombre_expediente = $this->taxes_model->getMarcaById($expediente);
-                        break;
+                    break;
                 }
-               
+                /*
+                    `expediente_id` int(11) NOT NULL,
+                    `facturas_id` int(11) NOT NULL,
+                    `staff_id` int(11) NOT NULL,
+                    `articulo_id` int(11) NOT NULL,
+                    `grupo_id` int(11) NOT NULL,
+                */
+                $expdiente_factura = [
+                    "expediente_id" => $item['marca_id'],
+                    "facturas_id" => $id,
+                    "staff_id" => $_SESSION['staff_user_id'],
+                    "articulo_id" => $item['expediente_id'],
+                    "grupo_id" => $item['grupo_expediente_id']
+                ];
+
+                
+                if (is_array($expdiente_factura)) {
+
+                    $query = $this->MarcasFacturas_model->insertExpedienteFactura($expdiente_factura);
+                    if (isset($query)){
+                        echo json_encode([ 'mensaje'=>'Expediente Factura registrado con éxito', 'code' => '200' ]);
+    
+                    }else {
+                        echo json_encode([ 'mensaje'=>'No hemos podido Insertar el Expdiente Factura', 'code' => '400']);
+            
+                    }
+                } else {
+                    echo json_encode(['message ' => 'No es array'  ]);
+                }
+                
+                
                 
             }
         }
@@ -1369,6 +1568,7 @@ class Invoices extends AdminController
     //      $this->load->view('admin/invoices/invoice', $data);
     //  }
  
+    
 
     /* Get all invoice data used when user click on invoiec number in a datatable left side*/
     public function get_invoice_data_ajax($id)
@@ -1427,12 +1627,17 @@ class Invoices extends AdminController
             }
         }
         $this->load->model('facturaview_model');
-        $informacion_marca = $this->facturaview_model->find($id);
         $data['informacion_marca'] = $this->MostrarMarca($this->facturaview_model->find($id));
-        $informacion_item = $this->MostrarItem($informacion_marca);
+
+        $informacion_marca = $this->facturaview_model->find_Expediente($id);
+        $informacion_item = $this->MostrarItem($informacion_marca , $invoice->items);
+       // echo json_encode($informacion_item);
         if (!empty($informacion_item)){
-            $invoice->items[0]['description'] = $informacion_item['descripcion'];
-            $invoice->items[0]['long_description'] = $informacion_item['long_description'];
+            for ($i = 0; $i < count($invoice->items) ; $i++) {
+
+                $invoice->items[$i]['description'] = $informacion_item[$i]['descripcion'];
+            }
+           // $invoice->items[0]['long_description'] = $informacion_item['long_description'];
         }
         $data['invoice'] = $invoice;
 

@@ -132,7 +132,7 @@ $select = ['' => '']; ?>
                                                 'tipo_registro_id',
                                                 $tipo_registro,
                                                 set_value('tipo_registro_id'),
-                                                ['class' => 'form-control','id' => 'tipo_registro_id']
+                                                ['class' => 'form-control','id' => 'tipo_registro_id', 'selected' => $tipo_registro[2] ]
                                             )
                                                 ?>
                                             <div class="text-danger tipo_registro_id_error"></div>
@@ -160,7 +160,7 @@ $select = ['' => '']; ?>
                                                 'oficina_id',
                                                 $oficinas,
                                                 set_value('oficina_id'),
-                                                ['class' => 'form-control', 'id'=> 'oficina_id']
+                                                ['class' => 'form-control', 'id'=> 'oficina_id' , 'selected' => $oficinas[1]]
                                             );
                                             ?>
                                             <div class="text-danger oficina_id_error"></div>

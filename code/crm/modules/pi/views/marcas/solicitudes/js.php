@@ -29,6 +29,19 @@
     var tblCamDomActDT;
     var tblDocumentosDT;
     var tblFacturasDT;
+    var cliente_id;
+    var oficina_id = $('#oficina_id').val();
+    console.log(" Oficina ID ", oficina_id)
+
+
+    $('#client_id').change(function() {
+        cliente_id = $(this).val();
+        console.log(" Cliente_id ", cliente_id );
+    });
+
+
+
+
 
     var invoicesExtra = <?php echo json_encode($invoicesExtra); ?>;
 
@@ -938,14 +951,14 @@
         e.stopImmediatePropagation();
         let start = new Date();
         let end; 
-        if ($('#oficinaCesion').val() && 
+        if (
             $('#estadoCesion').val() && 
             $('#nro_solicitudCesion').val() && 
             $('#fecha_solicitudCesion').val() &&
             $('#nro_resolucionCesion').val() &&
             $('#fecha_resolucionCesion').val() &&
             $('#referenciaclienteCesion').val() &&
-            $('#comentarioCesion').val()) 
+           ) 
             {
                 
             var cesiones = JSON.parse(localStorage.getItem("cesiones"));

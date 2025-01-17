@@ -314,25 +314,29 @@
             <!-- Step 1 -->
             <div class="tab-pane active" role="tabpanel" id="addcesionstep1">
               <input type="hidden" id="cesionid">
+              <!--
               <div class="col-md-3">
-                <?php echo form_label('Cliente', 'clienteCesion'); ?>
+                <?php //echo form_label('Cliente', 'clienteCesion'); ?>
                 <?php
-                $clientes = $select + $clientes;
-                echo form_dropdown(['name' => 'clienteCesion', 'id' => 'clienteCesion'], $clientes, '', ['class' => 'form-control']); ?>
+                // $clientes = $select + $clientes;
+                // echo form_dropdown(['name' => 'clienteCesion', 'id' => 'clienteCesion'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaCesion', ['id' => 'lbloficinaCesion']); ?>
+                <?php //echo form_label('Oficina', 'oficinaCesion', ['id' => 'lbloficinaCesion']); ?>
                 <?php
-                $oficinas = $select + $oficinas;
-                echo form_dropdown(['name' => 'oficinaCesion', 'id' => 'oficinaCesion'], $oficinas, '', ['class' => 'form-control']); ?>
+                // $oficinas = $select + $oficinas;
+                // echo form_dropdown(['name' => 'oficinaCesion', 'id' => 'oficinaCesion'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Staff', 'staffCesion'); ?>
+                <?php //echo form_label('Staff', 'staffCesion'); ?>
                 <?php
-                $responsable = $select + $responsable;
-                echo form_dropdown(['name' => 'staffCesion', 'id' => 'staffCesion'], $responsable, '', ['class' => 'form-control']); ?>
-              </div>
-              <div class="col-md-3">
+                //$responsable = $select + $responsable;
+                //echo form_dropdown(['name' => 'staffCesion', 'id' => 'staffCesion'], $responsable, '', ['class' => 'form-control']); ?>
+              </div>-->
+
+              
+
+              <div class="col-md-12">
                 <?php echo form_label('Estado', 'estadoCesion', ['id' => 'lblestadoCesion']); ?>
                 <?php
                 $estados_solicitudes = $select + $estados_solicitudes;
@@ -355,7 +359,7 @@
               <div class="col-md-3" style="margin-top:15px">
                 <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCesion', ['id' => 'lblnro_resolucionCesion']); ?>
                 <?php echo form_input(['name' => 'nro_resolucionCesion', 'id' => 'nro_resolucionCesion', 'class' => 'form-control']) ?>
-              </div>
+              </div>             
               <div class="col-md-3" style="margin-top:15px">
                 <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCesion', ['id' => 'lblfecha_resolucionCesion']); ?>
                 <?php echo form_input([
@@ -765,7 +769,7 @@
                 </li>
                 <li role="presentation">
                   <a href="#addfusionstep2" data-toggle="tab" aria-controls="step2" role="tab"
-                    aria-expanded="false"><span class="round-tab">2</span> <i>Fusión Anterior y Actual</i></a>
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Participantes y Sobrevivientes</i></a>
                 </li>
               </ul>
             </div>
@@ -836,13 +840,13 @@
               <div class="col-md-12">
                 <div class="list-content">
                   <a href="#AddFusionanterior" data-toggle="collapse" aria-expanded="false"
-                    aria-controls="listone">Fusion Anterior<i class="fa fa-chevron-down"></i></a>
+                    aria-controls="listone">Participantes<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddFusionanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
                           <button type="button" id="addbtnFusionAnterior" class="btn btn-primary pull-right">Añadir
-                            Fusion Anterior</button>
+                          Participantes</button>
                           <table id="FusionesAnterioresTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
@@ -862,14 +866,12 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#AddFusionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion
-                    Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#AddFusionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Sobrevivientes<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddFusionactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnFusionActual" class="btn btn-primary pull-right">Añadir Fusion
-                            Actual</button>
+                          <button type="button" id="addbtnFusionActual" class="btn btn-primary pull-right">Añadir Sobrevivientes</button>
                           <table id="FusionesActualesTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
@@ -907,7 +909,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Fusión Anterior</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Participantes</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -942,7 +944,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Fusión Actual</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Sobrevivientes</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

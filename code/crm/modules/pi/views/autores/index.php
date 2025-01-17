@@ -1,6 +1,8 @@
 <?php 
 $CI = &get_instance();
-init_head(); ?>
+init_head(); 
+$CI->load->view('marcas/solicitudes/css.php');
+?>
 <style>
     /* From bootstrap.css */
     .row-group {
@@ -21,6 +23,17 @@ init_head(); ?>
 </style>
 <div id="wrapper">
     <div class="content">
+        <!-- Loading Modal -->
+        <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
@@ -40,7 +53,7 @@ init_head(); ?>
                                 data-target="#filterModal"><i class="fas fa-filter"></i> Filtrar por</button>
                         </div>
                     </div>
-                    <div class="row" >
+                    <div class="row" style="padding: 2%;">
     
                         <div class="col-md-12 pre-scrollable">
                             <table class="table" id="tableResult" style="witdh : 100%">
@@ -145,6 +158,16 @@ init_head(); ?>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap.min.js"></script>
 <script>
+    $('#modal-loading').modal('show');
+    $(function() {
+        $("#AddAccion").css({
+            "padding-left": "7px",
+        });
+        setTimeout(function() {
+            $('#modal-loading').modal('hide');
+        }, 3000);
+    });
+
     new DataTable("#tableResult", {
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
@@ -225,7 +248,7 @@ init_head(); ?>
                             targets: 4
                         },
                         {
-                            width: '20%',
+                            width: '13%',
                             targets: 5
                         }
                     ],

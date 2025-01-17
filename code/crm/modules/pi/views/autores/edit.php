@@ -1,6 +1,7 @@
 <?php
 $CI = &get_instance();
-init_head(); ?>
+init_head(); 
+$CI->load->view('marcas/solicitudes/css.php'); ?>
 <style>
     /* From bootstrap.css */
     .row-group {
@@ -10,6 +11,17 @@ init_head(); ?>
 </style>
 <div id="wrapper">
     <div class="content">
+        <!-- Loading Modal -->
+        <div class="modal" id="modal-loading" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loading-spinner mb-2"></div>
+                        <div>Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
@@ -22,7 +34,9 @@ init_head(); ?>
                 <div class="panel_s">
                     <div class="panel-body">
 
-                        <?php echo form_open(admin_url('pi/AutoresController/update/'.$id), ['id' => 'autoresFrm', 'name' => 'autoresFrm']); ?>
+                        <?php //echo form_open(admin_url('pi/AutoresController/update/'.$id), ['id' => 'autoresFrm', 'name' => 'autoresFrm']); ?>
+                        <?php echo form_open_multipart("", ['id' => 'autoresFrm', 'name' => 'autoresFrm']); ?>
+                        <?php echo form_hidden('id', $id); ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php echo form_label('Nombres', 'nombres'); ?>
@@ -207,6 +221,98 @@ init_head(); ?>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
 
 <script>
+    $('#modal-loading').modal('show');
+    $(function() {
+        $("#AddAccion").css({
+            "padding-left": "7px",
+        });
+        setTimeout(function() {
+            $('#modal-loading').modal('hide');
+        }, 3000);
+    });
+
+     $("#autoresFrm").on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData();
+
+        console.log(" LLegue a Enviar de Autores");
+        
+        
+        data = {
+            
+            'id' : $("input[name=id]").val(),
+            'nombres' : $("#nombres").val(),
+            'apellidos' : $("#apellidos").val(),
+            'fecha_nac' : $("#fecha_nac").val(),
+            'pais_id_nac' : $("#pais_id_nac").val(),
+            'cedula' : $("#cedula").val(),
+    
+            'rfc' : $("#rfc").val(),
+            'email' : $("#email").val(),
+            'telefono' : $("#telefono").val(),
+            'fax' : $("#fax").val(),
+            
+            'direccion' : $("#direccion").val(),
+            'ciudad' : $("#ciudad").val(),
+            'estado' : $("#estado").val(),
+            'codigo_postal' : $("#codigo_postal").val(),
+            'pais_id_res' : $("#pais_id_res").val(),
+           
+        };
+        console.log(" Data ", data);
+        formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formData.append('id', data.id);
+        formData.append('nombres', data.nombres );
+        
+        formData.append('apellidos', data.apellidos);
+        formData.append('fecha_nac', data.fecha_nac);
+        formData.append('pais_id_nac', data.pais_id_nac);
+        formData.append('cedula', data.cedula);
+       
+        formData.append('rfc', data.rfc); 
+        formData.append('email', data.email);
+        formData.append('telefono', data.telefono);
+        formData.append('fax', data.fax);
+        formData.append('direccion', data.direccion);
+        
+        formData.append('ciudad', data.ciudad );
+        formData.append('estado', data.estado);
+        formData.append('codigo_postal', data.codigo_postal);
+        formData.append('pais_id_res', data.pais_id_res);
+       
+        //##################################################
+        let url = '<?php echo admin_url('pi/AutoresController/updateAutores/'); ?>';
+        url += data.id;
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(" Response " , response);
+                const obj = JSON.parse(response);
+                if (obj.code == 200) {
+                    let id = data.id;
+                    alert_float('success', 'Autor guardado con éxito!');
+                    let ruta = '<?php echo admin_url("pi/AutoresController/"); ?>';
+                    location.replace(ruta);
+                } else if (obj.code == 500) {
+                    console.log(" ")
+                    alert_float('danger', 'No se Pudo Actualizar el Autor ');
+                }
+            },
+            fail: function(request) {
+                <?php if (ENVIRONMENT != 'production') { ?>
+                    alert(response);
+                <?php } else { ?>
+                    alert('ha ocurrido un error');
+                <?php } ?>
+            }
+        });
+    });
+
     function fecha() {
         var hoy = new Date();
         var dd = hoy.getDate();

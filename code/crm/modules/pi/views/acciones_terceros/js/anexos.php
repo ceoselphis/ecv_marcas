@@ -268,11 +268,12 @@
                         data: 'fecha'
                     },
                     {
-                        /* <a class=" btn btn-light edit-tarea" data-tareaid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a> */
+                        /*  <a class=" btn btn-light edit-tarea" data-tareaid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>  */
                         data: null, 
                         render: function (data, type, row) {
                             return `
                                         <td class="text-center">
+                                            <a class=" btn btn-light edit-tarea" data-tareaid="${row.id}" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a>
                                             <button class="btn btn-danger delete-tarea" data-tareaid="${row.id}">
                                             <i class="fas fa-trash"></i>Borrar
                                             </button>

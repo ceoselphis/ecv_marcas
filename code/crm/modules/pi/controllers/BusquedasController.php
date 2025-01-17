@@ -135,6 +135,136 @@ class BusquedasController extends AdminController
         
     // }
 
+    /*
+        public function store()
+    {
+        $CI = &get_instance();
+        $CI->load->model("Busquedas_model");
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        // WE prepare the data
+        $data = $CI->input->post();
+        //we validate the data
+        //we set the rules
+        $config = array(
+            [
+                'field' => 'marca',
+                'label' => 'Marca',
+                'rules' => 'trim|required|min_length[3]|max_length[60]',
+                'errors' => [
+                    'required' => 'Debe seleccionar una marca',
+                    'min_length' => 'Nombre demasiado corto',
+                    'max_lenght' => 'Nombre demasiado largo'
+                ]
+            ],
+        );
+        $CI->form_validation->set_rules($config);
+        if($CI->form_validation->run() == FALSE)
+        {
+            $CI = &get_instance();
+            $CI->load->model("Busquedas_model");
+            $fields = $CI->Busquedas_model->getFillableFields();
+            $clients = $CI->Busquedas_model->getAllClients();
+            $staff = $CI->Busquedas_model->getAllStaff();
+            $claseNiza = $CI->Busquedas_model->getAllClases();
+            $paises = $CI->Busquedas_model->getAllPaises();
+            $tipoBusqueda = $CI->Busquedas_model->getTipoBusquedas();
+            $oficinas = $CI->Busquedas_model->getOficinas();
+            $inputs = array();
+            $labels = array();
+            foreach($fields as $field)
+            {
+                if($field['type'] == 'INT')
+                {
+                    $inputs[] = array(
+                        'name' => $field['name'],
+                        'id'   => $field['name'],
+                        'type' => 'range',
+                        'class' => 'form-control'
+                    );
+                }
+                else{
+                    $inputs[] = array(
+                        'name' => $field['name'],
+                        'id'   => $field['name'],
+                        'type' => 'text',
+                        'class' => 'form-control'
+                    );
+                }
+            }
+            $labels = [];
+            return $CI->load->view('busquedas/create', ['fields' => $inputs, 'labels' => $labels, 'clients' => $clients, 'oficinas' => $oficinas, 'staff' => $staff, 'claseNiza' => $claseNiza, 'paises' => $paises, 'tipoBusqueda' => $tipoBusqueda, 'id' => $data['id']]);
+        }
+        else
+        {
+            //we turn the dates
+            $data['fecha_solicitud'] = $this->turn_dates($data['fecha_solicitud']);
+            $data['fecha_respuesta'] = $this->turn_dates($data['fecha_respuesta']);
+            $data['created_at'] = date('Y-m-d h:i:s');
+            //we turn the value 0 to NULL
+            if($data['busqueda_interna_id'] == 'NULL')
+            {
+                $data['busqueda_interna_id'] = NULL;
+            }
+            if($data['busqueda_externa_id'] == 'NULL')
+            {
+                $data['busqueda_externa_id'] == NULL;
+            }
+            $data['id']='';
+            //we sent the data to the model
+            $query = $CI->Busquedas_model->insert($data);
+            if(isset($query))
+            {
+                return redirect(admin_url('pi/BusquedasController/'.$data['id']));
+            }
+        }
+        
+    }
+    */
+
+    public function insertBusqueda(){
+        
+        $CI = &get_instance();
+        $CI->load->model("Busquedas_model");
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $form['client_id'] = $data['client_id'];
+            $form['oficina_id'] = $data['oficina_id'];
+            $form['staff_id']  = $data['staff_id'];
+            $form['marca']  = $data['marca'];
+            $form['clase_niza_id']        = $data['clase_niza_id'];
+            $form['pais_id']  = $data['pais_id'];
+            if (!empty($data['fecha_solicitud'])) {
+                $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud'])->format('Y-m-d');
+            }
+            if (!empty($data['fecha_respuesta'])) {
+                $form['fecha_respuesta'] = DateTime::createFromFormat('d/m/Y', $data['fecha_respuesta'])->format('Y-m-d');
+            }
+            $form['ref_cliente']  = $data['ref_cliente'];
+            $form['busqueda_interna_id'] = $data['busqueda_interna_id'];
+            $form['busqueda_externa_id'] = $data['busqueda_externa_id'];
+            $form['comentarios']       = $data['comentarios'];
+
+           // echo json_encode($form);
+
+            try {
+                $query = $CI->Busquedas_model->insert($form);
+                if (isset($query)) {
+                    echo json_encode(['message' => 'success', 'code' => '200']);
+                } else {
+                    echo json_encode(['error' => $query, 'code' => '500']);
+                }
+            } catch (\Throwable $th) {
+                echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
+            } 
+          
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
+        }
+    }
+
     public function store()
     {
         $CI = &get_instance();
@@ -335,6 +465,45 @@ class BusquedasController extends AdminController
             {
                 return redirect('pi/BusquedasController/edit/'.$id);
             }
+        }
+    }
+
+    public function updateBusqueda($id){
+        $CI = &get_instance();
+        $CI->load->model("Busquedas_model");
+        $CI->load->helper(['url','form']);
+        $CI->load->library('form_validation');
+        $data = $CI->input->post();
+        if (!empty($data)){
+            $form['client_id'] = $data['client_id'];
+            $form['oficina_id'] = $data['oficina_id'];
+            $form['staff_id']  = $data['staff_id'];
+            $form['marca']  = $data['marca'];
+            $form['clase_niza_id']        = $data['clase_niza_id'];
+            $form['pais_id']  = $data['pais_id'];
+            if (!empty($data['fecha_solicitud'])) {
+                $form['fecha_solicitud'] = DateTime::createFromFormat('d/m/Y', $data['fecha_solicitud'])->format('Y-m-d');
+            }
+            if (!empty($data['fecha_respuesta'])) {
+                $form['fecha_respuesta'] = DateTime::createFromFormat('d/m/Y', $data['fecha_respuesta'])->format('Y-m-d');
+            }
+            $form['ref_cliente']  = $data['ref_cliente'];
+            $form['busqueda_interna_id'] = $data['busqueda_interna_id'];
+            $form['busqueda_externa_id'] = $data['busqueda_externa_id'];
+            $form['comentarios']       = $data['comentarios'];
+            try {
+                $query = $CI->Busquedas_model->update($id, $form);
+                if (isset($query)) {
+                    echo json_encode(['message' => 'success', 'code' => '200']);
+                } else {
+                    echo json_encode(['error' => $query, 'code' => '500']);
+                }
+            } catch (\Throwable $th) {
+                echo json_encode(['code' => 500, 'error' => $th->getMessage()]);
+            } 
+          
+        } else {
+            echo json_encode(['message' => 'not data' , 'code' => '400']);
         }
     }
 

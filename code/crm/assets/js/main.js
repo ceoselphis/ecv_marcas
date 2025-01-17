@@ -7302,11 +7302,21 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
       '" class="form-control"></td>';
 
     table_row += '<td class="taxrate">' + tax_dropdown + "</td>";
-
-    table_row +=
-      '<td class="amount" align="right">' +
+    /*
+       '<td class="amount" align="right">' +
       format_money(amount, true) +
       "</td>";
+
+      <td class="amount-container">
+        <span class="left-info">Información izquierda</span>
+        <span class="amount" align="right">20.00</span>
+      </td>
+
+    */
+    table_row +=
+      '<td class="amount-container"> <span class="left-info" ></span> <span class="amount" align="right">' +
+      format_money(amount, true) +
+      "</span></td>";
 
     table_row +=
       '<td><a href="#" class="btn btn-danger pull-left" onclick="delete_item(this,' +

@@ -126,14 +126,16 @@ $select = ['' => '']; ?>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <?php echo form_label('Tipo de solicitud', 'tipo_registro_id'); ?>
+                                            
                                             <?php
                                             $tipo_registro = $select + $tipo_registro;
+                                            $primer_valor = array_key_first($tipo_registro);
                                             echo form_dropdown(
                                                 'tipo_registro_id',
                                                 $tipo_registro,
-                                                set_value('tipo_registro_id'),
-                                                ['class' => 'form-control','id' => 'tipo_registro_id', 'selected' => $tipo_registro[2] ]
-                                            )
+                                                set_value('tipo_registro_id', '1'),
+                                                ['class' => 'form-control','id' => 'tipo_registro_id', ]
+                                            );
                                                 ?>
                                             <div class="text-danger tipo_registro_id_error"></div>
                                         </div>
@@ -159,7 +161,7 @@ $select = ['' => '']; ?>
                                             echo form_dropdown(
                                                 'oficina_id',
                                                 $oficinas,
-                                                set_value('oficina_id'),
+                                                set_value('oficina_id', '1'),
                                                 ['class' => 'form-control', 'id'=> 'oficina_id' , 'selected' => $oficinas[1]]
                                             );
                                             ?>
@@ -249,11 +251,12 @@ $select = ['' => '']; ?>
                                                 'options' => $tipos_signo_id,
                                                 'selected' => set_value('tipo_signo_id')
                                             ]); ?>
-                                            <div class="text-danger tipo_signo_id_error"></div>
+                                            <div class="text-primary tipo_signo_id_error"></div>
                                         </div>
                                         <br>
                                         <div class="col-md-12" style="padding-top: 20px;">
                                             <img id="preview-image" src="#" alt="Previsualización" style="display:none; width: 200px; ">
+                                            <button id="eliminar" class="btn btn-danger" type="button" click="eliminarImagen()" style="display:none;">  Eliminar</button>
                                         </div>
                                     </div>
                                     <!-- Clase niza -->
@@ -456,7 +459,9 @@ $select = ['' => '']; ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Fecha de Solicitud'); ?>
+                                           
                                             <?php
+                                            // echo '<input type="date" name="fecha_solicitud" id="fecha_solicitud" class="form-control " placeholder="Fecha Solicitud">';
                                             echo form_input([
                                                 'id' => 'fecha_solicitud',
                                                 'name' => 'fecha_solicitud',
@@ -759,14 +764,14 @@ $select = ['' => '']; ?>
                                         <div class="all-info-container">
                                             <div class="list-content">
                                                 <a href="#fusion" data-toggle="collapse" aria-expanded="false"
-                                                    aria-controls="listone">Fusion<i class="fa fa-chevron-down"></i></a>
+                                                    aria-controls="listone">Fusión<i class="fa fa-chevron-down"></i></a>
                                                 <div class="collapse" id="fusion">
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <button type="button" class="btn btn-primary pull-right"
                                                                     id="AddFusionAbrirModal" data-toggle="modal"
-                                                                    data-target="#AddFusion">Añadir Fusion</button>
+                                                                    data-target="#AddFusion">Añadir Fusión</button>
                                                             </div>
                                                         </div>
                                                         <div class="row" style="padding-top: 15px;">

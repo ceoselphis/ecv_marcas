@@ -56,7 +56,7 @@
         virtualScroll: 600
     });
 </script>
-<script>
+<script> 
     // ------------step-wizard-------------
     $(document).ready(function() {
         $('.nav-tabs > li a[title]').tooltip();

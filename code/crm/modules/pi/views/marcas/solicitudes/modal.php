@@ -25,9 +25,9 @@
               'accept' => 'image/png, image/gif, image/jpeg',
             ]); ?>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12" style="padding-top : 20px;">
             <?php echo form_label('Descripcion', 'descripcion_signo', ['id' => 'lbldescripcion_signo']); ?>
-            <?php echo form_textarea('descripcion_signo', '', ['class' => 'form-control', 'style' => 'height: 150px;' ,'id' => 'descripcion_signo']); ?>
+            <?php echo form_textarea('descripcion_signo', '', ['class' => 'form-control', 'style' => 'height: 100px;' ,'id' => 'descripcion_signo']); ?>
           </div>
         </div>
       </div>
@@ -56,15 +56,15 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <?php echo form_label('Clase', 'clase_niza', ['id' => 'lblclase_niza']); ?>
             <?php
             $clase_niza_id = $select + $clase_niza_id;
             echo form_dropdown('clase_niza', $clase_niza_id, '', ['class' => 'form-control', 'id' => 'clase_niza']); ?>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-12" style = "padding-top:20px">
             <?php echo form_label('Descripcion', 'clase_niza_descripcion', ['id' => 'lblclase_niza_descripcion']); ?>
-            <?php echo form_input('clase_niza_descripcion', set_value('clase_niza_descripcion', ''), ['class' => 'form-control', 'id' => 'clase_niza_descripcion']); ?>
+            <?php echo form_textarea('clase_niza_descripcion', set_value('clase_niza_descripcion', ''), ['class' => 'form-control', 'style' => 'height : 150px', 'id' => 'clase_niza_descripcion']); ?>
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@
             <?php echo form_label('Pais de la prioridad', 'pais_prioridad', ['id' => 'lblpais_prioridad']); ?>
             <?php
             $pais_id = $select + $pais_id;
-            echo form_dropdown('pais_prioridad', $pais_id, '', ['class' => 'form-control', 'id' => 'pais_prioridad']); ?>
+            echo form_dropdown('pais_prioridad', $pais_id, set_value('pais_prioridad','226') , ['class' => 'form-control', 'id' => 'pais_prioridad']); ?>
           </div>
           <div class="col-md-3">
             <?php echo form_label('Fecha', 'fecha_prioridad', ['id' => 'lblfecha_prioridad']); ?>
@@ -111,7 +111,7 @@
             <?php echo form_input([
               'id' => 'nro_prioridad',
               'name' => 'nro_prioridad',
-              'class' => 'form-control numberOnly',
+              'class' => 'form-control',
               'placeholder' => 'Número Prioridad'
             ]); ?>
           </div>
@@ -305,7 +305,7 @@
                 </li>
                 <li role="presentation">
                   <a href="#addcesionstep2" data-toggle="tab" aria-controls="step2" role="tab"
-                    aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cedente y Cesionario</i></a>
                 </li>
               </ul>
             </div>
@@ -380,13 +380,13 @@
               <div class="col-md-12">
                 <div class="list-content">
                   <a href="#AddCesionanterior" data-toggle="collapse" aria-expanded="false"
-                    aria-controls="listone">Cesion Anterior<i class="fa fa-chevron-down"></i></a>
+                    aria-controls="listone">Cedente<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddCesionanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
                           <button type="button" id="addbtnCesionAnterior" class="btn btn-primary pull-right">Añadir
-                            Cesion Anterior</button>
+                          Cedente</button>
                           <table id="CesionesAnterioresTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
@@ -406,14 +406,13 @@
               </div>
               <div class="col-md-12">
                 <div class="list-content">
-                  <a href="#AddCesionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesion
-                    Actual<i class="fa fa-chevron-down"></i></a>
+                  <a href="#AddCesionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesionario<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddCesionactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
-                          <button type="button" id="addbtnCesionActual" class="btn btn-primary pull-right">Añadir Cesion
-                            Actual</button>
+                          <button type="button" id="addbtnCesionActual" class="btn btn-primary pull-right">Añadir Cesionario
+                          </button>
                           <table id="CesionesActualesTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
@@ -451,7 +450,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Cesion Anterior</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Cedente</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -487,7 +486,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Cesion Actual</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Cesionario</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -540,7 +539,7 @@
                 </li>
                 <li role="presentation">
                   <a href="#addlicenciastep2" data-toggle="tab" aria-controls="step2" role="tab"
-                    aria-expanded="false"><span class="round-tab">2</span> <i>Licencia Anterior y Actual</i></a>
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Licenciante y Licenciatarios</i></a>
                 </li>
               </ul>
             </div>
@@ -607,13 +606,13 @@
               <div class="col-md-12">
                 <div class="list-content">
                   <a href="#AddLicenciaanterior" data-toggle="collapse" aria-expanded="false"
-                    aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                    aria-controls="listone">Licenciante<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddLicenciaanterior">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
                           <button type="button" id="addbtnLicenciaAnterior" class="btn btn-primary pull-right">Añadir
-                            Licencia Anterior</button>
+                          Licenciante</button>
                           <table id="LicenciasAnterioresTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
@@ -634,13 +633,13 @@
               <div class="col-md-12">
                 <div class="list-content">
                   <a href="#AddLicenciaactual" data-toggle="collapse" aria-expanded="false"
-                    aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                    aria-controls="listone">Licenciatarios<i class="fa fa-chevron-down"></i></a>
                   <div class="collapse" id="AddLicenciaactual">
                     <div class="list-box">
                       <div class="row">
                         <div class="col-md-12">
                           <button type="button" id="addbtnLicenciaActual" class="btn btn-primary pull-right">Añadir
-                            Licencia Actual</button>
+                            Licenciatarios</button>
                           <table id="LicenciasActualesTbl" class="ultimate table table-responsive">
                             <thead>
                               <tr>
@@ -671,14 +670,14 @@
   <?php echo form_close(); ?>
 </div>
 
-<!-- Añadir Licencia Anterior Modal -->
+<!-- Añadir Licenciante Modal -->
 <div class="modal fade" id="LicenciaAnteriorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Licencia Anterior</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Licenciante</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -706,14 +705,14 @@
   <?php echo form_close(); ?>
 </div>
 
-<!-- Añadir Licencia Actual Modal -->
+<!-- Añadir Licenciatarios Modal -->
 <div class="modal fade" id="LicenciaActualModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <?php echo form_open_multipart('', ['method' => 'POST', 'id' => 'signoFrm']); ?>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Añadir Licencia Actual</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Licenciatarios</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -75,20 +75,50 @@
 
     
        
-            $('#signo_archivo').change(function(event) {
-              console.log(" LLegue a Signo Archivo");
-                var input = event.target;
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        $('#preview-image').attr('src', e.target.result);
-                        $('#preview-image').show();
-                    };
-                    
-                    reader.readAsDataURL(input.files[0]);
-                }
-            });
+   // Función para mostrar la imagen y el botón de eliminación
+    function mostrarImagen() {
+        var input = $('#signo_archivo')[0];
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $('#preview-image').attr('src', e.target.result);
+                $('#preview-image').show();
+                
+                // Mostramos el botón de eliminación
+                $('#eliminar').show();
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            // Ocultamos el botón de eliminación si no se seleccionó una imagen
+            $('#eliminar').hide();
+        }
+    }
+
+    // Función para eliminar la imagen
+    function eliminarImagen() {
+        var imagen = $('#preview-image');
+        var botonEliminar = $('#eliminar');
+        
+        // Ocultamos la imagen y el botón de eliminación
+        imagen.hide();
+        botonEliminar.hide();
+        
+        // Limpiamos el input de archivos
+        $('#signo_archivo').val('');
+    }
+
+    // Evento para cambiar el archivo
+    $('#signo_archivo').change(mostrarImagen);
+
+    // Evento para eliminar la imagen
+    $('#eliminar').click(eliminarImagen);
+
+
+    // Añadimos el evento al botón de eliminación
+   // document.getElementById('eliminar').click = eliminarImagen;
+
         
     
     /***
@@ -96,7 +126,7 @@
      */
     $('#signofrmsubmit').on('click', function(e) {
 
-        if ($('#signo_archivo').val() && $('#descripcion_signo').val() && $('#signo_archivo').get(0).files[0].type == 'image/png' || $("#signo_archivo").get(0).files[0].type == 'image/gif' || $("#signo_archivo").get(0).files[0].type == 'image/jpeg'){
+        if ($('#signo_archivo').val() && $('#signo_archivo').get(0).files[0].type == 'image/png' || $("#signo_archivo").get(0).files[0].type == 'image/gif' || $("#signo_archivo").get(0).files[0].type == 'image/jpeg'){
 
             $('#SignoFileName').html( 'Archivo → (' + $('#signo_archivo').get(0).files[0].name + ')');
             $('#DescFileName').html( 'Descripción → (' + $('#descripcion_signo').val() + ')');
@@ -105,14 +135,17 @@
             $("#lbldescripcion_signo").css('color', color_lbl);
         }else if ($('#signo_archivo').val() && $('#signo_archivo').get(0).files[0].type != 'image/png' || $("#signo_archivo").get(0).files[0].type != 'image/gif' || $("#signo_archivo").get(0).files[0].type != 'image/jpeg'){
             $("#lblsigno_archivo").css('color', 'red');
-            $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
+           // $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
             alert_float('danger', 'Solamente se pueden subir imágenes');
         }else{
             $("#lblsigno_archivo").css('color', $('#signo_archivo').val() ? color_lbl : 'red');
-            $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
+         //   $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe seleccionar todos los datos para Añadir el Signo');
         }
     })
+
+
+
 
 
     /* ####################################################################### */
@@ -152,8 +185,10 @@
                 'clase_id_name': $("#clase_niza option[value=" + $( "#clase_niza").val() + "]").text(),
                 'descripcion': $('#clase_niza_descripcion').val(),
                 'marcas_id': $("input[name=id]").val(),
+                
                 //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='claseNiza_" + (tblClaseDT.rows().count()) + "' class='btn btn-danger col-mrg deleteClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="claseNiza_' + (tblClaseDT.rows().count()) + '" class="deleteClase btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                'acciones': '<td class="text-center"><a class=" btn btn-light" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a><button class="btn btn-danger" id="claseNiza_' + (tblClaseDT.rows().count()) + '" ><i class="fas fa-trash"></i>Borrar</button></td>`'
+                //'<div class="col-md-6"><a id="claseNiza_' + (tblClaseDT.rows().count()) + '" class="deleteClase btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a><a id="claseNiza_' + (tblClaseDT.rows().count()) + '" class=" btn btn-primary" ><i class="fas fa-pen" style="top: 5px;">Editar</a></div>'
             }
 
             claseNiza.push(data);
@@ -4123,12 +4158,41 @@
         return fecha;
     }
 
+    function FechaVencimiento(fechaOriginal) {
+        // Descomponer la fecha en día, mes y año
+        let partes = fechaOriginal.split('/'); // Asume formato dd/mm/yyyy
+        let dia = parseInt(partes[0], 10); // Día
+        let mes = parseInt(partes[1], 10) - 1; // Mes (0-indexado en JavaScript)
+        let anio = parseInt(partes[2], 10); // Año
+
+        // Sumar 15 años al año original
+        let nuevoAnio = anio + 15;
+
+        // Crear la nueva fecha con el día y mes intactos
+        let nuevaFecha = new Date(nuevoAnio, mes, dia);
+
+        // Formatear la fecha como día/mes/año
+        let formatoFecha = `${String(nuevaFecha.getDate()).padStart(2, '0')}/${String(nuevaFecha.getMonth() + 1).padStart(2, '0')}/${nuevaFecha.getFullYear()}`;
+
+        console.log(" /$$$$ formato fecha ", formatoFecha);
+        return formatoFecha;
+    }
+
     /***
-     * deshabilita escribir en los input calendar
+     * Deshabilita escribir en los input calendar
      */
+    $('#fecha_registro').on('change', function(e) {
+        e.preventDefault();
+        let fecha_registro = $('#fecha_registro').val();
+        console.log(" Fecha Registro ", fecha_registro);
+        let fecha_vencimiento = FechaVencimiento(fecha_registro);
+        $('#fecha_vencimiento').val(fecha_vencimiento);
+    });
+
+    
     $(".calendar").on('keyup', function(e) {
         e.preventDefault();
-        $(".calendar").val('');
+       // $(".calendar").val('');
     })
 
     /***
@@ -4298,7 +4362,7 @@
 
         /* CONFIGURA LOS INPUT CALENDAR */
         $(".calendar").datetimepicker({
-            maxDate: fecha(),
+           // maxDate: fecha(),
             weeks: true,
             format: 'd/m/Y',
             timepicker: false,

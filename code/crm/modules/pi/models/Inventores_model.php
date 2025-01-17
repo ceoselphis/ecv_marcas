@@ -36,4 +36,19 @@ class Inventores_model extends BaseModel
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function setCountPK()
+    {
+        $query = $this->db->query("SELECT id FROM {$this->tableName} ORDER by id DESC LIMIT 1");
+        if(empty($query->result_array()))
+        {
+            $this->countPK = 1;
+            return $this->countPK;    
+        }
+        else
+        {
+            $this->countPK = intval($query->result_array()[0]['id']) + 1;
+            return $this->countPK ;
+        }
+    }
 }

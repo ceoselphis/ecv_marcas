@@ -31,7 +31,9 @@
     var tblFacturasDT;
     var cliente_id;
     var oficina_id = $('#oficina_id').val();
-    console.log(" Oficina ID ", oficina_id)
+    console.log(" Oficina ID ", oficina_id);
+    var staff_id;
+    var staff_name;
 
 
     $('#client_id').change(function() {
@@ -943,6 +945,17 @@
     /* **********             FUNCIONES CESION                      ********** */
     /* ####################################################################### */
 
+    function StaffUser() {
+        let url = '<?php echo admin_url("pi/MarcasSolicitudesController/StaffUser/"); ?>';
+        $.get(url, function (response) {
+            data = JSON.parse(response);
+            staff_id = data.user_id;
+            staff_name = data.user_name;
+        });
+    }
+
+    StaffUser();
+
     /***
      * funcion para guardar el formulario de las Cesiones
      */
@@ -951,67 +964,74 @@
         e.stopImmediatePropagation();
         let start = new Date();
         let end; 
-        if (
-            $('#estadoCesion').val() && 
-            $('#nro_solicitudCesion').val() && 
-            $('#fecha_solicitudCesion').val() &&
-            $('#nro_resolucionCesion').val() &&
-            $('#fecha_resolucionCesion').val() &&
-            $('#referenciaclienteCesion').val() &&
-           ) 
-            {
-                
-            var cesiones = JSON.parse(localStorage.getItem("cesiones"));
-            var data = {
-                'idRow': tblCesionesDT.rows().count() + 1,
-                "tmp_cesion_id": tblCesionesDT.rows().count() + 1,
-                "client_id": $('#clienteCesion').val(),
-                'client_id_name': $('#clienteCesion option[value=' + $('#clienteCesion').val() + ']').text(),
-                "oficina_id": $('#oficinaCesion').val(),
-                'oficina_id_name': $('#oficinaCesion option[value=' + $('#oficinaCesion').val() + ']').text(),
-                "staff_id": $('#staffCesion').val(),
-                'staff_id_name': $('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
-                "estado_id": $('#estadoCesion').val(),
-                'estado_id_name': $('#estadoCesion option[value=' + $('#estadoCesion').val() + ']').text(),
-                "solicitud_num": $('#nro_solicitudCesion').val(),
-                "fecha_solicitud": $('#fecha_solicitudCesion').val(),
-                "resolucion_num": $('#nro_resolucionCesion').val(),
-                "fecha_resolucion": $('#fecha_resolucionCesion').val(),
-                "referencia_cliente": $('#referenciaclienteCesion').val(),
-                "comentarios": $('#comentarioCesion').val(),
-                "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
-                "cesionesactuales": localStorage.getItem("cesionesactuales"),
-                "marcas_id": $("input[name=id]").val(),
-                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesiones_" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="cesiones_' + (tblCesionesDT.rows().count()) + '" class="deleteCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-            }
-            end = new Date(); console.log(`Asignada la Data en ${end.getTime() - start.getTime()} msec`); start = new Date();
-            cesiones.push(data);
-            console.log('cesiones', cesiones);
-            try {
-                localStorage.setItem("cesiones", JSON.stringify(cesiones));
-                tblCesionesDT.clear();
-                tblCesionesDT.rows.add(JSON.parse(localStorage.getItem("cesiones")));
-                tblCesionesDT.columns.adjust().draw();
-                tblCesionesAnteDT.clear().draw();
-                tblCesionesActDT.clear().draw();
-                ResetTablaCesiones();
-                $("#AddCesion").modal('hide');
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
-            }
+        if ($('#client_id').val() === '') {
+            alert_float('danger', 'Debe seleccionar un Cliente');
+        } else {
 
-        }else{
-            $("#lbloficinaCesion").css('color', $('#oficinaCesion').val() ? color_lbl : 'red');
-            $("#lblestadoCesion").css('color', $('#estadoCesion').val() ? color_lbl : 'red');
-            $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudCesion').val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudCesion').val() ? color_lbl : 'red');
-            $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionCesion').val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionCesion').val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteCesion').val() ? color_lbl : 'red');
-            $("#lblcomentarioCesion").css('color', $('#comentarioCesion').val() ? color_lbl : 'red');
-            alert_float('danger', 'Debe introducir todos los datos la Cesión');
+            if (
+                
+                $('#estadoCesion').val() && 
+                $('#nro_solicitudCesion').val() && 
+                $('#fecha_solicitudCesion').val() &&
+                $('#nro_resolucionCesion').val() &&
+                $('#fecha_resolucionCesion').val() &&
+                $('#referenciaclienteCesion').val() 
+               ) 
+                {
+                    
+                var cesiones = JSON.parse(localStorage.getItem("cesiones"));
+                var data = {
+                    'idRow': tblCesionesDT.rows().count() + 1,
+                    "tmp_cesion_id": tblCesionesDT.rows().count() + 1,
+                    "client_id": cliente_id, //$('#clienteCesion').val(),
+                    'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                    "oficina_id": $('#oficina_id').val(),
+                    'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                    "staff_id": staff_id,//$('#staffCesion').val(),
+                    'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                    "estado_id": $('#estadoCesion').val(),
+                    'estado_id_name': $('#estadoCesion option[value=' + $('#estadoCesion').val() + ']').text(),
+                    "solicitud_num": $('#nro_solicitudCesion').val(),
+                    "fecha_solicitud": $('#fecha_solicitudCesion').val(),
+                    "resolucion_num": $('#nro_resolucionCesion').val(),
+                    "fecha_resolucion": $('#fecha_resolucionCesion').val(),
+                    "referencia_cliente": $('#referenciaclienteCesion').val(),
+                    "comentarios": $('#comentarioCesion').val(),
+                    "cesionesanteriores": localStorage.getItem("cesionesanteriores"),
+                    "cesionesactuales": localStorage.getItem("cesionesactuales"),
+                    "marcas_id": $("input[name=id]").val(),
+                    //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesiones_" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    'acciones': '<div class="col-md-6"><a id="cesiones_' + (tblCesionesDT.rows().count()) + '" class="deleteCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                }
+                console.log(" Data ", data);
+                end = new Date(); console.log(`Asignada la Data en ${end.getTime() - start.getTime()} msec`); start = new Date();
+                cesiones.push(data);
+                console.log('cesiones', cesiones);
+                try {
+                    localStorage.setItem("cesiones", JSON.stringify(cesiones));
+                    tblCesionesDT.clear();
+                    tblCesionesDT.rows.add(JSON.parse(localStorage.getItem("cesiones")));
+                    tblCesionesDT.columns.adjust().draw();
+                    tblCesionesAnteDT.clear().draw();
+                    tblCesionesActDT.clear().draw();
+                    ResetTablaCesiones();
+                    $("#AddCesion").modal('hide');
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+    
+            }else{
+                $("#lbloficinaCesion").css('color', $('#oficinaCesion').val() ? color_lbl : 'red');
+                $("#lblestadoCesion").css('color', $('#estadoCesion').val() ? color_lbl : 'red');
+                $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudCesion').val() ? color_lbl : 'red');
+                $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudCesion').val() ? color_lbl : 'red');
+                $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionCesion').val() ? color_lbl : 'red');
+                $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionCesion').val() ? color_lbl : 'red');
+                $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteCesion').val() ? color_lbl : 'red');
+                $("#lblcomentarioCesion").css('color', $('#comentarioCesion').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe introducir todos los datos la Cesión');
+            }
         }
     })
     
@@ -1497,66 +1517,77 @@
     $('#licenciasfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($('#oficinaLicencia').val() && 
-            $('#estadoLicencia').val() && 
-            $('#nro_solicitudLicencia').val() && 
-            $('#fecha_solicitudLicencia').val() &&
-            $('#nro_resolucionLicencia').val() &&
-            $('#fecha_resolucionLicencia').val() &&
-            $('#referenciaclienteLicencia').val() &&
-            $('#comentarioLicencia').val()) 
-            {
-                
-            var licencias = JSON.parse(localStorage.getItem("licencias"));
-            var data = {
-                'idRow': tblLicenciasDT.rows().count() + 1,
-                "tmp_licencia_id": tblLicenciasDT.rows().count() + 1,
-                "client_id": $('#clienteLicencia').val(),
-                'client_id_name': $('#clienteLicencia option[value=' + $('#clienteLicencia').val() + ']').text(),
-                "oficina_id": $('#oficinaLicencia').val(),
-                'oficina_id_name': $('#oficinaLicencia option[value=' + $('#oficinaLicencia').val() + ']').text(),
-                "staff_id": $('#staffLicencia').val(),
-                'staff_id_name': $('#staffLicencia option[value=' + $('#staffLicencia').val() + ']').text(),
-                "estado_id": $('#estadoLicencia').val(),
-                'estado_id_name': $('#estadoLicencia option[value=' + $('#estadoLicencia').val() + ']').text(),
-                "num_solicitud": $('#nro_solicitudLicencia').val(),
-                "fecha_solicitud": $('#fecha_solicitudLicencia').val(),
-                "num_resolucion": $('#nro_resolucionLicencia').val(),
-                "fecha_resolucion": $('#fecha_resolucionLicencia').val(),
-                "referencia_cliente": $('#referenciaclienteLicencia').val(),
-                "comentarios": $('#comentarioLicencia').val(),
-                "licenciasanteriores": localStorage.getItem("licenciasanteriores"),
-                "licenciasactuales": localStorage.getItem("licenciasactuales"),
-                "marcas_id": $("input[name=id]").val(),
-                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licencias_" + (tblLicenciasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteLicencia'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="licencias_' + (tblLicenciasDT.rows().count()) + '" class="deleteLicencia btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-            }
-            licencias.push(data);
-            console.log('licencias', licencias);
-            try {
-                localStorage.setItem("licencias", JSON.stringify(licencias));
-                tblLicenciasDT.clear();
-                tblLicenciasDT.rows.add(JSON.parse(localStorage.getItem("licencias")));
-                tblLicenciasDT.columns.adjust().draw();
-                tblLicenciasAnteDT.clear().draw();
-                tblLicenciasActDT.clear().draw();
-                ResetTablaLicencias();
-                $("#AddLicencia").modal('hide');
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
-            }
+        if ($('#client_id').val() == '') {
+            alert_float('danger', 'Debe seleccionar un Cliente');
+            return;
+        } else {
 
-        }else{
-            $("#lbloficinaLicencia").css('color', $('#oficinaLicencia').val() ? color_lbl : 'red');
-            $("#lblestadoLicencia").css('color', $('#estadoLicencia').val() ? color_lbl : 'red');
-            $("#lblnro_solicitudLicencia").css('color', $('#nro_solicitudLicencia').val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudLicencia").css('color', $('#fecha_solicitudLicencia').val() ? color_lbl : 'red');
-            $("#lblnro_resolucionLicencia").css('color', $('#nro_resolucionLicencia').val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionLicencia").css('color', $('#fecha_resolucionLicencia').val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteLicencia").css('color', $('#referenciaclienteLicencia').val() ? color_lbl : 'red');
-            $("#lblcomentarioLicencia").css('color', $('#comentarioLicencia').val() ? color_lbl : 'red');
-            alert_float('danger', 'Debe introducir todos los datos la Licencia');
+            if (
+                $('#estadoLicencia').val() && 
+                $('#nro_solicitudLicencia').val() && 
+                $('#fecha_solicitudLicencia').val() &&
+                $('#nro_resolucionLicencia').val() &&
+                $('#fecha_resolucionLicencia').val() &&
+                $('#referenciaclienteLicencia').val() 
+                ) 
+                {
+                    
+                var licencias = JSON.parse(localStorage.getItem("licencias"));
+                var data = {
+                    'idRow': tblLicenciasDT.rows().count() + 1,
+                    "tmp_licencia_id": tblLicenciasDT.rows().count() + 1,
+                    "client_id": cliente_id, //$('#clienteCesion').val(),
+                    'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                    "oficina_id": $('#oficina_id').val(),
+                    'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                    "staff_id": staff_id,//$('#staffCesion').val(),
+                    'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                    /* 
+                    "oficina_id": $('#oficinaLicencia').val(),
+                    'oficina_id_name': $('#oficinaLicencia option[value=' + $('#oficinaLicencia').val() + ']').text(),
+                    "staff_id": $('#staffLicencia').val(),
+                    'staff_id_name': $('#staffLicencia option[value=' + $('#staffLicencia').val() + ']').text(),*/
+                    "estado_id": $('#estadoLicencia').val(),
+                    'estado_id_name': $('#estadoLicencia option[value=' + $('#estadoLicencia').val() + ']').text(),
+                    "num_solicitud": $('#nro_solicitudLicencia').val(),
+                    "fecha_solicitud": $('#fecha_solicitudLicencia').val(),
+                    "num_resolucion": $('#nro_resolucionLicencia').val(),
+                    "fecha_resolucion": $('#fecha_resolucionLicencia').val(),
+                    "referencia_cliente": $('#referenciaclienteLicencia').val(),
+                    "comentarios": $('#comentarioLicencia').val(),
+                    "licenciasanteriores": localStorage.getItem("licenciasanteriores"),
+                    "licenciasactuales": localStorage.getItem("licenciasactuales"),
+                    "marcas_id": $("input[name=id]").val(),
+                    //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licencias_" + (tblLicenciasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteLicencia'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    'acciones': '<div class="col-md-6"><a id="licencias_' + (tblLicenciasDT.rows().count()) + '" class="deleteLicencia btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                }
+                licencias.push(data);
+                console.log('licencias', licencias);
+                try {
+                    localStorage.setItem("licencias", JSON.stringify(licencias));
+                    tblLicenciasDT.clear();
+                    tblLicenciasDT.rows.add(JSON.parse(localStorage.getItem("licencias")));
+                    tblLicenciasDT.columns.adjust().draw();
+                    tblLicenciasAnteDT.clear().draw();
+                    tblLicenciasActDT.clear().draw();
+                    ResetTablaLicencias();
+                    $("#AddLicencia").modal('hide');
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+    
+            }else{
+                $("#lbloficinaLicencia").css('color', $('#oficinaLicencia').val() ? color_lbl : 'red');
+                $("#lblestadoLicencia").css('color', $('#estadoLicencia').val() ? color_lbl : 'red');
+                $("#lblnro_solicitudLicencia").css('color', $('#nro_solicitudLicencia').val() ? color_lbl : 'red');
+                $("#lblfecha_solicitudLicencia").css('color', $('#fecha_solicitudLicencia').val() ? color_lbl : 'red');
+                $("#lblnro_resolucionLicencia").css('color', $('#nro_resolucionLicencia').val() ? color_lbl : 'red');
+                $("#lblfecha_resolucionLicencia").css('color', $('#fecha_resolucionLicencia').val() ? color_lbl : 'red');
+                $("#lblreferenciaclienteLicencia").css('color', $('#referenciaclienteLicencia').val() ? color_lbl : 'red');
+                $("#lblcomentarioLicencia").css('color', $('#comentarioLicencia').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe introducir todos los datos la Licencia');
+            }
         }
     })
  
@@ -2041,66 +2072,78 @@
     $('#fusionesfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($('#oficinaFusion').val() && 
-            $('#estadoFusion').val() && 
-            $('#estadoFusion').val() && 
-            $('#fecha_solicitudFusion').val() &&
-            $('#nro_resolucionFusion').val() &&
-            $('#fecha_resolucionFusion').val() &&
-            $('#referenciaclienteFusion').val() &&
-            $('#comentarioFusion').val()) 
-            {
-                
-            var fusiones = JSON.parse(localStorage.getItem("fusiones"));
-            var data = {
-                'idRow': tblFusionesDT.rows().count() + 1,
-                "tmp_fusion_id": tblFusionesDT.rows().count() + 1,
-                "client_id": $('#clienteFusion').val(),
-                'client_id_name': $('#clienteFusion option[value=' + $('#clienteFusion').val() + ']').text(),
-                "oficina_id": $('#oficinaFusion').val(),
-                'oficina_id_name': $('#oficinaFusion option[value=' + $('#oficinaFusion').val() + ']').text(),
-                "staff_id": $('#staffFusion').val(),
-                'staff_id_name': $('#staffFusion option[value=' + $('#staffFusion').val() + ']').text(),
-                "estado_id": $('#estadoFusion').val(),
-                'estado_id_name': $('#estadoFusion option[value=' + $('#estadoFusion').val() + ']').text(),
-                "num_solicitud": $('#estadoFusion').val(),
-                "fecha_solicitud": $('#fecha_solicitudFusion').val(),
-                "num_resolucion": $('#nro_resolucionFusion').val(),
-                "fecha_resolucion": $('#fecha_resolucionFusion').val(),
-                "referencia_cliente": $('#referenciaclienteFusion').val(),
-                "comentarios": $('#comentarioFusion').val(),
-                "fusionesanteriores": localStorage.getItem("fusionesanteriores"),
-                "fusionesactuales": localStorage.getItem("fusionesactuales"),
-                "marcas_id": $("input[name=id]").val(),
-                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusiones_" + (tblFusionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFusion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="fusiones_' + (tblFusionesDT.rows().count()) + '" class="deleteFusion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-            }
-            fusiones.push(data);
-            console.log('fusiones', fusiones);
-            try {
-                localStorage.setItem("fusiones", JSON.stringify(fusiones));
-                tblFusionesDT.clear();
-                tblFusionesDT.rows.add(JSON.parse(localStorage.getItem("fusiones")));
-                tblFusionesDT.columns.adjust().draw();
-                tblFusionesAnteDT.clear().draw();
-                tblFusionesActDT.clear().draw();
-                ResetTablaFusiones();
-                $("#AddFusion").modal('hide');
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
-            }
+        if ($('#client_id').val() == '') {
+            alert_float('danger', 'Debe seleccionar un Cliente');
+            return;
+        } else {
 
-        }else{
-            $("#lbloficinaFusion").css('color', $('#oficinaFusion').val() ? color_lbl : 'red');
-            $("#lblestadoFusion").css('color', $('#estadoFusion').val() ? color_lbl : 'red');
-            $("#lblnro_solicitudFusion").css('color', $('#nro_solicitudFusion').val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudFusion").css('color', $('#fecha_solicitudFusion').val() ? color_lbl : 'red');
-            $("#lblnro_resolucionFusion").css('color', $('#nro_resolucionFusion').val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionFusion").css('color', $('#fecha_resolucionFusion').val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteFusion").css('color', $('#referenciaclienteFusion').val() ? color_lbl : 'red');
-            $("#lblcomentarioFusion").css('color', $('#comentarioFusion').val() ? color_lbl : 'red');
-            alert_float('danger', 'Debe introducir todos los datos la Fusion');
+            if (
+                $('#estadoFusion').val() && 
+                $('#estadoFusion').val() && 
+                $('#fecha_solicitudFusion').val() &&
+                $('#nro_resolucionFusion').val() &&
+                $('#fecha_resolucionFusion').val() &&
+                $('#referenciaclienteFusion').val() ) 
+                {
+                    
+                var fusiones = JSON.parse(localStorage.getItem("fusiones"));
+                var data = {
+                    'idRow': tblFusionesDT.rows().count() + 1,
+                    "tmp_fusion_id": tblFusionesDT.rows().count() + 1,
+                    "client_id": cliente_id, //$('#clienteCesion').val(),
+                    'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                    "oficina_id": $('#oficina_id').val(),
+                    'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                    "staff_id": staff_id,//$('#staffCesion').val(),
+                    'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                    /*
+                    "client_id": $('#clienteFusion').val(),
+                    'client_id_name': $('#clienteFusion option[value=' + $('#clienteFusion').val() + ']').text(),
+                    "oficina_id": $('#oficinaFusion').val(),
+                    'oficina_id_name': $('#oficinaFusion option[value=' + $('#oficinaFusion').val() + ']').text(),
+                    "staff_id": $('#staffFusion').val(),
+                    'staff_id_name': $('#staffFusion option[value=' + $('#staffFusion').val() + ']').text(),*/ 
+                    "estado_id": $('#estadoFusion').val(),
+                    'estado_id_name': $('#estadoFusion option[value=' + $('#estadoFusion').val() + ']').text(),
+                    "num_solicitud": $('#estadoFusion').val(),
+                    "fecha_solicitud": $('#fecha_solicitudFusion').val(),
+                    "num_resolucion": $('#nro_resolucionFusion').val(),
+                    "fecha_resolucion": $('#fecha_resolucionFusion').val(),
+                    "referencia_cliente": $('#referenciaclienteFusion').val(),
+                    "comentarios": $('#comentarioFusion').val(),
+                    "fusionesanteriores": localStorage.getItem("fusionesanteriores"),
+                    "fusionesactuales": localStorage.getItem("fusionesactuales"),
+                    "marcas_id": $("input[name=id]").val(),
+                    //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusiones_" + (tblFusionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFusion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    'acciones': '<div class="col-md-6"><a id="fusiones_' + (tblFusionesDT.rows().count()) + '" class="deleteFusion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                }
+                fusiones.push(data);
+                console.log('fusiones', fusiones);
+                try {
+                    localStorage.setItem("fusiones", JSON.stringify(fusiones));
+                    tblFusionesDT.clear();
+                    tblFusionesDT.rows.add(JSON.parse(localStorage.getItem("fusiones")));
+                    tblFusionesDT.columns.adjust().draw();
+                    tblFusionesAnteDT.clear().draw();
+                    tblFusionesActDT.clear().draw();
+                    ResetTablaFusiones();
+                    $("#AddFusion").modal('hide');
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+    
+            }else{
+                $("#lbloficinaFusion").css('color', $('#oficinaFusion').val() ? color_lbl : 'red');
+                $("#lblestadoFusion").css('color', $('#estadoFusion').val() ? color_lbl : 'red');
+                $("#lblnro_solicitudFusion").css('color', $('#nro_solicitudFusion').val() ? color_lbl : 'red');
+                $("#lblfecha_solicitudFusion").css('color', $('#fecha_solicitudFusion').val() ? color_lbl : 'red');
+                $("#lblnro_resolucionFusion").css('color', $('#nro_resolucionFusion').val() ? color_lbl : 'red');
+                $("#lblfecha_resolucionFusion").css('color', $('#fecha_resolucionFusion').val() ? color_lbl : 'red');
+                $("#lblreferenciaclienteFusion").css('color', $('#referenciaclienteFusion').val() ? color_lbl : 'red');
+                $("#lblcomentarioFusion").css('color', $('#comentarioFusion').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe introducir todos los datos la Fusion');
+            }
         }
     })
  
@@ -2586,66 +2629,79 @@
     $('#camnomfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($('#oficinaCamNom').val() && 
-            $('#estadoCamNom').val() && 
-            $('#nro_solicitudCamNom').val() && 
-            $('#fecha_solicitudCamNom').val() &&
-            $('#nro_resolucionCamNom').val() &&
-            $('#fecha_resolucionCamNom').val() &&
-            $('#referenciaclienteCamNom').val() &&
-            $('#comentarioCamNom').val()) 
-            {
-                
-            var camnom = JSON.parse(localStorage.getItem("camnom"));
-            var data = {
-                'idRow': tblCamNomDT.rows().count() + 1,
-                "tmp_camnom_id": tblCamNomDT.rows().count() + 1,
-                "client_id": $('#clienteCamNom').val(),
-                'client_id_name': $('#clienteCamNom option[value=' + $('#clienteCamNom').val() + ']').text(),
-                "oficina_id": $('#oficinaCamNom').val(),
-                'oficina_id_name': $('#oficinaCamNom option[value=' + $('#oficinaCamNom').val() + ']').text(),
-                "staff_id": $('#staffCamNom').val(),
-                'staff_id_name': $('#staffCamNom option[value=' + $('#staffCamNom').val() + ']').text(),
-                "estado_id": $('#estadoCamNom').val(),
-                'estado_id_name': $('#estadoCamNom option[value=' + $('#estadoCamNom').val() + ']').text(),
-                "num_solicitud": $('#nro_solicitudCamNom').val(),
-                "fecha_solicitud": $('#fecha_solicitudCamNom').val(),
-                "num_resolucion": $('#nro_resolucionCamNom').val(),
-                "fecha_resolucion": $('#fecha_resolucionCamNom').val(),
-                "referencia_cliente": $('#referenciaclienteCamNom').val(),
-                "comentarios": $('#comentarioCamNom').val(),
-                "camnomanteriores": localStorage.getItem("camnomanteriores"),
-                "camnomactuales": localStorage.getItem("camnomactuales"),
-                "marcas_id": $("input[name=id]").val(),
-                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnom_" + (tblCamNomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamNom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="camnom_' + (tblCamNomDT.rows().count()) + '" class="deleteCamNom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+        if ($('#client_id').val() == '') {
+            alert_float('danger', 'Debe seleccionar un Cliente');
+            return;
+        } else { 
+            if ( 
+                $('#estadoCamNom').val() && 
+                $('#nro_solicitudCamNom').val() && 
+                $('#fecha_solicitudCamNom').val() &&
+                $('#nro_resolucionCamNom').val() &&
+                $('#fecha_resolucionCamNom').val() &&
+                $('#referenciaclienteCamNom').val() 
+                ) 
+                {
+                    
+                var camnom = JSON.parse(localStorage.getItem("camnom"));
+                var data = {
+                    'idRow': tblCamNomDT.rows().count() + 1,
+                    "tmp_camnom_id": tblCamNomDT.rows().count() + 1,
+                    /*
+                    "client_id": $('#clienteCamNom').val(),
+                    'client_id_name': $('#clienteCamNom option[value=' + $('#clienteCamNom').val() + ']').text(),
+                    "oficina_id": $('#oficinaCamNom').val(),
+                    'oficina_id_name': $('#oficinaCamNom option[value=' + $('#oficinaCamNom').val() + ']').text(),
+                    "staff_id": $('#staffCamNom').val(),
+                    'staff_id_name': $('#staffCamNom option[value=' + $('#staffCamNom').val() + ']').text(),
+                     */
+                    "client_id": cliente_id, //$('#clienteCesion').val(),
+                    'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                    "oficina_id": $('#oficina_id').val(),
+                    'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                    "staff_id": staff_id,//$('#staffCesion').val(),
+                    'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text()
+                    "estado_id": $('#estadoCamNom').val(),
+                    'estado_id_name': $('#estadoCamNom option[value=' + $('#estadoCamNom').val() + ']').text(),
+                    "num_solicitud": $('#nro_solicitudCamNom').val(),
+                    "fecha_solicitud": $('#fecha_solicitudCamNom').val(),
+                    "num_resolucion": $('#nro_resolucionCamNom').val(),
+                    "fecha_resolucion": $('#fecha_resolucionCamNom').val(),
+                    "referencia_cliente": $('#referenciaclienteCamNom').val(),
+                    "comentarios": $('#comentarioCamNom').val(),
+                    "camnomanteriores": localStorage.getItem("camnomanteriores"),
+                    "camnomactuales": localStorage.getItem("camnomactuales"),
+                    "marcas_id": $("input[name=id]").val(),
+                    //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnom_" + (tblCamNomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamNom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    'acciones': '<div class="col-md-6"><a id="camnom_' + (tblCamNomDT.rows().count()) + '" class="deleteCamNom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                }
+                camnom.push(data);
+                console.log('camnom', camnom);
+                try {
+                    localStorage.setItem("camnom", JSON.stringify(camnom));
+                    tblCamNomDT.clear();
+                    tblCamNomDT.rows.add(JSON.parse(localStorage.getItem("camnom")));
+                    tblCamNomDT.columns.adjust().draw();
+                    tblCamNomAnteDT.clear().draw();
+                    tblCamNomActDT.clear().draw();
+                    ResetTablaCamNom();
+                    $("#AddCamNom").modal('hide');
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+    
+            }else{
+                $("#lbloficinaCamNom").css('color', $('#oficinaCamNom').val() ? color_lbl : 'red');
+                $("#lblestadoCamNom").css('color', $('#estadoCamNom').val() ? color_lbl : 'red');
+                $("#lblnro_solicitudCamNom").css('color', $('#nro_solicitudCamNom').val() ? color_lbl : 'red');
+                $("#lblfecha_solicitudCamNom").css('color', $('#fecha_solicitudCamNom').val() ? color_lbl : 'red');
+                $("#lblnro_resolucionCamNom").css('color', $('#nro_resolucionCamNom').val() ? color_lbl : 'red');
+                $("#lblfecha_resolucionCamNom").css('color', $('#fecha_resolucionCamNom').val() ? color_lbl : 'red');
+                $("#lblreferenciaclienteCamNom").css('color', $('#referenciaclienteCamNom').val() ? color_lbl : 'red');
+                $("#lblcomentarioCamNom").css('color', $('#comentarioCamNom').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre');
             }
-            camnom.push(data);
-            console.log('camnom', camnom);
-            try {
-                localStorage.setItem("camnom", JSON.stringify(camnom));
-                tblCamNomDT.clear();
-                tblCamNomDT.rows.add(JSON.parse(localStorage.getItem("camnom")));
-                tblCamNomDT.columns.adjust().draw();
-                tblCamNomAnteDT.clear().draw();
-                tblCamNomActDT.clear().draw();
-                ResetTablaCamNom();
-                $("#AddCamNom").modal('hide');
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
-            }
-
-        }else{
-            $("#lbloficinaCamNom").css('color', $('#oficinaCamNom').val() ? color_lbl : 'red');
-            $("#lblestadoCamNom").css('color', $('#estadoCamNom').val() ? color_lbl : 'red');
-            $("#lblnro_solicitudCamNom").css('color', $('#nro_solicitudCamNom').val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudCamNom").css('color', $('#fecha_solicitudCamNom').val() ? color_lbl : 'red');
-            $("#lblnro_resolucionCamNom").css('color', $('#nro_resolucionCamNom').val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionCamNom").css('color', $('#fecha_resolucionCamNom').val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteCamNom").css('color', $('#referenciaclienteCamNom').val() ? color_lbl : 'red');
-            $("#lblcomentarioCamNom").css('color', $('#comentarioCamNom').val() ? color_lbl : 'red');
-            alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre');
         }
     })
  
@@ -3129,66 +3185,76 @@
     $('#camdomfrmsubmit').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if ($('#oficinaCamDom').val() && 
-            $('#estadoCamDom').val() && 
-            $('#nro_solicitudCamDom').val() && 
-            $('#fecha_solicitudCamDom').val() &&
-            $('#nro_resolucionCamDom').val() &&
-            $('#fecha_resolucionCamDom').val() &&
-            $('#referenciaclienteCamDom').val() &&
-            $('#comentarioCamDom').val()) 
-            {
-
-            var camdom = JSON.parse(localStorage.getItem("camdom"));
-            var data = {
-                'idRow': tblCamDomDT.rows().count() + 1,
-                "tmp_camdom_id": tblCamDomDT.rows().count() + 1,
-                "client_id": $('#clienteCamDom').val(),
-                'client_id_name': $('#clienteCamDom option[value=' + $('#clienteCamDom').val() + ']').text(),
-                "oficina_id": $('#oficinaCamDom').val(),
-                'oficina_id_name': $('#oficinaCamDom option[value=' + $('#oficinaCamDom').val() + ']').text(),
-                "staff_id": $('#staffCamDom').val(),
-                'staff_id_name': $('#staffCamDom option[value=' + $('#staffCamDom').val() + ']').text(),
-                "estado_id": $('#estadoCamDom').val(),
-                'estado_id_name': $('#estadoCamDom option[value=' + $('#estadoCamDom').val() + ']').text(),
-                "num_solicitud": $('#nro_solicitudCamDom').val(),
-                "fecha_solicitud": $('#fecha_solicitudCamDom').val(),
-                "num_resolucion": $('#nro_resolucionCamDom').val(),
-                "fecha_resolucion": $('#fecha_resolucionCamDom').val(),
-                "referencia_cliente": $('#referenciaclienteCamDom').val(),
-                "comentarios": $('#comentarioCamDom').val(),
-                "camdomanteriores": localStorage.getItem("camdomanteriores"),
-                "camdomactuales": localStorage.getItem("camdomactuales"),
-                "marcas_id": $("input[name=id]").val(),
-                //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="camdom_' + (tblCamDomDT.rows().count()) + '" class="deleteCamDom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+        if ($('#client_id').val() == '') {
+            alert_float('danger', 'Debe seleccionar un Cliente');
+            return;
+        } else { 
+            if (
+                $('#estadoCamDom').val() && 
+                $('#nro_solicitudCamDom').val() && 
+                $('#fecha_solicitudCamDom').val() &&
+                $('#nro_resolucionCamDom').val() &&
+                $('#fecha_resolucionCamDom').val() &&
+                $('#referenciaclienteCamDom').val()) 
+                {
+    
+                var camdom = JSON.parse(localStorage.getItem("camdom"));
+                var data = {
+                    'idRow': tblCamDomDT.rows().count() + 1,
+                    "tmp_camdom_id": tblCamDomDT.rows().count() + 1,
+                    "client_id": cliente_id, //$('#clienteCesion').val(),
+                    'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                    "oficina_id": $('#oficina_id').val(),
+                    'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                    "staff_id": staff_id,//$('#staffCesion').val(),
+                    'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text()
+                    // "client_id": $('#clienteCamDom').val(),
+                    // 'client_id_name': $('#clienteCamDom option[value=' + $('#clienteCamDom').val() + ']').text(),
+                    // "oficina_id": $('#oficinaCamDom').val(),
+                    // 'oficina_id_name': $('#oficinaCamDom option[value=' + $('#oficinaCamDom').val() + ']').text(),
+                    // "staff_id": $('#staffCamDom').val(),
+                    // 'staff_id_name': $('#staffCamDom option[value=' + $('#staffCamDom').val() + ']').text(),
+                    "estado_id": $('#estadoCamDom').val(),
+                    'estado_id_name': $('#estadoCamDom option[value=' + $('#estadoCamDom').val() + ']').text(),
+                    "num_solicitud": $('#nro_solicitudCamDom').val(),
+                    "fecha_solicitud": $('#fecha_solicitudCamDom').val(),
+                    "num_resolucion": $('#nro_resolucionCamDom').val(),
+                    "fecha_resolucion": $('#fecha_resolucionCamDom').val(),
+                    "referencia_cliente": $('#referenciaclienteCamDom').val(),
+                    "comentarios": $('#comentarioCamDom').val(),
+                    "camdomanteriores": localStorage.getItem("camdomanteriores"),
+                    "camdomactuales": localStorage.getItem("camdomactuales"),
+                    "marcas_id": $("input[name=id]").val(),
+                    //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
+                    'acciones': '<div class="col-md-6"><a id="camdom_' + (tblCamDomDT.rows().count()) + '" class="deleteCamDom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                }
+                camdom.push(data);
+                console.log('camdom', camdom);
+                try {
+                    localStorage.setItem("camdom", JSON.stringify(camdom));
+                    tblCamDomDT.clear();
+                    tblCamDomDT.rows.add(JSON.parse(localStorage.getItem("camdom")));
+                    tblCamDomDT.columns.adjust().draw();
+                    tblCamDomAnteDT.clear().draw();
+                    tblCamDomActDT.clear().draw();
+                    ResetTablaCamDom();
+                    $("#AddCamDom").modal('hide');
+                    alert_float('success', 'Registro guardado exitosamente');
+                } catch (error) {
+                    alert(error);
+                }
+    
+            }else{
+                $("#lbloficinaCamDom").css('color', $('#oficinaCamDom').val() ? color_lbl : 'red');
+                $("#lblestadoCamDom").css('color', $('#estadoCamDom').val() ? color_lbl : 'red');
+                $("#lblnro_solicitudCamDom").css('color', $('#nro_solicitudCamDom').val() ? color_lbl : 'red');
+                $("#lblfecha_solicitudCamDom").css('color', $('#fecha_solicitudCamDom').val() ? color_lbl : 'red');
+                $("#lblnro_resolucionCamDom").css('color', $('#nro_resolucionCamDom').val() ? color_lbl : 'red');
+                $("#lblfecha_resolucionCamDom").css('color', $('#fecha_resolucionCamDom').val() ? color_lbl : 'red');
+                $("#lblreferenciaclienteCamDom").css('color', $('#referenciaclienteCamDom').val() ? color_lbl : 'red');
+                $("#lblcomentarioCamDom").css('color', $('#comentarioCamDom').val() ? color_lbl : 'red');
+                alert_float('danger', 'Debe introducir todos los datos el Cambio de Domicilio');
             }
-            camdom.push(data);
-            console.log('camdom', camdom);
-            try {
-                localStorage.setItem("camdom", JSON.stringify(camdom));
-                tblCamDomDT.clear();
-                tblCamDomDT.rows.add(JSON.parse(localStorage.getItem("camdom")));
-                tblCamDomDT.columns.adjust().draw();
-                tblCamDomAnteDT.clear().draw();
-                tblCamDomActDT.clear().draw();
-                ResetTablaCamDom();
-                $("#AddCamDom").modal('hide');
-                alert_float('success', 'Registro guardado exitosamente');
-            } catch (error) {
-                alert(error);
-            }
-
-        }else{
-            $("#lbloficinaCamDom").css('color', $('#oficinaCamDom').val() ? color_lbl : 'red');
-            $("#lblestadoCamDom").css('color', $('#estadoCamDom').val() ? color_lbl : 'red');
-            $("#lblnro_solicitudCamDom").css('color', $('#nro_solicitudCamDom').val() ? color_lbl : 'red');
-            $("#lblfecha_solicitudCamDom").css('color', $('#fecha_solicitudCamDom').val() ? color_lbl : 'red');
-            $("#lblnro_resolucionCamDom").css('color', $('#nro_resolucionCamDom').val() ? color_lbl : 'red');
-            $("#lblfecha_resolucionCamDom").css('color', $('#fecha_resolucionCamDom').val() ? color_lbl : 'red');
-            $("#lblreferenciaclienteCamDom").css('color', $('#referenciaclienteCamDom').val() ? color_lbl : 'red');
-            $("#lblcomentarioCamDom").css('color', $('#comentarioCamDom').val() ? color_lbl : 'red');
-            alert_float('danger', 'Debe introducir todos los datos el Cambio de Domicilio');
         }
     })
  

@@ -20,6 +20,15 @@ class MarcasSolicitudes_model extends BaseModel
         return $this->countPK;
     }
 
+    public function getStaff($id) {
+        $this->db->select('*');
+        $this->db->from('tblstaff as tbl_stf');
+        $this->db->where('tbl_stf.staffid = ', $id);
+        $query = $this->db->get();
+        $res = $query->row_array();
+        return $res['firstname'].' '. $res['lastname'];
+    }
+
     public function getMarcasByCliente($id = NULL){
         $this->db->select('*');
         $this->db->from('tbl_marcas_solicitudes as tbl_mar');

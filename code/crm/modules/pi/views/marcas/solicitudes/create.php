@@ -674,7 +674,7 @@ $select = ['' => '']; ?>
                                             <div class="list-content">
                                                 <a href="#cesion" data-toggle="collapse" aria-expanded="false"
                                                     aria-controls="listone">Cesion<i class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="cesion">
+                                                <div class="collapse" id="cesion" >
                                                     <div class="list-box">
                                                         <div class="row">
                                                             <div class="col-md-12">

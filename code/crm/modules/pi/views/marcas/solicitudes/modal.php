@@ -552,19 +552,20 @@
             <!-- Step 1 -->
             <div class="tab-pane active" role="tabpanel" id="addlicenciastep1">
               <input type="hidden" id="licenciaid">
+              <!--
               <div class="col-md-3">
-                <?php echo form_label('Cliente', 'clienteLicencia'); ?>
-                <?php echo form_dropdown(['name' => 'clienteLicencia', 'id' => 'clienteLicencia'], $clientes, '', ['class' => 'form-control']); ?>
+                <?php //echo form_label('Cliente', 'clienteLicencia'); ?>
+                <?php //echo form_dropdown(['name' => 'clienteLicencia', 'id' => 'clienteLicencia'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaLicencia', ['id' => 'lbloficinaLicencia']); ?>
-                <?php echo form_dropdown(['name' => 'oficinaLicencia', 'id' => 'oficinaLicencia'], $oficinas, '', ['class' => 'form-control']); ?>
+                <?php //echo form_label('Oficina', 'oficinaLicencia', ['id' => 'lbloficinaLicencia']); ?>
+                <?php //echo form_dropdown(['name' => 'oficinaLicencia', 'id' => 'oficinaLicencia'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Staff', 'staffLicencia'); ?>
-                <?php echo form_dropdown(['name' => 'staffLicencia', 'id' => 'staffLicencia'], $responsable, '', ['class' => 'form-control']); ?>
-              </div>
-              <div class="col-md-3">
+                <?php //echo form_label('Staff', 'staffLicencia'); ?>
+                <?php //echo form_dropdown(['name' => 'staffLicencia', 'id' => 'staffLicencia'], $responsable, '', ['class' => 'form-control']); ?>
+              </div>-->
+              <div class="col-md-12">
                 <?php echo form_label('Estado', 'estadoLicencia', ['id' => 'lblestadoLicencia']); ?>
                 <?php echo form_dropdown(['name' => 'estadoLicencia', 'id' => 'estadoLicencia'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
@@ -778,23 +779,24 @@
             <!-- Step 1 -->
             <div class="tab-pane active" role="tabpanel" id="addfusionstep1">
               <input type="hidden" id="fusionid">
+              <!--
               <div class="col-md-3">
-                <?php echo form_label('Cliente', 'clienteFusion'); ?>
+                <?php //echo form_label('Cliente', 'clienteFusion'); ?>
                 <?php
-                $clientes = $select + $clientes;
-                echo form_dropdown(['name' => 'clienteFusion', 'id' => 'clienteFusion'], $clientes, '', ['class' => 'form-control']); ?>
+                //$clientes = $select + $clientes;
+                //echo form_dropdown(['name' => 'clienteFusion', 'id' => 'clienteFusion'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaFusion', ['id' => 'lbloficinaFusion']); ?>
-                <?php echo form_dropdown(['name' => 'oficinaFusion', 'id' => 'oficinaFusion'], $oficinas, '', ['class' => 'form-control']); ?>
+                <?php //echo form_label('Oficina', 'oficinaFusion', ['id' => 'lbloficinaFusion']); ?>
+                <?php //echo form_dropdown(['name' => 'oficinaFusion', 'id' => 'oficinaFusion'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Staff', 'staffFusion'); ?>
+                <?php //echo form_label('Staff', 'staffFusion'); ?>
                 <?php
-                $responsable = $select + $responsable;
-                echo form_dropdown(['name' => 'staffFusion', 'id' => 'staffFusion'], $responsable, '', ['class' => 'form-control']); ?>
-              </div>
-              <div class="col-md-3">
+                //$responsable = $select + $responsable;
+                //echo form_dropdown(['name' => 'staffFusion', 'id' => 'staffFusion'], $responsable, '', ['class' => 'form-control']); ?>
+              </div>-->
+              <div class="col-md-12">
                 <?php echo form_label('Estado', 'estadoFusion', ['id' => 'lblestadoFusion']); ?>
                 <?php echo form_dropdown(['name' => 'estadoFusion', 'id' => 'estadoFusion'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
@@ -1006,23 +1008,24 @@
             <!-- Step 1 -->
             <div class="tab-pane active" role="tabpanel" id="addcamnomstep1">
               <input type="hidden" id="camnomid">
+              <!--
               <div class="col-md-3">
-                <?php echo form_label('Cliente', 'clienteCamNom'); ?>
+                <?php  //echo form_label('Cliente', 'clienteCamNom'); ?>
                 <?php
-                $clientes = $select + $clientes;
-                echo form_dropdown(['name' => 'clienteCamNom', 'id' => 'clienteCamNom'], $clientes, '', ['class' => 'form-control']); ?>
+                //$clientes = $select + $clientes;
+                //echo form_dropdown(['name' => 'clienteCamNom', 'id' => 'clienteCamNom'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaCamNom', ['id' => 'lbloficinaCamNom']); ?>
-                <?php echo form_dropdown(['name' => 'oficinaCamNom', 'id' => 'oficinaCamNom'], $oficinas, '', ['class' => 'form-control']); ?>
+                <?php  //echo form_label('Oficina', 'oficinaCamNom', ['id' => 'lbloficinaCamNom']); ?>
+                <?php  //echo form_dropdown(['name' => 'oficinaCamNom', 'id' => 'oficinaCamNom'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Staff', 'staffCamNom'); ?>
+                <?php  //echo form_label('Staff', 'staffCamNom'); ?>
                 <?php
-                $responsable = $select + $responsable;
-                echo form_dropdown(['name' => 'staffCamNom', 'id' => 'staffCamNom'], $responsable, '', ['class' => 'form-control']); ?>
-              </div>
-              <div class="col-md-3">
+                //$responsable = $select + $responsable;
+                //echo form_dropdown(['name' => 'staffCamNom', 'id' => 'staffCamNom'], $responsable, '', ['class' => 'form-control']); ?>
+              </div>-->
+              <div class="col-md-12">
                 <?php echo form_label('Estado', 'estadoCamNom', ['id' => 'lblestadoCamNom']); ?>
                 <?php echo form_dropdown(['name' => 'estadoCamNom', 'id' => 'estadoCamNom'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
@@ -1236,23 +1239,24 @@
             <!-- Step 1 -->
             <div class="tab-pane active" role="tabpanel" id="addcamdomstep1">
               <input type="hidden" id="camdomid">
+              <!--
               <div class="col-md-3">
-                <?php echo form_label('Cliente', 'clienteCamDom'); ?>
+                <?php //echo form_label('Cliente', 'clienteCamDom'); ?>
                 <?php
-                $clientes = $select + $clientes;
-                echo form_dropdown(['name' => 'clienteCamDom', 'id' => 'clienteCamDom'], $clientes, '', ['class' => 'form-control']); ?>
+                //$clientes = $select + $clientes;
+                //echo form_dropdown(['name' => 'clienteCamDom', 'id' => 'clienteCamDom'], $clientes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Oficina', 'oficinaCamDom', ['id' => 'lbloficinaCamDom']); ?>
-                <?php echo form_dropdown(['name' => 'oficinaCamDom', 'id' => 'oficinaCamDom'], $oficinas, '', ['class' => 'form-control']); ?>
+                <?php //echo form_label('Oficina', 'oficinaCamDom', ['id' => 'lbloficinaCamDom']); ?>
+                <?php //echo form_dropdown(['name' => 'oficinaCamDom', 'id' => 'oficinaCamDom'], $oficinas, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-3">
-                <?php echo form_label('Staff', 'staffCamDom'); ?>
+                <?php //echo form_label('Staff', 'staffCamDom'); ?>
                 <?php
-                $responsable = $select + $responsable;
-                echo form_dropdown(['name' => 'staffCamDom', 'id' => 'staffCamDom'], $responsable, '', ['class' => 'form-control']); ?>
-              </div>
-              <div class="col-md-3">
+                //$responsable = $select + $responsable;
+                //echo form_dropdown(['name' => 'staffCamDom', 'id' => 'staffCamDom'], $responsable, '', ['class' => 'form-control']); ?>
+              </div>-->
+              <div class="col-md-12">
                 <?php echo form_label('Estado', 'estadoCamDom', ['id' => 'lblestadoCamDom']); ?>
                 <?php echo form_dropdown(['name' => 'estadoCamDom', 'id' => 'estadoCamDom'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>

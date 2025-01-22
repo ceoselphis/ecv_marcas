@@ -369,6 +369,15 @@ class MarcasSolicitudesController extends AdminController
     return $CI->form_validation->run();
   }
 
+  public function StaffUser() {
+    $CI = &get_instance();
+    $CI->load->model("MarcasSolicitudes_model");
+    $user = $_SESSION['staff_user_id'];
+    $user_name = $CI->MarcasSolicitudes_model->getStaff($user);
+    echo json_encode(['user_id' => $_SESSION['staff_user_id'], 'user_name' => $user_name]);
+  }
+
+
   public function store()
   {
     $CI = &get_instance();

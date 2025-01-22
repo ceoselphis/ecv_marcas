@@ -77,6 +77,40 @@
   <?php echo form_close(); ?>
 </div>
 
+<!--Clase niza Editar -->
+<div class="modal fade" id="claseNizaEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'claseNizaEditFrm']);?>
+    <input name="marcas_clase_id" type="hidden">
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Clase</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <input type="hidden" name="clase_niza_edit_id" id="clase_niza_edit_id">
+            <div class="col-md-12">
+                <?php echo form_label('Clase', 'clase_niza_edit', ['id' => 'lblclase_niza_edit']);?>
+                <?php echo form_dropdown('clase_niza_edit', $clase_niza_id, set_value('clase_niza_edit', ''),['class' => 'form-control', 'id' => 'clase_niza_edit']);?>
+            </div>
+            <div class="col-md-12" style = "padding-top:20px">
+                <?php echo form_label('Descripcion', 'clase_niza_descripcion_edit', ['id' => 'lblclase_niza_descripcion_edit']);?>
+                <?php echo form_textarea('clase_niza_descripcion_edit',set_value('clase_niza_descripcion_edit', ''),['class' => 'form-control', 'style' => 'height : 150px', 'id' => 'clase_niza_descripcion_edit']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="claseNizaEditFrmSubmit" type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
 <!-- Añadir Prioridad Modal -->
 <div class="modal fade" id="prioridadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -124,6 +158,44 @@
     </div>
   </div>
   <?php echo form_close(); ?>
+</div>
+
+<!-- Editar Prioridad Modal -->
+<div class="modal fade" id="prioridadEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'prioridadEditFrm']);?>
+  
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Prioridad</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <input type="hidden" name="prioridad_edit_id" id="prioridad_edit_id">
+            <div class="col-md-6">
+                <?php echo form_label('Pais de la prioridad', 'pais_prioridad_edit', ['id' => 'lblpais_prioridad_edit']);?>
+                <?php echo form_dropdown('pais_prioridad_edit', $pais_id, '',['class' => 'form-control', 'id' => 'pais_prioridad_edit']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Fecha', 'fecha_prioridad_edit', ['id' => 'lblfecha_prioridad_edit']);?>
+                <?php echo form_input('fecha_prioridad_edit', '', ['class' => 'form-control calendar', 'id' => 'fecha_prioridad_edit']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Número', 'nro_prioridad_edit', ['id' => 'lblnro_prioridad_edit']);?>
+                <?php echo form_input('nro_prioridad_edit','',['class' => 'form-control numberOnly', 'id' => 'nro_prioridad_edit']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="prioridadEditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
 </div>
 
 <!-- Añadir Publicacion Modal -->

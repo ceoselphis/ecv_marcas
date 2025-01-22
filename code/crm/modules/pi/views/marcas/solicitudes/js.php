@@ -202,7 +202,7 @@
                 'marcas_id': $("input[name=id]").val(),
                 
                 //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='claseNiza_" + (tblClaseDT.rows().count()) + "' class='btn btn-danger col-mrg deleteClase'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<td class="text-center"><a class=" btn btn-light" style= "background-color: white;" ><i class="fas fa-edit"></i>Editar</a><button class="btn btn-danger" id="claseNiza_' + (tblClaseDT.rows().count()) + '" ><i class="fas fa-trash"></i>Borrar</button></td>`'
+                'acciones': '<td class="text-center"><a class=" btn btn-light col-mrg editClase" id="claseNiza_' + (tblClaseDT.rows().count()) + '"  style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteClase" id="claseNiza_' + (tblClaseDT.rows().count()) + '" ><i class="fas fa-trash"></i>Borrar</button></td>'
                 //'<div class="col-md-6"><a id="claseNiza_' + (tblClaseDT.rows().count()) + '" class="deleteClase btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a><a id="claseNiza_' + (tblClaseDT.rows().count()) + '" class=" btn btn-primary" ><i class="fas fa-pen" style="top: 5px;">Editar</a></div>'
             }
 
@@ -227,6 +227,56 @@
         }
     });
 
+    $('#claseNizaEditFrmSubmit').on('click', function(e) {    
+        e.preventDefault();
+
+        // Verificar que los campos tengan valores
+        if ($('#clase_niza_edit').val() && $('#clase_niza_descripcion_edit').val()) {
+            // Obtener datos de `localStorage`
+            var claseNiza = JSON.parse(localStorage.getItem("clase_niza")) || [];
+            var idRow = parseInt($("#clase_niza_edit_id").val()); // Convertir a número para comparación
+
+            // Buscar el elemento que coincida con `idRow`
+            var index = claseNiza.findIndex(item => item.idRow === idRow);
+
+            if (index !== -1) {
+                // Actualizar el objeto encontrado
+                claseNiza[index] = {
+                    idRow: idRow,
+                    clase_id: $('#clase_niza_edit').val(),
+                    clase_id_name: $("#clase_niza_edit option[value=" + $("#clase_niza_edit").val() + "]").text(),
+                    descripcion: $('#clase_niza_descripcion_edit').val(),
+                    marcas_id: $("input[name=marcas_clase_id]").val(),
+                    acciones: '<td class="text-center"><a class="btn btn-light col-mrg editClase" id="claseNiza_' + index + '" style="background-color: white">Editar</a><button class="btn btn-danger col-mrg deleteClase" id="claseNiza_' + index + '"><i class="fas fa-trash"></i>Borrar</button></td>'
+                };
+
+                // Actualizar `localStorage`
+                localStorage.setItem("clase_niza", JSON.stringify(claseNiza));
+
+                // Actualizar la tabla en el frontend
+                tblClaseDT.clear();
+                tblClaseDT.rows.add(claseNiza); // Añadir los datos actualizados
+                tblClaseDT.columns.adjust().draw();
+
+                // Cerrar el modal y mostrar mensaje de éxito
+                $("#claseNizaEditModal").modal('hide');
+                alert_float('success', 'Clase actualizada exitosamente');
+            } else {
+                alert_float('danger', 'No se encontró el registro para actualizar');
+            }
+        } else {
+            // Mostrar mensajes de validación si faltan datos
+            $("#lblclase_niza_edit").css('color', $('#clase_niza_edit').val() ? '' : 'red');
+            $("#lblclase_niza_descripcion_edit").css('color', $('#clase_niza_descripcion_edit').val() ? '' : 'red');
+            alert_float('danger', 'Debe completar todos los datos para editar la Clase');
+        }
+    });
+
+
+
+
+
+
     /***
      * funcion para borrar una clase
      */
@@ -244,6 +294,20 @@
             alert_float('success', 'Clase borrada exitosamente');
         }
     })
+
+    $(document).on('click', '.editClase', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var claseNiza = JSON.parse(localStorage.getItem("clase_niza"));
+        $('#claseNizaEditModal').modal('show');
+        console.log("Clase Niza  llegue a Editar ", claseNiza[0]);
+        $("#clase_niza_edit_id").val(claseNiza[0].idRow);
+        $("#clase_niza_descripcion_edit").val(claseNiza[0].descripcion);
+        $('#clase_niza_edit').val(claseNiza[0].clase_id).change();
+    })
+
+
+
 
     /***
      * funcion que se ejecuta al cerrar el Modal
@@ -340,7 +404,8 @@
                 'numero_prioridad': $('#nro_prioridad').val(),
                 'marcas_id': $("input[name=id]").val(),
                 //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='prioridad_" + (tblPrioridadDT.rows().count()) + "' class='btn btn-danger col-mrg deletePrioridad'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="prioridad_' + (tblPrioridadDT.rows().count()) + '" class="deletePrioridad btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                //'acciones': '<div class="col-md-6"><a id="prioridad_' + (tblPrioridadDT.rows().count()) + '" class="deletePrioridad btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                'acciones': '<td class="text-center"><a class=" btn btn-light col-mrg editPrioridad" id="prioridad_' + (tblPrioridadDT.rows().count()) + '"  style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deletePrioridad" id="prioridad_' + (tblPrioridadDT.rows().count()) + '" ><i class="fas fa-trash"></i>Borrar</button></td>'
             }
             prioridad.push(data);
             console.log('prioridad', prioridad);
@@ -363,10 +428,59 @@
         }
     });
 
+    $("#prioridadEditfrmsubmit").on('click', function(e) {
+        e.preventDefault();
+        // Verificar que los campos no estén vacíos
+        if ($('#pais_prioridad_edit').val() && $('#fecha_prioridad_edit').val() && $('#nro_prioridad_edit').val()) {
+            
+            // Obtener las prioridades almacenadas en `localStorage`
+            let prioridad = JSON.parse(localStorage.getItem('prioridad')) || [];
+            let idRow = parseInt($("#prioridad_edit_id").val()); // Convertir a número para comparación
+
+            // Buscar el índice del registro que queremos actualizar
+            let index = prioridad.findIndex(item => item.idRow === idRow);
+
+            if (index !== -1) {
+                // Actualizar los datos del registro encontrado
+                prioridad[index] = {
+                    idRow: idRow,
+                    pais_id: $('#pais_prioridad_edit').val(),
+                    pais_name: $('#pais_prioridad_edit option[value=' + $('#pais_prioridad_edit').val() + ']').text(),
+                    fecha_prioridad: $('#fecha_prioridad_edit').val(),
+                    numero_prioridad: $('#nro_prioridad_edit').val(),
+                    marcas_id: $("input[name=marcas_id]").val(),
+                    acciones: '<td class="text-center"><a class="btn btn-light col-mrg editPrioridad" id="prioridad_' + index + '" style="background-color: white">Editar</a><button class="btn btn-danger col-mrg deletePrioridad" id="prioridad_' + index + '"><i class="fas fa-trash"></i>Borrar</button></td>'
+                };
+
+                // Guardar los cambios en `localStorage`
+                localStorage.setItem('prioridad', JSON.stringify(prioridad));
+
+                // Refrescar la tabla con DataTables
+                tblPrioridadDT.clear();
+                tblPrioridadDT.rows.add(prioridad); // Agregar los datos actualizados
+                tblPrioridadDT.columns.adjust().draw();
+
+                // Cerrar el modal y mostrar mensaje de éxito
+                $("#prioridadEditModal").modal('hide');
+                alert_float('success', 'Prioridad actualizada exitosamente');
+            } else {
+                alert_float('danger', 'No se encontró el registro para actualizar');
+            }
+        } else {
+            // Mostrar mensajes de error si faltan campos
+            $("#lblpais_prioridad_edit").css('color', $('#pais_prioridad_edit').val() ? '' : 'red');
+            $("#lblfecha_prioridad_edit").css('color', $('#fecha_prioridad_edit').val() ? '' : 'red');
+            $("#lblnro_prioridad_edit").css('color', $('#nro_prioridad_edit').val() ? '' : 'red');
+            alert_float('danger', 'Debe completar todos los datos para editar la Prioridad');
+        }
+    });
+
+
     /***
      * funcion para borrar una Prioridad
      */
-    $(document).on('click', '.deletePrioridad', function(e) {
+  
+  $(document).on('click', '.deletePrioridad', function(e) {
         e.preventDefault();
         var id = parseInt($(this).attr('id').split('_')[1]);
         var prioridad = JSON.parse(localStorage.getItem("prioridad"));
@@ -381,6 +495,17 @@
         }
      });
 
+     $(document).on('click', '.editPrioridad', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var prioridad = JSON.parse(localStorage.getItem("prioridad"));
+        $('#prioridadEditModal').modal('show');
+        console.log("Prioridad llegue a Editar ", prioridad[0]);
+        $('#prioridad_edit_id').val(prioridad[id].idRow);
+        $('#pais_prioridad_edit').val(prioridad[id].pais_id).change();
+        $('#fecha_prioridad_edit').val(prioridad[id].fecha_prioridad);
+        $('#nro_prioridad_edit').val(prioridad[id].numero_prioridad);
+     });
     /***
      * funcion que se ejecuta al cerrar el Modal
      */

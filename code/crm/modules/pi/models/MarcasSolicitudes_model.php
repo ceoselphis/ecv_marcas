@@ -884,7 +884,7 @@ class MarcasSolicitudes_model extends BaseModel
     public function searchWhere2($params): array{
         $this->db->select('id, cod_contador, nombre_tipo_registro as tipo_registro, nombre_propietario, marca, nombre_niza as clase_niza, nombre_solictud as estado_expediente, nombre_pais_solicitud as pais_nom, num_solicitud as solicitud, fecha_solicitud, num_registro as registro, certificado, fecha_vencimiento');
         $this->db->distinct();
-        $this->db->from('view_marcas_solicitudes');
+        $this->db->from('tblview_marcas_solicitudes_prueba');
         foreach($params as $key => $value)
         {
             switch ($key) {

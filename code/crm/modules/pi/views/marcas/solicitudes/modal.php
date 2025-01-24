@@ -225,8 +225,8 @@
           <div class="col-md-3">
             <?php echo form_label('Tipo', 'tipo_publicacion', ['id' => 'lbltipo_publicacion']); ?>
             <?php
-            $tipo_publicacion = $select + $tipo_publicacion;
-            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'), ['class' => 'form-control', 'id' => 'tipo_publicacion']); ?>
+            //$tipo_publicacion = $select + $tipo_publicacion;
+            echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion','1'), ['class' => 'form-control', 'id' => 'tipo_publicacion']); ?>
           </div>
         </div>
         <div class="row" style="padding-top:15px;">
@@ -253,6 +253,59 @@
     </div>
   </div>
   <?php echo form_close(); ?>
+</div>
+
+<!-- Editar Publicacion Modal -->
+<div class="modal fade" id="publicacionEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'publicacionEditFrm']);?>
+    <?php echo form_hidden('pub_id_edit', set_value('pub_id_edit'));?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Publicacion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <input type="hidden" name="publicacion_edit_id" id="publicacion_edit_id">
+          <div class="col-md-3 col-md-offset-3">
+            <?php echo form_label('Fecha', 'fecha_publicacion_edit', ['id' => 'lblfecha_publicacion_edit']); ?>
+            <?php echo form_input([
+              'id' => 'fecha_publicacion_edit',
+              'name' => 'fecha_publicacion_edit',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Publicación'
+            ]); ?>
+          </div>
+            <div class="col-md-3">
+                <?php echo form_label('Tipo', 'tipo_publicacion_edit', ['id' => 'lbltipo_publicacion_edit']);?>
+                <?php echo form_dropdown('tipo_publicacion_edit', $tipo_publicacion, set_value('tipo_publicacion_edit'),['class' => 'form-control','id' => 'tipo_publicacion_edit']);?>
+            </div>
+        </div>
+        <div class="row" style="padding-top:15px;">
+            <div class="col-md-3 col-md-offset-1">
+                <?php echo form_label('Boletin', 'boletin_publicacion_edit', ['id' => 'lblboletin_publicacion_edit']);?>
+                <?php echo form_dropdown('boletin_publicacion_edit', $boletines, set_value('boletin_publicacion_edit') , ['class' => 'form-control','id' => 'boletin_publicacion_edit']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Tomo', 'tomo_publicacion_edit', ['id' => 'lbltomo_publicacion_edit']);?>
+                <?php echo form_input('tomo_publicacion_edit',set_value('tomo_publicacion_edit'),['class' => 'form-control','id' => 'tomo_publicacion_edit']);?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_label('Página', 'pag_publicacion_edit', ['id' => 'lblpag_publicacion_edit']);?>
+                <?php echo form_input('pag_publicacion_edit',set_value('pag_publicacion_edit'),['class' => 'form-control','id' => 'pag_publicacion_edit']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="publicacionfrmsubmitEdit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
 </div>
 
 <!-- Añadir Evento Modal -->
@@ -1457,7 +1510,7 @@
             <?php
             echo form_dropdown(
               ['id' => 'propietarioscamdomanterior', 'name' => 'propietarioscamdomanterior'],
-              $solicitantes,
+              $solicitantes_direccion,
               '',
               ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioscamdomanterior')]
             ); ?>
@@ -1492,7 +1545,7 @@
             <?php
             echo form_dropdown(
               ['id' => 'propietarioscamdomactual', 'name' => 'propietarioscamdomactual'],
-              $solicitantes,
+              $solicitantes_direccion,
               '',
               ['class' => 'form-control', 'multiple' => 'multiple', 'selected' => set_value('propietarioscamdomactual ')]
             ); ?>

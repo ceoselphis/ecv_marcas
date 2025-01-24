@@ -122,6 +122,7 @@ class MarcasSolicitudesController extends AdminController
       'oficinas'              => $CI->MarcasSolicitudes_model->findAllOficinas(),
       'clientes'              => $CI->MarcasSolicitudes_model->findAllClients(),
       'solicitantes'          => $CI->MarcasSolicitudes_model->findAllPropietarios(),
+      'solicitantes_direccion' => $CI->MarcasSolicitudes_model->findAllPropietariosDireccion(),
       'responsable'           => $CI->MarcasSolicitudes_model->findAllStaff(),
       'tipo_solicitud'        => $CI->MarcasSolicitudes_model->findAllTipoSolicitud(),
       'estados_solicitudes'   => $CI->MarcasSolicitudes_model->findAllEstadosSolicitudes(),

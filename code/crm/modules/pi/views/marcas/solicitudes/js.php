@@ -613,8 +613,9 @@
                 "tomo": $('#tomo_publicacion').val(),
                 "pagina": $('#pag_publicacion').val(),
                 "marcas_id": $("input[name=id]").val(),
+                'acciones': "<td class='text-center'><a class=' btn btn-light col-mrg editPublicaciones' id='publicacion_" + (tblPublicacionDT.rows().count()+1) + "'  style='background-color: white'> Editar</a><button class='btn btn-danger col-mrg deletePublicacion' id='publicacion_" + (tblPublicacionDT.rows().count()+1) + "' ><i class='fas fa-trash'></i>Borrar</button></td>"
                 //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='publicacion_" + (tblPublicacionDT.rows().count()) + "' class='btn btn-danger col-mrg deletePublicacion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="publicacion_' + (tblPublicacionDT.rows().count()) + '" class="deletePublicacion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                //'acciones': '<div class="col-md-6"><a id="publicacion_' + (tblPublicacionDT.rows().count()) + '" class="deletePublicacion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
             }
             publicacion.push(data);
             console.log('publicacion', publicacion);
@@ -639,6 +640,75 @@
         }
     });
 
+    $('#publicacionfrmsubmitEdit').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        // Validar que todos los campos estén completos
+        if (
+            $('#fecha_publicacion_edit').val() &&
+            $('#tipo_publicacion_edit').val() &&
+            $('#boletin_publicacion_edit').val() &&
+            $('#tomo_publicacion_edit').val() &&
+            $('#pag_publicacion_edit').val()
+        ) {
+            // Obtener el arreglo de publicaciones almacenado en `localStorage`
+            var publicaciones = JSON.parse(localStorage.getItem("publicacion")) || [];
+            var idRow = parseInt($("#publicacion_edit_id").val()); // Obtener el ID de la fila a editar
+
+            // Buscar el índice del registro en el arreglo
+            var index = publicaciones.findIndex(item => item.idRow === idRow);
+
+            if (index !== -1) {
+                // Actualizar el registro con los nuevos valores
+                publicaciones[index] = {
+                    idRow: idRow,
+                    fecha: $('#fecha_publicacion_edit').val(),
+                    tipo_pub_id: $('#tipo_publicacion_edit').val(),
+                    tipo_pub_name: $('#tipo_publicacion_edit option[value=' + $('#tipo_publicacion_edit').val() + ']').text(),
+                    boletin_id: $('#boletin_publicacion_edit').val(),
+                    boletin_name: $('#boletin_publicacion_edit option[value=' + $('#boletin_publicacion_edit').val() + ']').text(),
+                    tomo: $('#tomo_publicacion_edit').val(),
+                    pagina: $('#pag_publicacion_edit').val(),
+                    marcas_id: $("input[name=marcas_id]").val(),
+                    acciones:
+                        "<td class='text-center'>" +
+                        "<a class='btn btn-light col-mrg editPublicaciones' id='publicacion_" +
+                        idRow +
+                        "' style='background-color: white'>Editar</a>" +
+                        "<button class='btn btn-danger col-mrg deletePublicacion' id='publicacion_" +
+                        idRow +
+                        "'><i class='fas fa-trash'></i>Borrar</button>" +
+                        "</td>",
+                };
+
+                // Guardar las publicaciones actualizadas en `localStorage`
+                localStorage.setItem("publicacion", JSON.stringify(publicaciones));
+
+                // Refrescar la tabla con DataTables
+                tblPublicacionDT.clear();
+                tblPublicacionDT.rows.add(publicaciones);
+                tblPublicacionDT.columns.adjust().draw();
+
+                // Cerrar el modal y mostrar un mensaje de éxito
+                $("#publicacionEditModal").modal('hide');
+                alert_float('success', 'Publicación actualizada exitosamente');
+            } else {
+                alert_float('danger', 'No se encontró el registro para editar');
+            }
+        } else {
+            // Resaltar campos faltantes con color rojo
+            $("#lblfecha_publicacion_edit").css('color', $('#fecha_publicacion_edit').val() ? '' : 'red');
+            $("#lbltipo_publicacion_edit").css('color', $('#tipo_publicacion_edit').val() ? '' : 'red');
+            $("#lblboletin_publicacion_edit").css('color', $('#boletin_publicacion_edit').val() ? '' : 'red');
+            $("#lbltomo_publicacion_edit").css('color', $('#tomo_publicacion_edit').val() ? '' : 'red');
+            $("#lblpag_publicacion_edit").css('color', $('#pag_publicacion_edit').val() ? '' : 'red');
+
+            alert_float('danger', 'Debe completar todos los datos para editar la Publicación');
+        }
+    });
+
+
     /***
      * funcion para borrar una Publicación
      */
@@ -657,6 +727,34 @@
             alert_float('success', 'Publicacion eliminada exitosamente');
          }
     });
+
+    $(document).on('click', '.editPublicaciones', function(e) {
+        e.preventDefault();
+
+        // Obtener el ID de la publicación desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);// Recuperar todas las publicaciones desde localStorage
+        console.log("ID de la publicación seleccionada para editar:", id);
+        var publicaciones = JSON.parse(localStorage.getItem("publicacion"));
+        var publicacionSeleccionada = publicaciones.find(function(pub) {
+            return pub.idRow === id; 
+        });
+        console.log("publicacion seleccionada para editar:", publicacionSeleccionada);
+        $('#publicacionEditModal').modal('show');
+
+        if (publicacionSeleccionada) {
+            console.log("Publicación seleccionada para editar:", publicacionSeleccionada);
+            // Rellenar los campos del modal con los datos de la publicación seleccionada
+            $("#publicacion_edit_id").val(publicacionSeleccionada.idRow);
+            $("#fecha_publicacion_edit").val(publicacionSeleccionada.fecha);
+            $("#tipo_publicacion_edit").val(publicacionSeleccionada.tipo_pub_id).change();
+            $("#boletin_publicacion_edit").val(publicacionSeleccionada.boletin_id).change();
+            $("#tomo_publicacion_edit").val(publicacionSeleccionada.tomo);
+            $("#pag_publicacion_edit").val(publicacionSeleccionada.pagina);
+        } else {
+            console.error("No se encontró la publicación con el ID:", id);
+        }
+    });
+
 
     /***
      * funcion que se ejecuta al cerrar el Modal
@@ -781,7 +879,8 @@
                 "comentarios": $('#evento_comentario').val(),
                 "marcas_id": $("input[name=id]").val(),
                 //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='eventos_" + (tblEventosDT.rows().count()) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="eventos_' + (tblEventosDT.rows().count()) + '" class="deleteEvento btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+               // 'acciones': '<div class="col-md-6"><a id="eventos_' + (tblEventosDT.rows().count()) + '" class="deleteEvento btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                'acciones': '<td class="text-center"><a class=" btn btn-light col-mrg editPrioridad" id="prioridad_' + (tblPrioridadDT.rows().count()) + '"  style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteEvento" id="eventos_' + (tblEventosDT.rows().count()) + '" ><i class="fas fa-trash"></i>Borrar</button></td>'
             }
             eventos.push(data);
             console.log('eventos', eventos);

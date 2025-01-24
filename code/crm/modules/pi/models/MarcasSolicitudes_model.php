@@ -677,6 +677,7 @@ class MarcasSolicitudes_model extends BaseModel
     {
         $this->db->select('*');
         $this->db->from('tbl_boletines');
+        $this->db->order_by('descripcion', 'ASC');
         $query = $this->db->get();
         $keys = array();
         $values = array();
@@ -753,6 +754,23 @@ class MarcasSolicitudes_model extends BaseModel
         {
             array_push($keys, $row['id']);
             array_push($values, $row['nombre_propietario']);
+        }
+        return array_combine($keys, $values);      
+    }
+
+    public function findAllPropietariosDireccion()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_propietarios');
+        $query = $this->db->get();
+        //$keys = array('');
+        //$values = array('Seleccione una opcion');
+        $keys = array();
+        $values = array();
+        foreach($query->result_array() as $row)
+        {
+            array_push($keys, $row['id']);
+            array_push($values, $row['nombre_propietario'] . ' - ' . $row['direccion']);
         }
         return array_combine($keys, $values);      
     }

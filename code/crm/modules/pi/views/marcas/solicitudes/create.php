@@ -672,6 +672,51 @@ $select = ['' => '']; ?>
                                     <div class="col-md-12">
                                         <div class="all-info-container">
                                             <div class="list-content">
+                                                <a href="#renovacion" data-toggle="collapse" aria-expanded="false"
+                                                    aria-controls="listone">Renovacion<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="renovacion" >
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right"
+                                                                    id="AddRenovacionAbrirModal" data-toggle="modal"
+                                                                    data-target="#AddRenovacion">Añadir Renovacion</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top: 15px;">
+                                                            <div class="col-md-12 pre-scrollable">
+                                                                <table id="RenovacionTbl"
+                                                                    class="ultimate table table-responsive">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>N°</th>
+                                                                            <th>Cliente</th>
+                                                                            <th>Oficina</th>
+                                                                            <th>Staff</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Nº de Solicitud</th>
+                                                                            <th>Fecha de Solicitud</th>
+                                                                            <th>Nº de Resolucion</th>
+                                                                            <th>Fecha de Resolucion</th>
+                                                                            <th>Referencia Cliente</th>
+                                                                            <th>Comentarios</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="body_cesion">
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="all-info-container">
+                                            <div class="list-content">
                                                 <a href="#cesion" data-toggle="collapse" aria-expanded="false"
                                                     aria-controls="listone">Cesion<i class="fa fa-chevron-down"></i></a>
                                                 <div class="collapse" id="cesion" >

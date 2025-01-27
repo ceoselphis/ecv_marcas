@@ -880,7 +880,7 @@
                 "marcas_id": $("input[name=id]").val(),
                 //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='eventos_" + (tblEventosDT.rows().count()) + "' class='btn btn-danger col-mrg deleteEvento'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
                // 'acciones': '<div class="col-md-6"><a id="eventos_' + (tblEventosDT.rows().count()) + '" class="deleteEvento btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
-                'acciones': '<td class="text-center"><a class=" btn btn-light col-mrg editPrioridad" id="prioridad_' + (tblPrioridadDT.rows().count()) + '"  style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteEvento" id="eventos_' + (tblEventosDT.rows().count()) + '" ><i class="fas fa-trash"></i>Borrar</button></td>'
+                'acciones': '<td class="text-center"><a class=" btn btn-light col-mrg editEvento" id="prioridad_' + (tblPrioridadDT.rows().count()+1) + '"  style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteEvento" id="eventos_' + (tblEventosDT.rows().count()+1) + '" ><i class="fas fa-trash"></i>Borrar</button></td>'
             }
             eventos.push(data);
             console.log('eventos', eventos);
@@ -905,6 +905,66 @@
 
     });
 
+    $('#editeventosfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        console.log("Voy a actualizar el evento");
+
+        // Validación de los campos
+        if ($('#tipo_evento_edit').val() && $('#fecha_evento_edit').val() && $('#evento_comentario_edit').val()) {
+            // Obtener el evento editado
+            var eventos = JSON.parse(localStorage.getItem("eventos"));
+
+            // Obtener el ID del evento que estamos editando
+            var eventoId = parseInt($('#evento_edit_id').val());
+
+            console.log(" EventoID ", eventoId  );
+
+            // Crear el objeto con los nuevos datos
+            var eventoEditado = {
+                'idRow': eventoId,
+                "fecha": $('#fecha_evento_edit').val(),
+                "tipo_evento_id": $('#tipo_evento_edit').val(),
+                'tipo_evento_name': $('#tipo_evento_edit option[value=' + $('#tipo_evento_edit').val() + ']').text(),
+                "comentarios": $('#evento_comentario_edit').val(),
+                "marcas_id": $("input[name=id]").val(),
+                'acciones': '<td class="text-center"><a class=" btn btn-light col-mrg editEvento" id="prioridad_' + eventoId + '"  style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteEvento" id="eventos_' + eventoId + '" ><i class="fas fa-trash"></i>Borrar</button></td>'
+            };
+
+            // Buscar el índice del evento en el array
+            var index = eventos.findIndex(function(evento) {
+                return evento.idRow === eventoId;
+            });
+
+            // Si el evento se encuentra, reemplazarlo con los nuevos datos
+            if (index !== -1) {
+                eventos[index] = eventoEditado;  // Reemplazar el evento editado
+            }
+
+            console.log("Evento Editado  ",eventos[index]);
+
+            // Guardar los cambios en localStorage
+            try {
+                localStorage.setItem("eventos", JSON.stringify(eventos));
+                tblEventosDT.clear();
+                tblEventosDT.rows.add(eventos);  // Actualizar la tabla con los nuevos datos
+                tblEventosDT.columns.adjust().draw();
+                $("#eventoModalEdit").modal('hide');
+                alert_float('success', 'Evento editado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+        } else {
+            // Resaltar campos vacíos con color rojo
+            $("#lbltipo_evento_edit").css('color', $('#tipo_evento_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_evento_edit").css('color', $('#fecha_evento_edit').val() ? color_lbl : 'red');
+            $("#lblevento_comentario_edit").css('color', $('#evento_comentario_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe completar todos los campos para editar el evento');
+        }
+    });
+
+
     /***
      * funcion para borrar un Evento
      */
@@ -921,7 +981,38 @@
             tblEventosDT.columns.adjust().draw();
             alert_float('success', 'Evento borrado exitosamente');
         }
-    })
+    });
+
+    $(document).on('click', '.editEvento', function(e) {
+        e.preventDefault();
+        
+        // Obtener el ID del evento desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        
+        // Recuperar todos los eventos desde localStorage
+        var eventos = JSON.parse(localStorage.getItem("eventos"));
+        
+        // Buscar el evento con el ID correspondiente
+        var eventoSeleccionado = eventos.find(function(evento) {
+            return evento.idRow === id;  // Comparar el id del evento
+        });
+        
+        if (eventoSeleccionado) {
+            console.log("Evento seleccionado para editar:", eventoSeleccionado);
+            
+            // Rellenar los campos del modal con los datos del evento
+            $("#evento_edit_id").val(eventoSeleccionado.idRow);  // Establecer el ID del evento
+            $("#tipo_evento_edit").val(eventoSeleccionado.tipo_evento_id).change();
+            $("#fecha_evento_edit").val(eventoSeleccionado.fecha);
+            $("#evento_comentario_edit").val(eventoSeleccionado.comentarios);
+            
+            // Mostrar el modal de edición
+            $('#eventoModalEdit').modal('show');
+        } else {
+            console.error("No se encontró el evento con el ID:", id);
+        }
+    });
+
 
     /***
      * funcion que se ejecuta al cerrar el Modal
@@ -1029,7 +1120,8 @@
                 "descripcion": $('#descripcion').val(),
                 "marcas_id": $("input[name=id]").val(),
                 //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='tareas_" + (tblTareasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteTarea'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                'acciones': '<div class="col-md-6"><a id="tareas_' + (tblTareasDT.rows().count()) + '" class="deleteTarea btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                //'acciones': '<div class="col-md-6"><a id="tareas_' + (tblTareasDT.rows().count()) + '" class="deleteTarea btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                'acciones': '<td class="text-center"><a class=" btn btn-light col-mrg editTarea" id="tareas_' + (tblTareasDT.rows().count()+1) + '"  style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteTarea" id="tareas_' + (tblTareasDT.rows().count()+1) + '" ><i class="fas fa-trash"></i>Borrar</button></td>'              
             }
             tareas.push(data);
             console.log('tareas', tareas);
@@ -1053,6 +1145,66 @@
             alert_float('danger', 'Debe seleccionar los datos para para Añadir la Tarea');
         }
     })
+
+    $('#tareaseditfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        
+        console.log("Voy a editar la tarea");
+
+        // Validar los campos
+        if ($('#fecha_tarea_edit').val() && $('#project_id_edit').val() && $('#tipo_tarea_edit').val() && $('#descripcion_edit').val()) {
+            
+            // Obtener todas las tareas desde localStorage
+            var tareas = JSON.parse(localStorage.getItem("tareas"));
+            
+            // Obtener el ID de la tarea a editar
+            var tareaId = parseInt($('#Tareaid').val());
+            
+            // Crear el objeto de tarea editada
+            var tareaEditada = {
+                'idRow': tareaId,
+                "fecha": $('#fecha_tarea_edit').val(),
+                "project_id": $('#project_id_edit').val(),
+                'project_id_name': $('#project_id_edit option[value=' + $('#project_id_edit').val() + ']').text(),
+                "tipo_tareas_id": $('#tipo_tarea_edit').val(),
+                'tipo_tareas_id_name': $('#tipo_tarea_edit option[value=' + $('#tipo_tarea_edit').val() + ']').text(),
+                "descripcion": $('#descripcion_edit').val(),
+                "marcas_id": $("input[name=id]").val(),
+                'acciones': '<td class="text-center"><a class="btn btn-light col-mrg editTarea" id="tareas_' + tareaId + '" style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteTarea" id="tareas_' + tareaId + '"><i class="fas fa-trash"></i>Borrar</button></td>'
+            };
+
+            // Buscar el índice de la tarea en el array de tareas
+            var index = tareas.findIndex(function(tarea) {
+                return tarea.idRow === tareaId;
+            });
+
+            if (index !== -1) {
+                tareas[index] = tareaEditada;  // Reemplazar la tarea editada
+            }
+
+            // Guardar los cambios en localStorage
+            try {
+                localStorage.setItem("tareas", JSON.stringify(tareas));
+                tblTareasDT.clear();
+                tblTareasDT.rows.add(tareas);  // Actualizar la tabla
+                tblTareasDT.columns.adjust().draw();
+                $("#EditTask").modal('hide');
+                alert_float('success', 'Tarea editada exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        } else {
+            // Resaltar los campos vacíos con color rojo
+            $("#lblfecha_tarea_edit").css('color', $('#fecha_tarea_edit').val() ? color_lbl : 'red');
+            $("#lblproject_id_edit").css('color', $('#project_id_edit').val() ? color_lbl : 'red');
+            $("#lbltipo_tarea_edit").css('color', $('#tipo_tarea_edit').val() ? color_lbl : 'red');
+            $("#lbldescripcion_edit").css('color', $('#descripcion_edit').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe completar todos los campos para editar la tarea');
+        }
+    });
+
  
     /***
      * funcion para borrar una Tarea
@@ -1071,6 +1223,45 @@
             alert_float('success', 'Tarea borrada exitosamente');
         }
     })
+
+    $(document).on('click', '.editTarea', function(e) {
+        e.preventDefault();
+        
+        // Obtener el ID del evento desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        
+        // Recuperar todos los eventos desde localStorage
+        var tareas = JSON.parse(localStorage.getItem("tareas"));
+        
+        // Buscar el evento con el ID correspondiente
+        var tareasSeleccionado = tareas.find(function(evento) {
+            return evento.idRow === id;  // Comparar el id del evento
+        });
+        
+        if (tareasSeleccionado) {
+            console.log("Evento seleccionado para editar:", tareasSeleccionado);
+            /*
+                'idRow': tblTareasDT.rows().count() + 1,
+                "fecha": $('#fecha_tarea').val(),
+                "project_id": $('#project_id').val(),
+                'project_id_name': $('#project_id option[value=' + $('#project_id').val() + ']').text(),
+                "tipo_tareas_id": $('#tipo_tarea').val(),
+                'tipo_tareas_id_name': $('#tipo_tarea option[value=' + $('#tipo_tarea').val() + ']').text(),
+                "descripcion": $('#descripcion').val(),
+                "marcas_id": $("input[name=id]").val(),
+             */
+            // Rellenar los campos del modal con los datos del evento
+            $("#Tareaid").val(tareasSeleccionado.idRow);  // Establecer el ID del evento
+            $("#project_id_edit").val(tareasSeleccionado.project_id).change();
+            $("#tipo_tarea_edit").val(tareasSeleccionado.tipo_tareas_id).change();
+            $("#fecha_tarea_edit").val(tareasSeleccionado.fecha);
+            $("#descripcion_edit").val(tareasSeleccionado.descripcion);
+            // Mostrar el modal de edición
+            $('#EditTask').modal('show');
+        } else {
+            console.error("No se encontró el evento con el ID:", id);
+        }
+    });
 
     /***
      * funcion que se ejecuta al cerrar el Modal

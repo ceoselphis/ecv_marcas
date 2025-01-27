@@ -1170,32 +1170,55 @@ class MarcasSolicitudesController extends AdminController
       }
     } else {
       //$query = $CI->MarcasSolicitudes_model->searchWhere($form);
+      //$query = $CI->MarcasSolicitudes_model->searchWhere2($form);
       $query = $CI->MarcasSolicitudes_model->searchWhere2($form);
-      echo json_encode(['code' => 200, 'message' => 'success', 'data' => $query]);
-      // if (!empty($query)) {
-      //   foreach ($query as $row) {
-      //     $result[] = [
-      //       'cod_contador' => $row['cod_contador'],
-      //       'tipo' => $row['tipo_registro'],
-      //       'propietario' => $row['nombre_propietario'],
-      //       'nombre' => $row['marca'],
-      //       'clase' => $row['clase_niza'],
-      //       'estado' => $row['solicitud'],
-      //       'solicitud' => $row['estado_expediente'],
-      //       'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
-      //       'registro' => $row['registro'],
-      //       'certificado' => $row['certificado'],
-      //       'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
-      //       'pais' => $row['pais_nom'],
-      //       'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
-      //     ];
-      //   }
-      //   echo json_encode(['code' => 200, 'message' => 'success', 'data' => $query]);
-      // } else {
-      //   echo json_encode(['code' => 404, 'message' => 'not found']);
-      // }
+      if (!empty($query)) {
+        foreach ($query as $row) {
+          /*
+            'cod_contador' => $row['cod_contador'],
+            'tipo' => $row['tipo_registro'],
+            'propietario' => $row['nombre_propietario'],
+            'nombre' => $row['marca'],
+            'clase' => $row['clase_niza'],
+            'estado' => $row['solicitud'],
+            'fecha_solicitud' => is_null($row['fecha_solicitud']) ? '' : date('d/m/Y', strtotime($row['fecha_solicitud'])),
+            'registro' => $row['registro'],
+            'certificado' => $row['certificado'],
+            'vigencia' => is_null($row['fecha_vencimiento']) ? '' : date('d/m/Y', strtotime($row['fecha_vencimiento'])),
+            'pais' => $row['pais_nom'],
+            'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
+          */
+          $result[] = [
+            'cod_contador' => $row['cod_contador'],
+            'tipo' => $row['tipo_registro'],
+            'propietario' => $row['nombre_propietario'],
+            'nombre' => $row['marca'],
+            'clase' => $row['clase_niza'],
+            'estado' => $row['solicitud'],
+            'solicitud' => $row['estado_expediente'],
+            'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
+            'registro' => $row['registro'],
+            'certificado' => $row['certificado'],
+            'vigencia' => date('d/m/Y', strtotime($row['fecha_vencimiento'])),
+            'pais' => $row['pais_nom'],
+            'acciones' => "<a class='btn btn-primary' href='{$url}{$row["id"]}')}'><i class='fas fa-edit'></i> Editar</a>",
+          ];
+        }
+        echo json_encode(['code' => 200, 'message' => 'success', 'data' => $result]);
+      } else {
+        echo json_encode(['code' => 404, 'message' => 'not found']);
+      }
     }
   }
+
+  public  function VistaMarcas() {
+    $CI = &get_instance();
+    $CI->load->model('MarcasSolicitudes_model');
+    $query = $CI->MarcasSolicitudes_model->searchWhere3();
+    echo json_encode(['code' => 200, 'message' => 'success', 'data' => $query]);
+  }
+
+ 
 
   public function insertClases()
   {

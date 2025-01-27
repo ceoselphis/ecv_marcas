@@ -341,13 +341,61 @@
         <div class="row" style="padding-top:15px;">
           <div class="col-md-12">
             <?php echo form_label('Comentario', 'evento_comentario', ['id' => 'lblevento_comentario']); ?>
-            <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea(['name' => 'evento_comentario', 'id' => 'evento_comentario'], '', ['class' => 'form-control' , 'style' => 'height:100px']); ?>
           </div>
         </div>
       </div>
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button id="eventosfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close(); ?>
+</div>
+
+<!-- Editar Evento Modal Edit -->
+<div class="modal fade" id="eventoModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open("", ['method' => 'POST', 'id' => 'eventoEditFrm']); ?>
+  <?php echo form_hidden('even_id_edit', set_value('even_id_edit'));?>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Evento</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <input type="hidden" name="evento_edit_id" id="evento_edit_id">
+          <div class="col-md-8 col-md-offset-0">
+            <?php echo form_label('Tipo Evento', 'tipo_evento_edit', ['id' => 'lbltipo_evento_edit']); ?>
+            <?php
+            $tipo_evento = $select + $tipo_evento;
+            echo form_dropdown(['name' => 'tipo_evento_edit', 'id' => 'tipo_evento_edit'], $tipo_evento, '', ['class' => 'form-control']); ?>
+          </div>
+          <div class="col-md-4">
+            <?php echo form_label('Fecha Evento', 'fecha_evento_edit', ['id' => 'lblfecha_evento_edit']); ?>
+            <?php echo form_input([
+              'id' => 'fecha_evento_edit',
+              'name' => 'fecha_evento_edit',
+              'class' => 'form-control calendar',
+              'placeholder' => 'Fecha Evento'
+            ]); ?>
+          </div>
+        </div>
+        <div class="row" style="padding-top:15px;">
+          <div class="col-md-12">
+            <?php echo form_label('Comentario', 'evento_comentario_edit', ['id' => 'lblevento_comentario_edit']); ?>
+            <?php echo form_textarea(['name' => 'evento_comentario_edit', 'id' => 'evento_comentario_edit'], '', ['class' => 'form-control' , 'style' => 'height:100px']); ?>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="editeventosfrmsubmit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>
@@ -392,7 +440,7 @@
         <div class="row" style="padding-top:15px;">
           <div class="col-md-12">
             <?php echo form_label('Descripcion', 'descripcion', ['id' => 'lbldescripcion']); ?>
-            <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea(['name' => 'descripcion', 'id' => 'descripcion'], '', ['class' => 'form-control' , 'style' => 'height : 150px']); ?>
           </div>
         </div>
       </div>
@@ -404,6 +452,54 @@
   </div>
   <?php echo form_close(); ?>
 </div>
+
+<!-- Editar Tareas Modal  -->
+<div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open('', ['method' => 'POST', 'id' => 'tareasEditfrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Editar Tareas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <input type="hidden" id="Tareaid">
+            <div class="col-md-4">
+              <?php echo form_label('Proyecto', 'project_id_edit', ['class' => 'form-label', 'id' => 'lblproject_id_edit']);?>
+              <?php echo form_dropdown([
+                'name' => 'project_id_edit',
+                'id' => 'project_id_edit',
+                'class' => 'form-control',
+                'selected' => set_value('project_id'), 
+                'options' => $projects
+              ]);?>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_label('Tipo Tareas', 'tipo_tarea_edit', ['class' => 'form-label', 'id' => 'lbltipo_tarea_edit']);?>
+                <?php echo form_dropdown(['name'=>'tipo_tarea_edit','id'=>'tipo_tarea_edit','class' => 'form-control'], $tipo_tareas  );?>
+            </div>
+            <div class="col-md-4">
+              <?php echo form_label('Fecha', 'fecha_tarea_edit', ['id' => 'lblfecha_tarea_edit']); ?>
+              <?php echo form_input('fecha_tarea_edit', '', ['class' => 'form-control calendar', 'id' => 'fecha_tarea_edit']); ?>
+            </div>
+            <div class="col-md-12" style="margin-top: 15px;">
+                <?php echo form_label('Descripcion', 'descripcion_edit', ['class' => 'form-label', 'id' => 'lbldescripcion_edit']);?>
+                <?php echo form_textarea(['name'=>'descripcion_edit','id'=>'descripcion_edit'],'',['class' => 'form-control']);?>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="tareaseditfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
+</div>
+
 
 <!-- Añadir Cesion -->
 <div class="modal fade" id="AddCesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -506,6 +602,171 @@
             </div><!-- fin step 1 -->
             <!-- step 2 -->
             <div class="tab-pane" role="tabpanel" id="addcesionstep2">
+              <div class="col-md-12">
+                <div class="list-content">
+                  <a href="#AddCesionanterior" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="listone">Cedente<i class="fa fa-chevron-down"></i></a>
+                  <div class="collapse" id="AddCesionanterior">
+                    <div class="list-box">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <button type="button" id="addbtnCesionAnterior" class="btn btn-primary pull-right">Añadir
+                          Cedente</button>
+                          <table id="CesionesAnterioresTbl" class="ultimate table table-responsive">
+                            <thead>
+                              <tr>
+                                <th>Nº</th>
+                                <th>Propietario</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody id="body_add_Cesion_anterior">
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="list-content">
+                  <a href="#AddCesionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesionario<i class="fa fa-chevron-down"></i></a>
+                  <div class="collapse" id="AddCesionactual">
+                    <div class="list-box">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <button type="button" id="addbtnCesionActual" class="btn btn-primary pull-right">Añadir Cesionario
+                          </button>
+                          <table id="CesionesActualesTbl" class="ultimate table table-responsive">
+                            <thead>
+                              <tr>
+                                <th>Nº</th>
+                                <th>Propietario</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody id="body_add_Cesion_actual">
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> <!--fin Step 2-->
+          </div> <!--fin tab-content-->
+        </div> <!--fin row-->
+      </div><!--fin Panel-Body-->
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary cerrarCesion" data-dismiss="modal">Cerrar</button>
+        <button id="cesionesfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close(); ?>
+</div>
+
+<!-- Añadir Renovacion -->
+<div class="modal fade" id="AddRenovacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <?php echo form_open("", ['method' => 'POST', 'id' => 'cesionesfrm']); ?>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Añadir Renovacion</h4>
+        <button type="button" class="close cerrarCesion" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="wizard">
+            <div class="wizard-inner">
+              <div class="connecting-line"></div>
+              <ul class="nav nav-tabs" role="tablist" style="display:flex">
+                <li role="presentation" class="active"
+                  style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#addrenovacionstep1" data-toggle="tab" aria-controls="step1" role="tab"
+                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
+                </li>
+                <li role="presentation">
+                  <a href="#addrenovacionstep2" data-toggle="tab" aria-controls="step2" role="tab"
+                    aria-expanded="false"><span class="round-tab">2</span> <i>Cedente y Cesionario</i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content" id="main_form_no">
+            <!-- Step 1 -->
+            <div class="tab-pane active" role="tabpanel" id="addrenovacionstep1">
+              <input type="hidden" id="renovacionid">
+              <div class="col-md-12">
+                <?php echo form_label('Estado', 'estadoRenovacion', ['id' => 'lblestadoRenovacion']); ?>
+                <?php
+                $estados_solicitudes = $select + $estados_solicitudes;
+                echo form_dropdown(['name' => 'estadoCesion', 'id' => 'estadoCesion'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
+              </div>
+              <div class="col-md-6" style="margin-top:15px">
+                <?php echo form_label('Vigencia Desde	', 'vigencia_desde', ['id' => 'lblvigencia_desdeRenovacion']); ?>
+                <?php echo form_input([
+                  'id' => 'vigencia_desdeRenovacion',
+                  'name' => 'vigencia_desdeRenovacion',
+                  'class' => 'form-control calendar',
+                  'value' => set_value('vigencia_desdeRenovacion'),
+                  'placeholder' => 'Vigencia Desde'
+                ]); ?>
+              </div>   
+              <div class="col-md-6" style="margin-top:15px">
+                <?php echo form_label('Vigencia Hasta', 'vigencia_hasta', ['id' => 'lblvigencia_hastaRenovacion']); ?>
+                <?php echo form_input([
+                  'id' => 'vigencia_hastaRenovacion',
+                  'name' => 'vigencia_hastaRenovacion',
+                  'class' => 'form-control calendar',
+                  'value' => set_value('vigencia_hastaRenovacion'),
+                  'placeholder' => 'Vigencia Hasta'
+                ]); ?>
+              </div>
+              <div class="col-md-3" style="margin-top:15px">
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCesion', ['id' => 'lblnro_solicitudCesion']); ?>
+                <?php echo form_input(['name' => 'nro_solicitudCesion', 'id' => 'nro_solicitudCesion', 'class' => 'form-control']) ?>
+              </div>
+              <div class="col-md-3" style="margin-top:15px">
+                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCesion', ['id' => 'lblfecha_solicitudCesion']); ?>
+                <?php echo form_input([
+                  'id' => 'fecha_solicitudCesion',
+                  'name' => 'fecha_solicitudCesion',
+                  'class' => 'form-control calendar',
+                  'value' => set_value('fecha_solicitudCesion'),
+                  'placeholder' => 'Fecha Solicitud'
+                ]); ?>
+              </div>
+              <div class="col-md-3" style="margin-top:15px">
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCesion', ['id' => 'lblnro_resolucionCesion']); ?>
+                <?php echo form_input(['name' => 'nro_resolucionCesion', 'id' => 'nro_resolucionCesion', 'class' => 'form-control']) ?>
+              </div>             
+              <div class="col-md-3" style="margin-top:15px">
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCesion', ['id' => 'lblfecha_resolucionCesion']); ?>
+                <?php echo form_input([
+                  'id' => 'fecha_resolucionCesion',
+                  'name' => 'fecha_resolucionCesion',
+                  'class' => 'form-control calendar',
+                  'value' => set_value('fecha_resolucionCesion'),
+                  'placeholder' => 'Fecha Solicitud'
+                ]); ?>
+              </div>
+              <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Referencia Cliente', 'referenciaclienteCesion', ['id' => 'lblreferenciaclienteCesion']); ?>
+                <?php echo form_input(['name' => 'referenciaclienteCesion', 'id' => 'referenciaclienteCesion'], '', ['class' => 'form-control']); ?>
+              </div>
+              <div class="col-md-12" style="margin-top:10px">
+                <?php echo form_label('Comentario', 'comentarioCesion', ['id' => 'lblcomentarioCesion']); ?>
+                <?php echo form_textarea(['name' => 'comentarioCesion', 'id' => 'comentarioCesion'], '', ['class' => 'form-control', 'style' => 'height : 100px']); ?>
+              </div>
+            </div><!-- fin step 1 -->
+            <!-- step 2 -->
+            <div class="tab-pane" role="tabpanel" id="addrenovacionstep2">
               <div class="col-md-12">
                 <div class="list-content">
                   <a href="#AddCesionanterior" data-toggle="collapse" aria-expanded="false"

@@ -682,31 +682,12 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="wizard">
-            <div class="wizard-inner">
-              <div class="connecting-line"></div>
-              <ul class="nav nav-tabs" role="tablist" style="display:flex">
-                <li role="presentation" class="active"
-                  style="justify-content: center;text-align: center; margin-left: 230px;">
-                  <a href="#addrenovacionstep1" data-toggle="tab" aria-controls="step1" role="tab"
-                    aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
-                </li>
-                <li role="presentation">
-                  <a href="#addrenovacionstep2" data-toggle="tab" aria-controls="step2" role="tab"
-                    aria-expanded="false"><span class="round-tab">2</span> <i>Cedente y Cesionario</i></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="tab-content" id="main_form_no">
-            <!-- Step 1 -->
-            <div class="tab-pane active" role="tabpanel" id="addrenovacionstep1">
               <input type="hidden" id="renovacionid">
               <div class="col-md-12">
                 <?php echo form_label('Estado', 'estadoRenovacion', ['id' => 'lblestadoRenovacion']); ?>
                 <?php
                 $estados_solicitudes = $select + $estados_solicitudes;
-                echo form_dropdown(['name' => 'estadoCesion', 'id' => 'estadoCesion'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
+                echo form_dropdown(['name' => 'estadoRenovacion', 'id' => 'estadoRenovacion'], $estados_solicitudes, '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-6" style="margin-top:15px">
                 <?php echo form_label('Vigencia Desde	', 'vigencia_desde', ['id' => 'lblvigencia_desdeRenovacion']); ?>
@@ -729,104 +710,46 @@
                 ]); ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
-                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCesion', ['id' => 'lblnro_solicitudCesion']); ?>
-                <?php echo form_input(['name' => 'nro_solicitudCesion', 'id' => 'nro_solicitudCesion', 'class' => 'form-control']) ?>
+                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudRenovacion', ['id' => 'lblnro_solicitudRenovacion']); ?>
+                <?php echo form_input(['name' => 'nro_solicitudRenovacion', 'id' => 'nro_solicitudRenovacion', 'class' => 'form-control']) ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
-                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCesion', ['id' => 'lblfecha_solicitudCesion']); ?>
+                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudRenovacion', ['id' => 'lblfecha_solicitudRenovacion']); ?>
                 <?php echo form_input([
-                  'id' => 'fecha_solicitudCesion',
-                  'name' => 'fecha_solicitudCesion',
+                  'id' => 'fecha_solicitudRenovacion',
+                  'name' => 'fecha_solicitudRenovacion',
                   'class' => 'form-control calendar',
-                  'value' => set_value('fecha_solicitudCesion'),
+                  'value' => set_value('fecha_solicitudRenovacion'),
                   'placeholder' => 'Fecha Solicitud'
                 ]); ?>
               </div>
               <div class="col-md-3" style="margin-top:15px">
-                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCesion', ['id' => 'lblnro_resolucionCesion']); ?>
-                <?php echo form_input(['name' => 'nro_resolucionCesion', 'id' => 'nro_resolucionCesion', 'class' => 'form-control']) ?>
+                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionRenovacion', ['id' => 'lblnro_resolucionRenovacion']); ?>
+                <?php echo form_input(['name' => 'nro_resolucionRenovacion', 'id' => 'nro_resolucionRenovacion', 'class' => 'form-control']) ?>
               </div>             
               <div class="col-md-3" style="margin-top:15px">
-                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCesion', ['id' => 'lblfecha_resolucionCesion']); ?>
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionRenovacion', ['id' => 'lblfecha_resolucionRenovacion']); ?>
                 <?php echo form_input([
-                  'id' => 'fecha_resolucionCesion',
-                  'name' => 'fecha_resolucionCesion',
+                  'id' => 'fecha_resolucionRenovacion',
+                  'name' => 'fecha_resolucionRenovacion',
                   'class' => 'form-control calendar',
-                  'value' => set_value('fecha_resolucionCesion'),
+                  'value' => set_value('fecha_resolucionRenovacion'),
                   'placeholder' => 'Fecha Solicitud'
                 ]); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Referencia Cliente', 'referenciaclienteCesion', ['id' => 'lblreferenciaclienteCesion']); ?>
-                <?php echo form_input(['name' => 'referenciaclienteCesion', 'id' => 'referenciaclienteCesion'], '', ['class' => 'form-control']); ?>
+                <?php echo form_label('Referencia Cliente', 'referenciaclienteRenovacion', ['id' => 'lblreferenciaclienteRenovacion']); ?>
+                <?php echo form_input(['name' => 'referenciaclienteRenovacion', 'id' => 'referenciaclienteRenovacion'], '', ['class' => 'form-control']); ?>
               </div>
               <div class="col-md-12" style="margin-top:10px">
-                <?php echo form_label('Comentario', 'comentarioCesion', ['id' => 'lblcomentarioCesion']); ?>
-                <?php echo form_textarea(['name' => 'comentarioCesion', 'id' => 'comentarioCesion'], '', ['class' => 'form-control', 'style' => 'height : 100px']); ?>
+                <?php echo form_label('Comentario', 'comentarioRenovacion', ['id' => 'lblcomentarioRenovacion']); ?>
+                <?php echo form_textarea(['name' => 'comentarioRenovacion', 'id' => 'comentarioRenovacion'], '', ['class' => 'form-control', 'style' => 'height : 100px']); ?>
               </div>
-            </div><!-- fin step 1 -->
-            <!-- step 2 -->
-            <div class="tab-pane" role="tabpanel" id="addrenovacionstep2">
-              <div class="col-md-12">
-                <div class="list-content">
-                  <a href="#AddCesionanterior" data-toggle="collapse" aria-expanded="false"
-                    aria-controls="listone">Cedente<i class="fa fa-chevron-down"></i></a>
-                  <div class="collapse" id="AddCesionanterior">
-                    <div class="list-box">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <button type="button" id="addbtnCesionAnterior" class="btn btn-primary pull-right">Añadir
-                          Cedente</button>
-                          <table id="CesionesAnterioresTbl" class="ultimate table table-responsive">
-                            <thead>
-                              <tr>
-                                <th>Nº</th>
-                                <th>Propietario</th>
-                                <th>Acciones</th>
-                              </tr>
-                            </thead>
-                            <tbody id="body_add_Cesion_anterior">
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="list-content">
-                  <a href="#AddCesionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cesionario<i class="fa fa-chevron-down"></i></a>
-                  <div class="collapse" id="AddCesionactual">
-                    <div class="list-box">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <button type="button" id="addbtnCesionActual" class="btn btn-primary pull-right">Añadir Cesionario
-                          </button>
-                          <table id="CesionesActualesTbl" class="ultimate table table-responsive">
-                            <thead>
-                              <tr>
-                                <th>Nº</th>
-                                <th>Propietario</th>
-                                <th>Acciones</th>
-                              </tr>
-                            </thead>
-                            <tbody id="body_add_Cesion_actual">
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> <!--fin Step 2-->
-          </div> <!--fin tab-content-->
         </div> <!--fin row-->
       </div><!--fin Panel-Body-->
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary cerrarCesion" data-dismiss="modal">Cerrar</button>
-        <button id="cesionesfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="renovacionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
       </div>
     </div>
   </div>
@@ -1838,19 +1761,20 @@
         <div class="row">
           <div class="col-md-12">
             <?php echo form_label('Descripcion', 'doc_descripcion', ['id' => 'lbldoc_descripcion']); ?>
-            <?php echo form_input(['name' => 'doc_descripcion', 'id' => 'doc_descripcion'], '', ['class' => 'form-control']); ?>
+            <?php echo form_input(['name' => 'doc_descripcion', 'id' => 'doc_descripcion'], '', ['class' => 'form-control' ]); ?>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 mt-2" style="padding-top:20px">
             <?php echo form_label('Comentarios', 'doc_comentario', ['id' => 'lbldoc_comentario']); ?>
-            <?php echo form_textarea(['name' => 'doc_comentario', 'id' => 'doc_comentario'], '', ['class' => 'form-control']); ?>
+            <?php echo form_textarea(['name' => 'doc_comentario', 'id' => 'doc_comentario'], '', ['class' => 'form-control' , 'style' => 'height : 100px']); ?>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 mt-2 " style="padding-top:20px">
             <?php echo form_label('Archivo', 'doc_archivo', ['id' => 'lbldoc_archivo']); ?>
             <?php echo form_input([
               'id' => 'doc_archivo',
               'name' => 'doc_archivo',
               'type' => 'file',
               'class' => 'form-control',
+              
               //'multiple' => 'multiple',
               'accept' => 'application/pdf',
             ]); ?>

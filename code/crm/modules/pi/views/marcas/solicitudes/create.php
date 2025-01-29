@@ -140,7 +140,7 @@ $select = ['' => '']; ?>
                                             <div class="text-danger tipo_registro_id_error"></div>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php echo form_label('Cliente', 'client_id'); ?>
+                                            <?php echo form_label('Cliente', 'client_id', ['id' => 'lblclient_id']); ?>
                                             <?php
                                             $clientes = $select + $clientes;
                                             echo form_dropdown(
@@ -168,7 +168,7 @@ $select = ['' => '']; ?>
                                             <div class="text-danger oficina_id_error"></div>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
-                                            <?php echo form_label('Responsable', 'staff_id'); ?>
+                                            <?php echo form_label('Responsable', 'staff_id' , ['id' => 'lblstaff_id']); ?>
                                             <?php
                                             $responsable = $select + $responsable;
                                             echo form_dropdown(
@@ -694,6 +694,8 @@ $select = ['' => '']; ?>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
                                                                             <th>Estado</th>
+                                                                            <th>Vigencia Desde</th>
+                                                                            <th>Vigencia Hasta</th>
                                                                             <th>Nº de Solicitud</th>
                                                                             <th>Fecha de Solicitud</th>
                                                                             <th>Nº de Resolucion</th>
@@ -703,7 +705,7 @@ $select = ['' => '']; ?>
                                                                             <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody id="body_cesion">
+                                                                    <tbody id="body_renovacion">
 
                                                                     </tbody>
                                                                 </table>

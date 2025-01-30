@@ -4760,7 +4760,11 @@
                 formData.append('clase_niza_id', localStorage.getItem("clase_niza"));
                 formData.append('prioridad_id', localStorage.getItem("prioridad"));
                 formData.append("publicacion_id", localStorage.getItem("publicacion"));
-                formData.append("eventos_id", localStorage.getItem("eventos"));
+                console.log("Eventos antes de enviar:", typeof  JSON.stringify(localStorage.getItem("eventos")));
+                var eventos = localStorage.getItem("eventos");
+                eventos = eventos ? JSON.parse(eventos) : []; // Si es null, asigna un array vacío
+                formData.append("eventos_id", JSON.stringify(eventos));
+              //  formData.append("eventos_id", JSON.stringify(localStorage.getItem("eventos")));
                 formData.append("tareas_id", localStorage.getItem("tareas"));
                 formData.append("cesiones_id", localStorage.getItem("cesiones"));
                 formData.append("licencias_id", localStorage.getItem("licencias"));

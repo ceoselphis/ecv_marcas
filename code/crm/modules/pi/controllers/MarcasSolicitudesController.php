@@ -854,7 +854,7 @@ class MarcasSolicitudesController extends AdminController
       /*Seteamos el valor del signo*/
       $file = '';
       if (empty($_FILES['signo_archivo']) ) {
-        //echo json_encode(['code' => 201, 'error' => 'No hay Archivo']);
+        //echo json_encode('error' => 'No hay Archivo']);
       } else {
         $file = $_FILES['signo_archivo'];
 
@@ -884,59 +884,79 @@ class MarcasSolicitudesController extends AdminController
 
       /*Seteamos el arreglo para las clases */
       $claseNiza = json_decode($data['clase_niza_id'], TRUE);
-      if (!empty($claseNiza)) {
-        for ($i = 0; $i < count($claseNiza); ++$i) {
-          unset($claseNiza[$i]['idRow']);
-          unset($claseNiza[$i]['clase_id_name']);
-          unset($claseNiza[$i]['acciones']);
-        }
-      }
+      // if (!empty($claseNiza)) {
+      //   for ($i = 0; $i < count($claseNiza); ++$i) {
+      //     unset($claseNiza[$i]['idRow']);
+      //     unset($claseNiza[$i]['clase_id_name']);
+      //     unset($claseNiza[$i]['acciones']);
+      //   }
+      // }
 
 
       /*Seteamos el arreglo para las prioridades */
       $prioridades = json_decode($data['prioridad_id'], TRUE);
-      for ($i = 0; $i < count($prioridades); ++$i) {
-        unset($prioridades[$i]['idRow']);
-        unset($prioridades[$i]['pais_name']);
-        unset($prioridades[$i]['acciones']);
-        $prioridades[$i]['fecha_prioridad'] = empty($prioridades[$i]['fecha_prioridad']) || '' ? NULL : $this->turn_dates($prioridades[$i]['fecha_prioridad']);
-      }
+      // for ($i = 0; $i < count($prioridades); ++$i) {
+      //   // unset($prioridades[$i]['idRow']);
+      //   // unset($prioridades[$i]['pais_name']);
+      //   // unset($prioridades[$i]['acciones']);
+      //   $prioridades[$i]['fecha_prioridad'] = empty($prioridades[$i]['fecha_prioridad']) || '' ? NULL : $this->turn_dates($prioridades[$i]['fecha_prioridad']);
+      // }
 
       /*Seteamos el arreglo para las publicaciones */
       $publicacion = json_decode($data['publicacion_id'], TRUE);
-      for ($i = 0; $i < count($publicacion); ++$i) {
-        unset($publicacion[$i]['idRow']);
-        unset($publicacion[$i]['tipo_pub_name']);
-        unset($publicacion[$i]['boletin_name']);
-        unset($publicacion[$i]['acciones']);
-        $publicacion[$i]['fecha'] = empty($publicacion[$i]['fecha']) || '' ? NULL : $this->turn_dates($publicacion[$i]['fecha']);
-      }
+      // for ($i = 0; $i < count($publicacion); ++$i) {
+      //   // unset($publicacion[$i]['idRow']);
+      //   // unset($publicacion[$i]['tipo_pub_name']);
+      //   // unset($publicacion[$i]['boletin_name']);
+      //   // unset($publicacion[$i]['acciones']);
+      //   $publicacion[$i]['fecha'] = empty($publicacion[$i]['fecha']) || '' ? NULL : $this->turn_dates($publicacion[$i]['fecha']);
+      // }
 
       /*Seteamos el arreglo para los eventos */
-     // $eventos = json_decode($data['eventos_id']);
-      $eventos = json_decode($data['eventos_id'], true); // Asegúrate de usar true para obtener un array
-      if (is_null($eventos)) {
-          echo json_encode(['error' => 'Eventos_id es NULL', 'data_eventos' => $data['eventos_id']]);
-      }
-      echo json_encode(['Eventos nuevo ' => $eventos ]);
+      $eventos = json_decode($data['eventos_id']);
       // for ($i = 0; $i < count($eventos); ++$i) {
-      //   unset($eventos[$i]['idRow']);
-      //   unset($eventos[$i]['tipo_evento_name']);
-      //   unset($eventos[$i]['acciones']);
+      //   // unset($eventos[$i]['idRow']);
+      //   // unset($eventos[$i]['tipo_evento_name']);
+      //   // unset($eventos[$i]['acciones']);
       //   $eventos[$i]['fecha'] = empty($eventos[$i]['fecha']) || '' ? NULL : $this->turn_dates($eventos[$i]['fecha']);
       // }
 
-      // /*Seteamos el arreglo para las tareas */
-      // $tareas = json_decode($data['tareas_id'], TRUE);
-      // for ($i = 0; $i < count($tareas); ++$i) {
-      //   unset($tareas[$i]['idRow']);
-      //   unset($tareas[$i]['project_id_name']);
-      //   unset($tareas[$i]['tipo_tareas_id_name']);
-      //   unset($tareas[$i]['acciones']);
-      //   $tareas[$i]['fecha'] = empty($tareas[$i]['fecha']) || '' ? NULL : $this->turn_dates($tareas[$i]['fecha']);
+      
+
+      /*Seteamos el arreglo para las tareas */
+      $tareas = json_decode($data['tareas_id'], TRUE);
+      for ($i = 0; $i < count($tareas); ++$i) {
+        // unset($tareas[$i]['idRow']);
+        // unset($tareas[$i]['project_id_name']);
+        // unset($tareas[$i]['tipo_tareas_id_name']);
+        // unset($tareas[$i]['acciones']);
+        $tareas[$i]['fecha'] = empty($tareas[$i]['fecha']) || '' ? NULL : $this->turn_dates($tareas[$i]['fecha']);
+      }
+
+      $testing = [
+        'eventos' => $eventos,
+        'publicacion' => $publicacion,
+        'prioridades' => $prioridades,
+        'claseNiza' => $claseNiza,
+        'solicitantes' => $solicitantes,
+        'paisSol' => $paisSol,
+        //'data' => $data,
+        'tareas' => $tareas,
+        // 'renovaciones' => $renovaciones,
+        //'cesiones' => $cesiones,
+      ];
+
+      echo json_encode(['data' => $testing , 'message' => 'succes']);
+
+      // $renovaciones = json_decode($data['renovaciones_id'], TRUE);
+      // for ($i = 0; $i < count($renovaciones); ++$i) {
+      //   $renovaciones[$i]['vegencia_desde'] = empty($renovaciones[$i]['vegencia_desde']) || '' ? NULL : $this->turn_dates($renovaciones[$i]['vegencia_desde']);
+      //   $renovaciones[$i]['vegencia_hasta'] = empty($renovaciones[$i]['vegencia_hasta']) || '' ? NULL : $this->turn_dates($renovaciones[$i]['vegencia_hasta']);
+      //   $renovaciones[$i]['fecha_solicitud'] = empty($renovaciones[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($renovaciones[$i]['fecha_solicitud']);
+      //   $renovaciones[$i]['fecha_resolucion'] = empty($renovaciones[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($renovaciones[$i]['fecha_resolucion']);
       // }
 
-      // /*Seteamos el arreglo para las Cesiones */
+      /*Seteamos el arreglo para las Cesiones */
       // $cesiones = json_decode($data['cesiones_id'], TRUE);
       // $cesiones_ant_id = array();
       // $cesiones_act_id = array();
@@ -955,6 +975,9 @@ class MarcasSolicitudesController extends AdminController
       //   $cesiones[$i]['fecha_solicitud'] = empty($cesiones[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_solicitud']);
       //   $cesiones[$i]['fecha_resolucion'] = empty($cesiones[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_resolucion']);
       // }
+
+      
+      // echo json_encode(['message' => 'success','data' => $testing ]);
 
       // /*Seteamos el arreglo para las Licencias */
       // $licencias = json_decode($data['licencias_id'], TRUE);

@@ -4700,7 +4700,177 @@
 
     
 
+    function validarEventos(eventos) {
+        let eventos_json = [];
+        if (eventos.length === 0) {
+            return [];
+        } else {
+            eventos = JSON.parse(eventos);
+            /*
+                [{"idRow":1,"fecha":"14/01/2025","tipo_evento_id":"5","tipo_evento_name":"AMPLIACIÃ“N DEL RECURSO DE RECONSIDERACIÃ“N","comentarios":"sadas","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editEvento\" id=\"prioridad_1\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteEvento\" id=\"eventos_1\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+            */
+            eventos.forEach(elemento => {
+                data_eventos = {
+                    "id": elemento.idRow,
+                    "fecha": elemento.fecha,
+                    "tipo_evento_id": elemento.tipo_evento_id,
+                    "comentarios": elemento.comentarios,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                eventos_json.push(data_eventos);
+            });
+            return JSON.stringify(eventos_json);
+        }
+    }
 
+    function validarEventos(eventos) {
+        let eventos_json = [];
+        if (eventos.length === 0) {
+            return [];
+        } else {
+            eventos = JSON.parse(eventos);
+            /*
+                [{"idRow":1,"fecha":"14/01/2025","tipo_evento_id":"5","tipo_evento_name":"AMPLIACIÃ“N DEL RECURSO DE RECONSIDERACIÃ“N","comentarios":"sadas","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editEvento\" id=\"prioridad_1\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteEvento\" id=\"eventos_1\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+            */
+            eventos.forEach(elemento => {
+                data_eventos = {
+                    "id": elemento.idRow,
+                    "fecha": elemento.fecha,
+                    "tipo_evento_id": elemento.tipo_evento_id,
+                    "comentarios": elemento.comentarios,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                eventos_json.push(data_eventos);
+            });
+            return JSON.stringify(eventos_json);
+        }
+    }
+
+    function validarPrioridad(prioridad) {
+        let prioridad_json = [];
+        if (prioridad.length === 0) {
+            return [];
+        } else {
+            prioridad = JSON.parse(prioridad);
+            /*
+                [{"idRow":1,"pais_id":"226","pais_name":"Venezuela","fecha_prioridad":"07/01/2025","numero_prioridad":"21","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editPrioridad\" id=\"prioridad_0\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deletePrioridad\" id=\"prioridad_0\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+            */
+            prioridad.forEach(elemento => {
+                data_prioridad = {
+                    "id": elemento.idRow,
+                    "pais_id": elemento.pais_id,
+                    "fecha_prioridad": elemento.fecha_prioridad,
+                    "numero_prioridad": elemento.numero_prioridad,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                prioridad_json.push(data_prioridad);
+            });
+            return JSON.stringify(prioridad_json);
+        }
+    }
+
+    function validarPublicaciones(publicaciones) {
+        let publicaciones_json = [];
+        if (publicaciones.length === 0) {
+            return [];
+        } else {
+            publicaciones = JSON.parse(publicaciones);
+            /*
+               [{"idRow":1,"fecha":"15/01/2025","tipo_pub_id":"1","tipo_pub_name":"Aviso de Nulidad","boletin_id":"53","boletin_name":"1395","tomo":"21","pagina":"21","marcas_id":"30341","acciones":"<td class='text-center'><a class=' btn btn-light col-mrg editPublicaciones' id='publicacion_1'  style='background-color: white'> Editar</a><button class='btn btn-danger col-mrg deletePublicacion' id='publicacion_1' ><i class='fas fa-trash'></i>Borrar</button></td>"}]
+            */
+            publicaciones.forEach(elemento => {
+                data_publicaciones = {
+                    "id": elemento.idRow,
+                    "fecha": elemento.fecha,
+                    "tipo_pub_id": elemento.tipo_pub_id,
+                    "boletin_id": elemento.boletin_id,
+                    "tomo": elemento.tomo,
+                    "pagina": elemento.pagina,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                publicaciones_json.push(data_publicaciones);
+            });
+            return JSON.stringify(publicaciones_json);
+        }
+    }
+
+    function validarClaseNiza(claseniza){
+        let calse_niza_json = [];
+        if (claseniza.length === 0) {
+            return [];
+        } else {
+            claseniza = JSON.parse(claseniza);
+            /*
+              [{"idRow":1,"clase_id":"5","clase_id_name":"Clase 5","descripcion":"PRODUCTOS FARMACÃ‰UTICOS, PREPARACIONES PARA USO MÃ‰DICO Y VETERINARIO; PRODUCTOS HIGIÃ‰NICOS Y SANITARIOS PARA USO MÃ‰DICO; ALIMENTOS Y SUSTANCIAS DIETÃ‰TICAS PARA USO MÃ‰DICO O VETERINARIO, ALIMENTOS PARA BEBÃ‰S; SUPLEMENTOS ALIMENTICIOS PARA PERSONAS O ANIMALES; EMPLASTOS, MATERIAL PARA APÃ“SITOS; MATERIAL PARA EMPASTES E IMPRESIONES DENTALES; DESINFECTANTES; PREPARACIONES PARA ELIMINAR ANIMALES DAÃ‘INOS; FUNGICIDAS, HERBICIDAS.","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editClase\" id=\"claseNiza_0\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteClase\" id=\"claseNiza_0\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+            */
+            claseniza.forEach(elemento => {
+                data_claseniza = {
+                    "id": elemento.idRow,
+                    "clase_id": elemento.clase_id,
+                    "descripcion": elemento.descripcion,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                calse_niza_json.push(data_claseniza);
+            });
+            return JSON.stringify(calse_niza_json);
+        }
+    }
+
+    function validarTareas(tareas){
+        let tareas_json = [];
+        if (tareas.length === 0) {
+            return [];
+        } else {
+            tareas = JSON.parse(tareas);
+            /*
+              [{"idRow":1,"fecha":"07/01/2025","project_id":"18","project_id_name":"Renovación varias marcas VENCIMIENTO 08/09/2024","tipo_tareas_id":"4","tipo_tareas_id_name":"ESPERANDO INSTRUCCIONES PARA CONTESTAR OPOSICIÃ“N","descripcion":"asdasdasdasd","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editTarea\" id=\"tareas_1\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteTarea\" id=\"tareas_1\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+            */
+            tareas.forEach(elemento => {
+                data_tareas = {
+                    "id": elemento.idRow,
+                    "fecha": elemento.fecha,
+                    "project_id": elemento.project_id,
+                    "tipo_tareas_id" : elemento.tipo_tareas_id,
+                    "descripcion": elemento.descripcion,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                tareas_json.push(data_tareas);
+            });
+            return JSON.stringify(tareas_json);
+        }
+    }
+
+    function validarRenovaciones(renovaciones){
+        let renovaciones_json = [];
+        if (renovaciones.length === 0) {
+            return [];
+        } else {
+            renovaciones = JSON.parse(renovaciones);
+            /*
+              [{"idRow":1,"tmp_renovacion_id":1,"client_id":"8","client_id_name":"INVERSIONES OUTLOOK, C.A.","oficina_id":"1","oficina_id_name":"ECV & ASOCIADOS","staff_id":"1","staff_id_name":"Administrador Local","estado_id":"3","estado_id_name":"101 - SOLICITUD CON EXAMEN DE FONDO/POR PUBLICAR DECISION","vegencia_desde":"13/01/2040","vegencia_hasta":"13/01/2055","solicitud_num":"1312","fecha_solicitud":"14/01/2025","resolucion_num":"3213","fecha_resolucion":"15/01/2025","referencia_cliente":"13123","comentarios":"123123","marcas_id":"30341","acciones":"<div class=\"col-md-6\"><a id=\"cesiones_0\" class=\"deleteCesion btn btn-light link-style\" style= \"background-color: white;padding-top: 0px;\"><i class=\"fas fa-trash\" style=\"top: 5px;\"></i>Borrar</a></div>"}]
+            */
+            renovaciones.forEach(elemento => {
+                data_renovaciones = {
+                    "id": elemento.idRow,
+                    "client_id": elemento.client_id,
+                    "oficina_id": elemento.oficina_id,
+                    "staff_id" : elemento.tipo_tareas_id,
+                    "estado_id": elemento.estado_id,
+                    "vegencia_desde" : elemento.vegencia_desde,
+                    "vegencia_hasta": elemento.vegencia_hasta,
+                    "solicitud_num": elemento.solicitud_num,
+                    "fecha_solicitud" : elemento.fecha_solicitud,
+                    "resolucion_num": elemento.estado_id,
+                    "fecha_resolucion" : elemento.fecha_resolucion,
+                    "referencia_cliente": elemento.referencia_cliente,
+                    "comentarios" : elemento.comentarios,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                renovaciones_json.push(data_renovaciones);
+            });
+            return JSON.stringify(renovaciones_json);
+        }
+    }
 
     /* ##############################FUNCIONES GENERALES############################### */
     /***
@@ -4750,22 +4920,16 @@
                 formData.append('certificado', $('#certificado').val());
                 formData.append('fecha_certificado', $('#fecha_certificado').val());
                 formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
-        
-                // Verificar si hay un archivo seleccionado y agregarlo
                 formData.append('signo_archivo', $('#signo_archivo')[0].files.length > 0 ? $('#signo_archivo')[0].files[0] : '');
                 formData.append('signonom', $('#signonom').val());
                 formData.append('signo_archivo_desc', $('#descripcion_signo').val());
-        
                 formData.append('tipo_signo_id', $('#tipo_signo_id').val());
-                formData.append('clase_niza_id', localStorage.getItem("clase_niza"));
-                formData.append('prioridad_id', localStorage.getItem("prioridad"));
-                formData.append("publicacion_id", localStorage.getItem("publicacion"));
-                console.log("Eventos antes de enviar:", typeof  JSON.stringify(localStorage.getItem("eventos")));
-                var eventos = localStorage.getItem("eventos");
-                eventos = eventos ? JSON.parse(eventos) : []; // Si es null, asigna un array vacío
-                formData.append("eventos_id", JSON.stringify(eventos));
-              //  formData.append("eventos_id", JSON.stringify(localStorage.getItem("eventos")));
-                formData.append("tareas_id", localStorage.getItem("tareas"));
+                formData.append('clase_niza_id', validarClaseNiza(localStorage.getItem("clase_niza")));
+                formData.append('prioridad_id', validarPrioridad(localStorage.getItem("prioridad")));
+                formData.append("publicacion_id", validarPublicaciones(localStorage.getItem("publicacion")));
+                formData.append("eventos_id", validarEventos(localStorage.getItem("eventos")));
+                formData.append("tareas_id", validarTareas(localStorage.getItem("tareas")));
+                formData.append("renovaciones_id" , validarRenovaciones(localStorage.getItem("renovaciones")));
                 formData.append("cesiones_id", localStorage.getItem("cesiones"));
                 formData.append("licencias_id", localStorage.getItem("licencias"));
                 formData.append("fusiones_id", localStorage.getItem("fusiones"));

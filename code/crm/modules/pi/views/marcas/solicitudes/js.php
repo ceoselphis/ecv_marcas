@@ -4757,7 +4757,7 @@
             */
             prioridad.forEach(elemento => {
                 data_prioridad = {
-                    "id": elemento.idRow,
+
                     "pais_id": elemento.pais_id,
                     "fecha_prioridad": elemento.fecha_prioridad,
                     "numero_prioridad": elemento.numero_prioridad,
@@ -4780,7 +4780,7 @@
             */
             publicaciones.forEach(elemento => {
                 data_publicaciones = {
-                    "id": elemento.idRow,
+                
                     "fecha": elemento.fecha,
                     "tipo_pub_id": elemento.tipo_pub_id,
                     "boletin_id": elemento.boletin_id,
@@ -4805,7 +4805,7 @@
             */
             claseniza.forEach(elemento => {
                 data_claseniza = {
-                    "id": elemento.idRow,
+                 
                     "clase_id": elemento.clase_id,
                     "descripcion": elemento.descripcion,
                     "marcas_id" : elemento.marcas_id
@@ -4827,7 +4827,7 @@
             */
             tareas.forEach(elemento => {
                 data_tareas = {
-                    "id": elemento.idRow,
+                  
                     "fecha": elemento.fecha,
                     "project_id": elemento.project_id,
                     "tipo_tareas_id" : elemento.tipo_tareas_id,
@@ -4851,7 +4851,7 @@
             */
             renovaciones.forEach(elemento => {
                 data_renovaciones = {
-                    "id": elemento.idRow,
+
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
                     "staff_id" : elemento.tipo_tareas_id,
@@ -4871,6 +4871,172 @@
             return JSON.stringify(renovaciones_json);
         }
     }
+
+    function validarCesiones(cesiones) {
+        let cesiones_json = [];
+        if (cesiones.length === 0) {
+            return [];
+        } else {
+            cesiones = JSON.parse(cesiones);
+            /*
+              [{"idRow":1,"tmp_cesion_id":1,
+              "client_id":"7",
+              "client_id_name":"WING GEM HUNG.",
+              "oficina_id":"1",
+              "oficina_id_name":"ECV & ASOCIADOS",
+              "staff_id":"1",
+              "staff_id_name":"Administrador Local",
+              "estado_id":"5",
+              "estado_id_name":"103 - SOLICITUD DEVUELTA POR EXAMEN DE FONDO",
+              "solicitud_num":"3113",
+              "fecha_solicitud":"10/02/2025",
+              "resolucion_num":"12312",
+              "fecha_resolucion":"10/02/2025",
+              "referencia_cliente":"123123",
+              "comentarios":"13123123",
+              "cesionesanteriores":"[{\"idRow\":1,\"cedente_id\":2540,\"cedente_id_name\":\"GLOBALTECH DISTRIBUTORS, INC.\",\"tipo_cedente\":1,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesanteriores_0\\\" class=\\\"deleteCesionAnterior btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"},{\"idRow\":2,\"cedente_id\":2541,\"cedente_id_name\":\"FRANZ VIEGENER S.A.\",\"tipo_cedente\":1,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesanteriores_1\\\" class=\\\"deleteCesionAnterior btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"},{\"idRow\":3,\"cedente_id\":2542,\"cedente_id_name\":\"CERVEJARIA PETRÓPOLIS S/A\",\"tipo_cedente\":1,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesanteriores_2\\\" class=\\\"deleteCesionAnterior btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"}]",
+              "cesionesactuales":"[{\"idRow\":1,\"cedente_id\":2541,\"cedente_id_name\":\"FRANZ VIEGENER S.A.\",\"tipo_cedente\":2,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesactuales_0\\\" class=\\\"deleteCesionActual btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"},{\"idRow\":2,\"cedente_id\":2542,\"cedente_id_name\":\"CERVEJARIA PETRÓPOLIS S/A\",\"tipo_cedente\":2,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesactuales_1\\\" class=\\\"deleteCesionActual btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"},{\"idRow\":3,\"cedente_id\":2543,\"cedente_id_name\":\"PABLOSKY S.L.\",\"tipo_cedente\":2,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesactuales_2\\\" class=\\\"deleteCesionActual btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"}]",
+              "marcas_id":"30341",
+              "acciones":"<div class=\"col-md-6\"><a id=\"cesiones_0\" class=\"deleteCesion btn btn-light link-style\" style= \"background-color: white;padding-top: 0px;\"><i class=\"fas fa-trash\" style=\"top: 5px;\"></i>Borrar</a></div>"}]
+            */
+            cesiones.forEach(elemento => {
+                data_cesiones = {
+                    "client_id": elemento.client_id,
+                    "oficina_id": elemento.oficina_id,
+                    "staff_id" : elemento.tipo_tareas_id,
+                    "estado_id": elemento.estado_id,
+                    "solicitud_num": elemento.solicitud_num,
+                    "fecha_solicitud" : elemento.fecha_solicitud,
+                    "resolucion_num": elemento.estado_id,
+                    "fecha_resolucion" : elemento.fecha_resolucion,
+                    "referencia_cliente": elemento.referencia_cliente,
+                    "comentarios" : elemento.comentarios,
+                    "cesionesanteriores" : elemento.cesionesanteriores,
+                    "cesionesactuales" : elemento.cesionesactuales,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                cesiones_json.push(data_cesiones);
+            });
+            return JSON.stringify(cesiones_json);
+        }
+    }
+
+    function validarLicencia(licencia){
+        let licencia_json = [];
+        if (licencia.length === 0) {
+            return [];
+        } else {
+            licencia = JSON.parse(licencia);
+            licencia.forEach(elemento => {
+                data_licencia = {
+                    "client_id": elemento.client_id,
+                    "oficina_id": elemento.oficina_id,
+                    "staff_id" : elemento.tipo_tareas_id,
+                    "estado_id": elemento.estado_id,
+                    "vegencia_desde" : elemento.vegencia_desde,
+                    "vegencia_hasta": elemento.vegencia_hasta,
+                    "solicitud_num": elemento.solicitud_num,
+                    "fecha_solicitud" : elemento.fecha_solicitud,
+                    "resolucion_num": elemento.estado_id,
+                    "fecha_resolucion" : elemento.fecha_resolucion,
+                    "referencia_cliente": elemento.referencia_cliente,
+                    "comentarios" : elemento.comentarios,
+                    "licenciasanteriores": elemento.licenciasanteriores,
+                    "licenciasactuales": elemento.licenciasactuales,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                licencia_json.push(data_licencia);
+            });
+            return JSON.stringify(licencia_json);
+        }
+    }
+
+    function validarFusion(fusion) {
+        let fusion_json = [];
+        if (fusion.length === 0) {
+            return [];
+        } else {
+            fusion = JSON.parse(fusion);
+            fusion.forEach(elemento => {
+                data_fusion = {
+                    "client_id": elemento.client_id,
+                    "oficina_id": elemento.oficina_id,
+                    "staff_id" : elemento.tipo_tareas_id,
+                    "estado_id": elemento.estado_id,
+                    "num_solicitud": elemento.num_solicitud,
+                    "fecha_solicitud" : elemento.fecha_solicitud,
+                    "num_resolucion": elemento.num_resolucion,
+                    "fecha_resolucion" : elemento.fecha_resolucion,
+                    "referencia_cliente": elemento.referencia_cliente,
+                    "comentarios" : elemento.comentarios,
+                    "fusionesanteriores": elemento.fusionesanteriores,
+                    "fusionesactuales": elemento.fusionesactuales,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                fusion_json.push(data_fusion);
+            });
+            return JSON.stringify(fusion_json);
+        }
+        
+    }
+
+    function validarCambioNombre(cambioNombre) {
+        let cambioNombre_json = [];
+        if (cambioNombre.length === 0) {
+            return [];
+        } else {
+            cambioNombre = JSON.parse(cambioNombre);
+            cambioNombre.forEach(elemento => {
+                data_cambioNombre = {
+                    "client_id": elemento.client_id,
+                    "oficina_id": elemento.oficina_id,
+                    "staff_id" : elemento.tipo_tareas_id,
+                    "estado_id": elemento.estado_id,
+                    "num_solicitud": elemento.num_solicitud,
+                    "fecha_solicitud" : elemento.fecha_solicitud,
+                    "num_resolucion": elemento.num_resolucion,
+                    "fecha_resolucion" : elemento.fecha_resolucion,
+                    "referencia_cliente": elemento.referencia_cliente,
+                    "comentarios" : elemento.comentarios,
+                    "camnomanteriores": elemento.camnomanteriores,
+                    "camnomactuales": elemento.camnomactuales,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                cambioNombre_json.push(data_cambioNombre);
+            });
+            return JSON.stringify(cambioNombre_json);
+        }
+    }
+
+    function validarCambioDomicilio(cambioDomicilio) {
+        let cambioDomicilio_json = [];
+        if (cambioDomicilio.length === 0) {
+            return [];
+        } else { 
+            cambioDomicilio = JSON.parse(cambioDomicilio);
+            cambioDomicilio.forEach(elemento => {
+                data_cambioDomicilio = { 
+                    "client_id": elemento.client_id,
+                    "oficina_id": elemento.oficina_id,
+                    "staff_id" : elemento.tipo_tareas_id,
+                    "estado_id": elemento.estado_id,
+                    "num_solicitud": elemento.num_solicitud,
+                    "fecha_solicitud" : elemento.fecha_solicitud,
+                    "num_resolucion": elemento.num_resolucion,
+                    "fecha_resolucion" : elemento.fecha_resolucion,
+                    "referencia_cliente": elemento.referencia_cliente,
+                    "comentarios" : elemento.comentarios,
+                    "camdomanteriores": elemento.camdomanteriores,
+                    "camdomactuales": elemento.camdomactuales,
+                    "marcas_id" : elemento.marcas_id
+                }
+                cambioDomicilio_json.push(data_cambioDomicilio);
+            });
+            return JSON.stringify(cambioDomicilio_json);
+        }
+    }   
+
+    
 
     /* ##############################FUNCIONES GENERALES############################### */
     /***
@@ -4924,17 +5090,17 @@
                 formData.append('signonom', $('#signonom').val());
                 formData.append('signo_archivo_desc', $('#descripcion_signo').val());
                 formData.append('tipo_signo_id', $('#tipo_signo_id').val());
-                formData.append('clase_niza_id', validarClaseNiza(localStorage.getItem("clase_niza")));
-                formData.append('prioridad_id', validarPrioridad(localStorage.getItem("prioridad")));
-                formData.append("publicacion_id", validarPublicaciones(localStorage.getItem("publicacion")));
-                formData.append("eventos_id", validarEventos(localStorage.getItem("eventos")));
-                formData.append("tareas_id", validarTareas(localStorage.getItem("tareas")));
-                formData.append("renovaciones_id" , validarRenovaciones(localStorage.getItem("renovaciones")));
-                formData.append("cesiones_id", localStorage.getItem("cesiones"));
-                formData.append("licencias_id", localStorage.getItem("licencias"));
-                formData.append("fusiones_id", localStorage.getItem("fusiones"));
-                formData.append("camnom_id", localStorage.getItem("camnom"));
-                formData.append("camdom_id", localStorage.getItem("camdom"));
+                formData.append('clase_niza_id', validarClaseNiza(localStorage.getItem("clase_niza") === null ? [] : localStorage.getItem("clase_niza")));
+                formData.append('prioridad_id', validarPrioridad(localStorage.getItem("prioridad") === null ? [] : localStorage.getItem("prioridad")));
+                formData.append("publicacion_id", validarPublicaciones(localStorage.getItem("publicacion") === null ? [] : localStorage.getItem("publicacion")));
+                formData.append("eventos_id", validarEventos(localStorage.getItem("eventos") === null ? [] : localStorage.getItem("eventos")));
+                formData.append("tareas_id", validarTareas(localStorage.getItem("tareas") === null ? [] : localStorage.getItem("tareas")));
+                formData.append("renovaciones_id" , validarRenovaciones( localStorage.getItem("renovaciones") === null ? [] : localStorage.getItem("renovaciones") ) );
+                formData.append("cesiones_id", validarCesiones(localStorage.getItem("cesiones") === null ? [] : localStorage.getItem("cesiones") ) );
+                formData.append("licencias_id", validarLicencia(localStorage.getItem("licencias") === null ? [] : localStorage.getItem("licencias")));
+                formData.append("fusiones_id", validarFusion(localStorage.getItem("fusiones") === null ? [] : localStorage.getItem("fusiones")) );
+                formData.append("camnom_id", validarCambioNombre(localStorage.getItem("camnom") === null ? [] : localStorage.getItem("camnom") ));
+                formData.append("camdom_id", validarCambioDomicilio(localStorage.getItem("camdom") === null ? [] : localStorage.getItem("camdom")));
                 formData.append("doc_id", localStorage.getItem("documentos"));
                 /* Se agrega al Form todos los Documentos agregados */
                 var docu = JSON.parse(localStorage.getItem("documentos"));

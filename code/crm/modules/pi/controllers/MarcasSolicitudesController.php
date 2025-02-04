@@ -1056,25 +1056,25 @@ class MarcasSolicitudesController extends AdminController
       }
 
       
-      // $testing = [
-      //   'eventos' => $eventos,
-      //   'publicacion' => $publicacion,
-      //   'prioridades' => $prioridades,
-      //   'claseNiza' => $claseNiza,
-      //   'solicitantes' => $solicitantes,
-      //   'paisSol' => $paisSol,
-      //   'tareas' => $tareas,
-      //   'renovaciones' => $renovaciones,
-      //   'cesiones' => $cesiones,
-      //   'licencias' => $licencias,
-      //   'fusiones' => $fusiones,
-      //   'camnom' => $camnom,
-      //   'camdom' => $camdom,
-      //   // 'documentos' => $documentos,
-      //   // 'facturas' => $facturas,
-      // ];
+    //   $testing = [
+    //     'eventos' => $eventos,
+    //     'publicacion' => $publicacion,
+    //     'prioridades' => $prioridades,
+    //     'claseNiza' => $claseNiza,
+    //     'solicitantes' => $solicitantes,
+    //     'paisSol' => $paisSol,
+    //     'tareas' => $tareas,
+    //     'renovaciones' => $renovaciones,
+    //     'cesiones' => $cesiones,
+    //     'licencias' => $licencias,
+    //     'fusiones' => $fusiones,
+    //     'camnom' => $camnom,
+    //     'camdom' => $camdom,
+    //     // 'documentos' => $documentos,
+    //     // 'facturas' => $facturas,
+    //   ];
 
-     // echo json_encode(['data' => $testing , 'message' => 'succes']);
+    //  echo json_encode(['data' => $testing , 'message' => 'succes']);
 
       /*Seteamos el arreglo para los Documentos */
       $documentos = json_decode($data['doc_id'], TRUE);
@@ -1089,7 +1089,7 @@ class MarcasSolicitudesController extends AdminController
         unset($facturas[$i]['acciones']);
         $facturas[$i]['staff_id'] = $_SESSION['staff_user_id'];
       }
-      echo json_encode(['data' => $form , 'file' => $file]);
+      // echo json_encode(['data' => $form , 'file' => $file]);
       try {
         $CI->MarcasSolicitudes_model->insert($form);
         $id = $data['id'];
@@ -1113,6 +1113,9 @@ class MarcasSolicitudesController extends AdminController
         }
         if (!empty($tareas)) {
           $CI->MarcasSolicitudes_model->insertTareas($tareas);
+        }
+        if (!empty($renovaciones)) {
+          $CI->MarcasSolicitudes_model->insertRenovaciones($renovaciones);
         }
         if (!empty($cesiones)) {
           for ($i = 0; $i < count($cesiones); ++$i) {

@@ -5036,6 +5036,29 @@
         }
     }   
 
+    // function validarFactura(factura) {
+    //     let factura_json = [];
+    //     if (factura.length === 0) {
+    //         return [];
+    //     } else { 
+    //         factura = JSON.parse(factura);
+    //         factura.forEach(elemento => {
+    //             /*
+    //                 [{"idRow":1,
+    //                 "facturas_id":"53",
+    //                 "factNum":"ECV-IP-FAC-48",
+    //                 "factFecha":"13/01/2025",
+    //                 "factEstatus":"<span class=\"label label-danger  s-status invoice-status-1\">Por pagar</span>",
+    //                 "marcas_id":"30330",
+    //                 "acciones":"<div class=\"col-md-6\"><a id=\"facturas_0\" class=\"deleteFactura btn btn-light link-style\" style= \"background-color: white;padding-top: 0px;\"><i class=\"fas fa-trash\" style=\"top: 5px;\"></i>Borrar</a></div>"}]
+    //             */
+    //             data_factura = { 
+
+    //             };
+    //         });
+    //     }
+    // }
+
     
 
     /* ##############################FUNCIONES GENERALES############################### */
@@ -5118,17 +5141,17 @@
                     contentType: false,
                     success: function(response) {
                         console.log(" Respuesta : ",response);
-                        // const obj = JSON.parse(response);
-                        // if (obj.code == 200) {
-                        //     let id = obj.id;
-                        //     alert_float('success', 'Solicitud guardada con éxito!');
-                        //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
-                        //     ruta = ruta + id;
-                        //     location.replace(ruta);
-                        // } else if (obj.code == 500) {
-                        //     console.log(" ")
-                        //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                        // }
+                        const obj = JSON.parse(response);
+                        if (obj.code == 200) {
+                            let id = obj.id;
+                            alert_float('success', 'Solicitud guardada con éxito!');
+                            let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
+                            ruta = ruta + id;
+                            location.replace(ruta);
+                        } else if (obj.code == 500) {
+                            console.log(" ")
+                            alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                        }
 
                      
                         

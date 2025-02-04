@@ -502,6 +502,13 @@ class MarcasSolicitudes_model extends BaseModel
         return $insert_id;
     }
 
+    public function insertRenovaciones($params)
+    {
+        $query = $this->db->insert('tbl_marcas_renovaciones', $params);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
     public function insertCesionesAntAct($params)
     {
         $query = $this->db->insert_batch('tbl_marcas_cedentes_cesionarios', $params);

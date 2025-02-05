@@ -487,7 +487,7 @@
             </div>
             <div class="col-md-12" style="margin-top: 15px;">
                 <?php echo form_label('Descripcion', 'descripcion_edit', ['class' => 'form-label', 'id' => 'lbldescripcion_edit']);?>
-                <?php echo form_textarea(['name'=>'descripcion_edit','id'=>'descripcion_edit'],'',['class' => 'form-control']);?>
+                <?php echo form_textarea(['name'=>'descripcion_edit','id'=>'descripcion_edit'],'',['class' => 'form-control','style' => 'height : 150px']);?>
             </div>
         </div>
       </div>
@@ -597,7 +597,7 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <?php echo form_label('Comentario', 'comentarioCesion', ['id' => 'lblcomentarioCesion']); ?>
-                <?php echo form_textarea(['name' => 'comentarioCesion', 'id' => 'comentarioCesion'], '', ['class' => 'form-control']); ?>
+                <?php echo form_textarea(['name' => 'comentarioCesion', 'id' => 'comentarioCesion'], '', ['class' => 'form-control' , 'style' => 'height : 150px']); ?>
               </div>
             </div><!-- fin step 1 -->
             <!-- step 2 -->
@@ -669,7 +669,7 @@
 </div>
 
 <!-- Editar Cesion -->
-<div class="modal fade" id="EditCesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditCesionNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <?php echo form_open("", ['method' => 'POST', 'id' => 'cesionesEditfrm']);?>
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -697,20 +697,21 @@
                     <div class="tab-content" id="main_form">
                         <!-- Step 1 -->
                         <div class="tab-pane active" role="tabpanel" id="editcesionstep1">
-                            <input type="hidden" id="cesionid">
+                            <input type="hidden" id="cesionid_edit">
+                            <!--
                             <div class="col-md-3">
-                                <?php echo form_label('Cliente', 'clienteCesion');?>
-                                <?php echo form_dropdown(['name'=>'clienteCesion_edit','id'=>'clienteCesion_edit'], $clientes, '',['class' => 'form-control']);?>
+                                <?php //echo form_label('Cliente', 'clienteCesion');?>
+                                <?php //echo form_dropdown(['name'=>'clienteCesion_edit','id'=>'clienteCesion_edit'], $clientes, '',['class' => 'form-control']);?>
                             </div>
                             <div class="col-md-3">
-                                <?php echo form_label('Oficina', 'oficinaCesion_edit', ['id' => 'lbloficinaCesion_edit']);?>
-                                <?php echo form_dropdown(['name'=>'oficinaCesion_edit','id'=>'oficinaCesion_edit'], $oficinas, '',['class' => 'form-control']);?>
+                                <?php //echo form_label('Oficina', 'oficinaCesion_edit', ['id' => 'lbloficinaCesion_edit']);?>
+                                <?php //echo form_dropdown(['name'=>'oficinaCesion_edit','id'=>'oficinaCesion_edit'], $oficinas, '',['class' => 'form-control']);?>
                             </div>
                             <div class="col-md-3">
-                                <?php echo form_label('Staff', 'staffCesion_edit');?>  
-                                <?php echo form_dropdown(['name'=>'staffCesion_edit','id'=>'staffCesion_edit'], $responsable, '',['class' => 'form-control']);?>
-                            </div>
-                            <div class="col-md-3">
+                                <?php //echo form_label('Staff', 'staffCesion_edit');?>  
+                                <?php //echo form_dropdown(['name'=>'staffCesion_edit','id'=>'staffCesion_edit'], $responsable, '',['class' => 'form-control']);?>
+                            </div>-->
+                            <div class="col-md-12">
                                 <?php echo form_label('Estado', 'estadoCesion_edit', ['id' => 'lblestadoCesion_edit']);?>
                                 <?php echo form_dropdown(['name'=>'estadoCesion_edit','id'=>'estadoCesion_edit'], $estados_solicitudes, '',['class' => 'form-control']);?>
                             </div>
@@ -748,7 +749,8 @@
                             </div>
                             <div class="col-md-12" style="margin-top:10px">
                                 <?php echo form_label('Comentario', 'comentarioCesion_edit', ['id' => 'lblcomentarioCesion_edit']);?>
-                                <?php echo form_textarea(['name'=>'comentarioCesion_edit','id'=>'comentarioCesion_edit','rows'=>1],'',['class' => 'form-control']);?>
+                                <?php echo form_textarea(['name' => 'comentarioCesion_edit', 'id' => 'comentarioCesion_edit'], '', ['class' => 'form-control', 'style' => 'height : 150px']); ?>
+                                <?php //echo form_textarea(['name'=>'comentarioCesion_edit','id'=>'comentarioCesion_edit','rows'=>1],'',['class' => 'form-control']);?>
                             </div>
                         </div><!--Fin Step 1 -->
                         <!-- step 2 -->
@@ -817,6 +819,8 @@
   </div>
   <?php echo form_close();?>
 </div>
+
+
 
 <!-- Añadir Renovacion -->
 <div class="modal fade" id="AddRenovacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -893,7 +897,7 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <?php echo form_label('Comentario', 'comentarioRenovacion', ['id' => 'lblcomentarioRenovacion']); ?>
-                <?php echo form_textarea(['name' => 'comentarioRenovacion', 'id' => 'comentarioRenovacion'], '', ['class' => 'form-control', 'style' => 'height : 100px']); ?>
+                <?php echo form_textarea(['name' => 'comentarioRenovacion', 'id' => 'comentarioRenovacion'], '', ['class' => 'form-control', 'style' => 'height : 150px']); ?>
               </div>
         </div> <!--fin row-->
       </div><!--fin Panel-Body-->
@@ -920,7 +924,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-              <input type="hidden" id="renovacionid">
+              <input type="hidden" id="renovacionid_edit">
               <div class="col-md-12">
                 <?php echo form_label('Estado', 'estadoRenovacion', ['id' => 'lblestadoRenovacion']); ?>
                 <?php
@@ -981,13 +985,13 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <?php echo form_label('Comentario', 'comentarioRenovacion', ['id' => 'lblcomentarioRenovacion']); ?>
-                <?php echo form_textarea(['name' => 'comentarioRenovacion_edit', 'id' => 'comentarioRenovacion_edit'], '', ['class' => 'form-control', 'style' => 'height : 100px']); ?>
+                <?php echo form_textarea(['name' => 'comentarioRenovacion_edit', 'id' => 'comentarioRenovacion_edit'], '', ['class' => 'form-control', 'style' => 'height : 150px']); ?>
               </div>
         </div> <!--fin row-->
       </div><!--fin Panel-Body-->
       <div class="modal-footer" style="padding-top: 1.5%;">
         <button type="button" class="btn btn-secondary cerrarCesion" data-dismiss="modal">Cerrar</button>
-        <button id="renovacionfrmsubmit" type="button" class="btn btn-primary">Añadir</button>
+        <button id="renovacionfrmsubmit_edit" type="button" class="btn btn-primary">Editar</button>
       </div>
     </div>
   </div>

@@ -1416,7 +1416,8 @@
                     "cesionesactuales": localStorage.getItem("cesionesactuales"),
                     "marcas_id": $("input[name=id]").val(),
                     //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='cesiones_" + (tblCesionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCesion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                    'acciones': '<div class="col-md-6"><a id="cesiones_' + (tblCesionesDT.rows().count()) + '" class="deleteCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    'acciones': '<td class="text-center"><a class="btn btn-light col-mrg editCesion" id="cesiones_' + (tblCesionesDT.rows().count()+1) + '" style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteCesion" id="cesiones_' + (tblCesionesDT.rows().count()+1) + '"><i class="fas fa-trash"></i>Borrar</button></td>'
+                    //'acciones': '<div class="col-md-6"><a id="cesiones_' + (tblCesionesDT.rows().count()) + '" class="deleteCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                 }
                 console.log(" Data ", data);
                 end = new Date(); console.log(`Asignada la Data en ${end.getTime() - start.getTime()} msec`); start = new Date();
@@ -1448,7 +1449,167 @@
                 alert_float('danger', 'Debe introducir todos los datos la Cesión');
             }
         }
-    })
+    });
+
+    $('#EditCesionfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if ($('#estadoCesion_edit').val() &&  $('#nro_solicitudCesion_edit').val() && $('#fecha_solicitudCesion_edit').val() && $('#nro_resolucionCesion_edit').val() 
+            && $('#fecha_resolucionCesion_edit').val() && $('#referenciaclienteCesion_edit').val()) {
+
+            let cesiones = JSON.parse(localStorage.getItem("cesiones")) || [];
+            let idcesiones = $('#cesionid_edit').val(); // Tomamos el ID oculto del modal
+            
+            let index = cesiones.findIndex(item => item.idRow == idcesiones);
+
+            let data = {
+                'idRow': idcesiones,
+                "tmp_renovacion_id": tblCesionesDT.rows().count() + 1,
+                "client_id": cliente_id, //$('#clienteCesion').val(),
+                'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                "oficina_id": $('#oficina_id').val(),
+                'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                "staff_id": staff_id,//$('#staffCesion').val(),
+                'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoCesion_edit').val(),
+                'estado_id_name': $('#estadoCesion_edit option[value=' + $('#estadoCesion_edit').val() + ']').text(),
+                "solicitud_num": $('#nro_solicitudCesion_edit').val(),
+                "fecha_solicitud": $('#fecha_solicitudCesion_edit').val(),
+                "resolucion_num": $('#nro_resolucionCesion_edit').val(),
+                "fecha_resolucion": $('#fecha_resolucionCesion_edit').val(),
+                "referencia_cliente": $('#referenciaclienteCesion_edit').val(),
+                "comentarios": $('#comentarioCesion_edit').val(),
+                "acciones": `<td class="text-center">
+                                <a class="btn btn-light col-mrg editCesion" id="cesiones_${idcesiones}" style="background-color: white"> Editar</a>
+                                <button class="btn btn-danger col-mrg deleteCesion" id="cesiones_${idcesiones}">
+                                    <i class="fas fa-trash"></i>Borrar
+                                </button>
+                            </td>`
+            };
+
+            if (index !== -1) {
+                // Si la renovación existe, actualizarla
+                cesiones[index] = data;
+            } else {
+                // Si no existe, agregar como nuevo
+                data.idRow = renovaciones.length + 1;
+                cesiones.push(data);
+            }
+
+            try {
+                localStorage.setItem("cesiones", JSON.stringify(cesiones));
+                tblCesionesDT.clear();
+                tblCesionesDT.rows.add(JSON.parse(localStorage.getItem("cesiones")));
+                tblCesionesDT.columns.adjust().draw();
+                $("#EditCesionNew").modal('hide');
+                alert_float('success', 'Registro actualizado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        } else {
+            // Resaltar los labels en rojo si falta información
+            $("#lblestadoCesion").css('color', $('#estadoRenovacion_edit').val() ? '' : 'red');
+            $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudRenovacion_edit').val() ? '' : 'red');
+            $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudRenovacion_edit').val() ? '' : 'red');
+            $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionRenovacion_edit').val() ? '' : 'red');
+            $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionRenovacion_edit').val() ? '' : 'red');
+            $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteRenovacion_edit').val() ? '' : 'red');
+
+            alert_float('danger', 'Debe completar todos los campos obligatorios para editar la renovación.');
+        }
+        // 1. Obtener datos desde localStorage
+        // let cesiones = JSON.parse(localStorage.getItem('cesiones')) || [];
+
+        // // 2. Obtener ID de la cesión a editar
+        // let cesionId = $('#cesionid_edit').val(); // Asegúrate de que este ID está en el input hidden
+
+        // // 3. Buscar el objeto en el array
+        // let index = cesiones.findIndex(c => c.tmp_cesion_id == cesionId);
+        // if (index !== -1) {
+        //     // 4. Actualizar datos del objeto encontrado
+
+        //     cesiones[index].estado_id = $('#estadoCesion_edit').val();
+        //     cesiones[index].estado_id_name = $('#estadoCesion_edit option:selected').text();
+        //     cesiones[index].solicitud_num = $('#nro_solicitudCesion_edit').val();
+        //     cesiones[index].fecha_solicitud = $('#fecha_solicitudCesion_edit').val();
+        //     cesiones[index].resolucion_num = $('#nro_resolucionCesion_edit').val();
+        //     cesiones[index].fecha_resolucion = $('#fecha_resolucionCesion_edit').val();
+        //     cesiones[index].referencia_cliente = $('#referenciaclienteCesion_edit').val();
+        //     cesiones[index].comentarios = $('#comentarioCesion_edit').val();
+
+        //     // 5. Guardar el array actualizado en localStorage
+        //     localStorage.setItem('cesiones', JSON.stringify(cesiones));
+
+        //     // 6. Mostrar mensaje de éxito o cerrar modal
+        //     alert('Cesión actualizada correctamente.');
+        //     $('#EditCesionNew').modal('hide');
+        // } else {
+        //     alert('Error: Cesión no encontrada.');
+        // }
+    });
+
+
+    $(document).on('click', '.deleteCesion', function(e) {
+        e.preventDefault();
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        var cesiones = JSON.parse(localStorage.getItem("cesiones"));
+        if (confirm('¿Esta seguro de eliminar este registro?')) {
+            cesiones.length == 1 ? cesiones = [] : cesiones.splice(id, 1);
+            localStorage.setItem("cesiones", JSON.stringify(UpdtIdRow(cesiones, 'cesiones_')));
+            console.log('cesiones', JSON.parse(localStorage.getItem("cesiones")));
+            tblCesionesDT.clear();
+            tblCesionesDT.rows.add(JSON.parse(localStorage.getItem("cesiones")));
+            tblCesionesDT.columns.adjust().draw();
+            alert_float('success', 'Cesión borrada exitosamente');
+        }
+    });
+
+
+    $(document).on('click', '.editCesion', function(e) {
+        e.preventDefault();
+        console.log("Voy a Editar la cesiones");
+        
+        // Obtener el ID del evento desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        
+        // Recuperar todos los eventos desde localStorage
+        var cesiones = JSON.parse(localStorage.getItem("cesiones"));
+        
+        // Buscar el evento con el ID correspondiente
+        var cesionesSeleccionado = cesiones.find(function(item) {
+            return item.idRow === id;  // Comparar el id del evento
+        });
+        
+        if (cesionesSeleccionado) {
+            console.log("Evento seleccionado para editar:", cesionesSeleccionado);
+            /*
+                     "estado_id": $('#estadoCesion').val(),
+                    'estado_id_name': $('#estadoCesion option[value=' + $('#estadoCesion').val() + ']').text(),
+                    "solicitud_num": $('#nro_solicitudCesion').val(),
+                    "fecha_solicitud": $('#fecha_solicitudCesion').val(),
+                    "resolucion_num": $('#nro_resolucionCesion').val(),
+                    "fecha_resolucion": $('#fecha_resolucionCesion').val(),
+                    "referencia_cliente": $('#referenciaclienteCesion').val(),
+                    "comentarios": $('#comentarioCesion').val(),
+             */
+            // Rellenar los campos del modal con los datos del evento
+            $("#cesionid_edit").val(cesionesSeleccionado.idRow);  // Establecer el ID del evento
+            $("#estadoCesion_edit").val(cesionesSeleccionado.estado_id).change();
+            $("#nro_solicitudCesion_edit").val(cesionesSeleccionado.solicitud_num);
+            $("#fecha_solicitudCesion_edit").val(cesionesSeleccionado.fecha_solicitud);
+            $("#nro_resolucionCesion_edit").val(cesionesSeleccionado.resolucion_num);
+            $("#fecha_resolucionCesion_edit").val(cesionesSeleccionado.fecha_resolucion);
+            $("#referenciaclienteCesion_edit").val(cesionesSeleccionado.referencia_cliente);
+            $("#comentarioCesion_edit").val(cesionesSeleccionado.comentarios);
+            // Mostrar el modal de edición
+            $('#EditCesionNew').modal('show');
+        } else {
+            console.error("No se encontró el evento con el ID:", id);
+        }
+    });
+
+
 
     $('#renovacionfrmsubmit').on('click', function(e) {
         e.preventDefault();
@@ -1490,7 +1651,8 @@
                     "referencia_cliente": $('#referenciaclienteRenovacion').val(),
                     "comentarios": $('#comentarioRenovacion').val(),
                     "marcas_id": $("input[name=id]").val(),
-                    'acciones': '<div class="col-md-6"><a id="cesiones_' + (tblRenovacionesDT.rows().count()) + '" class="deleteCesion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    'acciones': '<td class="text-center"><a class="btn btn-light col-mrg editRenovaciones" id="renovaciones_' + (tblRenovacionesDT.rows().count()+1) + '" style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteRenovaciones" id="renovaciones_' + (tblRenovacionesDT.rows().count()) + '"><i class="fas fa-trash"></i>Borrar</button></td>'
+                   // 'acciones': '<div class="col-md-6"><a id="renovaciones_' + (tblRenovacionesDT.rows().count()) + '" class="deleteRenovaciones btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
                 }
                 console.log(" Data ", data);
                 end = new Date(); 
@@ -1523,25 +1685,154 @@
             }
         }
     });
+    
+    $('#renovacionfrmsubmit_edit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        // Validar que los campos obligatorios tengan valor
+        if ($('#estadoRenovacion_edit').val() && $('#vigencia_desdeRenovacion_edit').val() && $('#vigencia_hastaRenovacion_edit').val() 
+            && $('#nro_solicitudRenovacion_edit').val() && $('#fecha_solicitudRenovacion_edit').val() && $('#nro_resolucionRenovacion_edit').val() 
+            && $('#fecha_resolucionRenovacion_edit').val() && $('#referenciaclienteRenovacion_edit').val()) {
+
+            let renovaciones = JSON.parse(localStorage.getItem("renovaciones")) || [];
+            let idRenovacion = $('#renovacionid_edit').val(); // Tomamos el ID oculto del modal
+            
+            let index = renovaciones.findIndex(item => item.idRow == idRenovacion);
+
+            let data = {
+                'idRow': idRenovacion,
+                "tmp_renovacion_id": tblRenovacionesDT.rows().count() + 1,
+                "client_id": cliente_id, //$('#clienteCesion').val(),
+                'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                "oficina_id": $('#oficina_id').val(),
+                'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                "staff_id": staff_id,//$('#staffCesion').val(),
+                'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoRenovacion_edit').val(),
+                'estado_id_name': $('#estadoRenovacion_edit option[value=' + $('#estadoRenovacion_edit').val() + ']').text(),
+                "vegencia_desde": $('#vigencia_desdeRenovacion_edit').val(),
+                "vegencia_hasta": $('#vigencia_hastaRenovacion_edit').val(),
+                "solicitud_num": $('#nro_solicitudRenovacion_edit').val(),
+                "fecha_solicitud": $('#fecha_solicitudRenovacion_edit').val(),
+                "resolucion_num": $('#nro_resolucionRenovacion_edit').val(),
+                "fecha_resolucion": $('#fecha_resolucionRenovacion_edit').val(),
+                "referencia_cliente": $('#referenciaclienteRenovacion_edit').val(),
+                "comentarios": $('#comentarioRenovacion_edit').val(),
+                "acciones": `<td class="text-center">
+                                <a class="btn btn-light col-mrg editRenovaciones" id="renovaciones_${idRenovacion}" style="background-color: white"> Editar</a>
+                                <button class="btn btn-danger col-mrg deleteRenovaciones" id="renovaciones_${idRenovacion}">
+                                    <i class="fas fa-trash"></i>Borrar
+                                </button>
+                            </td>`
+            };
+
+            if (index !== -1) {
+                // Si la renovación existe, actualizarla
+                renovaciones[index] = data;
+            } else {
+                // Si no existe, agregar como nuevo
+                data.idRow = renovaciones.length + 1;
+                renovaciones.push(data);
+            }
+
+            try {
+                localStorage.setItem("renovaciones", JSON.stringify(renovaciones));
+                tblRenovacionesDT.clear();
+                tblRenovacionesDT.rows.add(JSON.parse(localStorage.getItem("renovaciones")));
+                tblRenovacionesDT.columns.adjust().draw();
+                $("#EditRenovacion").modal('hide');
+                alert_float('success', 'Registro actualizado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        } else {
+            // Resaltar los labels en rojo si falta información
+            $("#lblestadoRenovacion").css('color', $('#estadoRenovacion_edit').val() ? '' : 'red');
+            $("#lblvigencia_desdeRenovacion").css('color', $('#vigencia_desdeRenovacion_edit').val() ? '' : 'red');
+            $("#lblvigencia_hastaRenovacion").css('color', $('#vigencia_hastaRenovacion_edit').val() ? '' : 'red');
+            $("#lblnro_solicitudRenovacion").css('color', $('#nro_solicitudRenovacion_edit').val() ? '' : 'red');
+            $("#lblfecha_solicitudRenovacion").css('color', $('#fecha_solicitudRenovacion_edit').val() ? '' : 'red');
+            $("#lblnro_resolucionRenovacion").css('color', $('#nro_resolucionRenovacion_edit').val() ? '' : 'red');
+            $("#lblfecha_resolucionRenovacion").css('color', $('#fecha_resolucionRenovacion_edit').val() ? '' : 'red');
+            $("#lblreferenciaclienteRenovacion").css('color', $('#referenciaclienteRenovacion_edit').val() ? '' : 'red');
+
+            alert_float('danger', 'Debe completar todos los campos obligatorios para editar la renovación.');
+        }
+    });
+
+
 
     
     /***
      * funcion para borrar una Cesion
      */
-    $(document).on('click', '.deleteCesion', function(e) {
+    $(document).on('click', '.deleteRenovaciones', function(e) {
         e.preventDefault();
+        console.log("Voy a Eliminar la renovacion");
         var id = parseInt($(this).attr('id').split('_')[1]);
-        var cesiones = JSON.parse(localStorage.getItem("cesiones"));
+        var renovaciones = JSON.parse(localStorage.getItem("renovaciones"));
         if (confirm('¿Esta seguro de eliminar este registro?')) {
-            cesiones.length == 1 ? cesiones = [] : cesiones.splice(id, 1);
-            localStorage.setItem("cesiones", JSON.stringify(UpdtIdRow(cesiones, 'cesiones_')));
-            console.log('cesiones', JSON.parse(localStorage.getItem("cesiones")));
-            tblCesionesDT.clear();
-            tblCesionesDT.rows.add(JSON.parse(localStorage.getItem("cesiones")));
-            tblCesionesDT.columns.adjust().draw();
-            alert_float('success', 'Cesión borrada exitosamente');
+            renovaciones.length == 1 ? renovaciones = [] : renovaciones.splice(id, 1);
+            localStorage.setItem("renovaciones", JSON.stringify(UpdtIdRow(renovaciones, 'renovaciones_')));
+            console.log('renovaciones', JSON.parse(localStorage.getItem("renovaciones")));
+            tblRenovacionesDT.clear();
+            tblRenovacionesDT.rows.add(JSON.parse(localStorage.getItem("renovaciones")));
+            tblRenovacionesDT.columns.adjust().draw();
+            alert_float('success', 'Renovacion borrada exitosamente');
         }
-    })
+    });
+
+    $(document).on('click', '.editRenovaciones', function(e) {
+        e.preventDefault();
+        console.log("Voy a Editar la renovacion");
+        
+        // Obtener el ID del evento desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        
+        // Recuperar todos los eventos desde localStorage
+        var renovaciones = JSON.parse(localStorage.getItem("renovaciones"));
+        
+        // Buscar el evento con el ID correspondiente
+        var renovacionesSeleccionado = renovaciones.find(function(item) {
+            return item.idRow === id;  // Comparar el id del evento
+        });
+        
+        if (renovacionesSeleccionado) {
+            console.log("Evento seleccionado para editar:", renovacionesSeleccionado);
+            /*
+                'idRow': tblTareasDT.rows().count() + 1,
+                    "estado_id": $('#estadoRenovacion').val(),
+                    'estado_id_name': $('#estadoRenovacion option[value=' + $('#estadoRenovacion').val() + ']').text(),
+                    "vegencia_desde" : $("#vigencia_desdeRenovacion").val(),
+                    "vegencia_hasta" : $("#vigencia_hastaRenovacion").val(),
+                    "solicitud_num": $('#nro_solicitudRenovacion').val(),
+                    "fecha_solicitud": $('#fecha_solicitudRenovacion').val(),
+                    "resolucion_num": $('#nro_resolucionRenovacion').val(),
+                    "fecha_resolucion": $('#fecha_resolucionRenovacion').val(),
+                    "referencia_cliente": $('#referenciaclienteRenovacion').val(),
+                    "comentarios": $('#comentarioRenovacion').val(),
+             */
+            // Rellenar los campos del modal con los datos del evento
+            $("#renovacionid_edit").val(renovacionesSeleccionado.idRow);  // Establecer el ID del evento
+            $("#estadoRenovacion_edit").val(renovacionesSeleccionado.estado_id).change();
+            $("#vigencia_desdeRenovacion_edit").val(renovacionesSeleccionado.vegencia_desde);
+            $("#vigencia_hastaRenovacion_edit").val(renovacionesSeleccionado.vegencia_hasta);
+            $("#nro_solicitudRenovacion_edit").val(renovacionesSeleccionado.solicitud_num);
+            $("#fecha_solicitudRenovacion_edit").val(renovacionesSeleccionado.fecha_solicitud);
+            $("#nro_resolucionRenovacion_edit").val(renovacionesSeleccionado.resolucion_num);
+            $("#fecha_resolucionRenovacion_edit").val(renovacionesSeleccionado.fecha_resolucion);
+            $("#referenciaclienteRenovacion_edit").val(renovacionesSeleccionado.referencia_cliente);
+            $("#comentarioRenovacion_edit").val(renovacionesSeleccionado.comentarios);
+            // Mostrar el modal de edición
+            $('#EditRenovacion').modal('show');
+        } else {
+            console.error("No se encontró el evento con el ID:", id);
+        }
+    });
+
+    
 
     /***
      * funcion que se ejecuta al cerrar el Modal

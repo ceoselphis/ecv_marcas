@@ -1154,7 +1154,7 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <?php echo form_label('Comentario', 'comentarioLicencia', ['id' => 'lblcomentarioLicencia']); ?>
-                <?php echo form_textarea(['name' => 'comentarioLicencia', 'id' => 'comentarioLicencia'], '', ['class' => 'form-control']); ?>
+                <?php echo form_textarea(['name' => 'comentarioLicencia', 'id' => 'comentarioLicencia'], '', ['class' => 'form-control' , 'style' => 'height: 100px']); ?>
               </div>
             </div> <!--fin step 1-->
             <!-- Step 2 -->
@@ -1224,6 +1224,158 @@
     </div>
   </div>
   <?php echo form_close(); ?>
+</div>
+
+<!-- Editar Licencia -->
+<div class="modal fade" id="EditLicencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'licenciaEditfrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">Editar Licencia</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="wizard">
+          <div class="wizard-inner">
+            <div class="connecting-line"></div>
+              <ul class="nav nav-tabs" role="tablist" style="display:flex">
+                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
+                  <a href="#licenciastep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Licencia</i></a>
+                </li>
+                <li role="presentation" >
+                    <a href="#licenciastep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Licencia Anterior y Actual</i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+            <div class="tab-content" id="main_form">
+              <!-- Step 1 -->
+              <div class="tab-pane active" role="tabpanel" id="licenciastep1">
+                <input type="hidden" id="licenciaid_edit">
+                <!--
+                <div class="col-md-3">
+                  <?php //echo form_label('Cliente', 'clienteLicencia_edit');?>
+                  <?php //echo form_dropdown(['name'=>'clienteLicencia_edit','id'=>'clienteLicencia_edit'], $clientes, '',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-3">
+                  <?php //echo form_label('Oficina', 'oficinaLicencia_edit',['id' => 'lbloficinaLicencia_edit']);?>
+                  <?php //echo form_dropdown(['name'=>'oficinaLicencia_edit','id'=>'oficinaLicencia_edit'], $oficinas, '',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-3">
+                    <?php //echo form_label('Staff', 'staffLicencia_edit');?>  
+                    <?php //cho form_dropdown(['name'=>'staffLicencia_edit','id'=>'staffLicencia_edit'], $responsable, '',['class' => 'form-control']);?>
+                </div>-->
+                <div class="col-md-12">
+                    <?php echo form_label('Estado', 'estadoLicencia_edit',['id' => 'lblestadoLicencia_edit']);?>
+                    <?php echo form_dropdown(['name'=>'estadoLicencia_edit','id'=>'estadoLicencia_edit'], $estados_solicitudes, '',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Nº de Solicitud	', 'nro_solicitudLicencia_edit',['id' => 'lblnro_solicitudLicencia_edit']);?>
+                    <?php echo form_input(['name'=>'nro_solicitudLicencia_edit','id'=>'nro_solicitudLicencia_edit','class' => 'form-control'])?>
+                </div>
+                <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Fecha de Solicitud', 'fecha_solicitudLicencia_edit',['id' => 'lblfecha_solicitudLicencia_edit']);?>
+                    <?php echo form_input([
+                                            'id' => 'fecha_solicitudLicencia_edit',
+                                            'name' => 'fecha_solicitudLicencia_edit',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+                </div>   
+                <div class="col-md-3" style="margin-top:10px">
+                    <?php echo form_label('Nº de Resolucion	', 'nro_resolucionLicencia_edit',['id' => 'lblnro_resolucionLicencia_edit']);?>
+                    <?php echo form_input(['name'=>'nro_resolucionLicencia_edit','id'=>'nro_resolucionLicencia_edit','class' => 'form-control'])?>
+               
+                </div>
+                <div class="col-md-3" style="margin-top:10px">
+                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionLicencia_edit',['id' => 'lblfecha_resolucionLicencia_edit']);?>
+                <?php echo form_input([
+                                            'id' => 'fecha_resolucionLicencia_edit',
+                                            'name' => 'fecha_resolucionLicencia_edit',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+                </div> 
+                <div class="col-md-12" style="margin-top:10px">
+                    <?php echo form_label('Referencia Cliente', 'referenciaclienteLicencia_edit',['id' => 'lblreferenciaclienteLicencia_edit']);?>
+                    <?php echo form_input(['name'=>'referenciaclienteLicencia_edit','id'=>'referenciaclienteLicencia_edit'],'',['class' => 'form-control']);?>
+                </div>
+                <div class="col-md-12" style="margin-top:10px">
+                    <?php echo form_label('Comentario', 'comentarioLicencia_edit',['id' => 'lblcomentarioLicencia_edit']);?>
+                    <?php echo form_textarea(['name'=>'comentarioLicencia_edit','id'=>'comentarioLicencia_edit'],'',['class' => 'form-control','style' => 'height: 100px']);?>
+                </div>
+              </div> <!--fin step 1-->
+            <!-- Step 2 -->
+            <div class="tab-pane" role="tabpanel" id="licenciastep2">
+              <div class="col-md-12">
+                <div class="list-content">
+                    <a href="#EditarLicenciaanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Anterior<i class="fa fa-chevron-down"></i></a>
+                        <div class="collapse" id="EditarLicenciaanterior">
+                            <div class="list-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" id="btnLicenciaAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                        data-target="#LicenciaAnteriorModal">Añadir Licencia Anterior</button>
+                                          <table id="LicenciaAnteriorTbl_edit" class="ultimate table table-responsive">
+                                                <thead>
+                                                        <tr>
+                                                            <th>Nº</th>
+                                                            <th>Propietario</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                </thead>
+                                                    <tbody id = "body_Licencia_anterior">
+                                                    </tbody>
+                                                </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-12">
+                <div class="list-content">
+                    <a href="#EditarLicenciaactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Licencia Actual<i class="fa fa-chevron-down"></i></a>
+                        <div class="collapse" id="EditarLicenciaactual">
+                            <div class="list-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" id = "btnLicenciaActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                        data-target="#LicenciaActualModal">Añadir Licencia Actual</button>
+                                          <table id="LicenciaActualTbl_edit" class="ultimate table table-responsive">
+                                                <thead>
+                                                        <tr>
+                                                            <th>Nº</th>
+                                                            <th>Propietario</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                </thead>
+                                                    <tbody id = "body_Licencia_actual">
+                                                    </tbody>
+                                                </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div> <!--fin Step2-->
+      </div>
+    </div>
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="editlicenciafrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
 </div>
 
 <!-- Añadir Licenciante Modal -->
@@ -1385,7 +1537,7 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <?php echo form_label('Comentario', 'comentarioFusion', ['id' => 'lblcomentarioFusion']); ?>
-                <?php echo form_textarea(['name' => 'comentarioFusion', 'id' => 'comentarioFusion'], '', ['class' => 'form-control']); ?>
+                <?php echo form_textarea(['name' => 'comentarioFusion', 'id' => 'comentarioFusion'], '', ['class' => 'form-control' , 'style' => 'height: 100px']); ?>
               </div>
             </div><!-- fin step1 -->
             <!-- step 2 -->
@@ -1453,6 +1605,158 @@
     </div>
   </div>
   <?php echo form_close(); ?>
+</div>
+
+<!-- Editar Fusion -->
+<div class="modal fade" id="EditFusion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'fusionEditfrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Editar Fusion</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="wizard">
+                    <div class="wizard-inner">
+                        <div class="connecting-line"></div>
+                        <ul class="nav nav-tabs" role="tablist" style="display:flex">
+                            <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
+                                <a href="#editfusionstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cesion</i></a>
+                            </li>
+                            <li role="presentation" >
+                                <a href="#editfusionstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cesion Anterior y Actual</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content" id="main_form">
+                    <!-- Step 1 -->
+                    <div class="tab-pane active" role="tabpanel" id="editfusionstep1">
+                        <input type="hidden" id="fusionid_edit">
+                        <!--
+                        <div class="col-md-3">
+                          <?php //echo form_label('Cliente', 'clienteFusion_edit');?>
+                          <?php //echo form_dropdown(['name'=>'clienteFusion_edit','id'=>'clienteFusion_edit'], $clientes, '',['class' => 'form-control']);?>
+                        </div>
+                        <div class="col-md-3">
+                            <?php //echo form_label('Oficina', 'oficinaFusion_edit',['id' => 'lbloficinaFusion_edit']);?>
+                            <?php //echo form_dropdown(['name'=>'oficinaFusion_edit','id'=>'oficinaFusion_edit'], $oficinas, '',['class' => 'form-control']);?>
+                        </div>
+                        <div class="col-md-3">
+                          <?php //echo form_label('Staff', 'staffFusion_edit');?>  
+                          <?php //echo form_dropdown(['name'=>'staffFusion_edit','id'=>'staffFusion_edit'], $responsable, '',['class' => 'form-control']);?>
+                      </div>--->
+                        <div class="col-md-12">
+                            <?php echo form_label('Estado', 'estadoFusion_edit',['id' => 'lblestadoFusion_edit']);?>
+                            <?php echo form_dropdown(['name'=>'estadoFusion_edit','id'=>'estadoFusion_edit'], $estados_solicitudes, '',['class' => 'form-control']);?>
+                        </div>
+                        <div class="col-md-3" style="margin-top:10px">
+                            <?php echo form_label('Nº de Solicitud	', 'nro_solicitudFusion_edit',['id' => 'lblnro_solicitudFusion_edit']);?>
+                            <?php echo form_input(['name'=>'nro_solicitudFusion_edit','id'=>'nro_solicitudFusion_edit','class' => 'form-control'])?>
+              
+                        </div>
+                        <div class="col-md-3" style="margin-top:10px">
+                            <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudFusion_edit',['id' => 'lblfecha_solicitudFusion_edit']);?>
+                            <?php echo form_input([
+                                            'id' => 'fecha_solicitudFusion_edit',
+                                            'name' => 'fecha_solicitudFusion_edit',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+                        </div>   
+                        <div class="col-md-3" style="margin-top:10px">
+                            <?php echo form_label('Nº de Resolucion	', 'nro_resolucionFusion_edit',['id' => 'lblnro_resolucionFusion_edit']);?>
+                            <?php echo form_input(['name'=>'nro_resolucionFusion_edit','id'=>'nro_resolucionFusion_edit','class' => 'form-control'])?>
+                        </div>
+                        <div class="col-md-3" style="margin-top:10px">
+                            <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionFusion_edit',['id' => 'lblfecha_resolucionFusion_edit']);?>
+                            <?php echo form_input([
+                                            'id' => 'fecha_resolucionFusion_edit',
+                                            'name' => 'fecha_resolucionFusion_edit',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+                        </div> 
+                        <div class="col-md-12" style="margin-top:10px">
+                            <?php echo form_label('Referencia Cliente', 'referenciaclienteFusion_edit',['id' => 'lblreferenciaclienteFusion_edit']);?>
+                            <?php echo form_input(['name'=>'referenciaclienteFusion_edit','id'=>'referenciaclienteFusion_edit'],'',['class' => 'form-control']);?>
+                        </div>
+                        <div class="col-md-12" style="margin-top:10px">
+                            <?php echo form_label('Comentario', 'comentarioFusion_edit',['id' => 'lblcomentarioFusion_edit']);?>
+                            <?php echo form_textarea(['name'=>'comentarioFusion_edit','id'=>'comentarioFusion_edit'],'',['class' => 'form-control' , 'style' => 'height: 100px']);?>
+                        </div>
+                    </div><!--fin Step 1-->
+                    <!-- step 2 -->
+                    <div class="tab-pane " role="tabpanel" id="editfusionstep2">                 
+                        <div class="col-md-12">
+                            <div class="list-content">
+                                <a href="#EditarFusionanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion Anterior<i class="fa fa-chevron-down"></i></a>
+                                <div class="collapse" id="EditarFusionanterior">
+                                    <div class="list-box">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="button" id="btnFusionAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                data-target="#FusionAnteriorModal">Añadir Fusion Anterior</button>
+                                                <table id="FusionAnteriorTbl_edit" class="ultimate table table-responsive">
+                                                    <thead>
+                                                            <tr>
+                                                                <th>Nº</th>
+                                                                <th>Propietario</th>
+                                                                <th>Acciones</th>
+                                                            </tr>
+                                                    </thead>
+                                                    <tbody id = "body_add_Fusion_anterior">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="list-content">
+                                <a href="#EditarFusionactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Fusion Actual<i class="fa fa-chevron-down"></i></a>
+                                <div class="collapse" id="EditarFusionactual">
+                                    <div class="list-box">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="button" id = "btnFusionActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                data-target="#FusionActualModal">Añadir Fusion Actual</button>
+                                                <table id="FusionActualTbl_edit" class="ultimate table table-responsive">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nº</th>
+                                                            <th>Propietario</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id = "body_add_Fusion_actual">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--fin Step 2-->
+                </div> <!--fin panel-body -->
+            </div><!--fin row-->
+        </div> <!--fin modal-body -->
+      <div class="modal-footer" style="padding-top: 1.5%;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="editfusionfrmsubmit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+  <?php echo form_close();?>
 </div>
 
 <!-- Añadir Fusion Anterior Modal -->
@@ -1684,6 +1988,156 @@
     </div>
   </div>
   <?php echo form_close(); ?>
+</div>
+
+<!-- Editar Cambio de Nombre -->
+<div class="modal fade" id="EditCambioNombre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camnomEditFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Editar Cambio de Nombre</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="wizard">
+                        <div class="wizard-inner">
+                            <div class="connecting-line"></div>
+                            <ul class="nav nav-tabs" role="tablist" style="display:flex">
+                                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
+                                    <a href="#editcamnomstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio Nombre</i></a>
+                                </li>
+                                <li role="presentation" >
+                                    <a href="#editcamnomstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cambio Nombre Anterior y Actual</i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="main_form">
+                        <!-- Step 1 -->
+                        <div class="tab-pane active" role="tabpanel" id="editcamnomstep1">
+                            <input type="hidden" id="camnomid_edit">
+                           <!-- <div class="col-md-3">
+                                <?php //echo form_label('Cliente', 'clienteCamNom_edit');?>
+                                <?php //echo form_dropdown(['name'=>'clienteCamNom_edit','id'=>'clienteCamNom_edit'], $clientes, '',['class' => 'form-control']);?>
+                            </div>
+                            <div class="col-md-3">
+                                <?php //echo form_label('Oficina', 'oficinaCamNom_edit',['id'=>'lbloficinaCamNom_edit']);?>
+                                <?php //echo form_dropdown(['name'=>'oficinaCamNom_edit','id'=>'oficinaCamNom_edit'], $oficinas, '',['class' => 'form-control']);?>
+                            </div>
+                            <div class="col-md-3">
+                                <?php //echo form_label('Staff', 'staffCamNom_edit');?>  
+                                <?php //echo form_dropdown(['name'=>'staffCamNom_edit','id'=>'staffCamNom_edit'], $responsable, '',['class' => 'form-control']);?>
+                            </div>-->
+                            <div class="col-md-12">
+                                <?php echo form_label('Estado', 'estadoCamNom_edit',['id'=>'lblestadoCamNom_edit']);?>
+                                <?php echo form_dropdown(['name'=>'estadoCamNom_edit','id'=>'estadoCamNom_edit'], $estados_solicitudes, '',['class' => 'form-control']);?>
+                            </div>
+                            <div class="col-md-3" style="margin-top:10px">
+                                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCamNom_edit',['id'=>'lblnro_solicitudCamNom_edit']);?>
+                                <?php echo form_input(['name'=>'nro_solicitudCamNom_edit','id'=>'nro_solicitudCamNom_edit','class' => 'form-control'])?>
+                            </div>
+                            <div class="col-md-3" style="margin-top:10px">
+                                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCamNom_edit',['id'=>'lblfecha_solicitudCamNom_edit']);?>
+                                <?php echo form_input([
+                                            'id' => 'fecha_solicitudCamNom_edit',
+                                            'name' => 'fecha_solicitudCamNom_edit',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+                            </div>   
+                            <div class="col-md-3" style="margin-top:10px">
+                                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCamNom_edit',['id'=>'lblnro_resolucionCamNom_edit']);?>
+                                <?php echo form_input(['name'=>'nro_resolucionCamNom_edit','id'=>'nro_resolucionCamNom_edit','class' => 'form-control'])?>
+                            </div>
+                            <div class="col-md-3" style="margin-top:10px">
+                                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCamNom_edit',['id'=>'lblfecha_resolucionCamNom_edit']);?>
+                                <?php echo form_input([
+                                            'id' => 'fecha_resolucionCamNom_edit',
+                                            'name' => 'fecha_resolucionCamNom_edit',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+                            </div> 
+                            <div class="col-md-12" style="margin-top:10px">
+                                <?php echo form_label('Referencia Cliente', 'referenciaclienteCamNom_edit',['id'=>'lblreferenciaclienteCamNom_edit']);?>
+                                <?php echo form_input(['name'=>'referenciaclienteCamNom_edit','id'=>'referenciaclienteCamNom_edit'],'',['class' => 'form-control']);?>
+                            </div>
+                            <div class="col-md-12" style="margin-top:10px">
+                                <?php echo form_label('Comentario', 'comentarioCamNom_edit',['id'=>'lblcomentarioCamNom_edit']);?>
+                                <?php echo form_textarea(['name'=>'comentarioCamNom_edit','id'=>'comentarioCamNom_edit'],'',['class' => 'form-control', 'style' => 'height: 100px;']);?>
+                            </div>
+                        </div> <!--fin step 1-->
+                        <!-- step 2 -->
+                        <div class="tab-pane" role="tabpanel" id="editcamnomstep2">
+                            <div class="col-md-12">
+                                <div class="list-content">
+                                    <a href="#Editarcambio_nombreanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Nombre Anterior<i class="fa fa-chevron-down"></i></a>
+                                    <div class="collapse" id="Editarcambio_nombreanterior">
+                                        <div class="list-box">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <button type="button" id="btnCambioNombreAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamNomAnteriorModal">Añadir Cambio Nombre Anterior</button>
+                                                    <table id="CamNomAnteriorTbl_edit" class="ultimate table table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nº</th>
+                                                                <th>Propietario</th>
+                                                                <th>Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id = "body_cambio_nombre_anterior">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="list-content">
+                                    <a href="#Editarcambio_nombreactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Nombre Actual<i class="fa fa-chevron-down"></i></a>
+                                    <div class="collapse" id="Editarcambio_nombreactual">
+                                        <div class="list-box">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <button type="button" id = "btnCambioNombreActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamNomActualModal">Añadir Cambio Nombre Actual</button>
+                                                    <table id="CamNomActualTbl_edit" class="ultimate table table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nº</th>
+                                                                <th>Propietario</th>
+                                                                <th>Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id = "body_cambio_nombre_actual">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!--fin step 2-->
+                    </div> <!-- fin tab-content -->
+                </div> <!--fin row-->
+            </div> <!-- fin panel-body -->
+            <div class="modal-footer" style="padding-top: 1.5%;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button id="EditCambioNombrefrmsubmit" type="button" class="btn btn-primary">Editar</button>
+            </div>
+        </div>
+    </div>
+    <?php echo form_close();?>
 </div>
 
 <!-- Añadir Cambio de Nombre Anterior Modal -->

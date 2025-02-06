@@ -15,7 +15,9 @@
     var tblRenovacionesDT;
     var tblCesionesDT;
     var tblCesionesAnteDT;
+    var tblCesionesAnteDTEdit;
     var tblCesionesActDT;
+    var tblCesionesActDTEdit;
     var tblLicenciasDT;
     var tblLicenciasAnteDT;
     var tblLicenciasActDT;
@@ -1492,7 +1494,7 @@
                 cesiones[index] = data;
             } else {
                 // Si no existe, agregar como nuevo
-                data.idRow = renovaciones.length + 1;
+                data.idRow = cesiones.length + 1;
                 cesiones.push(data);
             }
 
@@ -1509,44 +1511,15 @@
 
         } else {
             // Resaltar los labels en rojo si falta información
-            $("#lblestadoCesion").css('color', $('#estadoRenovacion_edit').val() ? '' : 'red');
-            $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudRenovacion_edit').val() ? '' : 'red');
-            $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudRenovacion_edit').val() ? '' : 'red');
-            $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionRenovacion_edit').val() ? '' : 'red');
-            $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionRenovacion_edit').val() ? '' : 'red');
-            $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteRenovacion_edit').val() ? '' : 'red');
+            $("#lblestadoCesion").css('color', $('#estadoCesion_edit').val() ? '' : 'red');
+            $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudCesion_edit').val() ? '' : 'red');
+            $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudCesion_edit').val() ? '' : 'red');
+            $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionCesion_edit').val() ? '' : 'red');
+            $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionCesion_edit').val() ? '' : 'red');
+            $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteCesion_edit').val() ? '' : 'red');
 
             alert_float('danger', 'Debe completar todos los campos obligatorios para editar la renovación.');
         }
-        // 1. Obtener datos desde localStorage
-        // let cesiones = JSON.parse(localStorage.getItem('cesiones')) || [];
-
-        // // 2. Obtener ID de la cesión a editar
-        // let cesionId = $('#cesionid_edit').val(); // Asegúrate de que este ID está en el input hidden
-
-        // // 3. Buscar el objeto en el array
-        // let index = cesiones.findIndex(c => c.tmp_cesion_id == cesionId);
-        // if (index !== -1) {
-        //     // 4. Actualizar datos del objeto encontrado
-
-        //     cesiones[index].estado_id = $('#estadoCesion_edit').val();
-        //     cesiones[index].estado_id_name = $('#estadoCesion_edit option:selected').text();
-        //     cesiones[index].solicitud_num = $('#nro_solicitudCesion_edit').val();
-        //     cesiones[index].fecha_solicitud = $('#fecha_solicitudCesion_edit').val();
-        //     cesiones[index].resolucion_num = $('#nro_resolucionCesion_edit').val();
-        //     cesiones[index].fecha_resolucion = $('#fecha_resolucionCesion_edit').val();
-        //     cesiones[index].referencia_cliente = $('#referenciaclienteCesion_edit').val();
-        //     cesiones[index].comentarios = $('#comentarioCesion_edit').val();
-
-        //     // 5. Guardar el array actualizado en localStorage
-        //     localStorage.setItem('cesiones', JSON.stringify(cesiones));
-
-        //     // 6. Mostrar mensaje de éxito o cerrar modal
-        //     alert('Cesión actualizada correctamente.');
-        //     $('#EditCesionNew').modal('hide');
-        // } else {
-        //     alert('Error: Cesión no encontrada.');
-        // }
     });
 
 
@@ -1603,6 +1576,8 @@
             $("#referenciaclienteCesion_edit").val(cesionesSeleccionado.referencia_cliente);
             $("#comentarioCesion_edit").val(cesionesSeleccionado.comentarios);
             // Mostrar el modal de edición
+            // TablaCesionesAnterioresEdit();
+            // TablaCesionesActualesEdit();
             $('#EditCesionNew').modal('show');
         } else {
             console.error("No se encontró el evento con el ID:", id);
@@ -2286,6 +2261,48 @@
         });
     }
 
+    function TablaCesionesAnterioresEdit() {
+        tabla = JSON.parse(localStorage.getItem("cesionesanteriores"));
+        tblCesionesAnteDT = 
+        new $("#CesionAnteriorTbl_edit").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'cedente_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
 
 
     /* ####################################################################### */
@@ -2327,6 +2344,7 @@
                 tblCesionesActDT.rows.add(JSON.parse(localStorage.getItem("cesionesactuales")));
                 tblCesionesActDT.columns.adjust().draw();
                 ResetTablaCesionesActuales();
+                
                 alert_float('success', 'Registro guardado exitosamente');
             } catch (error) {
                 alert(error);
@@ -2426,6 +2444,48 @@
         });
     }
 
+    function TablaCesionesActualesEdit() {
+        tabla = JSON.parse(localStorage.getItem("cesionesactuales"));
+        tblCesionesActDT = 
+        new $("#CesionActualTbl_edit").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            autoWidth: false,
+            data: tabla,
+            destroy: true,
+            columnDefs: [
+                { width: '5%', targets: 0 },
+                { width: '85%', targets: 1 },
+                { width: '10%', targets: 2 }
+            ],
+            columns: [
+                {
+                    data: 'idRow',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'cedente_id_name',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                    }
+                },
+                {
+                    data: 'acciones',
+                    render: function (data, type, row)
+                    {
+                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    }
+                }
+            ],
+            width: "100%"
+        });
+    }
+
 
 
     /* ####################################################################### */
@@ -2480,7 +2540,8 @@
                     "licenciasactuales": localStorage.getItem("licenciasactuales"),
                     "marcas_id": $("input[name=id]").val(),
                     //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='licencias_" + (tblLicenciasDT.rows().count()) + "' class='btn btn-danger col-mrg deleteLicencia'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                    'acciones': '<div class="col-md-6"><a id="licencias_' + (tblLicenciasDT.rows().count()) + '" class="deleteLicencia btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    //'acciones': '<div class="col-md-6"><a id="licencias_' + (tblLicenciasDT.rows().count()) + '" class="deleteLicencia btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    'acciones': '<td class="text-center"><a class="btn btn-light col-mrg editLicencia" id="licencias_' + (tblLicenciasDT.rows().count()+1) + '" style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteLicencia" id="licencias_' + (tblLicenciasDT.rows().count()) + '"><i class="fas fa-trash"></i>Borrar</button></td>'            
                 }
                 licencias.push(data);
                 console.log('licencias', licencias);
@@ -2511,6 +2572,75 @@
             }
         }
     })
+
+    $('#editlicenciafrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if ($('#estadoLicencia_edit').val() &&  $('#nro_solicitudLicencia_edit').val() && $('#fecha_solicitudLicencia_edit').val() && $('#nro_resolucionLicencia_edit').val() 
+            && $('#fecha_resolucionLicencia_edit').val() && $('#referenciaclienteLicencia_edit').val()) {
+
+            let licencias = JSON.parse(localStorage.getItem("licencias")) || [];
+            let idlicencias = $('#licenciaid_edit').val(); // Tomamos el ID oculto del modal
+            
+            let index = licencias.findIndex(item => item.idRow == idlicencias);
+
+            let data = {
+                'idRow': idlicencias,
+                "tmp_renovacion_id": tblLicenciasDT.rows().count() + 1,
+                "client_id": cliente_id, //$('#clienteCesion').val(),
+                'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                "oficina_id": $('#oficina_id').val(),
+                'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                "staff_id": staff_id,//$('#staffCesion').val(),
+                'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoLicencia_edit').val(),
+                'estado_id_name': $('#estadoLicencia_edit option[value=' + $('#estadoLicencia_edit').val() + ']').text(),
+                "solicitud_num": $('#nro_solicitudLicencia_edit').val(),
+                "fecha_solicitud": $('#fecha_solicitudLicencia_edit').val(),
+                "resolucion_num": $('#nro_resolucionLicencia_edit').val(),
+                "fecha_resolucion": $('#fecha_resolucionLicencia_edit').val(),
+                "referencia_cliente": $('#referenciaclienteLicencia_edit').val(),
+                "comentarios": $('#comentarioLicencia_edit').val(),
+                "acciones": `<td class="text-center">
+                                <a class="btn btn-light col-mrg editCesion" id="licencias_${idlicencias}" style="background-color: white"> Editar</a>
+                                <button class="btn btn-danger col-mrg deleteCesion" id="licencias_${idlicencias}">
+                                    <i class="fas fa-trash"></i>Borrar
+                                </button>
+                            </td>`
+            };
+
+            if (index !== -1) {
+                // Si la renovación existe, actualizarla
+                licencias[index] = data;
+            } else {
+                // Si no existe, agregar como nuevo
+                data.idRow = licencias.length + 1;
+                licencias.push(data);
+            }
+
+            try {
+                localStorage.setItem("licencias", JSON.stringify(licencias));
+                tblLicenciasDT.clear();
+                tblLicenciasDT.rows.add(JSON.parse(localStorage.getItem("licencias")));
+                tblLicenciasDT.columns.adjust().draw();
+                $("#EditLicencia").modal('hide');
+                alert_float('success', 'Registro actualizado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        } else {
+            // Resaltar los labels en rojo si falta información
+            $("#lblestadoLicencia").css('color', $('#estadoLicencia_edit').val() ? '' : 'red');
+            $("#lblnro_solicitudLicencia").css('color', $('#nro_solicitudLicencia_edit').val() ? '' : 'red');
+            $("#lblfecha_solicitudLicencia").css('color', $('#fecha_solicitudLicencia_edit').val() ? '' : 'red');
+            $("#lblnro_resolucionLicencia").css('color', $('#nro_resolucionLicencia_edit').val() ? '' : 'red');
+            $("#lblfecha_resolucionLicencia").css('color', $('#fecha_resolucionLicencia_edit').val() ? '' : 'red');
+            $("#lblreferenciaclienteLicencia").css('color', $('#referenciaclienteLicencia_edit').val() ? '' : 'red');
+
+            alert_float('danger', 'Debe completar todos los campos obligatorios para editar la renovación.');
+        }
+    })
  
     /***
      * funcion para borrar una Licencia
@@ -2528,7 +2658,53 @@
             tblLicenciasDT.columns.adjust().draw();
             alert_float('success', 'Licencia borrada exitosamente');
         }
-    })
+    });
+
+    $(document).on('click', '.editLicencia', function(e) {
+        e.preventDefault();
+        console.log("Voy a Editar la licencia");
+        
+        // Obtener el ID del evento desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        
+        // Recuperar todos los eventos desde localStorage
+        var licencias = JSON.parse(localStorage.getItem("licencias"));
+        
+        // Buscar el evento con el ID correspondiente
+        var licenciasSeleccionado = licencias.find(function(item) {
+            return item.idRow === id;  // Comparar el id del evento
+        });
+        
+        if (licenciasSeleccionado) {
+            console.log("Evento seleccionado para editar:", licenciasSeleccionado);
+            /*
+                'idRow': tblTareasDT.rows().count() + 1,
+                    "estado_id": $('#estadoRenovacion').val(),
+                    'estado_id_name': $('#estadoRenovacion option[value=' + $('#estadoRenovacion').val() + ']').text(),
+                    "vegencia_desde" : $("#vigencia_desdeRenovacion").val(),
+                    "vegencia_hasta" : $("#vigencia_hastaRenovacion").val(),
+                    "solicitud_num": $('#nro_solicitudRenovacion').val(),
+                    "fecha_solicitud": $('#fecha_solicitudRenovacion').val(),
+                    "resolucion_num": $('#nro_resolucionRenovacion').val(),
+                    "fecha_resolucion": $('#fecha_resolucionRenovacion').val(),
+                    "referencia_cliente": $('#referenciaclienteRenovacion').val(),
+                    "comentarios": $('#comentarioRenovacion').val(),
+             */
+            // Rellenar los campos del modal con los datos del evento
+            $("#licenciaid_edit").val(licenciasSeleccionado.idRow);  // Establecer el ID del evento
+            $("#estadoLicencia_edit").val(licenciasSeleccionado.estado_id).change();
+            $("#nro_solicitudLicencia_edit").val(licenciasSeleccionado.num_solicitud);
+            $("#fecha_solicitudLicencia_edit").val(licenciasSeleccionado.fecha_solicitud);
+            $("#nro_resolucionLicencia_edit").val(licenciasSeleccionado.num_resolucion);
+            $("#fecha_resolucionLicencia_edit").val(licenciasSeleccionado.fecha_resolucion);
+            $("#referenciaclienteLicencia_edit").val(licenciasSeleccionado.referencia_cliente);
+            $("#comentarioLicencia_edit").val(licenciasSeleccionado.comentarios);
+            // Mostrar el modal de edición
+            $('#EditLicencia').modal('show');
+        } else {
+            console.error("No se encontró el evento con el ID:", id);
+        }
+    });
 
     /***
      * funcion que se ejecuta al cerrar el Modal
@@ -3017,13 +3193,6 @@
                     'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
                     "staff_id": staff_id,//$('#staffCesion').val(),
                     'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
-                    /*
-                    "client_id": $('#clienteFusion').val(),
-                    'client_id_name': $('#clienteFusion option[value=' + $('#clienteFusion').val() + ']').text(),
-                    "oficina_id": $('#oficinaFusion').val(),
-                    'oficina_id_name': $('#oficinaFusion option[value=' + $('#oficinaFusion').val() + ']').text(),
-                    "staff_id": $('#staffFusion').val(),
-                    'staff_id_name': $('#staffFusion option[value=' + $('#staffFusion').val() + ']').text(),*/ 
                     "estado_id": $('#estadoFusion').val(),
                     'estado_id_name': $('#estadoFusion option[value=' + $('#estadoFusion').val() + ']').text(),
                     "num_solicitud": $('#estadoFusion').val(),
@@ -3036,7 +3205,8 @@
                     "fusionesactuales": localStorage.getItem("fusionesactuales"),
                     "marcas_id": $("input[name=id]").val(),
                     //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='fusiones_" + (tblFusionesDT.rows().count()) + "' class='btn btn-danger col-mrg deleteFusion'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                    'acciones': '<div class="col-md-6"><a id="fusiones_' + (tblFusionesDT.rows().count()) + '" class="deleteFusion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    //'acciones': '<div class="col-md-6"><a id="fusiones_' + (tblFusionesDT.rows().count()) + '" class="deleteFusion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    'acciones': '<td class="text-center"><a class="btn btn-light col-mrg editFusion" id="fusiones_' + (tblFusionesDT.rows().count()+1) + '" style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteFusion" id="fusiones_' + (tblFusionesDT.rows().count()) + '"><i class="fas fa-trash"></i>Borrar</button></td>' 
                 }
                 fusiones.push(data);
                 console.log('fusiones', fusiones);
@@ -3066,7 +3236,122 @@
                 alert_float('danger', 'Debe introducir todos los datos la Fusion');
             }
         }
-    })
+    });
+
+    $('#editfusionfrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if ($('#estadoFusion_edit').val() &&  $('#nro_solicitudFusion_edit').val() && $('#fecha_solicitudFusion_edit').val() && $('#nro_resolucionFusion_edit').val() 
+            && $('#fecha_resolucionFusion_edit').val() && $('#referenciaclienteFusion_edit').val()) {
+
+            let fusiones = JSON.parse(localStorage.getItem("fusiones")) || [];
+            let idfusiones = $('#fusionid_edit').val(); // Tomamos el ID oculto del modal
+            
+            let index = fusiones.findIndex(item => item.idRow == idfusiones);
+
+            let data = {
+                'idRow': idfusiones,
+                "tmp_renovacion_id":  tblFusionesDT.rows().count() + 1,
+                "client_id": cliente_id, //$('#clienteCesion').val(),
+                'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                "oficina_id": $('#oficina_id').val(),
+                'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                "staff_id": staff_id,//$('#staffCesion').val(),
+                'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoFusion_edit').val(),
+                'estado_id_name': $('#estadoFusion_edit option[value=' + $('#estadoFusion_edit').val() + ']').text(),
+                "solicitud_num": $('#nro_solicitudFusion_edit').val(),
+                "fecha_solicitud": $('#fecha_solicitudFusion_edit').val(),
+                "resolucion_num": $('#nro_resolucionFusion_edit').val(),
+                "fecha_resolucion": $('#fecha_resolucionFusion_edit').val(),
+                "referencia_cliente": $('#referenciaclienteFusion_edit').val(),
+                "comentarios": $('#comentarioFusion_edit').val(),
+                "acciones": `<td class="text-center">
+                                <a class="btn btn-light col-mrg editCesion" id="fusiones_${idlicencias}" style="background-color: white"> Editar</a>
+                                <button class="btn btn-danger col-mrg deleteCesion" id="fusiones_${idlicencias}">
+                                    <i class="fas fa-trash"></i>Borrar
+                                </button>
+                            </td>`
+            };
+
+            if (index !== -1) {
+                // Si la renovación existe, actualizarla
+                fusiones[index] = data;
+            } else {
+                // Si no existe, agregar como nuevo
+                data.idRow = fusiones.length + 1;
+                fusiones.push(data);
+            }
+
+            try {
+                localStorage.setItem("fusiones", JSON.stringify(fusiones));
+                tblFusionesDT.clear();
+                tblFusionesDT.rows.add(JSON.parse(localStorage.getItem("fusiones")));
+                tblFusionesDT.columns.adjust().draw();
+                $("#EditFusion").modal('hide');
+                alert_float('success', 'Registro actualizado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        } else {
+            // Resaltar los labels en rojo si falta información
+            $("#lblestadoFusion").css('color', $('#estadoFusion_edit').val() ? '' : 'red');
+            $("#lblnro_solicitudFusion").css('color', $('#nro_solicitudFusion_edit').val() ? '' : 'red');
+            $("#lblfecha_solicitudFusion").css('color', $('#fecha_solicitudFusion_edit').val() ? '' : 'red');
+            $("#lblnro_resolucionFusion").css('color', $('#nro_resolucionFusion_edit').val() ? '' : 'red');
+            $("#lblfecha_resolucionFusion").css('color', $('#fecha_resolucionFusion_edit').val() ? '' : 'red');
+            $("#lblreferenciaclienteFusion").css('color', $('#referenciaclienteFusion_edit').val() ? '' : 'red');
+
+            alert_float('danger', 'Debe completar todos los campos obligatorios para editar la renovación.');
+        }
+    });
+
+    $(document).on('click', '.editFusion', function(e) {
+        e.preventDefault();
+        console.log("Voy a Editar la Fusion");
+        
+        // Obtener el ID del evento desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        
+        // Recuperar todos los eventos desde localStorage
+        var fusiones = JSON.parse(localStorage.getItem("fusiones"));
+        
+        // Buscar el evento con el ID correspondiente
+        var fusionesSeleccionado = fusiones.find(function(item) {
+            return item.idRow === id;  // Comparar el id del evento
+        });
+        
+        if (fusionesSeleccionado) {
+            console.log("Evento seleccionado para editar:", fusionesSeleccionado);
+            /*
+                'idRow': tblTareasDT.rows().count() + 1,
+                    "estado_id": $('#estadoRenovacion').val(),
+                    'estado_id_name': $('#estadoRenovacion option[value=' + $('#estadoRenovacion').val() + ']').text(),
+                    "vegencia_desde" : $("#vigencia_desdeRenovacion").val(),
+                    "vegencia_hasta" : $("#vigencia_hastaRenovacion").val(),
+                    "solicitud_num": $('#nro_solicitudRenovacion').val(),
+                    "fecha_solicitud": $('#fecha_solicitudRenovacion').val(),
+                    "resolucion_num": $('#nro_resolucionRenovacion').val(),
+                    "fecha_resolucion": $('#fecha_resolucionRenovacion').val(),
+                    "referencia_cliente": $('#referenciaclienteRenovacion').val(),
+                    "comentarios": $('#comentarioRenovacion').val(),
+             */
+            // Rellenar los campos del modal con los datos del evento
+            $("#fusionid_edit").val(fusionesSeleccionado.idRow);  // Establecer el ID del evento
+            $("#estadoFusion_edit").val(fusionesSeleccionado.estado_id).change();
+            $("#nro_solicitudFusion_edit").val(fusionesSeleccionado.num_solicitud);
+            $("#fecha_solicitudFusion_edit").val(fusionesSeleccionado.fecha_solicitud);
+            $("#nro_resolucionFusion_edit").val(fusionesSeleccionado.num_resolucion);
+            $("#fecha_resolucionFusion_edit").val(fusionesSeleccionado.fecha_resolucion);
+            $("#referenciaclienteFusion_edit").val(fusionesSeleccionado.referencia_cliente);
+            $("#comentarioFusion_edit").val(fusionesSeleccionado.comentarios);
+            // Mostrar el modal de edición
+            $('#EditFusion').modal('show');
+        } else {
+            console.error("No se encontró el evento con el ID:", id);
+        }
+    });
  
     /***
      * funcion para borrar una Fusion
@@ -3084,7 +3369,7 @@
             tblFusionesDT.columns.adjust().draw();
             alert_float('success', 'Fusion borrada exitosamente');
         }
-    })
+    });
 
     /***
      * funcion que se ejecuta al cerrar el Modal
@@ -3594,7 +3879,8 @@
                     "camnomactuales": localStorage.getItem("camnomactuales"),
                     "marcas_id": $("input[name=id]").val(),
                     //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camnom_" + (tblCamNomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamNom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                    'acciones': '<div class="col-md-6"><a id="camnom_' + (tblCamNomDT.rows().count()) + '" class="deleteCamNom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    //'acciones': '<div class="col-md-6"><a id="camnom_' + (tblCamNomDT.rows().count()) + '" class="deleteCamNom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    'acciones': '<td class="text-center"><a class="btn btn-light col-mrg editCamNom" id="camnom_' + (tblCamNomDT.rows().count()+1) + '" style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteCamNom" id="camnom_' + (tblCamNomDT.rows().count()) + '"><i class="fas fa-trash"></i>Borrar</button></td>' 
                 }
                 camnom.push(data);
                 console.log('camnom', camnom);
@@ -3624,7 +3910,123 @@
                 alert_float('danger', 'Debe introducir todos los datos el Cambio de Nombre');
             }
         }
-    })
+    });
+
+    $('#EditCambioNombrefrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if ($('#estadoCamNom_edit').val() &&  $('#nro_solicitudCamNom_edit').val() && $('#fecha_solicitudCamNom_edit').val() && $('#nro_resolucionCamNom_edit').val() 
+            && $('#fecha_resolucionCamNom_edit').val() && $('#referenciaclienteCamNom_edit').val()) {
+
+            let camnom = JSON.parse(localStorage.getItem("camnom")) || [];
+            let idcamnom = $('#camnomid_edit').val(); // Tomamos el ID oculto del modal
+            
+            let index = camnom.findIndex(item => item.idRow == idcamnom);
+
+            let data = {
+                'idRow': idcamnom,
+                "tmp_renovacion_id":  tblCamNomDT.rows().count() + 1,
+                "client_id": cliente_id, //$('#clienteCesion').val(),
+                'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                "oficina_id": $('#oficina_id').val(),
+                'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                "staff_id": staff_id,//$('#staffCesion').val(),
+                'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoCamNom_edit').val(),
+                'estado_id_name': $('#estadoCamNom_edit option[value=' + $('#estadoCamNom_edit').val() + ']').text(),
+                "solicitud_num": $('#nro_solicitudCamNom_edit').val(),
+                "fecha_solicitud": $('#fecha_solicitudCamNom_edit').val(),
+                "resolucion_num": $('#nro_resolucionCamNom_edit').val(),
+                "fecha_resolucion": $('#fecha_resolucionCamNom_edit').val(),
+                "referencia_cliente": $('#referenciaclienteCamNom_edit').val(),
+                "comentarios": $('#comentarioCamNom_edit').val(),
+                "acciones": `<td class="text-center">
+                                <a class="btn btn-light col-mrg editCamNom" id="camnom_${idcamnom}" style="background-color: white"> Editar</a>
+                                <button class="btn btn-danger col-mrg deleteCamNom" id="camnom_${idcamnom}">
+                                    <i class="fas fa-trash"></i>Borrar
+                                </button>
+                            </td>`
+            };
+
+            if (index !== -1) {
+                // Si la renovación existe, actualizarla
+                camnom[index] = data;
+            } else {
+                // Si no existe, agregar como nuevo
+                data.idRow = camnom.length + 1;
+                camnom.push(data);
+            }
+
+            try {
+                localStorage.setItem("camnom", JSON.stringify(camnom));
+                tblCamNomDT.clear();
+                tblCamNomDT.rows.add(JSON.parse(localStorage.getItem("camnom")));
+                tblCamNomDT.columns.adjust().draw();
+                $("#EditCambioNombre").modal('hide');
+                alert_float('success', 'Registro actualizado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        } else {
+            // Resaltar los labels en rojo si falta información
+            $("#lblestadoCamNom").css('color', $('#estadoCamNom_edit').val() ? '' : 'red');
+            $("#lblnro_solicitudCamNom").css('color', $('#nro_solicitudCamNom_edit').val() ? '' : 'red');
+            $("#lblfecha_solicitudCamNom").css('color', $('#fecha_solicitudCamNom_edit').val() ? '' : 'red');
+            $("#lblnro_resolucionCamNom").css('color', $('#nro_resolucionCamNom_edit').val() ? '' : 'red');
+            $("#lblfecha_resolucionCamNom").css('color', $('#fecha_resolucionCamNom_edit').val() ? '' : 'red');
+            $("#lblreferenciaclienteCamNom").css('color', $('#referenciaclienteCamNom_edit').val() ? '' : 'red');
+
+            alert_float('danger', 'Debe completar todos los campos obligatorios para editar la renovación.');
+        }
+    });
+
+
+    $(document).on('click', '.editCamNom', function(e) {
+        e.preventDefault();
+        console.log("Voy a Editar la CamNom");
+        
+        // Obtener el ID del evento desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        
+        // Recuperar todos los eventos desde localStorage
+        var camnom = JSON.parse(localStorage.getItem("camnom"));
+        
+        // Buscar el evento con el ID correspondiente
+        var camnomSeleccionado = camnom.find(function(item) {
+            return item.idRow === id;  // Comparar el id del evento
+        });
+        
+        if (camnomSeleccionado) {
+            console.log("Evento seleccionado para editar:", camnomSeleccionado);
+            /*
+                'idRow': tblTareasDT.rows().count() + 1,
+                    "estado_id": $('#estadoRenovacion').val(),
+                    'estado_id_name': $('#estadoRenovacion option[value=' + $('#estadoRenovacion').val() + ']').text(),
+                    "vegencia_desde" : $("#vigencia_desdeRenovacion").val(),
+                    "vegencia_hasta" : $("#vigencia_hastaRenovacion").val(),
+                    "solicitud_num": $('#nro_solicitudRenovacion').val(),
+                    "fecha_solicitud": $('#fecha_solicitudRenovacion').val(),
+                    "resolucion_num": $('#nro_resolucionRenovacion').val(),
+                    "fecha_resolucion": $('#fecha_resolucionRenovacion').val(),
+                    "referencia_cliente": $('#referenciaclienteRenovacion').val(),
+                    "comentarios": $('#comentarioRenovacion').val(),
+             */
+            // Rellenar los campos del modal con los datos del evento
+            $("#camnomid_edit").val(camnomSeleccionado.idRow);  // Establecer el ID del evento
+            $("#estadoCamNom_edit").val(camnomSeleccionado.estado_id).change();
+            $("#nro_solicitudCamNom_edit").val(camnomSeleccionado.num_solicitud);
+            $("#fecha_solicitudCamNom_edit").val(camnomSeleccionado.fecha_solicitud);
+            $("#nro_resolucionCamNom_edit").val(camnomSeleccionado.num_resolucion);
+            $("#fecha_resolucionCamNom_edit").val(camnomSeleccionado.fecha_resolucion);
+            $("#referenciaclienteCamNom_edit").val(camnomSeleccionado.referencia_cliente);
+            $("#comentarioCamNom_edit").val(camnomSeleccionado.comentarios);
+            // Mostrar el modal de edición
+            $('#EditCambioNombre').modal('show');
+        } else {
+            console.error("No se encontró el evento con el ID:", id);
+        }
+    });
  
     /***
      * funcion para borrar una CamNom
@@ -4147,7 +4549,9 @@
                     "camdomactuales": localStorage.getItem("camdomactuales"),
                     "marcas_id": $("input[name=id]").val(),
                     //'acciones': "<div class='row row-group'><div class='col-md-2 col-md-offset-0'><button id='camdom_" + (tblCamDomDT.rows().count()) + "' class='btn btn-danger col-mrg deleteCamDom'><i class='fas fa-trash'></i>Eliminar</button></div></div>"
-                    'acciones': '<div class="col-md-6"><a id="camdom_' + (tblCamDomDT.rows().count()) + '" class="deleteCamDom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    
+                 //   'acciones': '<div class="col-md-6"><a id="camdom_' + (tblCamDomDT.rows().count()) + '" class="deleteCamDom btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>'
+                    'acciones': '<td class="text-center"><a class="btn btn-light col-mrg editCamDom" id="camdom_' + (tblCamDomDT.rows().count()+1) + '" style="background-color: white"> Editar</a><button class="btn btn-danger col-mrg deleteCamDom" id="camdom_' + (tblCamDomDT.rows().count()) + '"><i class="fas fa-trash"></i>Borrar</button></td>' 
                 }
                 camdom.push(data);
                 console.log('camdom', camdom);

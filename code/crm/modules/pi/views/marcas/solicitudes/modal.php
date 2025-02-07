@@ -2299,7 +2299,7 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <?php echo form_label('Comentario', 'comentarioCamDom', ['id' => 'lblcomentarioCamDom']); ?>
-                <?php echo form_textarea(['name' => 'comentarioCamDom', 'id' => 'comentarioCamDom'], '', ['class' => 'form-control']); ?>
+                <?php echo form_textarea(['name' => 'comentarioCamDom', 'id' => 'comentarioCamDom'], '', ['class' => 'form-control', 'style' => 'height: 100px;']); ?>
               </div>
             </div> <!-- fin step 1-->
             <!-- step 2 -->
@@ -2369,6 +2369,157 @@
     </div>
   </div>
   <?php echo form_close(); ?>
+</div>
+
+<!-- Editar Cambio de Domicilio -->
+<div class="modal fade" id="EditCambioDomicilio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php echo form_open("", ['method' => 'POST', 'id' => 'camdomEditFrm']);?>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Editar Cambio de Domicilio</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="wizard">
+                        <div class="wizard-inner">
+                            <div class="connecting-line"></div>
+                            <ul class="nav nav-tabs" role="tablist" style="display:flex">
+                                <li role="presentation" class="active" style="justify-content: center;text-align: center; margin-left: 230px;">
+                                    <a href="#Editcamdomstep1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Registrar Cambio de Domicilio</i></a>
+                                </li>
+                                <li role="presentation" >
+                                    <a href="#Editcamdomstep2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Cambio de Domicilio Anterior y Actual</i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="main_form">
+                        <!-- Step 1 -->
+                        <div class="tab-pane active" role="tabpanel" id="Editcamdomstep1">
+                            <input type="hidden" id="camdomid_edit">
+                            <!--
+                            <div class="col-md-3">
+                                <?php //echo form_label('Cliente', 'clienteCamDom_edit');?>
+                                <?php //echo form_dropdown(['name'=>'clienteCamDom_edit','id'=>'clienteCamDom_edit'], $clientes, '',['class' => 'form-control']);?>
+                            </div>
+                            <div class="col-md-3">
+                                <?php //echo form_label('Oficina', 'oficinaCamDom_edit',['id'=>'lbloficinaCamDom_edit']);?>
+                                <?php //echo form_dropdown(['name'=>'oficinaCamDom_edit','id'=>'oficinaCamDom_edit'], $oficinas, '',['class' => 'form-control']);?>
+                            </div>
+                            <div class="col-md-3">
+                                <?php //echo form_label('Staff', 'staffCamDom_edit');?>  
+                                <?php //echo form_dropdown(['name'=>'staffCamDom_edit','id'=>'staffCamDom_edit'], $responsable, '',['class' => 'form-control']);?>
+                            </div>-->
+                            <div class="col-md-12">
+                                <?php echo form_label('Estado', 'estadoCamDom_edit',['id'=>'lblestadoCamDom_edit']);?>
+                                <?php echo form_dropdown(['name'=>'estadoCamDom_edit','id'=>'estadoCamDom_edit'], $estados_solicitudes, '',['class' => 'form-control']);?>
+                            </div>
+                            <div class="col-md-3" style="margin-top:10px">
+                                <?php echo form_label('Nº de Solicitud	', 'nro_solicitudCamDom_edit',['id'=>'lblnro_solicitudCamDom_edit']);?>
+                                <?php echo form_input(['name'=>'nro_solicitudCamDom_edit','id'=>'nro_solicitudCamDom_edit','class' => 'form-control'])?>
+                            </div>
+                            <div class="col-md-3" style="margin-top:10px">
+                                <?php echo form_label('Fecha de Solicitud	', 'fecha_solicitudCamDom_edit',['id'=>'lblfecha_solicitudCamDom_edit']);?>
+                                <?php echo form_input([
+                                            'id' => 'fecha_solicitudCamDom_edit',
+                                            'name' => 'fecha_solicitudCamDom_edit',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+                            </div>   
+                            <div class="col-md-3" style="margin-top:10px">
+                                <?php echo form_label('Nº de Resolucion	', 'nro_resolucionCamDom_edit',['id'=>'lblnro_resolucionCamDom_edit']);?>
+                                <?php echo form_input(['name'=>'nro_resolucionCamDom_edit','id'=>'nro_resolucionCamDom_edit','class' => 'form-control'])?>
+                            </div>
+                            <div class="col-md-3" style="margin-top:10px">
+                                <?php echo form_label('Fecha de Resolucion', 'fecha_resolucionCamDom_edit',['id'=>'lblfecha_resolucionCamDom_edit']);?>
+                                <?php echo form_input([
+                                            'id' => 'fecha_resolucionCamDom_edit',
+                                            'name' => 'fecha_resolucionCamDom_edit',
+                                            'class' => 'form-control calendar',
+                                            'value' => set_value('fecha_solicitud'),
+                                            'placeholder' => 'Fecha Solicitud'
+                                        ]);?>
+                            </div> 
+                            <div class="col-md-12" style="margin-top:10px">
+                                <?php echo form_label('Referencia Cliente', 'referenciaclienteCamDom_edit',['id'=>'lblreferenciaclienteCamDom_edit']);?>
+                                <?php echo form_input(['name'=>'referenciaclienteCamDom_edit','id'=>'referenciaclienteCamDom_edit'],'',['class' => 'form-control']);?>
+                            </div>
+                            <div class="col-md-12" style="margin-top:10px">
+                                <?php echo form_label('Comentario', 'comentarioCamDom_edit',['id'=>'lblcomentarioCamDom_edit']);?>
+                                <?php echo form_textarea(['name'=>'comentarioCamDom_edit','id'=>'comentarioCamDom_edit'],'',['class' => 'form-control' , 'style' => 'height: 100px;']);?>
+                            </div>
+                        </div> <!-- Fin Step 1 -->
+                        <!-- step 2 -->
+                        <div class="tab-pane" role="tabpanel" id="Editcamdomstep2">
+                            <div class="col-md-12">
+                                <div class="list-content">
+                                    <a href="#Editarcambio_domicilioanterior" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Anterior<i class="fa fa-chevron-down"></i></a>
+                                    <div class="collapse" id="Editarcambio_domicilioanterior">
+                                        <div class="list-box">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <button type="button" id="btnCambioDomicilioAnterior" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamDomAnteriorModal">Añadir Cambio Domicilio Anterior</button>
+                                                    <table id="CamDomAnteriorTbl_edit" class="ultimate table table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nº</th>
+                                                                <th>Propietario</th>
+                                                                <th>Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id = "body_cambio_domicilio_anterior">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="list-content">
+                                    <a href="#Editarcambio_domicilioactual" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Cambio Domicilio Actual<i class="fa fa-chevron-down"></i></a>
+                                    <div class="collapse" id="Editarcambio_domicilioactual">
+                                        <div class="list-box">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <button type="button" id = "btnCambioDomicilioActual" class="btn btn-primary pull-right" data-toggle="modal"
+                                                    data-target="#CamDomActualModal">Añadir Cambio Domicilio Actual</button>
+                                                    <table id="CamDomActualTbl_edit" class="ultimate table table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nº</th>
+                                                                <th>Propietario</th>
+                                                                <th>Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id = "body_cambio_domicilio_actual">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!--Fin step 2 -->
+                    </div> <!--Fin tab-content -->
+                </div> <!--Fin row -->
+            </div> <!--Fin modal_body -->
+            <div class="modal-footer" style="padding-top: 1.5%;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button id="EditCambioDomiciliofrmsubmit" type="button" class="btn btn-primary">Editar</button>
+            </div>
+        </div>
+    </div>
+    <?php echo form_close();?>
 </div>
 
 <!-- Añadir Cambio de Domicilio Anterior Modal -->

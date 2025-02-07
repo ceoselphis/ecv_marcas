@@ -1551,7 +1551,7 @@
         
         // Buscar el evento con el ID correspondiente
         var cesionesSeleccionado = cesiones.find(function(item) {
-            return item.idRow === id;  // Comparar el id del evento
+            return item.idRow == id;  // Comparar el id del evento
         });
         
         if (cesionesSeleccionado) {
@@ -1771,7 +1771,7 @@
         
         // Buscar el evento con el ID correspondiente
         var renovacionesSeleccionado = renovaciones.find(function(item) {
-            return item.idRow === id;  // Comparar el id del evento
+            return item.idRow == id;  // Comparar el id del evento
         });
         
         if (renovacionesSeleccionado) {
@@ -2595,15 +2595,15 @@
                 'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
                 "estado_id": $('#estadoLicencia_edit').val(),
                 'estado_id_name': $('#estadoLicencia_edit option[value=' + $('#estadoLicencia_edit').val() + ']').text(),
-                "solicitud_num": $('#nro_solicitudLicencia_edit').val(),
+                "num_solicitud": $('#nro_solicitudLicencia_edit').val(),
                 "fecha_solicitud": $('#fecha_solicitudLicencia_edit').val(),
-                "resolucion_num": $('#nro_resolucionLicencia_edit').val(),
+                "num_resolucion": $('#nro_resolucionLicencia_edit').val(),
                 "fecha_resolucion": $('#fecha_resolucionLicencia_edit').val(),
                 "referencia_cliente": $('#referenciaclienteLicencia_edit').val(),
                 "comentarios": $('#comentarioLicencia_edit').val(),
                 "acciones": `<td class="text-center">
-                                <a class="btn btn-light col-mrg editCesion" id="licencias_${idlicencias}" style="background-color: white"> Editar</a>
-                                <button class="btn btn-danger col-mrg deleteCesion" id="licencias_${idlicencias}">
+                                <a class="btn btn-light col-mrg editLicencia" id="licencias_${idlicencias}" style="background-color: white"> Editar</a>
+                                <button class="btn btn-danger col-mrg deleteLicencia" id="licencias_${idlicencias}">
                                     <i class="fas fa-trash"></i>Borrar
                                 </button>
                             </td>`
@@ -2666,13 +2666,13 @@
         
         // Obtener el ID del evento desde el botón o enlace
         var id = parseInt($(this).attr('id').split('_')[1]);
-        
+        console.log("id: " + id);
         // Recuperar todos los eventos desde localStorage
         var licencias = JSON.parse(localStorage.getItem("licencias"));
         
         // Buscar el evento con el ID correspondiente
         var licenciasSeleccionado = licencias.find(function(item) {
-            return item.idRow === id;  // Comparar el id del evento
+            return item.idRow == id;  // Comparar el id del evento
         });
         
         if (licenciasSeleccionado) {
@@ -3260,15 +3260,15 @@
                 'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
                 "estado_id": $('#estadoFusion_edit').val(),
                 'estado_id_name': $('#estadoFusion_edit option[value=' + $('#estadoFusion_edit').val() + ']').text(),
-                "solicitud_num": $('#nro_solicitudFusion_edit').val(),
+                "num_solicitud": $('#nro_solicitudFusion_edit').val(),
                 "fecha_solicitud": $('#fecha_solicitudFusion_edit').val(),
-                "resolucion_num": $('#nro_resolucionFusion_edit').val(),
+                "num_resolucion": $('#nro_resolucionFusion_edit').val(),
                 "fecha_resolucion": $('#fecha_resolucionFusion_edit').val(),
                 "referencia_cliente": $('#referenciaclienteFusion_edit').val(),
                 "comentarios": $('#comentarioFusion_edit').val(),
                 "acciones": `<td class="text-center">
-                                <a class="btn btn-light col-mrg editCesion" id="fusiones_${idlicencias}" style="background-color: white"> Editar</a>
-                                <button class="btn btn-danger col-mrg deleteCesion" id="fusiones_${idlicencias}">
+                                <a class="btn btn-light col-mrg editFusion" id="fusiones_${idfusiones}" style="background-color: white"> Editar</a>
+                                <button class="btn btn-danger col-mrg deleteFusion" id="fusiones_${idfusiones}">
                                     <i class="fas fa-trash"></i>Borrar
                                 </button>
                             </td>`
@@ -3319,7 +3319,7 @@
         
         // Buscar el evento con el ID correspondiente
         var fusionesSeleccionado = fusiones.find(function(item) {
-            return item.idRow === id;  // Comparar el id del evento
+            return item.idRow == id;  // Comparar el id del evento
         });
         
         if (fusionesSeleccionado) {
@@ -3934,9 +3934,9 @@
                 'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
                 "estado_id": $('#estadoCamNom_edit').val(),
                 'estado_id_name': $('#estadoCamNom_edit option[value=' + $('#estadoCamNom_edit').val() + ']').text(),
-                "solicitud_num": $('#nro_solicitudCamNom_edit').val(),
+                "num_solicitud": $('#nro_solicitudCamNom_edit').val(),
                 "fecha_solicitud": $('#fecha_solicitudCamNom_edit').val(),
-                "resolucion_num": $('#nro_resolucionCamNom_edit').val(),
+                "num_resolucion": $('#nro_resolucionCamNom_edit').val(),
                 "fecha_resolucion": $('#fecha_resolucionCamNom_edit').val(),
                 "referencia_cliente": $('#referenciaclienteCamNom_edit').val(),
                 "comentarios": $('#comentarioCamNom_edit').val(),
@@ -3994,7 +3994,7 @@
         
         // Buscar el evento con el ID correspondiente
         var camnomSeleccionado = camnom.find(function(item) {
-            return item.idRow === id;  // Comparar el id del evento
+            return item.idRow == id;  // Comparar el id del evento
         });
         
         if (camnomSeleccionado) {
@@ -4581,7 +4581,117 @@
                 alert_float('danger', 'Debe introducir todos los datos el Cambio de Domicilio');
             }
         }
-    })
+    });
+
+    $('#EditCambioDomiciliofrmsubmit').on('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if ($('#estadoCamDom_edit').val() &&  $('#nro_solicitudCamDom_edit').val() && $('#fecha_solicitudCamDom_edit').val() && $('#nro_resolucionCamDom_edit').val() 
+            && $('#fecha_resolucionCamDom_edit').val() && $('#referenciaclienteCamDom_edit').val()) {
+
+            let camdom = JSON.parse(localStorage.getItem("camdom")) || [];
+            let idcamdom = $('#camdomid_edit').val(); // Tomamos el ID oculto del modal
+            
+            let index = camdom.findIndex(item => item.idRow == idcamdom);
+
+            let data = {
+                'idRow': idcamdom,
+                "tmp_renovacion_id":  tblCamDomDT.rows().count() + 1,
+                "client_id": cliente_id, //$('#clienteCesion').val(),
+                'client_id_name': $('#client_id option[value=' + $('#client_id').val() + ']').text(),
+                "oficina_id": $('#oficina_id').val(),
+                'oficina_id_name': $('#oficina_id option[value=' + $('#oficina_id').val() + ']').text(),
+                "staff_id": staff_id,//$('#staffCesion').val(),
+                'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
+                "estado_id": $('#estadoCamDom_edit').val(),
+                'estado_id_name': $('#estadoCamDom_edit option[value=' + $('#estadoCamDom_edit').val() + ']').text(),
+                "num_solicitud": $('#nro_solicitudCamDom_edit').val(),
+                "fecha_solicitud": $('#fecha_solicitudCamDom_edit').val(),
+                "num_resolucion": $('#nro_resolucionCamDom_edit').val(),
+                "fecha_resolucion": $('#fecha_resolucionCamDom_edit').val(),
+                "referencia_cliente": $('#referenciaclienteCamDom_edit').val(),
+                "comentarios": $('#comentarioCamDom_edit').val(),
+                "acciones": `<td class="text-center">
+                                <a class="btn btn-light col-mrg editCamDom" id="camdom_${idcamdom}" style="background-color: white"> Editar</a>
+                                <button class="btn btn-danger col-mrg deleteCamDom" id="camdom_${idcamdom}">
+                                    <i class="fas fa-trash"></i>Borrar
+                                </button>
+                            </td>`
+            };
+
+            console.log(" Data a enviar ", data);
+
+            if (index !== -1) {
+                // Si la renovación existe, actualizarla
+                camdom[index] = data;
+            } else {
+                // Si no existe, agregar como nuevo
+                data.idRow = camdom.length + 1;
+                camdom.push(data);
+            }
+
+            try {
+                localStorage.setItem("camdom", JSON.stringify(camdom));
+                tblCamDomDT.clear();
+                tblCamDomDT.rows.add(JSON.parse(localStorage.getItem("camdom")));
+                tblCamDomDT.columns.adjust().draw();
+                $("#EditCambioDomicilio").modal('hide');
+                alert_float('success', 'Registro actualizado exitosamente');
+            } catch (error) {
+                alert(error);
+            }
+
+        } else {
+            // Resaltar los labels en rojo si falta información
+            $("#lblestadoCamDom").css('color', $('#estadoCamDom_edit').val() ? '' : 'red');
+            $("#lblnro_solicitudCamDom").css('color', $('#nro_solicitudCamDom_edit').val() ? '' : 'red');
+            $("#lblfecha_solicitudCamDom").css('color', $('#fecha_solicitudCamDom_edit').val() ? '' : 'red');
+            $("#lblnro_resolucionCamDom").css('color', $('#nro_resolucionCamDom_edit').val() ? '' : 'red');
+            $("#lblfecha_resolucionCamDom").css('color', $('#fecha_resolucionCamDom_edit').val() ? '' : 'red');
+            $("#lblreferenciaclienteCamDom").css('color', $('#referenciaclienteCamDom_edit').val() ? '' : 'red');
+
+            alert_float('danger', 'Debe completar todos los campos obligatorios para editar la renovación.');
+        }
+    });
+
+
+    $(document).on('click', '.editCamDom', function(e) {
+        e.preventDefault();
+        console.log("Voy a Editar la CamDom");
+        
+        // Obtener el ID del evento desde el botón o enlace
+        var id = parseInt($(this).attr('id').split('_')[1]);
+        console.log("id: " + id);
+        
+        // Recuperar todos los eventos desde localStorage
+        var camdom = JSON.parse(localStorage.getItem("camdom"));
+        
+        // Buscar el evento con el ID correspondiente
+        var camdomSeleccionado = camdom.find(function(item) {
+            return item.idRow == id;  // Comparar el id del evento
+        });
+
+        
+        console.log("Evento seleccionado para editar:", camdomSeleccionado);
+        if (camdomSeleccionado) {
+            /*
+   [{"idRow":1,"tmp_camdom_id":1,"client_id":"5","client_id_name":"MIGUEL AUGUSTO GARRANCHAN VELÁSQUEZ.","oficina_id":"1","oficina_id_name":"ECV & ASOCIADOS","staff_id":"1","staff_id_name":"Administrador Local","estado_id":"3","estado_id_name":"101 - SOLICITUD CON EXAMEN DE FONDO/POR PUBLICAR DECISION","num_solicitud":"313","fecha_solicitud":"20/02/2025","num_resolucion":"313","fecha_resolucion":"18/02/2025","referencia_cliente":"313","comentarios":"1313","camdomanteriores":"[]","camdomactuales":"[]","marcas_id":"30342","acciones":"<td class=\"text-center\"><a class=\"btn btn-light col-mrg editCamDom\" id=\"camdom_1\" style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteCamDom\" id=\"camdom_0\"><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+             */
+            // Rellenar los campos del modal con los datos del evento
+            $("#camdomid_edit").val(camdomSeleccionado.idRow);  // Establecer el ID del evento
+            $("#estadoCamDom_edit").val(camdomSeleccionado.estado_id).change();
+            $("#nro_solicitudCamDom_edit").val(camdomSeleccionado.num_solicitud);
+            $("#fecha_solicitudCamDom_edit").val(camdomSeleccionado.fecha_solicitud);
+            $("#nro_resolucionCamDom_edit").val(camdomSeleccionado.num_resolucion);
+            $("#fecha_resolucionCamDom_edit").val(camdomSeleccionado.fecha_resolucion);
+            $("#referenciaclienteCamDom_edit").val(camdomSeleccionado.referencia_cliente);
+            $("#comentarioCamDom_edit").val(camdomSeleccionado.comentarios);
+            // Mostrar el modal de edición
+            $('#EditCambioDomicilio').modal('show');
+        } else {
+            console.error("No se encontró el evento con el ID:", id);
+        }
+    });
  
     /***
      * funcion para borrar una CamDom
@@ -5397,8 +5507,8 @@
 
     function validarEventos(eventos) {
         let eventos_json = [];
-        if (eventos.length === 0) {
-            return [];
+        if (!eventos || eventos.length === 0) {
+            return "[]";
         } else {
             eventos = JSON.parse(eventos);
             /*
@@ -5418,32 +5528,32 @@
         }
     }
 
-    function validarEventos(eventos) {
-        let eventos_json = [];
-        if (eventos.length === 0) {
-            return [];
-        } else {
-            eventos = JSON.parse(eventos);
-            /*
-                [{"idRow":1,"fecha":"14/01/2025","tipo_evento_id":"5","tipo_evento_name":"AMPLIACIÃ“N DEL RECURSO DE RECONSIDERACIÃ“N","comentarios":"sadas","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editEvento\" id=\"prioridad_1\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteEvento\" id=\"eventos_1\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
-            */
-            eventos.forEach(elemento => {
-                data_eventos = {
-                    "id": elemento.idRow,
-                    "fecha": elemento.fecha,
-                    "tipo_evento_id": elemento.tipo_evento_id,
-                    "comentarios": elemento.comentarios,
-                    "marcas_id" : elemento.marcas_id
-                } 
-                eventos_json.push(data_eventos);
-            });
-            return JSON.stringify(eventos_json);
-        }
-    }
+    // function validarEventos(eventos) {
+    //     let eventos_json = [];
+    //     if (!eventos || eventos.length === 0) {
+    //         return "[]";
+    //     } else {
+    //         eventos = JSON.parse(eventos);
+    //         /*
+    //             [{"idRow":1,"fecha":"14/01/2025","tipo_evento_id":"5","tipo_evento_name":"AMPLIACIÃ“N DEL RECURSO DE RECONSIDERACIÃ“N","comentarios":"sadas","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editEvento\" id=\"prioridad_1\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteEvento\" id=\"eventos_1\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+    //         */
+    //         eventos.forEach(elemento => {
+    //             data_eventos = {
+    //                 "id": elemento.idRow,
+    //                 "fecha": elemento.fecha,
+    //                 "tipo_evento_id": elemento.tipo_evento_id,
+    //                 "comentarios": elemento.comentarios,
+    //                 "marcas_id" : elemento.marcas_id
+    //             } 
+    //             eventos_json.push(data_eventos);
+    //         });
+    //         return JSON.stringify(eventos_json);
+    //     }
+    // }
 
     function validarPrioridad(prioridad) {
         let prioridad_json = [];
-        if (prioridad.length === 0) {
+        if (!prioridad || prioridad.length === 0) {
             return [];
         } else {
             prioridad = JSON.parse(prioridad);
@@ -5466,8 +5576,8 @@
 
     function validarPublicaciones(publicaciones) {
         let publicaciones_json = [];
-        if (publicaciones.length === 0) {
-            return [];
+        if (!publicaciones || publicaciones.length === 0) {
+            return "[]";
         } else {
             publicaciones = JSON.parse(publicaciones);
             /*
@@ -5491,8 +5601,8 @@
 
     function validarClaseNiza(claseniza){
         let calse_niza_json = [];
-        if (claseniza.length === 0) {
-            return [];
+        if (!claseniza || claseniza.length === 0) {
+            return "[]";
         } else {
             claseniza = JSON.parse(claseniza);
             /*
@@ -5513,8 +5623,8 @@
 
     function validarTareas(tareas){
         let tareas_json = [];
-        if (tareas.length === 0) {
-            return [];
+        if (!tareas || tareas.length === 0) {
+            return "[]";
         } else {
             tareas = JSON.parse(tareas);
             /*
@@ -5537,8 +5647,8 @@
 
     function validarRenovaciones(renovaciones){
         let renovaciones_json = [];
-        if (renovaciones.length === 0) {
-            return [];
+        if (!renovaciones || renovaciones.length === 0) {
+            return "[]";
         } else {
             renovaciones = JSON.parse(renovaciones);
             /*
@@ -5569,31 +5679,10 @@
 
     function validarCesiones(cesiones) {
         let cesiones_json = [];
-        if (cesiones.length === 0) {
-            return [];
+        if (!cesiones || cesiones.length === 0) {
+            return "[]";
         } else {
             cesiones = JSON.parse(cesiones);
-            /*
-              [{"idRow":1,"tmp_cesion_id":1,
-              "client_id":"7",
-              "client_id_name":"WING GEM HUNG.",
-              "oficina_id":"1",
-              "oficina_id_name":"ECV & ASOCIADOS",
-              "staff_id":"1",
-              "staff_id_name":"Administrador Local",
-              "estado_id":"5",
-              "estado_id_name":"103 - SOLICITUD DEVUELTA POR EXAMEN DE FONDO",
-              "solicitud_num":"3113",
-              "fecha_solicitud":"10/02/2025",
-              "resolucion_num":"12312",
-              "fecha_resolucion":"10/02/2025",
-              "referencia_cliente":"123123",
-              "comentarios":"13123123",
-              "cesionesanteriores":"[{\"idRow\":1,\"cedente_id\":2540,\"cedente_id_name\":\"GLOBALTECH DISTRIBUTORS, INC.\",\"tipo_cedente\":1,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesanteriores_0\\\" class=\\\"deleteCesionAnterior btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"},{\"idRow\":2,\"cedente_id\":2541,\"cedente_id_name\":\"FRANZ VIEGENER S.A.\",\"tipo_cedente\":1,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesanteriores_1\\\" class=\\\"deleteCesionAnterior btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"},{\"idRow\":3,\"cedente_id\":2542,\"cedente_id_name\":\"CERVEJARIA PETRÓPOLIS S/A\",\"tipo_cedente\":1,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesanteriores_2\\\" class=\\\"deleteCesionAnterior btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"}]",
-              "cesionesactuales":"[{\"idRow\":1,\"cedente_id\":2541,\"cedente_id_name\":\"FRANZ VIEGENER S.A.\",\"tipo_cedente\":2,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesactuales_0\\\" class=\\\"deleteCesionActual btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"},{\"idRow\":2,\"cedente_id\":2542,\"cedente_id_name\":\"CERVEJARIA PETRÓPOLIS S/A\",\"tipo_cedente\":2,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesactuales_1\\\" class=\\\"deleteCesionActual btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"},{\"idRow\":3,\"cedente_id\":2543,\"cedente_id_name\":\"PABLOSKY S.L.\",\"tipo_cedente\":2,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesactuales_2\\\" class=\\\"deleteCesionActual btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"}]",
-              "marcas_id":"30341",
-              "acciones":"<div class=\"col-md-6\"><a id=\"cesiones_0\" class=\"deleteCesion btn btn-light link-style\" style= \"background-color: white;padding-top: 0px;\"><i class=\"fas fa-trash\" style=\"top: 5px;\"></i>Borrar</a></div>"}]
-            */
             cesiones.forEach(elemento => {
                 data_cesiones = {
                     "client_id": elemento.client_id,
@@ -5616,30 +5705,28 @@
         }
     }
 
-    function validarLicencia(licencia){
+    function validarLicencia(licencia) {
         let licencia_json = [];
-        if (licencia.length === 0) {
-            return [];
+        if (!licencia || licencia.length === 0) {
+            return "[]"; // Retorna un array vacío como cadena JSON
         } else {
             licencia = JSON.parse(licencia);
             licencia.forEach(elemento => {
                 data_licencia = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
-                    "staff_id" : elemento.tipo_tareas_id,
+                    "staff_id": elemento.tipo_tareas_id,
                     "estado_id": elemento.estado_id,
-                    "vegencia_desde" : elemento.vegencia_desde,
-                    "vegencia_hasta": elemento.vegencia_hasta,
-                    "solicitud_num": elemento.solicitud_num,
-                    "fecha_solicitud" : elemento.fecha_solicitud,
-                    "resolucion_num": elemento.estado_id,
-                    "fecha_resolucion" : elemento.fecha_resolucion,
+                    "num_solicitud": elemento.solicitud_num,
+                    "fecha_solicitud": elemento.fecha_solicitud,
+                    "num_resolucion": elemento.estado_id,
+                    "fecha_resolucion": elemento.fecha_resolucion,
                     "referencia_cliente": elemento.referencia_cliente,
-                    "comentarios" : elemento.comentarios,
+                    "comentarios": elemento.comentarios,
                     "licenciasanteriores": elemento.licenciasanteriores,
                     "licenciasactuales": elemento.licenciasactuales,
-                    "marcas_id" : elemento.marcas_id
-                } 
+                    "marcas_id": elemento.marcas_id
+                };
                 licencia_json.push(data_licencia);
             });
             return JSON.stringify(licencia_json);
@@ -5648,8 +5735,8 @@
 
     function validarFusion(fusion) {
         let fusion_json = [];
-        if (fusion.length === 0) {
-            return [];
+        if (!fusion || fusion.length === 0) {
+            return "[]";
         } else {
             fusion = JSON.parse(fusion);
             fusion.forEach(elemento => {
@@ -5677,8 +5764,8 @@
 
     function validarCambioNombre(cambioNombre) {
         let cambioNombre_json = [];
-        if (cambioNombre.length === 0) {
-            return [];
+        if (!cambioNombre || cambioNombre.length === 0) {
+            return "[]";
         } else {
             cambioNombre = JSON.parse(cambioNombre);
             cambioNombre.forEach(elemento => {
@@ -5705,8 +5792,8 @@
 
     function validarCambioDomicilio(cambioDomicilio) {
         let cambioDomicilio_json = [];
-        if (cambioDomicilio.length === 0) {
-            return [];
+        if (!cambioDomicilio || cambioDomicilio.length === 0) {
+            return "[]";
         } else { 
             cambioDomicilio = JSON.parse(cambioDomicilio);
             cambioDomicilio.forEach(elemento => {
@@ -5731,28 +5818,31 @@
         }
     }   
 
-    // function validarFactura(factura) {
-    //     let factura_json = [];
-    //     if (factura.length === 0) {
-    //         return [];
-    //     } else { 
-    //         factura = JSON.parse(factura);
-    //         factura.forEach(elemento => {
-    //             /*
-    //                 [{"idRow":1,
-    //                 "facturas_id":"53",
-    //                 "factNum":"ECV-IP-FAC-48",
-    //                 "factFecha":"13/01/2025",
-    //                 "factEstatus":"<span class=\"label label-danger  s-status invoice-status-1\">Por pagar</span>",
-    //                 "marcas_id":"30330",
-    //                 "acciones":"<div class=\"col-md-6\"><a id=\"facturas_0\" class=\"deleteFactura btn btn-light link-style\" style= \"background-color: white;padding-top: 0px;\"><i class=\"fas fa-trash\" style=\"top: 5px;\"></i>Borrar</a></div>"}]
-    //             */
-    //             data_factura = { 
-
-    //             };
-    //         });
-    //     }
-    // }
+    function validarFactura(factura) {
+        let factura_json = [];
+        if (factura.length === 0) {
+            return [];
+        } else { 
+            factura = JSON.parse(factura);
+            factura.forEach(elemento => {
+                /*
+                    [{"idRow":1,
+                    "facturas_id":"53",
+                    "factNum":"ECV-IP-FAC-48",
+                    "factFecha":"13/01/2025",
+                    "factEstatus":"<span class=\"label label-danger  s-status invoice-status-1\">Por pagar</span>",
+                    "marcas_id":"30330",
+                    "acciones":"<div class=\"col-md-6\"><a id=\"facturas_0\" class=\"deleteFactura btn btn-light link-style\" style= \"background-color: white;padding-top: 0px;\"><i class=\"fas fa-trash\" style=\"top: 5px;\"></i>Borrar</a></div>"}]
+                */
+                data_factura = { 
+                    "facturas_id": elemento.facturas_id,
+                    "marcas_id": elemento.marcas_id
+                };
+                factura_json.push(data_factura);
+            });
+            return JSON.stringify(factura_json);
+        }
+    }
 
     
 
@@ -5808,23 +5898,35 @@
                 formData.append('signonom', $('#signonom').val());
                 formData.append('signo_archivo_desc', $('#descripcion_signo').val());
                 formData.append('tipo_signo_id', $('#tipo_signo_id').val());
-                formData.append('clase_niza_id', validarClaseNiza(localStorage.getItem("clase_niza") === null ? [] : localStorage.getItem("clase_niza")));
-                formData.append('prioridad_id', validarPrioridad(localStorage.getItem("prioridad") === null ? [] : localStorage.getItem("prioridad")));
-                formData.append("publicacion_id", validarPublicaciones(localStorage.getItem("publicacion") === null ? [] : localStorage.getItem("publicacion")));
-                formData.append("eventos_id", validarEventos(localStorage.getItem("eventos") === null ? [] : localStorage.getItem("eventos")));
-                formData.append("tareas_id", validarTareas(localStorage.getItem("tareas") === null ? [] : localStorage.getItem("tareas")));
-                formData.append("renovaciones_id" , validarRenovaciones( localStorage.getItem("renovaciones") === null ? [] : localStorage.getItem("renovaciones") ) );
+                let clase_niza = localStorage.getItem("clase_niza") || "[]";
+                formData.append('clase_niza_id', validarClaseNiza(clase_niza));
+                let prioridad = localStorage.getItem("prioridad") || "[]";
+                formData.append('prioridad_id', validarPrioridad(prioridad));
+                let publicacion = localStorage.getItem("publicacion") || "[]";
+                formData.append("publicacion_id", validarPublicaciones(publicacion));
+                let eventos = localStorage.getItem("eventos") || "[]";  
+                formData.append("eventos_id", validarEventos(eventos));
+                let tareas = localStorage.getItem("tareas") || "[]"; 
+                formData.append("tareas_id", validarTareas(tareas));
+                let renovaciones = localStorage.getItem("renovaciones") || "[]";
+                formData.append("renovaciones_id" , validarRenovaciones(renovaciones));
+                let cesiones = localStorage.getItem("cesiones") || "[]";  
                 formData.append("cesiones_id", validarCesiones(localStorage.getItem("cesiones") === null ? [] : localStorage.getItem("cesiones") ) );
-                formData.append("licencias_id", validarLicencia(localStorage.getItem("licencias") === null ? [] : localStorage.getItem("licencias")));
-                formData.append("fusiones_id", validarFusion(localStorage.getItem("fusiones") === null ? [] : localStorage.getItem("fusiones")) );
-                formData.append("camnom_id", validarCambioNombre(localStorage.getItem("camnom") === null ? [] : localStorage.getItem("camnom") ));
-                formData.append("camdom_id", validarCambioDomicilio(localStorage.getItem("camdom") === null ? [] : localStorage.getItem("camdom")));
+                let licencias = localStorage.getItem("licencias") || "[]";
+                formData.append("licencias_id", validarLicencia(licencias));
+                let fusiones = localStorage.getItem("fusiones") || "[]";
+                formData.append("fusiones_id", validarFusion(fusiones));
+                let camnom = localStorage.getItem("camnom") || "[]";
+                formData.append("camnom_id", validarCambioNombre(camnom));
+                let camdom = localStorage.getItem("camdom") || "[]";
+                formData.append("camdom_id", validarCambioDomicilio(camdom));
                 formData.append("doc_id", localStorage.getItem("documentos"));
                 /* Se agrega al Form todos los Documentos agregados */
                 var docu = JSON.parse(localStorage.getItem("documentos"));
                 docu.forEach(function(item){
                     formData.append("doc_archivo_" + item.idRow, $("#doc_archivo_" + item.idRow).get(0).files[0]);
                 });
+                let facturas = localStorage.getItem("facturas") || "[]";
                 formData.append("facturas_id", localStorage.getItem("facturas"));
                 
         
@@ -5836,17 +5938,17 @@
                     contentType: false,
                     success: function(response) {
                         console.log(" Respuesta : ",response);
-                        const obj = JSON.parse(response);
-                        if (obj.code == 200) {
-                            let id = obj.id;
-                            alert_float('success', 'Solicitud guardada con éxito!');
-                            let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
-                            ruta = ruta + id;
-                            location.replace(ruta);
-                        } else if (obj.code == 500) {
-                            console.log(" ")
-                            alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                        }
+                        // const obj = JSON.parse(response);
+                        // if (obj.code == 200) {
+                        //     let id = obj.id;
+                        //     alert_float('success', 'Solicitud guardada con éxito!');
+                        //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
+                        //     ruta = ruta + id;
+                        //     location.replace(ruta);
+                        // } else if (obj.code == 500) {
+                        //     console.log(" ")
+                        //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                        // }
 
                      
                         

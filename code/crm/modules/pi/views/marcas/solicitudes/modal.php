@@ -1918,7 +1918,7 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <?php echo form_label('Comentario', 'comentarioCamNom', ['id' => 'lblcomentarioCamNom']); ?>
-                <?php echo form_textarea(['name' => 'comentarioCamNom', 'id' => 'comentarioCamNom'], '', ['class' => 'form-control']); ?>
+                <?php echo form_textarea(['name' => 'comentarioCamNom', 'id' => 'comentarioCamNom'], '', ['class' => 'form-control' , 'style' => 'height: 100px' ]); ?>
               </div>
             </div> <!-- fin step 1-->
             <!-- step 2 -->
@@ -2070,7 +2070,7 @@
                             </div>
                             <div class="col-md-12" style="margin-top:10px">
                                 <?php echo form_label('Comentario', 'comentarioCamNom_edit',['id'=>'lblcomentarioCamNom_edit']);?>
-                                <?php echo form_textarea(['name'=>'comentarioCamNom_edit','id'=>'comentarioCamNom_edit'],'',['class' => 'form-control', 'style' => 'height: 100px;']);?>
+                                <?php echo form_textarea(['name'=>'comentarioCamNom_edit','id'=>'comentarioCamNom_edit'],'',['class' => 'form-control', 'style' => 'height: 100px']);?>
                             </div>
                         </div> <!--fin step 1-->
                         <!-- step 2 -->

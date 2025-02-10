@@ -5512,11 +5512,16 @@
         } else {
             eventos = JSON.parse(eventos);
             /*
-                [{"idRow":1,"fecha":"14/01/2025","tipo_evento_id":"5","tipo_evento_name":"AMPLIACIÃ“N DEL RECURSO DE RECONSIDERACIÃ“N","comentarios":"sadas","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editEvento\" id=\"prioridad_1\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteEvento\" id=\"eventos_1\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+                [{"idRow":1,
+                "fecha":"14/01/2025",
+                "tipo_evento_id":"5",
+                "tipo_evento_name":"AMPLIACIÃ“N DEL RECURSO DE RECONSIDERACIÃ“N",
+                "comentarios":"sadas",
+                "marcas_id":"30341",
+                "acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editEvento\" id=\"prioridad_1\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteEvento\" id=\"eventos_1\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
             */
             eventos.forEach(elemento => {
                 data_eventos = {
-                    "id": elemento.idRow,
                     "fecha": elemento.fecha,
                     "tipo_evento_id": elemento.tipo_evento_id,
                     "comentarios": elemento.comentarios,
@@ -5684,7 +5689,7 @@
         } else {
             cesiones = JSON.parse(cesiones);
             cesiones.forEach(elemento => {
-                data_cesiones = {
+                let data_cesiones = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
                     "staff_id" : elemento.tipo_tareas_id,
@@ -5853,117 +5858,101 @@
     $(document).on('submit', "#solicitudfrm", function(e) {
         e.preventDefault();
         var formData = new FormData();
-        console.log(" client_id ",$('#client_id').val() , " Staff_id  ",$('#staff_id').val() , " estado_id ", $('#estado_id').val() , " Fecha solicitud ",$('#fecha_solicitud').val()  ); 
-        // if (
-        //     $('#client_id').val() && 
-        //     $('#staff_id').val() && 
-        //     $('#estado_id').val() && 
-        //     $('#fecha_solicitud').val() 
-        //     ) 
-        //     {
-                console.log(" LLegue a Enviar la Marca ");
-                console.log(" Signo Archivo ",$('#signo_archivo').val());
-                formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-                formData.append('id', $("input[name=id]").val());
-                formData.append('cod_contador', $('#cod_contador').val());
-                formData.append('tipo_registro_id', $('#tipo_registro_id').val());
-                formData.append('client_id', $('#client_id').val());
-                formData.append('oficina_id', $('#oficina_id').val());
-                formData.append('staff_id', $('#staff_id').val());
-                //Pais_id fill
-                pais_id = JSON.stringify($('#pais_id').val());
-                formData.append('pais_id', pais_id);
-                //solicitantes_id fill
-                solicitantes_id = JSON.stringify($('#solicitantes_id').val());
-                formData.append('solicitantes_id', solicitantes_id);
-                formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
-                formData.append('ref_interna', $('#ref_interna').val());
-                formData.append('ref_cliente', $('#ref_cliente').val());
-                //formData.append('primer_uso', $('input[name=primer_uso').val());
-                formData.append('prueba_uso', $('#prueba_uso').val());
-                formData.append('carpeta', $('#carpeta').val());
-                formData.append('libro', $('#libro').val());
-                formData.append('tomo', $('#tomo').val());
-                formData.append('folio', $('#folio').val());
-                formData.append('comentarios', $('#comentarios').val());
-                formData.append('estado_id', $('#estado_id').val());
-                formData.append('solicitud', $('#solicitud').val());
-                formData.append('fecha_solicitud', $('#fecha_solicitud').val());
-                formData.append('registro', $('#registro').val());
-                formData.append('fecha_registro', $('#fecha_registro').val());
-                formData.append('certificado', $('#certificado').val());
-                formData.append('fecha_certificado', $('#fecha_certificado').val());
-                formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
-                formData.append('signo_archivo', $('#signo_archivo')[0].files.length > 0 ? $('#signo_archivo')[0].files[0] : '');
-                formData.append('signonom', $('#signonom').val());
-                formData.append('signo_archivo_desc', $('#descripcion_signo').val());
-                formData.append('tipo_signo_id', $('#tipo_signo_id').val());
-                let clase_niza = localStorage.getItem("clase_niza") || "[]";
-                formData.append('clase_niza_id', validarClaseNiza(clase_niza));
-                let prioridad = localStorage.getItem("prioridad") || "[]";
-                formData.append('prioridad_id', validarPrioridad(prioridad));
-                let publicacion = localStorage.getItem("publicacion") || "[]";
-                formData.append("publicacion_id", validarPublicaciones(publicacion));
-                let eventos = localStorage.getItem("eventos") || "[]";  
-                formData.append("eventos_id", validarEventos(eventos));
-                let tareas = localStorage.getItem("tareas") || "[]"; 
-                formData.append("tareas_id", validarTareas(tareas));
-                let renovaciones = localStorage.getItem("renovaciones") || "[]";
-                formData.append("renovaciones_id" , validarRenovaciones(renovaciones));
-                let cesiones = localStorage.getItem("cesiones") || "[]";  
-                formData.append("cesiones_id", validarCesiones(localStorage.getItem("cesiones") === null ? [] : localStorage.getItem("cesiones") ) );
-                let licencias = localStorage.getItem("licencias") || "[]";
-                formData.append("licencias_id", validarLicencia(licencias));
-                let fusiones = localStorage.getItem("fusiones") || "[]";
-                formData.append("fusiones_id", validarFusion(fusiones));
-                let camnom = localStorage.getItem("camnom") || "[]";
-                formData.append("camnom_id", validarCambioNombre(camnom));
-                let camdom = localStorage.getItem("camdom") || "[]";
-                formData.append("camdom_id", validarCambioDomicilio(camdom));
-                formData.append("doc_id", localStorage.getItem("documentos"));
-                /* Se agrega al Form todos los Documentos agregados */
-                var docu = JSON.parse(localStorage.getItem("documentos"));
-                docu.forEach(function(item){
-                    formData.append("doc_archivo_" + item.idRow, $("#doc_archivo_" + item.idRow).get(0).files[0]);
-                });
-                let facturas = localStorage.getItem("facturas") || "[]";
-                formData.append("facturas_id", localStorage.getItem("facturas"));
-                
-        
-                $.ajax({
-                    url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        console.log(" Respuesta : ",response);
-                        // const obj = JSON.parse(response);
-                        // if (obj.code == 200) {
-                        //     let id = obj.id;
-                        //     alert_float('success', 'Solicitud guardada con éxito!');
-                        //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
-                        //     ruta = ruta + id;
-                        //     location.replace(ruta);
-                        // } else if (obj.code == 500) {
-                        //     console.log(" ")
-                        //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                        // }
+        formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+        formData.append('id', $("input[name=id]").val());
+        formData.append('cod_contador', $('#cod_contador').val());
+        formData.append('tipo_registro_id', $('#tipo_registro_id').val());
+        formData.append('client_id', $('#client_id').val());
+        formData.append('oficina_id', $('#oficina_id').val());
+        formData.append('staff_id', $('#staff_id').val());
+        //Pais_id fill
+        pais_id = JSON.stringify($('#pais_id').val());
+        formData.append('pais_id', pais_id);
+        //solicitantes_id fill
+        solicitantes_id = JSON.stringify($('#solicitantes_id').val());
+        formData.append('solicitantes_id', solicitantes_id);
+        formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
+        formData.append('ref_interna', $('#ref_interna').val());
+        formData.append('ref_cliente', $('#ref_cliente').val());
+        //formData.append('primer_uso', $('input[name=primer_uso').val());
+        formData.append('prueba_uso', $('#prueba_uso').val());
+        formData.append('carpeta', $('#carpeta').val());
+        formData.append('libro', $('#libro').val());
+        formData.append('tomo', $('#tomo').val());
+        formData.append('folio', $('#folio').val());
+        formData.append('comentarios', $('#comentarios').val());
+        formData.append('estado_id', $('#estado_id').val());
+        formData.append('solicitud', $('#solicitud').val());
+        formData.append('fecha_solicitud', $('#fecha_solicitud').val());
+        formData.append('registro', $('#registro').val());
+        formData.append('fecha_registro', $('#fecha_registro').val());
+        formData.append('certificado', $('#certificado').val());
+        formData.append('fecha_certificado', $('#fecha_certificado').val());
+        formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
+        formData.append('signo_archivo', $('#signo_archivo')[0].files.length > 0 ? $('#signo_archivo')[0].files[0] : '');
+        formData.append('signonom', $('#signonom').val());
+        formData.append('signo_archivo_desc', $('#descripcion_signo').val());
+        formData.append('tipo_signo_id', $('#tipo_signo_id').val());
+        let clase_niza = localStorage.getItem("clase_niza") || "[]";
+        formData.append('clase_niza_id', validarClaseNiza(clase_niza));
+        let prioridad = localStorage.getItem("prioridad") || "[]";
+        formData.append('prioridad_id', validarPrioridad(prioridad));
+        let publicacion = localStorage.getItem("publicacion") || "[]";
+        formData.append("publicacion_id", validarPublicaciones(publicacion));
+        let eventos = localStorage.getItem("eventos") || "[]";  
+        formData.append("eventos_id", validarEventos(eventos));
+        let tareas = localStorage.getItem("tareas") || "[]"; 
+        formData.append("tareas_id", validarTareas(tareas));
+        let renovaciones = localStorage.getItem("renovaciones") || "[]";
+        formData.append("renovaciones_id" , validarRenovaciones(renovaciones));
+        let cesiones = localStorage.getItem("cesiones") || "[]";
+        console.log(" Enviar Cesiones ", validarCesiones(cesiones));
+        formData.append("cesiones_id", validarCesiones(cesiones) );
+        let licencias = localStorage.getItem("licencias") || "[]";
+        formData.append("licencias_id", validarLicencia(licencias));
+        let fusiones = localStorage.getItem("fusiones") || "[]";
+        formData.append("fusiones_id", validarFusion(fusiones));
+        let camnom = localStorage.getItem("camnom") || "[]";
+        formData.append("camnom_id", validarCambioNombre(camnom));
+        let camdom = localStorage.getItem("camdom") || "[]";
+        formData.append("camdom_id", validarCambioDomicilio(camdom));
+        formData.append("doc_id", localStorage.getItem("documentos"));
+        var docu = JSON.parse(localStorage.getItem("documentos"));
+        docu.forEach(function(item){
+            formData.append("doc_archivo_" + item.idRow, $("#doc_archivo_" + item.idRow).get(0).files[0]);
+        });
+        let facturas = localStorage.getItem("facturas") || "[]";
+        formData.append("facturas_id", localStorage.getItem("facturas"));
+        console.log(" Form Data ",formData);
+        $.ajax({
+            url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(" Respuesta : ",response);
+                // const obj = JSON.parse(response);
+                // if (obj.code == 200) {
+                //     let id = obj.id;
+                //     alert_float('success', 'Solicitud guardada con éxito!');
+                //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
+                //     ruta = ruta + id;
+                //     location.replace(ruta);
+                // } else if (obj.code == 500) {
+                //     console.log(" ")
+                //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                // }      
+            },
+            fail: function(request) {
+                <?php if (ENVIRONMENT != 'production') { ?>
+                    alert(response);
+                <?php } else { ?>
+                    alert('ha ocurrido un error');
+                <?php } ?>
+            }
+        });
 
-                     
-                        
-                    },
-                    fail: function(request) {
-                        <?php if (ENVIRONMENT != 'production') { ?>
-                            alert(response);
-                        <?php } else { ?>
-                            alert('ha ocurrido un error');
-                        <?php } ?>
-                    }
-                });
-            // } else {
-            //     alert(" Por Favor Introduzca Todos los Datos Correspondientes ");
-            // }
     });
 
     /***
@@ -6198,6 +6187,7 @@
             localStorage.setItem('eventos', JSON.stringify([]));
             localStorage.setItem('tareas', JSON.stringify([]));
             localStorage.setItem('cesiones', JSON.stringify([]));
+            localStorage.setItem('renovaciones', JSON.stringify([]));
             localStorage.setItem('cesionesanteriores', JSON.stringify([]));
             localStorage.setItem('cesionesactuales', JSON.stringify([]));
             localStorage.setItem('licencias', JSON.stringify([]));

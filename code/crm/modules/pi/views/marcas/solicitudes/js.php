@@ -5682,38 +5682,76 @@
         }
     }
 
-    function validarCesiones(cesiones) {
+   function validarCesiones(cesiones) {
         let cesiones_json = [];
+        let cesionesanteriores_json = [];
+        let cesionesactual_json = [];
+
         if (!cesiones || cesiones.length === 0) {
             return "[]";
         } else {
-            /*
-                [{"idRow":1,"tmp_cesion_id":1,"client_id":"4","client_id_name":"INDUSTRIAS FARCOSMETICAS ASOCIADAS C.A. (INDUFARAS).","oficina_id":"1","oficina_id_name":"ECV & ASOCIADOS","staff_id":"1","staff_id_name":"Administrador Local","estado_id":"3","estado_id_name":"101 - SOLICITUD CON EXAMEN DE FONDO/POR PUBLICAR DECISION","solicitud_num":"3131","fecha_solicitud":"12/02/2025","resolucion_num":"3131","fecha_resolucion":"11/02/2025","referencia_cliente":"31313","comentarios":"1313","cesionesanteriores":"[{\"idRow\":1,\"cedente_id\":2544,\"cedente_id_name\":\"INVERSIONES MI PARRILLITA C.A.\",\"tipo_cedente\":1,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesanteriores_0\\\" class=\\\"deleteCesionAnterior btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"}]","cesionesactuales":"[{\"idRow\":1,\"cedente_id\":2545,\"cedente_id_name\":\"URIBE TRENARD AUGUSTO JOSE.\",\"tipo_cedente\":2,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesactuales_0\\\" class=\\\"deleteCesionActual btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"}]","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\"btn btn-light col-mrg editCesion\" id=\"cesiones_1\" style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteCesion\" id=\"cesiones_1\"><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
-            */
             cesiones = JSON.parse(cesiones);
             cesiones.forEach(elemento => {
-                let cesionesanteriores;
-                let cesionesactuales; 
-                if ( !elemento.cesionesanteriores || elemento.cesionesanteriores === 0) { 
-                    
-                } else {
+                let cesionesanteriores = elemento.cesionesanteriores;
+                let cesionesactuales = elemento.cesionesactuales;
 
+                // Validar cesiones anteriores
+                if (!cesionesanteriores || cesionesanteriores === "[]" || cesionesanteriores === "null") {
+                    cesionesanteriores_json = [];
+                } else {
+                    try {
+                        cesionesanteriores = JSON.parse(cesionesanteriores);
+                        console.log("Tiene Cesion Anterior", cesionesanteriores);
+                        cesionesanteriores.forEach(elemento => {
+                            let data_cesionanterior = {
+                                'cedente_id': elemento.cedente_id,
+                                'cesion_id': elemento.cesion_id,
+                                'tipo_cedente': elemento.tipo_cedente,
+                            };
+                            cesionesanteriores_json.push(data_cesionanterior);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing cesionesanteriores:", e);
+                        cesionesanteriores_json = [];
+                    }
                 }
+
+                // Validar cesiones actuales
+                if (!cesionesactuales || cesionesactuales === "[]" || cesionesactuales === "null") {
+                    cesionesactual_json = [];
+                } else {
+                    try {
+                        cesionesactuales = JSON.parse(cesionesactuales);
+                        console.log("Tiene Cesion Actual", cesionesactuales);
+                        cesionesactuales.forEach(elemento => {
+                            let data_cesionanactual = {
+                                'cedente_id': elemento.cedente_id,
+                                'cesion_id': elemento.cesion_id,
+                                'tipo_cedente': elemento.tipo_cedente,
+                            };
+                            cesionesactual_json.push(data_cesionanactual);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing cesionesactuales:", e);
+                        cesionesactual_json = [];
+                    }
+                }
+
                 let data_cesiones = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
-                    "staff_id" : elemento.tipo_tareas_id,
+                    "staff_id": elemento.staff_id,
                     "estado_id": elemento.estado_id,
                     "solicitud_num": elemento.solicitud_num,
-                    "fecha_solicitud" : elemento.fecha_solicitud,
-                    "resolucion_num": elemento.estado_id,
-                    "fecha_resolucion" : elemento.fecha_resolucion,
+                    "fecha_solicitud": elemento.fecha_solicitud,
+                    "resolucion_num": elemento.resolucion_num,
+                    "fecha_resolucion": elemento.fecha_resolucion,
                     "referencia_cliente": elemento.referencia_cliente,
-                    "comentarios" : elemento.comentarios,
-                    "cesionesanteriores" : elemento.cesionesanteriores,
-                    "cesionesactuales" : elemento.cesionesactuales,
-                    "marcas_id" : elemento.marcas_id
-                } 
+                    "comentarios": elemento.comentarios,
+                    "cesionesanteriores": JSON.stringify(cesionesanteriores_json),
+                    "cesionesactuales": JSON.stringify(cesionesactual_json),
+                    "marcas_id": elemento.marcas_id
+                };
                 cesiones_json.push(data_cesiones);
             });
             return JSON.stringify(cesiones_json);
@@ -5722,11 +5760,55 @@
 
     function validarLicencia(licencia) {
         let licencia_json = [];
+        let licenciasanterior_json = [];
+        let licenciasactual_json = [];
         if (!licencia || licencia.length === 0) {
             return "[]"; // Retorna un array vacío como cadena JSON
         } else {
             licencia = JSON.parse(licencia);
             licencia.forEach(elemento => {
+                let licenciasanteriores = elemento.licenciasanteriores;
+                let licenciasactual = elemento.licenciasactuales;
+                if (!licenciasanteriores || licenciasanteriores === "[]" || licenciasanteriores === "null") {  
+                     licenciaanterior_json = [];
+                } else {
+                    try {
+                        licenciasanteriores = JSON.parse(licenciasanteriores);
+                        console.log("Tiene Cesion Anterior", licenciasanteriores);
+                        licenciasanteriores.forEach(elemento => {
+                            let data_licenciasanterior = {
+                                'propietario_id': elemento.propietario_id,
+                                'licencia_id': elemento.licencia_id,
+                                'tipo_licenciante': elemento.tipo_licenciante,
+                            };
+                            licenciasanterior_json.push(data_licenciasanterior);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing Licencia Anterior:", e);
+                        licenciasanterior_json = [];
+                    }
+                }
+
+                if (!licenciasactual || licenciasactual === "[]" || licenciasactual === "null") { 
+                    licenciasactual_json = [];
+                } else {
+                    try {
+                        licenciasactual = JSON.parse(licenciasactual);
+                        console.log("Tiene Cesion Anterior", licenciasactual);
+                        licenciasactual.forEach(elemento => {
+                            let data_licenciasactual = {
+                                'propietario_id': elemento.propietario_id,
+                                'licencia_id': elemento.licencia_id,
+                                'tipo_licenciante': elemento.tipo_licenciante,
+                            };
+                            licenciasactual_json.push(data_licenciasactual);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing Licencia Anterior:", e);
+                        licenciasactual_json = [];
+                    }
+                }
+
                 data_licencia = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
@@ -5738,8 +5820,8 @@
                     "fecha_resolucion": elemento.fecha_resolucion,
                     "referencia_cliente": elemento.referencia_cliente,
                     "comentarios": elemento.comentarios,
-                    "licenciasanteriores": elemento.licenciasanteriores,
-                    "licenciasactuales": elemento.licenciasactuales,
+                    "licenciasanteriores": JSON.stringify(licenciasanterior_json),
+                    "licenciasactuales": JSON.stringify(licenciasactual_json),
                     "marcas_id": elemento.marcas_id
                 };
                 licencia_json.push(data_licencia);
@@ -5750,11 +5832,55 @@
 
     function validarFusion(fusion) {
         let fusion_json = [];
+        let fusionanterior_json = [];
+        let fusionactual_json = [];
         if (!fusion || fusion.length === 0) {
             return "[]";
         } else {
             fusion = JSON.parse(fusion);
             fusion.forEach(elemento => {
+                let fusionanterior = elemento.fusionesanteriores;
+                let fusionactual = elemento.fusionesactuales;
+                if (!fusionanterior || fusionanterior === "[]" || fusionanterior === "null") {  
+                    fusionanterior_json = [];
+                } else {
+       
+                    try {
+                        fusionanterior = JSON.parse(fusionanterior);
+                        console.log("Tiene Fusion Anterior", fusionanterior);
+                        fusionanterior.forEach(elemento => {
+                            let data_fusionanterior = {
+                                'propietario_id': elemento.propietario_id,
+                                'fusion_id': elemento.fusion_id,
+                                'tipo_participante': elemento.tipo_participante,
+                            };
+                            fusionanterior_json.push(data_fusionanterior);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing Fusion Anterior:", e);
+                        fusionanterior_json = [];
+                    }
+                }
+
+                if (!fusionactual || fusionactual === "[]" || fusionactual === "null") { 
+                    fusionactual_json = [];
+                }  else {
+                    try {
+                        fusionactual = JSON.parse(fusionactual);
+                        console.log("Tiene Fusion Actual", fusionactual);
+                        fusionactual.forEach(elemento => {
+                            let data_fusionactual = {
+                               'propietario_id': elemento.propietario_id,
+                                'fusion_id': elemento.fusion_id,
+                                'tipo_participante': elemento.tipo_participante,
+                            };
+                            fusionactual_json.push(data_fusionactual);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing Fusion Actual:", e);
+                        fusionactual_json = [];
+                    }
+                }
                 data_fusion = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
@@ -5766,8 +5892,8 @@
                     "fecha_resolucion" : elemento.fecha_resolucion,
                     "referencia_cliente": elemento.referencia_cliente,
                     "comentarios" : elemento.comentarios,
-                    "fusionesanteriores": elemento.fusionesanteriores,
-                    "fusionesactuales": elemento.fusionesactuales,
+                    "fusionesanteriores": JSON.stringify(fusionanterior_json),
+                    "fusionesactuales": JSON.stringify(fusionactual_json),
                     "marcas_id" : elemento.marcas_id
                 } 
                 fusion_json.push(data_fusion);
@@ -5779,11 +5905,70 @@
 
     function validarCambioNombre(cambioNombre) {
         let cambioNombre_json = [];
+        let camnomanterior_json = [];
+        let camnomactual_json = [];
         if (!cambioNombre || cambioNombre.length === 0) {
             return "[]";
         } else {
             cambioNombre = JSON.parse(cambioNombre);
             cambioNombre.forEach(elemento => {
+                let camnomanterioriores = elemento.camnomanteriores;
+                let camnomactuales = elemento.camnomactuales;
+                if (!camnomanterioriores || camnomanterioriores === "[]" || camnomanterioriores === "null") { 
+                    camnomanterior_json = [];
+                } else {
+                    try {
+                        camnomanterioriores = JSON.parse(camnomanterioriores);
+                        console.log("Tiene Cambio de Nombre Anterior", camnomanterioriores);
+                        camnomanterioriores.forEach(elemento => {
+                       
+                            let data_camnomanterior = {
+                                'propietario_id': elemento.propietario_id,
+                                'cambio_nombre_id': elemento.camnom_id,
+                                'tipo_nombre' : elemento.tipo_nombre
+                            };
+                            camnomanterior_json.push(data_camnomanterior);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing Cambio de Nombre Anterior:", e);
+                        camnomanterior_json = [];
+                    }
+                }
+
+                if (!camnomactuales || camnomactuales === "[]" || camnomactuales === "null") { 
+                    camnomactual_json = [];
+                } else {
+                    try {
+                        camnomactuales = JSON.parse(camnomactuales);
+                        console.log("Tiene Cambio de Nombre Anterior", camnomactuales);
+                        camnomactuales.forEach(elemento => {
+                            let data_camnomactual = {
+                                'propietario_id': elemento.propietario_id,
+                                'cambio_nombre_id': elemento.camnom_id,
+                                'tipo_nombre' : elemento.tipo_nombre
+                            };
+                            camnomactual_json.push(data_camnomactual);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing Cambio de Nombre Actual:", e);
+                        camnomactual_json = [];
+                    }
+                }
+
+                  /*
+                    `client_id` int(11) DEFAULT NULL,
+                    `oficina_id` int(11) NOT NULL,
+                    `marcas_id` int(11) NOT NULL,
+                    `staff_id` int(11) DEFAULT NULL,
+                    `estado_id` int(11) NOT NULL,
+                    `num_solicitud` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+                    `fecha_solicitud` date NOT NULL,
+                    `num_resolucion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+                    `fecha_resolucion` date NOT NULL,
+                    `referencia_cliente` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+                    `comentarios` text COLLATE utf8mb4_spanish_ci NOT NULL,    
+                */
+
                 data_cambioNombre = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
@@ -5795,8 +5980,8 @@
                     "fecha_resolucion" : elemento.fecha_resolucion,
                     "referencia_cliente": elemento.referencia_cliente,
                     "comentarios" : elemento.comentarios,
-                    "camnomanteriores": elemento.camnomanteriores,
-                    "camnomactuales": elemento.camnomactuales,
+                    "camnomanteriores": JSON.stringify(camnomanterior_json),
+                    "camnomactuales": JSON.stringify(camnomactual_json),
                     "marcas_id" : elemento.marcas_id
                 } 
                 cambioNombre_json.push(data_cambioNombre);
@@ -5807,11 +5992,55 @@
 
     function validarCambioDomicilio(cambioDomicilio) {
         let cambioDomicilio_json = [];
+        let camdomanterior_json = [];
+        let camdomactual_json = [];
         if (!cambioDomicilio || cambioDomicilio.length === 0) {
             return "[]";
         } else { 
             cambioDomicilio = JSON.parse(cambioDomicilio);
             cambioDomicilio.forEach(elemento => {
+                let camdomanteriores = elemento.camdomanteriores;
+                let camdomactuales = elemento.camdomactuales;
+                if (!camdomanteriores || camdomanteriores === "[]" || camdomanteriores === "null") { 
+                    camdomanterior_json = [];
+                } else {
+                    try {
+                        camdomanteriores = JSON.parse(camdomanteriores);
+                        console.log("Tiene Cambio de Domicilio Anterior", camdomanteriores);
+                        camdomanteriores.forEach(elemento => {
+                       
+                            let data_camdomanterior = {
+                                'propietario_id': elemento.propietario_id,
+                                'cambio_nombre_id': elemento.camnom_id,
+                                'tipo_nombre' : elemento.tipo_nombre
+                            };
+                            camdomanterior_json.push(data_camdomanterior);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing Cambio de Domicilio Anterior:", e);
+                        camdomanterior_json = [];
+                    }
+                }
+
+                if (!camdomactuales || camdomactuales === "[]" || camdomactuales === "null") { 
+                    camdomactual_json = [];
+                } else {
+                    try {
+                        camdomactuales = JSON.parse(camdomactuales);
+                        console.log("Tiene Cambio de Nombre Anterior", camdomactuales);
+                        camdomactuales.forEach(elemento => {
+                            let data_camdomactual = {
+                                'propietario_id': elemento.propietario_id,
+                                'cambio_nombre_id': elemento.camnom_id,
+                                'tipo_nombre' : elemento.tipo_nombre
+                            };
+                            camdomactual_json.push(data_camdomactual);
+                        });
+                    } catch (e) {
+                        console.error("Error parsing Cambio de Nombre Actual:", e);
+                        camdomactual_json = [];
+                    }
+                }
                 data_cambioDomicilio = { 
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
@@ -5823,8 +6052,8 @@
                     "fecha_resolucion" : elemento.fecha_resolucion,
                     "referencia_cliente": elemento.referencia_cliente,
                     "comentarios" : elemento.comentarios,
-                    "camdomanteriores": elemento.camdomanteriores,
-                    "camdomactuales": elemento.camdomactuales,
+                    "camdomanteriores": JSON.stringify(camdomanterior_json),
+                    "camdomactuales": JSON.stringify(camdomactual_json),
                     "marcas_id" : elemento.marcas_id
                 }
                 cambioDomicilio_json.push(data_cambioDomicilio);
@@ -5916,7 +6145,7 @@
         let renovaciones = localStorage.getItem("renovaciones") || "[]";
         formData.append("renovaciones_id" , validarRenovaciones(renovaciones));
         let cesiones = localStorage.getItem("cesiones") || "[]";
-        console.log(" Enviar Cesiones ", validarCesiones(cesiones));
+        //console.log(" Enviar Cesiones ", validarCesiones(cesiones));
         formData.append("cesiones_id", validarCesiones(cesiones) );
         let licencias = localStorage.getItem("licencias") || "[]";
         formData.append("licencias_id", validarLicencia(licencias));

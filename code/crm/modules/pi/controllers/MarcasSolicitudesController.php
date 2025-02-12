@@ -961,28 +961,28 @@ class MarcasSolicitudesController extends AdminController
       $cesiones = json_decode($data['cesiones_id'], TRUE);
       $cesiones_ant_id = array();
       $cesiones_act_id = array();
-  //    echo json_encode(['cesiones' => $cesiones, 'message' => 'succes' ]);
-      if (is_array($cesiones)) {
-        // for ($i = 0; $i < count($cesiones); ++$i) {
-        //   // unset($cesiones[$i]['idRow']);
-        //   // unset($cesiones[$i]['tmp_cesion_id']);
-        //   // unset($cesiones[$i]['client_id_name']);
-        //   // unset($cesiones[$i]['oficina_id_name']);
-        //   // unset($cesiones[$i]['staff_id_name']);
-        //   // unset($cesiones[$i]['estado_id_name']);
-        //   // unset($cesiones[$i]['acciones']);
-        //   $cesiones_ant_id[$i] = json_decode($cesiones[$i]['cesionesanteriores'], TRUE);
-        //   unset($cesiones[$i]['cesionesanteriores']);
-        //   $cesiones_act_id[$i] = json_decode($cesiones[$i]['cesionesactuales'], TRUE);
-        //   unset($cesiones[$i]['cesionesactuales']);
-        //   $cesiones[$i]['fecha_solicitud'] = empty($cesiones[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_solicitud']);
-        //   $cesiones[$i]['fecha_resolucion'] = empty($cesiones[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_resolucion']);
-        // }
-        echo json_encode(['message' => 'cesiones Mostrar' , 'data' =>  $cesiones]);
-      } else {
-        echo json_encode(['message' => 'No tiene Cesiones']);
-        $cesiones = [];
-      }
+      echo json_encode(['cesiones' => $cesiones, 'message' => 'succes' ]);
+      // if (is_array($cesiones)) {
+      //   for ($i = 0; $i < count($cesiones); ++$i) {
+      //     // unset($cesiones[$i]['idRow']);
+      //     // unset($cesiones[$i]['tmp_cesion_id']);
+      //     // unset($cesiones[$i]['client_id_name']);
+      //     // unset($cesiones[$i]['oficina_id_name']);
+      //     // unset($cesiones[$i]['staff_id_name']);
+      //     // unset($cesiones[$i]['estado_id_name']);
+      //     // unset($cesiones[$i]['acciones']);
+      //     $cesiones_ant_id[$i] = json_decode($cesiones[$i]['cesionesanteriores'], TRUE);
+      //     unset($cesiones[$i]['cesionesanteriores']);
+      //     $cesiones_act_id[$i] = json_decode($cesiones[$i]['cesionesactuales'], TRUE);
+      //     unset($cesiones[$i]['cesionesactuales']);
+      //     $cesiones[$i]['fecha_solicitud'] = empty($cesiones[$i]['fecha_solicitud']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_solicitud']);
+      //     $cesiones[$i]['fecha_resolucion'] = empty($cesiones[$i]['fecha_resolucion']) || '' ? NULL : $this->turn_dates($cesiones[$i]['fecha_resolucion']);
+      //   }
+      //   echo json_encode(['message' => 'cesiones Mostrar' , 'data' =>  $cesiones , '$cesiones_ant_id' => $cesiones_ant_id , 'cesiones_act_id' => $cesiones_act_id ]);
+      // } else {
+      //   echo json_encode(['message' => 'No tiene Cesiones']);
+      //   $cesiones = [];
+      // }
 
 
   
@@ -1105,39 +1105,39 @@ class MarcasSolicitudesController extends AdminController
     // } else {
     //   echo json_encode(['message' => 'No tiene eventos' ]);
     // }
-    echo json_encode(['message' => 'Tiene Cesiones' , 'cesiones' => $cesiones]);
-    if (!empty($cesiones) ) {
-      echo json_encode(['message' => 'Tiene Cesiones' , 'cesiones' => $cesiones]);
-      //for ($i = 0; $i < count($cesiones); ++$i) {
-      //   /* INSERTO LA CESION Y RETORNO SU ID*/
-     //  $cesion_id = $CI->MarcasSolicitudes_model->insertCesiones($cesiones);
+    //echo json_encode(['message' => 'Tiene Cesiones' , 'cesiones' => $cesiones]);
+  //   if (!empty($cesiones) ) {
+  //     //echo json_encode(['message' => 'Tiene Cesiones' , 'cesiones' => $cesiones]);
+  //     for ($i = 0; $i < count($cesiones); ++$i) {
+  //       /* INSERTO LA CESION Y RETORNO SU ID*/
+  //     $cesion_id = $CI->MarcasSolicitudes_model->insertCesiones($cesiones[$i]);
 
-      // echo json_encode(['message' => 'Tiene Cesiones' , 'cesiones' => $cesion_id]);
+  // //    echo json_encode(['message' => 'Tiene Cesiones' , 'cesiones' => $cesion_id]);
 
-      //   // /*Guardamos las cesiones anteriores  */
-      //   // if (!empty($cesiones_ant_id) && is_array($cesiones_ant_id)) {
-      //   //   echo json_encode(['message' => 'Tiene Cesiones anterior']);
-      //   //   // for ($j = 0; $j < count($cesiones_ant_id[$i]); ++$j) {
-      //   //   //   unset($cesiones_ant_id[$i][$j]['idRow']);
-      //   //   //   unset($cesiones_ant_id[$i][$j]['cedente_id_name']);
-      //   //   //   unset($cesiones_ant_id[$i][$j]['acciones']);
-      //   //   //   $cesiones_ant_id[$i][$j]['cesion_id'] = $cesion_id;
-      //   //   // }
-      //   //   // $CI->MarcasSolicitudes_model->insertCesionesAntAct($cesiones_ant_id[$i]);
-      //   // }
-      //   // /*Guardamos las cesiones actuales  */
-      //   // if (!empty($cesiones_act_id) && is_array($cesiones_act_id)) {
-      //   //   echo json_encode(['message' => 'Tiene Cesiones actual']);
-      //   //   // for ($j = 0; $j < count($cesiones_act_id[$i]); ++$j) {
-      //   //   //   unset($cesiones_act_id[$i][$j]['idRow']);
-      //   //   //   unset($cesiones_act_id[$i][$j]['cedente_id_name']);
-      //   //   //   unset($cesiones_act_id[$i][$j]['acciones']);
-      //   //   //   $cesiones_act_id[$i][$j]['cesion_id'] = $cesion_id;
-      //   //   // }
-      //   //   // $CI->MarcasSolicitudes_model->insertCesionesAntAct($cesiones_act_id[$i]);
-      //   // }
-     // }
-    }
+  //       // /*Guardamos las cesiones anteriores  */
+  //       // if (!empty($cesiones_ant_id[0]) && is_array($cesiones_ant_id)) {
+  //       //   echo json_encode(['message' => 'Tiene Cesiones anterior']);
+  //       //   // for ($j = 0; $j < count($cesiones_ant_id[$i]); ++$j) {
+  //       //   //   unset($cesiones_ant_id[$i][$j]['idRow']);
+  //       //   //   unset($cesiones_ant_id[$i][$j]['cedente_id_name']);
+  //       //   //   unset($cesiones_ant_id[$i][$j]['acciones']);
+  //       //   //   $cesiones_ant_id[$i][$j]['cesion_id'] = $cesion_id;
+  //       //   // }
+  //       //   // $CI->MarcasSolicitudes_model->insertCesionesAntAct($cesiones_ant_id[$i]);
+  //       // }
+  //       // /*Guardamos las cesiones actuales  */
+  //       // if (!empty($cesiones_act_id[0]) && is_array($cesiones_act_id)) {
+  //       //  echo json_encode(['message' => 'Tiene Cesiones actual']);
+  //       //   // for ($j = 0; $j < count($cesiones_act_id[$i]); ++$j) {
+  //       //   //   unset($cesiones_act_id[$i][$j]['idRow']);
+  //       //   //   unset($cesiones_act_id[$i][$j]['cedente_id_name']);
+  //       //   //   unset($cesiones_act_id[$i][$j]['acciones']);
+  //       //   //   $cesiones_act_id[$i][$j]['cesion_id'] = $cesion_id;
+  //       //   // }
+  //       //   // $CI->MarcasSolicitudes_model->insertCesionesAntAct($cesiones_act_id[$i]);
+  //       // }
+  //     }
+  //   }
 
       // try {
       //   $query = $CI->MarcasSolicitudes_model->insert($form);

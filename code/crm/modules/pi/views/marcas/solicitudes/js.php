@@ -5687,8 +5687,18 @@
         if (!cesiones || cesiones.length === 0) {
             return "[]";
         } else {
+            /*
+                [{"idRow":1,"tmp_cesion_id":1,"client_id":"4","client_id_name":"INDUSTRIAS FARCOSMETICAS ASOCIADAS C.A. (INDUFARAS).","oficina_id":"1","oficina_id_name":"ECV & ASOCIADOS","staff_id":"1","staff_id_name":"Administrador Local","estado_id":"3","estado_id_name":"101 - SOLICITUD CON EXAMEN DE FONDO/POR PUBLICAR DECISION","solicitud_num":"3131","fecha_solicitud":"12/02/2025","resolucion_num":"3131","fecha_resolucion":"11/02/2025","referencia_cliente":"31313","comentarios":"1313","cesionesanteriores":"[{\"idRow\":1,\"cedente_id\":2544,\"cedente_id_name\":\"INVERSIONES MI PARRILLITA C.A.\",\"tipo_cedente\":1,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesanteriores_0\\\" class=\\\"deleteCesionAnterior btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"}]","cesionesactuales":"[{\"idRow\":1,\"cedente_id\":2545,\"cedente_id_name\":\"URIBE TRENARD AUGUSTO JOSE.\",\"tipo_cedente\":2,\"cesion_id\":1,\"acciones\":\"<div class=\\\"col-md-6\\\"><a id=\\\"cesionesactuales_0\\\" class=\\\"deleteCesionActual btn btn-light link-style\\\" style= \\\"background-color: white;padding-top: 0px;\\\"><i class=\\\"fas fa-trash\\\" style=\\\"top: 5px;\\\"></i>Borrar</a></div>\"}]","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\"btn btn-light col-mrg editCesion\" id=\"cesiones_1\" style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteCesion\" id=\"cesiones_1\"><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+            */
             cesiones = JSON.parse(cesiones);
             cesiones.forEach(elemento => {
+                let cesionesanteriores;
+                let cesionesactuales; 
+                if ( !elemento.cesionesanteriores || elemento.cesionesanteriores === 0) { 
+                    
+                } else {
+
+                }
                 let data_cesiones = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,

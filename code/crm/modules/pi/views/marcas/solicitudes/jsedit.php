@@ -38,6 +38,11 @@
     /* Para cambiar el color de los Label  luego de un error*/
     const color_lbl = 'rgb(71 85 105)';
     var formData = new FormData();
+
+    $('#modal-loading').modal('show');
+    $("#AddAccion").css({
+        "padding-left": "7px",
+    });
    
 
     /* ####################################################################### */
@@ -341,7 +346,70 @@
         }
     });
 
-    /**** funcion para editar la prioridad*/
+    function paisDesignadoMostrar(){
+        let paises = "<?php  $paises = json_encode($values['pais_id']); echo $paises;?>";
+        if (Array.isArray(paises) || !paises){
+            let paises_array = JSON.stringify(paises);
+            console.log(" Paises ",paises_array);
+          //  $('#pais_id').val(paises_array).change();
+        };
+    }
+
+    function mostrarImagenInicar() {
+        let ruta = "<?php  echo $values['signo_archivo']?>";
+        if (ruta === ''){
+            ruta = "http://localhost/ecv_marcas/code/crm/uploads/marcas/signos/noimage.png";
+        } 
+        console.log(" ruta : ",ruta);  
+        $('#preview-image').attr('src', ruta);
+        $('#preview-image').show();
+        // Mostramos el botón de eliminación
+        $('#eliminar').show();
+    }
+       
+   // Función para mostrar la imagen y el botón de eliminación
+    function mostrarImagen() {
+        var input = $('#signo_archivo')[0];
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $('#preview-image').attr('src', e.target.result);
+                $('#preview-image').show();
+                
+                // Mostramos el botón de eliminación
+                $('#eliminar').show();
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            // Ocultamos el botón de eliminación si no se seleccionó una imagen
+            $('#eliminar').hide();
+        }
+    }
+
+    // Función para eliminar la imagen
+    function eliminarImagen() {
+        var imagen = $('#preview-image');
+        var botonEliminar = $('#eliminar');
+        
+        // Ocultamos la imagen y el botón de eliminación
+        imagen.hide();
+        botonEliminar.hide();
+        
+        // Limpiamos el input de archivos
+        $('#signo_archivo').val('');
+    }
+
+    // Evento para cambiar el archivo
+    $('#signo_archivo').change(mostrarImagen);
+
+    // Evento para eliminar la imagen
+    $('#eliminar').click(eliminarImagen);
+
+   
+
+    // /**** funcion para editar la prioridad*/
     $("#prioridadEditfrmsubmit").on('click', function(e){
         e.preventDefault();
         if ($('#pais_prioridad_edit').val() && $('#fecha_prioridad_edit').val()
@@ -1622,6 +1690,9 @@
                 
         })
     }
+
+
+    
 
 
     /* ####################################################################### */
@@ -6095,53 +6166,53 @@
                 url:"<?php echo admin_url("pi/MarcasSolicitudesController/getInvoicesByMarca/{$id}");?>",
                 method:"GET",
                 success: function(response){
-                    res = JSON.parse(response);
-                    console.log('Facturas', res.data);
-                    $('#tblInvoices').DataTable( {
-                        autoWidth: false,
-                        destroy: true,
-                        data: res.data,
-                        columnDefs: [
-                            { width: '15%', targets: 0 },
-                            { width: '30%', targets: 1 },
-                            { width: '30%', targets: 2 },
-                            { width: '25%', targets: 3 }
-                        ],
-                        columns: [
-                            {
-                                data: 'factura',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'fecha',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'estatus',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'acciones',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            },
-                        ],
-                        width: "100%",
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                        }
-                    });
+                    // res = JSON.parse(response);
+                    // console.log('Facturas', res.data);
+                    // $('#tblInvoices').DataTable( {
+                    //     autoWidth: false,
+                    //     destroy: true,
+                    //     data: res.data,
+                    //     columnDefs: [
+                    //         { width: '15%', targets: 0 },
+                    //         { width: '30%', targets: 1 },
+                    //         { width: '30%', targets: 2 },
+                    //         { width: '25%', targets: 3 }
+                    //     ],
+                    //     columns: [
+                    //         {
+                    //             data: 'factura',
+                    //             render: function (data, type, row)
+                    //             {
+                    //                 return "<div class='col-12'>" + data + "</div>"
+                    //             }
+                    //         },
+                    //         {
+                    //             data: 'fecha',
+                    //             render: function (data, type, row)
+                    //             {
+                    //                 return "<div class='col-12'>" + data + "</div>"
+                    //             }
+                    //         },
+                    //         {
+                    //             data: 'estatus',
+                    //             render: function (data, type, row)
+                    //             {
+                    //                 return "<div class='col-12'>" + data + "</div>"
+                    //             }
+                    //         },
+                    //         {
+                    //             data: 'acciones',
+                    //             render: function (data, type, row)
+                    //             {
+                    //                 return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                    //             }
+                    //         },
+                    //     ],
+                    //     width: "100%",
+                    //     language: {
+                    //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                    //     }
+                    // });
                 }
             })
         }
@@ -6289,10 +6360,10 @@
         $(elem).prev().find('a[data-toggle="tab"]').click();
     }
 
-    $(".calendar").on('keyup', function(e){
-        e.preventDefault();
-        $(".calendar").val('');
-    })
+    // $(".calendar").on('keyup', function(e){
+    //     e.preventDefault();
+    //    // $(".calendar").val('');
+    // })
 
     $("select").selectpicker({
         liveSearch:true,
@@ -6342,12 +6413,12 @@
 
         });
 
-        $(".calendar").datetimepicker({
-                maxDate: fecha(),
-                weeks: true,
-                format: 'd/m/Y',
-                timepicker:false,
-        });
+        // $(".calendar").datetimepicker({
+        //         maxDate: fecha(),
+        //         weeks: true,
+        //         format: 'd/m/Y',
+        //         timepicker:false,
+        // });
 
         TablaClases();
         TablaPrioridades();
@@ -6361,7 +6432,10 @@
         TablaCambioDomicilio();
         TablaDocumentos();
         TablaFacturas();
-
+        mostrarImagenInicar();
+        paisDesignadoMostrar();
+         /* Cierra el Modal de Carga */
+         $('#modal-loading').modal('hide');
     });
 
 

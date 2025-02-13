@@ -91,7 +91,6 @@
 
     })
 
-    
        
    // Función para mostrar la imagen y el botón de eliminación
     function mostrarImagen() {
@@ -6008,11 +6007,26 @@
                         camdomanteriores = JSON.parse(camdomanteriores);
                         console.log("Tiene Cambio de Domicilio Anterior", camdomanteriores);
                         camdomanteriores.forEach(elemento => {
-                       
+                            /*
+                                `cambio_domicilio_id` int(11) NOT NULL,
+                                `tipo_domicilio` int(11) DEFAULT NULL COMMENT '1 = Domicilio Anterior\r\n2 = Domicilio Actual',
+                                `propietario_id` int(11) NOT NULL,
+                            */
+                            /*
+                                [
+                                    {
+                                        "idRow":1,
+                                        "propietario_id":2545,
+                                        "propietario_id_name":"URIBE TRENARD AUGUSTO JOSE. - ",
+                                        "tipo_domicilio":1,
+                                        "cambio_domicilio_id":1
+                                    }
+                                ]
+                            */
                             let data_camdomanterior = {
-                                'propietario_id': elemento.propietario_id,
-                                'cambio_nombre_id': elemento.camnom_id,
-                                'tipo_nombre' : elemento.tipo_nombre
+                                'cambio_domicilio_id': elemento.cambio_domicilio_id,
+                                'tipo_domicilio' : elemento.tipo_domicilio,
+                                'propietario_id': elemento.propietario_id
                             };
                             camdomanterior_json.push(data_camdomanterior);
                         });
@@ -6030,9 +6044,9 @@
                         console.log("Tiene Cambio de Nombre Anterior", camdomactuales);
                         camdomactuales.forEach(elemento => {
                             let data_camdomactual = {
-                                'propietario_id': elemento.propietario_id,
-                                'cambio_nombre_id': elemento.camnom_id,
-                                'tipo_nombre' : elemento.tipo_nombre
+                                'cambio_domicilio_id': elemento.cambio_domicilio_id,
+                                'tipo_domicilio' : elemento.tipo_domicilio,
+                                'propietario_id': elemento.propietario_id
                             };
                             camdomactual_json.push(data_camdomactual);
                         });
@@ -6161,7 +6175,7 @@
             formData.append("doc_archivo_" + item.idRow, $("#doc_archivo_" + item.idRow).get(0).files[0]);
         });
         let facturas = localStorage.getItem("facturas") || "[]";
-        formData.append("facturas_id", localStorage.getItem("facturas"));
+        formData.append("facturas_id", validarFactura(facturas));
         console.log(" Form Data ",formData);
         $.ajax({
             url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
@@ -6171,17 +6185,17 @@
             contentType: false,
             success: function(response) {
                 console.log(" Respuesta : ",response);
-                // const obj = JSON.parse(response);
-                // if (obj.code == 200) {
-                //     let id = obj.id;
-                //     alert_float('success', 'Solicitud guardada con éxito!');
-                //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
-                //     ruta = ruta + id;
-                //     location.replace(ruta);
-                // } else if (obj.code == 500) {
-                //     console.log(" ")
-                //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                // }      
+                const obj = JSON.parse(response);
+                if (obj.code == 200) {
+                    let id = obj.id;
+                    alert_float('success', 'Solicitud guardada con éxito!');
+                    let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
+                    ruta = ruta + id;
+                    location.replace(ruta);
+                } else if (obj.code == 500) {
+                    console.log(" ")
+                    alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                }      
             },
             fail: function(request) {
                 <?php if (ENVIRONMENT != 'production') { ?>

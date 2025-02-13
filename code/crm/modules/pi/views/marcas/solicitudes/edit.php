@@ -180,6 +180,10 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             'selected' => set_value('tipo_signo_id', $values['tipo_signo_id'])
                                         ]); ?>
                                     </div>
+                                    <div class="col-md-12" style="padding-top: 20px;">
+                                            <img id="preview-image" src="#" alt="Previsualización" style="display:none; width: 200px; ">
+                                            <button id="eliminar" class="btn btn-danger" type="button" click="eliminarImagen()" style="display:none;">  Eliminar</button>
+                                    </div>
                                     <!-- Clase niza -->
                                     <div class='col-md-12' style="padding: 2%;">
                                         <div class="all-info-container">
@@ -530,6 +534,53 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         <div class="col-md-6">
                                             <h4><?php echo form_label('N° Expediente Solicitud: ', ''); ?><strong><?php echo ' ' . $values['cod_contador']; ?></strong>
                                             </h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="all-info-container">
+                                            <div class="list-content">
+                                                <a href="#renovacion" data-toggle="collapse" aria-expanded="false"
+                                                    aria-controls="listone">Renovacion<i class="fa fa-chevron-down"></i></a>
+                                                <div class="collapse" id="renovacion" >
+                                                    <div class="list-box">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-primary pull-right"
+                                                                    id="AddRenovacionAbrirModal" data-toggle="modal"
+                                                                    data-target="#AddRenovacion">Añadir Renovacion</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top: 15px;">
+                                                            <div class="col-md-12 pre-scrollable">
+                                                                <table id="RenovacionTbl"
+                                                                    class="ultimate table table-responsive">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>N°</th>
+                                                                            <th>Cliente</th>
+                                                                            <th>Oficina</th>
+                                                                            <th>Staff</th>
+                                                                            <th>Estado</th>
+                                                                            <th>Vigencia Desde</th>
+                                                                            <th>Vigencia Hasta</th>
+                                                                            <th>Nº de Solicitud</th>
+                                                                            <th>Fecha de Solicitud</th>
+                                                                            <th>Nº de Resolucion</th>
+                                                                            <th>Fecha de Resolucion</th>
+                                                                            <th>Referencia Cliente</th>
+                                                                            <th>Comentarios</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="body_renovacion">
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">

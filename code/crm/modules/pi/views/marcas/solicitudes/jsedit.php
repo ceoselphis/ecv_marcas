@@ -346,13 +346,22 @@
         }
     });
 
-    function paisDesignadoMostrar(){
-        let paises = "<?php  $paises = json_encode($values['pais_id']); echo $paises;?>";
-        if (Array.isArray(paises) || !paises){
-            let paises_array = JSON.stringify(paises);
-            console.log(" Paises ",paises_array);
-          //  $('#pais_id').val(paises_array).change();
-        };
+    function paisDesignadoMostrar() {
+        let paises = <?php echo json_encode($values['pais_id']); ?>;
+        console.log("Paises:", paises);
+
+        if (Array.isArray(paises)) {
+            let selectElement = $('#pais_id');
+            selectElement.val(null);
+
+            paises.forEach(function(pais) {
+                selectElement.find('option[value="' + pais + '"]').prop('selected', true);
+            });
+
+            selectElement.change();
+        } else {
+            console.log("Paises no es un array o está vacío.");
+        }
     }
 
     function mostrarImagenInicar() {
@@ -998,7 +1007,7 @@
                 columns: [
                     {
                         data: 'id',
-                        visible: false,
+                        //visible: false,
                         render: function (data, type, row)
                         {
                             return "<div class='col-12'>" + data + "</div>"
@@ -6434,8 +6443,8 @@
         TablaFacturas();
         mostrarImagenInicar();
         paisDesignadoMostrar();
-         /* Cierra el Modal de Carga */
-         $('#modal-loading').modal('hide');
+        /* Cierra el Modal de Carga */
+        $('#modal-loading').modal('hide');
     });
 
 

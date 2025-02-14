@@ -118,15 +118,15 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <?php 
                 $clase_niza_id = $select + $clase_niza_id;
                 echo form_label('Clase', 'clase_niza', ['id' => 'lblclase_niza']);?>
                 <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control', 'id' => 'clase_niza']);?>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <?php echo form_label('Descripcion', 'clase_niza_descripcion', ['id' => 'lblclase_niza_descripcion']);?>
-                <?php echo form_input('clase_niza_descripcion',set_value('descripcion', ''),['class' => 'form-control', 'id' => 'clase_niza_descripcion']);?>
+                <?php echo form_textarea('clase_niza_descripcion', set_value('clase_niza_descripcion', ''), ['class' => 'form-control', 'style' => 'height : 150px', 'id' => 'clase_niza_descripcion']); ?>
             </div>
         </div>
       </div>

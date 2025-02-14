@@ -5663,7 +5663,7 @@
 
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
-                    "staff_id" : elemento.tipo_tareas_id,
+                    "staff_id" : elemento.staff_id,
                     "estado_id": elemento.estado_id,
                     "vegencia_desde" : elemento.vegencia_desde,
                     "vegencia_hasta": elemento.vegencia_hasta,
@@ -5811,7 +5811,7 @@
                 data_licencia = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
-                    "staff_id": elemento.tipo_tareas_id,
+                    "staff_id": elemento.staff_id,
                     "estado_id": elemento.estado_id,
                     "num_solicitud": elemento.solicitud_num,
                     "fecha_solicitud": elemento.fecha_solicitud,
@@ -5883,7 +5883,7 @@
                 data_fusion = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
-                    "staff_id" : elemento.tipo_tareas_id,
+                    "staff_id" : elemento.staff_id,
                     "estado_id": elemento.estado_id,
                     "num_solicitud": elemento.num_solicitud,
                     "fecha_solicitud" : elemento.fecha_solicitud,
@@ -5971,7 +5971,7 @@
                 data_cambioNombre = {
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
-                    "staff_id" : elemento.tipo_tareas_id,
+                    "staff_id" : elemento.staff_id,
                     "estado_id": elemento.estado_id,
                     "num_solicitud": elemento.num_solicitud,
                     "fecha_solicitud" : elemento.fecha_solicitud,
@@ -6058,7 +6058,7 @@
                 data_cambioDomicilio = { 
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
-                    "staff_id" : elemento.tipo_tareas_id,
+                    "staff_id" : elemento.staff_id,
                     "estado_id": elemento.estado_id,
                     "num_solicitud": elemento.num_solicitud,
                     "fecha_solicitud" : elemento.fecha_solicitud,
@@ -6079,7 +6079,7 @@
     function validarFactura(factura) {
         let factura_json = [];
         if (factura.length === 0) {
-            return [];
+            return "[]";
         } else { 
             factura = JSON.parse(factura);
             factura.forEach(elemento => {
@@ -6102,6 +6102,23 @@
         }
     }
 
+
+    function validarPaisesDesignados(paises, id) {
+        let paises_json = [];
+        if (paises.length === 0) {
+            return "[]";
+        } else { 
+            paises = JSON.parse(paises);
+            for(let i = 0; i < paises.length; i++) {  
+                let data_paises = { 
+                    "marcas_id": id,
+                    "pais_id": paises[i]
+                };
+                paises_json.push(data_paises);
+            }
+            return JSON.stringify(paises_json);
+        }
+    }
     
 
     /* ##############################FUNCIONES GENERALES############################### */
@@ -6119,8 +6136,9 @@
         formData.append('oficina_id', $('#oficina_id').val());
         formData.append('staff_id', $('#staff_id').val());
         //Pais_id fill
+        id = $("input[name=id]").val();
         pais_id = JSON.stringify($('#pais_id').val());
-        formData.append('pais_id', pais_id);
+        formData.append('pais_id', validarPaisesDesignados(pais_id,id));
         //solicitantes_id fill
         solicitantes_id = JSON.stringify($('#solicitantes_id').val());
         formData.append('solicitantes_id', solicitantes_id);

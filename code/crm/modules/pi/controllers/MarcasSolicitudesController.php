@@ -865,12 +865,32 @@ class MarcasSolicitudesController extends AdminController
       }
 
           /*Seteamos el arreglo para los paises designados*/
-      foreach (json_decode($data['pais_id'], TRUE) as $row) {
-        $paisSol[] = [
-          'marcas_id' => $data['id'],
-          'pais_id'   => $row
-        ];
-      }
+   // Decodifica el JSON y asegúrate de que sea un array
+        $paises_designados = json_decode($data['pais_id'], TRUE);
+        $paises_designados = is_array($paises_designados) ? $paises_designados : [];
+
+        // Depuración: Verifica la estructura de $paises_designados
+       // echo json_encode(['message' => 'Paises Designados', 'paises' => $paises_designados]);
+
+       
+
+      // foreach ($paises_designados as $row) {
+      //   $paisSol[] = [
+      //     'marcas_id' => $data['id'],
+      //     'pais_id'   => $row
+      //   ];
+      // }
+
+      // if (!empty($paisSol) && is_array($paisSol)){
+      //   foreach ($paisSol as $row) {
+      //     $querypais = $CI->MarcasSolicitudes_model->insertPaisesDesignados($row);
+      //     if (isset($querypais)){
+      //       echo json_encode(['message' => 'Paises Insertado Correctamente']);
+      //     } else {
+      //       echo json_encode(['message' => 'Paises Insertado Correctamente']);
+      //     }
+      //   }
+      // }
       /*Seteamos el arreglo para los solicitantes */
       foreach (json_decode($data['solicitantes_id'], TRUE) as $row) {
         $solicitantes[] = [
@@ -878,6 +898,9 @@ class MarcasSolicitudesController extends AdminController
           'propietario_id' => $row
         ];
       }
+
+
+      
 
       /*Seteamos el arreglo para las clases */
       $claseNiza = json_decode($data['clase_niza_id'], TRUE);
@@ -1082,10 +1105,15 @@ class MarcasSolicitudesController extends AdminController
         $facturas = [];
       }
 
+     
       try {
         $query = $CI->MarcasSolicitudes_model->insert($form);
         if (isset($query)) {
           $id = $data['id'];
+          // if (!empty($paises_designados) && is_array($paises_designados)) {
+          //   $query = $CI->MarcasSolicitudes_model->insertPaisesDesignados($paises_designados);
+          
+          // } 
           if (!empty($claseNiza) && is_array($claseNiza)) {
             $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
           }
@@ -1175,7 +1203,7 @@ class MarcasSolicitudesController extends AdminController
                 // }
               }
             }
-            echo json_encode(['message' => 'Licencia Creada con Exito']);
+           // echo json_encode(['message' => 'Licencia Creada con Exito']);
           }
           if (!empty($fusiones) && is_array($fusiones)) {
             for ($i = 0; $i < count($fusiones); ++$i) {
@@ -1256,11 +1284,11 @@ class MarcasSolicitudesController extends AdminController
             for ($i = 0; $i < count($camdom); ++$i) {
               /* INSERTO EL CAMBIO DE DOMICLIO Y RETORNO SU ID*/
               $camdom_id = $CI->MarcasSolicitudes_model->insertCamDom($camdom[$i]);
-              if (isset($camdom_id)) {
-                echo json_encode(['message' => 'Cambio de Domicilio Insertado Correctamente']);
-              }else {
-                echo json_encode(['message' => 'No se pudo insertar el Cambio de Domicilio']);  
-              } 
+              // if (isset($camdom_id)) {
+              //   echo json_encode(['message' => 'Cambio de Domicilio Insertado Correctamente']);
+              // }else {
+              //   echo json_encode(['message' => 'No se pudo insertar el Cambio de Domicilio']);  
+              // } 
                       /*Guardamos los Cambios de Domicilio anteriores  */
               if (!empty($camdom_ant_id[0])) {
                 for ($j = 0; $j < count($camdom_ant_id[$i]); ++$j) {
@@ -1270,11 +1298,11 @@ class MarcasSolicitudesController extends AdminController
                   $camdom_ant_id[$i][$j]['cambio_domicilio_id'] = $camdom_id;
                 }
                 $querycamdom_anterior = $CI->MarcasSolicitudes_model->insertCamDomAntAct($camdom_ant_id[$i]);
-                if (isset($querycamdom_anterior)) {
-                  echo json_encode(['message' => 'Cambio de Domicilio anterior']);
-                } else {
-                  echo json_encode(['message' => 'Error al insertar Cambio de Domicilio anterior']);
-                }
+                // if (isset($querycamdom_anterior)) {
+                //   echo json_encode(['message' => 'Se inserto Cambio de Domicilio anterior']);
+                // } else {
+                //   echo json_encode(['message' => 'Error al insertar Cambio de Domicilio anterior']);
+                // }
     
               }
               /*Guardamos las Cambios de Domicilio actuales  */
@@ -1286,15 +1314,16 @@ class MarcasSolicitudesController extends AdminController
                   $camdom_act_id[$i][$j]['cambio_domicilio_id'] = $camdom_id;
                 }
                 $querycamdom_actual =  $CI->MarcasSolicitudes_model->insertCamDomAntAct($camdom_act_id[$i]);
-                if ($querycamdom_actual) {
-                  echo json_encode(['message' => 'Se inserto el Cambio de Docilio Correctamente']);
-                } else {
-                  echo json_encode(['message' => 'Se inserto Correctamente el Cambio de Domicilio Anterior Correctamente']);
-                }
+                // if ($querycamdom_actual) {
+                //   echo json_encode(['message' => 'Se inserto el Cambio de Docilio Actual Correctamente']);
+                // } else {
+                //   echo json_encode(['message' => 'Se inserto Correctamente el Cambio de Domicilio Anterior Correctamente']);
+                // }
               }
             }
-          }
-          
+          } 
+
+         
           // if (!empty($documentos) && is_array($documentos)) {
           //   $file = $_FILES;
           //   if (empty($file)) {

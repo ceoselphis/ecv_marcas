@@ -249,7 +249,7 @@ $select = ['' => '']; ?>
                                                 'name' => 'tipo_signo_id',
                                                 'class' => 'form-control',
                                                 'options' => $tipos_signo_id,
-                                                'selected' => set_value('tipo_signo_id')
+                                                'selected' => set_value('tipo_signo_id' , '1')
                                             ]); ?>
                                             <div class="text-primary tipo_signo_id_error"></div>
                                         </div>
@@ -259,46 +259,48 @@ $select = ['' => '']; ?>
                                             <button id="eliminar" class="btn btn-danger" type="button" click="eliminarImagen()" style="display:none;">  Eliminar</button>
                                         </div>
                                     </div>
-                                    <!-- Clase niza -->
-                                    <div class="col-md-12" style="padding: 1.5% 0% 1.5% 0%;">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false"
-                                                    aria-controls="listone">Clases <i
-                                                        class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="clase_marcas">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div style="display: flex; padding-top: 20px !important;padding-bottom: 20px !important; justify-content: flex-end;">
-                                                                    <button type="button" class="btn btn-primary pull-right"
-                                                                        data-toggle="modal"
-                                                                        data-target="#claseNizaModal">Añadir
-                                                                        clase</button>
+                                   
+                                        <!-- Clase niza -->
+                                        <div class="col-md-12" style="padding: 1.5% 0% 1.5% 0%;">
+                                            <div class="all-info-container">
+                                                <div class="list-content">
+                                                    <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false"
+                                                        aria-controls="listone">Clases <i
+                                                            class="fa fa-chevron-down"></i></a>
+                                                    <div class="collapse" id="clase_marcas">
+                                                        <div class="list-box">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div style="display: flex; padding-top: 20px !important;padding-bottom: 20px !important; justify-content: flex-end;">
+                                                                        <button type="button" class="btn btn-primary pull-right"
+                                                                            data-toggle="modal"
+                                                                            data-target="#claseNizaModal">Añadir
+                                                                            clase</button>
+                                                                    </div>
+                                                                    
+                                                                    <table id="claseTbl"
+                                                                        class="ultimate table table-responsive">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>N°</th>
+                                                                                <th>Clase</th>
+                                                                                <th>Descripción</th>
+                                                                                <th>Acciones</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="body_clases">
+    
+    
+                                                                        </tbody>
+                                                                    </table>
                                                                 </div>
-                                                                
-                                                                <table id="claseTbl"
-                                                                    class="ultimate table table-responsive">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>N°</th>
-                                                                            <th>Clase</th>
-                                                                            <th>Descripción</th>
-                                                                            <th>Acciones</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody id="body_clases">
-
-
-                                                                    </tbody>
-                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                   
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>

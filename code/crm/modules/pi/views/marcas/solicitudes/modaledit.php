@@ -153,13 +153,13 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <?php echo form_label('Clase', 'clase_niza_edit', ['id' => 'lblclase_niza_edit']);?>
                 <?php echo form_dropdown('clase_niza_edit', $clase_niza_id, set_value('clase_niza_edit', ''),['class' => 'form-control', 'id' => 'clase_niza_edit']);?>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <?php echo form_label('Descripcion', 'clase_niza_descripcion_edit', ['id' => 'lblclase_niza_descripcion_edit']);?>
-                <?php echo form_input('clase_niza_descripcion_edit',set_value('clase_niza_descripcion_edit', ''),['class' => 'form-control', 'id' => 'clase_niza_descripcion_edit']);?>
+                <?php echo form_textarea('clase_niza_descripcion_edit',set_value('clase_niza_descripcion_edit', ''),['class' => 'form-control', 'style' => 'height : 150px', 'id' => 'clase_niza_descripcion_edit']);?>
             </div>
         </div>
       </div>

@@ -459,6 +459,14 @@ class MarcasSolicitudes_model extends BaseModel
         return $query;
     }
 
+    public function getPublicacionesMarcas($id){
+        $this->db->select('*');
+        $this->db->from('tbl_marcas_publicaciones');
+        $this->db->where('marcas_id = '.$id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function updatePaisesDesignados($id, $params)
     {
         $query = $this->db->update_batch('tbl_marcas_solicitudes_paises', $params);

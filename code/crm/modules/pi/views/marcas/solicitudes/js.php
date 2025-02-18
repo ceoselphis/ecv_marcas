@@ -52,6 +52,7 @@
 
     /* Para cambiar el color de los Label  luego de una error*/
     const color_lbl = 'rgb(71 85 105)';
+    const color_success = '#008000';
 
     /* FUNCION PARA HACER ENCODE DE UN ARCHIVO A BASE64 */
     function setBase64(file) {
@@ -150,6 +151,8 @@
             $("#signoModal").modal('hide');
             $("#lblsigno_archivo").css('color', color_lbl);
             $("#lbldescripcion_signo").css('color', color_lbl);
+            $("#SignoFileName").css('color', color_success);
+            $("#DescFileName").css('color', color_success);
         }else if ($('#signo_archivo').val() && $('#signo_archivo').get(0).files[0].type != 'image/png' || $("#signo_archivo").get(0).files[0].type != 'image/gif' || $("#signo_archivo").get(0).files[0].type != 'image/jpeg'){
             $("#lblsigno_archivo").css('color', 'red');
            // $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
@@ -6119,6 +6122,38 @@
             return JSON.stringify(paises_json);
         }
     }
+
+    function validarDocumentos(documento){
+        let documento_json = [];
+        if (documento.length === 0) {
+            return "[]";
+        } else { 
+            documento = JSON.parse(documento);
+            documento.forEach(elemento => {
+                /*
+                   [
+                        {
+                            "idRow":1,
+                            "descripcion":"313",
+                            "comentarios":"1313",
+                            "path":"Sistema de Apuestas.pdf",
+                            "marcas_id":"30413",
+                            "acciones":"<div class=\"col-md-6\"><a id=\"documentos_0\" class=\"deleteDocumento btn btn-light link-style\" style= \"background-color: white;padding-top: 0px;\"><i class=\"fas fa-trash\" style=\"top: 5px;\"></i>Borrar</a></div>"
+                        }
+                    ]
+                */
+                data_documentos = { 
+                    "idRow": elemento.idRow,
+                    "descripcion": elemento.descripcion,
+                    "comentarios": elemento.comentarios,
+                    "path": elemento.path,
+                    "marcas_id": elemento.marcas_id
+                };
+                documento_json.push(data_documentos);
+            });
+            return JSON.stringify(documento_json);
+        }
+    }
     
 
     /* ##############################FUNCIONES GENERALES############################### */
@@ -6187,7 +6222,8 @@
         formData.append("camnom_id", validarCambioNombre(camnom));
         let camdom = localStorage.getItem("camdom") || "[]";
         formData.append("camdom_id", validarCambioDomicilio(camdom));
-        formData.append("doc_id", localStorage.getItem("documentos"));
+        let documentos = localStorage.getItem("documentos") || "[]";
+        formData.append("doc_id", validarDocumentos(documentos));
         var docu = JSON.parse(localStorage.getItem("documentos"));
         docu.forEach(function(item){
             formData.append("doc_archivo_" + item.idRow, $("#doc_archivo_" + item.idRow).get(0).files[0]);
@@ -6203,24 +6239,21 @@
             contentType: false,
             success: function(response) {
                 console.log(" Respuesta : ",response);
-                const obj = JSON.parse(response);
-                if (obj.code == 200) {
-                    let id = obj.id;
-                    alert_float('success', 'Solicitud guardada con éxito!');
-                    let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
-                    ruta = ruta + id;
-                    location.replace(ruta);
-                } else if (obj.code == 500) {
-                    console.log(" ")
-                    alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                }      
+                // const obj = JSON.parse(response);
+                // if (obj.code == 200) {
+                //     let id = obj.id;
+                //     alert_float('success', 'Solicitud guardada con éxito!');
+                //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
+                //     ruta = ruta + id;
+                //     location.replace(ruta);
+                // } else if (obj.code == 500) {
+                //     console.log(" Error no se Guardo la Solicitud ");
+                //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+                // }      
             },
             fail: function(request) {
-                <?php if (ENVIRONMENT != 'production') { ?>
-                    alert(response);
-                <?php } else { ?>
-                    alert('ha ocurrido un error');
-                <?php } ?>
+                console.log(" Error ",request);
+           
             }
         });
 

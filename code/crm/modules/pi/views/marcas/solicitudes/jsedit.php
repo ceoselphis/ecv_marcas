@@ -263,10 +263,18 @@
                     data: data,
                     columnDefs: [
                         { width: '10%', targets: 0 },
-                        { width: '70%', targets: 1 },
-                        { width: '20%', targets: 2 }
+                        { width: '10%', targets: 1 },
+                        { width: '40%', targets: 2 },
+                        { width: '20%', targets: 3 }
                     ],
                     columns: [
+                        {
+                            data: 'id',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12'>" + data + "</div>"
+                            }
+                        },
                         {
                             data: 'clase',
                             render: function (data, type, row)
@@ -537,12 +545,20 @@
                             { width: '25%', targets: 3 }
                         ],
                         columns : [
+                            { data: 'id'},
                             { data: 'fecha_prioridad'},
                             { data: 'nombre'},
                             { data: 'numero'},
                             { data: 'acciones'},
                         ],
                         columns: [
+                            {
+                                data: 'id',
+                                render: function (data, type, row)
+                                {
+                                    return "<div class='col-12'>" + data + "</div>"
+                                }
+                            },
                             {
                                 data: 'fecha_prioridad',
                                 render: function (data, type, row)
@@ -736,11 +752,27 @@
     /**** Genera la tabla de Publicaciones*/
     function TablaPublicaciones()
     {
+        tblPublicacionDT = $("#publicacionTbl").DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                     },
+                        autoWidth: false,
+                        destroy: true,
+                        //data: table.data,
+                        columnDefs: [
+                            { width: '15%', targets: 0 },
+                            { width: '25%', targets: 1 },
+                            { width: '25%', targets: 2 },
+                            { width: '2.5%', targets: 3 },
+                            { width: '2.5%', targets: 4 },
+                            { width: '30%', targets: 5 }
+                        ]});
         $.ajax({
             url:"<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
             method: "POST",
             success: function(response)
             {
+                console.log('response', response);
                 table = JSON.parse(response);
                 console.log('Publicaciones', table.data);
                 tblPublicacionDT = $("#publicacionTbl").DataTable({

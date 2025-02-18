@@ -120,107 +120,117 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             </h4>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Paises Designados', 'pais_id'); ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'pais_id',
-                                            'name' => 'pais_id',
-                                            'class' => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $pais_id,
-                                            'selected' => set_value('pais_id', $values['pais_id'])//is_null($values['pais_id']) ? set_value('pais_id', $values['pais_id']) : '226',
-                                        ]); ?>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Solicitantes', 'solicitantes_id'); ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'solicitantes_id',
-                                            'name' => 'solicitantes_id',
-                                            'class' => 'form-control',
-                                            'multiple' => 'multiple',
-                                            'options' => $solicitantes,
-                                            'selected' => set_value('solicitantes_id', $values['solicitantes_id'])
-                                        ]); ?>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Signo', 'signonom'); ?>
-                                        <?php echo form_input([
-                                            'id' => 'signonom',
-                                            'name' => 'signonom',
-                                            'class' => 'form-control',
-                                            'value' => set_value('signonom', $values['signonom'])
-                                        ]); ?>
-                                        <!-- Para Mostrar el Nombre de Archivo Signo seleccionado -->
-                                        <?php
-                                        ?>
-                                        <div class="text-danger" id="SignoFileName">
-                                            <?php 
-                                            $file = '';
-                                            if ($values['signo_archivo']) {
-                                                $str_file = explode('/', $values['signo_archivo']);
-                                                $file = $str_file[count($str_file) - 1];
-                                            }
-                                            echo "Archivo → (<a href='" . $values['signo_archivo'] . "' target='_blank'>" . $file . "</a>)"; ?>
-                                        </div>
-                                        <div class="text-danger" id="DescFileName">
-                                            <?php echo "Descripción → (" . $values['signo_archivo_desc']. ")"; ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2" style="padding-top: 2%; padding-bottom:0%">
-                                        <button type="button" class="btn btn-outline" data-toggle="modal"
-                                            data-target="#signoModalEdit"><i class="fas fa-paperclip"></i> Editar</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <?php echo form_label('Tipo Signo', 'tipo_signo_id'); ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'tipo_signo_id',
-                                            'name' => 'tipo_signo_id',
-                                            'class' => 'form-control',
-                                            'options' => $tipos_signo_id,
-                                            'selected' => set_value('tipo_signo_id', $values['tipo_signo_id'])
-                                        ]); ?>
-                                    </div>
-                                    <div class="col-md-12" style="padding-top: 20px;">
-                                            <img id="preview-image" src="#" alt="Previsualización" style="display:none; width: 200px; ">
-                                            <button id="eliminar" class="btn btn-danger" type="button" click="eliminarImagen()" style="display:none;">  Eliminar</button>
-                                    </div>
-                                    <!-- Clase niza -->
-                                    <div class='col-md-12' style="padding: 2%;">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false"
-                                                    aria-controls="listone">Clases <i
-                                                        class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="clase_marcas">
-                                                    <div class="list-box">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                            <div style="display: flex; padding-top: 20px !important;padding-bottom: 20px !important; justify-content: flex-end;">
+                                    <div class="row">
 
-                                                                <button type="button" class="btn btn-primary pull-right"
-                                                                    data-toggle="modal"
-                                                                    data-target="#claseNizaModal">Añadir clase</button>
-                                                            </div>
-                                                                <table class="ultimate table table-responsive "
-                                                                    id="claseTbl">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Clase</th>
-                                                                            <th>Descripcion</th>
-                                                                            <th>Acciones</th>
-                                                                            <th></th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    </tbody>
-                                                                </table>
+                                        <div class="col-md-6">
+                                            <?php echo form_label('Paises Designados', 'pais_id'); ?>
+                                            <?php echo form_dropdown([
+                                                'id' => 'pais_id',
+                                                'name' => 'pais_id',
+                                                'class' => 'form-control',
+                                                'multiple' => 'multiple',
+                                                'options' => $pais_id,
+                                                'selected' => set_value('pais_id', $values['pais_id'])//is_null($values['pais_id']) ? set_value('pais_id', $values['pais_id']) : '226',
+                                            ]); ?>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo form_label('Solicitantes', 'solicitantes_id'); ?>
+                                            <?php echo form_dropdown([
+                                                'id' => 'solicitantes_id',
+                                                'name' => 'solicitantes_id',
+                                                'class' => 'form-control',
+                                                'multiple' => 'multiple',
+                                                'options' => $solicitantes,
+                                                'selected' => set_value('solicitantes_id', $values['solicitantes_id'])
+                                            ]); ?>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top:15px;">
+
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Signo', 'signonom'); ?>
+                                            <?php echo form_input([
+                                                'id' => 'signonom',
+                                                'name' => 'signonom',
+                                                'class' => 'form-control',
+                                                'value' => set_value('signonom', $values['signonom'])
+                                            ]); ?>
+                                            <!-- Para Mostrar el Nombre de Archivo Signo seleccionado -->
+                                            <?php
+                                            ?>
+                                            <div class="text-danger" id="SignoFileName">
+                                                <?php 
+                                                $file = '';
+                                                if ($values['signo_archivo']) {
+                                                    $str_file = explode('/', $values['signo_archivo']);
+                                                    $file = $str_file[count($str_file) - 1];
+                                                }
+                                                echo "Archivo → (<a href='" . $values['signo_archivo'] . "' target='_blank'>" . $file . "</a>)"; ?>
+                                            </div>
+                                            <div class="text-danger" id="DescFileName">
+                                                <?php echo "Descripción → (" . $values['signo_archivo_desc']. ")"; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-top: 23px; padding-bottom:0%">
+                                            <button type="button" class="btn btn-outline" data-toggle="modal"
+                                                data-target="#signoModalEdit"><i class="fas fa-paperclip"></i> Editar</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo form_label('Tipo Signo', 'tipo_signo_id'); ?>
+                                            <?php echo form_dropdown([
+                                                'id' => 'tipo_signo_id',
+                                                'name' => 'tipo_signo_id',
+                                                'class' => 'form-control',
+                                                'options' => $tipos_signo_id,
+                                                'selected' => set_value('tipo_signo_id', $values['tipo_signo_id'])
+                                            ]); ?>
+                                        </div>
+                                        <div class="col-md-12" style="padding-top: 20px;">
+                                                <img id="preview-image" src="#" alt="Previsualización" style="display:none; width: 200px; ">
+                                                <button id="eliminar" class="btn btn-danger" type="button" click="eliminarImagen()" style="display:none;">  Eliminar</button>
+                                        </div>
+                                    </div>
+                                   
+
+                                        <!-- Clase niza -->
+                                        <div class='col-md-12' style="padding: 1.5% 0% 1.5% 0%;">
+                                            <div class="all-info-container">
+                                                <div class="list-content">
+                                                    <a href="#clase_marcas" data-toggle="collapse" aria-expanded="false"
+                                                        aria-controls="listone">Clases <i
+                                                            class="fa fa-chevron-down"></i></a>
+                                                    <div class="collapse" id="clase_marcas">
+                                                        <div class="list-box">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                <div style="display: flex; padding-top: 20px !important;padding-bottom: 20px !important; justify-content: flex-end;">
+    
+                                                                    <button type="button" class="btn btn-primary pull-right"
+                                                                        data-toggle="modal"
+                                                                        data-target="#claseNizaModal">Añadir clase</button>
+                                                                </div>
+                                                                    <table class="ultimate table table-responsive "
+                                                                        id="claseTbl">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>N°</th>
+                                                                                <th>Clase</th>
+                                                                                <th>Descripcion</th>
+                                                                                <th>Acciones</th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
                                         <li><button type="submit" class="btn btn-success"> Guardar</button></li>
@@ -239,84 +249,94 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             </h4>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Tipo Solicitud', 'tipo_solicitud_id'); ?>
-                                        <?php echo form_dropdown([
-                                            'id' => 'tipo_solicitud_id',
-                                            'name' => 'tipo_solicitud_id',
-                                            'class' => 'form-control',
-                                            'options' => $tipo_solicitud,
-                                            'selected' => set_value('tipo_solicitud_id', $values['tipo_solicitud_id']),
-                                        ]); ?>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Referencia interna', 'ref_interna'); ?>
-                                        <?php echo form_input('ref_interna', set_value('ref_interna', $values['ref_interna']), ['class' => 'form-control']) ?>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Referencia cliente', 'ref_cliente'); ?>
-                                        <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control']) ?>
+                                    <div class="row"> 
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Tipo Solicitud', 'tipo_solicitud_id'); ?>
+                                            <?php echo form_dropdown([
+                                                'id' => 'tipo_solicitud_id',
+                                                'name' => 'tipo_solicitud_id',
+                                                'class' => 'form-control',
+                                                'options' => $tipo_solicitud,
+                                                'selected' => set_value('tipo_solicitud_id', $values['tipo_solicitud_id']),
+                                            ]); ?>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Referencia interna', 'ref_interna'); ?>
+                                            <?php echo form_input('ref_interna', set_value('ref_interna', $values['ref_interna']), ['class' => 'form-control']) ?>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Referencia cliente', 'ref_cliente'); ?>
+                                            <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control']) ?>
+                                        </div>
                                     </div>
                                     <!--<div class="col-md-4">
                                         <php echo form_label('Fecha de Primer Uso','primer_uso');?>
                                         <php echo form_input('primer_uso', set_value('primer_uso', $values['primer_uso']), ['class' => 'form-control calendar'])?>
                                     </div>-->
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Prueba Uso', 'prueba_uso'); ?>
-                                        <?php echo form_input('prueba_uso', set_value('prueba_uso', $values['prueba_uso']), ['class' => 'form-control calendar']) ?>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Carpeta', 'carpeta'); ?>
-                                        <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control']) ?>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Libro', 'libro'); ?>
-                                        <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control']) ?>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Tomo', 'tomo'); ?>
-                                        <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control']) ?>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?php echo form_label('Folio', 'folio'); ?>
-                                        <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control']) ?>
-                                    </div>
-                                    <div class="col-md-12" style="padding-top: 1.5%">
-                                        <div class="all-info-container">
-                                            <div class="list-content">
-                                                <a href="#prioridad" data-toggle="collapse" aria-expanded="false"
-                                                    aria-controls="listone">Prioridades<i
-                                                        class="fa fa-chevron-down"></i></a>
-                                                <div class="collapse" id="prioridad">
-                                                    <div class="list-box">
-                                                    <div style="display: flex; padding-top: 20px !important;padding-bottom: 20px !important; justify-content: flex-end;">
+                                    <div class="row" style="padding-top:15px;">
 
-                                                        <button type="button" class="btn btn-primary pull-right"
-                                                            data-toggle="modal" data-target="#prioridadModal">Añadir
-                                                            prioridad</button>
-                                                    </div>
-                                                        <table class="ultimate table table-responsive"
-                                                            id="prioridadTbl">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Fecha</th>
-                                                                    <th>Pais</th>
-                                                                    <th>Número</th>
-                                                                    <th>Acciones</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Prueba Uso', 'prueba_uso'); ?>
+                                            <?php echo form_input('prueba_uso', set_value('prueba_uso', $values['prueba_uso']), ['class' => 'form-control calendar']) ?>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Carpeta', 'carpeta'); ?>
+                                            <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control']) ?>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Libro', 'libro'); ?>
+                                            <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control']) ?>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top:15px;">
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Tomo', 'tomo'); ?>
+                                            <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control']) ?>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <?php echo form_label('Folio', 'folio'); ?>
+                                            <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control']) ?>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top:15px;">
+                                        <div class="col-md-12" style="padding-top: 1.5%">
+                                            <div class="all-info-container">
+                                                <div class="list-content">
+                                                    <a href="#prioridad" data-toggle="collapse" aria-expanded="false"
+                                                        aria-controls="listone">Prioridades<i
+                                                            class="fa fa-chevron-down"></i></a>
+                                                    <div class="collapse" id="prioridad">
+                                                        <div class="list-box">
+                                                        <div style="display: flex; padding-top: 20px !important;padding-bottom: 20px !important; justify-content: flex-end;">
 
-                                                            </tbody>
-                                                        </table>
+                                                            <button type="button" class="btn btn-primary pull-right"
+                                                                data-toggle="modal" data-target="#prioridadModal">Añadir
+                                                                prioridad</button>
+                                                        </div>
+                                                            <table class="ultimate table table-responsive"
+                                                                id="prioridadTbl">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>N°</th>
+                                                                        <th>Fecha</th>
+                                                                        <th>Pais</th>
+                                                                        <th>Número</th>
+                                                                        <th>Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-12" style="padding-top:15px;">
-                                        <?php echo form_label('Comentarios', 'comentarios'); ?>
-                                        <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control']); ?>
+                                        <div class="col-md-12" style="padding-top:15px;">
+                                            <?php echo form_label('Comentarios', 'comentarios'); ?>
+                                            <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control' , 'style' =>'height: 150px  '  ]); ?>
+                                        </div>
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="default-btn prev-step">Atrás</button></li>
@@ -401,7 +421,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             'placeholder' => 'Fecha de Certificado'
                                         ]); ?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Fecha de Vencimiento'); ?>
                                         <?php
                                         echo form_input([
@@ -432,6 +452,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
+                                                                            <th>N°</th>
                                                                             <th>Fecha</th>
                                                                             <th>Tipo de Publicacion</th>
                                                                             <th>Boletin</th>

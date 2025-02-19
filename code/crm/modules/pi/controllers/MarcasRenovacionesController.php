@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class RenovacionesController extends AdminController
+class MarcasRenovacionesController extends AdminController
 {
     protected $models = ['Renovaciones_model'];
 
@@ -13,8 +13,8 @@ class RenovacionesController extends AdminController
     public function index($id = NULL)
     {
         $CI = &get_instance();
-        $CI->load->model("Cesion_model");
-        return $CI->load->view('anexos/index', ["anexos" => $CI->Cesion_model->findAll()]);
+        $CI->load->model("Renovaciones_model");
+        return $CI->load->view('anexos/index', ["anexos" => $CI->Renovaciones_model->findAll()]);
     }
 
     /**
@@ -24,8 +24,8 @@ class RenovacionesController extends AdminController
     public function create()
     {
         $CI = &get_instance();
-        $CI->load->model("Cesion_model");
-        $fields = $CI->Cesion_model->getFillableFields();
+        $CI->load->model("Renovaciones_model");
+        $fields = $CI->Renovaciones_model->getFillableFields();
         $inputs = array();
         $labels = array();
         foreach($fields as $field)
@@ -81,7 +81,7 @@ class RenovacionesController extends AdminController
         }
     }
 
-    public function addCesionShowModal(){
+    public function addRenovacionShowModal(){
         $CI = &get_instance();
         $data = $CI->input->post();
             /*`tbl_marcas_cesiones`(`id`, `client_id`, `oficina_id`, `marcas_id`, `staff_id`, `estado_id`, `solicitud_num`, `fecha_solicitud`, `resolucion_num`, `fecha_resolucion`, `referencia_cliente`, `comentarios`)*/ 
@@ -99,11 +99,11 @@ class RenovacionesController extends AdminController
                             'comentarios' => "",
                     );
             //echo json_encode($insert);
-            $CI->load->model("Cesion_model");
+            $CI->load->model("Renovaciones_model");
                 try{
-                    $query = $CI->Cesion_model->insert($insert);
+                    $query = $CI->Renovaciones_model->insert($insert);
                         if (isset($query)){
-                            $cantidad = $CI->Cesion_model->CantidadCesion();
+                            $cantidad = $CI->Renovaciones_model->CantidadRenovacion();
                             echo $cantidad;
 
                         }else {
@@ -115,7 +115,7 @@ class RenovacionesController extends AdminController
       
         
     }
-     public function addCesion(){
+     public function addRenovacion(){
         $CI = &get_instance();
         $data = $CI->input->post();
         if (!empty($data)){
@@ -133,9 +133,9 @@ class RenovacionesController extends AdminController
                             'comentarios' => $data['comentario'],
                     );
 
-            $CI->load->model("Cesion_model");
+            $CI->load->model("Renovaciones_model");
                 try{
-                    $id = $CI->Cesion_model->InsertarCesion($insert);
+                    $id = $CI->Renovaciones_model->InsertarRenovacion($insert);
                         if (isset($id)){
                             $propAnt = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAnt']) : array();
                             $propAct = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAct']) : array();
@@ -161,7 +161,7 @@ class RenovacionesController extends AdminController
                                 }
                             }
                             if (count($insert) > 0) {
-                                $CI->Cesion_model->addCesiones($insert);                             
+                                $CI->Renovaciones_model->addRenovaciones($insert);                             
                             }
                             echo "Insertado Correctamente";
 
@@ -177,15 +177,15 @@ class RenovacionesController extends AdminController
         }
      }
 
-     public function EditCesion(string $id = null){
+     public function EditRenovacion(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("Cesion_model");
-        $query =$CI->Cesion_model->find($id);
+        $CI->load->model("Renovaciones_model");
+        $query =$CI->Renovaciones_model->find($id);
         echo json_encode($query);   
      }
-     public function UpdateCesion(string $id = null){
+     public function UpdateRenovacion(string $id = null){
         $CI = &get_instance();
-        $CI->load->model("Cesion_model");
+        $CI->load->model("Renovaciones_model");
         $data = $CI->input->post();
         if (!empty($data)){
             $insert = array(
@@ -202,7 +202,7 @@ class RenovacionesController extends AdminController
                     );
                    
 
-                    $query = $CI->Cesion_model->update($id, $insert);
+                    $query = $CI->Renovaciones_model->update($id, $insert);
                     if (isset($query))
                     {
                         echo "Actualizado Correctamente";
@@ -217,13 +217,13 @@ class RenovacionesController extends AdminController
         foreach ($marcas as $row){
             $data[] = array(
             'id' => $row['id'],
-            'cliente' => $row['client_id'] ? $CI->Cesion_model->BuscarClientes($row['client_id']) : '',   
-            'oficina' => $CI->Cesion_model->BuscarOficina($row['oficina_id']),
-            'estado' => $CI->Cesion_model->BuscarEstado($row['estado_id']),
-            'staff' => $row['staff_id'] ? $CI->Cesion_model->BuscarStaff($row['staff_id']) : '',
+            'cliente' => $row['client_id'] ? $CI->Renovaciones_model->BuscarClientes($row['client_id']) : '',   
+            'oficina' => $CI->Renovaciones_model->BuscarOficina($row['oficina_id']),
+            'estado' => $CI->Renovaciones_model->BuscarEstado($row['estado_id']),
+            'staff' => $row['staff_id'] ? $CI->Renovaciones_model->BuscarStaff($row['staff_id']) : '',
+            'vigencia_desde' => date('d/m/Y', strtotime($row['vigencia_desde'])),
+            'vigencia_hasta' => date('d/m/Y', strtotime($row['vigencia_hasta'])),
             'num_solicitud' => $row['solicitud_num'],
-            'vigencia_desde' => $row['vigencia_desde'],
-            'vigencia_hasta' => $row['vigencia_hasta'],
             'fecha_solicitud' => date('d/m/Y', strtotime($row['fecha_solicitud'])),
             'num_resolucion' => $row['resolucion_num'],
             'fecha_resolucion' => date('d/m/Y', strtotime($row['fecha_resolucion'])),
@@ -242,7 +242,7 @@ class RenovacionesController extends AdminController
     public function store()
     {
         $CI = &get_instance();
-        $CI->load->model("Cesion_model");
+        $CI->load->model("Renovaciones_model");
         $CI->load->helper(['url','form']);
         $CI->load->library('form_validation');
         // WE prepare the data
@@ -265,7 +265,7 @@ class RenovacionesController extends AdminController
         
         if($CI->form_validation->run() == FALSE)
         {
-            $fields = $CI->Cesion_model->getFillableFields();
+            $fields = $CI->Renovaciones_model->getFillableFields();
             $inputs = array();
             $labels = array();
             foreach($fields as $field)
@@ -294,10 +294,10 @@ class RenovacionesController extends AdminController
         else
         {
             //we sent the data to the model
-            $query = $CI->Cesion_model->insert($data);
+            $query = $CI->Renovaciones_model->insert($data);
             if(isset($query))
             {
-                return redirect(admin_url('pi/CesionController/'));
+                return redirect(admin_url('pi/RenovacionController/'));
             }
         }
         
@@ -319,16 +319,16 @@ class RenovacionesController extends AdminController
     public function edit(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Cesion_model");
+        $CI->load->model("Renovaciones_model");
         $CI->load->helper('url');
-        $query = $CI->Cesion_model->find($id);
+        $query = $CI->Renovaciones_model->find($id);
         if(isset($query))
         {
             $labels = array('Id', 'Nombre del anexo');
             return $CI->load->view('anexos/edit', ['labels' => $labels, 'values' => $query, 'id' => $id]);
         }
         else{
-            return redirect('pi/CesionController/');
+            return redirect('pi/RenovacionController/');
         }
     }
 
@@ -340,7 +340,7 @@ class RenovacionesController extends AdminController
     public function update(string $id = null)
     {
         $CI = &get_instance();
-        $CI->load->model("Cesion_model");
+        $CI->load->model("Renovaciones_model");
         $CI->load->helper('url');
         $data = $CI->input->post();
         //We validate the data
@@ -368,10 +368,10 @@ class RenovacionesController extends AdminController
         else
         {
             //We prepare the data 
-            $query = $CI->Cesion_model->update($id, $data);
+            $query = $CI->Renovaciones_model->update($id, $data);
             if (isset($query))
             {
-                return redirect('pi/CesionController/');
+                return redirect('pi/RenovacionController/');
             }
         }
     }
@@ -383,9 +383,9 @@ class RenovacionesController extends AdminController
     public function destroy(string $id)
     {
         $CI = &get_instance();
-        $CI->load->model("Cesion_model");
+        $CI->load->model("Renovaciones_model");
         $CI->load->helper('url');
-        $query = $CI->Cesion_model->delete($id);
+        $query = $CI->Renovaciones_model->delete($id);
         if (isset($query)){
             echo "Eliminado Correctamente";
         }else {

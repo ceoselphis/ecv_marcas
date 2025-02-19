@@ -1114,12 +1114,7 @@ class MarcasSolicitudesController extends AdminController
      
   }  
 
-  public function getPublicacionesMarcas($id) {
-    $CI = &get_instance();
-    $CI->load->model("MarcasSolicitudes_model");
-    $publicaciones = $CI->MarcasSolicitudes_model->getPublicacionesMarcas($id);
-    return $publicaciones;
-  }
+  
 
   
 
@@ -1598,6 +1593,13 @@ class MarcasSolicitudesController extends AdminController
     } else {
       echo json_encode(['message' => 'not data' , 'code' => 400]);
     }
+  }
+
+  public function getPublicacionesMarcas($id) {
+    $CI = &get_instance();
+    $CI->load->model("MarcasSolicitudes_model");
+    $publicaciones = $CI->MarcasSolicitudes_model->getPublicacionesMarcas($id);
+    return $publicaciones;
   }
 
   // if (!empty($solicitantes)) {

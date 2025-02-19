@@ -432,7 +432,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             'placeholder' => 'Fecha Vencimiento'
                                         ]); ?>
                                     </div>
-                                    <div class="col-md-12" style="padding: 1.5% 1.5% 1.5% 1.5%;">
+                                    <div class="col-md-12" style="padding-top:1.5%">
                                         <div class="all-info-container">
                                             <div class="list-content">
                                                 <a href="#publicaciones" data-toggle="collapse" aria-expanded="false"
@@ -529,6 +529,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         <table id="tareasTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
+                                                    <th>N°</th>
                                                     <th>Proyecto</th>
                                                     <th>Tipo de Tarea</th>
                                                     <th>Comentarios</th>
@@ -624,6 +625,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
+                                                                            <th>N°</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -669,6 +671,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
+                                                                            <th>N°</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -713,6 +716,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
+                                                                            <th>N°</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -759,6 +763,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
+                                                                            <th>N°</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -806,6 +811,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                                     class="ultimate table table-responsive">
                                                                     <thead>
                                                                         <tr>
+                                                                            <th>N°</th>
                                                                             <th>Cliente</th>
                                                                             <th>Oficina</th>
                                                                             <th>Staff</th>
@@ -853,6 +859,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         <table id="DocumentosTbl" class="ultimate table table-responsive">
                                             <thead>
                                                 <tr>
+                                                    <th>Nº</th>
                                                     <th>Descripcion</th>
                                                     <th>Comentarios</th>
                                                     <th>Documento</th>
@@ -892,7 +899,8 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         <table class="ultimate table table-responsive" id="tblInvoices">
                                             <thead>
                                                 <tr>
-                                                    <th>Factura</th>
+                                                    
+                                                    <th>Nro Factura</th>
                                                     <th>Fecha</th>
                                                     <th>Estado</th>
                                                     <th>Acciones</th>

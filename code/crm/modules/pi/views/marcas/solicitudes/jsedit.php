@@ -8,6 +8,7 @@
     var tblPublicacionDT;
     var tblEventonDT;
     var tblTareaDT;
+    var tblRenovacionDT;
     var tblCesionDT;
     var tblCesionActDT;
     var tblCesionAntDT;
@@ -539,10 +540,11 @@
                         destroy: true,
                         dataSrc: '',
                         columnDefs: [
-                            { width: '15%', targets: 0 },
-                            { width: '40%', targets: 1 },
+                            { width: '10%', targets: 0 },
+                            { width: '20%', targets: 1 },
                             { width: '20%', targets: 2 },
-                            { width: '25%', targets: 3 }
+                            { width: '20%', targets: 3 },
+                            { width: '30%', targets: 4 }
                         ],
                         columns : [
                             { data: 'id'},
@@ -570,14 +572,14 @@
                                 data: 'nombre',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-center'>" + data + "</div>"
                                 }
                             },
                             {
                                 data: 'numero',
                                 render: function (data, type, row)
                                 {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
+                                    return "<div class='col-12 text-center'>" + data + "</div>"
                                 }
                             },
                             {
@@ -752,98 +754,130 @@
     /**** Genera la tabla de Publicaciones*/
     function TablaPublicaciones()
     {
-        tblPublicacionDT = $("#publicacionTbl").DataTable({
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-                     },
-                        autoWidth: false,
-                        destroy: true,
-                        //data: table.data,
-                        columnDefs: [
-                            { width: '15%', targets: 0 },
-                            { width: '25%', targets: 1 },
-                            { width: '25%', targets: 2 },
-                            { width: '2.5%', targets: 3 },
-                            { width: '2.5%', targets: 4 },
-                            { width: '30%', targets: 5 }
-                        ]});
+        let idmarca = "<?php echo $id;?>";
+        console.log('idmarca ', idmarca); 
+        url = "<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/');?>";
+        url = url + idmarca;
+        console.log('url :', url);
+        // tblPublicacionDT = $("#publicacionTbl").DataTable({
+        //     language: {
+        //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        //              },
+        //                 autoWidth: false,
+        //                 destroy: true,
+        //                 //data: table.data,
+        //                 columnDefs: [
+        //                     { width: '15%', targets: 0 },
+        //                     { width: '25%', targets: 1 },
+        //                     { width: '25%', targets: 2 },
+        //                     { width: '2.5%', targets: 3 },
+        //                     { width: '2.5%', targets: 4 },
+        //                     { width: '30%', targets: 5 }
+        //                 ]});
         $.ajax({
-            url:"<?php echo admin_url('pi/PublicacionesMarcasController/getAllPublicacionesByMarca/'.$id);?>",
+            url:url,
             method: "POST",
             success: function(response)
             {
-                console.log('response', response);
-                table = JSON.parse(response);
-                console.log('Publicaciones', table.data);
+               console.log('response', response);
+               if (response === ""){
                 tblPublicacionDT = $("#publicacionTbl").DataTable({
                     language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                         },
                         autoWidth: false,
                         destroy: true,
-                        data: table.data,
                         columnDefs: [
-                            { width: '15%', targets: 0 },
-                            { width: '25%', targets: 1 },
-                            { width: '25%', targets: 2 },
-                            { width: '2.5%', targets: 3 },
-                            { width: '2.5%', targets: 4 },
-                            { width: '30%', targets: 5 }
-                        ],
-                        columns: [
-                                {
-                                data: 'fecha',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'nombre',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'descripcion',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'tomo',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'pagina',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12 text-left'>" + data + "</div>"
-                                }
-                            },
-                            {
-                                data: 'acciones',
-                                render: function (data, type, row)
-                                {
-                                    return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                                }
-                            },
-                            {
-                            data: 'id',
-                            visible: false
-                            },
-                            {
-                            data: 'boletin_id',
-                            visible: false
-                            }
+                            { width: '10%', targets: 0 },
+                            { width: '15%', targets: 1 },
+                            { width: '20%', targets: 2 },
+                            { width: '25%', targets: 3 },
+                            { width: '2.5%', targets:  4},
+                            { width: '2.5%', targets: 5 },
+                            { width: '20%', targets: 6 }
                         ],
                         width: "100%"
                 });
+               } else {
+
+                   table = JSON.parse(response);
+                    tblPublicacionDT = $("#publicacionTbl").DataTable({
+                        language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                            },
+                            autoWidth: false,
+                            destroy: true,
+                            data: table.data,
+                            columnDefs: [
+                                { width: '10%', targets: 0 },
+                                { width: '15%', targets: 1 },
+                                { width: '20%', targets: 2 },
+                                { width: '25%', targets: 3 },
+                                { width: '2.5%', targets:  4},
+                                { width: '2.5%', targets: 5 },
+                                { width: '20%', targets: 6 }
+                            ],
+                            columns: [
+                                { 
+                                    data: "id" , render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12'>" + data + "</div>"
+                                    }
+                                },
+                                    {
+                                    data: 'fecha',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'nombre',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12 text-center'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'descripcion',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12 text-center'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'tomo',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12 text-center'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'pagina',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12 text-center'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'acciones',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                data: 'id',
+                                visible: false
+                                },
+                                {
+                                data: 'boletin_id',
+                                visible: false
+                                }
+                            ],
+                            width: "100%"
+                    });
+               }
             }
         });
     }
@@ -1049,14 +1083,14 @@
                         data: 'tipo_evento',
                         render: function (data, type, row)
                         {
-                            return "<div class='col-12 text-left'>" + data + "</div>"
+                            return "<div class='col-12 text-center'>" + data + "</div>"
                         }
                     },
                     {
                         data: 'comentarios',
                         render: function (data, type, row)
                         {
-                            return "<div class='col-12 text-left'>" + data + "</div>"
+                            return "<div class='col-12 text-center'>" + data + "</div>"
                         }
                     },
                     {
@@ -1243,32 +1277,40 @@
                 data: tareas,
                 destroy: true,
                 columnDefs: [
-                    { width: '20%', targets: 0 },
+                    { width: '7%', targets: 0 },
                     { width: '20%', targets: 1 },
                     { width: '20%', targets: 2 },
-                    { width: '15%', targets: 3 },
-                    { width: '25%', targets: 4 }
+                    { width: '20%', targets: 3 },
+                    { width: '15%', targets: 4 },
+                    { width: '30%', targets: 5 }
                 ],
                 columns: [
+                    {
+                        data: 'id',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12'>" + data + "</div>"
+                        }
+                    },
                     {
                         data: 'project_name',
                         render: function (data, type, row)
                         {
-                            return "<div class='col-12 text-left'>" + data + "</div>"
+                            return "<div class='col-12 text-center'>" + data + "</div>"
                         }
                     },
                     {
                         data: 'tipo_tarea',
                         render: function (data, type, row)
                         {
-                            return "<div class='col-12 text-left'>" + data + "</div>"
+                            return "<div class='col-12 text-center'>" + data + "</div>"
                         }
                     },
                     {
                         data: 'descripcion',
                         render: function (data, type, row)
                         {
-                            return "<div class='col-12 text-left'>" + data + "</div>"
+                            return "<div class='col-12 text-center'>" + data + "</div>"
                         }
                     },
                     {
@@ -1303,6 +1345,167 @@
                 width: "100%"
             });
 
+        })
+    }
+
+    /* ####################################################################### */
+    /* **********             FUNCIONES RENOVACIONES                ********** */
+    /* ####################################################################### */
+
+    // Cesion
+    function TablaRenovaciones(){
+        let url = '<?php echo admin_url("pi/MarcasRenovacionesController/showRenovaciones/$id");?>';
+        $.get(url, function(response){
+            let cesion = JSON.parse(response);
+            console.log('Renovaciones', cesion);
+            tblRenovacionDT = $("#RenovacionTbl").DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                autoWidth: false,
+                data: cesion,
+                destroy: true,
+                columnDefs: [
+                    { width: '5%', targets: 0 },
+                    { width: '5%', targets: 1 },
+                    { width: '1%', targets: 2 },
+                    { width: '1%', targets: 3 },
+                    { width: '1%', targets: 4 },
+                    { width: '1%', targets: 5 },
+                    { width: '5%', targets: 6 },
+                    { width: '5%', targets: 7 },
+                    { width: '5%', targets: 8 },
+                    { width: '5%', targets: 9 },
+                    { width: '5%', targets: 10 },
+                    { width: '15%', targets: 11 },
+                    { width: '30%', targets: 12 }
+                ],
+                columns: [
+                    {
+                        data: 'id',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'cliente',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'oficina',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'staff',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'estado',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'vigencia_desde',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'vigencia_hasta',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'num_solicitud',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha_solicitud',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'num_resolucion',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'fecha_resolucion',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'referencia_cliente',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'comentarios',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: '',
+                        render: function (data, type, row)
+                        {
+                            data = `<div class='col-md-6' style='padding-left: 0px;'><a id="${row.id}" class="EditRenovacion btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-edit" style="top: 5px;"></i>Editar</a></div>
+                            <div class='col-md-6'><a id="${row.id}" class="renovacion-delete btn btn-light link-style" style= "background-color: white;padding-top: 0px;"><i class="fas fa-trash" style="top: 5px;"></i>Borrar</a></div>`;
+                            return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                        }
+                    },
+                    {
+                        data: 'id',
+                        visible:false
+                    },
+                    {
+                        data: 'client_id',
+                        visible:false
+                    },
+                    {
+                        data: 'oficina_id',
+                        visible:false
+                    },
+                    {
+                        data: 'staff_id',
+                        visible:false
+                    },
+                    {
+                        data: 'estado_id',
+                        visible:false
+                    }
+                ],
+                width: "100%"
+            });                       
+
+                
         })
     }
 
@@ -1612,19 +1815,27 @@
                 destroy: true,
                 columnDefs: [
                     { width: '5%', targets: 0 },
-                    { width: '1%', targets: 1 },
+                    { width: '5%', targets: 1 },
                     { width: '1%', targets: 2 },
                     { width: '1%', targets: 3 },
                     { width: '1%', targets: 4 },
-                    { width: '5%', targets: 5 },
+                    { width: '1%', targets: 5 },
                     { width: '5%', targets: 6 },
                     { width: '5%', targets: 7 },
                     { width: '5%', targets: 8 },
                     { width: '5%', targets: 9 },
-                    { width: '15%', targets: 10 },
-                    { width: '30%', targets: 11 }
+                    { width: '5%', targets: 10 },
+                    { width: '15%', targets: 11 },
+                    { width: '30%', targets: 12 }
                 ],
                 columns: [
+                    { 
+                        data: "id",
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        } 
+                    },
                     {
                         data: 'cliente',
                         render: function (data, type, row)
@@ -2540,19 +2751,27 @@
                 destroy: true,
                 columnDefs: [
                     { width: '5%', targets: 0 },
-                    { width: '15%', targets: 1 },
+                    { width: '5%', targets: 1 },
                     { width: '15%', targets: 2 },
-                    { width: '10%', targets: 3 },
+                    { width: '15%', targets: 3 },
                     { width: '10%', targets: 4 },
-                    { width: '5%', targets: 5 },
+                    { width: '10%', targets: 5 },
                     { width: '5%', targets: 6 },
                     { width: '5%', targets: 7 },
                     { width: '5%', targets: 8 },
                     { width: '5%', targets: 9 },
-                    { width: '15%', targets: 10 },
-                    { width: '5%', targets: 11 }
+                    { width: '5%', targets: 10 },
+                    { width: '15%', targets: 11 },
+                    { width: '5%', targets: 12 }
                 ],
                 columns: [
+                    { 
+                        data: 'id', 
+                        render: function (data, type, row)
+                        {
+                            return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                        }
+                    },
                      {
                         data: 'cliente',
                         render: function (data, type, row)
@@ -3461,19 +3680,27 @@
                     destroy: true,
                     columnDefs: [
                         { width: '5%', targets: 0 },
-                        { width: '15%', targets: 1 },
+                        { width: '5%', targets: 1 },
                         { width: '15%', targets: 2 },
-                        { width: '10%', targets: 3 },
+                        { width: '15%', targets: 3 },
                         { width: '10%', targets: 4 },
-                        { width: '5%', targets: 5 },
+                        { width: '10%', targets: 5 },
                         { width: '5%', targets: 6 },
                         { width: '5%', targets: 7 },
                         { width: '5%', targets: 8 },
                         { width: '5%', targets: 9 },
-                        { width: '15%', targets: 10 },
-                        { width: '5%', targets: 11 }
+                        { width: '5%', targets: 10 },
+                        { width: '15%', targets: 11 },
+                        { width: '5%', targets: 12 }
                     ],
                     columns: [
+                        { 
+                            data: "id",
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
                         {
                             data: 'cliente',
                             render: function (data, type, row)
@@ -4368,19 +4595,27 @@
                     destroy: true,
                     columnDefs: [
                         { width: '5%', targets: 0 },
-                        { width: '15%', targets: 1 },
+                        { width: '5%', targets: 1 },
                         { width: '15%', targets: 2 },
-                        { width: '10%', targets: 3 },
+                        { width: '15%', targets: 3 },
                         { width: '10%', targets: 4 },
-                        { width: '5%', targets: 5 },
+                        { width: '10%', targets: 5 },
                         { width: '5%', targets: 6 },
                         { width: '5%', targets: 7 },
                         { width: '5%', targets: 8 },
                         { width: '5%', targets: 9 },
-                        { width: '15%', targets: 10 },
-                        { width: '5%', targets: 11 }
+                        { width: '5%', targets: 10 },
+                        { width: '15%', targets: 11 },
+                        { width: '5%', targets: 12 }
                     ],
                     columns: [
+                        { 
+                            data: 'id',
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                        },
                         {
                             data: 'cliente',
                             render: function (data, type, row)
@@ -5277,19 +5512,27 @@
                     destroy: true,
                     columnDefs: [
                         { width: '5%', targets: 0 },
-                        { width: '15%', targets: 1 },
+                        { width: '5%', targets: 1 },
                         { width: '15%', targets: 2 },
-                        { width: '10%', targets: 3 },
+                        { width: '15%', targets: 3 },
                         { width: '10%', targets: 4 },
-                        { width: '5%', targets: 5 },
+                        { width: '10%', targets: 5 },
                         { width: '5%', targets: 6 },
                         { width: '5%', targets: 7 },
                         { width: '5%', targets: 8 },
                         { width: '5%', targets: 9 },
-                        { width: '15%', targets: 10 },
-                        { width: '5%', targets: 11 }
+                        { width: '5%', targets: 10 },
+                        { width: '15%', targets: 11 },
+                        { width: '5%', targets: 12 }
                     ],
                     columns: [
+                        { 
+                            data: "id",
+                            render: function (data, type, row)
+                            {
+                                return "<div class='col-12 text-left text-nowrap'>" + data + "</div>"
+                            }
+                         },
                         {
                             data: 'cliente',
                             render: function (data, type, row)
@@ -6082,18 +6325,25 @@
                         { width: '15%', targets: 4 }
                     ],
                     columns: [
+                        { 
+                            data: "id",
+                            render: function (data, type, row)
+                            {
+                                return "<div class='row text-center'>" + data + "</div>"
+                            }
+                         },
                          {
                             data: 'descripcion',
                             render: function (data, type, row)
                             {
-                                return "<div class='row text-left'>" + data + "</div>"
+                                return "<div class='row text-center'>" + data + "</div>"
                             }
                         },
                         {
                             data: 'comentario',
                             render: function (data, type, row)
                             {
-                                return "<div class='row text-left'>" + data + "</div>"
+                                return "<div class='row text-center'>" + data + "</div>"
                             }
                         },
                         {
@@ -6201,59 +6451,77 @@
     }
 
     //Facturas
-    function TablaFacturas()
-        {
+    function TablaFacturas(){
             $.ajax({
                 url:"<?php echo admin_url("pi/MarcasSolicitudesController/getInvoicesByMarca/{$id}");?>",
                 method:"GET",
                 success: function(response){
-                    // res = JSON.parse(response);
-                    // console.log('Facturas', res.data);
-                    // $('#tblInvoices').DataTable( {
-                    //     autoWidth: false,
-                    //     destroy: true,
-                    //     data: res.data,
-                    //     columnDefs: [
-                    //         { width: '15%', targets: 0 },
-                    //         { width: '30%', targets: 1 },
-                    //         { width: '30%', targets: 2 },
-                    //         { width: '25%', targets: 3 }
-                    //     ],
-                    //     columns: [
-                    //         {
-                    //             data: 'factura',
-                    //             render: function (data, type, row)
-                    //             {
-                    //                 return "<div class='col-12'>" + data + "</div>"
-                    //             }
-                    //         },
-                    //         {
-                    //             data: 'fecha',
-                    //             render: function (data, type, row)
-                    //             {
-                    //                 return "<div class='col-12'>" + data + "</div>"
-                    //             }
-                    //         },
-                    //         {
-                    //             data: 'estatus',
-                    //             render: function (data, type, row)
-                    //             {
-                    //                 return "<div class='col-12'>" + data + "</div>"
-                    //             }
-                    //         },
-                    //         {
-                    //             data: 'acciones',
-                    //             render: function (data, type, row)
-                    //             {
-                    //                 return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
-                    //             }
-                    //         },
-                    //     ],
-                    //     width: "100%",
-                    //     language: {
-                    //         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                    //     }
-                    // });
+                    if (response === '') {
+                        $('#tblInvoices').DataTable( {
+                            autoWidth: false,
+                            destroy: true,
+                            columnDefs: [
+                                { width: '20%', targets: 0 },
+                                { width: '20%', targets: 1 },
+                                { width: '20%', targets: 2 },
+                                { width: '30%', targets: 3 }
+                            ],
+                            width: "100%",
+                            language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                            }
+                        });
+                    } else {
+                        res = JSON.parse(response);
+                        console.log('Facturas', res.data);
+                        $('#tblInvoices').DataTable( {
+                            autoWidth: false,
+                            destroy: true,
+                            data: res.data,
+                            columnDefs: [
+                                
+                                { width: '20%', targets: 0 },
+                                { width: '20%', targets: 1 },
+                                { width: '20%', targets: 2 },
+                                { width: '30%', targets: 3 }
+                            ],
+                            columns: [
+                              
+                                {
+                                    data: 'factura',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'fecha',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'estatus',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12'>" + data + "</div>"
+                                    }
+                                },
+                                {
+                                    data: 'acciones',
+                                    render: function (data, type, row)
+                                    {
+                                        return "<div class='col-12' style='padding: 0px 1.5em;'>" + data + "</div>"
+                                    }
+                                },
+                            ],
+                            width: "100%",
+                            language: {
+                                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                            }
+                        });
+                    }
                 }
             })
         }
@@ -6467,6 +6735,7 @@
         TablaEventos();
         TablaTareas();
         TablaCesion();
+        TablaRenovaciones();
         TablaLicencia();
         TablaFusion();
         TablaCambioNombre();

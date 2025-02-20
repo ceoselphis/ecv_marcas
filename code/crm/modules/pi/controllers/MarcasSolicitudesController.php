@@ -853,7 +853,7 @@ class MarcasSolicitudesController extends AdminController
       // Verifica si el JSON es válido
       if (json_last_error() !== JSON_ERROR_NONE) {
           //echo json_encode(['message' => 'Invalid JSON data', 'code' => 400]);
-          return [];
+          return;
       }
 
       // Si no es un array, inicializa como un array vacío
@@ -863,8 +863,8 @@ class MarcasSolicitudesController extends AdminController
 
       // Procesa las renovaciones
       foreach ($renovaciones as &$renovacion) {
-          $renovacion['vegencia_desde'] = empty($renovacion['vegencia_desde']) ? NULL : $this->turn_dates($renovacion['vegencia_desde']);
-          $renovacion['vegencia_hasta'] = empty($renovacion['vegencia_hasta']) ? NULL : $this->turn_dates($renovacion['vegencia_hasta']);
+          $renovacion['vigencia_desde'] = empty($renovacion['vigencia_desde']) ? NULL : $this->turn_dates($renovacion['vigencia_desde']);
+          $renovacion['vigencia_hasta'] = empty($renovacion['vigencia_hasta']) ? NULL : $this->turn_dates($renovacion['vigencia_hasta']);
           $renovacion['fecha_solicitud'] = empty($renovacion['fecha_solicitud']) ? NULL : $this->turn_dates($renovacion['fecha_solicitud']);
           $renovacion['fecha_resolucion'] = empty($renovacion['fecha_resolucion']) ? NULL : $this->turn_dates($renovacion['fecha_resolucion']);
       }
@@ -1098,18 +1098,21 @@ class MarcasSolicitudesController extends AdminController
 
   public function insertRenovaciones($renovaciones){
     $CI = &get_instance();
-    $CI->load->model("MarcasSolicitudes_model");
-    if (!empty($renovaciones)) {
-      try {
-        $query_renovaciones =  $CI->MarcasSolicitudes_model->insertRenovaciones($renovaciones); 
-        if (isset($query_renovaciones)) {
+    $CI->load->model("Renovaciones_model");
+    if (!empty($renovaciones) && is_array($renovaciones)) {
+     // for ($i = 0; $i < count($renovaciones); ++$i) {
+        /* INSERTO LA CESION Y RETORNO SU ID*/ 
+        $renovacion_id =  $CI->Renovaciones_model->insert($renovaciones);
+        if (isset($renovacion_id)){
           return true;
         } else {
           return false;
-        }
-      } catch (\Throwable $th) {
-        return false;
-      }
+        } 
+        // try {
+        // } catch (\Throwable $th) {
+        //   return false;
+        // }
+      //} 
     }
      
   }  
@@ -1122,11 +1125,12 @@ class MarcasSolicitudesController extends AdminController
   {
     $CI = &get_instance();
     $CI->load->model("MarcasSolicitudes_model");
+  
     $CI->load->helper(['url', 'form']);
     $CI->load->library('form_validation');
     $form = array();
     $data = $CI->input->post();
-    //echo json_encode(['data' => $data]);  
+
 
     if (!empty($data)){
       // echo json_encode(['data' => $data]);
@@ -1288,6 +1292,15 @@ class MarcasSolicitudesController extends AdminController
       $facturas = is_array($facturas) ? $this->validarFacturas($facturas) : [];
      
       $insert = array();
+     // echo json_encode($renovaciones);
+      if (!empty($renovaciones) && is_array($renovaciones)) {
+          $renovacion_id = $CI->MarcasSolicitudes_model->insertRenovaciones($renovaciones);
+          if ($renovacion_id) {
+              echo json_encode(['message' => 'Renovaciones insertadas correctamente', 'code' => 200]);
+          } else {
+              echo json_encode(['message' => 'Error al insertar renovaciones', 'code' => 500]);
+          }
+      }
       try {
         $query = $CI->MarcasSolicitudes_model->insert($form);
         if (isset($query)) {
@@ -1350,12 +1363,14 @@ class MarcasSolicitudesController extends AdminController
             }
           }
           if (!empty($renovaciones) && is_array($renovaciones)) {
-            $query_renovaciones =  $this->insertRenovaciones($renovaciones);
-            if (isset($query_renovaciones)){
-              array_push($insert ,'Renovaciones Insertado Correctamente');
-            } else {
-              array_push($insert ,'Error al insertar Renovaciones');
-            }
+            
+              $renovacion_id = $CI->MarcasSolicitudes_model->insertRenovaciones($renovaciones);            
+              if (isset($renovacion_id)){
+                array_push($insert ,'Renovaciones Insertado Correctamente');
+              } else {
+                array_push($insert ,'Error al insertar Renovaciones');
+              }
+            
           }
           if (!empty($cesiones) && is_array($cesiones)) {
             for ($i = 0; $i < count($cesiones); ++$i) {
@@ -1468,13 +1483,8 @@ class MarcasSolicitudesController extends AdminController
             for ($i = 0; $i < count($camnom); ++$i) {
               /* INSERTO EL CA'MBIO DE NOMBRE Y RETORNO SU ID*/
               $fusion_id = $CI->MarcasSolicitudes_model->insertCamNom($camnom[$i]);
-              /*Guardamos los 
-              Cambios de Nombre anteriores  */
               if (!empty($camnom_ant_id[0])) {
                 for ($j = 0; $j < count($camnom_ant_id[$i]); ++$j) {
-                  // unset($camnom_ant_id[$i][$j]['idRow']);
-                  // unset($camnom_ant_id[$i][$j]['propietario_id_name']);
-                  // unset($camnom_ant_id[$i][$j]['acciones']);
                   $camnom_ant_id[$i][$j]['cambio_nombre_id'] = $fusion_id;
                 }
                 $querycamnom_anterior = $CI->MarcasSolicitudes_model->insertCamNomAntAct($camnom_ant_id[$i]);
@@ -1881,83 +1891,66 @@ class MarcasSolicitudesController extends AdminController
     $solicitantes = array();
     /*Seteamos el arreglo para la solicitud */
 
-    $solicitud['id'] = $form['id'];
-    $solicitud['tipo_registro_id'] = $form['tipo_registro_id'];
-    $solicitud['client_id'] = $form['client_id'];
-    $solicitud['oficina_id'] = $form['oficina_id'];
-    $solicitud['staff_id'] = $form['staff_id'];
-    $solicitud['signonom'] = $form['signonom'];
-    $solicitud['tipo_signo_id'] = $form['tipo_signo_id'];
-    $solicitud['tipo_solicitud_id'] = $form['tipo_solicitud_id'];
-    $solicitud['ref_interna'] = $form['ref_interna'];
-    $solicitud['primer_uso'] = $this->turn_dates($form['primer_uso']);
-    $solicitud['ref_cliente'] = $form['ref_cliente'];
-    $solicitud['prueba_uso'] = $this->turn_dates($form['prueba_uso']);
-    $solicitud['carpeta'] = $form['carpeta'];
-    $solicitud['libro'] = $form['libro'];
-    $solicitud['folio'] = $form['folio'];
-    $solicitud['tomo'] = $form['tomo'];
-    $solicitud['comentarios'] = $form['comentarios'];
-    $solicitud['estado_id'] = $form['estado_id'];
-    $solicitud['solicitud'] = $form['solicitud'];
-    $solicitud['fecha_solicitud'] = $this->turn_dates($form['fecha_solicitud']);
-    $solicitud['registro'] = $form['registro'];
-    $solicitud['fecha_registro'] = $this->turn_dates($form['fecha_registro']);
-    $solicitud['certificado']     = $form['certificado'];
-    $solicitud['fecha_certificado'] = $this->turn_dates($form['fecha_certificado']);
-    $solicitud['fecha_vencimiento']    = $this->turn_dates($form['fecha_vencimiento']);
+    $solicitud = $this->validarMarcasSolicitudes($form);
+
+    
 
     /*Seteamos el valor del signo*/
-    $file = '';
-    if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
-      $file = $_FILES['signo_archivo'];
-    }
-    if ($file != NULL) {
-      //We fill the data of the         
-      $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
-      $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
-      move_uploaded_file($file['tmp_name'], $fpath);
-      $solicitud['signo_archivo'] = $path;
-    }
-    $isset = $CI->MarcasSolicitudes_model->deletePaisesDesignadosBySolicitud($id);
-    if ($isset) {
-      /*Seteamos el arreglo para los paises designados*/
-      foreach (json_decode($form['pais_id'], TRUE) as $row) {
-        $paisSol[] = [
-          'marcas_id' => $id,
-          'pais_id'   => $row
-        ];
-      }
-    }
-    unset($isset);
-    $isset = $CI->MarcasSolicitudes_model->deleteClasesNizaBySolicitud($id);
-    if ($isset) {
-      /*Seteamos el arreglo para la clase niza*/
-      foreach (json_decode($form['clase_niza'], TRUE) as  $row) {
-        $claseNiza[] = array(
-          'marcas_id' => $id,
-          'clase_id' => $row
-        );
-      }
-    }
+    // $file = '';
+    // if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
+    //   $file = $_FILES['signo_archivo'];
+    // }
+    // if ($file != NULL) {
+    //   //We fill the data of the         
+    //   $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
+    //   $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
+    //   move_uploaded_file($file['tmp_name'], $fpath);
+    //   $solicitud['signo_archivo'] = $path;
+    // }
+    // $isset = $CI->MarcasSolicitudes_model->deletePaisesDesignadosBySolicitud($id);
+    // if ($isset) {
+    //   /*Seteamos el arreglo para los paises designados*/
+    //   foreach (json_decode($form['pais_id'], TRUE) as $row) {
+    //     $paisSol[] = [
+    //       'marcas_id' => $id,
+    //       'pais_id'   => $row
+    //     ];
+    //   }
+    // }
+    // unset($isset);
+    // $isset = $CI->MarcasSolicitudes_model->deleteClasesNizaBySolicitud($id);
+    // if ($isset) {
+    //   /*Seteamos el arreglo para la clase niza*/
+    //   foreach (json_decode($form['clase_niza'], TRUE) as  $row) {
+    //     $claseNiza[] = array(
+    //       'marcas_id' => $id,
+    //       'clase_id' => $row
+    //     );
+    //   }
+    // }
 
-    unset($isset);
-    $isset = $CI->MarcasSolicitudes_model->deleteMarcasSolicitantesBySolicitud($id);
-    if ($isset) {
-      /*Seteamos el arreglo para los solicitantes */
-      foreach (json_decode($form['solicitantes_id'], TRUE) as $row) {
-        $solicitantes[] = [
-          'marcas_id' => $id,
-          'propietario_id' => $row
-        ];
-      }
-    }
+    // unset($isset);
+    // $isset = $CI->MarcasSolicitudes_model->deleteMarcasSolicitantesBySolicitud($id);
+    // if ($isset) {
+    //   /*Seteamos el arreglo para los solicitantes */
+    //   foreach (json_decode($form['solicitantes_id'], TRUE) as $row) {
+    //     $solicitantes[] = [
+    //       'marcas_id' => $id,
+    //       'propietario_id' => $row
+    //     ];
+    //   }
+    // }
     try {
-      $CI->MarcasSolicitudes_model->update($id, $solicitud);
-      $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
-      $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
-      $CI->MarcasSolicitudes_model->insertMarcasSolicitantes($solicitantes);
-      echo  json_encode(['code' => 200, 'message' => 'Cambios realizados exitosamente']);
+      $query = $CI->MarcasSolicitudes_model->update($id, $solicitud);
+      if (isset($query)) {
+        echo  json_encode(['code' => 200, 'message' => 'Cambios realizados exitosamente']);
+      } else {
+        echo  json_encode(['code' => 500, 'error' => 'No se pudieron realizar los cambios']);
+      }
+      // $CI->MarcasSolicitudes_model->insertPaisesDesignados($paisSol);
+      // $CI->MarcasSolicitudes_model->insertSolicitudesClases($claseNiza);
+      // $CI->MarcasSolicitudes_model->insertMarcasSolicitantes($solicitantes);
+      //echo  json_encode(['code' => 200, 'message' => 'Cambios realizados exitosamente']);
     } catch (\Throwable $th) {
       //Activate SYSLOG in the app
       echo json_encode(['code' => 500, 'error' => $th->getMessage()]);

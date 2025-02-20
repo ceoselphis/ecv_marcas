@@ -158,7 +158,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             <!-- Para Mostrar el Nombre de Archivo Signo seleccionado -->
                                             <?php
                                             ?>
-                                            <div class="text-danger" id="SignoFileName">
+                                            <div class="text-success" id="SignoFileName">
                                                 <?php 
                                                 $file = '';
                                                 if ($values['signo_archivo']) {
@@ -167,7 +167,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                 }
                                                 echo "Archivo → (<a href='" . $values['signo_archivo'] . "' target='_blank'>" . $file . "</a>)"; ?>
                                             </div>
-                                            <div class="text-danger" id="DescFileName">
+                                            <div class="text-success" id="DescFileName">
                                                 <?php echo "Descripción → (" . $values['signo_archivo_desc']. ")"; ?>
                                             </div>
                                         </div>
@@ -334,6 +334,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                             </div>
                                         </div>
                                         <div class="col-md-12" style="padding-top:15px;">
+                                         
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
                                             <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control' , 'style' =>'height: 150px  '  ]); ?>
                                         </div>

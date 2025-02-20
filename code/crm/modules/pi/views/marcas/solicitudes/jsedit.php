@@ -38,6 +38,7 @@
 
     /* Para cambiar el color de los Label  luego de un error*/
     const color_lbl = 'rgb(71 85 105)';
+    const color_success = '#008000';
     var formData = new FormData();
 
     $('#modal-loading').modal('show');
@@ -58,8 +59,8 @@
 
         if (($('#signo_archivo').val() && $('#descripcion_signo').val())
             || (!$('#signo_archivo').val() && $('#signo_archivo_orig').val() && $('#descripcion_signo').val())) {
-            $("#lblsigno_archivo").css('color', color_lbl);
-            $("#lbldescripcion_signo").css('color', color_lbl);
+            $("#lblsigno_archivo").css('color', color_success);
+            $("#lbldescripcion_signo").css('color', color_success);
             $("#signoModalEdit").modal('hide');
         }else{
             $("#lblsigno_archivo").css('color', $('#signo_archivo').val() || (!$('#signo_archivo').val() && $('#signo_archivo_orig').val()) ? color_lbl : 'red');
@@ -92,7 +93,7 @@
         e.preventDefault();
         if ($('#clase_niza').val() && $('#clase_niza_descripcion').val()) {
             var clase_id = $("select[name=clase_niza]").val();
-            var clase_descripcion = $("input[name=clase_niza_descripcion]").val();
+            var clase_descripcion = $("#clase_niza_descripcion").val();
             $.ajax({
                 url: "<?php echo admin_url('pi/MarcasSolicitudesController/insertClases')?>",
                 method: "POST",
@@ -5966,6 +5967,23 @@
         }
     });
 
+    $('#clase_niza').on('change', function(e) {
+        e.preventDefault();
+        var clase_niza = $('#clase_niza').val();
+        $.ajax({
+            url: "<?php echo admin_url('pi/ClasesController/getDescription'); ?>",
+            method: "POST",
+            data: {
+                'csrf_token_name': $("input[name=csrf_token_name]").val(),
+                'clase_id': clase_niza
+            },
+            success: function(response) {
+                res = JSON.parse(response);
+                $('#clase_niza_descripcion').val(res.data);
+            }
+        });
+    });
+
     //Cambio Domicilio Actual
     function TablaCambioDomicilioActual(id_cambiodomiclio){
         let url = '<?php echo admin_url("pi/TipoMarcasDomicilioController/showCambioDomicilioActual/");?>';
@@ -6375,7 +6393,37 @@
 
         })
     }
+
+    function FechaVencimiento(fechaOriginal) {
+        // Descomponer la fecha en día, mes y año
+        let partes = fechaOriginal.split('/'); // Asume formato dd/mm/yyyy
+        let dia = parseInt(partes[0], 10); // Día
+        let mes = parseInt(partes[1], 10) - 1; // Mes (0-indexado en JavaScript)
+        let anio = parseInt(partes[2], 10); // Año
+
+        // Sumar 15 años al año original
+        let nuevoAnio = anio + 15;
+
+        // Crear la nueva fecha con el día y mes intactos
+        let nuevaFecha = new Date(nuevoAnio, mes, dia);
+
+        // Formatear la fecha como día/mes/año
+        let formatoFecha = `${String(nuevaFecha.getDate()).padStart(2, '0')}/${String(nuevaFecha.getMonth() + 1).padStart(2, '0')}/${nuevaFecha.getFullYear()}`;
+
+        console.log(" /$$$$ formato fecha ", formatoFecha);
+        return formatoFecha;
+    }
     
+    $('#fecha_registro').on('change', function(e) {
+        e.preventDefault();
+        let fecha_registro = $('#fecha_registro').val();
+        console.log(" Fecha Registro ", fecha_registro);
+        let fecha_vencimiento = FechaVencimiento(fecha_registro);
+        $('#fecha_vencimiento').val(fecha_vencimiento);
+        $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
+        let vigencia_hasta = FechaVencimiento(fecha_vencimiento); 
+        $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+    });
 
     /* ####################################################################### */
     /* **********             FUNCIONES FACTURAS                    ********** */
@@ -6535,43 +6583,41 @@
     $("#solicitudfrm").on('submit', function(e){
         e.preventDefault();
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
-        formData.append('id' , $("input[name=id]").val());
-        formData.append('tipo_registro_id', $("select[name=tipo_registro_id]").val());
-        formData.append('client_id', $("select[name=client_id]").val());
-        formData.append('oficina_id', $("select[name=oficina_id]").val());
-        formData.append('staff_id', $("select[name=staff_id]").val());
+        formData.append('id', $("input[name=id]").val());
+        formData.append('cod_contador', $('#cod_contador').val());
+        formData.append('tipo_registro_id', $('#tipo_registro_id').val());
+        formData.append('client_id', $('#client_id').val());
+        formData.append('oficina_id', $('#oficina_id').val());
+        formData.append('staff_id', $('#staff_id').val());
         //Pais_id fill
-        pais_id = JSON.stringify($("select[name=pais_id]").val());
-        formData.append('pais_id', pais_id);
-        //Clase_niza_id fill
-        //clase_niza = JSON.stringify($("select[name=clase_niza_id]").val());
-        //formData.append('clase_niza', clase_niza);
-        //solicitantes fill
-        solicitantes = JSON.stringify($("select[name=solicitantes_id]").val());//**revisar insert */
-        formData.append('solicitantes_id', solicitantes);
-        formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
-        formData.append('ref_interna', $("input[name=ref_interna]").val());
-        formData.append('ref_cliente', $('input[name=ref_cliente]').val());
+        // id = $("input[name=id]").val();
+        // pais_id = JSON.stringify($('#pais_id').val());
+        // formData.append('pais_id', validarPaisesDesignados(pais_id,id));
+        //solicitantes_id fill
+        solicitantes_id = JSON.stringify($('#solicitantes_id').val());
+        formData.append('solicitantes_id', solicitantes_id);
+        formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
+        formData.append('ref_interna', $('#ref_interna').val());
+        formData.append('ref_cliente', $('#ref_cliente').val());
         //formData.append('primer_uso', $('input[name=primer_uso').val());
-        formData.append('prueba_uso', $('input[name=prueba_uso]').val());
-        formData.append('carpeta', $("input[name=carpeta]").val());
-        formData.append('libro', $("input[name=libro]").val());
-        formData.append('tomo', $("input[name=tomo]").val());
-        formData.append('folio', $("input[name=folio]").val());
-        formData.append('comentarios', $("textarea[name=comentarios]").val());
-        formData.append('estado_id', $("select[name=estado_id]").val());
-        formData.append('solicitud', $("input[name=num_solicitud]").val());
-        formData.append('fecha_solicitud', $("input[name=fecha_solicitud]").val());
-        formData.append('registro', $("input[name=num_registro]").val());
-        formData.append('fecha_registro', $("input[name=fecha_registro]").val());
-        formData.append('certificado', $("input[name=num_certificado]").val());
-        formData.append('fecha_certificado', $("input[name=fecha_certificado]").val());
-        formData.append('fecha_vencimiento', $("input[name=fecha_vencimiento]").val());
-        formData.append('signo_archivo', $('input[name=signo_archivo]')[0].files[0]);
-        formData.append('signonom', $("input[name=signonom]").val());
-        formData.append('descripcion_signo', $("textarea[name=descripcion_signo]").val());
-        formData.append('comentario_signo', $("input[name=comentario_signo]").val());
-        formData.append('tipo_signo_id', $('select[name=tipo_signo_id]').val());
+        formData.append('prueba_uso', $('#prueba_uso').val());
+        formData.append('carpeta', $('#carpeta').val());
+        formData.append('libro', $('#libro').val());
+        formData.append('tomo', $('#tomo').val());
+        formData.append('folio', $('#folio').val());
+        formData.append('comentarios', $('#comentarios').val());
+        formData.append('estado_id', $('#estado_id').val());
+        formData.append('solicitud', $('#solicitud').val());
+        formData.append('fecha_solicitud', $('#fecha_solicitud').val());
+        formData.append('registro', $('#registro').val());
+        formData.append('fecha_registro', $('#fecha_registro').val());
+        formData.append('certificado', $('#certificado').val());
+        formData.append('fecha_certificado', $('#fecha_certificado').val());
+        formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
+        formData.append('signo_archivo', $('#signo_archivo')[0].files.length > 0 ? $('#signo_archivo')[0].files[0] : '');
+        formData.append('signonom', $('#signonom').val());
+        formData.append('signo_archivo_desc', $('#descripcion_signo').val());
+        formData.append('tipo_signo_id', $('#tipo_signo_id').val());
         /* alert($("input[name=id]").val());
         // Display the key/value pairs
         for (var pair of formData.entries()) {
@@ -6584,25 +6630,94 @@
             data: formData,
             processData: false,
             contentType: false,
-            success:function(response)
-            {
-                data = JSON.parse(response);
-                <?php if(ENVIRONMENT == 'production') { ?>
-                    location.reload();
-                <?php } else { ?>
-                    alert_float('success', data.message);
-                <?php } ?>
-            },
-            fail: function(request)
-            {
-                    <?php if(ENVIRONMENT != 'production') { ?>
-                        alert(response);
-                        <?php } else { ?>
-                            alert('ha ocurrido un error');
-                    <?php } ?>
-            }
+           
+        }).then(function (response) {
+            console.log(response);
+            const obj = JSON.parse(response);
+            if (obj.code == 200) {
+                alert_float('success', 'Solicitud Actualizada con éxito!');
+                let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/"); ?>';
+                location.replace(ruta);
+            } else if (obj.code == 500) {
+                console.log(" Error no se Guardo la Solicitud ");
+                alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+            }  
+        }).catch(function (response) {
+            console.log(response.responseText);
         });
     });
+
+    // $("#solicitudfrm").on('submit', function(e){
+    //     e.preventDefault();
+    //     formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+    //     formData.append('id' , $("input[name=id]").val());
+    //     formData.append('tipo_registro_id', $("select[name=tipo_registro_id]").val());
+    //     formData.append('client_id', $("select[name=client_id]").val());
+    //     formData.append('oficina_id', $("select[name=oficina_id]").val());
+    //     formData.append('staff_id', $("select[name=staff_id]").val());
+    //     //Pais_id fill
+    //     pais_id = JSON.stringify($("select[name=pais_id]").val());
+    //     formData.append('pais_id', pais_id);
+    //     //Clase_niza_id fill
+    //     //clase_niza = JSON.stringify($("select[name=clase_niza_id]").val());
+    //     //formData.append('clase_niza', clase_niza);
+    //     //solicitantes fill
+    //     solicitantes = JSON.stringify($("select[name=solicitantes_id]").val());//**revisar insert */
+    //     formData.append('solicitantes_id', solicitantes);
+    //     formData.append('tipo_solicitud_id', $("select[name=tipo_solicitud_id]").val());
+    //     formData.append('ref_interna', $("input[name=ref_interna]").val());
+    //     formData.append('ref_cliente', $('input[name=ref_cliente]').val());
+    //     //formData.append('primer_uso', $('input[name=primer_uso').val());
+    //     formData.append('prueba_uso', $('input[name=prueba_uso]').val());
+    //     formData.append('carpeta', $("input[name=carpeta]").val());
+    //     formData.append('libro', $("input[name=libro]").val());
+    //     formData.append('tomo', $("input[name=tomo]").val());
+    //     formData.append('folio', $("input[name=folio]").val());
+    //     formData.append('comentarios', $("textarea[name=comentarios]").val());
+    //     formData.append('estado_id', $("select[name=estado_id]").val());
+    //     formData.append('solicitud', $("input[name=num_solicitud]").val());
+    //     formData.append('fecha_solicitud', $("input[name=fecha_solicitud]").val());
+    //     formData.append('registro', $("input[name=num_registro]").val());
+    //     formData.append('fecha_registro', $("input[name=fecha_registro]").val());
+    //     formData.append('certificado', $("input[name=num_certificado]").val());
+    //     formData.append('fecha_certificado', $("input[name=fecha_certificado]").val());
+    //     formData.append('fecha_vencimiento', $("input[name=fecha_vencimiento]").val());
+    //     formData.append('signo_archivo', $('input[name=signo_archivo]')[0].files[0]);
+    //     formData.append('signonom', $("input[name=signonom]").val());
+    //     formData.append('descripcion_signo', $("textarea[name=descripcion_signo]").val());
+    //     formData.append('comentario_signo', $("input[name=comentario_signo]").val());
+    //     formData.append('tipo_signo_id', $('select[name=tipo_signo_id]').val());
+    //     /* alert($("input[name=id]").val());
+    //     // Display the key/value pairs
+    //     for (var pair of formData.entries()) {
+    //         console.log(pair[0]+ ', ' + pair[1]); 
+    //     }
+    //     return; */
+    //     $.ajax({
+    //         url:'<?php echo admin_url("pi/MarcasSolicitudesController/update/{$id}");?>',
+    //         method: 'POST',
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+    //         success:function(response)
+    //         {
+    //             data = JSON.parse(response);
+    //             <?php if(ENVIRONMENT == 'production') { ?>
+    //                 location.reload();
+    //             <?php } else { ?>
+    //                 alert_float('success', data.message);
+    //             <?php } ?>
+    //         },
+    //         fail: function(request)
+    //         {
+    //                 <?php if(ENVIRONMENT != 'production') { ?>
+    //                     alert(response);
+    //                     <?php } else { ?>
+    //                         alert('ha ocurrido un error');
+    //                 <?php } ?>
+    //         }
+    //     });
+    // });
         
     //**Función para Buscar una Fila dentro de un Datatable Segun Columna y su valor */
     function FindRowDTbyColumn(DT, column, value) {
@@ -6722,12 +6837,12 @@
 
         });
 
-        // $(".calendar").datetimepicker({
-        //         maxDate: fecha(),
-        //         weeks: true,
-        //         format: 'd/m/Y',
-        //         timepicker:false,
-        // });
+        $(".calendar").datetimepicker({
+                // maxDate: fecha(),
+                weeks: true,
+                format: 'd/m/Y',
+                timepicker:false,
+        });
 
         TablaClases();
         TablaPrioridades();

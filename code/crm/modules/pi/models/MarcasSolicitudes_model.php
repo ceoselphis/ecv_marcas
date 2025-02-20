@@ -510,11 +510,15 @@ class MarcasSolicitudes_model extends BaseModel
         return $insert_id;
     }
 
-    public function insertRenovaciones($params)
+    public function insertRenovaciones($renovaciones)
     {
-        $query = $this->db->insert('tbl_marcas_renovaciones', $params);
-        $insert_id = $this->db->insert_id();
-        return $insert_id;
+        foreach ($renovaciones as $renovacion) {
+            $query = $this->db->insert('tbl_marcas_renovaciones', $renovacion);
+            if (!$query) {
+                return false; // Si alguna inserción falla, retorna false
+            }
+        }
+        return true; // Si todas las inserciones son exitosas, retorna true
     }
 
     public function insertCesionesAntAct($params)

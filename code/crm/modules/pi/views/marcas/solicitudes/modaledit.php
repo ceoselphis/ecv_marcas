@@ -26,7 +26,7 @@
                 <?php echo form_label('Descripcion', 'descripcion_signo');?>
                 <?php echo form_textarea('descripcion_signoAdd','', ['class' => 'form-control']);?>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" >
                 <?php echo form_label('Comentarios', 'comentario_signo');?>
                 <?php echo form_input('comentario_signoAdd','',['class' => 'form-control']);?>
             </div>
@@ -124,7 +124,7 @@
                 echo form_label('Clase', 'clase_niza', ['id' => 'lblclase_niza']);?>
                 <?php echo form_dropdown('clase_niza', $clase_niza_id, '',['class' => 'form-control', 'id' => 'clase_niza']);?>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style = "padding-top:20px">
                 <?php echo form_label('Descripcion', 'clase_niza_descripcion', ['id' => 'lblclase_niza_descripcion']);?>
                 <?php echo form_textarea('clase_niza_descripcion', set_value('clase_niza_descripcion', ''), ['class' => 'form-control', 'style' => 'height : 150px', 'id' => 'clase_niza_descripcion']); ?>
             </div>
@@ -197,7 +197,7 @@
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Número', 'nro_prioridad', ['id' => 'lblnro_prioridad']);?>
-                <?php echo form_input('nro_prioridad','',['class' => 'form-control numberOnly', 'id' => 'nro_prioridad']);?>
+                <?php echo form_input('nro_prioridad','',['class' => 'form-control ', 'id' => 'nro_prioridad']);?>
             </div>
         </div>
       </div>
@@ -234,7 +234,7 @@
             </div>
             <div class="col-md-3">
                 <?php echo form_label('Número', 'nro_prioridad_edit', ['id' => 'lblnro_prioridad_edit']);?>
-                <?php echo form_input('nro_prioridad_edit','',['class' => 'form-control numberOnly', 'id' => 'nro_prioridad_edit']);?>
+                <?php echo form_input('nro_prioridad_edit','',['class' => 'form-control ', 'id' => 'nro_prioridad_edit']);?>
             </div>
         </div>
       </div>
@@ -274,7 +274,7 @@
                 <?php echo form_label('Tipo', 'tipo_publicacion', ['id' => 'lbltipo_publicacion']);?>
                 <?php 
                 $tipo_publicacion = $select + $tipo_publicacion;
-                echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion'),['class' => 'form-control','id' => 'tipo_publicacion']);?>
+                echo form_dropdown('tipo_publicacion', $tipo_publicacion, set_value('tipo_publicacion','1'),['class' => 'form-control','id' => 'tipo_publicacion']);?>
             </div>
         </div>
         <div class="row" style="padding-top:15px;">
@@ -1337,7 +1337,7 @@
                     <?php //echo form_label('Staff', 'staffLicencia_edit');?>  
                     <?php //echo form_dropdown(['name'=>'staffLicencia_edit','id'=>'staffLicencia_edit'], $responsable, '',['class' => 'form-control']);?>
                 </div> -->
-                <div class="col-md-3">
+                <div class="col-md-12">
                     <?php echo form_label('Estado', 'estadoLicencia_edit',['id' => 'lblestadoLicencia_edit']);?>
                     <?php echo form_dropdown(['name'=>'estadoLicencia_edit','id'=>'estadoLicencia_edit'], $estados_solicitudes, '',['class' => 'form-control']);?>
                 </div>
@@ -1754,7 +1754,7 @@
                           <?php //echo form_label('Staff', 'staffFusion_edit');?>  
                           <?php //echo form_dropdown(['name'=>'staffFusion_edit','id'=>'staffFusion_edit'], $responsable, '',['class' => 'form-control']);?>
                       </div> -->
-                        <div class="col-md-3">
+                        <div class="col-md-12">
                             <?php echo form_label('Estado', 'estadoFusion_edit',['id' => 'lblestadoFusion_edit']);?>
                             <?php echo form_dropdown(['name'=>'estadoFusion_edit','id'=>'estadoFusion_edit'], $estados_solicitudes, '',['class' => 'form-control']);?>
                         </div>

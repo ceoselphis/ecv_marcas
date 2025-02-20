@@ -1619,8 +1619,8 @@
                     'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
                     "estado_id": $('#estadoRenovacion').val(),
                     'estado_id_name': $('#estadoRenovacion option[value=' + $('#estadoRenovacion').val() + ']').text(),
-                    "vegencia_desde" : $("#vigencia_desdeRenovacion").val(),
-                    "vegencia_hasta" : $("#vigencia_hastaRenovacion").val(),
+                    "vigencia_desde" : $("#vigencia_desdeRenovacion").val(),
+                    "vigencia_hasta" : $("#vigencia_hastaRenovacion").val(),
                     "solicitud_num": $('#nro_solicitudRenovacion').val(),
                     "fecha_solicitud": $('#fecha_solicitudRenovacion').val(),
                     "resolucion_num": $('#nro_resolucionRenovacion').val(),
@@ -1688,8 +1688,8 @@
                 'staff_id_name': staff_name,//$('#staffCesion option[value=' + $('#staffCesion').val() + ']').text(),
                 "estado_id": $('#estadoRenovacion_edit').val(),
                 'estado_id_name': $('#estadoRenovacion_edit option[value=' + $('#estadoRenovacion_edit').val() + ']').text(),
-                "vegencia_desde": $('#vigencia_desdeRenovacion_edit').val(),
-                "vegencia_hasta": $('#vigencia_hastaRenovacion_edit').val(),
+                "vigencia_desde": $('#vigencia_desdeRenovacion_edit').val(),
+                "vigencia_hasta": $('#vigencia_hastaRenovacion_edit').val(),
                 "solicitud_num": $('#nro_solicitudRenovacion_edit').val(),
                 "fecha_solicitud": $('#fecha_solicitudRenovacion_edit').val(),
                 "resolucion_num": $('#nro_resolucionRenovacion_edit').val(),
@@ -2057,14 +2057,14 @@
                     }
                 },
                 {
-                    data: 'vegencia_desde',
+                    data: 'vigencia_desde',
                     render: function (data, type, row)
                     {
                         return "<div class='col-12 text-left'>" + data + "</div>"
                     }
                 },
                 {
-                    data: 'vegencia_hasta',
+                    data: 'vigencia_hasta',
                     render: function (data, type, row)
                     {
                         return "<div class='col-12 text-left'>" + data + "</div>"
@@ -5666,6 +5666,7 @@
 
                     "client_id": elemento.client_id,
                     "oficina_id": elemento.oficina_id,
+                    "marcas_id" : elemento.marcas_id,
                     "staff_id" : elemento.staff_id,
                     "estado_id": elemento.estado_id,
                     "vegencia_desde" : elemento.vegencia_desde,
@@ -5675,8 +5676,7 @@
                     "resolucion_num": elemento.estado_id,
                     "fecha_resolucion" : elemento.fecha_resolucion,
                     "referencia_cliente": elemento.referencia_cliente,
-                    "comentarios" : elemento.comentarios,
-                    "marcas_id" : elemento.marcas_id
+                    "comentarios" : elemento.comentarios
                 } 
                 renovaciones_json.push(data_renovaciones);
             });
@@ -6231,33 +6231,132 @@
         let facturas = localStorage.getItem("facturas") || "[]";
         formData.append("facturas_id", validarFactura(facturas));
         console.log(" Form Data ",formData);
+        let url = '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>';
         $.ajax({
-            url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
+            url: url,
             method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
-            success: function(response) {
-                console.log(" Respuesta : ",response);
-                // const obj = JSON.parse(response);
-                // if (obj.code == 200) {
-                //     let id = obj.id;
-                //     alert_float('success', 'Solicitud guardada con éxito!');
-                //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
-                //     ruta = ruta + id;
-                //     location.replace(ruta);
-                // } else if (obj.code == 500) {
-                //     console.log(" Error no se Guardo la Solicitud ");
-                //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
-                // }      
-            },
-            fail: function(request) {
-                console.log(" Error ",request);
-           
-            }
+            
+        }).then(function (response) {
+            console.log(response);
+            const obj = JSON.parse(response);
+            if (obj.code == 200) {
+                let id = obj.id;
+                alert_float('success', 'Solicitud guardada con éxito!');
+                let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
+                ruta = ruta + id;
+                location.replace(ruta);
+            } else if (obj.code == 500) {
+                console.log(" Error no se Guardo la Solicitud ");
+                alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+            }  
+        }).catch(function (response) {
+            console.log(response.responseText);
         });
 
     });
+
+    // $(document).on('submit', "#solicitudfrm", function(e) {
+    //     e.preventDefault();
+    //     var formData = new FormData();
+    //     formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+    //     formData.append('id', $("input[name=id]").val());
+    //     formData.append('cod_contador', $('#cod_contador').val());
+    //     formData.append('tipo_registro_id', $('#tipo_registro_id').val());
+    //     formData.append('client_id', $('#client_id').val());
+    //     formData.append('oficina_id', $('#oficina_id').val());
+    //     formData.append('staff_id', $('#staff_id').val());
+    //     //Pais_id fill
+    //     id = $("input[name=id]").val();
+    //     pais_id = JSON.stringify($('#pais_id').val());
+    //     formData.append('pais_id', validarPaisesDesignados(pais_id,id));
+    //     //solicitantes_id fill
+    //     solicitantes_id = JSON.stringify($('#solicitantes_id').val());
+    //     formData.append('solicitantes_id', solicitantes_id);
+    //     formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
+    //     formData.append('ref_interna', $('#ref_interna').val());
+    //     formData.append('ref_cliente', $('#ref_cliente').val());
+    //     //formData.append('primer_uso', $('input[name=primer_uso').val());
+    //     formData.append('prueba_uso', $('#prueba_uso').val());
+    //     formData.append('carpeta', $('#carpeta').val());
+    //     formData.append('libro', $('#libro').val());
+    //     formData.append('tomo', $('#tomo').val());
+    //     formData.append('folio', $('#folio').val());
+    //     formData.append('comentarios', $('#comentarios').val());
+    //     formData.append('estado_id', $('#estado_id').val());
+    //     formData.append('solicitud', $('#solicitud').val());
+    //     formData.append('fecha_solicitud', $('#fecha_solicitud').val());
+    //     formData.append('registro', $('#registro').val());
+    //     formData.append('fecha_registro', $('#fecha_registro').val());
+    //     formData.append('certificado', $('#certificado').val());
+    //     formData.append('fecha_certificado', $('#fecha_certificado').val());
+    //     formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
+    //     formData.append('signo_archivo', $('#signo_archivo')[0].files.length > 0 ? $('#signo_archivo')[0].files[0] : '');
+    //     formData.append('signonom', $('#signonom').val());
+    //     formData.append('signo_archivo_desc', $('#descripcion_signo').val());
+    //     formData.append('tipo_signo_id', $('#tipo_signo_id').val());
+    //     let clase_niza = localStorage.getItem("clase_niza") || "[]";
+    //     formData.append('clase_niza_id', validarClaseNiza(clase_niza));
+    //     let prioridad = localStorage.getItem("prioridad") || "[]";
+    //     formData.append('prioridad_id', validarPrioridad(prioridad));
+    //     let publicacion = localStorage.getItem("publicacion") || "[]";
+    //     formData.append("publicacion_id", validarPublicaciones(publicacion));
+    //     let eventos = localStorage.getItem("eventos") || "[]";  
+    //     formData.append("eventos_id", validarEventos(eventos));
+    //     let tareas = localStorage.getItem("tareas") || "[]"; 
+    //     formData.append("tareas_id", validarTareas(tareas));
+    //     let renovaciones = localStorage.getItem("renovaciones") || "[]";
+    //     formData.append("renovaciones_id" , validarRenovaciones(renovaciones));
+    //     let cesiones = localStorage.getItem("cesiones") || "[]";
+    //     //console.log(" Enviar Cesiones ", validarCesiones(cesiones));
+    //     formData.append("cesiones_id", validarCesiones(cesiones) );
+    //     let licencias = localStorage.getItem("licencias") || "[]";
+    //     formData.append("licencias_id", validarLicencia(licencias));
+    //     let fusiones = localStorage.getItem("fusiones") || "[]";
+    //     formData.append("fusiones_id", validarFusion(fusiones));
+    //     let camnom = localStorage.getItem("camnom") || "[]";
+    //     formData.append("camnom_id", validarCambioNombre(camnom));
+    //     let camdom = localStorage.getItem("camdom") || "[]";
+    //     formData.append("camdom_id", validarCambioDomicilio(camdom));
+    //     let documentos = localStorage.getItem("documentos") || "[]";
+    //     formData.append("doc_id", validarDocumentos(documentos));
+    //     var docu = JSON.parse(localStorage.getItem("documentos"));
+    //     docu.forEach(function(item){
+    //         formData.append("doc_archivo_" + item.idRow, $("#doc_archivo_" + item.idRow).get(0).files[0]);
+    //     });
+    //     let facturas = localStorage.getItem("facturas") || "[]";
+    //     formData.append("facturas_id", validarFactura(facturas));
+    //     console.log(" Form Data ",formData);
+    //     $.ajax({
+    //         url: '<?php echo admin_url('pi/MarcasSolicitudesController/store'); ?>',
+    //         method: 'POST',
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+    //         success: function(response) {
+    //             console.log(" Respuesta : ",response);
+    //             // const obj = JSON.parse(response);
+    //             // if (obj.code == 200) {
+    //             //     let id = obj.id;
+    //             //     alert_float('success', 'Solicitud guardada con éxito!');
+    //             //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/edit/"); ?>';
+    //             //     ruta = ruta + id;
+    //             //     location.replace(ruta);
+    //             // } else if (obj.code == 500) {
+    //             //     console.log(" Error no se Guardo la Solicitud ");
+    //             //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+    //             // }      
+    //         },
+    //         fail: function(request) {
+    //             console.log(" Error ",request);
+           
+    //         }
+    //     });
+
+    // });
+
 
     /***
      * funcion que actualiza el IdRow de cada tabla

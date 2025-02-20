@@ -661,4 +661,52 @@ public function store()
   }
 }
 
+
+public function validarRenovaciones($renovaciones) {
+  // Verifica si el JSON es válido
+  if (json_last_error() !== JSON_ERROR_NONE) {
+      //echo json_encode(['message' => 'Invalid JSON data', 'code' => 400]);
+      return [];
+  }
+
+  // Si no es un array, inicializa como un array vacío
+  if (!is_array($renovaciones)) {
+      $renovaciones = [];
+  }
+
+  // Procesa las renovaciones
+  foreach ($renovaciones as &$renovacion) {
+      $renovacion['vegencia_desde'] = empty($renovacion['vegencia_desde']) ? NULL : $this->turn_dates($renovacion['vegencia_desde']);
+      $renovacion['vegencia_hasta'] = empty($renovacion['vegencia_hasta']) ? NULL : $this->turn_dates($renovacion['vegencia_hasta']);
+      $renovacion['fecha_solicitud'] = empty($renovacion['fecha_solicitud']) ? NULL : $this->turn_dates($renovacion['fecha_solicitud']);
+      $renovacion['fecha_resolucion'] = empty($renovacion['fecha_resolucion']) ? NULL : $this->turn_dates($renovacion['fecha_resolucion']);
+  }
+
+  // Devuelve la respuesta JSON
+ return $renovaciones;
+}
+public function store()
+  {
+    $CI = &get_instance();
+    $CI->load->model("MarcasSolicitudes_model");
+    $CI->load->helper(['url', 'form']);
+    $CI->load->library('form_validation');
+    $form = array();
+    $data = $CI->input->post();
+
+
+    if (!empty($data)){
+      $form = $this->validarMarcasSolicitudes($data);
+      $renovaciones = json_decode($data['renovaciones_id'], TRUE);
+      $renovaciones = is_array($renovaciones) ? $this->validarRenovaciones($renovaciones) : [];
+
+     if (!empty($renovaciones) && is_array($renovaciones)) {
+      $renovacion_id =  $CI->MarcasSolicitudes_model->insertRenovaciones($renovaciones);
+      echo json_encode(['renovacion' => $renovaciones]);
+     }
+
+    } else {
+      echo json_encode(['message' => 'not data' , 'code' => 400]);
+    }
+  }
 ?>

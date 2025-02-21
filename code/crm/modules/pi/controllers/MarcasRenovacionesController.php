@@ -68,6 +68,8 @@ class MarcasRenovacionesController extends AdminController
         }
     }
 
+
+
     private function turn_dates($date)
     {
         try{
@@ -115,8 +117,9 @@ class MarcasRenovacionesController extends AdminController
       
         
     }
-     public function addRenovacion(){
+    public function addRenovacion(){
         $CI = &get_instance();
+        $CI->load->model("Renovaciones_model");
         $data = $CI->input->post();
         if (!empty($data)){
             $insert = array(
@@ -125,6 +128,8 @@ class MarcasRenovacionesController extends AdminController
                             'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                             'marcas_id' => $data['id_marcas'],
                             'estado_id' => $data['estado'],
+                            'vigencia_desde' => $this->turn_dates($data['vigencia_desde']),
+                            'vigencia_hasta' => $this->turn_dates($data['vigencia_hasta']),
                             'solicitud_num' => $data['nro_solicitud'],
                             'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
                             'resolucion_num' => $data['nro_resolucion'],
@@ -133,47 +138,21 @@ class MarcasRenovacionesController extends AdminController
                             'comentarios' => $data['comentario'],
                     );
 
-            $CI->load->model("Renovaciones_model");
+            
                 try{
-                    $id = $CI->Renovaciones_model->InsertarRenovacion($insert);
-                        if (isset($id)){
-                            $propAnt = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAnt']) : array();
-                            $propAct = (strlen($data['propAnt']) > 0) ? explode(',', $data['propAct']) : array();
-                            $insert = array();
-                            if (count($propAnt) > 0) { //tiene cesiones anteriores, entonces agrego
-                                foreach ($propAnt as $p) {
-                                    $arr_propietario = array(
-                                        'cesion_id' => $id,
-                                        'tipo_cedente' => 1,
-                                        'cedente_id' => $p,
-                                    );
-                                    array_push($insert, $arr_propietario);
-                                }
-                            }
-                            if (count($propAct) > 0) { //tiene cesiones actuales, entonces agrego
-                                foreach ($propAct as $p) {
-                                    $arr_propietario = array(
-                                        'cesion_id' => $id,
-                                        'tipo_cedente' => 2,
-                                        'cedente_id' => $p,
-                                    );
-                                    array_push($insert, $arr_propietario);
-                                }
-                            }
-                            if (count($insert) > 0) {
-                                $CI->Renovaciones_model->addRenovaciones($insert);                             
-                            }
-                            echo "Insertado Correctamente";
+                    $query = $CI->Renovaciones_model->insert($insert);
+                        if (isset($query)){
+                          echo json_encode(['message' => 'Success' , 'code' => '200']);
 
                         }else {
-                            echo "No hemos podido Insertar";
+                            echo json_encode(['message' => 'Error' , 'code' => '500']);
                         }
                 }catch (Exception $e){
-                    return $e->getMessage();
+                    echo json_encode(['message' => $e->getMessage() , 'code' => '500']);
                 }
         }
         else {
-            echo "No tiene Data";
+            echo json_encode(['message' => 'Not Data' , 'code' => '404']);
         }
      }
 
@@ -194,6 +173,8 @@ class MarcasRenovacionesController extends AdminController
                         'staff_id' => $data['staff'] == '' ? null : $data['staff'],
                         'estado_id' => $data['estado'],
                         'solicitud_num' => $data['nro_solicitud'],
+                        'vigencia_desde' => $this->turn_dates($data['vigencia_desde']),
+                        'vigencia_hasta' => $this->turn_dates($data['vigencia_hasta']),
                         'fecha_solicitud' => $this->turn_dates($data['fecha_solicitud']),
                         'resolucion_num' => $data['nro_resolucion'],
                         'fecha_resolucion' => $this->turn_dates($data['fecha_resolucion']),
@@ -203,11 +184,15 @@ class MarcasRenovacionesController extends AdminController
                    
 
                     $query = $CI->Renovaciones_model->update($id, $insert);
-                    if (isset($query))
-                    {
-                        echo "Actualizado Correctamente";
-                    }
-        }  
+                    if (isset($query)){
+                        echo json_encode(['message' => 'Success' , 'code' => '200']);
+
+                      }else {
+                          echo json_encode(['message' => 'Error' , 'code' => '500']);
+                      }
+        }  else {
+            echo json_encode(['message' => 'Not Data' , 'code' => '404']);
+        }
     }
      public function showRenovaciones(string $id = null){
         $CI = &get_instance();
@@ -387,9 +372,9 @@ class MarcasRenovacionesController extends AdminController
         $CI->load->helper('url');
         $query = $CI->Renovaciones_model->delete($id);
         if (isset($query)){
-            echo "Eliminado Correctamente";
+            echo json_encode(['message' => 'Success' , 'code' => '200']);
         }else {
-            echo "No se ha podido Eliminar";
+            echo json_encode(['message' => 'Error' , 'code' => '500']);
         }
         
         

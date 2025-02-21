@@ -6457,9 +6457,51 @@
         console.log(" Fecha Registro ", fecha_registro);
         let fecha_vencimiento = FechaVencimiento(fecha_registro);
         $('#fecha_vencimiento').val(fecha_vencimiento);
-        $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
-        let vigencia_hasta = FechaVencimiento(fecha_vencimiento); 
-        $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+        
+     
+            $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
+            let vigencia_hasta = FechaVencimiento(fecha_vencimiento); 
+            $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+        
+      
+    });
+
+    $('#AddRenovacionAbrirModal').on('click', function (e) {
+        let fecha_vencimiento = $('#fecha_vencimiento').val();
+        let renovaciones = localStorage.getItem('renovaciones');
+
+        // Convertir el valor del localStorage a un array
+        if (renovaciones) {
+            renovaciones = JSON.parse(renovaciones);
+        } else {
+            renovaciones = []; // Si no hay valor, inicializar como un array vacío
+        }
+
+        // Verificar si el array no está vacío
+        if (Array.isArray(renovaciones) && renovaciones.length > 0) {
+            console.log('Tiene Renovaciones');
+            // Aquí puedes trabajar con las renovaciones
+            let ultima_renovacion = renovaciones[renovaciones.length - 1]; // Obtener la última renovación
+
+            // Verificar si ultima_renovacion es un objeto y tiene la propiedad vigencia_hasta
+            if (typeof ultima_renovacion === 'object' && ultima_renovacion !== null && 'vigencia_hasta' in ultima_renovacion) {
+                $('#vigencia_desdeRenovacion').val(ultima_renovacion.vigencia_hasta);
+                let vigencia_hasta = FechaVencimiento(ultima_renovacion.vigencia_hasta);
+                $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+            } else {
+                console.error('La última renovación no tiene la estructura esperada.');
+                // Si no tiene la estructura esperada, usar la fecha de vencimiento como valor inicial
+                $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
+                let vigencia_hasta = FechaVencimiento(fecha_vencimiento);
+                $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+            }
+        } else {
+            console.log('No Tiene Renovaciones');
+            // Si no hay renovaciones, usar la fecha de vencimiento como valor inicial
+            $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
+            let vigencia_hasta = FechaVencimiento(fecha_vencimiento);
+            $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+        }
     });
 
     

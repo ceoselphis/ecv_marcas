@@ -35,6 +35,24 @@
     var AddtblCamDomActDT;
     var AddtblCamDomAntDT;
     var tblDocomentoDT;
+    var oficina_id = <?php echo $values['oficina_id']; ?>;
+    console.log(" Oficina ID ", oficina_id);
+    var staff_id;
+    var staff_name;
+    var cliente_id = <?php echo $values['client_id']; ?>;
+    console.log(" Cliente ID", cliente_id);
+   
+
+    function StaffUser() {
+        let url = '<?php echo admin_url("pi/MarcasSolicitudesController/StaffUser/"); ?>';
+        $.get(url, function (response) {
+            data = JSON.parse(response);
+            staff_id = data.user_id;
+            staff_name = data.user_name;
+        });
+    }
+
+    StaffUser();
 
     /* Para cambiar el color de los Label  luego de un error*/
     const color_lbl = 'rgb(71 85 105)';
@@ -1353,7 +1371,7 @@
     /* **********             FUNCIONES RENOVACIONES                ********** */
     /* ####################################################################### */
 
-    // Cesion
+    // Renovaciones
     function TablaRenovaciones(){
         let url = '<?php echo admin_url("pi/MarcasRenovacionesController/showRenovaciones/$id");?>';
         $.get(url, function(response){
@@ -1511,6 +1529,192 @@
     }
 
 
+
+     //Añadir Cesion ---------------------------------------------------------------------------
+     $(document).on('click','#renovacionfrmsubmit',function(e){
+        e.preventDefault();
+
+        if (
+            $('#estadoRenovacion').val() && 
+            $('#nro_solicitudRenovacion').val() && 
+            $('#fecha_solicitudRenovacion').val() &&
+            $('#nro_resolucionRenovacion').val() &&
+            $('#fecha_resolucionRenovacion').val() &&
+            $('#referenciaclienteRenovacion').val()) 
+            {
+            var formData = new FormData();
+            const id_marcas = '<?php echo $id?>';
+            var cliente =  cliente_id;
+            var oficina = oficina_id;
+            var staff =  staff_id;
+            var estado =  $('#estadoRenovacion').val();
+            var nro_solicitud =  $('#nro_solicitudRenovacion').val();
+            var vigencia_desde =  $('#vigencia_desdeRenovacion').val();
+            var vigencia_hasta =  $('#vigencia_hastaRenovacion').val();
+            var fecha_solicitud = $('#fecha_solicitudRenovacion').val();
+            var nro_resolucion =  $('#nro_resolucionRenovacion').val();
+            var fecha_resolucion = $('#fecha_resolucionRenovacion').val();
+            var referenciacliente =  $('#referenciaclienteRenovacion').val();
+            var comentario =  $('#comentarioRenovacion').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('id_marcas',id_marcas);
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('vigencia_desde',vigencia_desde);
+            formData.append('vigencia_hasta',vigencia_hasta);
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            //Verifico si existen en el localstorage Anteriores y Actuales
+          
+
+            let url = '<?php echo admin_url("pi/MarcasRenovacionesController/addRenovacion");?>'
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                console.log('response', response);
+                alert_float('success', "Insertado Correctamente");
+                $("#AddRenovacion").modal('hide');
+                TablaRenovaciones()
+            }).catch(function(response){
+                alert_float('danger',"No se pudo Añadir la Renovacion");
+            });
+        }else{
+            $("#lblestadoRenovacion").css('color', $('#estadoRenovacion').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudRenovacion").css('color', $('#nro_solicitudRenovacion').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudRenovacion").css('color', $('#fecha_solicitudRenovacion').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionRenovacion").css('color', $('#nro_resolucionRenovacion').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionRenovacion").css('color', $('#fecha_resolucionRenovacion').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteRenovacion").css('color', $('#referenciaclienteRenovacion').val() ? color_lbl : 'red');
+            alert_float('danger', 'Debe introducir todos los datos para Añadir la Renovacion');
+        }
+    });
+
+     //Modal Edit Cesion 
+     $(document).on('click','.EditRenovacion',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var row = FindRowDTbyColumn(tblRenovacionDT, 'id', id);
+        console.log('row', row);
+        
+       
+       
+        $('#estadoRenovacion_edit').val(row.estado_id).trigger('change');
+        $("#vigencia_desdeRenovacion_edit").val(row.vigencia_desde);
+        $("#vigencia_hastaRenovacion_edit").val(row.vigencia_hasta);
+        $("#nro_solicitudRenovacion_edit").val(row.num_solicitud);
+        $("#fecha_solicitudRenovacion_edit").val(row.fecha_solicitud);
+        $("#nro_resolucionRenovacion_edit").val(row.num_resolucion);
+        $("#fecha_resolucionRenovacion_edit").val(row.fecha_resolucion);
+        $("#referenciaclienteRenovacion_edit").val(row.referencia_cliente);
+        $("#comentarioRenovacion_edit").val(row.comentarios);
+        $("#renovacionid_edit").val(row.id);
+        $("#EditRenovacion").modal('show'); 
+    })
+
+    $(document).on('click','#renovacionfrmsubmit_edit',function(e){
+        e.preventDefault();
+
+        if ( 
+            $('#estadoRenovacion_edit').val() && 
+            $('#nro_solicitudRenovacion_edit').val() && 
+            $('#fecha_solicitudRenovacion_edit').val() &&
+            $('#nro_resolucionRenovacion_edit').val() &&
+            $('#fecha_resolucionRenovacion_edit').val() &&
+            $('#referenciaclienteRenovacion_edit').val()) 
+            {
+            var formData = new FormData();
+            var data = getFormData(this);
+            var id = $('#renovacionid_edit').val();
+            var cliente =  cliente_id;
+            var oficina = oficina_id;
+            var staff =  staff_id;
+            var estado =  $('#estadoRenovacion_edit').val();
+            var vigencia_desde =  $('#vigencia_desdeRenovacion').val();
+            var vigencia_hasta =  $('#vigencia_hastaRenovacion').val();
+            var nro_solicitud =  $('#nro_solicitudRenovacion_edit').val();
+            var fecha_solicitud = $('#fecha_solicitudRenovacion_edit').val();
+            var nro_resolucion =  $('#nro_resolucionRenovacion_edit').val();
+            var fecha_resolucion = $('#fecha_resolucionRenovacion_edit').val();
+            var referenciacliente =  $('#referenciaclienteRenovacion_edit').val();
+            var comentario =  $('#comentarioRenovacion_edit').val();
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('cliente',cliente);
+            formData.append('oficina',oficina);
+            formData.append('staff',staff );
+            formData.append('estado',estado );
+            formData.append('vigencia_desde',vigencia_desde);
+            formData.append('vigencia_hasta',vigencia_hasta);
+            formData.append('nro_solicitud',nro_solicitud );
+            formData.append('fecha_solicitud',fecha_solicitud);
+            formData.append('nro_resolucion',nro_resolucion );
+            formData.append('fecha_resolucion',fecha_resolucion);
+            formData.append('referenciacliente',referenciacliente );
+            formData.append('comentario',comentario);
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasRenovacionesController/UpdateRenovacion/");?>'
+            url = url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Actualizado Correctamente");
+                $("#EditRenovacion").modal('hide');
+                TablaRenovaciones()
+            }).catch(function(response){
+                alert("No se pudo Editar Renovacion");
+            });
+        }else{
+            
+            $("#lblestadoRenovacion_edit").css('color', $('#estadoRenovacion_edit').val() ? color_lbl : 'red');
+            $("#lblnro_solicitudRenovacion_edit").css('color', $('#nro_solicitudRenovacion_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_solicitudRenovacion_edit").css('color', $('#fecha_solicitudRenovacion_edit').val() ? color_lbl : 'red');
+            $("#lblnro_resolucionRenovacion_edit").css('color', $('#nro_resolucionRenovacion_edit').val() ? color_lbl : 'red');
+            $("#lblfecha_resolucionRenovacion_edit").css('color', $('#fecha_resolucionRenovacion_edit').val() ? color_lbl : 'red');
+            $("#lblreferenciaclienteRenovacion_edit").css('color', $('#referenciaclienteRenovacion_edit').val() ? color_lbl : 'red');
+           
+            alert_float('danger', 'Debe introducir todos los datos para Editar la Renovacion');
+        }
+
+    });
+
+    //Eliminar Renovacion
+    $(document).on('click','.renovacion-delete',function(){
+        if (confirm("Quieres eliminar este registro?")){
+            let id = $(this).attr('id');
+            var csrf_token_name = $("input[name=csrf_token_name]").val();
+            formData.append('csrf_token_name', csrf_token_name);
+            let url = '<?php echo admin_url("pi/MarcasRenovacionesController/destroy/");?>';
+            url= url+id;
+            $.ajax({
+                url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function(response){
+                alert_float('success', "Eliminado Correctamente");
+                TablaRenovaciones();
+            }).catch(function(response){
+                alert("No se pudo Eliminar Cesion");
+            });
+        }
+    });
+
+
     /* ####################################################################### */
     /* **********             FUNCIONES CESION                      ********** */
     /* ####################################################################### */
@@ -1519,14 +1723,13 @@
     $(document).on('click','#AddCesionfrmsubmit',function(e){
         e.preventDefault();
 
-        if ($('#oficinaCesion').val() && 
+        if (
             $('#estadoCesion').val() && 
             $('#nro_solicitudCesion').val() && 
             $('#fecha_solicitudCesion').val() &&
             $('#nro_resolucionCesion').val() &&
             $('#fecha_resolucionCesion').val() &&
-            $('#referenciaclienteCesion').val() &&
-            $('#comentarioCesion').val()) 
+            $('#referenciaclienteCesion').val() ) 
             {
             var formData = new FormData();
             var data = getFormData(this);
@@ -1575,14 +1778,14 @@
                 alert("No se pudo Añadir Cesion");
             });
         }else{
-            $("#lbloficinaCesion").css('color', $('#oficinaCesion').val() ? color_lbl : 'red');
+           // $("#lbloficinaCesion").css('color', $('#oficinaCesion').val() ? color_lbl : 'red');
             $("#lblestadoCesion").css('color', $('#estadoCesion').val() ? color_lbl : 'red');
             $("#lblnro_solicitudCesion").css('color', $('#nro_solicitudCesion').val() ? color_lbl : 'red');
             $("#lblfecha_solicitudCesion").css('color', $('#fecha_solicitudCesion').val() ? color_lbl : 'red');
             $("#lblnro_resolucionCesion").css('color', $('#nro_resolucionCesion').val() ? color_lbl : 'red');
             $("#lblfecha_resolucionCesion").css('color', $('#fecha_resolucionCesion').val() ? color_lbl : 'red');
             $("#lblreferenciaclienteCesion").css('color', $('#referenciaclienteCesion').val() ? color_lbl : 'red');
-            $("#lblcomentarioCesion").css('color', $('#comentarioCesion').val() ? color_lbl : 'red');
+        //    $("#lblcomentarioCesion").css('color', $('#comentarioCesion').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe introducir todos los datos para Añadir la Cesión');
         }
 
@@ -6420,9 +6623,52 @@
         console.log(" Fecha Registro ", fecha_registro);
         let fecha_vencimiento = FechaVencimiento(fecha_registro);
         $('#fecha_vencimiento').val(fecha_vencimiento);
-        $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
-        let vigencia_hasta = FechaVencimiento(fecha_vencimiento); 
-        $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+        
+        // $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
+        // let vigencia_hasta = FechaVencimiento(fecha_vencimiento); 
+        // $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+    });
+
+    $('#AddRenovacionAbrirModal').on('click', function (e) {
+        let fecha_vencimiento = $('#fecha_vencimiento').val();
+        let renovaciones;
+        let url = '<?php echo admin_url('pi/MarcasRenovacionesController/showRenovaciones/'.$id); ?>';
+        $.get(url, function (response) {
+            // Manejar la respuesta exitosa
+            console.log('Renovaciones Recividas: ', response);
+            renovaciones = JSON.parse(response);
+        })
+        .fail(function (xhr, status, error) {
+            // Manejar errores
+            console.error('Error en la solicitud:', status, error);
+        });
+        
+
+        // Verificar si el array no está vacío
+        if (Array.isArray(renovaciones) && renovaciones.length > 0) {
+            console.log('Tiene Renovaciones');
+            // Aquí puedes trabajar con las renovaciones
+            let ultima_renovacion = renovaciones[renovaciones.length - 1]; // Obtener la última renovación
+
+            // Verificar si ultima_renovacion es un objeto y tiene la propiedad vigencia_hasta
+            if (typeof ultima_renovacion === 'object' && ultima_renovacion !== null && 'vigencia_hasta' in ultima_renovacion) {
+                $('#vigencia_desdeRenovacion').val(ultima_renovacion.vigencia_hasta);
+                let vigencia_hasta = FechaVencimiento(ultima_renovacion.vigencia_hasta);
+                $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+            } else {
+                console.error('La última renovación no tiene la estructura esperada.');
+                // Si no tiene la estructura esperada, usar la fecha de vencimiento como valor inicial
+                $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
+                let vigencia_hasta = FechaVencimiento(fecha_vencimiento);
+                $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+            }
+        } else {
+            console.log('No Tiene Renovaciones');
+            // Si no hay renovaciones, usar la fecha de vencimiento como valor inicial
+            $('#vigencia_desdeRenovacion').val(fecha_vencimiento);
+            let vigencia_hasta = FechaVencimiento(fecha_vencimiento);
+            $('#vigencia_hastaRenovacion').val(vigencia_hasta);
+        }
     });
 
     /* ####################################################################### */
@@ -6594,8 +6840,8 @@
         // pais_id = JSON.stringify($('#pais_id').val());
         // formData.append('pais_id', validarPaisesDesignados(pais_id,id));
         //solicitantes_id fill
-        solicitantes_id = JSON.stringify($('#solicitantes_id').val());
-        formData.append('solicitantes_id', solicitantes_id);
+       // solicitantes_id = JSON.stringify($('#solicitantes_id').val());
+       // formData.append('solicitantes_id', solicitantes_id);
         formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
         formData.append('ref_interna', $('#ref_interna').val());
         formData.append('ref_cliente', $('#ref_cliente').val());

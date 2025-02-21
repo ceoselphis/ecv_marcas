@@ -35,6 +35,7 @@ class Renovaciones_model extends BaseModel
         $values = $query->result_array();
         return $values[0]['nombre']; 
     }
+    
     public function BuscarStaff($id = NULL){
         $this->db->select('*');
         $this->db->from('tblstaff');

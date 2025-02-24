@@ -75,14 +75,14 @@
         e.preventDefault();
 
 
-        if (($('#signo_archivo').val() && $('#descripcion_signo').val())
+        if (($('#signo_archivo').val())
             || (!$('#signo_archivo').val() && $('#signo_archivo_orig').val() && $('#descripcion_signo').val())) {
             $("#lblsigno_archivo").css('color', color_success);
             $("#lbldescripcion_signo").css('color', color_success);
             $("#signoModalEdit").modal('hide');
         }else{
             $("#lblsigno_archivo").css('color', $('#signo_archivo').val() || (!$('#signo_archivo').val() && $('#signo_archivo_orig').val()) ? color_lbl : 'red');
-            $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
+           // $("#lbldescripcion_signo").css('color', $('#descripcion_signo').val() ? color_lbl : 'red');
             alert_float('danger', 'Debe seleccionar todos los datos para Editar el Signo');
         }
     });
@@ -6826,8 +6826,78 @@
     /* ####################################################################### */
 
     //**Funcion para guardar formulario */
+    // $("#solicitudfrm").on('submit', function(e){
+    //     e.preventDefault();
+    //     formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
+    //     formData.append('id', $("input[name=id]").val());
+    //     formData.append('cod_contador', $('#cod_contador').val());
+    //     formData.append('tipo_registro_id', $('#tipo_registro_id').val());
+    //     formData.append('client_id', $('#client_id').val());
+    //     formData.append('oficina_id', $('#oficina_id').val());
+    //     formData.append('staff_id', $('#staff_id').val());
+    //     //Pais_id fill
+    //     // id = $("input[name=id]").val();
+    //     // pais_id = JSON.stringify($('#pais_id').val());
+    //     // formData.append('pais_id', validarPaisesDesignados(pais_id,id));
+    //     //solicitantes_id fill
+    //    // solicitantes_id = JSON.stringify($('#solicitantes_id').val());
+    //    // formData.append('solicitantes_id', solicitantes_id);
+    //     formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
+    //     formData.append('ref_interna', $('#ref_interna').val());
+    //     formData.append('ref_cliente', $('#ref_cliente').val());
+    //     //formData.append('primer_uso', $('input[name=primer_uso').val());
+    //     formData.append('prueba_uso', $('#prueba_uso').val());
+    //     formData.append('carpeta', $('#carpeta').val());
+    //     formData.append('libro', $('#libro').val());
+    //     formData.append('tomo', $('#tomo').val());
+    //     formData.append('folio', $('#folio').val());
+    //     formData.append('comentarios', $('#comentarios').val());
+    //     formData.append('estado_id', $('#estado_id').val());
+    //     formData.append('solicitud', $('#solicitud').val());
+    //     formData.append('fecha_solicitud', $('#fecha_solicitud').val());
+    //     formData.append('registro', $('#registro').val());
+    //     formData.append('fecha_registro', $('#fecha_registro').val());
+    //     formData.append('certificado', $('#certificado').val());
+    //     formData.append('fecha_certificado', $('#fecha_certificado').val());
+    //     formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
+    //     formData.append('signo_archivo', $('#signo_archivo')[0].files.length > 0 ? $('#signo_archivo')[0].files[0] : '');
+    //     formData.append('signonom', $('#signonom').val());
+    //     formData.append('signo_archivo_desc', $('#descripcion_signo').val());
+    //     formData.append('tipo_signo_id', $('#tipo_signo_id').val());
+    //     /* alert($("input[name=id]").val());
+    //     // Display the key/value pairs
+    //     for (var pair of formData.entries()) {
+    //         console.log(pair[0]+ ', ' + pair[1]); 
+    //     }
+    //     return; */
+    //     $.ajax({
+    //         url:'<?php echo admin_url("pi/MarcasSolicitudesController/update/{$id}");?>',
+    //         method: 'POST',
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+           
+    //     }).then(function (response) {
+    //         console.log(response);
+    //         // const obj = JSON.parse(response);
+    //         // if (obj.code == 200) {
+    //         //     alert_float('success', 'Solicitud Actualizada con éxito!');
+    //         //     let ruta = '<?php echo admin_url("pi/MarcasSolicitudesController/"); ?>';
+    //         //     location.replace(ruta);
+    //         // } else if (obj.code == 500) {
+    //         //     console.log(" Error no se Guardo la Solicitud ");
+    //         //     alert_float('danger', 'No se Pudo Guardar la Solicitud ');
+    //         // }  
+    //     }).catch(function (response) {
+    //         console.log(response.responseText);
+    //     });
+    // });
+
     $("#solicitudfrm").on('submit', function(e){
         e.preventDefault();
+        
+        let formData = new FormData(); // Asegúrate de inicializar formData
+       
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', $("input[name=id]").val());
         formData.append('cod_contador', $('#cod_contador').val());
@@ -6835,17 +6905,9 @@
         formData.append('client_id', $('#client_id').val());
         formData.append('oficina_id', $('#oficina_id').val());
         formData.append('staff_id', $('#staff_id').val());
-        //Pais_id fill
-        // id = $("input[name=id]").val();
-        // pais_id = JSON.stringify($('#pais_id').val());
-        // formData.append('pais_id', validarPaisesDesignados(pais_id,id));
-        //solicitantes_id fill
-       // solicitantes_id = JSON.stringify($('#solicitantes_id').val());
-       // formData.append('solicitantes_id', solicitantes_id);
         formData.append('tipo_solicitud_id', $('#tipo_solicitud_id').val());
         formData.append('ref_interna', $('#ref_interna').val());
         formData.append('ref_cliente', $('#ref_cliente').val());
-        //formData.append('primer_uso', $('input[name=primer_uso').val());
         formData.append('prueba_uso', $('#prueba_uso').val());
         formData.append('carpeta', $('#carpeta').val());
         formData.append('libro', $('#libro').val());
@@ -6853,30 +6915,27 @@
         formData.append('folio', $('#folio').val());
         formData.append('comentarios', $('#comentarios').val());
         formData.append('estado_id', $('#estado_id').val());
-        formData.append('solicitud', $('#solicitud').val());
+        formData.append('solicitud', $('#num_solicitud').val());
         formData.append('fecha_solicitud', $('#fecha_solicitud').val());
-        formData.append('registro', $('#registro').val());
+        formData.append('registro', $('#num_registro').val());
         formData.append('fecha_registro', $('#fecha_registro').val());
-        formData.append('certificado', $('#certificado').val());
+        formData.append('certificado', $('#num_certificado').val());
         formData.append('fecha_certificado', $('#fecha_certificado').val());
         formData.append('fecha_vencimiento', $('#fecha_vencimiento').val());
         formData.append('signo_archivo', $('#signo_archivo')[0].files.length > 0 ? $('#signo_archivo')[0].files[0] : '');
+        formData.append('signo_archivo_anterior', $('#signo_archivo_anterior').val());
         formData.append('signonom', $('#signonom').val());
         formData.append('signo_archivo_desc', $('#descripcion_signo').val());
         formData.append('tipo_signo_id', $('#tipo_signo_id').val());
-        /* alert($("input[name=id]").val());
-        // Display the key/value pairs
-        for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-        }
-        return; */
+
+      
+
         $.ajax({
-            url:'<?php echo admin_url("pi/MarcasSolicitudesController/update/{$id}");?>',
+            url: '<?php echo admin_url("pi/MarcasSolicitudesController/update/{$id}");?>',
             method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
-           
         }).then(function (response) {
             console.log(response);
             const obj = JSON.parse(response);

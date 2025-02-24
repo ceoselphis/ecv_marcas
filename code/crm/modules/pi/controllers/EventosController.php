@@ -58,7 +58,7 @@ class EventosController extends AdminController
                             'tipo_evento_id' => $data['tipo_evento'],
                             'marcas_id' => $data['id_marcas'],
                             'comentarios' => $data['comentarios'],
-                            'fecha' =>  $data['fecha'],
+                            'fecha' => empty($data['fecha']) || '' ? NULL : $this->turn_dates($data['fecha'])
                     );
 
             $CI->load->model("Eventos_model");

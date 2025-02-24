@@ -35,6 +35,12 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
             <div class="col-md-12">
                 <?php echo form_open_multipart('', ['id' => 'solicitudfrm', 'name' => 'solicitudfrm']); ?>
                 <?php echo form_hidden('id', $id); ?>
+                <?php echo form_input([
+                    'type'  => 'hidden',
+                    'name'  => 'cod_contador',
+                    'id'    => 'cod_contador',
+                    'value' => $values['cod_contador'] 
+                ]); ?>
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="wizard">
@@ -92,19 +98,19 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <?php echo form_label('Tipo de solicitud', 'tipo_registro_id'); ?>
-                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro, set_value('tipo_registro_id', $values['tipo_registro_id']), ['class' => 'form-control']) ?>
+                                            <?php echo form_dropdown('tipo_registro_id', $tipo_registro, set_value('tipo_registro_id', $values['tipo_registro_id']), ['class' => 'form-control', 'id' => 'tipo_registro_id']); ?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo form_label('Cliente', 'client_id'); ?>
-                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $values['client_id']), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('client_id', $clientes, set_value('client_id', $values['client_id']), ['class' => 'form-control' ,'id' => 'client_id']); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Oficina', 'oficina_id') ?>
-                                            <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id', $values['oficina_id']), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('oficina_id', $oficinas, set_value('oficina_id', $values['oficina_id']), ['class' => 'form-control' ,'id' => 'oficina_id']); ?>
                                         </div>
                                         <div class="col-md-6" style="padding-top:15px;">
                                             <?php echo form_label('Responsable', 'staff_id'); ?>
-                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control']); ?>
+                                            <?php echo form_dropdown('staff_id', $responsable, set_value('staff_id', $values['staff_id']), ['class' => 'form-control' ,'id' => 'staff_id']); ?>
                                         </div>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -185,10 +191,18 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                                 'selected' => set_value('tipo_signo_id', $values['tipo_signo_id'])
                                             ]); ?>
                                         </div>
+                                    
                                         <div class="col-md-12" style="padding-top: 20px;">
                                                 <img id="preview-image" src="#" alt="Previsualización" style="display:none; width: 200px; ">
                                                 <button id="eliminar" class="btn btn-danger" type="button" click="eliminarImagen()" style="display:none;">  Eliminar</button>
                                         </div>
+                                        <?php echo form_input([
+                                            'type'  => 'hidden',
+                                            'name'  => 'signo_archivo_anterior',
+                                            'id'    => 'signo_archivo_anterior',
+                                            'value' => $values['signo_archivo'] 
+                                        ]); ?>
+
                                     </div>
                                    
 
@@ -262,11 +276,11 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Referencia interna', 'ref_interna'); ?>
-                                            <?php echo form_input('ref_interna', set_value('ref_interna', $values['ref_interna']), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('ref_interna', set_value('ref_interna', $values['ref_interna']), ['class' => 'form-control' , 'id' => 'ref_interna']); ?>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Referencia cliente', 'ref_cliente'); ?>
-                                            <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('ref_cliente', set_value('ref_cliente', $values['ref_cliente']), ['class' => 'form-control' , 'id' => 'ref_cliente']) ?>
                                         </div>
                                     </div>
                                     <!--<div class="col-md-4">
@@ -277,25 +291,25 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
 
                                         <div class="col-md-4">
                                             <?php echo form_label('Prueba Uso', 'prueba_uso'); ?>
-                                            <?php echo form_input('prueba_uso', set_value('prueba_uso', $values['prueba_uso']), ['class' => 'form-control calendar']) ?>
+                                            <?php echo form_input('prueba_uso', set_value('prueba_uso', $values['prueba_uso']), ['class' => 'form-control calendar' , 'id' => 'prueba_uso']) ?>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Carpeta', 'carpeta'); ?>
-                                            <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('carpeta', set_value('carpeta', $values['carpeta']), ['class' => 'form-control' , 'id' => 'carpeta']) ?>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Libro', 'libro'); ?>
-                                            <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('libro', set_value('libro', $values['libro']), ['class' => 'form-control' , 'id' => 'libro']) ?>
                                         </div>
                                     </div>
                                     <div class="row" style="padding-top:15px;">
                                         <div class="col-md-4">
                                             <?php echo form_label('Tomo', 'tomo'); ?>
-                                            <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('tomo', set_value('tomo', $values['tomo']), ['class' => 'form-control' , 'id' => 'tomo']) ?>
                                         </div>
                                         <div class="col-md-4">
                                             <?php echo form_label('Folio', 'folio'); ?>
-                                            <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control']) ?>
+                                            <?php echo form_input('folio', set_value('folio', $values['folio']), ['class' => 'form-control' , 'id' => 'folio']) ?>
                                         </div>
                                     </div>
                                     <div class="row" style="padding-top:15px;">
@@ -336,7 +350,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                         <div class="col-md-12" style="padding-top:15px;">
                                          
                                             <?php echo form_label('Comentarios', 'comentarios'); ?>
-                                            <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control' , 'style' =>'height: 150px  '  ]); ?>
+                                            <?php echo form_textarea('comentarios', set_value('comentarios', $values['comentarios']), ['class' => 'form-control' , 'style' =>'height: 150px  ' ,  'id' => 'comentarios' ]); ?>
                                         </div>
                                     </div>
                                     <ul class="list-inline pull-right">
@@ -356,7 +370,7 @@ $CI->load->view('marcas/solicitudes/css.php'); ?>
                                     </div>
                                     <div class="col-md-12">
                                         <?php echo form_label('Estado de Solicitud', 'estado_id'); ?>
-                                        <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control']); ?>
+                                        <?php echo form_dropdown('estado_id', $estados_solicitudes, set_value('estado_id', $values['estado_id']), ['class' => 'form-control', 'id' => 'estado_id']); ?>
                                     </div>
                                     <div class="col-md-6" style="padding-top:15px;">
                                         <?php echo form_label('Nº de Solicitud'); ?>

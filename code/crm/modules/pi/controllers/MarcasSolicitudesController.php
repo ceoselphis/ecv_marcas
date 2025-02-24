@@ -1892,21 +1892,31 @@ class MarcasSolicitudesController extends AdminController
     /*Seteamos el arreglo para la solicitud */
 
     $solicitud = $this->validarMarcasSolicitudes($form);
-
+    
     
 
     /*Seteamos el valor del signo*/
-    // $file = '';
-    // if (!empty($_FILES['signo_archivo']) || $form['signo_archivo'] != 'undefined') {
-    //   $file = $_FILES['signo_archivo'];
-    // }
-    // if ($file != NULL) {
-    //   //We fill the data of the         
-    //   $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
-    //   $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
-    //   move_uploaded_file($file['tmp_name'], $fpath);
-    //   $solicitud['signo_archivo'] = $path;
-    // }
+    $file = '';
+    if (isset($_FILES['signo_archivo']) && !empty($_FILES['signo_archivo'])) { //&& $form['signo_archivo'] != 'undefined'
+      $file = $_FILES['signo_archivo'];
+      echo json_encode(['archivo' => $file]);
+    } else {
+      if (isset($form['signo_archivo_anterior'])) {
+       // echo json_encode(['archivo' => 'No hay archivo']);
+        $solicitud['signo_archivo'] = $form['signo_archivo_anterior'];
+      }
+    }
+
+    if ($file != NULL) {
+      //We fill the data of the         
+      $fpath = FCPATH . 'uploads/marcas/' . $form['id'] . '-' . $file['name'];
+      $path = site_url('uploads/marcas/signos/' . $form['id'] . '-' . $file['name']);
+      move_uploaded_file($file['tmp_name'], $fpath);  
+      $solicitud['signo_archivo'] = $path;
+
+    }
+
+    echo json_encode(['message' => 'succes', 'code' => 200, 'data' => $solicitud]);
     // $isset = $CI->MarcasSolicitudes_model->deletePaisesDesignadosBySolicitud($id);
     // if ($isset) {
     //   /*Seteamos el arreglo para los paises designados*/

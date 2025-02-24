@@ -85,13 +85,14 @@
                     'descripcion_signo', 
                     $values['signo_archivo_desc'] , 
                     ['class' => 'form-control', 
+                    'style' => 'height: 100px;', 
                     'id' => 'descripcion_signo']);?>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8">
+        <div class="row" style="padding-top: 20px;">
+            <div class="col-md-8 ">
             <?php if(isset($values['signo_archivo'])) { ?>
-                <img id="img_signo_archivo" class="img-responsive" src="<?php echo $values['signo_archivo'];?>" alt="<?php echo $values['signonom'];?>">
+                <img id="img_signo_archivo" style="width:100px" class="img-responsive" src="<?php echo $values['signo_archivo'];?>" alt="<?php echo $values['signonom'];?>">
             <?php } ?>
             </div>
         </div>

@@ -35,11 +35,11 @@
 
     $(".calendar").on('keyup', function(e) {
         e.preventDefault();
-        $(".calendar").val('');
+       // $(".calendar").val('');
     })
     $(function() {
         $(".calendar").datetimepicker({
-            maxDate: fecha(),
+          //  maxDate: fecha(),
             weeks: true,
             format: 'd/m/Y',
             timepicker: false,

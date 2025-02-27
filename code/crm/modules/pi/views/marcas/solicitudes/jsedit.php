@@ -6893,6 +6893,45 @@
     //     });
     // });
 
+    function validarPaisesDesignados(paises, id) {
+        let paises_json = [];
+        if (paises.length === 0) {
+            return "[]";
+        } else { 
+            paises = JSON.parse(paises);
+            for(let i = 0; i < paises.length; i++) {  
+                let data_paises = { 
+                    "marcas_id": id,
+                    "pais_id": paises[i]
+                };
+                paises_json.push(data_paises);
+            }
+            return JSON.stringify(paises_json);
+        }
+    }
+
+    function validarClaseNiza(claseniza){
+        let calse_niza_json = [];
+        if (!claseniza || claseniza.length === 0) {
+            return "[]";
+        } else {
+            claseniza = JSON.parse(claseniza);
+            /*
+              [{"idRow":1,"clase_id":"5","clase_id_name":"Clase 5","descripcion":"PRODUCTOS FARMACÃ‰UTICOS, PREPARACIONES PARA USO MÃ‰DICO Y VETERINARIO; PRODUCTOS HIGIÃ‰NICOS Y SANITARIOS PARA USO MÃ‰DICO; ALIMENTOS Y SUSTANCIAS DIETÃ‰TICAS PARA USO MÃ‰DICO O VETERINARIO, ALIMENTOS PARA BEBÃ‰S; SUPLEMENTOS ALIMENTICIOS PARA PERSONAS O ANIMALES; EMPLASTOS, MATERIAL PARA APÃ“SITOS; MATERIAL PARA EMPASTES E IMPRESIONES DENTALES; DESINFECTANTES; PREPARACIONES PARA ELIMINAR ANIMALES DAÃ‘INOS; FUNGICIDAS, HERBICIDAS.","marcas_id":"30341","acciones":"<td class=\"text-center\"><a class=\" btn btn-light col-mrg editClase\" id=\"claseNiza_0\"  style=\"background-color: white\"> Editar</a><button class=\"btn btn-danger col-mrg deleteClase\" id=\"claseNiza_0\" ><i class=\"fas fa-trash\"></i>Borrar</button></td>"}]
+            */
+            claseniza.forEach(elemento => {
+                data_claseniza = {
+                 
+                    "clase_id": elemento.clase_id,
+                    "descripcion": elemento.descripcion,
+                    "marcas_id" : elemento.marcas_id
+                } 
+                calse_niza_json.push(data_claseniza);
+            });
+            return JSON.stringify(calse_niza_json);
+        }
+    }
+
     $("#solicitudfrm").on('submit', function(e){
         e.preventDefault();
         
@@ -6900,6 +6939,12 @@
        
         formData.append('csrf_token_name', $("input[name=csrf_token_name]").val());
         formData.append('id', $("input[name=id]").val());
+        id = $("input[name=id]").val();
+        pais_id = JSON.stringify($('#pais_id').val());
+        console.log("pais_id", pais_id);
+        formData.append('pais_id', validarPaisesDesignados(pais_id,id));
+        solicitantes_id = JSON.stringify($('#solicitantes_id').val());
+        formData.append('solicitantes_id', solicitantes_id);
         formData.append('cod_contador', $('#cod_contador').val());
         formData.append('tipo_registro_id', $('#tipo_registro_id').val());
         formData.append('client_id', $('#client_id').val());
@@ -6927,7 +6972,8 @@
         formData.append('signonom', $('#signonom').val());
         formData.append('signo_archivo_desc', $('#descripcion_signo').val());
         formData.append('tipo_signo_id', $('#tipo_signo_id').val());
-
+        //let clase_niza = localStorage.getItem("clase_niza") || "[]";
+        //formData.append('clase_niza_id', validarClaseNiza(clase_niza));
       
 
         $.ajax({
